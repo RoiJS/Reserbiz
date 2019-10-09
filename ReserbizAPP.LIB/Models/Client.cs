@@ -2,7 +2,7 @@ using System;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Customer : Entity
+    public class Client : Entity
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Models
@@ -12,6 +13,8 @@ namespace ReserbizAPP.LIB.Models
         public Term Term { get; set; }
 
         public DateTime EffectiveDate { get; set; }
+
+        public bool IsOpenContract { get; set; }
 
         public int DurationValue { get; set; }
         public DurationEnum DurationUnit { get; set; }

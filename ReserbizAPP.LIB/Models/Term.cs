@@ -4,14 +4,21 @@ using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Term : Entity, ICustomerRef
+    public class Term : Entity
     {
         // Name of the contract.
         public string Name { get; set; }
 
+        public int SpaceTypeId { get; set; }
+
+        public SpaceType SpaceType { get; set; }
+
         // Rate value for the selected Space type.
         // Initially set to value based from the selected Space Type.
         public float Rate { get; set; }
+
+        // Number of space occupants
+        public int MaximumNumberOfOccupants { get; set; }
 
         // Payment duration based on DurationEnum (Daily = 0, Weekly = 1, Monthly = 2, Quarterly = 3, Yearly = 4)
         public DurationEnum DurationUnit { get; set; } = DurationEnum.Month;
@@ -25,11 +32,17 @@ namespace ReserbizAPP.LIB.Models
         // Exluding Monthly Electric Bill from the payment
         public bool ExcludeElectricBill { get; set; }
 
+        // Amount of Electric bill
+        public float ElectricBillAmount { get; set; }
+
         // Exluding Monthly Water Bill from the payment
         public bool ExcludeWaterBill { get; set; }
 
+        // Amount of WaterBill
+        public float WaterBillAmount { get; set; }
+
         // List of Miscellaneous Fees
-        public List<Miscellaneous> Miscellaneous { get; set; }
+        public List<TermMiscellaneous> TermMiscellaneous { get; set; }
 
         // Penalty amount value
         public float PenaltyValue { get; set; }
@@ -38,24 +51,12 @@ namespace ReserbizAPP.LIB.Models
         public ValueTypeEnum PenaltyValueType { get; set; } = ValueTypeEnum.Fixed;
 
         // Penalty amount per duration
-        public DurationEnum PenaltyAmountPerDuration { get; set; } = DurationEnum.Day;
+        public DurationEnum PenaltyAmountPerDurationUnit { get; set; } = DurationEnum.Day;
 
         // Penalty will be effective after duration value
         public int PenaltyEffectiveAfterDurationValue { get; set; }
 
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
-
-
-        #region "Reference Properties"
-
-        public int SpaceTypeId { get; set; }
-        public SpaceType SpaceType { get; set; }
-
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
-
-        #endregion
-
     }
 }
