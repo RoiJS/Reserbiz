@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using ReserbizAPP.LIB.DbContext;
+using Microsoft.EntityFrameworkCore;
+using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -22,7 +23,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 return null;
             }
 
-            if (!VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
+            if (!VerifyPasswordHash(password, account.PasswordHash))
             {
                 return null;
             }
@@ -30,11 +31,15 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return account;
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        private bool VerifyPasswordHash(string password, byte[] passwordHash)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != passwordHash[i]) return false;
+                }
             }
 
             return true;

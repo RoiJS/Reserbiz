@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ReserbizAPP.LIB.BusinessLogic;
-using ReserbizAPP.LIB.DbContext;
+using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.API
@@ -32,12 +34,14 @@ namespace ReserbizAPP.API
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
             // Database connection to any Reserbiz Client Databases
-            // Applied dynamic approach if current ef migration is activated based on appsettings
-            var IsEFMigrationActivated = Configuration.GetValue<bool>("ActivateEFMigration");
-
-            if (IsEFMigrationActivated)
+            // Applied dynamic approach if current ef migration is not activated based on appsettings
+            var ActivateEFMigration = Configuration.GetValue<bool>("ActivateEFMigration");
+            if (ActivateEFMigration)
             {
-                services.AddDbContext<ReserbizClientDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection")));
+                services.AddDbContext<ReserbizClientDataContext>(
+                    x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection"),
+                    b => b.MigrationsAssembly("ReserbizAPP.LIB"))
+                );
             }
             else
             {
@@ -51,6 +55,11 @@ namespace ReserbizAPP.API
                 });
             }
 
+            services.AddScoped<IDataContextHelper, DataContextHelper>();
+            services.AddScoped<IReserbizRepository, ReserbizRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddAutoMapper(typeof(ReserbizRepository).Assembly);
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(opt =>
             {
@@ -58,7 +67,6 @@ namespace ReserbizAPP.API
             });
 
             services.AddCors();
-            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

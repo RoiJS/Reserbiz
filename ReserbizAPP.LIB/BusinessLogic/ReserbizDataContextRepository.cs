@@ -1,11 +1,11 @@
-using ReserbizAPP.LIB.DbContext;
+using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {
     public class ReserbizDataContextRepository
     {
-        protected readonly ReserbizDataContext _systemDbContext;
-        protected readonly ReserbizClientDataContext _clientDbContext;
+        public readonly ReserbizDataContext _systemDbContext;
+        public readonly ReserbizClientDataContext _clientDbContext;
 
         public ReserbizDataContextRepository(ReserbizDataContext systemDbContext, ReserbizClientDataContext clientDbContext)
         {

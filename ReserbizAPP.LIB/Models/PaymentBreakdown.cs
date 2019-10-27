@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReserbizAPP.LIB.Models
 {
@@ -8,9 +9,9 @@ namespace ReserbizAPP.LIB.Models
         public AccountStatement AccountStatement { get; set; }
         public float Amount { get; set; }
 
-        // Received by
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public int ReceivedById { get; set; }
+        public Account ReceivedBy { get; set; }
+        
         public DateTime DateReceived { get; set; }
     }
 }
