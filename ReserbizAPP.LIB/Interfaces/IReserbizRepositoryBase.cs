@@ -4,8 +4,8 @@ namespace ReserbizAPP.LIB.Interfaces
 {
     public interface IReserbizRepositoryBase
     {
-        void Add<T>(T entity);
-        void Delete<T>(T entity);
-        Task<bool> SaveAll();
+        void AddEntity<T>(T entity);
+        void DeleteEntity<T>(T entity);
+        Task<bool> SaveChangesAsync();
     }
 }

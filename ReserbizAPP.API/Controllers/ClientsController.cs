@@ -25,7 +25,8 @@ namespace ReserbizAPP.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(ClientForRegisterDto clientForRegisterDto)
         {
-            var clientToCreate = new Client{
+            var clientToCreate = new Client
+            {
                 Name = clientForRegisterDto.Name,
                 DBName = clientForRegisterDto.DbName,
                 Description = clientForRegisterDto.Description,
@@ -36,6 +37,20 @@ namespace ReserbizAPP.API.Controllers
             var createdClient = await _clientRepository.RegisterClient(clientToCreate);
 
             return StatusCode(201);
+        }
+
+        [HttpGet("getClientInformation")]
+        public async Task<IActionResult> GetClientInformation(string clientName)
+        {
+            var clientInfo = await _clientRepository.GetCompanyInfoByName(clientName);
+
+            if (clientInfo == null) {
+                return BadRequest("Company does not exists.");
+            }
+            
+            var clientInfoToReturn = _mapper.Map<ClientDetailsDto>(clientInfo);
+
+            return Ok(clientInfoToReturn);
         }
     }
 }

@@ -1,10 +1,14 @@
 using System.Threading.Tasks;
+using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Interfaces
 {
     public interface IReserbizRepository
     {
-        IReserbizSystemRepository ReserbizSystemRepository { get; set; }
-        IReserbizClientRepository ReserbizClient { get; set; }
+        ReserbizDataContext SystemDbContext { get; }
+        ReserbizClientDataContext ClientDbContext { get; }
+
+        IReserbizSystemRepository SystemRepository { get; }
+        IReserbizClientRepository ClientRepository { get; }
     }
 }

@@ -8,7 +8,7 @@ namespace ReserbizAPP.API.Helpers
     {
         public ReserbizAutoMapperProfile()
         {
-            CreateMap<Client, ClientForRegisterDto>();
+            CreateMap<Client, ClientDetailsDto>();  
         }
     }
 }

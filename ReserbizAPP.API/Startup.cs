@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text;
 using AutoMapper;
@@ -33,14 +34,18 @@ namespace ReserbizAPP.API
             // Database connection to Reserbiz System Database
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
+            services.AddScoped<IDataContextHelper, DataContextHelper>();
+            services.AddScoped<IReserbizRepository, ReserbizRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
             var ActivateEFMigration = Configuration.GetValue<bool>("ActivateEFMigration");
             if (ActivateEFMigration)
             {
                 services.AddDbContext<ReserbizClientDataContext>(
-                    x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection"),
-                    b => b.MigrationsAssembly("ReserbizAPP.LIB"))
+                    x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection"))
                 );
             }
             else
@@ -49,17 +54,16 @@ namespace ReserbizAPP.API
                 services.AddDbContext<ReserbizClientDataContext>((serviceProvider, options) =>
                 {
                     var httpContext = serviceProvider.GetService<IHttpContextAccessor>().HttpContext;
-                    var company = httpContext.Request.Query["company"].ToString();
-                    var connection = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), company);
-                    options.UseSqlServer(connection);
+                    var systemDataContext = serviceProvider.GetService<ReserbizDataContext>();
+
+                    var appSecretToken = httpContext.Request.Headers["App-Secret-Token"].ToString();
+                    var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
+
+                    var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
+                    options.UseSqlServer(connectionString);
                 });
             }
 
-            services.AddScoped<IDataContextHelper, DataContextHelper>();
-            services.AddScoped<IReserbizRepository, ReserbizRepository>();
-            services.AddScoped<IClientRepository, ClientRepository>();
-            services.AddAutoMapper(typeof(ReserbizRepository).Assembly);
-            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(opt =>
             {

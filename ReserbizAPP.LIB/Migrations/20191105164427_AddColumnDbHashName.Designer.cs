@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations
 {
     [DbContext(typeof(ReserbizDataContext))]
-    partial class ReserbizDataContextModelSnapshot : ModelSnapshot
+    [Migration("20191105164427_AddColumnDbHashName")]
+    partial class AddColumnDbHashName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +29,7 @@ namespace ReserbizAPP.LIB.Migrations
 
                     b.Property<string>("ContactNumber");
 
-                    b.Property<string>("DBHashName");
+                    b.Property<byte[]>("DBHashName");
 
                     b.Property<string>("DBName");
 

@@ -6,24 +6,24 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {
-    public class AuthRepository : ReserbizDataContextRepository, IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
-
-        public AuthRepository(ReserbizDataContext systemDbContext, ReserbizClientDataContext clientDbContext) : base(systemDbContext, clientDbContext)
+        private readonly IReserbizRepository _reserbizRepository;
+        public AuthRepository(IReserbizRepository reserbizRepository)
         {
-           
+            _reserbizRepository = reserbizRepository;
         }
 
         public async Task<Account> Login(string username, string password)
         {
-            var account = await _clientDbContext.Accounts.FirstOrDefaultAsync(x => x.Username == username);
+            var account = await _reserbizRepository.ClientRepository.Context.Accounts.FirstOrDefaultAsync(x => x.Username == username);
 
             if (account == null)
             {
                 return null;
             }
 
-            if (!VerifyPasswordHash(password, account.PasswordHash))
+            if (!VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
             {
                 return null;
             }
@@ -31,9 +31,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return account;
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash)
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 for (int i = 0; i < computedHash.Length; i++)
@@ -47,28 +47,32 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<bool> UserExists(string username)
         {
-            if (await _clientDbContext.Accounts.AnyAsync(x => x.Username == username))
+            if (await _reserbizRepository.ClientRepository.Context.Accounts.AnyAsync(x => x.Username == username))
                 return true;
 
             return false;
 
         }
-        public async Task<Account> Register(Account user, string password)
+        public async Task<Account> Register(Account account, string password)
         {
-            byte[] passwordHash;
-            CreatePasswordHash(password, out passwordHash);
+            byte[] passwordHash, passwordSalt;
 
-            user.PasswordHash = passwordHash;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            await _clientDbContext.Accounts.AddAsync(user);
-            await _clientDbContext.SaveChangesAsync();
+            account.PasswordHash = passwordHash;
+            account.PasswordSalt = passwordSalt;
 
-            return user;
+            _reserbizRepository.ClientRepository.AddEntity(account);
+            
+            await _reserbizRepository.ClientRepository.SaveChangesAsync();
+
+            return account;
         }
-        private void CreatePasswordHash(string password, out byte[] passwordHash)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
+                passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
