@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,10 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly IClientRepository _clientRepository;
+        private readonly IClientRepository<Client> _clientRepository;
         private readonly IMapper _mapper;
 
-        public ClientsController(IClientRepository clientRepository, IMapper mapper)
+        public ClientsController(IClientRepository<Client> clientRepository, IMapper mapper)
         {
             _mapper = mapper;
             _clientRepository = clientRepository;
@@ -39,18 +40,60 @@ namespace ReserbizAPP.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpGet("getClientInformation")]
-        public async Task<IActionResult> GetClientInformation(string clientName)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteClient(int id)
+        {
+            var clientFromRepo = await _clientRepository.GetEntityById(id);
+
+            if (clientFromRepo == null)
+                return NotFound("Client does not exists.");
+
+            _clientRepository.DeleteEntity(clientFromRepo);
+
+            if (await _clientRepository.SaveChanges())
+                return Ok(clientFromRepo);
+
+            throw new Exception($"Deleting client with an id of {id} failed on save.");
+        }
+
+        [HttpGet("{clientName}")]
+        public async Task<ActionResult<ClientDetailsDto>> GetClientInformation(string clientName)
         {
             var clientInfo = await _clientRepository.GetCompanyInfoByName(clientName);
 
-            if (clientInfo == null) {
+            if (clientInfo == null)
                 return BadRequest("Company does not exists.");
-            }
-            
+
             var clientInfoToReturn = _mapper.Map<ClientDetailsDto>(clientInfo);
 
             return Ok(clientInfoToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateClient(int id, ClientForUpdateDto clientForUpdateDto)
+        {
+            var clientFromRepo = await _clientRepository.GetEntityById(id);
+
+            if (clientFromRepo == null)
+                return NotFound("Client does not exists.");
+
+            _mapper.Map(clientForUpdateDto, clientFromRepo);
+
+            if (!_clientRepository.HasChanged())
+                return BadRequest("Nothing was change.");
+
+            if (await _clientRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Updating client with an id of {id} failed on save.");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ClientForListDto>>> GetAllClients()
+        {
+            var clientsFromRepo = await _clientRepository.GetAllEntities();
+            var clietsToReturn = _mapper.Map<IEnumerable<ClientForListDto>>(clientsFromRepo);
+            return Ok(clietsToReturn);
         }
     }
 }

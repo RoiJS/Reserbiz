@@ -5,12 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
-namespace ReserbizAPP.LIB.DbContexts {
-    public class ReserbizDataContext : DbContext {
+namespace ReserbizAPP.LIB.DbContexts
+{
+    public class ReserbizDataContext : DbContext
+    {
 
         private readonly IDataContextHelper _dcHelper;
 
-        public ReserbizDataContext (DbContextOptions<ReserbizDataContext> options, IDataContextHelper dcHelper) : base (options) {
+        public ReserbizDataContext(DbContextOptions<ReserbizDataContext> options, IDataContextHelper dcHelper) : base(options)
+        {
             _dcHelper = dcHelper;
         }
 
@@ -23,7 +26,8 @@ namespace ReserbizAPP.LIB.DbContexts {
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
 
             var entries = ChangeTracker.Entries().ToList();
 

@@ -1,6 +1,6 @@
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class ClientDetailsDto
+    public class ClientForListDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

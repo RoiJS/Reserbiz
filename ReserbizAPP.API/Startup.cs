@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Interfaces;
+using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.API
 {
@@ -33,11 +34,6 @@ namespace ReserbizAPP.API
         {
             // Database connection to Reserbiz System Database
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
-
-            services.AddScoped<IDataContextHelper, DataContextHelper>();
-            services.AddScoped<IReserbizRepository, ReserbizRepository>();
-            services.AddScoped<IClientRepository, ClientRepository>();
-            services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
@@ -70,8 +66,14 @@ namespace ReserbizAPP.API
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
+            services.AddScoped<IDataContextHelper, DataContextHelper>();
+            services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
+            services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
+            services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
+            services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            
             services.AddCors();
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -116,6 +118,7 @@ namespace ReserbizAPP.API
             //app.UseHsts();
             //app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

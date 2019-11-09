@@ -1,8 +1,9 @@
 using System;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public abstract class Entity
+    public abstract class Entity : IEntity
     {
         public int Id { get; set; }
         public bool IsActive { get; set; } = true;

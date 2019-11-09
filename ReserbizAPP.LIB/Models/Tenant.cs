@@ -14,5 +14,10 @@ namespace ReserbizAPP.LIB.Models
         public byte[] PasswordSalt { get; set; }
         public List<ContactPerson> ContactPersons { get; set; }
 
+        public bool HasChanged()
+        {
+            return true;
+        }
+
     }
 }

@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +18,13 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _authRepo;
+        private readonly IAuthRepository<Account> _authRepo;
         private readonly IConfiguration _config;
-        private readonly IClientRepository _clientRepo;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthRepository authRepo, IClientRepository clientRepo, IConfiguration config)
+        public AuthController(IAuthRepository<Account> authRepo, IConfiguration config, IMapper mapper)
         {
-            _clientRepo = clientRepo;
+            _mapper = mapper;
             _authRepo = authRepo;
             _config = config;
         }
@@ -84,6 +86,45 @@ namespace ReserbizAPP.API.Controllers
             {
                 token = tokenHandler.WriteToken(token)
             });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount(int id, AccountForUpdateDto accountForUpdateDto)
+        {
+            var accountFromRepo = await _authRepo.GetEntityById(id);
+
+            if (accountForUpdateDto == null)
+                return NotFound("Account does not exists.");
+
+            _mapper.Map(accountForUpdateDto, accountFromRepo);
+
+            if (!_authRepo.HasChanged())
+                return BadRequest("Nothing was change.");
+
+            if (await _authRepo.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Updating account with an id of {id} failed on save.");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AccountForListDto>> GetAccount(int id)
+        {
+            var accountFromRepo = await _authRepo.GetEntityById(id);
+
+            if (accountFromRepo == null)
+                return NotFound("Account does not exists.");
+
+            var accountToReturn = _mapper.Map<AccountForDetailDto>(accountFromRepo);
+            return Ok(accountToReturn);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AccountForListDto>>> GetAllAccounts()
+        {
+            var accountsFromRepo = await _authRepo.GetAllEntities();
+            var accountsToReturn = _mapper.Map<IEnumerable<AccountForListDto>>(accountsFromRepo);
+            return Ok(accountsToReturn);
         }
     }
 }

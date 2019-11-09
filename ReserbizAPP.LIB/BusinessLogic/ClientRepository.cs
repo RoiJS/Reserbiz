@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,13 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository
+        : BaseRepository<Client>, IClientRepository<Client>
     {
-        private readonly IReserbizRepository _reserbizRepository;
-        public ClientRepository(IReserbizRepository reserbizRepository)
+        public ClientRepository(IReserbizRepository<Client> reserbizRepository)
+            : base(reserbizRepository, reserbizRepository.SystemDbContext)
         {
-            _reserbizRepository = reserbizRepository;
+
         }
 
         public async Task<Client> RegisterClient(Client client)
@@ -26,24 +28,14 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             client.DBHashName = dbHashName;
 
-            _reserbizRepository.SystemRepository.AddEntity(client);
-
-            await _reserbizRepository.SystemRepository.SaveChangesAsync();
+            await AddEntity(client);
 
             return client;
         }
 
-        public async Task<bool> ClientExists(string name, string dbName)
-        {
-            if (await _reserbizRepository.SystemRepository.Context.Clients.AnyAsync(c => c.Name == name && c.DBName == dbName))
-                return true;
-
-            return false;
-        }
-
         public async Task<Client> GetCompanyInfoByName(string companyName)
         {
-            var companyInfo = await _reserbizRepository.SystemRepository.Context.Clients.FirstOrDefaultAsync(c => c.Name == companyName);
+            var companyInfo = await _reserbizRepository.SystemDbContext.Clients.FirstOrDefaultAsync(c => c.Name == companyName);
 
             return companyInfo;
         }

@@ -6,17 +6,17 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthRepository : BaseRepository<Account>, IAuthRepository<Account>
     {
-        private readonly IReserbizRepository _reserbizRepository;
-        public AuthRepository(IReserbizRepository reserbizRepository)
+        public AuthRepository(IReserbizRepository<Account> reserbizRepository)
+            : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
-            _reserbizRepository = reserbizRepository;
+
         }
 
         public async Task<Account> Login(string username, string password)
         {
-            var account = await _reserbizRepository.ClientRepository.Context.Accounts.FirstOrDefaultAsync(x => x.Username == username);
+            var account = await _reserbizRepository.ClientDbContext.Accounts.FirstOrDefaultAsync(x => x.Username == username);
 
             if (account == null)
             {
@@ -47,7 +47,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<bool> UserExists(string username)
         {
-            if (await _reserbizRepository.ClientRepository.Context.Accounts.AnyAsync(x => x.Username == username))
+            if (await _reserbizRepository.ClientDbContext.Accounts.AnyAsync(x => x.Username == username))
                 return true;
 
             return false;
@@ -62,12 +62,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             account.PasswordHash = passwordHash;
             account.PasswordSalt = passwordSalt;
 
-            _reserbizRepository.ClientRepository.AddEntity(account);
-            
-            await _reserbizRepository.ClientRepository.SaveChangesAsync();
+            await AddEntity(account);
 
             return account;
         }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())

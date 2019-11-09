@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class ClientForRegisterDto
+    public class ClientForUpdateDto
     {
         [Required]
         public string Name { get; set; }
