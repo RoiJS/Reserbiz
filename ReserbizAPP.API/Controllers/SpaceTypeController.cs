@@ -72,7 +72,7 @@ namespace ReserbizAPP.API.Controllers
             _mapper.Map(spaceTypeForUpdateDto, spaceTypeFromRepo);
 
             if (!_spaceTypeRepo.HasChanged())
-                return BadRequest("Nothing was changed.");
+                return BadRequest("Nothing was changed on the object.");
 
             if (await _spaceTypeRepo.SaveChanges())
                 return NoContent();

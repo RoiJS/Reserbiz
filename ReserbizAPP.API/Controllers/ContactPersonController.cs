@@ -84,7 +84,7 @@ namespace ReserbizAPP.API.Controllers
             _mapper.Map(contactPersonForUpdateDto, contactPersonFromRepo);
 
             if (!_contactPersonRepository.HasChanged())
-                return BadRequest("Nothing was changed.");
+                return BadRequest("Nothing was changed on the object.");
 
             if (await _contactPersonRepository.SaveChanges())
                 return NoContent();

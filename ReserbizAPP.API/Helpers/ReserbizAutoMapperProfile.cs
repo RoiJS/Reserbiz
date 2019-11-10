@@ -24,6 +24,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<ContactPersonForUpdateDto, ContactPerson>();
             CreateMap<SpaceTypeForCreationDto, SpaceType>();
             CreateMap<SpaceTypeForUpdateDto, SpaceType>();
+            CreateMap<TermForCreationDto, Term>();
 
         }
     }

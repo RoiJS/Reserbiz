@@ -93,7 +93,7 @@ namespace ReserbizAPP.API.Controllers
             _tenantRepository.SetEntityStatus(tenantFromRepo, status);
 
             if (!_tenantRepository.HasChanged())
-                return BadRequest("Nothing was changed");
+                return BadRequest("Nothing was changed on the object");
 
             if (await _tenantRepository.SaveChanges())
                 return NoContent();
