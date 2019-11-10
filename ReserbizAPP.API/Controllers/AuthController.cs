@@ -91,6 +91,9 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount(int id, AccountForUpdateDto accountForUpdateDto)
         {
+            if (id != accountForUpdateDto.Id)
+                return BadRequest("Id does not match with the account that is to be updated");
+
             var accountFromRepo = await _authRepo.GetEntityById(id);
 
             if (accountForUpdateDto == null)

@@ -32,6 +32,17 @@ namespace ReserbizAPP.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // Register application repository classes for dependency injection
+            services.AddScoped<IDataContextHelper, DataContextHelper>();
+            services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
+            services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
+            services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
+            services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
+            services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
+            services.AddScoped(typeof(ISpaceTypeRepository<SpaceType>), typeof(SpaceTypeRepository));
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
             // Database connection to Reserbiz System Database
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
@@ -46,15 +57,22 @@ namespace ReserbizAPP.API
             }
             else
             {
+                // This section performs dynamic setting up of connection string for each http request.
+                // Getting the database name based on the App-Secret-Token header which is the encrypted version
+                // of the database name.
                 services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
                 services.AddDbContext<ReserbizClientDataContext>((serviceProvider, options) =>
                 {
                     var httpContext = serviceProvider.GetService<IHttpContextAccessor>().HttpContext;
                     var systemDataContext = serviceProvider.GetService<ReserbizDataContext>();
 
+                    // Get the encrypted App-Secret-Token header
                     var appSecretToken = httpContext.Request.Headers["App-Secret-Token"].ToString();
+
+                    // Get the client information based on the app secret token
                     var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
 
+                    // Formatt and configure connection string for the current http request.
                     var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
                     options.UseSqlServer(connectionString);
                 });
@@ -66,13 +84,6 @@ namespace ReserbizAPP.API
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-            services.AddScoped<IDataContextHelper, DataContextHelper>();
-            services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
-            services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
-            services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
-            services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
-            services.AddAutoMapper(typeof(Startup).Assembly);
-            
             services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

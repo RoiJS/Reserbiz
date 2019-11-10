@@ -43,14 +43,14 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetTenant")]
         public async Task<ActionResult<TenantDetailsDto>> GetTenant(int id)
         {
-            var tenantInfo = await _tenantRepository.GetEntityById(id);
+            var tenantInfo = await _tenantRepository.GetTenantAsync(id);
 
             if (tenantInfo == null)
                 return NotFound("Tenant does not exists.");
 
             var tenantToReturn = _mapper.Map<TenantDetailsDto>(tenantInfo);
 
-            return tenantToReturn;
+            return Ok(tenantToReturn);
         }
         
         [HttpGet]

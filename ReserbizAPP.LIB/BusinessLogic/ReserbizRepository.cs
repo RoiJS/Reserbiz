@@ -88,11 +88,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (includeDeleted)
             {
-                entities = await _dbContext.Set<TEntity>().Where(e => e.IsDelete == true).ToListAsync();
+                entities = await _dbContext.Set<TEntity>().ToListAsync();
             }
             else
             {
-                entities = await _dbContext.Set<TEntity>().ToListAsync();
+                entities = await _dbContext.Set<TEntity>().Where(e => e.IsDelete == false).ToListAsync();
             }
 
             return entities;

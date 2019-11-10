@@ -8,10 +8,8 @@ namespace ReserbizAPP.LIB.Models
         public int AccountStatementId { get; set; }
         public AccountStatement AccountStatement { get; set; }
         public float Amount { get; set; }
-
         public int ReceivedById { get; set; }
         public Account ReceivedBy { get; set; }
-        
         public DateTime DateReceived { get; set; }
     }
 }

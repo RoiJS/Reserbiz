@@ -14,10 +14,16 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<Tenant, TenantForListDto>();
             CreateMap<Account, AccountForListDto>();
             CreateMap<Account, AccountForDetailDto>();
+            CreateMap<ContactPerson, ContactPersonDetailDto>();
+            CreateMap<SpaceType, SpaceTypeDetailDto>();
 
             CreateMap<TenantForCreationDto, Tenant>();
             CreateMap<TenantForUpdateDto, Tenant>();
             CreateMap<ClientForUpdateDto, Client>();
+            CreateMap<ContactPersonForCreationDto, ContactPerson>();
+            CreateMap<ContactPersonForUpdateDto, ContactPerson>();
+            CreateMap<SpaceTypeForCreationDto, SpaceType>();
+            CreateMap<SpaceTypeForUpdateDto, SpaceType>();
 
         }
     }

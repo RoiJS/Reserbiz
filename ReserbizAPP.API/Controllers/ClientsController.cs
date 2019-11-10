@@ -41,7 +41,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClient(int id)
+        public async Task<ActionResult<ClientDetailsDto>> DeleteClient(int id)
         {
             var clientFromRepo = await _clientRepository.GetEntityById(id);
 
@@ -50,8 +50,10 @@ namespace ReserbizAPP.API.Controllers
 
             _clientRepository.DeleteEntity(clientFromRepo);
 
+            var clientToReturn = _mapper.Map<ClientDetailsDto>(clientFromRepo);
+
             if (await _clientRepository.SaveChanges())
-                return Ok(clientFromRepo);
+                return Ok(clientToReturn);
 
             throw new Exception($"Deleting client with an id of {id} failed on save.");
         }

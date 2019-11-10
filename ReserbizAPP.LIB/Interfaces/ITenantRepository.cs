@@ -4,9 +4,11 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Interfaces
 {
-    public interface ITenantRepository<TEntity> 
+    public interface ITenantRepository<TEntity>
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task CreateTenant(Tenant tenant);
+
+        Task<Tenant> GetTenantAsync(int id);
     }
 }
