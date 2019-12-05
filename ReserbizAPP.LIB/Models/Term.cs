@@ -6,7 +6,10 @@ namespace ReserbizAPP.LIB.Models
 {
     public class Term : Entity
     {
-        // Name of the contract.
+        // User-defined term code
+        public string Code { get; set; }
+
+        // Name of the term.
         public string Name { get; set; }
 
         public int SpaceTypeId { get; set; }
@@ -14,7 +17,6 @@ namespace ReserbizAPP.LIB.Models
         public SpaceType SpaceType { get; set; }
 
         // Rate value for the selected Space type.
-        // Initially set to value based from the selected Space Type.
         public float Rate { get; set; }
 
         // Number of space occupants

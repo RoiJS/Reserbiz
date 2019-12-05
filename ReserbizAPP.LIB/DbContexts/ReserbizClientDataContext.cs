@@ -30,6 +30,9 @@ namespace ReserbizAPP.LIB.DbContexts
         public DbSet<AccountStatement> AccountStatements { get; set; }
         public DbSet<AccountStatementMiscellaneous> AccountStatementMiscellaneous { get; set; }
         public DbSet<PaymentBreakdown> PaymentBreakdowns { get; set; }
+        public DbSet<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
+        public DbSet<ClientSettings> ClientSettings { get; set; }
+
         #endregion
 
         #region "Override functions"

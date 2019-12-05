@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.Interfaces;
@@ -10,7 +12,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         protected readonly IReserbizRepository<TEntity> _reserbizRepository;
-        protected readonly DbContext _repoDbContext;
+        private readonly DbContext _repoDbContext;
 
         public BaseRepository(IReserbizRepository<TEntity> reserbizRepository, DbContext repoDbContext)
         {
@@ -44,22 +46,45 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return _repoDbContext.ChangeTracker.HasChanges();
         }
 
-        public async Task<TEntity> GetEntityById(int id)
+        public async Task<bool> IsExists(int id) 
         {
-            var entity = await _reserbizRepository.GetEntityById(id);
-            return entity;
+            var entity = await GetEntity(id).ToObjectAsync();
+            return (entity != null);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllEntities(bool includeDeleted = false)
+        public IBaseRepository<TEntity> GetEntity(int id)
         {
-            var entities = await _reserbizRepository.GetAllEntities(includeDeleted);
-            return entities;
+            _reserbizRepository.GetEntity(id);
+            return this;
+        }
+
+        public IBaseRepository<TEntity> GetAllEntities(bool includeDeleted = false)
+        {
+             _reserbizRepository.GetAllEntities(includeDeleted);
+            return this;
+        }
+
+        public IBaseRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
+        {
+            _reserbizRepository.Includes(includes);
+            return this;
+        }
+
+        public async Task<TEntity> ToObjectAsync()
+        {
+            var entityObject = await _reserbizRepository.ToObjectAsync();
+            return entityObject;
+        }
+       
+        public async Task<IEnumerable<TEntity>> ToListObjectAsync()
+        {
+            var entitiesObject = await _reserbizRepository.ToListObjectAsync();
+            return entitiesObject;
         }
 
         public async Task<bool> SaveChanges()
         {
             return await _reserbizRepository.SaveChangesAsync();
         }
-
     }
 }

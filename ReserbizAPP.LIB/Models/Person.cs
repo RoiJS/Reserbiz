@@ -11,5 +11,13 @@ namespace ReserbizAPP.LIB.models
         public string LastName { get; set; }
         public GenderEnum Gender { get; set; }
         public string PhotoUrl { get; set; }
+
+        public string PersonFullName
+        {
+            get
+            {
+                return String.Format("{0} {1}", FirstName, LastName);
+            }
+        }
     }
 }

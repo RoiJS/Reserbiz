@@ -94,7 +94,7 @@ namespace ReserbizAPP.API.Controllers
             if (id != accountForUpdateDto.Id)
                 return BadRequest("Id does not match with the account that is to be updated");
 
-            var accountFromRepo = await _authRepo.GetEntityById(id);
+            var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
 
             if (accountForUpdateDto == null)
                 return NotFound("Account does not exists.");
@@ -113,7 +113,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AccountForListDto>> GetAccount(int id)
         {
-            var accountFromRepo = await _authRepo.GetEntityById(id);
+            var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
 
             if (accountFromRepo == null)
                 return NotFound("Account does not exists.");
@@ -125,7 +125,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountForListDto>>> GetAllAccounts()
         {
-            var accountsFromRepo = await _authRepo.GetAllEntities();
+            var accountsFromRepo = await _authRepo.GetAllEntities().ToListObjectAsync();
             var accountsToReturn = _mapper.Map<IEnumerable<AccountForListDto>>(accountsFromRepo);
             return Ok(accountsToReturn);
         }

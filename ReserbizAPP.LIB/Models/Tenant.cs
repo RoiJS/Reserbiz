@@ -13,11 +13,6 @@ namespace ReserbizAPP.LIB.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public List<ContactPerson> ContactPersons { get; set; }
-
-        public bool HasChanged()
-        {
-            return true;
-        }
-
+        public List<Contract> Contracts { get; set; }
     }
 }

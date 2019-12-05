@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.BusinessLogic;
@@ -15,8 +17,11 @@ namespace ReserbizAPP.LIB.Interfaces
         Task AddEntity(TEntity entity);
         void DeleteEntity(TEntity entity, bool forceDelete);
         void SetEntityStatus(TEntity entity, bool status);
-        Task<TEntity> GetEntityById(int id);
-        Task<IEnumerable<TEntity>> GetAllEntities(bool includeDeleted = false);
+        IReserbizRepository<TEntity> GetEntity(int id);
+        IReserbizRepository<TEntity> GetAllEntities(bool includeDeleted = false);
+        IReserbizRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> ToObjectAsync();
+        Task<IEnumerable<TEntity>> ToListObjectAsync();
         Task<bool> SaveChangesAsync();
     }
 }

@@ -14,11 +14,5 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
 
         }
-
-        public async Task<ContactPerson> GetContactPersonAsync(int id)
-        {
-            var contactPerson = await _reserbizRepository.ClientDbContext.ContactPersons.FirstOrDefaultAsync(c => c.Id == id);
-            return contactPerson;
-        }
     }
 }

@@ -41,7 +41,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
 
-        [HttpGet("{id}", Name = "GetTerm")]
+        [HttpGet("{id}", Name = "GetTerm")] 
         public async Task<ActionResult<TermDetailDto>> GetTerm(int id)
         {
             var termFromRepo = await _termRepo.GetTermAsync(id);
@@ -55,9 +55,9 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TermListDto>>> GetTerms(int id)
+        public async Task<ActionResult<IEnumerable<TermListDto>>> GetTerms()
         {
-            var termsFromRepo = await _termRepo.GetAllEntities();
+            var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
 
             var termToReturn = _mapper.Map<IEnumerable<TermListDto>>(termsFromRepo);
 
@@ -67,7 +67,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTerm(int id, TermForUpdateDto termForUpdateDto)
         {
-            var termFromRepo = await _termRepo.GetEntityById(id);
+            var termFromRepo = await _termRepo.GetEntity(id).ToObjectAsync();
 
             if (termFromRepo == null)
                 return NotFound("Term not found.");
@@ -86,7 +86,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<TermDetailDto>> DeleteTerm(int id)
         {
-            var termFromRepo = await _termRepo.GetEntityById(id);
+            var termFromRepo = await _termRepo.GetEntity(id).ToObjectAsync();
 
             if (termFromRepo == null)
                 return NotFound("Term not found.");

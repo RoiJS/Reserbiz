@@ -43,7 +43,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ClientDetailsDto>> DeleteClient(int id)
         {
-            var clientFromRepo = await _clientRepository.GetEntityById(id);
+            var clientFromRepo = await _clientRepository.GetEntity(id).ToObjectAsync();
 
             if (clientFromRepo == null)
                 return NotFound("Client does not exists.");
@@ -74,7 +74,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(int id, ClientForUpdateDto clientForUpdateDto)
         {
-            var clientFromRepo = await _clientRepository.GetEntityById(id);
+            var clientFromRepo = await _clientRepository.GetEntity(id).ToObjectAsync();
 
             if (clientFromRepo == null)
                 return NotFound("Client does not exists.");
@@ -93,7 +93,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientForListDto>>> GetAllClients()
         {
-            var clientsFromRepo = await _clientRepository.GetAllEntities();
+            var clientsFromRepo = await _clientRepository.GetAllEntities().ToObjectAsync();
             var clietsToReturn = _mapper.Map<IEnumerable<ClientForListDto>>(clientsFromRepo);
             return Ok(clietsToReturn);
         }

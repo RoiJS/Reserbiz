@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.DbContexts;
+using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.BusinessLogic
@@ -14,6 +16,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private ReserbizDataContext _systemDbContext;
         private ReserbizClientDataContext _clientDbContext;
         private DbContext _dbContext { get; set; }
+
+        private int _entityId;
+        private bool _includeDeleted;
+        private DbSet<TEntity> _dbSet;
+        private Expression<Func<TEntity, object>>[] _includes;
 
         public ReserbizRepository(ReserbizDataContext systemDbContext, ReserbizClientDataContext clientDbContext)
         {
@@ -68,11 +75,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         /// Get Entity based on Id.
         /// </summary>
         /// <param name="id">Id of the entity that is to be retrieve</param>
-        /// <returns>An entity from the current _dbContext</returns>
-        public async Task<TEntity> GetEntityById(int id)
+        /// <returns>Return instance of the class</returns>
+        public IReserbizRepository<TEntity> GetEntity(int id)
         {
-            var entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id == id);
-            return entity;
+            _entityId = id;
+            _dbSet = _dbContext.Set<TEntity>();
+            return this;
         }
 
         /// <summary>
@@ -81,20 +89,35 @@ namespace ReserbizAPP.LIB.BusinessLogic
         /// be retrieved.
         /// </summary>
         /// <param name="includeDeleted">Parameter that will determin if deleted items will also be included on the result</param>
-        /// <returns>Return all items on the current _dbContext</returns>
-        public async Task<IEnumerable<TEntity>> GetAllEntities(bool includeDeleted = false)
+        /// <returns>Return instance of the class</returns>
+        public IReserbizRepository<TEntity> GetAllEntities(bool includeDeleted = false)
         {
-            var entities = new List<TEntity>();
+            _includeDeleted = includeDeleted;
+            _dbSet = _dbContext.Set<TEntity>();
+            return this;
+        }
 
-            if (includeDeleted)
-            {
-                entities = await _dbContext.Set<TEntity>().ToListAsync();
-            }
-            else
-            {
-                entities = await _dbContext.Set<TEntity>().Where(e => e.IsDelete == false).ToListAsync();
-            }
+        public IReserbizRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
+        {
+            if (includes.Length > 0) 
+                _includes = includes;
+            return this;
+        }
 
+        public async Task<TEntity> ToObjectAsync()
+        {
+            var entity = await _dbSet.AsQueryable()
+                                     .Includes(_includes)
+                                     .FirstOrDefaultAsync(e => e.Id == _entityId);
+            return entity;
+        }
+        
+        public async Task<IEnumerable<TEntity>> ToListObjectAsync()
+        {
+            var entities = await _dbSet.AsQueryable()
+                                    .Includes(_includes)
+                                    .Where(e => !_includeDeleted && e.IsDelete == false)
+                                    .ToListAsync();
             return entities;
         }
 

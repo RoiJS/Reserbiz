@@ -10,5 +10,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task CreateTenant(Tenant tenant);
 
         Task<Tenant> GetTenantAsync(int id);
+        Task<IEnumerable<Tenant>> GetActiveTenantsAsync();
     }
 }

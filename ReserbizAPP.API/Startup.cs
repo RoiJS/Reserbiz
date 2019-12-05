@@ -41,6 +41,14 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
             services.AddScoped(typeof(ISpaceTypeRepository<SpaceType>), typeof(SpaceTypeRepository));
+            services.AddScoped(typeof(ITermRepository<Term>), typeof(TermRepository));
+            services.AddScoped(typeof(ITermMiscellaneousRepository<TermMiscellaneous>), typeof(TermMiscellaneousRepository));
+            services.AddScoped(typeof(IContractRepository<Contract>), typeof(ContractRepository));
+            services.AddScoped(typeof(IAccountStatementRepository<AccountStatement>), typeof(AccountStatementRepository));
+            services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
+            services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
+
+            // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Database connection to Reserbiz System Database
@@ -72,7 +80,10 @@ namespace ReserbizAPP.API
                     // Get the client information based on the app secret token
                     var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
 
-                    // Formatt and configure connection string for the current http request.
+                    if (clientInfo == null)
+                        throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
+
+                    // Format and configure connection string for the current http request.
                     var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
                     options.UseSqlServer(connectionString);
                 });

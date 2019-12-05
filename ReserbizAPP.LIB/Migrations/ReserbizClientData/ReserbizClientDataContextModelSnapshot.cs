@@ -64,6 +64,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AdvancedPaymentDurationValue");
+
                     b.Property<int>("ContractId");
 
                     b.Property<DateTime>("DateCreated");
@@ -74,13 +76,27 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("DateUpdated");
 
+                    b.Property<int>("DepositPaymentDurationValue");
+
+                    b.Property<DateTime>("DueDate");
+
+                    b.Property<int>("DurationUnit");
+
                     b.Property<float>("ElectricBill");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDelete");
 
-                    b.Property<float>("Penalty");
+                    b.Property<int>("PenaltyAmountPerDurationUnit");
+
+                    b.Property<int>("PenaltyEffectiveAfterDurationUnit");
+
+                    b.Property<int>("PenaltyEffectiveAfterDurationValue");
+
+                    b.Property<float>("PenaltyValue");
+
+                    b.Property<int>("PenaltyValueType");
 
                     b.Property<float>("Rate");
 
@@ -124,6 +140,31 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("AccountStatementId");
 
                     b.ToTable("AccountStatementMiscellaneous");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.ClientSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateDeactivated");
+
+                    b.Property<DateTime>("DateDeleted");
+
+                    b.Property<DateTime>("DateUpdated");
+
+                    b.Property<int>("GenerateAccountStatementDaysBeforeValue");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDelete");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientSettings");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ContactPerson", b =>
@@ -170,6 +211,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -220,7 +263,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("DateDeleted");
 
-                    b.Property<DateTime>("DateReceived");
+                    b.Property<DateTime>("DateTimeReceived");
 
                     b.Property<DateTime>("DateUpdated");
 
@@ -237,6 +280,37 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("ReceivedById");
 
                     b.ToTable("PaymentBreakdowns");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountStatementId");
+
+                    b.Property<float>("Amount");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateDeactivated");
+
+                    b.Property<DateTime>("DateDeleted");
+
+                    b.Property<DateTime>("DateUpdated");
+
+                    b.Property<DateTime>("DueDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<bool>("IsDelete");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountStatementId");
+
+                    b.ToTable("PenaltyBreakdowns");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
@@ -323,6 +397,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("AdvancedPaymentDurationValue");
 
+                    b.Property<string>("Code");
+
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -408,7 +484,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
             modelBuilder.Entity("ReserbizAPP.LIB.Models.AccountStatement", b =>
                 {
                     b.HasOne("ReserbizAPP.LIB.Models.Contract", "Contract")
-                        .WithMany()
+                        .WithMany("AccountStatements")
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -432,7 +508,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Contract", b =>
                 {
                     b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
-                        .WithMany()
+                        .WithMany("Contracts")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -445,13 +521,21 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentBreakdown", b =>
                 {
                     b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
-                        .WithMany()
+                        .WithMany("PaymentBreakdowns")
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "ReceivedBy")
                         .WithMany()
                         .HasForeignKey("ReceivedById")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
+                        .WithMany("PenaltyBreakdowns")
+                        .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

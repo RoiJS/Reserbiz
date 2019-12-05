@@ -22,6 +22,8 @@ namespace ReserbizAPP.LIB.Dtos
         // Payment duration based on DurationEnum (Daily = 0, Weekly = 1, Monthly = 2, Quarterly = 3, Yearly = 4)
         public DurationEnum DurationUnit { get; set; } = DurationEnum.Month;
 
+        public string DurationUnitText { get; set; }
+
         // Advanced payment value based on the selected duration (Ex. 2 Months)  
         public int AdvancedPaymentDurationValue { get; set; }
 
@@ -49,13 +51,17 @@ namespace ReserbizAPP.LIB.Dtos
         // Penalty amount per duration
         public DurationEnum PenaltyAmountPerDurationUnit { get; set; } = DurationEnum.Day;
 
+        public string PenaltyAmountPerDurationUnitText { get; set; }
+
         // Penalty will be effective after duration value
         public int PenaltyEffectiveAfterDurationValue { get; set; }
 
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+        
+        public string PenaltyEffectiveAfterDurationUnitText { get; set; }
 
-        public List<TermMiscellaneous> TermMiscellaneous { get; set; }
+        public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }
 
     }
 }

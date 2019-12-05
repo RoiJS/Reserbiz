@@ -56,7 +56,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TenantDetailsDto>>> GetAllTenants(int id)
         {
-            var tenantsFromRepo = await _tenantRepository.GetAllEntities();
+            var tenantsFromRepo = await _tenantRepository.GetAllEntities().ToListObjectAsync();
             var tenantsToReturn = _mapper.Map<IEnumerable<TenantDetailsDto>>(tenantsFromRepo);
             return Ok(tenantsToReturn);
         }
@@ -64,7 +64,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTenant(int id, TenantForUpdateDto tenantForEditDto)
         {
-            var tenantFromRepo = await _tenantRepository.GetEntityById(id);
+            var tenantFromRepo = await _tenantRepository.GetEntity(id).ToObjectAsync();
 
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");
@@ -83,9 +83,9 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPut("setStatus/{id}/{status}")]
-        public async Task<ActionResult<AccountForDetailDto>> SetTenantStatus(int id, bool status)
+        public async Task<IActionResult> SetTenantStatus(int id, bool status)
         {
-            var tenantFromRepo = await _tenantRepository.GetEntityById(id);
+            var tenantFromRepo = await _tenantRepository.GetEntity(id).ToObjectAsync();
 
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");

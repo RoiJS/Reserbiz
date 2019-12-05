@@ -42,7 +42,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         private void CreateHashDBName(string dbName, out string dbHashName)
         {
-            dbHashName = SHA1Util.SHA1HashStringForUTF8String(dbName);
+            dbHashName = SystemUtility.EncryptionUtility.Encrypt(dbName);
         }
     }
 }

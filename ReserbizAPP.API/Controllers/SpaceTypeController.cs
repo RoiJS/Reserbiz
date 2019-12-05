@@ -44,7 +44,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetSpaceType")]
         public async Task<ActionResult<SpaceTypeDetailDto>> GetSpaceType(int id)
         {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntityById(id);
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
 
             if (spaceTypeFromRepo == null)
                 return NotFound("Space type not found.");
@@ -57,7 +57,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SpaceTypeDetailDto>>> GetSpaceTypes(int id)
         {
-            var spaceTypesFromRepo = await _spaceTypeRepo.GetAllEntities();
+            var spaceTypesFromRepo = await _spaceTypeRepo.GetAllEntities().ToListObjectAsync();
 
             var spaceTypesToReturn = _mapper.Map<IEnumerable<SpaceTypeDetailDto>>(spaceTypesFromRepo);
 
@@ -67,7 +67,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSpaceType(int id, SpaceTypeForUpdateDto spaceTypeForUpdateDto)
         {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntityById(id);
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
 
             _mapper.Map(spaceTypeForUpdateDto, spaceTypeFromRepo);
 
@@ -83,7 +83,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<SpaceTypeDetailDto>> DeleteSpaceType(int id)
         {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntityById(id);
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
 
             if (spaceTypeFromRepo == null)
                 return BadRequest("Space Type does not exists.");

@@ -1,0 +1,22 @@
+using System.Threading.Tasks;
+using ReserbizAPP.LIB.Interfaces;
+using ReserbizAPP.LIB.Models;
+
+namespace ReserbizAPP.LIB.BusinessLogic
+{
+    public class ClientSettingsRepository
+        : BaseRepository<ClientSettings>, IClientSettingsRepository<ClientSettings>
+    {
+        public ClientSettingsRepository(IReserbizRepository<ClientSettings> reserbizRepository)
+            : base(reserbizRepository, reserbizRepository.ClientDbContext)
+        {
+
+        }
+
+        public async Task<ClientSettings> GetClientSettings()
+        {
+            var clientSettingsFromRepo = await _reserbizRepository.GetEntity(1).ToObjectAsync();
+            return clientSettingsFromRepo;
+        }
+    }
+}

@@ -53,7 +53,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetContactPerson")]
         public async Task<ActionResult<ContactPersonDetailDto>> GetContactPerson(int id)
         {
-            var contactPersonFromRepo = await _contactPersonRepository.GetEntityById(id);
+            var contactPersonFromRepo = await _contactPersonRepository.GetEntity(id).ToObjectAsync();
 
             if (contactPersonFromRepo == null)
                 return NotFound("Contact person not exists.");
@@ -66,9 +66,12 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAllContactPersonsPerTenant/{tenantId}")]
         public async Task<ActionResult<IEnumerable<ContactPersonDetailDto>>> GetAllContactPersons(int tenantId)
         {
-            var tenantFromRepo = await _tenantRepository.GetTenantAsync(tenantId);
+            var tenantFromRepo = await _tenantRepository
+                                        .GetEntity(tenantId)
+                                        .Includes(c => c.ContactPersons)
+                                        .ToObjectAsync();
 
-        var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(tenantFromRepo.ContactPersons);
+            var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(tenantFromRepo.ContactPersons);
 
             return Ok(contactPersonsToReturn);
         }
@@ -76,7 +79,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateContactPerson(int id, ContactPersonForUpdateDto contactPersonForUpdateDto)
         {
-            var contactPersonFromRepo = await _contactPersonRepository.GetEntityById(id);
+            var contactPersonFromRepo = await _contactPersonRepository.GetEntity(id).ToObjectAsync();
 
             if (contactPersonFromRepo == null)
                 return NotFound("Contact Person not found.");
@@ -93,9 +96,9 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ContactPersonDetailDto>> DeleteContactPerson(int id)     
+        public async Task<ActionResult<ContactPersonDetailDto>> DeleteContactPerson(int id)
         {
-            var contactPersonFromRepo = await _contactPersonRepository.GetEntityById(id);
+            var contactPersonFromRepo = await _contactPersonRepository.GetEntity(id).ToObjectAsync();
 
             if (contactPersonFromRepo == null)
                 return NotFound("Contact person not found.");
