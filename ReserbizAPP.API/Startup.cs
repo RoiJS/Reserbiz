@@ -17,6 +17,8 @@ using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
+using ReserbizAPP.LIB.Helpers;
+using System.Security.Claims;
 
 namespace ReserbizAPP.API
 {
@@ -47,6 +49,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IAccountStatementRepository<AccountStatement>), typeof(AccountStatementRepository));
             services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
+            services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -127,10 +130,31 @@ namespace ReserbizAPP.API
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
-                            context.Response.Headers.Add("Application-Error", error.Error.Message);
+                            var errorInfo = error.Error;
+
+                            // Application global exception registration.
+                            // Whenever the api throws an error, this will catch it and
+                            // register to database for production debugging purposes. 
+                            using (var serviceScope = app.ApplicationServices.CreateScope())
+                            {
+                                var services = serviceScope.ServiceProvider;
+                                var errorLogRepository = services.GetService<IErrorLogRepository<ErrorLog>>();
+
+                                // Register error details on database
+                                await errorLogRepository.RegisterError(
+                                    errorInfo.Source,
+                                    errorInfo.Message,
+                                    errorInfo.StackTrace,
+                                    Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier))
+                                );
+                            }
+                            
+                            // This will attach the error information along with the http response
+                            context.Response.Headers.Add("Application-Error", errorInfo.Message);
                             context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
                             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                            await context.Response.WriteAsync(error.Error.Message);
+                            await context.Response.WriteAsync(errorInfo.Message);
+
                         }
                     });
                 });

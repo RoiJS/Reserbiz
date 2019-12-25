@@ -1,8 +1,0 @@
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\bin\Debug\netstandard2.0\ReserbizAPP.LIB.deps.json
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\bin\Debug\netstandard2.0\ReserbizAPP.LIB.dll
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\bin\Debug\netstandard2.0\ReserbizAPP.LIB.pdb
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\obj\Debug\netstandard2.0\ReserbizAPP.LIB.csprojAssemblyReference.cache
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\obj\Debug\netstandard2.0\ReserbizAPP.LIB.AssemblyInfoInputs.cache
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\obj\Debug\netstandard2.0\ReserbizAPP.LIB.AssemblyInfo.cs
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\obj\Debug\netstandard2.0\ReserbizAPP.LIB.dll
-D:\Projects\ReSerBiz\ReserbizAPP.LIB\obj\Debug\netstandard2.0\ReserbizAPP.LIB.pdb

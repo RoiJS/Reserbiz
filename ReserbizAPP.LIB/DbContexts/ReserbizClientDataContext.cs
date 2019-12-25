@@ -32,6 +32,7 @@ namespace ReserbizAPP.LIB.DbContexts
         public DbSet<PaymentBreakdown> PaymentBreakdowns { get; set; }
         public DbSet<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
         public DbSet<ClientSettings> ClientSettings { get; set; }
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
 
         #endregion
 

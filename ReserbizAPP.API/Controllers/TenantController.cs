@@ -76,7 +76,7 @@ namespace ReserbizAPP.API.Controllers
                 return BadRequest("There are no changes to applied.");
             }
 
-            if (await _tenantRepository.SaveChanges())
+            if (!await _tenantRepository.SaveChanges())
                 return NoContent();
 
             throw new Exception($"Updating tenant with an id of {id} failed on save.");
