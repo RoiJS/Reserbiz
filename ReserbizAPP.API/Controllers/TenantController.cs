@@ -54,10 +54,10 @@ namespace ReserbizAPP.API.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TenantDetailsDto>>> GetAllTenants(int id)
+        public async Task<ActionResult<IEnumerable<TenantForListDto>>> GetAllTenants(int id)
         {
             var tenantsFromRepo = await _tenantRepository.GetAllEntities().ToListObjectAsync();
-            var tenantsToReturn = _mapper.Map<IEnumerable<TenantDetailsDto>>(tenantsFromRepo);
+            var tenantsToReturn = _mapper.Map<IEnumerable<TenantForListDto>>(tenantsFromRepo);
             return Ok(tenantsToReturn);
         }
 

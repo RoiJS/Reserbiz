@@ -32,12 +32,12 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Advanced payment value based on the selected duration (Ex. 2 Months)  
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not be exceed {1}.")]
         public int AdvancedPaymentDurationValue { get; set; }
 
         // Deposit payment value based on the selected duration (Ex. 2 Months) 
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not be exceed {1}.")]
         public int DepositPaymentDurationValue { get; set; }
 
         // Exluding Monthly Electric Bill from the payment
@@ -46,6 +46,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Amount of Electric bill
         [Required]
+        [MinLength(0, ErrorMessage = "Electric Bill must not be less than zero.")]
         [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
         public float ElectricBillAmount { get; set; }
 
@@ -55,6 +56,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Amount of WaterBill
         [Required]
+        [MinLength(0, ErrorMessage = "Water Bill must not be less than zero.")]
         [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
         public float WaterBillAmount { get; set; }
 

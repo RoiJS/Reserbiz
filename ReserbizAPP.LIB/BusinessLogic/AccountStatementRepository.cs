@@ -25,10 +25,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 DueDate = contract.NextDueDate,
                 Rate = contractTerm.Rate,
+                DurationUnit = contractTerm.DurationUnit,
                 ElectricBill = contractTerm.ElectricBillAmount,
                 WaterBill = contractTerm.WaterBillAmount,
                 PenaltyValue = contractTerm.PenaltyValue,
                 PenaltyValueType = contractTerm.PenaltyValueType,
+                AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
+                DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
                 PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
                 PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit

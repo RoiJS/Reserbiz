@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
-using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
@@ -25,7 +24,7 @@ namespace ReserbizAPP.LIB.Models
         // Payment duration based on DurationEnum (Daily = 0, Weekly = 1, Monthly = 2, Quarterly = 3, Yearly = 4)
         public DurationEnum DurationUnit { get; set; } = DurationEnum.Month;
 
-        // Advanced payment value based on the selected duration (Ex. 2 Months)  
+        // Advanced payment value based on the selected duration (Ex. 2 Months)
         public int AdvancedPaymentDurationValue { get; set; }
 
         // Deposit payment value based on the selected duration (Ex. 2 Months) 

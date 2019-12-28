@@ -97,6 +97,12 @@ namespace ReserbizAPP.API.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// This method will auto register new due penalties per account statement.
+        /// This function will be called by a background services on the client application.
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatementPenalties")]
         public async Task<IActionResult> AutoGenerateAccountStatementPenalties()
