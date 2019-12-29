@@ -32,12 +32,12 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Advanced payment value based on the selected duration (Ex. 2 Months)  
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not be exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int AdvancedPaymentDurationValue { get; set; }
 
         // Deposit payment value based on the selected duration (Ex. 2 Months) 
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not be exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int DepositPaymentDurationValue { get; set; }
 
         // Exluding Monthly Electric Bill from the payment
@@ -76,7 +76,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Penalty will be effective after duration value
         [Required]
-        [DurationValueRange("PenaltyEffectiveAfterDurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("PenaltyEffectiveAfterDurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int PenaltyEffectiveAfterDurationValue { get; set; }
 
         // Penalty will be effective after duration unit based on DurationEnum value
