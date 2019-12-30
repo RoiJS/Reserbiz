@@ -29,7 +29,7 @@ namespace ReserbizAPP.LIB.Helpers.Custom_Validations
             // Validates if open contract property where this custom
             // validation should be applied is set to true, the duration unit must have the value of "None" 
             // and duration value must be 0.
-            if (currentValue && (durationUnitPropertyInfoValue != DurationEnum.None || durationValuePropertyInfoValue > 0))
+            if (currentValue && (durationUnitPropertyInfoValue != DurationEnum.None || durationValuePropertyInfoValue != 0))
                 return new ValidationResult(this.FormatErrorMessage());
 
             return null;
