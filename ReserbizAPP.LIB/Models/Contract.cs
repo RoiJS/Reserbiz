@@ -25,6 +25,15 @@ namespace ReserbizAPP.LIB.Models
 
         public List<AccountStatement> AccountStatements { get; set; }
 
+        private DateTime CurrentDateTime = DateTime.Now;
+
+        // This is to set and simulate the current 
+        // date time for unit testing purposes
+        public void SetCurrentDateTime(DateTime dateTime)
+        {
+            CurrentDateTime = dateTime;
+        }
+
         public DateTime ExpirationDate
         {
             get
@@ -36,7 +45,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (DateTime.Now >= ExpirationDate);
+                return (CurrentDateTime >= ExpirationDate);
             }
         }
 
@@ -52,13 +61,14 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (DateTime.Now >= NextDueDate);
+                return (CurrentDateTime >= NextDueDate);
             }
         }
 
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {
-            return !IsExpired && (EffectiveDate == NextDueDate || NextDueDate.Subtract(DateTime.Now).Days <= daysBeforeGeneratingAccountStatement);
+            return !IsExpired && (EffectiveDate == NextDueDate 
+                || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement);
         }
 
         private DateTime CalculateExpirationDate()
