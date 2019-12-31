@@ -52,7 +52,7 @@ namespace ReserbizAPP.API.Controllers
                                             .GetEntity(id)
                                             .Includes(
                                                 c => c.AccountStatements,
-                                                c => c.Tenant, 
+                                                c => c.Tenant,
                                                 c => c.Term
                                             )
                                             .ToObjectAsync();
@@ -64,6 +64,44 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(contractToReturn);
         }
+        
+        [HttpGet("getAllContracts")]
+        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts()
+        {
+            var contractsFromRepo = await _contractRepository.GetAllContractsAsync();
+
+            var contractsToReturn = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
+
+            return Ok(contractsToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateContract(int id, ContractForUpdateDto contractForUpdateDto)
+        {
+
+            if (id != contractForUpdateDto.Id)
+                return BadRequest("Contract id does not match.");
+
+            var contractFromRepo = await _contractRepository.GetEntity(id)
+                                                            .Includes(c => c.AccountStatements)
+                                                            .ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return NotFound("Contract not exists.");
+
+            if (contractFromRepo.AccountStatements.Count > 0)
+                return BadRequest("Contract cannot be updated anymore because it has already account statement attached to it.");
+
+            _mapper.Map(contractForUpdateDto, contractFromRepo);
+
+            if (!_contractRepository.HasChanged())
+                return BadRequest("Nothing was changed on the object.");
+
+            if (await _contractRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Updating contract information with an id of {id} failed on save.");
+        }
 
         [HttpGet("getAllContractsPerTenant/{tenantId}")]
         public async Task<ActionResult<IEnumerable<ContractListDto>>> GetContractsPerTenant(int tenantId)
@@ -71,7 +109,7 @@ namespace ReserbizAPP.API.Controllers
             var tenantFromRepo = await _tenantRepository.GetEntity(tenantId).ToObjectAsync();
 
             if (tenantFromRepo == null)
-                return NotFound("Tenant does exists.");
+                return NotFound("Tenant does not exists.");
 
             var contractsPerTenantFromRepo = await _contractRepository.GetContractsPerTenantAsync(tenantId);
 
@@ -105,7 +143,7 @@ namespace ReserbizAPP.API.Controllers
             var contractFromRepo = await _contractRepository
                                             .GetEntity(id)
                                             .Includes(
-                                                c => c.Tenant, 
+                                                c => c.Tenant,
                                                 c => c.Term,
                                                 c => c.AccountStatements
                                             )

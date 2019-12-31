@@ -87,6 +87,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<TermMiscellaneousForCreationDto, TermMiscellaneous>();
             CreateMap<TermMiscellaneousForUpdateDto, TermMiscellaneous>();
             CreateMap<ContractForCreationDto, Contract>();
+            CreateMap<ContractForUpdateDto, Contract>();
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
         }
     }

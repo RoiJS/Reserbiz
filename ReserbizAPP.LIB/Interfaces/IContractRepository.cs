@@ -8,6 +8,7 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task CreateContract(Contract contract);
+        Task<IEnumerable<Contract>> GetAllContractsAsync();
         Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId);
         Task<IEnumerable<Contract>> GetActiveDueContractsPerTenantAsync(int tenantId);
         Task<IEnumerable<Contract>> GetActiveContractsPerTenantAsync(int tenantId);
