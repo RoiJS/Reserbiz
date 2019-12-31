@@ -464,11 +464,77 @@ namespace ReserbizAPP.Tests
         public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenContractIsNotExpired_And_NextDueDateMinusCurrentDateIsNotLessThanOrNotEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
+
+            // Initialize number of days before considering
+            // generating new account statement
             var  daysBeforeGeneratingAccountStatement = 4;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(currentDateTime);
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            var listOfAccountStatements = new List<AccountStatement>();
+            listOfAccountStatements.Add(new AccountStatement {
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
+            });
+            
+            listOfAccountStatements.Add(new AccountStatement {
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
+            });
+
+            contractObject.AccountStatements.AddRange(listOfAccountStatements);
+            
+            // Act
+            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
+
+            // Assert 
+            Assert.IsFalse(result);
+        }
+       
+        [TestCase("09/15/2020")]
+        [TestCase("09/16/2020")]
+        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenContractIsExpired_And_NextDueDateMinusCurrentDateIsNotLessThanOrNotEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
+        {
+            var contractObject = GetTestContractObject();
+
+            // Initialize number of days before considering
+            // generating new account statement
+            var  daysBeforeGeneratingAccountStatement = 4;
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
             contractObject.SetCurrentDateTime(currentDateTime);
             contractObject.AccountStatements = new List<AccountStatement>();
 
