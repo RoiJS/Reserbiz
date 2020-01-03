@@ -26,6 +26,15 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
 
+        private DateTime CurrentDateTime = DateTime.Now;
+
+        // This is to set and simulate the current 
+        // date time for unit testing purposes
+        public void SetCurrentDateTime(DateTime dateTime)
+        {
+            CurrentDateTime = dateTime;
+        }
+
         public bool IsFirstAccountStatement
         {
             get
@@ -46,7 +55,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return DateTime.Now >= PenaltyNextDueDate;
+                return (CurrentDateTime >= PenaltyNextDueDate);
             }
         }
 
@@ -54,7 +63,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return CalculatePenaltyValue();
+                return ConvertPenaltyValue();
             }
         }
 
@@ -102,11 +111,11 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (AccountStatementTotalAmount == CurrentAmountPaid);
+                return (CurrentAmountPaid >= AccountStatementTotalAmount);
             }
         }
 
-        private List<AccountStatement> ContractActiveAccountStatements
+        public List<AccountStatement> ContractActiveAccountStatements
         {
             get
             {
@@ -141,7 +150,7 @@ namespace ReserbizAPP.LIB.Models
             return nextDueDate;
         }
 
-        private float CalculatePenaltyValue()
+        private float ConvertPenaltyValue()
         {
             var penaltyAmountValue = PenaltyValue;
 
