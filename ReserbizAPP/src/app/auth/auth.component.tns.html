@@ -1,0 +1,60 @@
+<FlexBoxLayout
+  flexDirection="column"
+  justifyContent="space-around"
+  class="login-main-container"
+>
+  <StackLayout class="app-logo-container">
+    <Label text="Reserbiz"></Label>
+  </StackLayout>
+  <StackLayout class="login-form form" [formGroup]="form">
+    <StackLayout class="input-field">
+      <Label
+        class="label"
+        text="Username"
+        [ngClass]="{ invalid: !emailControlIsValid }"
+      ></Label>
+      <TextField
+        class="input"
+        returnKey="next"
+        [autocorrection]="false"
+        autocapitalizationType="none"
+        formControlName="username"
+        #usernameEl
+      ></TextField>
+      <Label
+        text="Please enter username."
+        *ngIf="!usernameControlIsValid"
+      ></Label>
+    </StackLayout>
+    <StackLayout class="input-field">
+      <label
+        class="label"
+        text="Password"
+        [ngClass]="{ invalid: !passwordControlIsValid }"
+      ></label>
+      <TextField
+        class="input"
+        returnKey="done"
+        [autocorrection]="false"
+        autocapitalizationType="none"
+        [secure]="true"
+        hint="Min 6 characters"
+        formControlName="password"
+        #passwordEl
+        (returnPress)="onDone()"
+      ></TextField>
+      <label
+        text="Please enter valid password."
+        *ngIf="!passwordControlIsValid"
+      ></label>
+    </StackLayout>
+    <button
+      text="Login"
+      class="btn btn-primary btn-rounded-lg"
+      (tap)="onSubmit()"
+      [isEnabled]="form.valid"
+      *ngIf="!isLoading"
+    ></button>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+  </StackLayout>
+</FlexBoxLayout>

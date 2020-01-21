@@ -1,0 +1,16 @@
+@import "../../theme/colors";
+
+.login-main-container {
+    height: 100%;
+    width: 95%;
+
+    .app-logo-container {
+        font-size: 90;
+        text-align: center;
+        color: $primary;
+    }
+
+    .login-form .input-field Label {
+        font-size: 15;
+    }
+}
