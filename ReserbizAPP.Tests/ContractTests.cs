@@ -42,7 +42,7 @@ namespace ReserbizAPP.Tests
             var expectedExpirationDate = new DateTime(2019, 09, 22);
             Assert.AreEqual(expectedExpirationDate, result);
         }
-        
+
         [Test]
         public void Test_CalculateContractExpirationDate_WhenDateDurationUnitIsMonth()
         {
@@ -59,7 +59,7 @@ namespace ReserbizAPP.Tests
             var expectedExpirationDate = new DateTime(2019, 10, 15);
             Assert.AreEqual(expectedExpirationDate, result);
         }
-        
+
         [Test]
         public void Test_CalculateContractExpirationDate_WhenDateDurationUnitIsQuarter()
         {
@@ -76,7 +76,7 @@ namespace ReserbizAPP.Tests
             var expectedExpirationDate = new DateTime(2019, 12, 15);
             Assert.AreEqual(expectedExpirationDate, result);
         }
-        
+
         [Test]
         public void Test_CalculateContractExpirationDate_WhenDateDurationUnitIsYear()
         {
@@ -93,8 +93,8 @@ namespace ReserbizAPP.Tests
             var expectedExpirationDate = new DateTime(2020, 09, 15);
             Assert.AreEqual(expectedExpirationDate, result);
         }
-        
-        
+
+
         [Test]
         public void Should_NextDueDateSameWithContractEffectiveDate_WhenContractContainsEmptyAccountStatement()
         {
@@ -105,7 +105,7 @@ namespace ReserbizAPP.Tests
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Month;
             contractObject.AccountStatements = new List<AccountStatement>();
-            
+
             // Act
             var result = contractObject.NextDueDate;
 
@@ -113,8 +113,8 @@ namespace ReserbizAPP.Tests
             var expectedNextDueDate = new DateTime(2019, 09, 15);
             Assert.AreEqual(expectedNextDueDate, result);
         }
-        
-        
+
+
         [Test]
         public void Should_NextDueDateSameWithContractAccountStatementDueDateAddedByDurationValue_WhenContractContainsSingleAccountStatement()
         {
@@ -128,7 +128,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -143,9 +144,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
+
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.NextDueDate;
 
@@ -153,7 +154,7 @@ namespace ReserbizAPP.Tests
             var expectedNextDueDate = new DateTime(2019, 11, 15);
             Assert.AreEqual(expectedNextDueDate, result);
         }
-        
+
         [Test]
         public void Should_NextDueDateSameWithContractLastAccountStatementDueDateAddedByDurationValue_WhenContractContainsMultipleAccountStatements()
         {
@@ -167,7 +168,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -182,8 +184,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
                 Rate = 9000,
@@ -200,7 +203,7 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.NextDueDate;
 
@@ -208,7 +211,7 @@ namespace ReserbizAPP.Tests
             var expectedNextDueDate = new DateTime(2019, 12, 15);
             Assert.AreEqual(expectedNextDueDate, result);
         }
-        
+
         [TestCase("09/15/2020")]
         [TestCase("09/16/2020")]
         public void Should_ContractIsExpiredReturnTrue_WhenCurrentDateIsGreaterThanOrEqualToContractExpirationDate(DateTime currentDateTime)
@@ -220,14 +223,14 @@ namespace ReserbizAPP.Tests
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Year;
             contractObject.SetCurrentDateTime(currentDateTime);
-            
+
             // Act
             var result = contractObject.IsExpired;
 
             // Assert 
             Assert.IsTrue(result);
         }
-        
+
         [TestCase("09/13/2020")]
         [TestCase("09/14/2020")]
         public void Should_ContractIsExpiredReturnFalse_WhenCurrentDateIsNotGreaterThanOrNotEqualToContractExpirationDate(DateTime currentDateTime)
@@ -239,14 +242,14 @@ namespace ReserbizAPP.Tests
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Year;
             contractObject.SetCurrentDateTime(currentDateTime);
-            
+
             // Act
             var result = contractObject.IsExpired;
 
             // Assert 
             Assert.IsFalse(result);
         }
-        
+
         [TestCase("12/15/2019")]
         [TestCase("12/16/2019")]
         public void Should_ContractIsDueReturnTrue_WhenCurrentDateIsGreaterThanOrEqualToContractNextDueDate(DateTime currentDateTime)
@@ -262,7 +265,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -277,8 +281,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
                 Rate = 9000,
@@ -295,14 +300,14 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.IsDue;
 
             // Assert 
             Assert.IsTrue(result);
         }
-        
+
         [TestCase("12/13/2019")]
         [TestCase("12/14/2019")]
         public void Should_ContractIsDueReturnFalse_WhenCurrentDateIsNotGreaterThanOrNotEqualToContractNextDueDate(DateTime currentDateTime)
@@ -318,7 +323,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -333,8 +339,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
                 Rate = 9000,
@@ -351,24 +358,24 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.IsDue;
 
             // Assert 
             Assert.IsFalse(result);
         }
-        
-        [TestCase("09/13/2020")]
-        [TestCase("09/14/2020")]
-        public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenContractIsNotExpired_And_EffectiveDateIsEqualToNextDueDate(DateTime currentDateTime)
+
+        [TestCase("10/14/2019")]
+        [TestCase("10/15/2019")]
+        public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenNextDueDateIsLessThanOrEqualToExpirationDate_And_EffectiveDateIsEqualToNextDueDate(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
-            var  daysBeforeGeneratingAccountStatement = 3;
+            var daysBeforeGeneratingAccountStatement = 3;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
-            contractObject.DurationUnit = DurationEnum.Year;
+            contractObject.DurationUnit = DurationEnum.Month;
             contractObject.SetCurrentDateTime(currentDateTime);
             contractObject.AccountStatements = new List<AccountStatement>();
 
@@ -378,36 +385,16 @@ namespace ReserbizAPP.Tests
             // Assert 
             Assert.IsTrue(result);
         }
-        
-        [TestCase("09/15/2020")]
-        [TestCase("09/16/2020")]
-        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenContractIsExpired_And_EffectiveDateIsEqualToNextDueDate(DateTime currentDateTime)
-        {
-            var contractObject = GetTestContractObject();
-            var  daysBeforeGeneratingAccountStatement = 3;
 
-            // Arrange - Set duration unit and value
-            contractObject.DurationValue = 1;
-            contractObject.DurationUnit = DurationEnum.Year;
-            contractObject.SetCurrentDateTime(currentDateTime);
-            contractObject.AccountStatements = new List<AccountStatement>();
-
-            // Act
-            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
-
-            // Assert 
-            Assert.IsFalse(result);
-        }
-        
         [TestCase("12/13/2019")]
         [TestCase("12/14/2019")]
         [TestCase("12/15/2019")]
         [TestCase("12/16/2019")]
         [TestCase("12/17/2019")]
-        public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenContractIsNotExpired_And_NextDueDateMinusCurrentDateIsLessThanOrEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
+        public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenNextDueDateIsLessThanOrEqualToExpirationDate_And_NextDueDateMinusCurrentDateIsLessThanOrEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
-            var  daysBeforeGeneratingAccountStatement = 3;
+            var daysBeforeGeneratingAccountStatement = 3;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -417,7 +404,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -432,8 +420,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
                 Rate = 9000,
@@ -450,24 +439,24 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
 
             // Assert 
             Assert.IsTrue(result);
         }
-        
+
         [TestCase("12/08/2019")]
         [TestCase("12/09/2019")]
         [TestCase("12/10/2019")]
-        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenContractIsNotExpired_And_NextDueDateMinusCurrentDateIsNotLessThanOrNotEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
+        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenNextDueDateIsLessThanOrEqualToExpirationDate_And_NextDueDateMinusCurrentDateIsNotLessThanOrNotEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
 
             // Initialize number of days before considering
             // generating new account statement
-            var  daysBeforeGeneratingAccountStatement = 4;
+            var daysBeforeGeneratingAccountStatement = 4;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -479,7 +468,8 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 10, 15),
                 Rate = 9000,
@@ -494,8 +484,9 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
                 Rate = 9000,
@@ -512,23 +503,23 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
 
             // Assert 
             Assert.IsFalse(result);
         }
-       
+
         [TestCase("09/15/2020")]
         [TestCase("09/16/2020")]
-        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenContractIsExpired_And_NextDueDateMinusCurrentDateIsNotLessThanOrNotEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
+        public void Should_ContractIsDueForGeneratingAccountStatementReturnFalse_WhenNextDueDateIsNotLessThanOrNotEqualToExpirationDate(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
 
             // Initialize number of days before considering
             // generating new account statement
-            var  daysBeforeGeneratingAccountStatement = 4;
+            var daysBeforeGeneratingAccountStatement = 4;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -540,9 +531,10 @@ namespace ReserbizAPP.Tests
 
             // Arrange - Create test statement of accounts
             var listOfAccountStatements = new List<AccountStatement>();
-            listOfAccountStatements.Add(new AccountStatement {
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
-                DueDate = new DateTime(2019, 10, 15),
+                DueDate = new DateTime(2020, 07, 16),
                 Rate = 9000,
                 DurationUnit = DurationEnum.Month,
                 AdvancedPaymentDurationValue = 1,
@@ -555,10 +547,11 @@ namespace ReserbizAPP.Tests
                 PenaltyEffectiveAfterDurationValue = 3,
                 PenaltyEffectiveAfterDurationUnit = DurationEnum.Day
             });
-            
-            listOfAccountStatements.Add(new AccountStatement {
+
+            listOfAccountStatements.Add(new AccountStatement
+            {
                 ContractId = 1,
-                DueDate = new DateTime(2019, 11, 15),
+                DueDate = new DateTime(2020, 08, 16),
                 Rate = 9000,
                 DurationUnit = DurationEnum.Month,
                 AdvancedPaymentDurationValue = 1,
@@ -573,7 +566,7 @@ namespace ReserbizAPP.Tests
             });
 
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
-            
+
             // Act
             var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Models;
@@ -470,7 +471,7 @@ namespace ReserbizAPP.Tests
 
 
             // Act 
-            var result = testAccountStatement.ContractActiveAccountStatements.Count;
+            var result = testAccountStatement.Contract.AccountStatements.Where(a => a.IsActive).ToList().Count;
 
             // Assert
             var expectedActiveAccountStatements = 3;
@@ -572,7 +573,7 @@ namespace ReserbizAPP.Tests
 
 
             // Act 
-            var result = testAccountStatement.ContractActiveAccountStatements.Count;
+            var result = testAccountStatement.Contract.AccountStatements.Where(a => a.IsActive).ToList().Count; ;
 
             // Assert
             var expectedActiveAccountStatements = 0;
@@ -674,7 +675,7 @@ namespace ReserbizAPP.Tests
 
 
             // Act 
-            var result = testAccountStatement.ContractActiveAccountStatements.Count;
+            var result = testAccountStatement.Contract.AccountStatements.Where(a => a.IsActive).ToList().Count;
 
             // Assert
             var expectedActiveAccountStatements = 1;
@@ -761,9 +762,9 @@ namespace ReserbizAPP.Tests
             Assert.AreEqual(expectedPenaltyNextDueDate, result);
         }
 
-        [TestCase("11-20-2019")]
-        [TestCase("11-21-2019")]
-        public void Should_IsDueToGeneratePenaltyReturnTrue_WhenCurrentDateIsGreaterThanOrEqualToPenaltyNextDueDate(DateTime currentDateTime)
+        [TestCase("12-20-2019")]
+        [TestCase("12-21-2019")]
+        public void Should_IsDueToGeneratePenaltyReturnTrue_WhenCurrentDateIsGreaterThanOrEqualToPenaltyNextDueDate_And_PenaltyNextDueDateIsLessThanAccountStatementNextDueDate(DateTime currentDateTime)
         {
             // Arrange - Initialize test account statement
             var testAccountStatement = new AccountStatement
@@ -792,14 +793,14 @@ namespace ReserbizAPP.Tests
             {
                 Id = 1,
                 AccountStatementId = 1,
-                DueDate = new DateTime(2019, 11, 18),
+                DueDate = new DateTime(2019, 12, 12),
                 Amount = 50
             });
             testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
             {
                 Id = 1,
                 AccountStatementId = 1,
-                DueDate = new DateTime(2019, 11, 19),
+                DueDate = new DateTime(2019, 12, 13),
                 Amount = 50
             });
 
@@ -810,9 +811,9 @@ namespace ReserbizAPP.Tests
             Assert.IsTrue(result);
         }
 
-        [TestCase("11-18-2019")]
-        [TestCase("11-19-2019")]
-        public void Should_IsDueToGeneratePenaltyReturnFalse_WhenCurrentDateIsNotGreaterThanOrNotEqualToPenaltyNextDueDate(DateTime currentDateTime)
+        [TestCase("12-20-2019")]
+        [TestCase("12-21-2019")]
+        public void Should_IsDueToGeneratePenaltyReturnFalse_WhenCurrentDateIsGreaterThanOrEqualToPenaltyNextDueDate_And_PenaltyNextDueDateIsNotLessThanAccountStatementNextDueDate(DateTime currentDateTime)
         {
             // Arrange - Initialize test account statement
             var testAccountStatement = new AccountStatement
@@ -841,14 +842,14 @@ namespace ReserbizAPP.Tests
             {
                 Id = 1,
                 AccountStatementId = 1,
-                DueDate = new DateTime(2019, 11, 18),
+                DueDate = new DateTime(2019, 12, 13),
                 Amount = 50
             });
             testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
             {
-                Id = 1,
+                Id = 2,
                 AccountStatementId = 1,
-                DueDate = new DateTime(2019, 11, 19),
+                DueDate = new DateTime(2019, 12, 14),
                 Amount = 50
             });
 
@@ -2071,7 +2072,7 @@ namespace ReserbizAPP.Tests
             var expectedCurrentBalance = 0;
             Assert.AreEqual(expectedCurrentBalance, result);
         }
-        
+
         [Test]
         public void Test_CurrentBalance_WhenAccountStatementContainsWithPaymentBreakdownAndMoreThanFullyPaid()
         {
@@ -2234,7 +2235,7 @@ namespace ReserbizAPP.Tests
             var expectedCurrentBalance = -150;
             Assert.AreEqual(expectedCurrentBalance, result);
         }
-        
+
         [Test]
         public void Should_IsFullyPaidReturnFalse_WhenCurrentPaidAmountIsLessThanTheAccountStatementTotalAmount()
         {
@@ -2375,14 +2376,14 @@ namespace ReserbizAPP.Tests
                 Amount = 3000,
                 ReceivedById = 700
             });
-            
+
             // Act 
             var result = testAccountStatement.IsFullyPaid;
 
             // Assert
             Assert.IsFalse(result);
         }
-        
+
         [Test]
         public void Should_IsFullyPaidReturnTrue_WhenCurrentPaidAmountIsEqualToTheAccountStatementTotalAmount()
         {
@@ -2530,14 +2531,14 @@ namespace ReserbizAPP.Tests
                 Amount = 2007,
                 ReceivedById = 700
             });
-            
+
             // Act 
             var result = testAccountStatement.IsFullyPaid;
 
             // Assert
             Assert.IsTrue(result);
         }
-        
+
         [Test]
         public void Should_IsFullyPaidReturnTrue_WhenCurrentPaidAmountIsGreaterThanTheAccountStatementTotalAmount()
         {
@@ -2685,12 +2686,72 @@ namespace ReserbizAPP.Tests
                 Amount = 3000,
                 ReceivedById = 700
             });
-            
+
             // Act 
             var result = testAccountStatement.IsFullyPaid;
 
             // Assert
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsPenaltySettingActiveReturnTrue_WhenPenaltyValueIsGreaterThanZero()
+        {
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            // Act
+            var result = testAccountStatement.IsPenaltySettingActive;
+
+            // Assert 
+            Assert.IsTrue(result);
+        }
+       
+        [Test]
+        public void Should_IsPenaltySettingActiveReturnFalse_WhenPenaltyValueIsNotGreaterThanZero()
+        {
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 0,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            // Act
+            var result = testAccountStatement.IsPenaltySettingActive;
+
+            // Assert 
+            Assert.IsFalse(result);
         }
 
         private Contract GetTestContractObject()
