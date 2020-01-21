@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ReserbizAPP.LIB.DbContexts;
+using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -57,7 +57,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             byte[] passwordHash, passwordSalt;
 
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            SystemUtility.EncryptionUtility.CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
             account.PasswordHash = passwordHash;
             account.PasswordSalt = passwordSalt;
@@ -65,15 +65,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
             await AddEntity(account);
 
             return account;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
     }
 }

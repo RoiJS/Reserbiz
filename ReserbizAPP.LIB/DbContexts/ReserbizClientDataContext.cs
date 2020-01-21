@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -52,6 +51,21 @@ namespace ReserbizAPP.LIB.DbContexts
             _dcHelper.GenerateEntityUpdateDate(entries);
 
             return await base.SaveChangesAsync();
+        }
+        
+        /// <summary>
+        /// Overriden SaveChanges to add custom logic before actual saving of entities
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker.Entries().ToList();
+
+            _dcHelper.GenerateEntityCreatedDate(entries);
+            _dcHelper.GenerateEntityUpdateDate(entries);
+
+            return base.SaveChanges();
         }
 
         #endregion

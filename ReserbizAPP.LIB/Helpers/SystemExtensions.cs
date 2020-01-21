@@ -10,7 +10,7 @@ using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Helpers
 {
-    public static class Extensions
+    public static class SystemExtensions
     {
         /// <summary>
         /// Calculate the number of days based on the duration value and unit.
