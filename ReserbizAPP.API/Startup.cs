@@ -50,6 +50,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
+            services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -126,7 +127,6 @@ namespace ReserbizAPP.API
                     builder.Run(async context =>
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
@@ -148,13 +148,12 @@ namespace ReserbizAPP.API
                                     Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier))
                                 );
                             }
-                            
+
                             // This will attach the error information along with the http response
                             context.Response.Headers.Add("Application-Error", errorInfo.Message);
                             context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
                             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                             await context.Response.WriteAsync(errorInfo.Message);
-
                         }
                     });
                 });
