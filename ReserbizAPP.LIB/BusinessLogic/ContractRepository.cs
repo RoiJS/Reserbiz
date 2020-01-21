@@ -68,6 +68,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var activeContractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts
+                                                .AsQueryable()
+                                                .Includes(
+                                                    c => c.Term,
+                                                    c => c.Term.TermMiscellaneous,
+                                                    c => c.AccountStatements
+                                                )
                                                 .Where(c =>
                                                     c.IsActive
                                                     && c.TenantId == tenantId

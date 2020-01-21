@@ -79,7 +79,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return accountStatementFromRepo;
         }
 
-        public async Task<IEnumerable<AccountStatement>> GetAccountStatementsPerContractAsync(int contractId)
+        public async Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId)
         {
             var activeAccountStatementsPerContractFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
                                                             .AsQueryable()
@@ -90,7 +90,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                                 c => c.PaymentBreakdowns,
                                                                 c => c.PenaltyBreakdowns
                                                             )
-                                                            .Where(c => c.ContractId == contractId)
+                                                            .Where(c =>
+                                                                c.IsActive
+                                                                && c.ContractId == contractId
+                                                            )
                                                             .ToListAsync();
 
             return activeAccountStatementsPerContractFromRepo;

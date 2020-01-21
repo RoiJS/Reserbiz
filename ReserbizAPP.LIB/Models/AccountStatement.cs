@@ -28,11 +28,31 @@ namespace ReserbizAPP.LIB.Models
 
         private DateTime CurrentDateTime = DateTime.Now;
 
+        private DateTime NextDueDate
+        {
+            get
+            {
+                return GetNextDueDate();
+            }
+        }
+
         // This is to set and simulate the current 
         // date time for unit testing purposes
         public void SetCurrentDateTime(DateTime dateTime)
         {
             CurrentDateTime = dateTime;
+        }
+
+        public bool IsPenaltySettingActive
+        {
+            get
+            {
+                // Generating penalty entry will be based on this settings.
+                // For now we will only consider the penalty value.
+                // Theres no reason to generate penalty item if penalty value 
+                // property is not greater than 0.
+                return PenaltyValue > 0;
+            }
         }
 
         public bool IsFirstAccountStatement
@@ -55,7 +75,8 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (CurrentDateTime >= PenaltyNextDueDate);
+                return (PenaltyNextDueDate < NextDueDate
+                        && PenaltyNextDueDate <= CurrentDateTime);
             }
         }
 
@@ -115,15 +136,6 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public List<AccountStatement> ContractActiveAccountStatements
-        {
-            get
-            {
-                var activeAccountStatements = Contract.AccountStatements.Where(a => a.IsActive).OrderBy(a => a.Id).ToList();
-                return activeAccountStatements;
-            }
-        }
-
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
@@ -148,6 +160,13 @@ namespace ReserbizAPP.LIB.Models
             }
 
             return nextDueDate;
+        }
+
+        private DateTime GetNextDueDate()
+        {
+            var daysBeforeNextDue = DueDate.CalculateDaysBasedOnDuration(1, DurationUnit);
+            var accountStatementNextDueDate = DueDate.AddDays(daysBeforeNextDue);
+            return accountStatementNextDueDate;
         }
 
         private float ConvertPenaltyValue()
@@ -198,8 +217,10 @@ namespace ReserbizAPP.LIB.Models
 
         private bool IsFirstAccountStatementItem()
         {
-            return ContractActiveAccountStatements.Count == 1
-                    || (ContractActiveAccountStatements.Count > 0 && ContractActiveAccountStatements[0].Id == Id);
+            var activeAccountStatements = Contract.AccountStatements.Where(a => a.IsActive).OrderBy(a => a.Id).ToList();
+
+            return activeAccountStatements.Count == 1
+                    || (activeAccountStatements.Count > 0 && activeAccountStatements[0].Id == Id);
         }
 
         private float CalculateCurrentAmountPaid()

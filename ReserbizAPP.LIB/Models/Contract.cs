@@ -67,12 +67,15 @@ namespace ReserbizAPP.LIB.Models
 
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {
-            return !IsExpired && (EffectiveDate == NextDueDate 
-                || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement);
+            return ((NextDueDate <= ExpirationDate) && (EffectiveDate == NextDueDate
+                || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
         }
 
         private DateTime CalculateExpirationDate()
         {
+            // If contract is open, return datetime max value
+            if (IsOpenContract) return DateTime.MaxValue;
+
             var daysBeforeExpiration = EffectiveDate.CalculateDaysBasedOnDuration(DurationValue, DurationUnit);
             var expirationDate = EffectiveDate.AddDays(daysBeforeExpiration);
             return expirationDate;

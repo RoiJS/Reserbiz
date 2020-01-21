@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Interfaces
