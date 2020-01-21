@@ -84,7 +84,8 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(new
             {
-                token = tokenHandler.WriteToken(token)
+                token = tokenHandler.WriteToken(token),
+                expiresIn = tokenDescriptor.Expires
             });
         }
 
