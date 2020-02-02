@@ -47,10 +47,15 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(ITermMiscellaneousRepository<TermMiscellaneous>), typeof(TermMiscellaneousRepository));
             services.AddScoped(typeof(IContractRepository<Contract>), typeof(ContractRepository));
             services.AddScoped(typeof(IAccountStatementRepository<AccountStatement>), typeof(AccountStatementRepository));
+            services.AddScoped(typeof(IAccountStatementMiscellaneousRepository<AccountStatementMiscellaneous>), typeof(AccountStatementMiscellaneousRepository));
             services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
+            services.AddScoped(typeof(IPenaltyBreakdownRepository<PenaltyBreakdown>), typeof(PenaltyBreakdownRepository));
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
+
+            // Register IOptions pattern for AppSettings section
+            services.Configure<IApplicationSettings>(Configuration.GetSection("AppSettings"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -60,7 +65,8 @@ namespace ReserbizAPP.API
 
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
-            var ActivateEFMigration = Configuration.GetValue<bool>("ActivateEFMigration");
+            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:ActivateEFMigration").Value);
+
             if (ActivateEFMigration)
             {
                 services.AddDbContext<ReserbizClientDataContext>(

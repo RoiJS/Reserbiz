@@ -21,17 +21,24 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public AccountStatement RegisterNewAccountStament(Contract contract)
         {
             var contractTerm = contract.Term;
+
+            // Value for electric and water bill will be 0 for the 
+            // first account statement and will be based on term
+            // for the succeeding generation of account statements.
+            var waterBill = contract.AccountStatements.Count > 0 ? contractTerm.WaterBillAmount : 0;
+            var electricBill = contract.AccountStatements.Count > 0 ? contractTerm.ElectricBillAmount : 0;
+
             var newAccountStatement = new AccountStatement
             {
                 DueDate = contract.NextDueDate,
                 Rate = contractTerm.Rate,
                 DurationUnit = contractTerm.DurationUnit,
-                ElectricBill = contractTerm.ElectricBillAmount,
-                WaterBill = contractTerm.WaterBillAmount,
+                ElectricBill = electricBill,
+                WaterBill = waterBill,
                 PenaltyValue = contractTerm.PenaltyValue,
-                PenaltyValueType = contractTerm.PenaltyValueType,
                 AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
                 DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
+                PenaltyValueType = contractTerm.PenaltyValueType,
                 PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
                 PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit

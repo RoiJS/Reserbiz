@@ -193,8 +193,7 @@ namespace ReserbizAPP.API.Controllers
                     {
                         if (!accountStatement.IsPenaltySettingActive) continue;
 
-                        while (accountStatement.IsDueToGeneratePenalty 
-                                && !accountStatement.IsFullyPaid)
+                        while (accountStatement.IsValidForGeneratingPenalty)
                         {
                             var newPenaltyItem = _accountStatementRepository.RegisterNewPenaltyItem(accountStatement);
                             accountStatement.PenaltyBreakdowns.Add(newPenaltyItem);

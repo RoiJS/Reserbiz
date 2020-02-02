@@ -16,11 +16,12 @@ namespace ReserbizAPP.LIB.Interfaces
         Task AddEntity(TEntity entity);
         void DeleteEntity(TEntity entity, bool forceDelete);
         void SetEntityStatus(TEntity entity, bool status);
+        Task Reset();
         IReserbizRepository<TEntity> GetEntity(int id);
         IReserbizRepository<TEntity> GetAllEntities(bool includeDeleted = false);
         IReserbizRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> ToObjectAsync();
-        Task<IEnumerable<TEntity>> ToListObjectAsync();
+        Task<IList<TEntity>> ToListObjectAsync();
         Task<bool> SaveChangesAsync();
     }
 }

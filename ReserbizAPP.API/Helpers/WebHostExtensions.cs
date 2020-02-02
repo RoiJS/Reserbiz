@@ -5,19 +5,18 @@ using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.API.Helpers
 {
-   public static class WebHostExtensions
-{
-    public static IWebHost SeedData(this IWebHost host)
+    public static class WebHostExtensions
     {
-        using (var scope = host.Services.CreateScope())
+        public static IWebHost SeedData(this IWebHost host)
         {
-            var services = scope.ServiceProvider;
-            var dataSeedRepository = services.GetService<IDataSeedRepository<IEntity>>();
- 
-            dataSeedRepository.SeedAccounts();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var dataSeedRepository = services.GetService<IDataSeedRepository<IEntity>>();
+                dataSeedRepository.SeedData();
+            }
+
+            return host;
         }
- 
-        return host;
     }
-}
 }

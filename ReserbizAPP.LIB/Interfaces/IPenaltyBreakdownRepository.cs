@@ -1,9 +1,8 @@
-
 namespace ReserbizAPP.LIB.Interfaces
 {
-    public interface IDataSeedRepository<TEntity>
+    public interface IPenaltyBreakdownRepository<TEntity>
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
-        void SeedData();
+        
     }
 }

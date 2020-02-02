@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -51,8 +52,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 return true;
 
             return false;
-
         }
+
         public async Task<Account> Register(Account account, string password)
         {
             byte[] passwordHash, passwordSalt;
@@ -65,6 +66,30 @@ namespace ReserbizAPP.LIB.BusinessLogic
             await AddEntity(account);
 
             return account;
+        }
+
+        public override async Task Reset()
+        {
+            var password = "Starta123";
+            byte[] passwordHash, passwordSalt;
+
+            SystemUtility.EncryptionUtility.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            // Reset account list
+            await base.Reset();
+
+            // Setup default account
+            await AddEntity(new Account
+            {
+                FirstName = "James",
+                MiddleName = "Harden",
+                LastName = "Harden",
+                Gender = GenderEnum.Male,
+                PhotoUrl = "",
+                Username = "jaha",
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            });
         }
     }
 }

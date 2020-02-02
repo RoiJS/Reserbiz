@@ -136,6 +136,18 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public bool IsValidForGeneratingPenalty
+        {
+            get
+            {
+                // Generating of penalty item will based on these 3 criteria:
+                // (1) Account statement should be due for generating penalty.
+                // (2) Account statement should be not yet fully paid.
+                // (3) Account statement should not be the first account statement from the list.
+                return (!IsFirstAccountStatement && IsDueToGeneratePenalty && !IsFullyPaid);
+            }
+        }
+
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();

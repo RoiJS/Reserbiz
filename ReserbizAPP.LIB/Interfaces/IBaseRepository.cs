@@ -10,6 +10,7 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         Task AddEntity(TEntity entity);
         void DeleteEntity(TEntity entity, bool forceDelete = false);
+        Task Reset();
         void SetEntityStatus(TEntity entity, bool status);
         bool HasChanged();
         Task<bool> IsExists(int id);
@@ -17,7 +18,7 @@ namespace ReserbizAPP.LIB.Interfaces
         IBaseRepository<TEntity> GetAllEntities(bool includeDeleted = false);
         IBaseRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> ToObjectAsync();
-        Task<IEnumerable<TEntity>> ToListObjectAsync();
+        Task<IList<TEntity>> ToListObjectAsync();
         Task<bool> SaveChanges();
     }
 }

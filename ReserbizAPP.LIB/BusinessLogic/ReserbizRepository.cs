@@ -112,7 +112,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return entity;
         }
         
-        public async Task<IEnumerable<TEntity>> ToListObjectAsync()
+        public async Task<IList<TEntity>> ToListObjectAsync()
         {
             var entities = await _dbSet.AsQueryable()
                                     .Includes(_includes)
@@ -128,6 +128,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<bool> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task Reset()
+        {
+            _dbContext.RemoveRange(await _dbContext.Set<TEntity>().ToListAsync());
+            await _dbContext.SaveChangesAsync();
         }
 
         public ReserbizDataContext SystemDbContext => _systemDbContext;
