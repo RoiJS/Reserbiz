@@ -17,7 +17,7 @@ namespace ReserbizAPP.API
         {
             CreateWebHostBuilder(args)
                 .Build()
-                .SeedData()
+                // .SeedData()
                 .Run();
         }
 

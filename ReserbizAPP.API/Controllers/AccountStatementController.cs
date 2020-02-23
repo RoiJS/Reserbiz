@@ -57,47 +57,7 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(accountStatementToReturn);
         }
-
-        /// <summary>
-        /// This method is called by a background services which scheduled to run daily.
-        /// This will auto generate account statements per contract.
-        /// It has been set to AllowAnonymous because scheduler does not
-        /// have to be authenticated to called this method.
-        /// </summary>
-        /// <returns></returns>
-        // [AllowAnonymous]
-        // [HttpPost("autoGenerateContractAccountStatements")]
-        // public async Task<IActionResult> AutoGenerateContractAccountStatements()
-        // {
-        //     var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
-
-        //     foreach (var tenant in activeTenantsFromRepo)
-        //     {
-        //         var activeTenantDueContracts = await _contractRepository.GetActiveDueContractsPerTenantAsync(tenant.Id);
-
-        //         foreach (var contract in activeTenantDueContracts)
-        //         {
-        //             if (!contract.IsExpired)
-        //             {
-        //                 var newContractAccountStatement = _accountStatementRepository.RegisterNewAccountStament(contract);
-        //                 contract.AccountStatements.Add(newContractAccountStatement);
-
-        //                 try
-        //                 {
-        //                     await _contractRepository.SaveChanges();
-        //                 }
-        //                 catch (Exception exception)
-        //                 {
-        //                     throw new Exception($"Registering new account statement failed on save. Error messsage: {exception.Message}");
-        //                 }
-        //             }
-        //         }
-        //     }
-
-        //     return Ok();
-        // }
-
-
+        
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
@@ -131,49 +91,6 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok();
         }
-
-
-        /// <summary>
-        /// This method will auto register new due penalties per account statement.
-        /// This function will be called by a background services on the client application.
-        /// </summary>
-        /// <returns></returns>
-        // [AllowAnonymous]
-        // [HttpPost("autoGenerateContractAccountStatementPenalties")]
-        // public async Task<IActionResult> AutoGenerateAccountStatementPenalties()
-        // {
-        //     var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
-
-        //     foreach (var tenant in activeTenantsFromRepo)
-        //     {
-        //         var activeTenantContracts = await _contractRepository.GetActiveContractsPerTenantAsync(tenant.Id);
-
-        //         foreach (var contract in activeTenantContracts)
-        //         {
-        //             var activeContractDueAccountStatements = await _accountStatementRepository.GetActiveDueAccountStatementsPerContractAsync(contract.Id);
-
-        //             foreach (var accountStatement in activeContractDueAccountStatements)
-        //             {
-        //                 if (!accountStatement.IsFullyPaid)
-        //                 {
-        //                     var newPenaltyItem = _accountStatementRepository.RegisterNewPenaltyItem(accountStatement);
-        //                     accountStatement.PenaltyBreakdowns.Add(newPenaltyItem);
-
-        //                     try
-        //                     {
-        //                         await _accountStatementRepository.SaveChanges();
-        //                     }
-        //                     catch (Exception exception)
-        //                     {
-        //                         throw new Exception($"Registering new penalty details failed on save. Error messsage: {exception.Message}");
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-
-        //     return Ok();
-        // }
 
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatementPenalties")]
