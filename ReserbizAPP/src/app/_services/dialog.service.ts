@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class DialogService {
   constructor() {}
 
-  alert(message: string) {
+  alert(title: string, message: string) {
     alert(message);
   }
 }

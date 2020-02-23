@@ -1,0 +1,12 @@
+<TabView androidTabsPosition="bottom" class="fa tab-view">
+  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://personal_info'}">
+    <page-router-outlet name="personalInfo"></page-router-outlet>
+  </StackLayout>
+  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://account_info'}">
+    <page-router-outlet name="accountInfo"></page-router-outlet>
+  </StackLayout>
+</TabView>
+
+<FlexboxLayout justifyContent="center" alignItems="center" *ngIf="isLoading">
+  <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+</FlexboxLayout>

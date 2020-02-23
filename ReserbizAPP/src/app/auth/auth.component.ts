@@ -67,7 +67,7 @@ export class AuthComponent implements OnInit {
     this.authService.login(username, password).subscribe(
       resData => {
         this.isLoading = false;
-        this.router.navigate(['/tenants']);
+        this.router.navigate(['/dashboard']);
       },
       err => {
         this.isLoading = false;

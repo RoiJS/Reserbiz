@@ -1,0 +1,36 @@
+<ns-action-bar title="Account Information" [showBackButton]="false">
+  <ActionItem
+    ios.position="right"
+    android.position="actionBar"
+    nsRouterLink="/challenges/replace"
+    pageTransition="slideLeft"
+  >
+    <Label
+      text="&#xf0c7;"
+      ios:class="fa p-5"
+      android:class="fa p-10"
+      android:fontSize="24"
+    ></Label>
+  </ActionItem>
+</ns-action-bar>
+<StackLayout>
+  <RadDataForm tkToggleNavButton [source]="userAccountFormSource">
+    <TKPropertyGroup tkDataFormGroups name="Account Details">
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="username"
+        hintText="Please enter username"
+      ></TKEntityProperty>
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="password"
+        hintText="Please enter new password"
+      ></TKEntityProperty>
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="confirmPassword"
+        hintText="Please confirm password"
+      ></TKEntityProperty>
+    </TKPropertyGroup>
+  </RadDataForm>
+</StackLayout>

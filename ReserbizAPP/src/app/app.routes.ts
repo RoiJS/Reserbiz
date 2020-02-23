@@ -43,6 +43,12 @@ export const routes: Routes = [
       canLoad: [AuthGuard]
   },
   {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module.tns').then(m => m.ProfileModule),
+      canLoad: [AuthGuard]
+  },
+  {
     path: 'settings',
     loadChildren: () =>
       import('./settings/settings.module').then(m => m.SettingsModule),

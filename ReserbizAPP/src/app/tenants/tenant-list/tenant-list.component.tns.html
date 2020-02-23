@@ -2,6 +2,13 @@
   title="Tenants"
   [showBackButton]="false"
 ></ns-action-bar>
-<StackLayout>
-  <Label text="Tenant List Page Here!!"></Label>
+<StackLayout class="tenant-list-container" tkExampleTitle tkToggleNavButton>
+  <RadListView height="100%" width="100%" [items]="tenants">
+      <ng-template tkListItemTemplate let-tenant="item">
+          <StackLayout class="tenant-detail" orientation="vertical">
+              <Label class="nameLabel" [text]="tenant.firstName"></Label>
+              <Label class="descriptionLabel" [text]="tenant.emailAddress"></Label>
+          </StackLayout>
+      </ng-template>
+  </RadListView>
 </StackLayout>

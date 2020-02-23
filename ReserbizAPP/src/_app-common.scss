@@ -5,6 +5,15 @@
 .fa {
   font-family: "FontAwesome", "Font-Awesome";
 }
+
+.fa-regular {
+    font-family: "fa-regular-400", "fa-regular-400";
+}
+
+.fa-solid {
+    font-family: "fa-solid-900", "fa-solid-900";
+}
+
 // Common page class
 .page-content {
   .page-placeholder {
@@ -86,6 +95,11 @@ $sidedrawer-list-icon-size: 20;
                   color: $item-active-color;
               }
           }
+      }
+
+      .menu-separator {
+          border-bottom-width: 1;
+          border-bottom-color: #888;
       }
   }
 }

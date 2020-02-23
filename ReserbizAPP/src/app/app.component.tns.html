@@ -7,23 +7,31 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="sidedrawer-header">
       <label class="sidedrawer-header-image fa" text="&#xf2bd;"></label>
-      <label class="sidedrawer-header-brand" text="User Name"></label>
-      <label class="footnote" text="username@mail.com"></label>
+      <label class="sidedrawer-header-brand" [text]="currentUser.username"></label>
+      <label class="footnote" [text]="currentUser.fullname"></label>
     </StackLayout>
 
     <ScrollView row="1" class="sidedrawer-content">
       <StackLayout>
-        <GridLayout 
+        <GridLayout
           *ngFor="let menu of mainMenuList"
           columns="auto, *"
           class="sidedrawer-list-item"
+          [class.menu-separator]="menu.hasSeparator"
           [class.selected]="isComponentSelected(menu.url)"
           (tap)="onNavItemTap(menu.url)"
         >
-          <label col="0" [text]="menu.icon" class="fa"></label>
+          <label col="0" [text]="menu.icon" class="fa fa-regular fa-solid"></label>
           <label col="1" [text]="menu.text" class="p-r-10"></label>
         </GridLayout>
-
+        <GridLayout
+          columns="auto, *"
+          class="sidedrawer-list-item"
+          (tap)="onSignout()"
+        >
+          <label col="0" text="&#xf2f5;" class="fa fa-solid fa-regular"></label>
+          <label col="1" text="Sign out" class="p-r-10"></label>
+        </GridLayout>
       </StackLayout>
     </ScrollView>
   </GridLayout>

@@ -1,0 +1,62 @@
+<ns-action-bar title="Personal Information" [showBackButton]="false">
+  <ActionItem
+    ios.position="right"
+    android.position="actionBar"
+    (tap)="savePersonalInformation()"
+    pageTransition="slideLeft"
+  >
+    <label
+      text="&#xf0c7;"
+      ios:class="fa p-5 icon-command"
+      android:class="fa p-10 icon-command"
+      android:fontSize="24"
+    ></label>
+  </ActionItem>
+</ns-action-bar>
+<StackLayout>
+  <RadDataForm tkToggleNavButton [source]="userFormSource">
+    <TKPropertyGroup tkDataFormGroups name="Personal Details">
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="firstName"
+        hintText="Please enter first name"
+      >
+        <TKNonEmptyValidator
+          tkEntityPropertyValidators
+          errorMessage="Please enter first name!"
+        ></TKNonEmptyValidator>
+      </TKEntityProperty>
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="middleName"
+        hintText="Please enter middle name"
+      >
+        <TKNonEmptyValidator
+          tkEntityPropertyValidators
+          errorMessage="Please enter middle name!"
+        ></TKNonEmptyValidator>
+      </TKEntityProperty>
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="lastName"
+        hintText="Please enter last name"
+      >
+        <TKNonEmptyValidator
+          tkEntityPropertyValidators
+          errorMessage="Please enter last name!"
+        ></TKNonEmptyValidator>
+      </TKEntityProperty>
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="gender"
+        hintText="Please select gender"
+        [valuesProvider]="genderOptions"
+      >
+        <TKPropertyEditor
+          tkEntityPropertyEditor
+          type="SegmentedEditor"
+        ></TKPropertyEditor>
+      </TKEntityProperty>
+    </TKPropertyGroup>
+  </RadDataForm>
+</StackLayout>

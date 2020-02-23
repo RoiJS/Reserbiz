@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  reserbizAPIEndPoint: 'http://10.0.2.2:5000/api'
+  whitelistedDomains: ['10.0.2.2:5000'],
+  reserbizAPIEndPoint: 'http://10.0.2.2:5000/api',
+  appSecretToken: '3be4fbf7c0a93771b0b0a8c327f7dc7a7aa66ac4'
 };
 
 /*

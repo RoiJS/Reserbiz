@@ -58,4 +58,5 @@ export class ActionBarComponent implements OnInit {
   onToggleMenu() {
     this.uiService.toggleDrawer();
   }
+
 }

@@ -26,6 +26,8 @@ import { SideDrawerService } from './_services/side-drawer.service';
 import { UIService } from './_services/ui.service';
 
 import { MainMenu } from './_models/main-menu.model';
+import { User } from './_models/user.model';
+import { GenderEnum } from './_enum/gender.enum';
 
 @Component({
   selector: 'ns-app',
@@ -40,6 +42,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private drawer: RadSideDrawer;
   private drawerSub: Subscription;
+  private currentSub: Subscription;
+
+  private _currentUser: User = new User('', '', '', '', GenderEnum.Male);
+
+  private activatedUrl: string;
+  private sideDrawerTransition: DrawerTransitionBase;
 
   constructor(
     private authService: AuthService,
@@ -51,10 +59,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private vcRef: ViewContainerRef
   ) {}
 
-  private activatedUrl: string;
-  private sideDrawerTransition: DrawerTransitionBase;
-
   ngOnInit(): void {
+    this.currentSub = this.authService.user.subscribe((currentUser: User) => {
+      if (currentUser) {
+        this._currentUser = currentUser;
+      }
+    });
+
     this.drawerSub = this.uiService.drawerState.subscribe(() => {
       if (this.drawer) {
         this.drawer.toggleDrawerState();
@@ -77,6 +88,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.drawerSub) {
       this.drawerSub.unsubscribe();
     }
+
+    if (this.currentSub) {
+      this.currentSub.unsubscribe();
+    }
   }
 
   ngAfterViewInit() {
@@ -84,7 +99,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
-  onLogout() {
+  onSignout() {
     this.uiService.toggleDrawer();
     this.authService.logout();
   }
@@ -102,5 +117,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const sideDrawer = <RadSideDrawer>app.getRootView();
     sideDrawer.closeDrawer();
+  }
+
+  get currentUser(): User {
+    return this._currentUser;
   }
 }

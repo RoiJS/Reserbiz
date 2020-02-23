@@ -1,4 +1,4 @@
-@import "../../theme/colors";
+@import "../../app-variables";
 
 .login-main-container {
     height: 100%;
@@ -7,7 +7,7 @@
     .app-logo-container {
         font-size: 90;
         text-align: center;
-        color: $primary;
+        color: $accent-dark;
     }
 
     .login-form .input-field Label {
