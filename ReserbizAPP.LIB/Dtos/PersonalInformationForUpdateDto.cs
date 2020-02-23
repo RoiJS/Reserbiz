@@ -1,21 +1,19 @@
-using System;
+using System.ComponentModel.DataAnnotations;
 using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class AccountForDetailDto
+    public class PersonalInformationForUpdateDto
     {
-        public int Id { get; set; }
+        [Required]
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }
 
+        [Required]
         public string LastName { get; set; }
 
+        [Required]
         public GenderEnum Gender { get; set; }
-
-        public string Username { get; set; }
-
-        public DateTime DateCreated { get; set; }
     }
 }
