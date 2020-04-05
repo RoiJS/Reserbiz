@@ -12,6 +12,7 @@ namespace ReserbizAPP.LIB.Interfaces
         void DeleteEntity(TEntity entity, bool forceDelete = false);
         Task Reset();
         void SetEntityStatus(TEntity entity, bool status);
+        IBaseRepository<TEntity> SetCurrentUserId(int currentUserId);
         bool HasChanged();
         Task<bool> IsExists(int id);
         IBaseRepository<TEntity> GetEntity(int id);

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20200229175821_SetupAccountContactPersonsActionTrackerConstraint")]
+    partial class SetupAccountContactPersonsActionTrackerConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,8 +86,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("ContractId");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -93,10 +93,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("DateDeleted");
 
                     b.Property<DateTime>("DateUpdated");
-
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
 
                     b.Property<int>("DepositPaymentDurationValue");
 
@@ -122,21 +118,11 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<float>("Rate");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.Property<float>("WaterBill");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContractId");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("AccountStatements");
                 });
@@ -180,8 +166,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -190,27 +174,13 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("DateUpdated");
 
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
-
                     b.Property<int>("GenerateAccountStatementDaysBeforeValue");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDelete");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("ClientSettings");
                 });
@@ -278,8 +248,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<string>("Code");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -287,10 +255,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("DateDeleted");
 
                     b.Property<DateTime>("DateUpdated");
-
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
 
                     b.Property<int>("DurationUnit");
 
@@ -308,21 +272,11 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("TermId");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
 
                     b.HasIndex("TenantId");
 
                     b.HasIndex("TermId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Contracts");
                 });
@@ -370,8 +324,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<float>("Amount");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -382,31 +334,17 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("DateUpdated");
 
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDelete");
 
                     b.Property<int>("ReceivedById");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccountStatementId");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
                     b.HasIndex("ReceivedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("PaymentBreakdowns");
                 });
@@ -481,8 +419,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("AvailableSlot");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -490,10 +426,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("DateDeleted");
 
                     b.Property<DateTime>("DateUpdated");
-
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
 
                     b.Property<string>("Description");
 
@@ -505,17 +437,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<float>("Rate");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("SpaceTypes");
                 });
@@ -591,8 +513,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<string>("Code");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -600,10 +520,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("DateDeleted");
 
                     b.Property<DateTime>("DateUpdated");
-
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
 
                     b.Property<int>("DepositPaymentDurationValue");
 
@@ -637,21 +553,11 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("SpaceTypeId");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.Property<float>("WaterBillAmount");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
                     b.HasIndex("SpaceTypeId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Terms");
                 });
@@ -664,8 +570,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<float>("Amount");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -673,10 +577,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("DateDeleted");
 
                     b.Property<DateTime>("DateUpdated");
-
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
 
                     b.Property<string>("Description");
 
@@ -688,19 +588,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("TermId");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
                     b.HasIndex("TermId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("TermMiscellaneous");
                 });
@@ -734,26 +624,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("AccountStatements")
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedAccountStatements")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_AccountStatements_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedAccountStatements")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_AccountStatements_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedAccountStatements")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_AccountStatements_DeletedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedAccountStatements")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_AccountStatements_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.AccountStatementMiscellaneous", b =>
@@ -762,29 +632,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("AccountStatementMiscellaneous")
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ReserbizAPP.LIB.Models.ClientSettings", b =>
-                {
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedClientSettings")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_ClientSettings_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedClientSettings")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_ClientSettings_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedClientSettings")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_ClientSettings_DeletedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedClientSettings")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_ClientSettings_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ContactPerson", b =>
@@ -817,21 +664,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Contract", b =>
                 {
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedContracts")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_Contracts_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedContracts")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_Contracts_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedContracts")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_Contracts_DeletedById_Accounts_AccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
                         .WithMany("Contracts")
                         .HasForeignKey("TenantId")
@@ -841,11 +673,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany()
                         .HasForeignKey("TermId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedContracts")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_Contracts_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ErrorLog", b =>
@@ -864,30 +691,10 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedPaymentBreakdowns")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_PaymentBreakdown_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedPaymentBreakdowns")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_PaymentBreakdowns_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedPaymentBreakdowns")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_PaymentBreakdown_DeletedById_Accounts_AccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "ReceivedBy")
                         .WithMany()
                         .HasForeignKey("ReceivedById")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedPaymentBreakdowns")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_PaymentBreakdowns_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
@@ -905,29 +712,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("AccountId")
                         .HasConstraintName("FK_RefreshToken_Accounts_AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
-                {
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedSpaceTypes")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_SpaceTypes_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedSpaceTypes")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_SpaceTypes_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedSpaceTypes")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_SpaceTypes_DeletedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedSpaceTypes")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_SpaceTypes_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Tenant", b =>
@@ -955,58 +739,18 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Term", b =>
                 {
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedTerms")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_Terms_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedTerms")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_Terms_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedTerms")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_Terms_DeletedById_Accounts_AccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.SpaceType", "SpaceType")
                         .WithMany()
                         .HasForeignKey("SpaceTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedTerms")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_Terms_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.TermMiscellaneous", b =>
                 {
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedTermMiscellaneous")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_TermMiscellaneous_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedTermMiscellaneous")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_TermMiscellaneous_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedTermMiscellaneous")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_TermMiscellaneous_DeletedById_Accounts_AccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.Term", "Term")
                         .WithMany("TermMiscellaneous")
                         .HasForeignKey("TermId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedTermMiscellaneous")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_TermMiscellaneous_UpdatedById_Accounts_AccountId");
                 });
 #pragma warning restore 612, 618
         }

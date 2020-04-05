@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class SpaceTypeController : ControllerBase
+    public class SpaceTypeController : ReserbizBaseController
     {
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepo;
         private readonly IMapper _mapper;
@@ -29,8 +29,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var spaceTypeToCreate = _mapper.Map<SpaceType>(spaceTypeForCreationDto);
 
-            await _spaceTypeRepo.AddEntity(spaceTypeToCreate);
-            await _spaceTypeRepo.SaveChanges();
+            await _spaceTypeRepo
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(spaceTypeToCreate);
 
             var spaceTypeToReturn = _mapper.Map<SpaceTypeDetailDto>(spaceTypeToCreate);
 
@@ -69,6 +70,8 @@ namespace ReserbizAPP.API.Controllers
         {
             var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
 
+            _spaceTypeRepo.SetCurrentUserId(CurrentUserId);
+            
             _mapper.Map(spaceTypeForUpdateDto, spaceTypeFromRepo);
 
             if (!_spaceTypeRepo.HasChanged())
@@ -88,7 +91,9 @@ namespace ReserbizAPP.API.Controllers
             if (spaceTypeFromRepo == null)
                 return BadRequest("Space Type does not exists.");
 
-            _spaceTypeRepo.DeleteEntity(spaceTypeFromRepo);
+            _spaceTypeRepo
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(spaceTypeFromRepo);
 
             var spaceTypeToReturn = _mapper.Map<SpaceTypeDetailDto>(spaceTypeFromRepo);
 

@@ -25,6 +25,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _reserbizRepository.SetDbContext(_repoDbContext);
         }
 
+        public IBaseRepository<TEntity> SetCurrentUserId(int currentUserId)
+        {
+            _reserbizRepository.SetCurrentUser(currentUserId);
+
+            return this;
+        }
+
         public async Task AddEntity(TEntity entity)
         {
             await _reserbizRepository.AddEntity(entity);

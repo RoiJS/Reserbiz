@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Contract : Entity
+    public class Contract 
+        : Entity, IUserActionTracker
     {
         public string Code { get; set; }
 
@@ -24,6 +26,16 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum DurationUnit { get; set; }
 
         public List<AccountStatement> AccountStatements { get; set; }
+
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
+
 
         private DateTime CurrentDateTime = DateTime.Now;
 

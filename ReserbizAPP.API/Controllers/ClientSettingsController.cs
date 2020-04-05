@@ -12,7 +12,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ClientSettingsController : ControllerBase
+    public class ClientSettingsController : ReserbizBaseController
     {
         private readonly ITermRepository<Term> _termRepository;
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepository;
@@ -66,13 +66,19 @@ namespace ReserbizAPP.API.Controllers
             if (clientSettingsFromRepo == null)
             {
                 var newClientSettings = _mapper.Map<ClientSettings>(clientSettingsForUpdateDto);
-                await _clientSettingsRepository.AddEntity(newClientSettings);
-                await _clientSettingsRepository.SaveChanges();
+                await _clientSettingsRepository
+                    .SetCurrentUserId(CurrentUserId)
+                    .AddEntity(newClientSettings);
 
                 return Ok("New settings has been saved!");
             }
 
+            _clientSettingsRepository.SetCurrentUserId(CurrentUserId);
+
             _mapper.Map(clientSettingsForUpdateDto, clientSettingsFromRepo);
+
+            if (!_clientSettingsRepository.HasChanged())
+                return BadRequest("Nothing was changed.");
 
             if (await _clientSettingsRepository.SaveChanges())
                 return NoContent();

@@ -5,7 +5,7 @@ namespace ReserbizAPP.LIB.Interfaces
 {
     public interface IDataContextHelper
     {
-         void GenerateEntityUpdateDate(List<EntityEntry> entries);
-         void GenerateEntityCreatedDate(List<EntityEntry> entries);
+        void GenerateEntityUpdateDateAndUpdatedById(List<EntityEntry> entries, int? currentUserId = null);
+        void GenerateEntityCreatedDateAndCreatedById(List<EntityEntry> entries, int? currentUserId = null);
     }
 }

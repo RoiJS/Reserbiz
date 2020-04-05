@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class AccountStatement : Entity
+    public class AccountStatement 
+        : Entity, IUserActionTracker
     {
         public int ContractId { get; set; }
         public Contract Contract { get; set; }
@@ -25,6 +27,16 @@ namespace ReserbizAPP.LIB.Models
         public int PenaltyEffectiveAfterDurationValue { get; set; }
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
+
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
+
 
         private DateTime CurrentDateTime = DateTime.Now;
 
@@ -50,7 +62,7 @@ namespace ReserbizAPP.LIB.Models
                 // Generating penalty entry will be based on this settings.
                 // For now we will only consider the penalty value.
                 // Theres no reason to generate penalty item if penalty value 
-                // property is not greater than 0.
+                // property is zero.
                 return PenaltyValue > 0;
             }
         }
@@ -144,10 +156,11 @@ namespace ReserbizAPP.LIB.Models
                 // (1) Account statement should be due for generating penalty.
                 // (2) Account statement should be not yet fully paid.
                 // (3) Account statement should not be the first account statement from the list.
-                return (!IsFirstAccountStatement && IsDueToGeneratePenalty && !IsFullyPaid);
+                return (IsDueToGeneratePenalty && !IsFullyPaid && !IsFirstAccountStatement);
             }
         }
 
+        
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();

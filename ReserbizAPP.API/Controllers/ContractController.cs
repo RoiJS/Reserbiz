@@ -16,7 +16,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ContractController : ControllerBase
+    public class ContractController : ReserbizBaseController
     {
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IMapper _mapper;
@@ -34,7 +34,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var contractToCreate = _mapper.Map<Contract>(contractForCreationDto);
 
-            await _contractRepository.CreateContract(contractToCreate);
+            await _contractRepository
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(contractToCreate);
 
             var contractToReturn = _mapper.Map<ContractDetailDto>(contractToCreate);
 
@@ -64,7 +66,7 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(contractToReturn);
         }
-        
+
         [HttpGet("getAllContracts")]
         public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts()
         {
@@ -92,6 +94,8 @@ namespace ReserbizAPP.API.Controllers
             if (contractFromRepo.AccountStatements.Count > 0)
                 return BadRequest("Contract cannot be updated anymore because it has already account statement attached to it.");
 
+            _contractRepository.SetCurrentUserId(CurrentUserId);
+            
             _mapper.Map(contractForUpdateDto, contractFromRepo);
 
             if (!_contractRepository.HasChanged())
@@ -126,7 +130,9 @@ namespace ReserbizAPP.API.Controllers
             if (contractFromRepo == null)
                 return NotFound("Contract not found.");
 
-            contractFromRepo.IsActive = status;
+            _contractRepository
+                .SetCurrentUserId(CurrentUserId)
+                .SetEntityStatus(contractFromRepo, status);
 
             if (!_contractRepository.HasChanged())
                 return BadRequest("Nothing was changed on the object.");

@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class TermMiscellaneousController : ControllerBase
+    public class TermMiscellaneousController : ReserbizBaseController
     {
         private readonly ITermMiscellaneousRepository<TermMiscellaneous> _termMiscellaneousRepository;
         private readonly IMapper _mapper;
@@ -35,6 +35,8 @@ namespace ReserbizAPP.API.Controllers
 
             if (termFromRepo == null)
                 return NotFound("Term not found.");
+
+            _termRepository.SetCurrentUserId(CurrentUserId);
 
             var termMiscellaneousToCreate = _mapper.Map<TermMiscellaneous>(termMiscellaneousForCreationDto);
 
@@ -82,6 +84,8 @@ namespace ReserbizAPP.API.Controllers
             if (termMiscellaneousFromRepo == null)
                 return NotFound("Term Miscellaneous not found.");
 
+            _termMiscellaneousRepository.SetCurrentUserId(CurrentUserId);
+            
             _mapper.Map(termMiscellaneousForCreationDto, termMiscellaneousFromRepo);
 
             if (!_termMiscellaneousRepository.HasChanged())
@@ -101,7 +105,9 @@ namespace ReserbizAPP.API.Controllers
             if (termMiscellaneousFromRepo == null)
                 return NotFound("Term Miscellaneous not found.");
 
-            _termMiscellaneousRepository.DeleteEntity(termMiscellaneousFromRepo);
+            _termMiscellaneousRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(termMiscellaneousFromRepo);
 
             var termMiscellaneousToReturn = _mapper.Map<TermMiscellaneousDetailDto>(termMiscellaneousFromRepo);
 

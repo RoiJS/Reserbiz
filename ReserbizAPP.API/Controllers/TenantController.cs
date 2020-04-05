@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class TenantController : ControllerBase
+    public class TenantController : ReserbizBaseController
     {
         private readonly ITenantRepository<Tenant> _tenantRepository;
         private readonly IMapper _mapper;
@@ -29,7 +29,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var tenantToCreate = _mapper.Map<Tenant>(tenantForCreationDto);
 
-            await _tenantRepository.CreateTenant(tenantToCreate);
+            await _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(tenantToCreate);
 
             var tenantToReturn = _mapper.Map<TenantDetailsDto>(tenantToCreate);
 
@@ -52,7 +54,7 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(tenantToReturn);
         }
-        
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TenantForListDto>>> GetAllTenants(int id)
         {
@@ -69,6 +71,8 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");
 
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
             _mapper.Map(tenantForEditDto, tenantFromRepo);
 
             if (!_tenantRepository.HasChanged())
@@ -76,7 +80,7 @@ namespace ReserbizAPP.API.Controllers
                 return BadRequest("There are no changes to applied.");
             }
 
-            if (!await _tenantRepository.SaveChanges())
+            if (await _tenantRepository.SaveChanges())
                 return NoContent();
 
             throw new Exception($"Updating tenant with an id of {id} failed on save.");
@@ -90,7 +94,9 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");
 
-            _tenantRepository.SetEntityStatus(tenantFromRepo, status);
+            _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .SetEntityStatus(tenantFromRepo, status);
 
             if (!_tenantRepository.HasChanged())
                 return BadRequest("Nothing was changed on the object");

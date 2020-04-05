@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ReserbizAPP.LIB.Interfaces;
@@ -15,7 +13,7 @@ namespace ReserbizAPP.LIB.DbContexts
         /// <summary>
         /// Auto generate data updated for each updated entities
         /// </summary>
-        public void GenerateEntityUpdateDate(List<EntityEntry> entries)
+        public void GenerateEntityUpdateDateAndUpdatedById(List<EntityEntry> entries, int? currentUserId)
         {
             var currentDateTime = DateTime.Now;
             // get a list of all Modified entries which implement the IUpdatable interface
@@ -23,14 +21,29 @@ namespace ReserbizAPP.LIB.DbContexts
 
             updatedEntries.ForEach(e =>
             {
-                ((Entity)e.Entity).DateUpdated = currentDateTime;
+                // If entity is not marked as deleted, that is the only time that 
+                // we will set updated date time and updated by id in order 
+                // to separate the idea of 'Delete' from 'Update' action 
+                // since delete will only set the property IsDelete to true
+                // which also indicates an update operation has been performed.
+                if (!((Entity)e.Entity).IsDelete)
+                {
+                    // Set DateUpdated
+                    ((Entity)e.Entity).DateUpdated = currentDateTime;
+
+                    // Set Updated by id
+                    if (e.Entity is IUserActionTracker)
+                    {
+                        ((IUserActionTracker)e.Entity).UpdatedById = currentUserId;
+                    }
+                }
             });
         }
 
         /// <summary>
         /// Auto generate created date for each added entities
         /// </summary>
-        public void GenerateEntityCreatedDate(List<EntityEntry> entries)
+        public void GenerateEntityCreatedDateAndCreatedById(List<EntityEntry> entries, int? currentUserId)
         {
             var currentDateTime = DateTime.Now;
             // get a list of all Added entries which implement the IUpdatable interface
@@ -38,12 +51,19 @@ namespace ReserbizAPP.LIB.DbContexts
 
             addedEntries.ForEach(e =>
             {
+                // Set Created date
                 ((Entity)e.Entity).DateCreated = currentDateTime;
+
+                // Set created by id
+                if (e.Entity is IUserActionTracker)
+                {
+                    ((IUserActionTracker)e.Entity).CreatedById = currentUserId;
+                }
             });
         }
 
         /// <summary>
-        /// Get entities based on the entity state supplied on parameter entityState
+        /// /// Get entities based on the entity state supplied on parameter entityState
         /// </summary>
         /// <param name="entityState"></param>
         /// <param name="entries"></param>

@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ContactPersonController : ControllerBase
+    public class ContactPersonController : ReserbizBaseController
     {
         private readonly IContactPersonRepository<ContactPerson> _contactPersonRepository;
         private readonly IMapper _mapper;
@@ -35,9 +35,12 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant information not found.");
 
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
             var contactPersonToCreate = _mapper.Map<ContactPerson>(contactPersonForCreationDto);
 
             tenantFromRepo.ContactPersons.Add(contactPersonToCreate);
+
             if (!await _tenantRepository.SaveChanges())
                 return BadRequest("Failed to add contact person");
 
@@ -84,6 +87,8 @@ namespace ReserbizAPP.API.Controllers
             if (contactPersonFromRepo == null)
                 return NotFound("Contact Person not found.");
 
+            _contactPersonRepository.SetCurrentUserId(CurrentUserId);
+            
             _mapper.Map(contactPersonForUpdateDto, contactPersonFromRepo);
 
             if (!_contactPersonRepository.HasChanged())
@@ -103,7 +108,9 @@ namespace ReserbizAPP.API.Controllers
             if (contactPersonFromRepo == null)
                 return NotFound("Contact person not found.");
 
-            _contactPersonRepository.DeleteEntity(contactPersonFromRepo);
+            _contactPersonRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(contactPersonFromRepo);
 
             var contactPersonToReturn = _mapper.Map<ContactPersonDetailDto>(contactPersonFromRepo);
 

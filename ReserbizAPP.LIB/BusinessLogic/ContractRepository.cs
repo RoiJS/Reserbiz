@@ -20,11 +20,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _clientSettingsRepository = clientSettingsRepository;
         }
 
-        public async Task CreateContract(Contract contract)
-        {
-            await AddEntity(contract);
-        }
-
         public async Task<IEnumerable<Contract>> GetAllContractsAsync()
         {
             var contractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts.ToListAsync();

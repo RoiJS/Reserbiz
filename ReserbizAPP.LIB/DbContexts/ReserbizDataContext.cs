@@ -31,8 +31,8 @@ namespace ReserbizAPP.LIB.DbContexts
 
             var entries = ChangeTracker.Entries().ToList();
 
-            _dcHelper.GenerateEntityCreatedDate(entries);
-            _dcHelper.GenerateEntityUpdateDate(entries);
+            _dcHelper.GenerateEntityCreatedDateAndCreatedById(entries);
+            _dcHelper.GenerateEntityUpdateDateAndUpdatedById(entries);
 
             return await base.SaveChangesAsync();
         }

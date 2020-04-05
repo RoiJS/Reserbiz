@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Term : Entity
+    public class Term 
+        : Entity, IUserActionTracker
     {
         // User-defined term code
         public string Code { get; set; }
@@ -59,5 +61,15 @@ namespace ReserbizAPP.LIB.Models
 
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+
+
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
     }
 }

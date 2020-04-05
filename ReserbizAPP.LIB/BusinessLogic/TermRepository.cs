@@ -14,11 +14,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public async Task AddTerm(Term term)
-        {
-            await AddEntity(term);
-        }
-
         public async Task<Term> GetTermAsync(int id)
         {
             var term = await _reserbizRepository.ClientDbContext.Terms

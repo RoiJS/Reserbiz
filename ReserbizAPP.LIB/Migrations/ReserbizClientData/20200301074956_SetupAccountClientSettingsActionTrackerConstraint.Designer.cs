@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20200301074956_SetupAccountClientSettingsActionTrackerConstraint")]
+    partial class SetupAccountClientSettingsActionTrackerConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,8 +372,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<float>("Amount");
 
-                    b.Property<int?>("CreatedById");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDeactivated");
@@ -382,31 +382,17 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("DateUpdated");
 
-                    b.Property<int?>("DeactivatedById");
-
-                    b.Property<int?>("DeletedById");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDelete");
 
                     b.Property<int>("ReceivedById");
 
-                    b.Property<int?>("UpdatedById");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccountStatementId");
 
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeactivatedById");
-
-                    b.HasIndex("DeletedById");
-
                     b.HasIndex("ReceivedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("PaymentBreakdowns");
                 });
@@ -864,30 +850,10 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
-                        .WithMany("CreatedPaymentBreakdowns")
-                        .HasForeignKey("CreatedById")
-                        .HasConstraintName("FK_PaymentBreakdown_CreatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
-                        .WithMany("DeactivatedPaymentBreakdowns")
-                        .HasForeignKey("DeactivatedById")
-                        .HasConstraintName("FK_PaymentBreakdowns_DeactivatedById_Accounts_AccountId");
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
-                        .WithMany("DeletedPaymentBreakdowns")
-                        .HasForeignKey("DeletedById")
-                        .HasConstraintName("FK_PaymentBreakdown_DeletedById_Accounts_AccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "ReceivedBy")
                         .WithMany()
                         .HasForeignKey("ReceivedById")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
-                        .WithMany("UpdatedPaymentBreakdowns")
-                        .HasForeignKey("UpdatedById")
-                        .HasConstraintName("FK_PaymentBreakdowns_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
