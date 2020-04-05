@@ -7,12 +7,15 @@ import {
   HttpRequest,
   HttpEvent
 } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { throwError, Observable, of, from } from 'rxjs';
+
+import { AuthService } from './auth.service';
+import { AuthToken } from '../_models/auth-token.model';
 
 @Injectable()
 export class ErrorInterceptorService implements HttpInterceptor {
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -20,8 +23,19 @@ export class ErrorInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError(error => {
-        if (error.status === 401) {
-          return throwError(error.statusText);
+        // If the error status is Unauthorized and
+        // Header request contains Token-Expired,
+        // we will send request to refresh the token
+        // attempt to resend the request.
+        if (error.status === 401 && error.headers.has('Token-Expired')) {
+          return this.authService.refresh().pipe(
+            switchMap(() => {
+              return this.updateHeader(req);
+            }),
+            switchMap(newRequest => {
+              return next.handle(newRequest);
+            })
+          );
         }
 
         if (error instanceof HttpErrorResponse) {
@@ -42,6 +56,19 @@ export class ErrorInterceptorService implements HttpInterceptor {
         }
 
         return throwError(modalStateErrors || serverError || 'Server Error');
+      })
+    );
+  }
+
+  updateHeader(req: HttpRequest<any>): Observable<HttpRequest<any>> {
+    return this.authService.authToken.pipe(
+      take(1),
+      switchMap((t: AuthToken) => {
+        req = req.clone({
+          headers: req.headers.set('Authorization', `Bearer ${t.token}`)
+        });
+
+        return of(req);
       })
     );
   }

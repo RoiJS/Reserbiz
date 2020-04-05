@@ -14,9 +14,11 @@ import { User } from '../_models/user.model';
 import { UserPersonalInfoFormSource } from '../_models/user-personal-form.model';
 import { GenderEnum } from '../_enum/gender.enum';
 import { AuthToken } from '../_models/auth-token.model';
+import { UserAccountInfoFormSource } from '../_models/user-account-form.model';
 
-interface AuthResponseData {
-  token: string;
+interface IAuthResponseData {
+  accessToken: string;
+  refreshToken: string;
   currentUser: User;
   expiresIn: Date;
 }
@@ -25,6 +27,8 @@ interface AuthResponseData {
 export class AuthService {
   private _user = new BehaviorSubject<User>(null);
   private _tokenInfo = new BehaviorSubject<AuthToken>(null);
+  private _currentUserFullname = new BehaviorSubject<string>('');
+  private _currentUsername = new BehaviorSubject<string>('');
   private _tokenExpirationTimer: any;
   private _jwtHelper = new JwtHelperService();
 
@@ -36,7 +40,15 @@ export class AuthService {
   ) {}
 
   get user() {
-    return this._user.asObservable();
+    return this._user;
+  }
+
+  get currentFullname() {
+    return this._currentUserFullname;
+  }
+
+  get currentUsername() {
+    return this._currentUsername;
   }
 
   get authToken() {
@@ -71,10 +83,13 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.http
-      .post<AuthResponseData>(`${environment.reserbizAPIEndPoint}/auth/login`, {
-        username: username,
-        password: password
-      })
+      .post<IAuthResponseData>(
+        `${environment.reserbizAPIEndPoint}/auth/login`,
+        {
+          username: username,
+          password: password
+        }
+      )
       .pipe(
         catchError(errorRes => {
           this.handleError(errorRes.error.error.message);
@@ -82,10 +97,51 @@ export class AuthService {
         }),
 
         tap(resData => {
-          if (resData && resData.token) {
+          if (resData && resData.accessToken) {
             this.handleLogin(
-              resData.currentUser,
-              resData.token,
+              resData.accessToken,
+              resData.refreshToken,
+              resData.expiresIn
+            );
+          }
+        })
+      );
+  }
+
+  refresh(): Observable<IAuthResponseData> {
+    const storedTokenInfo = this.storageService.getString('authToken');
+
+    const tokenInfo: {
+      _accessToken: string;
+      _refreshToken: string;
+      _refreshTokenExpirationDate: Date;
+    } = JSON.parse(storedTokenInfo);
+
+    const authToken = new AuthToken(
+      tokenInfo._accessToken,
+      tokenInfo._refreshToken,
+      new Date(tokenInfo._refreshTokenExpirationDate)
+    );
+
+    return this.http
+      .post<IAuthResponseData>(
+        `${environment.reserbizAPIEndPoint}/auth/refresh`,
+        {
+          accessToken: authToken.token,
+          refreshToken: authToken.refreshToken
+        }
+      )
+      .pipe(
+        catchError(errorRes => {
+          this.handleError(errorRes.error.error.message);
+          return throwError(errorRes);
+        }),
+
+        tap(resData => {
+          if (resData && resData.accessToken) {
+            this.handleLogin(
+              resData.accessToken,
+              resData.refreshToken,
               resData.expiresIn
             );
           }
@@ -95,7 +151,11 @@ export class AuthService {
 
   logout() {
     this._user.next(null);
+    this._tokenInfo.next(null);
+
     this.storageService.remove('userData');
+    this.storageService.remove('authToken');
+
     if (this._tokenExpirationTimer) {
       clearTimeout(this._tokenExpirationTimer);
     }
@@ -103,23 +163,45 @@ export class AuthService {
   }
 
   updatePersonalInformation(user: UserPersonalInfoFormSource): Observable<any> {
-    const tokenDecrypted = this._jwtHelper.decodeToken(
-      this._tokenInfo.value.token
-    );
     return this.http.put(
-      `${environment.reserbizAPIEndPoint}/auth/updatePersonalInformation/${tokenDecrypted.nameid}`,
+      `${
+        environment.reserbizAPIEndPoint
+      }/auth/updatePersonalInformation/${this.userId()}`,
       user
     );
   }
 
+  updateAccountInformation(user: UserAccountInfoFormSource): Observable<any> {
+    return this.http.put(
+      `${
+        environment.reserbizAPIEndPoint
+      }/auth/updateAccountInformation/${this.userId()}`,
+      user
+    );
+  }
+
+  validateUsernameExists(username: string): Observable<boolean> {
+    return this.http
+      .get(`${environment.reserbizAPIEndPoint}/auth/validateUsernameExists/${this.userId()}/${username}`)
+      .pipe(
+        tap((res: boolean) => {
+          return of(res);
+        })
+      );
+  }
+
   autoLogin() {
-    if (!this.storageService.hasKey('authToken')) {
+    if (
+      !this.storageService.hasKey('authToken') ||
+      !this.storageService.hasKey('userData')
+    ) {
       return of(false);
     }
 
     const authToken: {
-      _token: string;
-      _tokenExpirationDate: Date;
+      _accessToken: string;
+      _refreshToken: string;
+      _refreshTokenExpirationDate: Date;
     } = JSON.parse(this.storageService.getString('authToken'));
 
     const user: {
@@ -131,8 +213,9 @@ export class AuthService {
     } = JSON.parse(this.storageService.getString('userData'));
 
     const tokenInfo = new AuthToken(
-      authToken._token,
-      new Date(authToken._tokenExpirationDate)
+      authToken._accessToken,
+      authToken._refreshToken,
+      new Date(authToken._refreshTokenExpirationDate)
     );
 
     const loadedUser = new User(
@@ -146,6 +229,9 @@ export class AuthService {
     if (tokenInfo.isAuth) {
       this._user.next(loadedUser);
       this._tokenInfo.next(tokenInfo);
+      this._currentUserFullname.next(loadedUser.fullname);
+      this._currentUsername.next(loadedUser.username);
+
       this.autoLogout(tokenInfo.timeToExpiry);
       return of(true);
     }
@@ -159,17 +245,23 @@ export class AuthService {
     }, expiryDuration);
   }
 
-  private handleLogin(currentUser: User, token: string, expiresIn: Date) {
+  private handleLogin(
+    accessToken: string,
+    refreshToken: string,
+    expiresIn: Date
+  ) {
     const expirationDate = new Date(expiresIn);
 
-    const authToken = new AuthToken(token, expirationDate);
+    const authToken = new AuthToken(accessToken, refreshToken, expirationDate);
+    const currentUser = this._jwtHelper.decodeToken(authToken.token);
 
     const user = new User(
       currentUser.firstName,
       currentUser.middleName,
       currentUser.lastName,
       currentUser.username,
-      currentUser.gender
+      // tslint:disable-next-line: radix
+      parseInt(currentUser.gender)
     );
 
     this.storageService.storeString('authToken', JSON.stringify(authToken));
@@ -179,6 +271,9 @@ export class AuthService {
 
     this._tokenInfo.next(authToken);
     this._user.next(user);
+
+    this._currentUserFullname.next(user.fullname);
+    this._currentUsername.next(user.username);
   }
 
   private handleError(errorMessage: string) {
@@ -202,5 +297,13 @@ export class AuthService {
         );
     }
     console.error(errorMessage);
+  }
+
+  private userId(): number {
+    const tokenDecrypted = this._jwtHelper.decodeToken(
+      this._tokenInfo.value.token
+    );
+
+    return tokenDecrypted.nameid;
   }
 }

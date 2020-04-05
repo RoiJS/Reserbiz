@@ -20,6 +20,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private int _entityId;
         private bool _includeDeleted;
         private DbSet<TEntity> _dbSet;
+        private int? _currentUserId;
+
         private Expression<Func<TEntity, object>>[] _includes;
 
         public ReserbizRepository(ReserbizDataContext systemDbContext, ReserbizClientDataContext clientDbContext)
@@ -30,7 +32,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public void SetDbContext(DbContext dbContext)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
+        }
+
+        public void SetCurrentUser(int currentUserId)
+        {
+            _currentUserId = currentUserId;
+
+            if (_dbContext.GetType() == typeof(ReserbizClientDataContext))
+            {
+                ((ReserbizClientDataContext)_dbContext).CurrentUserId = _currentUserId;
+            }
         }
 
         /// <summary>
@@ -62,6 +74,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 entity.DateDeleted = DateTime.Now;
                 entity.IsDelete = true;
+
+                if (entity is IUserActionTracker)
+                    ((IUserActionTracker)entity).DeletedById = _currentUserId;
             }
         }
 
@@ -69,6 +84,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             entity.IsActive = status;
             entity.DateDeactivated = status ? DateTime.MinValue : DateTime.Now;
+
+            if (entity is IUserActionTracker)
+                ((IUserActionTracker)entity).DeactivatedById = (status ? null as int? : _currentUserId);
+
         }
 
         /// <summary>
@@ -99,7 +118,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public IReserbizRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
         {
-            if (includes.Length > 0) 
+            if (includes.Length > 0)
                 _includes = includes;
             return this;
         }
@@ -111,7 +130,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                      .FirstOrDefaultAsync(e => e.Id == _entityId);
             return entity;
         }
-        
+
         public async Task<IList<TEntity>> ToListObjectAsync()
         {
             var entities = await _dbSet.AsQueryable()

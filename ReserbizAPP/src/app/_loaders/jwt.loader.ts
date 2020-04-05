@@ -1,16 +1,7 @@
-import { Injectable } from '@angular/core';
-
-import { environment } from '@src/environments/environment';
-
-import { GenderEnum } from '../_enum/gender.enum';
-import { StorageService } from './storage.service';
-import { User } from '../_models/user.model';
+import { StorageService } from '../_services/storage.service';
 import { AuthToken } from '../_models/auth-token.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class JWTInterceptorService {}
+import { environment } from '@src/environments/environment';
 
 export function jwtOptionsFactory(storageService: StorageService) {
   return {
@@ -22,13 +13,15 @@ export function jwtOptionsFactory(storageService: StorageService) {
       }
 
       const tokenInfo: {
-        _token: string;
-        _tokenExpirationDate: Date;
+        _accessToken: string;
+        _refresTtoken: string;
+        _refreshTokenExpirationDate: Date;
       } = JSON.parse(storedTokenInfo);
 
       const authToken = new AuthToken(
-        tokenInfo._token,
-        new Date(tokenInfo._tokenExpirationDate)
+        tokenInfo._accessToken,
+        tokenInfo._refresTtoken,
+        new Date(tokenInfo._refreshTokenExpirationDate)
       );
 
       return authToken.token;

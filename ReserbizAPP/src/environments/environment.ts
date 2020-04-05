@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   whitelistedDomains: ['10.0.2.2:5000'],
   reserbizAPIEndPoint: 'http://10.0.2.2:5000/api',
+
+  // This is customer's database hashed string
   appSecretToken: '3be4fbf7c0a93771b0b0a8c327f7dc7a7aa66ac4'
 };
 

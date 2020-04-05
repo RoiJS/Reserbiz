@@ -19,6 +19,7 @@ using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ReserbizAPP.API
 {
@@ -52,6 +53,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
             services.AddScoped(typeof(IPenaltyBreakdownRepository<PenaltyBreakdown>), typeof(PenaltyBreakdownRepository));
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
+            services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
 
             // Register IOptions pattern for AppSettings section
@@ -87,15 +89,21 @@ namespace ReserbizAPP.API
                     // Get the encrypted App-Secret-Token header
                     var appSecretToken = httpContext.Request.Headers["App-Secret-Token"].ToString();
 
-                    // Get the client information based on the app secret token
-                    var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
+                    // If app secret token is not provided, it is always 
+                    // assume that the request is going to ReserbizDataContext
+                    if (appSecretToken != "")
+                    {
+                        // Get the client information based on the app secret token
+                        var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
 
-                    if (clientInfo == null)
-                        throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
+                        if (clientInfo == null)
+                            throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
-                    // Format and configure connection string for the current http request.
-                    var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
-                    options.UseSqlServer(connectionString);
+                        // Format and configure connection string for the current http request.
+                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
+                        options.UseSqlServer(connectionString);
+                    }
+
                 });
             }
 
@@ -111,10 +119,24 @@ namespace ReserbizAPP.API
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateAudience = false,
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value))
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
         }
