@@ -1,62 +1,61 @@
-<ns-action-bar title="Personal Information" [showBackButton]="false">
+<ns-action-bar
+  [title]="'PERSONAL_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
+  [showBackButton]="false"
+>
   <ActionItem
-    ios.position="right"
-    android.position="actionBar"
+    icon="font://&#xf0c7;"
+    class="fa navbar-button"
     (tap)="savePersonalInformation()"
-    pageTransition="slideLeft"
-  >
-    <label
-      text="&#xf0c7;"
-      ios:class="fa p-5 icon-command"
-      android:class="fa p-10 icon-command"
-      android:fontSize="24"
-    ></label>
-  </ActionItem>
+  ></ActionItem>
 </ns-action-bar>
 <StackLayout>
-  <RadDataForm tkToggleNavButton [source]="userFormSource">
-    <TKPropertyGroup tkDataFormGroups name="Personal Details">
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="firstName"
-        hintText="Please enter first name"
-      >
-        <TKNonEmptyValidator
-          tkEntityPropertyValidators
-          errorMessage="Please enter first name!"
-        ></TKNonEmptyValidator>
-      </TKEntityProperty>
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="middleName"
-        hintText="Please enter middle name"
-      >
-        <TKNonEmptyValidator
-          tkEntityPropertyValidators
-          errorMessage="Please enter middle name!"
-        ></TKNonEmptyValidator>
-      </TKEntityProperty>
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="lastName"
-        hintText="Please enter last name"
-      >
-        <TKNonEmptyValidator
-          tkEntityPropertyValidators
-          errorMessage="Please enter last name!"
-        ></TKNonEmptyValidator>
-      </TKEntityProperty>
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="gender"
-        hintText="Please select gender"
-        [valuesProvider]="genderOptions"
-      >
-        <TKPropertyEditor
-          tkEntityPropertyEditor
-          type="SegmentedEditor"
-        ></TKPropertyEditor>
-      </TKEntityProperty>
-    </TKPropertyGroup>
-  </RadDataForm>
+  <ns-loader-layout [busy]="IsBusy">
+    <RadDataForm
+      width="100%"
+      height="100%"
+      tkToggleNavButton
+      [source]="userFormSource"
+      [isReadOnly]="IsBusy"
+    >
+      <TKPropertyGroup tkDataFormGroups>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="firstName"
+          [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+        >
+          <TKNonEmptyValidator
+            tkEntityPropertyValidators
+            [errorMessage]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+          ></TKNonEmptyValidator>
+        </TKEntityProperty>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="middleName"
+          [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.HINT_TEXT' | translate"
+        >
+        </TKEntityProperty>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="lastName"
+          [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+        >
+          <TKNonEmptyValidator
+            tkEntityPropertyValidators
+            [errorMessage]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+          ></TKNonEmptyValidator>
+        </TKEntityProperty>
+
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="gender"
+          [valuesProvider]="genderOptions"
+        >
+          <TKPropertyEditor
+            tkEntityPropertyEditor
+            type="SegmentedEditor"
+          ></TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+    </RadDataForm>
+  </ns-loader-layout>
 </StackLayout>

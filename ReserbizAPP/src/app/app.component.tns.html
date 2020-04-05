@@ -7,8 +7,8 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="sidedrawer-header">
       <label class="sidedrawer-header-image fa" text="&#xf2bd;"></label>
-      <label class="sidedrawer-header-brand" [text]="currentUser.username"></label>
-      <label class="footnote" [text]="currentUser.fullname"></label>
+      <label class="sidedrawer-header-brand" [text]="currentUsername"></label>
+      <label class="footnote" [text]="currentUserFullname"></label>
     </StackLayout>
 
     <ScrollView row="1" class="sidedrawer-content">

@@ -2,17 +2,48 @@ import { GenderEnum } from '../_enum/gender.enum';
 
 export class Tenant {
   constructor(
-    public Id: number,
-    public FirstName: string,
-    public MiddleName: string,
-    public LastName: string,
-    public Gender: GenderEnum,
-    public Address: string,
-    public ContactNumber: string,
-    public EmailAddress: string
+    public id: number,
+    public firstName: string,
+    public middleName: string,
+    public lastName: string,
+    public gender: GenderEnum,
+    public address: string,
+    public contactNumber: string,
+    public emailAddress: string,
+    public photoUrl: string,
+    public isActive: boolean,
+    public isSelected = false
   ) {}
 
-  public FullName(): string {
-    return `${this.FirstName} ${this.LastName}`;
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  get nameInitials(): string {
+    return `${this.firstName[0]}${this.lastName[0]}`;
+  }
+
+  get photoBackgroundColor(): string {
+    const colorList = [
+      '#f6d186',
+      '#a8d3da',
+      '#f4eeff',
+      '#ffaaa5',
+      '#beebe9',
+      '#f6eec7',
+      '#ffd5e5',
+      '#ffffdd',
+      '#81f5ff',
+      '#ffffc5'
+    ];
+
+    const randomIndex = this.getNumberFirstDigit();
+    // Get color randomly from the list
+    return colorList[randomIndex];
+  }
+
+  private getNumberFirstDigit(): number {
+    const stringId = this.id.toString().split('');
+    return +stringId[stringId.length - 1];
   }
 }

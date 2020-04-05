@@ -17,6 +17,7 @@ import {
   SlideInOnTopTransition
 } from 'nativescript-ui-sidedrawer';
 import * as app from 'tns-core-modules/application';
+import { TranslateService } from '@ngx-translate/core';
 
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -42,9 +43,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private drawer: RadSideDrawer;
   private drawerSub: Subscription;
-  private currentSub: Subscription;
+  private currentFullnameSub: Subscription;
+  private currentUsernameSub: Subscription;
 
-  private _currentUser: User = new User('', '', '', '', GenderEnum.Male);
+  private _currentFullname: string;
+  private _currentUsername: string;
 
   private activatedUrl: string;
   private sideDrawerTransition: DrawerTransitionBase;
@@ -56,15 +59,24 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private routerExtensions: RouterExtensions,
     private sideDrawerService: SideDrawerService,
     private uiService: UIService,
-    private vcRef: ViewContainerRef
-  ) {}
+    private vcRef: ViewContainerRef,
+    private translate: TranslateService
+  ) {
+    this.translate.setDefaultLang('en');
+  }
 
   ngOnInit(): void {
-    this.currentSub = this.authService.user.subscribe((currentUser: User) => {
-      if (currentUser) {
-        this._currentUser = currentUser;
+    this.currentFullnameSub = this.authService.currentFullname.subscribe(
+      (currentFullname: string) => {
+        this._currentFullname = currentFullname;
       }
-    });
+    );
+
+    this.currentUsernameSub = this.authService.currentUsername.subscribe(
+      (currentUsername: string) => {
+        this._currentUsername = currentUsername;
+      }
+    );
 
     this.drawerSub = this.uiService.drawerState.subscribe(() => {
       if (this.drawer) {
@@ -89,8 +101,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.drawerSub.unsubscribe();
     }
 
-    if (this.currentSub) {
-      this.currentSub.unsubscribe();
+    if (this.currentFullnameSub) {
+      this.currentFullnameSub.unsubscribe();
+    }
+
+    if (this.currentUsernameSub) {
+      this.currentUsernameSub.unsubscribe();
     }
   }
 
@@ -111,7 +127,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   onNavItemTap(navItemRoute: string): void {
     this.routerExtensions.navigate([navItemRoute], {
       transition: {
-        name: 'fade'
+        name: 'slideLeft'
       }
     });
 
@@ -119,7 +135,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     sideDrawer.closeDrawer();
   }
 
-  get currentUser(): User {
-    return this._currentUser;
+  get currentUserFullname(): string {
+    return this._currentFullname;
+  }
+
+  get currentUsername(): string {
+    return this._currentUsername;
   }
 }

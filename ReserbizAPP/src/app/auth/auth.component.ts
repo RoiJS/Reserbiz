@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Page } from 'tns-core-modules/ui/page/page';
 
@@ -25,7 +26,8 @@ export class AuthComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private formService: FormService,
-    private page: Page
+    private page: Page,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {

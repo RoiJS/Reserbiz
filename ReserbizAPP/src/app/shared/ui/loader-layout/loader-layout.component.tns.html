@@ -1,0 +1,14 @@
+<AbsoluteLayout class="loader-layout-container">
+  <StackLayout
+    backgroundColor="black"
+    horizontalAlignment="center"
+    verticalAlignment="center"
+    class="loader-section"
+    *ngIf="busy"
+  >
+    <ActivityIndicator [busy]="busy"></ActivityIndicator>
+  </StackLayout>
+  <AbsoluteLayout class="component-placeholder">
+    <ng-content></ng-content>
+  </AbsoluteLayout>
+</AbsoluteLayout>

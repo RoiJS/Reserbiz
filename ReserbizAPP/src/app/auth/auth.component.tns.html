@@ -10,7 +10,7 @@
     <StackLayout class="input-field">
       <Label
         class="label"
-        text="Username"
+        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
         [ngClass]="{ invalid: !emailControlIsValid }"
       ></Label>
       <TextField
@@ -22,14 +22,14 @@
         #usernameEl
       ></TextField>
       <Label
-        text="Please enter username."
+        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
         *ngIf="!usernameControlIsValid"
       ></Label>
     </StackLayout>
     <StackLayout class="input-field">
       <label
         class="label"
-        text="Password"
+        [text]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
         [ngClass]="{ invalid: !passwordControlIsValid }"
       ></label>
       <TextField
@@ -38,18 +38,18 @@
         [autocorrection]="false"
         autocapitalizationType="none"
         [secure]="true"
-        hint="Min 6 characters"
+        [hint]="'AUTH_PAGE.PASSWORD_CONTROL.PLACE_HOLDER' | translate"
         formControlName="password"
         #passwordEl
         (returnPress)="onDone()"
       ></TextField>
       <label
-        text="Please enter valid password."
+        [text]="'AUTH_PAGE.PASSWORD_CONTROL.ERROR_LABEL' | translate"
         *ngIf="!passwordControlIsValid"
       ></label>
     </StackLayout>
     <button
-      text="Login"
+      [text]="'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL' | translate"
       class="btn btn-primary btn-rounded-lg"
       (tap)="onSubmit()"
       [isEnabled]="form.valid"

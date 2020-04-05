@@ -1,0 +1,80 @@
+{
+  "AUTH_PAGE": {
+    "USERNAME_CONTROL": {
+      "LABEL": "Username",
+      "ERROR_LABEL": "Please enter username."
+    },
+    "PASSWORD_CONTROL": {
+      "LABEL": "Password",
+      "PLACE_HOLDER": "Min 6 characters",
+      "ERROR_LABEL": "Please enter valid password."
+    },
+    "LOGIN_BUTTON_CONTROL": {
+      "LABEL": "Login"
+    }
+  },
+
+  "PERSONAL_INFORMATION_PAGE": {
+    "ACTION_BAR_TITLE": "Personal Information",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "HINT_TEXT": "Please enter last name"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Profile",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    }
+  },
+  
+  "ACCOUNT_INFORMATION_PAGE": {
+    "ACTION_BAR_TITLE": "Account Information",
+    "FORM_CONTROL": {
+      "USERNAME_CONTROL": {
+        "HINT_TEXT": "Please enter username",
+        "USERNAME_EXISTS_ERROR_MESSAGE": "This username is already used. Please enter a different username.",
+        "USERNAME_EMPTY_ERROR_MESSAGE": "Please enter valid username."
+      },
+      "PASSWORD_CONTROL": {
+        "HINT_TEXT": "Please enter new password"
+      },
+      "CONFIRM_PASSWORD_CONTROL": {
+        "HINT_TEXT": "Please re-enter password",
+        "CONFIRM_PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE": "Passwords do not match."
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Account",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    }
+  },
+
+  "TENANTS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Tenants",
+    "REMOVE_DIALOG": {
+      "TITLE": "Remove selected tenants",
+      "MESSAGE": "Are you sure to remove selected tenants?"
+    }
+  },
+  
+  "TENANTS_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Tenant"
+  },
+
+  "GENERAL_TEXTS": {
+    "GENDER": {
+      "MALE": "Male",
+      "FEMALE": "Female"
+    }
+  }
+}

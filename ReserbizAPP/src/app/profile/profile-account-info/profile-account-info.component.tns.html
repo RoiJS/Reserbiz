@@ -1,36 +1,52 @@
-<ns-action-bar title="Account Information" [showBackButton]="false">
+<ns-action-bar
+  [title]="'ACCOUNT_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
+  [showBackButton]="false"
+>
   <ActionItem
-    ios.position="right"
-    android.position="actionBar"
-    nsRouterLink="/challenges/replace"
-    pageTransition="slideLeft"
-  >
-    <Label
-      text="&#xf0c7;"
-      ios:class="fa p-5"
-      android:class="fa p-10"
-      android:fontSize="24"
-    ></Label>
-  </ActionItem>
+    icon="font://&#xf0c7;"
+    class="fa navbar-button"
+    (tap)="saveAccountInformation()"
+  ></ActionItem>
 </ns-action-bar>
 <StackLayout>
-  <RadDataForm tkToggleNavButton [source]="userAccountFormSource">
-    <TKPropertyGroup tkDataFormGroups name="Account Details">
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="username"
-        hintText="Please enter username"
-      ></TKEntityProperty>
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="password"
-        hintText="Please enter new password"
-      ></TKEntityProperty>
-      <TKEntityProperty
-        tkPropertyGroupProperties
-        name="confirmPassword"
-        hintText="Please confirm password"
-      ></TKEntityProperty>
-    </TKPropertyGroup>
-  </RadDataForm>
+  <ns-loader-layout [busy]="IsBusy">
+    <RadDataForm
+      width="100%"
+      height="100%"
+      tkToggleNavButton
+      [source]="userAccountFormSource"
+      [isReadOnly]="IsBusy"
+      commitMode="Manual"
+      validationMode="Manual"
+      (propertyValidate)="onPropertyValidate($event)"
+    >
+      <TKPropertyGroup tkDataFormGroups>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="username"
+          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.HINT_TEXT' | translate"
+        ></TKEntityProperty>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="password"
+          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
+        >
+          <TKPropertyEditor
+            tkEntityPropertyEditor
+            type="Password"
+          ></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="confirmPassword"
+          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.HINT_TEXT' | translate"
+        >
+          <TKPropertyEditor
+            tkEntityPropertyEditor
+            type="Password"
+          ></TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+    </RadDataForm>
+  </ns-loader-layout>
 </StackLayout>
