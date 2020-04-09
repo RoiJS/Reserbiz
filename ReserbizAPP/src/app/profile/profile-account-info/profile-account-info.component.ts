@@ -7,7 +7,6 @@ import { DataFormEventData } from 'nativescript-ui-dataform';
 
 import { AuthService } from '@src/app/_services/auth.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { TextService } from '@src/app/_services/text.service.tns';
 
 import { User } from '@src/app/_models/user.model';
 import { UserAccountInfoFormSource } from '@src/app/_models/user-account-form.model';
@@ -29,16 +28,13 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
   private _currentUser: User;
   private _currentUserSub: Subscription;
 
-  private _texts: any;
   private _isBusy = false;
 
   constructor(
     private authService: AuthService,
     private dialogService: DialogService,
-    private textService: TextService,
     private translateService: TranslateService
   ) {
-    this._texts = this.textService.Texts.PROFILE;
   }
 
   ngOnInit() {
@@ -196,10 +192,6 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
 
   get userAccountFormSource(): UserAccountInfoFormSource {
     return this._userAccountFormSource;
-  }
-
-  get Texts(): any {
-    return this._texts;
   }
 
   get IsBusy(): boolean {
