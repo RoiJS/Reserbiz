@@ -1,4 +1,14 @@
 {
+  "MAIN_MENU": {
+    "DASHBOARD": "Dashboard",
+    "TENANTS": "Tenants",
+    "CONTRACTS": "Contracts",
+    "TERMS": "Terms",
+    "SPACE_TYPES": "Space Types",
+    "PROFILE": "Profile",
+    "SETTINGS": "Settings"
+  },
+
   "AUTH_PAGE": {
     "USERNAME_CONTROL": {
       "LABEL": "Username",
@@ -34,7 +44,7 @@
       }
     }
   },
-  
+
   "ACCOUNT_INFORMATION_PAGE": {
     "ACTION_BAR_TITLE": "Account Information",
     "FORM_CONTROL": {
@@ -61,12 +71,32 @@
 
   "TENANTS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Tenants",
-    "REMOVE_DIALOG": {
+    "REMOVE_TENANTS_DIALOG": {
       "TITLE": "Remove selected tenants",
-      "MESSAGE": "Are you sure to remove selected tenants?"
+      "CONFIRM_MESSAGE": "Are you sure to remove selected tenants?",
+      "SUCCESS_MESSAGE": "Selected tenants have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected tenants. Please try again later."
+    },
+    "REMOVE_TENANT_DIALOG": {
+      "TITLE": "Remove selected tenant",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected tenant. Please try again later."
+    },
+    "ACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Activate selected tenant",
+      "CONFIRM_MESSAGE": "Are you sure to activate selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been activated!",
+      "ERROR_MESSAGE": "Failed to activate selected tenant. Please try again later."
+    },
+    "DEACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Deactivate selected tenant",
+      "CONFIRM_MESSAGE": "Are you sure to deactivate selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
     }
   },
-  
+
   "TENANTS_ADD_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Add Tenant"
   },
