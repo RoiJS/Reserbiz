@@ -106,6 +106,33 @@ namespace ReserbizAPP.API.Controllers
 
             throw new Exception($"Updating tenant status with an id of {id} failed on save.");
         }
-    }
 
+        [HttpPost("deleteMultipleTenants")]
+        public async Task<IActionResult> DeleteMultipleTenants(List<int> tenantIds)
+        {
+            if (tenantIds.Count == 0)
+                return BadRequest("Empty tenants id list.");
+
+            if (await _tenantRepository.DeleteMultipleTenants(tenantIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting tenants!");
+        }
+
+        [HttpDelete("deleteTenant")]
+        public async Task<IActionResult> DeleteTenant(int tenantId)
+        {
+            var tenantFromRepo = await _tenantRepository.GetEntity(tenantId).ToObjectAsync();
+
+            if (tenantFromRepo == null)
+                return NotFound("Tenant does not exists!");
+
+            _tenantRepository.DeleteEntity(tenantFromRepo);
+
+            if (await _tenantRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Error when deleting tenant with id of ${tenantId}!");
+        }
+    }
 }
