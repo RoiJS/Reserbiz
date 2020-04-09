@@ -27,8 +27,6 @@ import { SideDrawerService } from './_services/side-drawer.service';
 import { UIService } from './_services/ui.service';
 
 import { MainMenu } from './_models/main-menu.model';
-import { User } from './_models/user.model';
-import { GenderEnum } from './_enum/gender.enum';
 
 @Component({
   selector: 'ns-app',
