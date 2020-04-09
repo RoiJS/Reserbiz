@@ -16,7 +16,7 @@ import { ErrorInteceptorProvider } from './_services/error.interceptor.service';
 import { SecretKeyInterceptorProvider } from './_services/secret-key.interceptor.service';
 import { StorageService } from './_services/storage.service';
 
-import { jwtOptionsFactory } from './_loaders/Jwt.loader';
+import { jwtOptionsFactory } from './_loaders/jwt.loader';
 import { translateLoaderFactory } from './_loaders/translate.loader';
 
 @NgModule({
