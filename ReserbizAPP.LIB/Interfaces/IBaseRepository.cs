@@ -10,6 +10,7 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         Task AddEntity(TEntity entity);
         void DeleteEntity(TEntity entity, bool forceDelete = false);
+        void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete = false);
         Task Reset();
         void SetEntityStatus(TEntity entity, bool status);
         IBaseRepository<TEntity> SetCurrentUserId(int currentUserId);

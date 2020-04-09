@@ -40,5 +40,16 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             return activeTenantsFromRepo;
         }
+
+        public async Task<bool> DeleteMultipleTenants(List<int> tenantIds)
+        {
+            var selectedTenants = await _reserbizRepository
+                .ClientDbContext
+                .Tenants
+                .Where(t => tenantIds.IndexOf(t.Id) > -1).ToListAsync();
+
+            DeleteMultipleEntities(selectedTenants);
+            return await SaveChanges();
+        }
     }
 }

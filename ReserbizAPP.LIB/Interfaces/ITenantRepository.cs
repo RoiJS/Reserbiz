@@ -11,5 +11,6 @@ namespace ReserbizAPP.LIB.Interfaces
 
         Task<Tenant> GetTenantAsync(int id);
         Task<IEnumerable<Tenant>> GetActiveTenantsAsync();
+        Task<bool> DeleteMultipleTenants(List<int> tenantIds); 
     }
 }

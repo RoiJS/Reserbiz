@@ -80,6 +80,33 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
+        /// <summary>
+        /// This function will remove multiple entities at once.
+        /// If parameter forceDelete is true, it will perform an actual deletion of the entity, 
+        /// If not, it will only mark the entity as deleted and it will not remove it from the db.
+        /// </summary>
+        /// <param name="entities">Entity that is to be removed or just mark as remove.</param>
+        /// <param name="forceDelete">This will determine if the entity will be removed from the db or just mark it as deleted</param>
+        /// <typeparam name="TEntity">Class type of the entity.true Note: parameter T must a class that inherits IEntity interface</typeparam>
+        public void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete)
+        {
+            if (forceDelete)
+            {
+                _dbContext.RemoveRange(entities);
+            }
+            else
+            {
+                foreach (var entity in entities)
+                {
+                    entity.DateDeleted = DateTime.Now;
+                    entity.IsDelete = true;
+
+                    if (entity is IUserActionTracker)
+                        ((IUserActionTracker)entity).DeletedById = _currentUserId;
+                }
+            }
+        }
+
         public void SetEntityStatus(TEntity entity, bool status)
         {
             entity.IsActive = status;

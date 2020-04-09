@@ -41,6 +41,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             _reserbizRepository.DeleteEntity(entity, forceDelete);
         }
+        
+        public void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete = false)
+        {
+            _reserbizRepository.DeleteMultipleEntities(entities, forceDelete);
+        }
 
         public void SetEntityStatus(TEntity entity, bool status)
         {
