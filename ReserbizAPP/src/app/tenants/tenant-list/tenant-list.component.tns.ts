@@ -3,14 +3,14 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ListViewEventData,
-  RadListView,
   SwipeActionsEventData,
+  RadListView,
 } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { View, layout } from 'tns-core-modules/ui/page/page';
+import { View } from 'tns-core-modules/ui/page/page';
 
 import { finalize, take } from 'rxjs/operators';
 
@@ -121,7 +121,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
       // the swipe options on the component template to prevent showing
       // when navigating to other page.
       setTimeout(() => {
-        this.router.navigate([`/tenants/${selectedTenant.id}`], {
+        this.router.navigate([`/tenants/${selectedTenant.id}/details-tabs`], {
           transition: {
             name: 'slideLeft',
           },
@@ -177,23 +177,50 @@ export class TenantListComponent implements OnInit, OnDestroy {
    * @description Delete multiple selected tenants from the list.
    */
   deleteSelectedTenants() {
+    const me = this;
     const selectedTenants = this.tenantListView.listView.getSelectedItems();
     if (selectedTenants.length > 0) {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'TENANTS_LIST_PAGE.REMOVE_DIALOG.TITLE'
+            'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.TITLE'
           ),
           this.translateService.instant(
-            'TENANTS_LIST_PAGE.REMOVE_DIALOG.MESSAGE'
+            'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.CONFIRM_MESSAGE'
           )
         )
         .then((res: ButtonOptions) => {
           if (res === ButtonOptions.YES) {
-            setTimeout(() => {
-              this._tenants = new ObservableArray<Tenant>([]);
-              this.getTenantList();
-            }, 1000);
+            this._isBusy = true;
+
+            this.tenantService
+              .deleteMultipleTenants(selectedTenants)
+              .pipe(finalize(() => (this._isBusy = false)))
+              .subscribe(
+                () => {
+                  this.dialogService.alert(
+                    this.translateService.instant(
+                      'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.TITLE'
+                    ),
+                    this.translateService.instant(
+                      'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.SUCCESS_MESSAGE'
+                    )
+                  );
+
+                  me._tenants = new ObservableArray<Tenant>([]);
+                  me.getTenantList();
+                },
+                (error: Error) => {
+                  this.dialogService.alert(
+                    this.translateService.instant(
+                      'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.TITLE'
+                    ),
+                    this.translateService.instant(
+                      'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.ERROR_MESSAGE'
+                    )
+                  );
+                }
+              );
           }
         });
     }
@@ -202,25 +229,154 @@ export class TenantListComponent implements OnInit, OnDestroy {
   /**
    * @description Delete single selected tenant
    */
-  deleteSelectedTenant() {
-    console.log(this._currentTenant);
-    this.tenantListView.listView.notifySwipeToExecuteFinished();
+  deleteSelectedTenant(event: any) {
+    const selectedTenantIndex = (<any>this.tenantListView.listView).getIndexOf(
+      this._currentTenant
+    );
+
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .deleteTenant(this._currentTenant.id)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    (<any>this._tenants).splice(selectedTenantIndex, 1);
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
   }
 
   /**
    * @description Activates selected tenant
    */
   activateSelectedTenant() {
-    console.log(this._currentTenant);
-    this.tenantListView.listView.notifySwipeToExecuteFinished();
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .setTenantStatus(this._currentTenant.id, true)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  )
+                );
+
+                this.tenantListView.listView.notifySwipeToExecuteFinished();
+                this._tenants = new ObservableArray<Tenant>([]);
+                this.getTenantList();
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
   }
 
   /**
    * @description Deactivates selected tenant
    */
   deactivateSelectedTenant() {
-    console.log(this._currentTenant);
-    this.tenantListView.listView.notifySwipeToExecuteFinished();
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .setTenantStatus(this._currentTenant.id, false)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  )
+                );
+
+                this.tenantListView.listView.notifySwipeToExecuteFinished();
+                this._tenants = new ObservableArray<Tenant>([]);
+                this.getTenantList();
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
   }
 
   /**

@@ -5,7 +5,9 @@
   height: 100%;
 
   .tenant-detail {
+    border-radius: 10;
     background-color: white;
+    margin-top: 5;
 
     &__image-container {
       height: 100%;
@@ -14,6 +16,7 @@
       label {
         font-size: 20;
         font-weight: bold;
+        color: black;
       }
     }
 
@@ -38,6 +41,7 @@
     &__fullname {
       font-size: 15;
       font-weight: bold;
+      color: black;
     }
   }
 
