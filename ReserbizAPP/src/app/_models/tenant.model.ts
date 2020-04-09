@@ -1,6 +1,9 @@
 import { GenderEnum } from '../_enum/gender.enum';
+import { ContactPerson } from './contact-person.model';
 
 export class Tenant {
+  public contactPersons?: ContactPerson[];
+
   constructor(
     public id: number,
     public firstName: string,
@@ -34,7 +37,7 @@ export class Tenant {
       '#ffd5e5',
       '#ffffdd',
       '#81f5ff',
-      '#ffffc5'
+      '#ffffc5',
     ];
 
     const randomIndex = this.getNumberFirstDigit();
