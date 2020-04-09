@@ -8,7 +8,6 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-
 
 import { AuthService } from '@src/app/_services/auth.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { TextService } from '@src/app/_services/text.service.tns';
 
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { User } from '@src/app/_models/user.model';
@@ -19,7 +18,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'ns-profile',
   templateUrl: './profile-personal-info.component.html',
-  styleUrls: ['./profile-personal-info.component.scss']
+  styleUrls: ['./profile-personal-info.component.scss'],
 })
 export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
   @ViewChild(RadDataFormComponent, { static: false })
@@ -77,7 +76,7 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
             'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.CONFIRM_MESSAGE'
           )
         )
-        .then(res => {
+        .then((res) => {
           if (res === ButtonOptions.YES) {
             this._isBusy = true;
 
@@ -96,12 +95,12 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
                     ),
                     this.translateService.instant(
                       'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
-                    )
+                    ),
+                    () => {
+                      this._userFormSourceOriginal = this._userFormSource.clone();
+                      this.refreshUser();
+                    }
                   );
-
-                  this._userFormSourceOriginal = this._userFormSource.clone();
-
-                  this.refreshUser();
                 },
                 (error: Error) => {
                   this.dialogService.alert(
@@ -140,12 +139,12 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
     return [
       {
         key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE')
+        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
       },
       {
         key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE')
-      }
+        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
+      },
     ];
   }
 
