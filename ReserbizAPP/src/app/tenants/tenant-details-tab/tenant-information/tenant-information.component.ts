@@ -5,11 +5,11 @@ import { TenantService } from '@src/app/_services/tenant.service';
 import { Tenant } from '@src/app/_models/tenant.model';
 
 @Component({
-  selector: 'ns-tenant-details',
-  templateUrl: './tenant-details.component.html',
-  styleUrls: ['./tenant-details.component.scss']
+  selector: 'ns-tenant-information',
+  templateUrl: './tenant-information.component.html',
+  styleUrls: ['./tenant-information.component.scss'],
 })
-export class TenantDetailsComponent implements OnInit {
+export class TenantInformationComponent implements OnInit {
   private _actionBarTitle = '';
 
   constructor(
@@ -19,15 +19,21 @@ export class TenantDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pageRoute.activatedRoute.subscribe(activatedRoute => {
-      activatedRoute.paramMap.subscribe(paramMap => {
+    this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
+      activatedRoute.paramMap.subscribe((paramMap) => {
         const tenantId = +paramMap.get('tenantId');
-        this.tenantService
-          .getTenant(tenantId)
-          .subscribe((tenant: Tenant) => {
-            this._actionBarTitle = tenant.fullName;
-          });
+        this.tenantService.getTenant(tenantId).subscribe((tenant: Tenant) => {
+          this._actionBarTitle = tenant.fullName;
+        });
       });
+    });
+  }
+
+  onGoBack() {
+    this.router.navigate(['/tenants'], {
+      transition: {
+        name: 'slideRight',
+      }
     });
   }
 

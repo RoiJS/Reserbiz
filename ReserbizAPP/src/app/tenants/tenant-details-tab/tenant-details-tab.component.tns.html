@@ -1,0 +1,16 @@
+<ns-action-bar [title]="'Tenant Details Tab'" [hasMenu]="false">
+  <ActionItem icon="font://&#xf0c7;" class="fa navbar-button"></ActionItem>
+</ns-action-bar>
+
+<TabView androidTabsPosition="bottom" class="fa tab-view">
+  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://personal_info'}">
+    <page-router-outlet name="tenantDetails"></page-router-outlet>
+  </StackLayout>
+  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://account_info'}">
+    <page-router-outlet name="tenantContractList"></page-router-outlet>
+  </StackLayout>
+</TabView>
+
+<FlexboxLayout justifyContent="center" alignItems="center" *ngIf="isLoading">
+  <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+</FlexboxLayout>
