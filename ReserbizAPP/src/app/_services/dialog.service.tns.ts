@@ -6,7 +6,7 @@ import {
   DialogOptions,
   CFAlertStyle,
   CFAlertActionStyle,
-  CFAlertActionAlignment
+  CFAlertActionAlignment,
 } from 'nativescript-cfalert-dialog';
 import { ButtonOptions } from '../_enum/button-options.enum';
 
@@ -16,7 +16,7 @@ export class DialogService {
 
   constructor() {}
 
-  alert(title: string, message: string, onClickEvent: Function = null) {
+  alert(title: string, message: string, onClickEvent?: () => void) {
     const alertOptions: DialogOptions = {
       dialogStyle: CFAlertStyle.BOTTOM_SHEET,
       title: title,
@@ -30,13 +30,13 @@ export class DialogService {
           buttonAlignment: CFAlertActionAlignment.END,
           textColor: '#FFFFFF',
           backgroundColor: '#3A53FF',
-          onClick: function() {
+          onClick: function () {
             if (onClickEvent) {
               onClickEvent();
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     };
 
     this._cfalertDialog.show(alertOptions);
@@ -53,16 +53,16 @@ export class DialogService {
           buttonStyle: CFAlertActionStyle.POSITIVE,
           backgroundColor: '#3A53FF',
           buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
-          onClick: function() {}
+          onClick: function () {},
         },
         {
           text: ButtonOptions.NO,
           buttonStyle: CFAlertActionStyle.NEGATIVE,
           backgroundColor: '#D7D7D7',
           buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
-          onClick: function() {}
-        }
-      ]
+          onClick: function () {},
+        },
+      ],
     };
 
     return this._cfalertDialog.show(confirmOptions);
