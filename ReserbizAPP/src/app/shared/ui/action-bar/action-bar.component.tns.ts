@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { isAndroid } from 'tns-core-modules/platform';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -9,12 +9,15 @@ declare var android: any;
 
 @Component({
   selector: 'ns-action-bar',
-  templateUrl: './action-bar.component.html'
+  templateUrl: './action-bar.component.html',
+  styleUrls: ['./action-bar.component.scss'],
 })
 export class ActionBarComponent implements OnInit {
   @Input() title = '';
   @Input() showBackButton = true;
   @Input() hasMenu = true;
+
+  @Output() onNavigateBack = new EventEmitter();
 
   constructor(
     private page: Page,
@@ -29,11 +32,15 @@ export class ActionBarComponent implements OnInit {
   }
 
   get canGoBack() {
-    return this.router.canGoBack() && this.showBackButton;
+    return this.showBackButton;
   }
 
   onGoBack() {
-    this.router.backToPreviousPage();
+    if (this.router.canGoBack()) {
+      this.router.backToPreviousPage();
+    } else {
+      this.onNavigateBack.emit();
+    }
   }
 
   onLoadedActionBar() {
