@@ -5,7 +5,7 @@ import {
   ViewChild,
   AfterViewInit,
   ChangeDetectorRef,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { RadSideDrawerComponent } from 'nativescript-ui-sidedrawer/angular/side-
 import {
   RadSideDrawer,
   DrawerTransitionBase,
-  SlideInOnTopTransition
+  SlideInOnTopTransition,
 } from 'nativescript-ui-sidedrawer';
 import * as app from 'tns-core-modules/application';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,7 +31,7 @@ import { MainMenu } from './_models/main-menu.model';
 @Component({
   selector: 'ns-app',
   moduleId: module.id,
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(RadSideDrawerComponent, { static: false })
@@ -125,8 +125,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   onNavItemTap(navItemRoute: string): void {
     this.routerExtensions.navigate([navItemRoute], {
       transition: {
-        name: 'slideLeft'
-      }
+        name: 'slideLeft',
+      },
     });
 
     const sideDrawer = <RadSideDrawer>app.getRootView();
