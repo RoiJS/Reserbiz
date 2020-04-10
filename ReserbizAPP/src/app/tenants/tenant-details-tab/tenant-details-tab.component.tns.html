@@ -1,6 +1,6 @@
-<ns-action-bar [title]="'Tenant Details Tab'" [hasMenu]="false">
+<!-- <ns-action-bar [title]="'Tenant Details Tab'" [hasMenu]="false">
   <ActionItem icon="font://&#xf0c7;" class="fa navbar-button"></ActionItem>
-</ns-action-bar>
+</ns-action-bar> -->
 
 <TabView androidTabsPosition="bottom" class="fa tab-view">
   <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://personal_info'}">
@@ -10,6 +10,28 @@
     <page-router-outlet name="tenantContractList"></page-router-outlet>
   </StackLayout>
 </TabView>
+
+<!-- <Tabs selectedIndex="1">
+  <TabStripItem>
+    <label text="Home"></label>
+    <image src="font://&#xf015;" class="fas"></image>
+  </TabStripItem>
+  <TabStripItem class="special">
+    <label text="Account"></label>
+    <image src="font://&#xf007;" class="fas"></image>
+  </TabStripItem>
+
+  <TabContentItem>
+    <GridLayout>
+      <label text="Home Page" class="h2 text-center"></label>
+    </GridLayout>
+  </TabContentItem>
+  <TabContentItem>
+    <GridLayout>
+      <label text="Account Page" class="h2 text-center"></label>
+    </GridLayout>
+  </TabContentItem>
+</Tabs> -->
 
 <FlexboxLayout justifyContent="center" alignItems="center" *ngIf="isLoading">
   <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
