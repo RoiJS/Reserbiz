@@ -7,10 +7,10 @@ import { MainMenu } from '../_models/main-menu.model';
   providedIn: 'root',
 })
 export class SideDrawerService {
-  private _mainMenu: MainMenu[];
+   mainMenu: MainMenu[];
 
   constructor(private translateService: TranslateService) {
-    this._mainMenu = [
+    this.mainMenu = [
       {
         text: this.translateService.instant('MAIN_MENU.DASHBOARD'),
         icon: String.fromCharCode(0xf51b),
@@ -54,9 +54,5 @@ export class SideDrawerService {
         hasSeparator: true,
       },
     ];
-  }
-
-  public mainMenu(): MainMenu[] {
-    return this._mainMenu;
   }
 }
