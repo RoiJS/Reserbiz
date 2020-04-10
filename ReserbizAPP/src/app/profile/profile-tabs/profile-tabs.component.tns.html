@@ -1,11 +1,20 @@
-<TabView androidTabsPosition="bottom" class="fa tab-view">
-  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://personal_info'}">
+<Tabs selectedIndex="0" tabsPosition="bottom">
+  <TabStrip>
+    <TabStripItem>
+      <image src="font://&#xf507;" class="fa fa-solid"></image>
+    </TabStripItem>
+    <TabStripItem>
+      <image src="font://&#xf505;" class="fa fa-solid"></image>
+    </TabStripItem>
+  </TabStrip>
+
+  <TabContentItem>
     <page-router-outlet name="personalInfo"></page-router-outlet>
-  </StackLayout>
-  <StackLayout class="tab-icon" *tabItem="{ iconSource: 'res://account_info'}">
+  </TabContentItem>
+  <TabContentItem>
     <page-router-outlet name="accountInfo"></page-router-outlet>
-  </StackLayout>
-</TabView>
+  </TabContentItem>
+</Tabs>
 
 <FlexboxLayout justifyContent="center" alignItems="center" *ngIf="isLoading">
   <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
