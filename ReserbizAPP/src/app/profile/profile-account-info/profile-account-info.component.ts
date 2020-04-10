@@ -71,10 +71,10 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
           this.dialogService
             .confirm(
               this.translateService.instant(
-                'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.TITLE'
+                'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
               ),
               this.translateService.instant(
-                'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.CONFIRM_MESSAGE'
+                'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.CONFIRM_MESSAGE'
               )
             )
             .then(res => {
@@ -92,10 +92,10 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
                     () => {
                       this.dialogService.alert(
                         this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.TITLE'
+                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
                         ),
                         this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.SUCCESS_MESSAGE'
+                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
                         )
                       );
 
