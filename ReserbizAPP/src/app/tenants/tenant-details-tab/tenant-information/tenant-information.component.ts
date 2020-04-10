@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 import { TenantService } from '@src/app/_services/tenant.service';
 import { Tenant } from '@src/app/_models/tenant.model';
@@ -11,9 +12,11 @@ import { Tenant } from '@src/app/_models/tenant.model';
 })
 export class TenantInformationComponent implements OnInit {
   private _actionBarTitle = '';
+  private _currentTenant: Tenant;
 
   constructor(
     private pageRoute: PageRoute,
+    private page: Page,
     private router: RouterExtensions,
     private tenantService: TenantService
   ) {}
@@ -21,9 +24,10 @@ export class TenantInformationComponent implements OnInit {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
+        this.page.actionBarHidden = true;
         const tenantId = +paramMap.get('tenantId');
         this.tenantService.getTenant(tenantId).subscribe((tenant: Tenant) => {
-          this._actionBarTitle = tenant.fullName;
+          this._currentTenant = tenant;
         });
       });
     });
@@ -33,7 +37,7 @@ export class TenantInformationComponent implements OnInit {
     this.router.navigate(['/tenants'], {
       transition: {
         name: 'slideRight',
-      }
+      },
     });
   }
 
