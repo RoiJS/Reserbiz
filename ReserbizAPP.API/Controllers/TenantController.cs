@@ -64,7 +64,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTenant(int id, TenantForUpdateDto tenantForEditDto)
+        public async Task<IActionResult> UpdateTenant(int id, TenantForUpdateDto tenantForUpdateDto)
         {
             var tenantFromRepo = await _tenantRepository.GetEntity(id).ToObjectAsync();
 
@@ -73,7 +73,7 @@ namespace ReserbizAPP.API.Controllers
 
             _tenantRepository.SetCurrentUserId(CurrentUserId);
 
-            _mapper.Map(tenantForEditDto, tenantFromRepo);
+            _mapper.Map(tenantForUpdateDto, tenantFromRepo);
 
             if (!_tenantRepository.HasChanged())
             {

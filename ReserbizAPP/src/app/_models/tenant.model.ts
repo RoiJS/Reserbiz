@@ -26,6 +26,10 @@ export class Tenant {
     return `${this.firstName[0]}${this.lastName[0]}`;
   }
 
+  get genderName(): string {
+    return GenderEnum[this.gender];
+  }
+
   get photoBackgroundColor(): string {
     const colorList = [
       '#f6d186',

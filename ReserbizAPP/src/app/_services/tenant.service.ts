@@ -6,7 +6,9 @@ import { Observable, of } from 'rxjs';
 import { Tenant } from '../_models/tenant.model';
 import { environment } from '@src/environments/environment';
 import { map } from 'rxjs/operators';
+
 import { ContactPerson } from '../_models/contact-person.model';
+import { TenantUpdateDto } from '../_dtos/tenant-update.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -17,26 +19,24 @@ export class TenantService {
   constructor(private http: HttpClient) {}
 
   getTenants(): Observable<Tenant[]> {
-    return this.http
-      .get<Tenant[]>(`${environment.reserbizAPIEndPoint}/tenant`)
-      .pipe(
-        map((tenants: Tenant[]) => {
-          return tenants.map((tenant) => {
-            return new Tenant(
-              tenant.id,
-              tenant.firstName,
-              tenant.middleName,
-              tenant.lastName,
-              tenant.gender,
-              tenant.address,
-              tenant.contactNumber,
-              tenant.emailAddress,
-              tenant.photoUrl,
-              tenant.isActive
-            );
-          });
-        })
-      );
+    return this.http.get<Tenant[]>(`${this._apiBaseUrl}/tenant`).pipe(
+      map((tenants: Tenant[]) => {
+        return tenants.map((tenant) => {
+          return new Tenant(
+            tenant.id,
+            tenant.firstName,
+            tenant.middleName,
+            tenant.lastName,
+            tenant.gender,
+            tenant.address,
+            tenant.contactNumber,
+            tenant.emailAddress,
+            tenant.photoUrl,
+            tenant.isActive
+          );
+        });
+      })
+    );
   }
 
   getTenant(tenantId: number): Observable<Tenant> {
@@ -56,15 +56,17 @@ export class TenantService {
         );
 
         tenant.contactPersons = t.contactPersons.map((c: ContactPerson) => {
-          return new ContactPerson(
-            c.id,
-            c.firstName,
-            c.middlename,
-            c.lastName,
-            c.gender,
-            c.contactNumber,
-            c.tenanId
-          );
+          const contactPerson = new ContactPerson();
+
+          contactPerson.id = c.id;
+          contactPerson.firstName = c.firstName;
+          contactPerson.middleName = c.middleName;
+          contactPerson.lastName = c.lastName;
+          contactPerson.gender = c.gender;
+          contactPerson.contactNumber = c.contactNumber;
+          contactPerson.tenantId = c.tenantId;
+
+          return contactPerson;
         });
 
         return tenant;
@@ -91,6 +93,16 @@ export class TenantService {
     return this.http.put<void>(
       `${this._apiBaseUrl}/tenant/setStatus/${tenantId}/${status}`,
       null
+    );
+  }
+
+  updateTenant(
+    tenantId: number,
+    tenantForUpdateDto: TenantUpdateDto
+  ): Observable<void> {
+    return this.http.put<void>(
+      `${this._apiBaseUrl}/tenant/${tenantId}`,
+      tenantForUpdateDto
     );
   }
 }

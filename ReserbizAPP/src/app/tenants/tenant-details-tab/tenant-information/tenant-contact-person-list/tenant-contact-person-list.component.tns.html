@@ -1,0 +1,47 @@
+<FlexBoxLayout
+  class="page-container__page-divider"
+  justifyContent="space-between"
+>
+  <label alignSelf="center" text="Contact Persons"></label>
+  <button
+    alignSelf="center"
+    class="panel-command btn btn-primary btn-rounded-lg"
+    text="Manage"
+  ></button>
+</FlexBoxLayout>
+<StackLayout class="contact-person-list-container">
+  <GridLayout
+    class="contact-person-detail list-item-template"
+    rows="*, *"
+    columns="70, *"
+    *ngFor="let contactPerson of contactPersonList"
+  >
+    <!-- Template tenant item photo placeholder -->
+    <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+      <StackLayout
+        class="tenant-detail__image-container"
+        verticalAlignment="middle"
+        [backgroundColor]="contactPerson.photoBackgroundColor"
+      >
+        <label
+          class="image"
+          horizontalAlignment="center"
+          [text]="contactPerson.nameInitials"
+        ></label>
+      </StackLayout>
+    </StackLayout>
+
+    <StackLayout
+      class="tenant-detail__fullname"
+      verticalAlignment="middle"
+      row="0"
+      col="1"
+    >
+      <label class="fullname" [text]="contactPerson.fullName"></label>
+    </StackLayout>
+
+    <StackLayout row="1" col="1">
+      <label class="username" [text]="contactPerson.contactNumber"></label>
+    </StackLayout>
+  </GridLayout>
+</StackLayout>

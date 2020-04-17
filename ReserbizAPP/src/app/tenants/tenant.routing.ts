@@ -21,6 +21,8 @@ export const routes: Routes = [
   {
     path: ':tenantId',
     loadChildren: () =>
-      import('./tenant-details-tab/tenant-details.module.tns').then((m) => m.TenantDetailsModule),
+      import('./tenant-details-tab/tenant-details-tab.module').then(
+        (m) => m.TenantDetailsModule
+      ),
   },
 ];

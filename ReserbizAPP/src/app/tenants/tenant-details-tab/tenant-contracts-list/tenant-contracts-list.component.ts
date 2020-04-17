@@ -8,17 +8,8 @@ import { Page } from 'tns-core-modules/ui/page/page';
   styleUrls: ['./tenant-contracts-list.component.scss'],
 })
 export class TenantContractsListComponent implements OnInit {
-  constructor(private router: RouterExtensions, private page: Page) {}
 
-  ngOnInit() {
-    this.page.actionBarHidden = true;
-  }
+  constructor(private router: RouterExtensions) {}
 
-  onGoBack() {
-    this.router.navigate(['/tenants'], {
-      transition: {
-        name: 'slideRight',
-      },
-    });
-  }
+  ngOnInit() {}
 }

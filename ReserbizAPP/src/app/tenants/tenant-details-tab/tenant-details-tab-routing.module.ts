@@ -10,18 +10,6 @@ const routes: Routes = [
   {
     path: 'details-tabs',
     component: TenantDetailsTabComponent,
-    children: [
-      {
-        path: 'tenantDetails/:tenantId',
-        component: TenantInformationComponent,
-        outlet: 'tenantDetails',
-      },
-      {
-        path: 'tenantContractList',
-        component: TenantContractsListComponent,
-        outlet: 'tenantContractList',
-      },
-    ],
   },
   {
     path: '',

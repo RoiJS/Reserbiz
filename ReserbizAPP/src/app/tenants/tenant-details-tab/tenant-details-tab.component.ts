@@ -1,64 +1,211 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 
-import { RouterExtensions, PageRoute } from 'nativescript-angular/router';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
+import { finalize } from 'rxjs/operators';
 
 import { TenantService } from '@src/app/_services/tenant.service';
+import { DialogService } from '@src/app/_services/dialog.service';
+
 import { Tenant } from '@src/app/_models/tenant.model';
+
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
   selector: 'ns-tenant-details',
   templateUrl: './tenant-details-tab.component.html',
   styleUrls: ['./tenant-details-tab.component.scss'],
 })
-export class TenantDetailsTabComponent implements OnInit {
-  private _isLoading: boolean;
-  private _actionBarTitle = '';
+export class TenantDetailsTabComponent implements OnInit, OnDestroy {
+  private _currentTenant: Tenant;
+  private _isBusy = false;
+
+  private _locationSub: any;
 
   constructor(
-    private page: Page,
+    private dialogService: DialogService,
+    private location: Location,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
-    private active: ActivatedRoute,
-    private tenantService: TenantService
-  ) {
-    this._isLoading = false;
-  }
+    private tenantService: TenantService,
+    private translateService: TranslateService,
+    private zone: NgZone
+  ) {}
 
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
         const tenantId = +paramMap.get('tenantId');
-        this.tenantService.getTenant(tenantId).subscribe((tenant: Tenant) => {
-          this._actionBarTitle = tenant.fullName;
-          //this.loadTabRoutes(tenantId);
-        });
+        this.getTenantInformation(tenantId);
       });
+    });
+
+    this._locationSub = this.location.subscribe(() => {
+      this.getTenantInformation(this._currentTenant.id);
     });
   }
 
-  loadTabRoutes(tenantId: number) {
-    setTimeout(() => {
-      this.router.navigate(
-        [
-          {
-            outlets: {
-              tenantDetails: [`tenantDetails`, tenantId],
-              tenantContractList: ['tenantContractList'],
-            },
-          },
-        ],
-        { relativeTo: this.active }
-      );
-    }, 10);
+  ngOnDestroy() {
+    this._locationSub.unsubscribe();
   }
 
-  get ActionBarTitle(): string {
-    return this._actionBarTitle;
+  getTenantInformation(tenantId: number) {
+    this._isBusy = true;
+    this.tenantService.getTenant(tenantId).subscribe((tenant: Tenant) => {
+      this._isBusy = false;
+      this._currentTenant = tenant;
+    });
   }
 
-  get isLoading(): boolean {
-    return this._isLoading;
+  deleteSelectedTenant(event: any) {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .deleteTenant(this._currentTenant.id)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    this.router.back();
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
+  }
+
+  activateSelectedTenant() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .setTenantStatus(this._currentTenant.id, true)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    this.zone.run(() => {
+                      this._currentTenant.isActive = true;
+                    });
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
+  }
+
+  deactivateSelectedTenant() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.tenantService
+            .setTenantStatus(this._currentTenant.id, false)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    this.zone.run(() => {
+                      this._currentTenant.isActive = false;
+                    });
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
+  }
+
+  get currentTenant(): Tenant {
+    return this._currentTenant;
+  }
+
+  get IsBusy(): boolean {
+    return this._isBusy;
   }
 }

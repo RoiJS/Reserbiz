@@ -1,3 +1,20 @@
-<StackLayout>
-  <label text="Tenant Information" textWrap="true"></label>
-</StackLayout>
+<ns-loader-layout [busy]="false">
+  <StackLayout
+    class="page-container tenant-detail-container"
+    orientation="vertical"
+  >
+    <ScrollView orientation="vertical">
+      <StackLayout orientation="vertical">
+
+        <ns-tenant-details-panel
+          [currentTenant]="currentTenant"
+        ></ns-tenant-details-panel>
+
+        <ns-tenant-contact-person-list
+          [contactPersons]="currentTenant?.contactPersons"
+        ></ns-tenant-contact-person-list>
+        
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ns-loader-layout>

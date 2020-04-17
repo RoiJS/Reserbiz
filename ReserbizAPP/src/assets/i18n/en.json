@@ -28,13 +28,19 @@
     "ACTION_BAR_TITLE": "Personal Information",
     "FORM_CONTROL": {
       "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
         "HINT_TEXT": "Please enter first name"
       },
       "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
         "HINT_TEXT": "Please enter middle name"
       },
       "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
         "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
       },
       "UPDATE_DIALOG": {
         "TITLE": "Update Profile",
@@ -99,6 +105,71 @@
 
   "TENANTS_ADD_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Add Tenant"
+  },
+
+  "TENANTS_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Tenant Details",
+    "PANEL_HEADER_TEXT_INFORMATION": "Information",
+    "LABEL_FULL_NAME": "First name:",
+    "LABEL_EMAIL_ADDRESS": "Email address:",
+    "LABEL_PERMANENT_ADDRESS": "Permanent address:",
+    "LABEL_CONTACT_NUMBER": "Contact number:",
+    "LABEL_GENDER": "Gender:",
+
+    "UPDATE_TENANT_FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Address:",
+        "HINT_TEXT": "Please enter address"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "EMAIL_ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Email Address:",
+        "HINT_TEXT": "Please enter email address"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Tenant Information",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    },
+
+    "REMOVE_TENANT_DIALOG": {
+      "TITLE": "Remove tenant",
+      "CONFIRM_MESSAGE": "Are you sure to remove this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete this tenant. Please try again later."
+    },
+    "ACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Activate tenant",
+      "CONFIRM_MESSAGE": "Are you sure to activate this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been activated!",
+      "ERROR_MESSAGE": "Failed to activate this tenant. Please try again later."
+    },
+    "DEACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Deactivate tenant",
+      "CONFIRM_MESSAGE": "Are you sure to deactivate this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
+    }
   },
 
   "GENERAL_TEXTS": {
