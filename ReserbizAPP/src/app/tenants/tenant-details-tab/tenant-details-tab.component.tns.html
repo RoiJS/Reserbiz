@@ -1,4 +1,8 @@
-<ns-action-bar [title]="currentTenant?.fullName" [hasMenu]="false">
+<ns-action-bar
+  [title]="currentTenant?.fullName"
+  [hasMenu]="false"
+  (onNavigateBack)="navigateBack()"
+>
   <ActionItem
     icon="font://&#xf2ed;"
     class="fa fa-solid navbar-button"
@@ -35,7 +39,7 @@
       ></ns-tenant-information>
     </TabContentItem>
     <TabContentItem>
-      <ns-tenant-contracts-list></ns-tenant-contracts-list>
+      <page-router-outlet name="contractList"></page-router-outlet>
     </TabContentItem>
   </Tabs>
 </ns-loader-layout>

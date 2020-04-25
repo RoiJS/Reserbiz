@@ -8,6 +8,8 @@ export class ContactPerson {
   public gender: GenderEnum;
   public contactNumber: string;
   public tenantId: number;
+  public isSelected: boolean;
+  public isActive: boolean;
 
   constructor() {
     this.id = 0;
@@ -17,6 +19,8 @@ export class ContactPerson {
     this.gender = GenderEnum.Male;
     this.contactNumber = '';
     this.tenantId = 0;
+    this.isSelected = false;
+    this.isActive = false;
   }
 
   get fullName(): string {

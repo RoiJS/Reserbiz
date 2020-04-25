@@ -5,15 +5,14 @@
   >
     <ScrollView orientation="vertical">
       <StackLayout orientation="vertical">
-
         <ns-tenant-details-panel
           [currentTenant]="currentTenant"
         ></ns-tenant-details-panel>
 
-        <ns-tenant-contact-person-list
+        <ns-tenant-contact-person-list-panel
+          [tenantId]="currentTenant?.id"
           [contactPersons]="currentTenant?.contactPersons"
-        ></ns-tenant-contact-person-list>
-        
+        ></ns-tenant-contact-person-list-panel>
       </StackLayout>
     </ScrollView>
   </StackLayout>

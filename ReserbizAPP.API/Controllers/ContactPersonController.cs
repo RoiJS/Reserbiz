@@ -69,12 +69,9 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAllContactPersonsPerTenant/{tenantId}")]
         public async Task<ActionResult<IEnumerable<ContactPersonDetailDto>>> GetAllContactPersons(int tenantId)
         {
-            var tenantFromRepo = await _tenantRepository
-                                        .GetEntity(tenantId)
-                                        .Includes(c => c.ContactPersons)
-                                        .ToObjectAsync();
+            var contactPersonsFromRepo = await _contactPersonRepository.GetContactPersonsPerTenant(tenantId);
 
-            var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(tenantFromRepo.ContactPersons);
+            var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(contactPersonsFromRepo);
 
             return Ok(contactPersonsToReturn);
         }
@@ -88,7 +85,7 @@ namespace ReserbizAPP.API.Controllers
                 return NotFound("Contact Person not found.");
 
             _contactPersonRepository.SetCurrentUserId(CurrentUserId);
-            
+
             _mapper.Map(contactPersonForUpdateDto, contactPersonFromRepo);
 
             if (!_contactPersonRepository.HasChanged())
@@ -118,6 +115,18 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(contactPersonToReturn);
 
             throw new Exception($"Deleting contact person with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleContactPersons")]
+        public async Task<IActionResult> DeleteMultipleContactPersons(List<int> contactPersonIds)
+        {
+            if (contactPersonIds.Count == 0)
+                return BadRequest("Empty contact person id list.");
+
+            if (await _contactPersonRepository.DeleteMultipleContactPersons(contactPersonIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting contact persons!");
         }
     }
 }

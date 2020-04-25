@@ -12,6 +12,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 import { Tenant } from '@src/app/_models/tenant.model';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ns-tenant-details',
@@ -31,6 +32,7 @@ export class TenantDetailsTabComponent implements OnInit, OnDestroy {
     private router: RouterExtensions,
     private tenantService: TenantService,
     private translateService: TranslateService,
+    private active: ActivatedRoute,
     private zone: NgZone
   ) {}
 
@@ -38,7 +40,9 @@ export class TenantDetailsTabComponent implements OnInit, OnDestroy {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
         const tenantId = +paramMap.get('tenantId');
+
         this.getTenantInformation(tenantId);
+        this.loadTabRoutes(tenantId);
       });
     });
 
@@ -51,11 +55,33 @@ export class TenantDetailsTabComponent implements OnInit, OnDestroy {
     this._locationSub.unsubscribe();
   }
 
+  loadTabRoutes(tenantId: number) {
+    setTimeout(() => {
+      this.router.navigate(
+        [
+          {
+            outlets: {
+              contractList: ['contractList', tenantId],
+            },
+          },
+        ],
+        { relativeTo: this.active }
+      );
+    }, 10);
+  }
+
   getTenantInformation(tenantId: number) {
     this._isBusy = true;
     this.tenantService.getTenant(tenantId).subscribe((tenant: Tenant) => {
       this._isBusy = false;
       this._currentTenant = tenant;
+    });
+  }
+
+  navigateBack() {
+    this.router.back({
+      outlets: null,
+      relativeTo: this.active,
     });
   }
 

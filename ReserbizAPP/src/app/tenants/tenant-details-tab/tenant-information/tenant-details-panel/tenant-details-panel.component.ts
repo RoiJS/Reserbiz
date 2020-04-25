@@ -16,7 +16,7 @@ export class TenantDetailsPanelComponent implements OnInit {
   ngOnInit() {}
 
   onNavigateToEditPage() {
-    this.router.navigate([`/tenants/${this.currentTenant.id}/details-tabs/edit`], {
+    this.router.navigate([`/tenants/${this.currentTenant.id}/edit`], {
       transition: {
         name: 'slideLeft',
       },

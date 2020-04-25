@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.Interfaces;
@@ -13,6 +15,27 @@ namespace ReserbizAPP.LIB.BusinessLogic
             : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
 
+        }
+
+        public async Task<IEnumerable<ContactPerson>> GetContactPersonsPerTenant(int tenantId)
+        {
+            var activeContactPersonsFromRepo = await _reserbizRepository
+                .ClientDbContext
+                .ContactPersons
+                .Where(c => c.TenantId == tenantId && c.IsDelete == false).ToListAsync();
+
+            return activeContactPersonsFromRepo;
+        }
+
+        public async Task<bool> DeleteMultipleContactPersons(List<int> contactPersonIds)
+        {
+            var selectedContactPersons = await _reserbizRepository
+                .ClientDbContext
+                .ContactPersons
+                .Where(t => contactPersonIds.IndexOf(t.Id) > -1).ToListAsync();
+
+            DeleteMultipleEntities(selectedContactPersons);
+            return await SaveChanges();
         }
     }
 }

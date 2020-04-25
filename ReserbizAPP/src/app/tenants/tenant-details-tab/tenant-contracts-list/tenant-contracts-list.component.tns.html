@@ -1,0 +1,50 @@
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <RadListView
+      width="100%"
+      height="100%"
+      #contractListView
+      class="tenant-list-container"
+      [items]="contractList"
+    >
+      <ng-template tkListItemTemplate let-contract="item">
+        <label [text]="contract.code"></label>
+      </ng-template>
+
+      <GridLayout
+        *tkListItemSwipeTemplate
+        columns="*, auto"
+        class="tenant-item-swipe-template"
+      >
+        <FlexBoxLayout
+          col="1"
+          class="tenant-item-swipe-template__option-container"
+          id="tenantSwipeActions"
+          justifyContent="space-around"
+          *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
+        >
+          <button
+            alignSelf="center"
+            class="fa fa-solid tenant-item-swipe-template__option"
+            text="&#xf2ed;"
+            (tap)="deleteSelectedTenant()"
+          ></button>
+          <button
+            alignSelf="center"
+            class="fa fa-solid tenant-item-swipe-template__option"
+            text="&#xf4fc;"
+            (tap)="activateSelectedTenant()"
+            *ngIf="!isCurrentTenantActive"
+          ></button>
+          <button
+            alignSelf="center"
+            class="fa fa-solid tenant-item-swipe-template__option"
+            text="&#xf506;"
+            (tap)="deactivateSelectedTenant()"
+            *ngIf="isCurrentTenantActive"
+          ></button>
+        </FlexBoxLayout>
+      </GridLayout>
+    </RadListView>
+  </StackLayout>
+</ns-loader-layout>

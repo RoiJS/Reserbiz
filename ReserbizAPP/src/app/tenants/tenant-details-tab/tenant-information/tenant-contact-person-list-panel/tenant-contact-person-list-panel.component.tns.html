@@ -7,6 +7,7 @@
     alignSelf="center"
     class="panel-command btn btn-primary btn-rounded-lg"
     text="Manage"
+    (tap)="onNavigateToManageContactPersonList()"
   ></button>
 </FlexBoxLayout>
 <StackLayout class="contact-person-list-container">
@@ -19,7 +20,7 @@
     <!-- Template tenant item photo placeholder -->
     <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
       <StackLayout
-        class="tenant-detail__image-container"
+        class="contact-person-detail__image-container"
         verticalAlignment="middle"
         [backgroundColor]="contactPerson.photoBackgroundColor"
       >
@@ -32,7 +33,7 @@
     </StackLayout>
 
     <StackLayout
-      class="tenant-detail__fullname"
+      class="contact-person-detail__fullname"
       verticalAlignment="middle"
       row="0"
       col="1"

@@ -9,6 +9,13 @@
     "SETTINGS": "Settings"
   },
 
+  "GENERAL_TEXTS": {
+    "GENDER": {
+      "MALE": "Male",
+      "FEMALE": "Female"
+    }
+  },
+
   "AUTH_PAGE": {
     "USERNAME_CONTROL": {
       "LABEL": "Username",
@@ -107,6 +114,10 @@
     "ACTION_BAR_TITLE": "Add Tenant"
   },
 
+  "TENANT_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Details"
+  },
+
   "TENANTS_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Tenant Details",
     "PANEL_HEADER_TEXT_INFORMATION": "Information",
@@ -172,10 +183,81 @@
     }
   },
 
-  "GENERAL_TEXTS": {
-    "GENDER": {
-      "MALE": "Male",
-      "FEMALE": "Female"
+  "TENANT_CONTACT_PERSON_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Contact Persons",
+    "REMOVE_CONTACT_PERSONS_DIALOG": {
+      "TITLE": "Remove selected contact persons",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contact persons?",
+      "SUCCESS_MESSAGE": "Selected contact persons have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected contact persons. Please try again later."
+    },
+    "REMOVE_CONTACT_PERSON_DIALOG": {
+      "TITLE": "Remove selected contact person",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contact person?",
+      "SUCCESS_MESSAGE": "Selected contact person has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected contact person. Please try again later."
+    }
+  },
+
+  "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Contact Person",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Details",
+        "CONFIRM_MESSAGE": "Are you sure to save new contact person?",
+        "SUCCESS_MESSAGE": "New contact person has been saved!",
+        "ERROR_MESSAGE": "Saving new information failed!"
+      }
+    }
+  },
+
+  "TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Contact Person",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Edit Details",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Saving new update failed! Please try again later."
+      }
     }
   }
 }
