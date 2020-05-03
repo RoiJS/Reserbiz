@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ReserbizAPP.LIB.Enums;
 
@@ -18,6 +19,6 @@ namespace ReserbizAPP.LIB.Dtos
         public string ContactNumber { get; set; }
         [EmailAddress]
         public string EmailAddress { get; set; }
-
+        public List<ContactPersonForCreationDto> ContactPersons { get; set; }
     }
 }

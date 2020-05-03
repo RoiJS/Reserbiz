@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 import { Tenant } from '../_models/tenant.model';
 import { environment } from '@src/environments/environment';
@@ -9,17 +9,21 @@ import { map } from 'rxjs/operators';
 
 import { ContactPerson } from '../_models/contact-person.model';
 import { TenantUpdateDto } from '../_dtos/tenant-update.dto';
+import { GenderEnum } from '../_enum/gender.enum';
+import { TenantCreateDto } from '../_dtos/tenant-create.dto';
+import { ContactPersonCreateDto } from '../_dtos/contact-person-create.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TenantService {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
+  private _updateTenantListFlag = new BehaviorSubject<void>(null);
 
   constructor(private http: HttpClient) {}
 
-  getTenants(): Observable<Tenant[]> {
-    return this.http.get<Tenant[]>(`${this._apiBaseUrl}/tenant`).pipe(
+  getTenants(tenantName: string): Observable<Tenant[]> {
+    return this.http.get<Tenant[]>(`${this._apiBaseUrl}/tenant?tenantName=${tenantName}`).pipe(
       map((tenants: Tenant[]) => {
         return tenants.map((tenant) => {
           return new Tenant(
@@ -104,5 +108,41 @@ export class TenantService {
       `${this._apiBaseUrl}/tenant/${tenantId}`,
       tenantForUpdateDto
     );
+  }
+
+  saveNewTenant(
+    newTenant: Tenant,
+    newContactPersons: ContactPerson[]
+  ): Observable<void> {
+    const tenantCreateDto = new TenantCreateDto(
+      newTenant.firstName,
+      newTenant.middleName,
+      newTenant.lastName,
+      newTenant.gender,
+      newTenant.address,
+      newTenant.contactNumber,
+      newTenant.emailAddress
+    );
+
+    tenantCreateDto.contactPersons = newContactPersons.map(
+      (cp: ContactPerson) => {
+        return new ContactPersonCreateDto(
+          cp.firstName,
+          cp.middleName,
+          cp.lastName,
+          cp.gender,
+          cp.contactNumber
+        );
+      }
+    );
+
+    return this.http.post<void>(
+      `${this._apiBaseUrl}/tenant/create`,
+      tenantCreateDto
+    );
+  }
+
+  get updateTenantListFlag(): BehaviorSubject<void> {
+    return this._updateTenantListFlag;
   }
 }

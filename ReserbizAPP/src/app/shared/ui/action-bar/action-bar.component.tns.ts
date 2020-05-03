@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { isAndroid } from 'tns-core-modules/platform';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -16,8 +24,9 @@ export class ActionBarComponent implements OnInit {
   @Input() title = '';
   @Input() showBackButton = true;
   @Input() hasMenu = true;
+  @Input() overrideBackAction = false;
 
-  @Output() onNavigateBack = new EventEmitter();
+  @Output() onNavigationBack = new EventEmitter<void>();
 
   constructor(
     private page: Page,
@@ -36,10 +45,12 @@ export class ActionBarComponent implements OnInit {
   }
 
   onGoBack() {
-    if (this.router.canGoBack()) {
-      this.router.back();
+    if (!this.overrideBackAction) {
+      if (this.router.canGoBack()) {
+        this.router.back();
+      }
     } else {
-      this.onNavigateBack.emit();
+      this.onNavigationBack.emit();
     }
   }
 

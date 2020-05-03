@@ -4,15 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   ListViewEventData,
   SwipeActionsEventData,
-  RadListView,
 } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { View } from 'tns-core-modules/ui/page/page';
+import { View, isAndroid } from 'tns-core-modules/ui/page/page';
 
 import { finalize, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { TenantService } from '@src/app/_services/tenant.service';
 import { Tenant } from '@src/app/_models/tenant.model';
@@ -45,44 +45,47 @@ export class TenantListComponent implements OnInit, OnDestroy {
   private _isCurrentTenantActive = false;
 
   // This will store the location service subscription.
-  private _locationSub: any;
+  private _updateTenantListFlagSub: Subscription;
+
+  private _navigateBackSub: any;
 
   // Flag inidicates whether the current page is navigating to other page.
   private _isNotNavigateToOtherPage = true;
 
   constructor(
     private dialogService: DialogService,
+    private location: Location,
     private tenantService: TenantService,
     private translateService: TranslateService,
-    private router: RouterExtensions,
-    private location: Location
+    private router: RouterExtensions
   ) {}
 
   ngOnInit() {
-    // Initial call when first visit the page
-    this.getTenantList();
+    this._updateTenantListFlagSub = this.tenantService.updateTenantListFlag.subscribe(
+      () => {
+        this.getTenantList();
+      }
+    );
 
-    // Event listener when navigating back from previous page.
-    this._locationSub = this.location.subscribe(() => {
+    this._navigateBackSub = this.location.subscribe(() => {
       this._isNotNavigateToOtherPage = true;
-      this._tenants = new ObservableArray<Tenant>([]);
-      this.getTenantList();
     });
   }
 
   ngOnDestroy() {
-    this._locationSub.unsubscribe();
+    this._navigateBackSub.unsubscribe();
+    this._updateTenantListFlagSub.unsubscribe();
   }
 
   /**
    * @description Retrieve list of tenants from server
    * @param onGetListFinished Optional parameter function trigger after retrieving list of tenants
    */
-  getTenantList(onGetListFinished?: () => void) {
+  getTenantList(tenantName: string = '', onGetListFinished?: () => void) {
     setTimeout(() => {
       this._isBusy = true;
       this.tenantService
-        .getTenants()
+        .getTenants(tenantName)
         .pipe(
           take(1),
           finalize(() => (this._isBusy = false))
@@ -93,6 +96,8 @@ export class TenantListComponent implements OnInit, OnDestroy {
 
           // set flag indicating multiple tenant selection is not active
           this._multipleSelectionActive = false;
+
+          this._isNotNavigateToOtherPage = true;
 
           if (onGetListFinished) {
             onGetListFinished();
@@ -121,7 +126,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
       // the swipe options on the component template to prevent showing
       // when navigating to other page.
       setTimeout(() => {
-        this.router.navigate([`/tenants/${selectedTenant.id}/details-tabs`], {
+        this.router.navigate([`/tenants/${selectedTenant.id}`], {
           transition: {
             name: 'slideLeft',
           },
@@ -136,7 +141,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
    * @description Navigates to add tenant details page
    */
   goToAddTenantsPage() {
-    this.router.navigate(['/tenants/addTenant'], {
+    this.router.navigate(['/tenants/add-tenant'], {
       transition: {
         name: 'slideLeft',
       },
@@ -157,6 +162,10 @@ export class TenantListComponent implements OnInit, OnDestroy {
    * @description This will either activates or deactivates flag indicating multiple selection item is active or not.
    */
   activateDeactivateMultipleSelection() {
+    if (this._tenants.length === 0) {
+      return;
+    }
+
     // Activate and deactivate _multipleSelectionActive
     this._multipleSelectionActive = !this._multipleSelectionActive;
 
@@ -401,9 +410,25 @@ export class TenantListComponent implements OnInit, OnDestroy {
    * @param args ListViewEventData
    */
   onPullToRefreshInitiated(args: ListViewEventData) {
-    this.getTenantList(() => {
+    this.getTenantList('', () => {
       args.object.notifyPullToRefreshFinished();
     });
+  }
+
+  onClearSearchText(args: any) {
+    args.object.text = '';
+    this.getTenantList(args.object.text);
+  }
+
+  onSubmitSearchText(args: any) {
+    this.getTenantList(args.object.text);
+  }
+
+  searchBarLoaded(args: any) {
+    const searchbar = args.object;
+    if (isAndroid) {
+      searchbar.android.clearFocus();
+    }
   }
 
   get tenants(): ObservableArray<Tenant> {
@@ -421,7 +446,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
   get selectedCount(): string {
     return `${
       this.tenantListView.listView.getSelectedItems().length
-    } Selected Tenants`;
+    } ${this.translateService.instant('TENANTS_LIST_PAGE.SELECTED_TENANTS')}`;
   }
 
   get isCurrentTenantActive(): boolean {

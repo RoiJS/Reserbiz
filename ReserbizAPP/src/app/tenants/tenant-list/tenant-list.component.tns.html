@@ -30,6 +30,16 @@
 
 <ns-loader-layout [busy]="IsBusy">
   <StackLayout width="100%" height="100%" class="page-container">
+    <SearchBar
+      class="m-b-10"
+      backgroundColor="white"
+      [hint]="'TENANTS_LIST_PAGE.SEARCH_BAR_HINT' | translate"
+      [text]="searchTenantText"
+      (loaded)="searchBarLoaded($event)"
+      (clear)="onClearSearchText($event)"
+      (submit)="onSubmitSearchText($event)"
+    >
+    </SearchBar>
     <RadListView
       width="100%"
       height="100%"

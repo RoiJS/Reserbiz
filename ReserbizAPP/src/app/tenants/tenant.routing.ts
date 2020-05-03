@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { TenantListComponent } from './tenant-list/tenant-list.component';
-import { TenantDetailsTabComponent } from './tenant-details-tab/tenant-details-tab.component';
-import { TenantAddDetailsComponent } from './tenant-add-details/tenant-add-details.component';
 
 export const routes: Routes = [
   {
@@ -15,14 +13,17 @@ export const routes: Routes = [
     component: TenantListComponent,
   },
   {
-    path: 'addTenant',
-    component: TenantAddDetailsComponent,
+    path: 'add-tenant',
+    loadChildren: () =>
+      import('./tenant-add-details-tabs/tenant-add-details-tabs.module').then(
+        (m) => m.TenantAddDetailsTabsModule
+      ),
   },
   {
     path: ':tenantId',
     loadChildren: () =>
-      import('./tenant-details-tab/tenant-details-tab.module').then(
-        (m) => m.TenantDetailsModule
+      import('./tenant-information/tenant-information.module').then(
+        (m) => m.TenantInformationModule
       ),
   },
 ];

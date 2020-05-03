@@ -1,0 +1,42 @@
+<ns-action-bar
+  [title]="currentTenant?.fullName"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf2ed;"
+    class="fa fa-solid navbar-button"
+    (tap)="deleteSelectedTenant()"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf4fc;"
+    class="fa fa-solid navbar-button"
+    *ngIf="!currentTenant?.isActive"
+    (tap)="activateSelectedTenant()"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf506;"
+    class="fa fa-solid navbar-button"
+    *ngIf="currentTenant?.isActive"
+    (tap)="deactivateSelectedTenant()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="false">
+  <StackLayout
+    class="page-container tenant-detail-container"
+    orientation="vertical"
+  >
+    <ScrollView orientation="vertical">
+      <StackLayout orientation="vertical">
+        <ns-tenant-details-panel
+          [currentTenant]="currentTenant"
+        ></ns-tenant-details-panel>
+
+        <ns-tenant-contact-person-list-panel
+          [tenantId]="currentTenant?.id"
+          [contactPersons]="currentTenant?.contactPersons"
+        ></ns-tenant-contact-person-list-panel>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ns-loader-layout>

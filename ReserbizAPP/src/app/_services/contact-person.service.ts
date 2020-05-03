@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ContactPerson } from '../_models/contact-person.model';
@@ -14,6 +14,8 @@ import { ContactPersonUpdateDto } from '../_dtos/contact-person-update.dto';
 })
 export class ContactPersonService {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
+  private _updateContactPersonListFlag = new BehaviorSubject<void>(null);
+
   constructor(private http: HttpClient) {}
 
   getContactPersons(tenantId: number): Observable<ContactPerson[]> {
@@ -97,5 +99,9 @@ export class ContactPersonService {
       `${this._apiBaseUrl}/contactPerson/${tenantId}`,
       contactPersonUpdateDto
     );
+  }
+
+  get updateContactPersonListFlag(): BehaviorSubject<void> {
+    return this._updateContactPersonListFlag;
   }
 }

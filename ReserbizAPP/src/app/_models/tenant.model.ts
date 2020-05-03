@@ -16,7 +16,9 @@ export class Tenant {
     public photoUrl: string,
     public isActive: boolean,
     public isSelected = false
-  ) {}
+  ) {
+    this.contactPersons = [];
+  }
 
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -48,7 +50,7 @@ export class Tenant {
     // Get color randomly from the list
     return colorList[randomIndex];
   }
-
+  
   private getNumberFirstDigit(): number {
     const stringId = this.id.toString().split('');
     return +stringId[stringId.length - 1];

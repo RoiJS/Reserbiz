@@ -6,6 +6,6 @@ export class ContactPersonCreateDto {
     public middleName: string,
     public lastName: string,
     public gender: GenderEnum,
-    public contactNumber: string,
+    public contactNumber: string
   ) {}
 }

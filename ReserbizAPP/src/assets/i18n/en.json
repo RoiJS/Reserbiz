@@ -84,6 +84,8 @@
 
   "TENANTS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Tenants",
+    "SEARCH_BAR_HINT": "Enter tenant name here...",
+    "SELECTED_TENANTS": "Selected Tenants",
     "REMOVE_TENANTS_DIALOG": {
       "TITLE": "Remove selected tenants",
       "CONFIRM_MESSAGE": "Are you sure to remove selected tenants?",
@@ -111,23 +113,9 @@
   },
 
   "TENANTS_ADD_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Tenant"
-  },
+    "ACTION_BAR_TITLE": "Add Tenant",
 
-  "TENANT_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Edit Details"
-  },
-
-  "TENANTS_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Tenant Details",
-    "PANEL_HEADER_TEXT_INFORMATION": "Information",
-    "LABEL_FULL_NAME": "First name:",
-    "LABEL_EMAIL_ADDRESS": "Email address:",
-    "LABEL_PERMANENT_ADDRESS": "Permanent address:",
-    "LABEL_CONTACT_NUMBER": "Contact number:",
-    "LABEL_GENDER": "Gender:",
-
-    "UPDATE_TENANT_FORM_CONTROL": {
+    "FORM_CONTROL": {
       "FIRST_NAME_CONTROL": {
         "CONTROL_LABEL": "First name:",
         "HINT_TEXT": "Please enter first name"
@@ -153,7 +141,60 @@
       },
       "EMAIL_ADDRESS_CONTROL": {
         "CONTROL_LABEL": "Email Address:",
-        "HINT_TEXT": "Please enter email address"
+        "HINT_TEXT": "Please enter email address",
+        "INVALID_EMAIL_ADDRESS": "Please enter a valid email address"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Save Tenant Information",
+        "INVALID_FORM": "There are still missing information for the tenant. Please complete the form.",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New tenant has been saved!",
+        "ERROR_MESSAGE": "Failed saving new tenant."
+      },
+
+      "LEAVE_PAGE_DIALOG": {
+        "TITLE": "Leave Page",
+        "CONFIRM_MESSAGE": "You have some unsaved changes. Are you sure to leave this page?"
+      }
+    },
+
+    "TABS_OPTIONS": {
+      "NEW_TENANT": "New Tenant",
+      "ADD_CONTACT_PERSONS": "Add Contact Persons"
+    }
+  },
+
+  "TENANT_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Details",
+
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Address:",
+        "HINT_TEXT": "Please enter address"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "EMAIL_ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Email Address:",
+        "HINT_TEXT": "Please enter email address",
+        "INVALID_EMAIL_ADDRESS": "Please enter a valid email address"
       },
       "UPDATE_DIALOG": {
         "TITLE": "Update Tenant Information",
@@ -161,7 +202,17 @@
         "SUCCESS_MESSAGE": "New changes has been saved!",
         "ERROR_MESSAGE": "Update information failed!"
       }
-    },
+    }
+  },
+
+  "TENANTS_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Tenant Details",
+    "PANEL_HEADER_TEXT_INFORMATION": "Information",
+    "LABEL_FULL_NAME": "First name:",
+    "LABEL_EMAIL_ADDRESS": "Email address:",
+    "LABEL_PERMANENT_ADDRESS": "Permanent address:",
+    "LABEL_CONTACT_NUMBER": "Contact number:",
+    "LABEL_GENDER": "Gender:",
 
     "REMOVE_TENANT_DIALOG": {
       "TITLE": "Remove tenant",
@@ -185,6 +236,7 @@
 
   "TENANT_CONTACT_PERSON_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Contact Persons",
+    "SELECTED_CONTACT_PERSONS": "Selected Contact Person",
     "REMOVE_CONTACT_PERSONS_DIALOG": {
       "TITLE": "Remove selected contact persons",
       "CONFIRM_MESSAGE": "Are you sure to remove selected contact persons?",
@@ -231,7 +283,7 @@
   },
 
   "TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Contact Person",
+    "ACTION_BAR_TITLE": "Edit Contact Person",
     "FORM_CONTROL": {
       "FIRST_NAME_CONTROL": {
         "CONTROL_LABEL": "First name:",

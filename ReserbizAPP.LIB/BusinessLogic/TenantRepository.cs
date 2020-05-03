@@ -51,5 +51,19 @@ namespace ReserbizAPP.LIB.BusinessLogic
             DeleteMultipleEntities(selectedTenants);
             return await SaveChanges();
         }
+
+        public async Task<IEnumerable<Tenant>> GetTenantsBasedOnNameAsync(string tenantName)
+        {
+            var activeTenantsFromRepo = _reserbizRepository.ClientDbContext.Tenants.AsQueryable()
+                                        .Includes(t => t.ContactPersons)
+                                        .Where(t => !t.IsDelete);
+
+            if (!string.IsNullOrEmpty(tenantName))
+            {
+                activeTenantsFromRepo = activeTenantsFromRepo.Where(t => t.FirstName.Contains(tenantName) || t.MiddleName.Contains(tenantName) || t.LastName.Contains(tenantName));
+            }
+
+            return await activeTenantsFromRepo.ToListAsync();
+        }
     }
 }

@@ -5,7 +5,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpHandler,
   HttpRequest,
-  HttpEvent
+  HttpEvent,
 } from '@angular/common/http';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { throwError, Observable, of, from } from 'rxjs';
@@ -22,40 +22,41 @@ export class ErrorInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError(error => {
+      catchError((exception) => {
         // If the error status is Unauthorized and
         // Header request contains Token-Expired,
         // we will send request to refresh the token
         // attempt to resend the request.
-        if (error.status === 401 && error.headers.has('Token-Expired')) {
+        if (exception.status === 401 && exception.headers.has('Token-Expired')) {
           return this.authService.refresh().pipe(
             switchMap(() => {
               return this.updateHeader(req);
             }),
-            switchMap(newRequest => {
+            switchMap((newRequest) => {
               return next.handle(newRequest);
             })
           );
         }
 
-        if (error instanceof HttpErrorResponse) {
-          const applicationError = error.headers.get('Application-Error');
+        let serverError = null;
+        let modelStateErrors = '';
+        if (exception instanceof HttpErrorResponse) {
+          const applicationError = exception.headers.get('Application-Error');
           if (applicationError) {
             return throwError(applicationError);
-          }
-        }
-
-        const serverError = error.error;
-        let modalStateErrors = '';
-        if (serverError.errors && typeof serverError.errors === 'object') {
-          for (const key in serverError.errors) {
-            if (serverError.errors[key]) {
-              modalStateErrors += serverError.errors[key] + '\n';
+          } else {
+            serverError = (<any>exception).error;
+            if (serverError.errors && typeof serverError.errors === 'object') {
+              for (const key in serverError.errors) {
+                if (serverError.errors[key]) {
+                  modelStateErrors += serverError.errors[key] + '\n';
+                }
+              }
             }
           }
         }
 
-        return throwError(modalStateErrors || serverError || 'Server Error');
+        return throwError(modelStateErrors || serverError || 'Server Error');
       })
     );
   }
@@ -65,7 +66,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
       take(1),
       switchMap((t: AuthToken) => {
         req = req.clone({
-          headers: req.headers.set('Authorization', `Bearer ${t.token}`)
+          headers: req.headers.set('Authorization', `Bearer ${t.token}`),
         });
 
         return of(req);
@@ -77,5 +78,5 @@ export class ErrorInterceptorService implements HttpInterceptor {
 export const ErrorInteceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   useClass: ErrorInterceptorService,
-  multi: true
+  multi: true,
 };
