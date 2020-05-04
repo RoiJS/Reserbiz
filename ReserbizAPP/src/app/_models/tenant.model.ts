@@ -50,7 +50,21 @@ export class Tenant {
     // Get color randomly from the list
     return colorList[randomIndex];
   }
-  
+
+  hasContent(): boolean {
+    const hasContent = !!(
+      this.firstName ||
+      this.middleName ||
+      this.lastName ||
+      this.gender ||
+      this.address ||
+      this.contactNumber ||
+      this.emailAddress
+    );
+
+    return hasContent;
+  }
+
   private getNumberFirstDigit(): number {
     const stringId = this.id.toString().split('');
     return +stringId[stringId.length - 1];
