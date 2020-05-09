@@ -1,7 +1,7 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
 
-// Font icon class
+/*#region FONT ICON CLASSES*/
 .fa {
   font-family: 'FontAwesome', 'Font-Awesome';
 }
@@ -13,44 +13,17 @@
 .fa-solid {
   font-family: 'fa-solid-900', 'fa-solid-900';
 }
+/*#endregion*/
 
-.page-container {
-  background-color: $background-dark;
-  width: 100%;
-  height: 100%;
-  padding: 10;
-
-  &__page-divider {
-    width: 100%;
-    margin-top: 10;
-    margin-bottom: 10;
-    Label {
-      font-size: 18;
-      color: $accent-dark;
-      font-weight: bold;
-    }
+/*#region ACTION BAR CLASSES*/
+.action-bar {
+  .action-item-button {
+    font-size: 7;
   }
 }
+/*#endregion*/
 
-// Common page class
-.page-content {
-  .page-placeholder {
-    color: $page-icon-color;
-    font-size: $page-content-placeholder-font-size;
-    vertical-align: center;
-    horizontal-align: center;
-  }
-
-  .page-icon {
-    font-size: 72;
-    vertical-align: top;
-    horizontal-align: center;
-    color: $page-icon-color;
-    margin-top: 20%;
-  }
-}
-
-// Drawer navigation custom styles
+/*#region SIDE DRAWER CLASSES*/
 $sidedrawer-header-image-size: 60;
 $sidedrawer-header-image-offset-top: 20;
 $sidedrawer-header-image-offset-bottom: 5;
@@ -116,36 +89,121 @@ $sidedrawer-list-icon-size: 20;
     }
   }
 }
+/*#endregion*/
 
-.navbar-button {
-  font-size: 7;
-}
-
-.panel-command {
-  width: 100;
-}
-
-.inactive-indicator {
-  width: 15;
-  height: 15;
-  background-color: #ff4d4d;
-  border-radius: 50%;
-  margin-right: 10;
-}
-
-.list-item-template {
-  padding: 10;
-  box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
-  height: 80;
-  margin-top: 5;
-  border-bottom-width: 1;
-  border-color: #cccccc;
-}
-
-.panel {
+/*#region PAGE CONTAINER CLASSES*/
+.page-container {
+  background-color: $background-dark;
   width: 100%;
-  height: auto;
-  background-color: #ffffff;
-  border-radius: 10;
-  box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+  height: 100%;
+  padding: 10;
+
+  &__page-divider {
+    width: 100%;
+    margin-top: 10;
+    margin-bottom: 10;
+    Label {
+      font-size: 18;
+      color: $accent-dark;
+      font-weight: bold;
+    }
+  }
+
+  &__page-command {
+    width: 100;
+  }
+
+  .panel {
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 10;
+    box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+  }
 }
+/*#endregion*/
+
+/*#region LIST CONTAINER CLASSES*/
+.app-list-container {
+  width: 100%;
+  height: 100%;
+
+  .app-list-item-template {
+    background-color: white;
+    border-color: #cccccc;
+    border-bottom-width: 1;
+    border-radius: 10;
+    box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+    margin-top: 5;
+    padding: 10;
+
+    &__image-container {
+      height: 60;
+      width: 60;
+      border-radius: 100%;
+
+      label {
+        font-size: 20;
+        font-weight: bold;
+        color: black;
+      }
+    }
+
+    &__selection-mode {
+      height: 60;
+      width: 60;
+      border-radius: 100%;
+      label {
+        font-size: 20;
+        font-weight: bold;
+        color: white;
+      }
+
+      &--is-selected {
+        background-color: $activate;
+      }
+
+      &--is-not-selected {
+        background-color: $inactivate;
+      }
+    }
+
+    &__inactive-indicator {
+      width: 15;
+      height: 15;
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      margin-right: 10;
+    }
+
+    &__item-main-label {
+      font-size: 15;
+      font-weight: bold;
+      color: black;
+    }
+
+    &__option {
+      width: 50;
+      height: 50;
+      border-radius: 50%;
+      font-size: 20;
+      background-color: white;
+    }
+  }
+
+  .app-list-item-swipe-template {
+    &__option-container {
+      padding-right: 15;
+      width: 35%;
+    }
+
+    &__option {
+      width: 50;
+      height: 50;
+      border-radius: 50%;
+      font-size: 20;
+      background-color: white;
+    }
+  }
+}
+/*#endregion*/

@@ -45,12 +45,14 @@ export class TenantListComponent implements OnInit, OnDestroy {
   private _isCurrentTenantActive = false;
 
   // This will store the location service subscription.
-  private _updateTenantListFlagSub: Subscription;
+  private _loadTenantListFlagSub: Subscription;
 
   private _navigateBackSub: any;
 
   // Flag inidicates whether the current page is navigating to other page.
   private _isNotNavigateToOtherPage = true;
+
+  private _tenantListHasLoaded = false;
 
   constructor(
     private dialogService: DialogService,
@@ -61,7 +63,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this._updateTenantListFlagSub = this.tenantService.updateTenantListFlag.subscribe(
+    this._loadTenantListFlagSub = this.tenantService.loadTenantListFlag.subscribe(
       () => {
         this.getTenantList();
       }
@@ -74,7 +76,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._navigateBackSub.unsubscribe();
-    this._updateTenantListFlagSub.unsubscribe();
+    this._loadTenantListFlagSub.unsubscribe();
   }
 
   /**
@@ -98,6 +100,8 @@ export class TenantListComponent implements OnInit, OnDestroy {
           this._multipleSelectionActive = false;
 
           this._isNotNavigateToOtherPage = true;
+
+          this._tenantListHasLoaded = true;
 
           if (onGetListFinished) {
             onGetListFinished();
@@ -415,20 +419,22 @@ export class TenantListComponent implements OnInit, OnDestroy {
     });
   }
 
-  onClearSearchText(args: any) {
-    args.object.text = '';
-    this.getTenantList(args.object.text);
-  }
-
-  onSubmitSearchText(args: any) {
-    this.getTenantList(args.object.text);
-  }
-
   searchBarLoaded(args: any) {
     const searchbar = args.object;
     if (isAndroid) {
       searchbar.android.clearFocus();
     }
+  }
+
+  onClearSearchText(args: any) {
+    if (this._tenantListHasLoaded) {
+      args.object.text = '';
+      this.getTenantList(args.object.text);
+    }
+  }
+
+  onSubmitSearchText(args: any) {
+    this.getTenantList(args.object.text);
   }
 
   get tenants(): ObservableArray<Tenant> {

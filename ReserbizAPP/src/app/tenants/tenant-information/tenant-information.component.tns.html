@@ -4,18 +4,18 @@
 >
   <ActionItem
     icon="font://&#xf2ed;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenant()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf4fc;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     *ngIf="!currentTenant?.isActive"
     (tap)="activateSelectedTenant()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf506;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     *ngIf="currentTenant?.isActive"
     (tap)="deactivateSelectedTenant()"
   ></ActionItem>

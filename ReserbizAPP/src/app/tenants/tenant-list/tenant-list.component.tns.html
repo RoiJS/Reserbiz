@@ -5,7 +5,7 @@
 >
   <ActionItem
     icon="font://&#xf03a;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     (tap)="activateDeactivateMultipleSelection()"
   ></ActionItem>
 </ns-action-bar>
@@ -18,12 +18,12 @@
 >
   <ActionItem
     icon="font://&#xf2ed;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenants()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
-    class="fa fa-solid navbar-button"
+    class="fa fa-solid action-item-button"
     (tap)="activateDeactivateMultipleSelection()"
   ></ActionItem>
 </ns-action-bar>
@@ -33,18 +33,19 @@
     <SearchBar
       class="m-b-10"
       backgroundColor="white"
+      #searchBar
       [hint]="'TENANTS_LIST_PAGE.SEARCH_BAR_HINT' | translate"
       [text]="searchTenantText"
       (loaded)="searchBarLoaded($event)"
-      (clear)="onClearSearchText($event)"
       (submit)="onSubmitSearchText($event)"
+      (clear)="onClearSearchText($event)"
     >
     </SearchBar>
     <RadListView
       width="100%"
       height="100%"
       #tenantListView
-      class="tenant-list-container"
+      class="app-list-container"
       [items]="tenants"
       swipeActions="true"
       selectionBehavior="Press"
@@ -57,7 +58,7 @@
     >
       <ng-template tkListItemTemplate let-tenant="item">
         <GridLayout
-          class="tenant-detail list-item-template"
+          class="tenant-detail app-list-item-template"
           rows="*, *"
           columns="70, *"
         >
@@ -70,7 +71,7 @@
             class="m-r-10"
           >
             <StackLayout
-              class="tenant-detail__selection-mode tenant-detail__selection-mode--is-not-selected"
+              class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
               verticalAlignment="middle"
             >
             </StackLayout>
@@ -85,7 +86,7 @@
             class="m-r-10"
           >
             <StackLayout
-              class="tenant-detail__selection-mode tenant-detail__selection-mode--is-selected"
+              class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
               verticalAlignment="middle"
             >
               <label
@@ -105,7 +106,7 @@
             class="m-r-10"
           >
             <StackLayout
-              class="tenant-detail__image-container"
+              class="app-list-item-template__image-container"
               verticalAlignment="middle"
               [backgroundColor]="tenant.photoBackgroundColor"
             >
@@ -118,7 +119,7 @@
           </StackLayout>
 
           <StackLayout
-            class="tenant-detail__fullname"
+            class="app-list-item-template__item-main-label"
             verticalAlignment="middle"
             orientation="horizontal"
             row="0"
@@ -126,7 +127,7 @@
           >
             <StackLayout
               *ngIf="!tenant.isActive"
-              class="inactive-indicator"
+              class="app-list-item-template__inactive-indicator"
             ></StackLayout>
             <label class="fullname" [text]="tenant.fullName"></label>
           </StackLayout>
@@ -140,31 +141,31 @@
       <GridLayout
         *tkListItemSwipeTemplate
         columns="*, auto"
-        class="tenant-item-swipe-template"
+        class="app-list-item-swipe-template"
       >
         <FlexBoxLayout
           col="1"
-          class="tenant-item-swipe-template__option-container"
+          class="app-list-item-swipe-template__option-container"
           id="tenantSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
         >
           <button
             alignSelf="center"
-            class="fa fa-solid tenant-item-swipe-template__option"
+            class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf2ed;"
             (tap)="deleteSelectedTenant()"
           ></button>
           <button
             alignSelf="center"
-            class="fa fa-solid tenant-item-swipe-template__option"
+            class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf4fc;"
             (tap)="activateSelectedTenant()"
             *ngIf="!isCurrentTenantActive"
           ></button>
           <button
             alignSelf="center"
-            class="fa fa-solid tenant-item-swipe-template__option"
+            class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf506;"
             (tap)="deactivateSelectedTenant()"
             *ngIf="isCurrentTenantActive"

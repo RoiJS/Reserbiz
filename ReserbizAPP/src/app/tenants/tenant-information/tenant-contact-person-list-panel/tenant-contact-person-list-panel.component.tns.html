@@ -5,14 +5,14 @@
   <label alignSelf="center" text="Contact Persons"></label>
   <button
     alignSelf="center"
-    class="panel-command btn btn-primary btn-rounded-lg"
+    class="page-container__page-command btn btn-primary btn-rounded-lg"
     text="Manage"
     (tap)="onNavigateToManageContactPersonList()"
   ></button>
 </FlexBoxLayout>
-<StackLayout class="contact-person-list-container">
+<StackLayout class="app-list-container">
   <GridLayout
-    class="contact-person-detail list-item-template"
+    class="app-list-item-template"
     rows="*, *"
     columns="70, *"
     *ngFor="let contactPerson of contactPersonList"
@@ -20,7 +20,7 @@
     <!-- Template tenant item photo placeholder -->
     <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
       <StackLayout
-        class="contact-person-detail__image-container"
+        class="app-list-item-template__image-container"
         verticalAlignment="middle"
         [backgroundColor]="contactPerson.photoBackgroundColor"
       >
@@ -33,7 +33,7 @@
     </StackLayout>
 
     <StackLayout
-      class="contact-person-detail__fullname"
+      class="app-list-item-template__item-main-label"
       verticalAlignment="middle"
       row="0"
       col="1"

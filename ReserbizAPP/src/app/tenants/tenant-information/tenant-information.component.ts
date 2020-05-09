@@ -41,7 +41,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentTenantId = +paramMap.get('tenantId');
 
-        this._updateTenantListFlag = this.tenantService.updateTenantListFlag.subscribe(
+        this._updateTenantListFlag = this.tenantService.loadTenantListFlag.subscribe(
           () => {
             this.getTenantInformation();
           }

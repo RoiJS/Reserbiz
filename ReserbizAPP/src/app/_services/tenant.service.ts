@@ -18,7 +18,7 @@ import { ContactPersonCreateDto } from '../_dtos/contact-person-create.dto';
 })
 export class TenantService {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
-  private _updateTenantListFlag = new BehaviorSubject<void>(null);
+  private _loadTenantListFlag = new BehaviorSubject<void>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -142,7 +142,7 @@ export class TenantService {
     );
   }
 
-  get updateTenantListFlag(): BehaviorSubject<void> {
-    return this._updateTenantListFlag;
+  get loadTenantListFlag(): BehaviorSubject<void> {
+    return this._loadTenantListFlag;
   }
 }

@@ -21,7 +21,11 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
           [class.selected]="isComponentSelected(menu.url)"
           (tap)="onNavItemTap(menu.url)"
         >
-          <label col="0" [text]="menu.icon" class="fa fa-regular fa-solid"></label>
+          <label
+            col="0"
+            [text]="menu.icon"
+            class="fa fa-regular fa-solid"
+          ></label>
           <label col="1" [text]="menu.text | translate" class="p-r-10"></label>
         </GridLayout>
         <GridLayout
@@ -36,8 +40,5 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
     </ScrollView>
   </GridLayout>
 
-  <page-router-outlet
-    tkMainContent
-    class="page page-content"
-  ></page-router-outlet>
+  <page-router-outlet tkMainContent></page-router-outlet>
 </RadSideDrawer>

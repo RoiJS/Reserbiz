@@ -129,7 +129,7 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
                     'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
                   ),
                   () => {
-                    this.tenantService.updateTenantListFlag.next();
+                    this.tenantService.loadTenantListFlag.next();
                     this.router.back();
                   }
                 );

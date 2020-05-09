@@ -109,7 +109,7 @@ export class TenantEditDetailsComponent implements OnInit {
                       'TENANT_EDIT_DETAILS_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
                     ),
                     () => {
-                      this.tenantService.updateTenantListFlag.next();
+                      this.tenantService.loadTenantListFlag.next();
                       this.router.back();
                     }
                   );
