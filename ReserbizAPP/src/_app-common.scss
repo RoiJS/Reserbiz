@@ -62,17 +62,23 @@ $sidedrawer-list-icon-size: 20;
     background-color: $side-drawer-background;
 
     $sidedrawer-list-item-offset-left: 15;
+    $sidedrawer-list-item-offset-bottom: 3;
     $sidedrawer-list-icon-offset: 10;
-    $sidedrawer-list-icon-size: 20;
+    $sidedrawer-list-font-size: 15;
+    $sidedrawer-list-icon-size: 25;
+    $sidedrawer-list-width-size: 35;
 
     .sidedrawer-list-item {
+      font-size: $sidedrawer-list-font-size;
       padding-left: $sidedrawer-list-item-offset-left;
+      margin-bottom: $sidedrawer-list-item-offset-bottom;
       label {
         vertical-align: center;
         color: $blue-dark;
       }
       .fa {
-        width: $sidedrawer-list-icon-size;
+        font-size: $sidedrawer-list-icon-size;
+        width: $sidedrawer-list-width-size;
         margin-right: $sidedrawer-list-icon-offset;
       }
       &.selected {
@@ -160,7 +166,7 @@ $sidedrawer-list-icon-size: 20;
       }
 
       &--is-selected {
-        background-color: $activate;
+        background-color: $accent-dark;
       }
 
       &--is-not-selected {
@@ -182,6 +188,10 @@ $sidedrawer-list-icon-size: 20;
       color: black;
     }
 
+    &__item-secondary-label {
+      font-weight: bold;
+    }
+
     &__option {
       width: 50;
       height: 50;
@@ -193,13 +203,15 @@ $sidedrawer-list-icon-size: 20;
 
   .app-list-item-swipe-template {
     &__option-container {
-      padding-right: 15;
-      width: 35%;
+      padding-right: 10;
+      padding-left: 10;
     }
 
     &__option {
       width: 50;
       height: 50;
+      margin-right: 5;
+      margin-left: 5;
       border-radius: 50%;
       font-size: 20;
       background-color: white;

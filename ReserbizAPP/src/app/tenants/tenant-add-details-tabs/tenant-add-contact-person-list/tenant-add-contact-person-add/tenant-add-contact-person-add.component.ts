@@ -26,7 +26,6 @@ export class TenantAddContactPersonAddComponent implements OnInit {
   constructor(
     private addContactPersonsService: AddContactPersonsService,
     private dialogService: DialogService,
-    private pageRoute: PageRoute,
     private router: RouterExtensions,
     private translateService: TranslateService
   ) {}

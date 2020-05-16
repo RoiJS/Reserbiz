@@ -16,7 +16,19 @@ export class AddTenantService {
   }
 
   defaultTenantDetails() {
-    return new Tenant(0, '', '', '', GenderEnum.Male, '', '', '', '', true);
+    const tenant = new Tenant();
+
+    tenant.id = 0;
+    tenant.firstName = '';
+    tenant.middleName = '';
+    tenant.lastName = '';
+    tenant.gender = GenderEnum.Male;
+    tenant.address = '';
+    tenant.contactNumber = '';
+    tenant.emailAddress = '';
+    tenant.photoUrl = '';
+
+    return tenant;
   }
 
   resetTenantDetails() {

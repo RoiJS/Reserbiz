@@ -1,22 +1,23 @@
 import { GenderEnum } from '../_enum/gender.enum';
 import { ContactPerson } from './contact-person.model';
+import { Entity } from './entity.model';
 
-export class Tenant {
-  public contactPersons?: ContactPerson[];
+export class Tenant extends Entity {
+  public id: number;
+  public firstName: string;
+  public middleName: string;
+  public lastName: string;
+  public gender: GenderEnum;
+  public address: string;
+  public contactNumber: string;
+  public emailAddress: string;
+  public photoUrl: string;
+  public isActive: boolean;
+  public isSelected = false;
+  public contactPersons: ContactPerson[];
 
-  constructor(
-    public id: number,
-    public firstName: string,
-    public middleName: string,
-    public lastName: string,
-    public gender: GenderEnum,
-    public address: string,
-    public contactNumber: string,
-    public emailAddress: string,
-    public photoUrl: string,
-    public isActive: boolean,
-    public isSelected = false
-  ) {
+  constructor() {
+    super();
     this.contactPersons = [];
   }
 

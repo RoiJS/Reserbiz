@@ -1,7 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { TenantService } from '@src/app/_services/tenant.service';
-import { Tenant } from '@src/app/_models/tenant.model';
+import { ActionItemService } from '@src/app/_services/action-item.service';
 import { DialogService } from '@src/app/_services/dialog.service';
+import { Tenant } from '@src/app/_models/tenant.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
@@ -26,13 +27,13 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
   private _updateTenantListFlag: Subscription;
 
   constructor(
+    private actionItemService: ActionItemService,
     private dialogService: DialogService,
-    private location: Location,
+    private page: Page,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
     private tenantService: TenantService,
     private translateService: TranslateService,
-    private active: ActivatedRoute,
     private zone: NgZone
   ) {}
 
@@ -61,6 +62,11 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
       .subscribe((tenant: Tenant) => {
         this._isBusy = false;
         this._currentTenant = tenant;
+
+        this.actionItemService
+          .setPage(this.page)
+          .setActionItem('deleteTenantActionItem')
+          .enable(this._currentTenant.isDeletable);
       });
   }
 
@@ -139,6 +145,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
                   () => {
                     this.zone.run(() => {
                       this._currentTenant.isActive = true;
+                      this.tenantService.loadTenantListFlag.next();
                     });
                   }
                 );
@@ -187,6 +194,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
                   () => {
                     this.zone.run(() => {
                       this._currentTenant.isActive = false;
+                      this.tenantService.loadTenantListFlag.next();
                     });
                   }
                 );

@@ -10,12 +10,18 @@ namespace ReserbizAPP.API.Helpers
         {
             CreateMap<Client, ClientDetailsDto>();
             CreateMap<Client, ClientForListDto>();
-            CreateMap<Tenant, TenantDetailsDto>();
-            CreateMap<Tenant, TenantForListDto>();
+            CreateMap<Tenant, TenantDetailsDto>()
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<Tenant, TenantForListDto>()
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<Account, AccountForListDto>();
             CreateMap<Account, AccountForDetailDto>();
             CreateMap<ContactPerson, ContactPersonDetailDto>();
-            CreateMap<SpaceType, SpaceTypeDetailDto>();
+            CreateMap<SpaceType, SpaceTypeDetailDto>()
+             .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<Term, TermDetailDto>()
                 .ForMember(dest => dest.DurationUnitText,
                     opt => opt.MapFrom(src => src.DurationUnit.ToString()))

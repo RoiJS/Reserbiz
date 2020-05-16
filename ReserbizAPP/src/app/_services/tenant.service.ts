@@ -23,41 +23,47 @@ export class TenantService {
   constructor(private http: HttpClient) {}
 
   getTenants(tenantName: string): Observable<Tenant[]> {
-    return this.http.get<Tenant[]>(`${this._apiBaseUrl}/tenant?tenantName=${tenantName}`).pipe(
-      map((tenants: Tenant[]) => {
-        return tenants.map((tenant) => {
-          return new Tenant(
-            tenant.id,
-            tenant.firstName,
-            tenant.middleName,
-            tenant.lastName,
-            tenant.gender,
-            tenant.address,
-            tenant.contactNumber,
-            tenant.emailAddress,
-            tenant.photoUrl,
-            tenant.isActive
-          );
-        });
-      })
-    );
+    return this.http
+      .get<Tenant[]>(`${this._apiBaseUrl}/tenant?tenantName=${tenantName}`)
+      .pipe(
+        map((tenants: Tenant[]) => {
+          return tenants.map((t) => {
+            const tenant = new Tenant();
+
+            tenant.id = t.id;
+            tenant.firstName = t.firstName;
+            tenant.middleName = t.middleName;
+            tenant.lastName = t.lastName;
+            tenant.gender = t.gender;
+            tenant.address = t.address;
+            tenant.contactNumber = t.contactNumber;
+            tenant.emailAddress = t.emailAddress;
+            tenant.photoUrl = t.photoUrl;
+            tenant.isActive = t.isActive;
+            tenant.isDeletable = t.isDeletable;
+
+            return tenant;
+          });
+        })
+      );
   }
 
   getTenant(tenantId: number): Observable<Tenant> {
     return this.http.get<Tenant>(`${this._apiBaseUrl}/tenant/${tenantId}`).pipe(
       map((t: Tenant) => {
-        const tenant = new Tenant(
-          t.id,
-          t.firstName,
-          t.middleName,
-          t.lastName,
-          t.gender,
-          t.address,
-          t.contactNumber,
-          t.emailAddress,
-          t.photoUrl,
-          t.isActive
-        );
+        const tenant = new Tenant();
+
+        tenant.id = t.id;
+        tenant.firstName = t.firstName;
+        tenant.middleName = t.middleName;
+        tenant.lastName = t.lastName;
+        tenant.gender = t.gender;
+        tenant.address = t.address;
+        tenant.contactNumber = t.contactNumber;
+        tenant.emailAddress = t.emailAddress;
+        tenant.photoUrl = t.photoUrl;
+        tenant.isActive = t.isActive;
+        tenant.isDeletable = t.isDeletable;
 
         tenant.contactPersons = t.contactPersons.map((c: ContactPerson) => {
           const contactPerson = new ContactPerson();

@@ -1,7 +1,173 @@
 <ns-action-bar
-  title="Space Types"
+  [title]="'SPACE_TYPE_LIST_PAGE.ACTION_BAR_TITLE' | translate"
   [showBackButton]="false"
-></ns-action-bar>
-<StackLayout>
-  <Label text="Space type List Page Here!!"></Label>
-</StackLayout>
+  *ngIf="!multipleSelectionActive"
+>
+  <ActionItem
+    icon="font://&#xf03a;"
+    class="fa fa-solid action-item-button"
+    (tap)="activateDeactivateMultipleSelection()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-action-bar
+  [title]="selectedCount"
+  [showBackButton]="false"
+  [hasMenu]="false"
+  *ngIf="multipleSelectionActive"
+>
+  <ActionItem
+    icon="font://&#xf2ed;"
+    class="fa fa-solid action-item-button"
+    (tap)="deleteSelectedSpaceTypes()"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf00d;"
+    class="fa fa-solid action-item-button"
+    (tap)="activateDeactivateMultipleSelection()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <SearchBar
+      class="m-b-10"
+      backgroundColor="white"
+      #searchBar
+      [hint]="'SPACE_TYPE_LIST_PAGE.SEARCH_BAR_HINT' | translate"
+      (loaded)="searchBarLoaded($event)"
+      (submit)="onSubmitSearchText($event)"
+      (clear)="onClearSearchText($event)"
+    >
+    </SearchBar>
+    <RadListView
+      width="100%"
+      height="100%"
+      #tenantListView
+      class="app-list-container"
+      [items]="spaceTypeList"
+      swipeActions="true"
+      selectionBehavior="Press"
+      multipleSelection="true"
+      pullToRefresh="true"
+      (itemSelected)="goSpaceTypeDetails($event)"
+      (itemDeselected)="deselectedItem($event)"
+      (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
+      (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+    >
+      <ng-template tkListItemTemplate let-spaceType="item">
+        <GridLayout
+          class="app-list-item-template"
+          rows="*, *, *"
+          columns="70, *"
+        >
+          <StackLayout
+            *ngIf="multipleSelectionActive && !spaceType.isSelected"
+            row="0"
+            col="0"
+            rowSpan="2"
+            class="m-r-10"
+          >
+            <StackLayout
+              class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
+              verticalAlignment="middle"
+            >
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout
+            *ngIf="multipleSelectionActive && spaceType.isSelected"
+            row="0"
+            col="0"
+            rowSpan="2"
+            class="m-r-10"
+          >
+            <StackLayout
+              class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
+              verticalAlignment="middle"
+            >
+              <label
+                class="fa fa-solid"
+                horizontalAlignment="center"
+                text="&#xf00c;"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout
+            *ngIf="!multipleSelectionActive && !spaceType.isSelected"
+            row="0"
+            col="0"
+            rowSpan="2"
+            class="m-r-10"
+          >
+            <StackLayout
+              class="app-list-item-template__image-container"
+              verticalAlignment="middle"
+              [backgroundColor]="spaceType.photoBackgroundColor"
+            >
+              <label
+                class="image"
+                horizontalAlignment="center"
+                [text]="spaceType.nameInitials"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout
+            class="app-list-item-template__item-main-label"
+            verticalAlignment="middle"
+            orientation="horizontal"
+            row="0"
+            col="1"
+          >
+            <label [text]="spaceType.name"></label>
+          </StackLayout>
+
+          <StackLayout
+            class="app-list-item-template__item-secondary-label"
+            row="1"
+            col="1"
+          >
+            <label [text]="spaceType.description" fontWeight="bold"></label>
+          </StackLayout>
+
+          <StackLayout orientation="horizontal" row="2" col="1">
+            <label
+              [text]="'SPACE_TYPE_LIST_PAGE.AVAILABLE_SLOT' | translate"
+              class="m-r-5"
+            ></label>
+            <label [text]="spaceType.availableSlot"></label>
+          </StackLayout>
+        </GridLayout>
+      </ng-template>
+
+      <GridLayout
+        *tkListItemSwipeTemplate
+        columns="*, auto"
+        class="app-list-item-swipe-template"
+      >
+        <FlexBoxLayout
+          col="1"
+          class="app-list-item-swipe-template__option-container"
+          id="swipeActions"
+          justifyContent="space-around"
+          *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
+        >
+          <button
+            alignSelf="center"
+            class="fa fa-solid app-list-item-swipe-template__option"
+            text="&#xf2ed;"
+            [isEnabled]="currentSpaceTypeDeletable"
+            (tap)="deleteSelectedSpaceType($event)"
+          ></button>
+        </FlexBoxLayout>
+      </GridLayout>
+    </RadListView>
+  </StackLayout>
+
+  <ns-floating-button
+    (tapButton)="goToAddSpaceTypesPage()"
+    [icon]="'&#xf067;'"
+  ></ns-floating-button>
+</ns-loader-layout>

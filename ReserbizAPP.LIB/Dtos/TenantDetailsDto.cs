@@ -15,6 +15,7 @@ namespace ReserbizAPP.LIB.Dtos
         public string ContactNumber { get; set; }
         public string EmailAddress { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDeletable { get; set; }
         public List<ContactPersonDetailDto> ContactPersons { get; set; }
     }
 }

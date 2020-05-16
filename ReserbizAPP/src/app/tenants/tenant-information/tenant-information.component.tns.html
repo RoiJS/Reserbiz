@@ -1,20 +1,18 @@
-<ns-action-bar
-  [title]="currentTenant?.fullName"
-  [hasMenu]="false"
->
+<ns-action-bar [title]="currentTenant?.fullName" [hasMenu]="false">
   <ActionItem
+    id="deleteTenantActionItem"
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenant()"
   ></ActionItem>
   <ActionItem
-    icon="font://&#xf4fc;"
+    icon="font://&#xf00c;"
     class="fa fa-solid action-item-button"
     *ngIf="!currentTenant?.isActive"
     (tap)="activateSelectedTenant()"
   ></ActionItem>
   <ActionItem
-    icon="font://&#xf506;"
+    icon="font://&#xf05e;"
     class="fa fa-solid action-item-button"
     *ngIf="currentTenant?.isActive"
     (tap)="deactivateSelectedTenant()"

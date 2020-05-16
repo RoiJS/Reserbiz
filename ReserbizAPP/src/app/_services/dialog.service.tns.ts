@@ -29,7 +29,7 @@ export class DialogService {
           buttonStyle: CFAlertActionStyle.POSITIVE,
           buttonAlignment: CFAlertActionAlignment.END,
           textColor: '#FFFFFF',
-          backgroundColor: '#3A53FF',
+          backgroundColor: '#f2c112',
           onClick: function () {
             if (onClickEvent) {
               onClickEvent();
@@ -51,7 +51,7 @@ export class DialogService {
         {
           text: ButtonOptions.YES,
           buttonStyle: CFAlertActionStyle.POSITIVE,
-          backgroundColor: '#3A53FF',
+          backgroundColor: '#f2c112',
           buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
           onClick: function () {},
         },

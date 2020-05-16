@@ -45,7 +45,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetSpaceType")]
         public async Task<ActionResult<SpaceTypeDetailDto>> GetSpaceType(int id)
         {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetSpaceTypeAsync(id);
 
             if (spaceTypeFromRepo == null)
                 return NotFound("Space type not found.");
@@ -56,13 +56,11 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SpaceTypeDetailDto>>> GetSpaceTypes(int id)
+        public async Task<ActionResult<IEnumerable<SpaceTypeDetailDto>>> GetSpaceTypes(string spaceTypeName)
         {
-            var spaceTypesFromRepo = await _spaceTypeRepo.GetAllEntities().ToListObjectAsync();
+            var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesBasedOnNameAsync(spaceTypeName);
 
-            var spaceTypesToReturn = _mapper.Map<IEnumerable<SpaceTypeDetailDto>>(spaceTypesFromRepo);
-
-            return Ok(spaceTypesToReturn);
+            return Ok(spaceTypesFromRepo);
         }
 
         [HttpPut("{id}")]
@@ -71,7 +69,7 @@ namespace ReserbizAPP.API.Controllers
             var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
 
             _spaceTypeRepo.SetCurrentUserId(CurrentUserId);
-            
+
             _mapper.Map(spaceTypeForUpdateDto, spaceTypeFromRepo);
 
             if (!_spaceTypeRepo.HasChanged())
@@ -101,6 +99,18 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(spaceTypeToReturn);
 
             throw new Exception($"Deleting space type with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleSpaceTypes")]
+        public async Task<IActionResult> DeleteMultipleTenants(List<int> spaceTypeIds)
+        {
+            if (spaceTypeIds.Count == 0)
+                return BadRequest("Empty space type id list.");
+
+            if (await _spaceTypeRepo.DeleteMultipleSpaceTypesAsync(spaceTypeIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting space types!");
         }
     }
 }

@@ -13,7 +13,8 @@
     "GENDER": {
       "MALE": "Male",
       "FEMALE": "Female"
-    }
+    },
+    "SELECTED_ITEMS": "Selected Items"
   },
 
   "AUTH_PAGE": {
@@ -309,6 +310,88 @@
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
         "SUCCESS_MESSAGE": "New changes has been saved!",
         "ERROR_MESSAGE": "Saving new update failed! Please try again later."
+      }
+    }
+  },
+
+  "SPACE_TYPE_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Space Types",
+    "SEARCH_BAR_HINT": "Enter space type name here...",
+    "SELECTED_SPACE_TYPES": "Selected Space Types",
+    "AVAILABLE_SLOT": "Available Slot",
+
+    "REMOVE_SPACE_TYPES_DIALOG": {
+      "TITLE": "Remove space types",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected space types?",
+      "SUCCESS_MESSAGE": "Selected space types have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected space types. Please try again later."
+    },
+    "REMOVE_SPACE_TYPE_DIALOG": {
+      "TITLE": "Remove space type",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
+      "SUCCESS_MESSAGE": "Selected space type has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+    }
+  },
+
+  "SPACE_TYPE_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Space Type",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Please enter name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description"
+      },
+      "RATE_CONTROL": {
+        "CONTROL_LABEL": "Rate:",
+        "HINT_TEXT": "Please enter rate"
+      },
+      "SLOT_CONTROL": {
+        "CONTROL_LABEL": "Slot:",
+        "HINT_TEXT": "Please enter slot"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Space Type",
+        "CONFIRM_MESSAGE": "Are you sure to save new space type?",
+        "SUCCESS_MESSAGE": "New space type has been saved!",
+        "ERROR_MESSAGE": "Saving new space type failed. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_TYPE_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Space Type",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Please enter name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description"
+      },
+      "RATE_CONTROL": {
+        "CONTROL_LABEL": "Rate:",
+        "HINT_TEXT": "Please enter rate"
+      },
+      "SLOT_CONTROL": {
+        "CONTROL_LABEL": "Slot:",
+        "HINT_TEXT": "Please enter slot"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Space Type",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving changes failed. Please try again later."
+      },
+      "REMOVE_SPACE_TYPE_DIALOG": {
+        "TITLE": "Remove space type",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
+        "SUCCESS_MESSAGE": "Selected space type has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
       }
     }
   }

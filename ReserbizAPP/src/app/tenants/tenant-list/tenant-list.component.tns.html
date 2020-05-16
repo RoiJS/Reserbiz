@@ -35,7 +35,6 @@
       backgroundColor="white"
       #searchBar
       [hint]="'TENANTS_LIST_PAGE.SEARCH_BAR_HINT' | translate"
-      [text]="searchTenantText"
       (loaded)="searchBarLoaded($event)"
       (submit)="onSubmitSearchText($event)"
       (clear)="onClearSearchText($event)"
@@ -154,19 +153,20 @@
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf2ed;"
+            [isEnabled]="isCurrentTenantDeletable"
             (tap)="deleteSelectedTenant()"
           ></button>
           <button
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
-            text="&#xf4fc;"
+            text="&#xf00c;"
             (tap)="activateSelectedTenant()"
             *ngIf="!isCurrentTenantActive"
           ></button>
           <button
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
-            text="&#xf506;"
+            text="&#xf05e;"
             (tap)="deactivateSelectedTenant()"
             *ngIf="isCurrentTenantActive"
           ></button>

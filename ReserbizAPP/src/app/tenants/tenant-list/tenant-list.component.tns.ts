@@ -44,6 +44,8 @@ export class TenantListComponent implements OnInit, OnDestroy {
   // Flag indicates whether the current selected tenant is active or not.
   private _isCurrentTenantActive = false;
 
+  private _isCurrentTenantDeletable = true;
+
   // This will store the location service subscription.
   private _loadTenantListFlagSub: Subscription;
 
@@ -84,8 +86,8 @@ export class TenantListComponent implements OnInit, OnDestroy {
    * @param onGetListFinished Optional parameter function trigger after retrieving list of tenants
    */
   getTenantList(tenantName: string = '', onGetListFinished?: () => void) {
+    this._isBusy = true;
     setTimeout(() => {
-      this._isBusy = true;
       this.tenantService
         .getTenants(tenantName)
         .pipe(
@@ -137,6 +139,12 @@ export class TenantListComponent implements OnInit, OnDestroy {
         });
       }, 100);
     } else {
+      // This will prevent the item from being selected
+      if (!selectedTenant.isDeletable) {
+        this.tenantListView.listView.deselectItemAt(args.index);
+        return;
+      }
+
       selectedTenant.isSelected = true;
     }
   }
@@ -400,6 +408,7 @@ export class TenantListComponent implements OnInit, OnDestroy {
     this._currentTenant = (<SwipeActionsEventData>args).mainView
       .bindingContext as Tenant;
     this._isCurrentTenantActive = this._currentTenant.isActive;
+    this._isCurrentTenantDeletable = this._currentTenant.isDeletable;
     const swipeLimits = args.data.swipeLimits;
     const swipeView = args['object'];
     const tenantSwipeActions = swipeView.getViewById<View>(
@@ -457,6 +466,10 @@ export class TenantListComponent implements OnInit, OnDestroy {
 
   get isCurrentTenantActive(): boolean {
     return this._isCurrentTenantActive;
+  }
+
+  get isCurrentTenantDeletable(): boolean {
+    return this._isCurrentTenantDeletable;
   }
 
   get isNotNavigateToOtherPage(): boolean {

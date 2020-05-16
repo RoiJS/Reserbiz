@@ -66,18 +66,19 @@ export class TenantDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   initTenantDetails() {
-    this._newTenantDetails = new Tenant(
-      0,
-      '',
-      '',
-      '',
-      GenderEnum.Male,
-      '',
-      '',
-      '',
-      '',
-      true
-    );
+    this._newTenantDetails = new Tenant();
+
+    this._newTenantDetails.id = 0;
+    this._newTenantDetails.firstName = '';
+    this._newTenantDetails.middleName = '';
+    this._newTenantDetails.lastName = '';
+    this._newTenantDetails.gender = GenderEnum.Male;
+    this._newTenantDetails.address = '';
+    this._newTenantDetails.contactNumber = '';
+    this._newTenantDetails.emailAddress = '';
+    this._newTenantDetails.photoUrl = '';
+
+    return this._newTenantDetails;
   }
 
   initTenantForm() {

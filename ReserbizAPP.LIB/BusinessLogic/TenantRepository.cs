@@ -26,6 +26,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var tenant = await _reserbizRepository.ClientDbContext.Tenants
                 .Include(t => t.ContactPersons)
+                .Include(t => t.Contracts)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             return tenant;
@@ -41,7 +42,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return activeTenantsFromRepo;
         }
 
-        public async Task<bool> DeleteMultipleTenants(List<int> tenantIds)
+        public async Task<bool> DeleteMultipleTenantsAsync(List<int> tenantIds)
         {
             var selectedTenants = await _reserbizRepository
                 .ClientDbContext
@@ -55,7 +56,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<IEnumerable<Tenant>> GetTenantsBasedOnNameAsync(string tenantName)
         {
             var activeTenantsFromRepo = _reserbizRepository.ClientDbContext.Tenants.AsQueryable()
-                                        .Includes(t => t.ContactPersons)
+                                        .Includes(t => t.Contracts)
                                         .Where(t => !t.IsDelete);
 
             if (!string.IsNullOrEmpty(tenantName))
