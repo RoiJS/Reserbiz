@@ -5,7 +5,7 @@
   <ActionItem
     icon="font://&#xf0c7;"
     class="fa action-item-button"
-    (tap)="saveInformation()"
+    (tap)="saveNewInformation()"
   ></ActionItem>
 </ns-action-bar>
 
@@ -15,7 +15,7 @@
       <RadDataForm
         width="100%"
         height="100%"
-        [source]="contactPersonFormSource"
+        [source]="entityFormSource"
         [isReadOnly]="isBusy"
       >
         <TKPropertyGroup tkDataFormGroups>

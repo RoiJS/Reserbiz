@@ -1,6 +1,7 @@
 import { GenderEnum } from '../_enum/gender.enum';
+import { Entity } from './entity.model';
 
-export class ContactPerson {
+export class ContactPerson extends Entity {
   public id: number;
   public firstName: string;
   public middleName: string;
@@ -12,6 +13,7 @@ export class ContactPerson {
   public isActive: boolean;
 
   constructor() {
+    super();
     this.id = 0;
     this.firstName = '';
     this.middleName = '';
@@ -36,22 +38,9 @@ export class ContactPerson {
   }
 
   get photoBackgroundColor(): string {
-    const colorList = [
-      '#f6d186',
-      '#a8d3da',
-      '#f4eeff',
-      '#ffaaa5',
-      '#beebe9',
-      '#f6eec7',
-      '#ffd5e5',
-      '#ffffdd',
-      '#81f5ff',
-      '#ffffc5',
-    ];
-
     const randomIndex = this.getNumberFirstDigit();
     // Get color randomly from the list
-    return colorList[randomIndex];
+    return this.colorList[randomIndex];
   }
 
   private getNumberFirstDigit(): number {

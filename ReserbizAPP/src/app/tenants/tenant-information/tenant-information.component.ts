@@ -85,7 +85,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
           this._isBusy = true;
 
           this.tenantService
-            .deleteTenant(this._currentTenant.id)
+            .deleteItem(this._currentTenant.id)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
@@ -131,7 +131,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
           this._isBusy = true;
 
           this.tenantService
-            .setTenantStatus(this._currentTenant.id, true)
+            .setEntityStatus(this._currentTenant.id, true)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
@@ -180,7 +180,7 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
           this._isBusy = true;
 
           this.tenantService
-            .setTenantStatus(this._currentTenant.id, false)
+            .setEntityStatus(this._currentTenant.id, false)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {

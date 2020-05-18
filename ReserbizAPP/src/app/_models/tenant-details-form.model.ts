@@ -1,7 +1,9 @@
 import { BaseForm } from './base-form.model';
 import { GenderEnum } from '../_enum/gender.enum';
+import { IBaseFormSource } from '../_interfaces/ibase-form-source.interface';
 
-export class TenantDetailsFormSource extends BaseForm<TenantDetailsFormSource> {
+export class TenantDetailsFormSource extends BaseForm<TenantDetailsFormSource>
+  implements IBaseFormSource<TenantDetailsFormSource> {
   constructor(
     public firstName: string,
     public middleName: string,

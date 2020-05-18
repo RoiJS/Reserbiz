@@ -2,84 +2,68 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { environment } from '@src/environments/environment';
 
+import { BaseService } from './base.service';
 import { SpaceType } from '../_models/space-type.model';
-import { SpaceTypeDto } from '../_dtos/space-type.dto';
+import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { SpaceTypeMapper } from '../_helpers/space-type-mapper.helper';
+import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({ providedIn: 'root' })
-export class SpaceTypeService {
+export class SpaceTypeService extends BaseService<SpaceType>
+  implements IBaseService<SpaceType> {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _loadSpaceTypesFlag = new BehaviorSubject<void>(null);
 
-  constructor(private http: HttpClient) {}
-
-  getSpaceTypes(name: string): Observable<SpaceType[]> {
-    return this.http
-      .get<SpaceType[]>(`${this._apiBaseUrl}/spaceType?spaceTypeName=${name}`)
-      .pipe(
-        map((spaceTypes: SpaceType[]) => {
-          return spaceTypes.map((st: SpaceType) => {
-            const spaceType = new SpaceType();
-            spaceType.id = st.id;
-            spaceType.name = st.name;
-            spaceType.description = st.description;
-            spaceType.rate = st.rate;
-            spaceType.availableSlot = st.availableSlot;
-            spaceType.isActive = st.isActive;
-            spaceType.isDeletable = st.isDeletable;
-            return spaceType;
-          });
-        })
-      );
+  constructor(public http: HttpClient) {
+    super(new SpaceTypeMapper(), http);
   }
 
-  getSpaceType(id: number): Observable<SpaceType> {
-    return this.http.get<SpaceType>(`${this._apiBaseUrl}/spaceType/${id}`).pipe(
-      map((st: SpaceType) => {
-        const spaceType = new SpaceType();
-        spaceType.id = st.id;
-        spaceType.name = st.name;
-        spaceType.description = st.description;
-        spaceType.rate = st.rate;
-        spaceType.availableSlot = st.availableSlot;
-        spaceType.isActive = st.isActive;
-        spaceType.isDeletable = st.isDeletable;
-        return spaceType;
-      })
+  getSpaceType(spaceTypeId: number): Observable<SpaceType> {
+    return this.getEntityFromServer(
+      `${this._apiBaseUrl}/spaceType/${spaceTypeId}`
     );
   }
 
-  deleteMultipleSpaceTypes(spaceTypes: SpaceType[]): Observable<void> {
-    const spaceTypeIds = spaceTypes.map((spaceType) => spaceType.id);
+  getEntities(entityFilter: IEntityFilter): Observable<SpaceType[]> {
+    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    return this.getEntitiesFromServer(
+      `${this._apiBaseUrl}/spaceType?spaceTypeName=${searchKeyword}`
+    );
+  }
 
-    return this.http.post<void>(
+  deleteMultipleItems(spaceTypes: SpaceType[]): Observable<void> {
+    return this.deleteMultipleItemsOnServer(
       `${this._apiBaseUrl}/spaceType/deleteMultipleSpaceTypes`,
-      spaceTypeIds
+      spaceTypes
     );
   }
 
-  deleteSpaceType(tenantId: number): Observable<void> {
-    return this.http.delete<void>(`${this._apiBaseUrl}/spaceType/${tenantId}`);
+  deleteItem(spaceTypeId: number): Observable<void> {
+    return this.deleteItemOnServer(
+      `${this._apiBaseUrl}/spaceType/${spaceTypeId}`
+    );
   }
 
-  saveNewSpaceType(spaceTypeForCreate: SpaceTypeDto): Observable<void> {
-    return this.http.post<void>(
+  saveNewEntity(spaceTypeForCreate: IDtoProcess): Observable<void> {
+    return this.saveNewEntityToServer(
       `${this._apiBaseUrl}/spaceType/create`,
-      spaceTypeForCreate
+      spaceTypeForCreate.dtoEntity
     );
   }
 
-  updateSpaceType(
-    id: number,
-    spaceTypeForUpdate: SpaceTypeDto
-  ): Observable<void> {
-    return this.http.put<void>(
-      `${this._apiBaseUrl}/spaceType/${id}`,
-      spaceTypeForUpdate
+  updateEntity(spaceTypeForUpdate: IDtoProcess): Observable<void> {
+    return this.updateEntityToServer(
+      `${this._apiBaseUrl}/spaceType/${spaceTypeForUpdate.id}`,
+      spaceTypeForUpdate.dtoEntity
     );
+  }
+
+  reloadListFlag() {
+    this._loadSpaceTypesFlag.next();
   }
 
   get loadSpaceTypesFlag(): BehaviorSubject<void> {

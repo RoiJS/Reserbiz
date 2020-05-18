@@ -19,7 +19,7 @@
   <ActionItem
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
-    (tap)="deleteSelectedSpaceTypes()"
+    (tap)="deleteSelectedItems()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
@@ -43,14 +43,14 @@
     <RadListView
       width="100%"
       height="100%"
-      #tenantListView
+      #appListView
       class="app-list-container"
-      [items]="spaceTypeList"
+      [items]="items"
       swipeActions="true"
       selectionBehavior="Press"
       multipleSelection="true"
       pullToRefresh="true"
-      (itemSelected)="goSpaceTypeDetails($event)"
+      (itemSelected)="selectItem($event.index, '/space-types/space-type-edit/:id')"
       (itemDeselected)="deselectedItem($event)"
       (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
       (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
@@ -150,7 +150,7 @@
         <FlexBoxLayout
           col="1"
           class="app-list-item-swipe-template__option-container"
-          id="swipeActions"
+          id="itemSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
         >
@@ -158,8 +158,8 @@
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf2ed;"
-            [isEnabled]="currentSpaceTypeDeletable"
-            (tap)="deleteSelectedSpaceType($event)"
+            [isEnabled]="isCurrentItemDeletable"
+            (tap)="deleteSelectedItem($event)"
           ></button>
         </FlexBoxLayout>
       </GridLayout>
@@ -167,7 +167,7 @@
   </StackLayout>
 
   <ns-floating-button
-    (tapButton)="goToAddSpaceTypesPage()"
+    (tapButton)="navigateToOtherPage('space-types/space-type-add')"
     [icon]="'&#xf067;'"
   ></ns-floating-button>
 </ns-loader-layout>

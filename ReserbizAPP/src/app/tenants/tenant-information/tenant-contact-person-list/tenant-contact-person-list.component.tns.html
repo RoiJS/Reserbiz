@@ -19,7 +19,7 @@
   <ActionItem
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
-    (tap)="deleteSelectedContactPersons()"
+    (tap)="deleteSelectedItems()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
@@ -31,22 +31,20 @@
 <ns-loader-layout [busy]="IsBusy">
   <StackLayout width="100%" height="100%" class="page-container">
     <RadListView
-      #contactPersonView
+      width="100%"
+      height="100%"
+      #appListView
       class="app-list-container"
-      [items]="contactPersonList"
+      [items]="items"
       swipeActions="true"
       selectionBehavior="Press"
       multipleSelection="true"
-      (itemSelected)="goToEditDetailsFromMainItem($event)"
+      (itemSelected)="selectItem($event.index, ':id')"
       (itemDeselected)="deselectedItem($event)"
       (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
     >
       <ng-template tkListItemTemplate let-contactPerson="item">
-        <GridLayout
-          class="app-list-item-template"
-          rows="*, *"
-          columns="70, *"
-        >
+        <GridLayout class="app-list-item-template" rows="*, *" columns="70, *">
           <!-- Template for not selected tenant Item -->
           <StackLayout
             *ngIf="multipleSelectionActive && !contactPerson.isSelected"
@@ -129,7 +127,7 @@
         <FlexBoxLayout
           col="1"
           class="app-list-item-swipe-template__option-container"
-          id="contactPersonSwipeActions"
+          id="itemSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
         >
@@ -143,7 +141,7 @@
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf2ed;"
-            (tap)="deleteSelectedContactPerson()"
+            (tap)="deleteSelectedItem()"
           ></button>
         </FlexBoxLayout>
       </GridLayout>

@@ -32,7 +32,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var selectedContactPersons = await _reserbizRepository
                 .ClientDbContext
                 .ContactPersons
-                .Where(t => contactPersonIds.IndexOf(t.Id) > -1).ToListAsync();
+                .Where(t => contactPersonIds.Contains(t.Id)).ToListAsync();
 
             DeleteMultipleEntities(selectedContactPersons);
             return await SaveChanges();

@@ -2,103 +2,69 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { ContactPerson } from '../_models/contact-person.model';
 import { environment } from '@src/environments/environment';
-import { ContactPersonCreateDto } from '../_dtos/contact-person-create.dto';
-import { ContactPersonUpdateDto } from '../_dtos/contact-person-update.dto';
+
+import { BaseService } from './base.service';
+import { ContactPersonMapper } from '../_helpers/contact-person-mapper.helper';
+import { ContactPerson } from '../_models/contact-person.model';
+import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ContactPersonService {
+export class ContactPersonService extends BaseService<ContactPerson>
+  implements IBaseService<ContactPerson> {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _updateContactPersonListFlag = new BehaviorSubject<void>(null);
 
-  constructor(private http: HttpClient) {}
-
-  getContactPersons(tenantId: number): Observable<ContactPerson[]> {
-    return this.http
-      .get<ContactPerson[]>(
-        `${this._apiBaseUrl}/ContactPerson/getAllContactPersonsPerTenant/${tenantId}`
-      )
-      .pipe(
-        map((contactPersons: ContactPerson[]) => {
-          return contactPersons.map((cp: ContactPerson) => {
-            const contactPerson = new ContactPerson();
-
-            contactPerson.id = cp.id;
-            contactPerson.firstName = cp.firstName;
-            contactPerson.middleName = cp.middleName;
-            contactPerson.lastName = cp.lastName;
-            contactPerson.gender = cp.gender;
-            contactPerson.contactNumber = cp.contactNumber;
-            contactPerson.tenantId = cp.tenantId;
-
-            return contactPerson;
-          });
-        })
-      );
+  constructor(public http: HttpClient) {
+    super(new ContactPersonMapper(), http);
   }
 
   getContactPerson(contactPersonId: number): Observable<ContactPerson> {
-    return this.http
-      .get<ContactPerson>(
-        `${this._apiBaseUrl}/ContactPerson/${contactPersonId}`
-      )
-      .pipe(
-        map((cp: ContactPerson) => {
-          const contactPerson = new ContactPerson();
-          contactPerson.id = cp.id;
-          contactPerson.firstName = cp.firstName;
-          contactPerson.middleName = cp.middleName;
-          contactPerson.lastName = cp.lastName;
-          contactPerson.gender = cp.gender;
-          contactPerson.contactNumber = cp.contactNumber;
-          contactPerson.tenantId = cp.tenantId;
-          return contactPerson;
-        })
-      );
+    return this.getEntityFromServer(
+      `${this._apiBaseUrl}/ContactPerson/${contactPersonId}`
+    );
   }
 
-  deleteMultipleContactPersons(
-    contactPersons: ContactPerson[]
-  ): Observable<void> {
-    const contactPersonIds = contactPersons.map(
-      (contactPerson) => contactPerson.id
+  getEntities(entityFilter: IEntityFilter): Observable<ContactPerson[]> {
+    return this.getEntitiesFromServer(
+      `${this._apiBaseUrl}/ContactPerson/getAllContactPersonsPerTenant/${entityFilter.parentId}`
     );
+  }
 
-    return this.http.post<void>(
+  deleteMultipleItems(contactPersons: ContactPerson[]): Observable<void> {
+    return this.deleteMultipleItemsOnServer(
       `${this._apiBaseUrl}/contactPerson/deleteMultipleContactPersons`,
-      contactPersonIds
+      contactPersons
     );
   }
 
-  deleteContactPerson(contactPersonId: number): Observable<void> {
-    return this.http.delete<void>(
+  deleteItem(contactPersonId: number): Observable<void> {
+    return this.deleteItemOnServer(
       `${this._apiBaseUrl}/contactPerson/${contactPersonId}`
     );
   }
 
-  createContactPerson(
-    tenantId: number,
-    contactPersonForCreate: ContactPersonCreateDto
-  ): Observable<ContactPersonCreateDto> {
-    return this.http.post<ContactPersonCreateDto>(
-      `${this._apiBaseUrl}/contactPerson/create?tenantId=${tenantId}`,
-      contactPersonForCreate
+  saveNewEntity(contactPersonForCreate: IDtoProcess): Observable<void> {
+    return this.saveNewEntityToServer(
+      `${this._apiBaseUrl}/contactPerson/create?tenantId=${contactPersonForCreate.id}`,
+      contactPersonForCreate.dtoEntity
     );
   }
 
-  updateContactPerson(
-    tenantId: number,
-    contactPersonUpdateDto: ContactPersonUpdateDto
-  ): Observable<void> {
-    return this.http.put<void>(
-      `${this._apiBaseUrl}/contactPerson/${tenantId}`,
-      contactPersonUpdateDto
+  updateEntity(contactPersonUpdateDto: IDtoProcess): Observable<void> {
+    return this.updateEntityToServer(
+      `${this._apiBaseUrl}/contactPerson/${contactPersonUpdateDto.id}`,
+      contactPersonUpdateDto.dtoEntity
     );
+  }
+
+  reloadListFlag() {
+    this._updateContactPersonListFlag.next();
   }
 
   get updateContactPersonListFlag(): BehaviorSubject<void> {

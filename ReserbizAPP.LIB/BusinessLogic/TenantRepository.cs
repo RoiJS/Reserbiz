@@ -47,7 +47,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var selectedTenants = await _reserbizRepository
                 .ClientDbContext
                 .Tenants
-                .Where(t => tenantIds.IndexOf(t.Id) > -1).ToListAsync();
+                .Where(t => tenantIds.Contains(t.Id)).ToListAsync();
 
             DeleteMultipleEntities(selectedTenants);
             return await SaveChanges();

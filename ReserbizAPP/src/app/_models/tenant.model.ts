@@ -14,11 +14,10 @@ export class Tenant extends Entity {
   public photoUrl: string;
   public isActive: boolean;
   public isSelected = false;
-  public contactPersons: ContactPerson[];
+  public contactPersons: ContactPerson[] = [];
 
   constructor() {
     super();
-    this.contactPersons = [];
   }
 
   get fullName(): string {

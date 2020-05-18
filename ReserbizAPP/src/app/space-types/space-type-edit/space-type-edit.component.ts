@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
 import { Page } from 'tns-core-modules/ui/page/page';
 
 import { finalize, take } from 'rxjs/operators';
@@ -15,31 +14,32 @@ import { SpaceTypeDto } from '@src/app/_dtos/space-type.dto';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { ActionItemService } from '@src/app/_services/action-item.service';
+import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
+import { SpaceTypeMapper } from '@src/app/_helpers/space-type-mapper.helper';
+import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
 
 @Component({
   selector: 'ns-space-type-edit',
   templateUrl: './space-type-edit.component.html',
   styleUrls: ['./space-type-edit.component.scss'],
 })
-export class SpaceTypeEditComponent implements OnInit {
-  @ViewChild(RadDataFormComponent, { static: false })
-  spaceTypeForm: RadDataFormComponent;
-
-  private _currentSpaceType: SpaceType;
-  private _spaceTypeFormSource: SpaceTypeFormSource;
-  private _spaceTypeFormSourceOriginal: SpaceTypeFormSource;
-
-  private _isBusy = false;
-
+export class SpaceTypeEditComponent
+  extends BaseFormComponent<SpaceType, SpaceTypeFormSource, SpaceTypeDto>
+  implements IBaseFormComponent, OnInit {
   constructor(
-    private actionItemService: ActionItemService,
-    private dialogService: DialogService,
-    private page: Page,
-    private pageRoute: PageRoute,
-    private router: RouterExtensions,
-    private spaceTypeService: SpaceTypeService,
-    private translateService: TranslateService
-  ) {}
+    public actionItemService: ActionItemService,
+    public dialogService: DialogService,
+    public ngZone: NgZone,
+    public page: Page,
+    public pageRoute: PageRoute,
+    public router: RouterExtensions,
+    public spaceTypeService: SpaceTypeService,
+    public translateService: TranslateService
+  ) {
+    super(dialogService, ngZone, router, translateService);
+    this._entityService = spaceTypeService;
+    this._entityDtoMapper = new SpaceTypeMapper();
+  }
 
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
@@ -50,85 +50,41 @@ export class SpaceTypeEditComponent implements OnInit {
           .getSpaceType(spaceTypeId)
           .pipe(take(1))
           .subscribe((spaceType: SpaceType) => {
-            this._currentSpaceType = spaceType;
+            this._currentEntity = spaceType;
+            this._currentFormEntityId = spaceType.id;
 
-            this._spaceTypeFormSource = new SpaceTypeFormSource(
-              this._currentSpaceType.name,
-              this._currentSpaceType.description,
-              this._currentSpaceType.rate,
-              this._currentSpaceType.availableSlot
+            this._entityFormSource = this._entityDtoMapper.mapEntityToFormSource(
+              spaceType
             );
 
-            this._spaceTypeFormSourceOriginal = this._spaceTypeFormSource.clone();
+            this._entityFormSourceOriginal = this._entityFormSource.clone();
 
             this.actionItemService
               .setPage(this.page)
               .setActionItem('deleteSpaceTypeActionItem')
-              .enable(this._currentSpaceType.isDeletable);
+              .enable(this._currentEntity.isDeletable);
           });
       });
     });
+
+    this.initDialogTexts();
   }
 
-  saveInformation() {
-    const isFormInvalid = this.spaceTypeForm.dataForm.hasValidationErrors();
-    const isFormHasChanged = !this._spaceTypeFormSource.isSame(
-      this._spaceTypeFormSourceOriginal
-    );
-
-    if (!isFormInvalid && isFormHasChanged) {
-      this.dialogService
-        .confirm(
-          this.translateService.instant(
-            'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
-          ),
-          this.translateService.instant(
-            'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE'
-          )
-        )
-        .then((res) => {
-          if (res === ButtonOptions.YES) {
-            this._isBusy = true;
-
-            const spaceTypeForCreate = new SpaceTypeDto(
-              this._spaceTypeFormSource.name,
-              this._spaceTypeFormSource.description,
-              this._spaceTypeFormSource.rate,
-              this._spaceTypeFormSource.availableSlot
-            );
-
-            this.spaceTypeService
-              .updateSpaceType(this._currentSpaceType.id, spaceTypeForCreate)
-              .pipe(finalize(() => (this._isBusy = false)))
-              .subscribe(
-                () => {
-                  this.dialogService.alert(
-                    this.translateService.instant(
-                      'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
-                    ),
-                    this.translateService.instant(
-                      'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE'
-                    ),
-                    () => {
-                      this.spaceTypeService.loadSpaceTypesFlag.next();
-                      this.router.back();
-                    }
-                  );
-                },
-                (error: Error) => {
-                  this.dialogService.alert(
-                    this.translateService.instant(
-                      'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
-                    ),
-                    this.translateService.instant(
-                      'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE'
-                    )
-                  );
-                }
-              );
-          }
-        });
-    }
+  initDialogTexts() {
+    this._updateDialogTexts = {
+      title: this.translateService.instant(
+        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
+      ),
+      confirmMessage: this.translateService.instant(
+        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE'
+      ),
+      successMessage: this.translateService.instant(
+        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE'
+      ),
+      errorMessage: this.translateService.instant(
+        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE'
+      ),
+    };
   }
 
   deleteSelectedSpaceType() {
@@ -146,7 +102,7 @@ export class SpaceTypeEditComponent implements OnInit {
           this._isBusy = true;
 
           this.spaceTypeService
-            .deleteSpaceType(this._currentSpaceType.id)
+            .deleteItem(this._currentEntity.id)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
@@ -176,13 +132,5 @@ export class SpaceTypeEditComponent implements OnInit {
             );
         }
       });
-  }
-
-  get spaceTypeFormSource(): SpaceTypeFormSource {
-    return this._spaceTypeFormSource;
-  }
-
-  get currentSpaceType(): SpaceType {
-    return this._currentSpaceType;
   }
 }

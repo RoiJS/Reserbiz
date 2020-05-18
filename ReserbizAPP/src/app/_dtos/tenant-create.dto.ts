@@ -1,8 +1,10 @@
 import { GenderEnum } from '../_enum/gender.enum';
-import { ContactPersonCreateDto } from './contact-person-create.dto';
+import { ContactPersonDto } from './contact-person.dto';
 
-export class TenantCreateDto {
-  public contactPersons?: ContactPersonCreateDto[];
+import { Entity } from '../_models/entity.model';
+
+export class TenantDto extends Entity {
+  public contactPersons?: ContactPersonDto[];
 
   constructor(
     public firstName: string,
@@ -13,6 +15,7 @@ export class TenantCreateDto {
     public contactNumber: string,
     public emailAddress: string
   ) {
+    super();
     this.contactPersons = [];
   }
 }

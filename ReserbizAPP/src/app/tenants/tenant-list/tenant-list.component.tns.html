@@ -19,7 +19,7 @@
   <ActionItem
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
-    (tap)="deleteSelectedTenants()"
+    (tap)="deleteSelectedItems()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
@@ -43,14 +43,14 @@
     <RadListView
       width="100%"
       height="100%"
-      #tenantListView
+      #appListView
       class="app-list-container"
-      [items]="tenants"
+      [items]="items"
       swipeActions="true"
       selectionBehavior="Press"
       multipleSelection="true"
       pullToRefresh="true"
-      (itemSelected)="goToTenantDetails($event)"
+      (itemSelected)="selectItem($event.index, '/tenants/:id')"
       (itemDeselected)="deselectedItem($event)"
       (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
       (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
@@ -145,7 +145,7 @@
         <FlexBoxLayout
           col="1"
           class="app-list-item-swipe-template__option-container"
-          id="tenantSwipeActions"
+          id="itemSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
         >
@@ -153,22 +153,22 @@
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf2ed;"
-            [isEnabled]="isCurrentTenantDeletable"
-            (tap)="deleteSelectedTenant()"
+            [isEnabled]="isCurrentItemDeletable"
+            (tap)="deleteSelectedItem()"
           ></button>
           <button
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf00c;"
-            (tap)="activateSelectedTenant()"
-            *ngIf="!isCurrentTenantActive"
+            (tap)="activateSelectedItem()"
+            *ngIf="!isCurrentItemActive"
           ></button>
           <button
             alignSelf="center"
             class="fa fa-solid app-list-item-swipe-template__option"
             text="&#xf05e;"
-            (tap)="deactivateSelectedTenant()"
-            *ngIf="isCurrentTenantActive"
+            (tap)="deactivateSelectedItem()"
+            *ngIf="isCurrentItemActive"
           ></button>
         </FlexBoxLayout>
       </GridLayout>
@@ -176,7 +176,7 @@
   </StackLayout>
 
   <ns-floating-button
-    (tapButton)="goToAddTenantsPage()"
+    (tapButton)="navigateToOtherPage('/tenants/add-tenant')"
     [icon]="'&#xf234;'"
   ></ns-floating-button>
 </ns-loader-layout>

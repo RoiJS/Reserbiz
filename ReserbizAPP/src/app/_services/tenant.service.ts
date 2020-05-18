@@ -1,118 +1,68 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
-import { Tenant } from '../_models/tenant.model';
 import { environment } from '@src/environments/environment';
-import { map } from 'rxjs/operators';
+import { Tenant } from '../_models/tenant.model';
+
+import { BaseService } from './base.service';
 
 import { ContactPerson } from '../_models/contact-person.model';
-import { TenantUpdateDto } from '../_dtos/tenant-update.dto';
-import { GenderEnum } from '../_enum/gender.enum';
-import { TenantCreateDto } from '../_dtos/tenant-create.dto';
-import { ContactPersonCreateDto } from '../_dtos/contact-person-create.dto';
+import { TenantDto } from '../_dtos/tenant-create.dto';
+import { ContactPersonDto } from '../_dtos/contact-person.dto';
+
+import { TenantMapper } from '../_helpers/tenant-mapper.helper';
+import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TenantService {
+export class TenantService extends BaseService<Tenant>
+  implements IBaseService<Tenant> {
   private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _loadTenantListFlag = new BehaviorSubject<void>(null);
 
-  constructor(private http: HttpClient) {}
-
-  getTenants(tenantName: string): Observable<Tenant[]> {
-    return this.http
-      .get<Tenant[]>(`${this._apiBaseUrl}/tenant?tenantName=${tenantName}`)
-      .pipe(
-        map((tenants: Tenant[]) => {
-          return tenants.map((t) => {
-            const tenant = new Tenant();
-
-            tenant.id = t.id;
-            tenant.firstName = t.firstName;
-            tenant.middleName = t.middleName;
-            tenant.lastName = t.lastName;
-            tenant.gender = t.gender;
-            tenant.address = t.address;
-            tenant.contactNumber = t.contactNumber;
-            tenant.emailAddress = t.emailAddress;
-            tenant.photoUrl = t.photoUrl;
-            tenant.isActive = t.isActive;
-            tenant.isDeletable = t.isDeletable;
-
-            return tenant;
-          });
-        })
-      );
+  constructor(public http: HttpClient) {
+    super(new TenantMapper(), http);
   }
 
   getTenant(tenantId: number): Observable<Tenant> {
-    return this.http.get<Tenant>(`${this._apiBaseUrl}/tenant/${tenantId}`).pipe(
-      map((t: Tenant) => {
-        const tenant = new Tenant();
+    return this.getEntityFromServer(`${this._apiBaseUrl}/tenant/${tenantId}`);
+  }
 
-        tenant.id = t.id;
-        tenant.firstName = t.firstName;
-        tenant.middleName = t.middleName;
-        tenant.lastName = t.lastName;
-        tenant.gender = t.gender;
-        tenant.address = t.address;
-        tenant.contactNumber = t.contactNumber;
-        tenant.emailAddress = t.emailAddress;
-        tenant.photoUrl = t.photoUrl;
-        tenant.isActive = t.isActive;
-        tenant.isDeletable = t.isDeletable;
-
-        tenant.contactPersons = t.contactPersons.map((c: ContactPerson) => {
-          const contactPerson = new ContactPerson();
-
-          contactPerson.id = c.id;
-          contactPerson.firstName = c.firstName;
-          contactPerson.middleName = c.middleName;
-          contactPerson.lastName = c.lastName;
-          contactPerson.gender = c.gender;
-          contactPerson.contactNumber = c.contactNumber;
-          contactPerson.tenantId = c.tenantId;
-
-          return contactPerson;
-        });
-
-        return tenant;
-      })
+  getEntities(entityFilter: IEntityFilter): Observable<Tenant[]> {
+    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    return this.getEntitiesFromServer(
+      `${this._apiBaseUrl}/tenant?tenantName=${searchKeyword}`
     );
   }
 
-  deleteMultipleTenants(tenants: Tenant[]): Observable<void> {
-    const tenantIds = tenants.map((tenant) => tenant.id);
-
-    return this.http.post<void>(
+  deleteMultipleItems(tenants: Tenant[]): Observable<void> {
+    return this.deleteMultipleItemsOnServer(
       `${this._apiBaseUrl}/tenant/deleteMultipleTenants`,
-      tenantIds
+      tenants
     );
   }
 
-  deleteTenant(tenantId: number): Observable<void> {
-    return this.http.delete<void>(
+  deleteItem(tenantId: number): Observable<void> {
+    return this.deleteItemOnServer(
       `${this._apiBaseUrl}/tenant/deleteTenant?tenantId=${tenantId}`
     );
   }
 
-  setTenantStatus(tenantId: number, status: boolean): Observable<void> {
-    return this.http.put<void>(
-      `${this._apiBaseUrl}/tenant/setStatus/${tenantId}/${status}`,
-      null
+  setEntityStatus(tenantId: number, status: boolean): Observable<void> {
+    return this.setEntityStatusOnServer(
+      `${this._apiBaseUrl}/tenant/setStatus/${tenantId}/${status}`
     );
   }
 
-  updateTenant(
-    tenantId: number,
-    tenantForUpdateDto: TenantUpdateDto
-  ): Observable<void> {
-    return this.http.put<void>(
-      `${this._apiBaseUrl}/tenant/${tenantId}`,
-      tenantForUpdateDto
+  updateEntity(tenantForUpdateDto: IDtoProcess): Observable<void> {
+    return this.updateEntityToServer(
+      `${this._apiBaseUrl}/tenant/${tenantForUpdateDto.id}`,
+      tenantForUpdateDto.dtoEntity
     );
   }
 
@@ -120,7 +70,7 @@ export class TenantService {
     newTenant: Tenant,
     newContactPersons: ContactPerson[]
   ): Observable<void> {
-    const tenantCreateDto = new TenantCreateDto(
+    const tenantCreateDto = new TenantDto(
       newTenant.firstName,
       newTenant.middleName,
       newTenant.lastName,
@@ -132,7 +82,7 @@ export class TenantService {
 
     tenantCreateDto.contactPersons = newContactPersons.map(
       (cp: ContactPerson) => {
-        return new ContactPersonCreateDto(
+        return new ContactPersonDto(
           cp.firstName,
           cp.middleName,
           cp.lastName,
@@ -146,6 +96,10 @@ export class TenantService {
       `${this._apiBaseUrl}/tenant/create`,
       tenantCreateDto
     );
+  }
+
+  reloadListFlag() {
+    this._loadTenantListFlag.next();
   }
 
   get loadTenantListFlag(): BehaviorSubject<void> {

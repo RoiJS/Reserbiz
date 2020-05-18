@@ -38,7 +38,7 @@ export class TenantContactPersonListPanelComponent
   getContactPersonList() {
     setTimeout(() => {
       this.contactPersonService
-        .getContactPersons(this.tenantId)
+        .getEntities({ parentId: this.tenantId })
         .pipe(take(1))
         .subscribe((contactPersons: ContactPerson[]) => {
           this._contactPersons = contactPersons;

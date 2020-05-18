@@ -1,15 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
 
-import { finalize } from 'rxjs/operators';
+import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
 import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
-import { ContactPersonCreateDto } from '@src/app/_dtos/contact-person-create.dto';
-import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+import { ContactPerson } from '@src/app/_models/contact-person.model';
+import { ContactPersonDto } from '@src/app/_dtos/contact-person.dto';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
+
+import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.helper';
+
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
 
@@ -18,100 +21,52 @@ import { ContactPersonService } from '@src/app/_services/contact-person.service'
   templateUrl: './tenant-contact-person-add.component.html',
   styleUrls: ['./tenant-contact-person-add.component.scss'],
 })
-export class TenantContactPersonAddComponent implements OnInit {
-  @ViewChild(RadDataFormComponent, { static: false })
-  contactPersonForm: RadDataFormComponent;
-
-  private _contactPersonFormSource: ContactPersonDetailsFormSource;
-  private _isBusy = false;
-  private _currentTenantId: number;
-
+export class TenantContactPersonAddComponent
+  extends BaseFormComponent<
+    ContactPerson,
+    ContactPersonDetailsFormSource,
+    ContactPersonDto
+  >
+  implements IBaseFormComponent, OnInit {
   constructor(
-    private contactPersonService: ContactPersonService,
-    private dialogService: DialogService,
-    private pageRoute: PageRoute,
-    private router: RouterExtensions,
-    private translateService: TranslateService
-  ) {}
+    public contactPersonService: ContactPersonService,
+    public dialogService: DialogService,
+    public ngZone: NgZone,
+    public pageRoute: PageRoute,
+    public router: RouterExtensions,
+    public translateService: TranslateService
+  ) {
+    super(dialogService, ngZone, router, translateService);
+    this._entityService = contactPersonService;
+    this._entityDtoMapper = new ContactPersonMapper();
+  }
 
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentTenantId = +paramMap.get('tenantId');
-        this._contactPersonFormSource = new ContactPersonDetailsFormSource(
-          '',
-          '',
-          '',
-          GenderEnum.Male,
-          ''
-        );
+        this._currentFormEntityId = +paramMap.get('tenantId');
+        this._entityFormSource = this._entityDtoMapper.initFormSource();
       });
     });
+
+    this.initDialogTexts();
   }
 
-  saveInformation() {
-    const isFormInvalid = this.contactPersonForm.dataForm.hasValidationErrors();
-
-    if (!isFormInvalid) {
-      this.dialogService
-        .confirm(
-          this.translateService.instant(
-            'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
-          ),
-          this.translateService.instant(
-            'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
-          )
-        )
-        .then((res) => {
-          if (res === ButtonOptions.YES) {
-            const contactPersonForCreate = new ContactPersonCreateDto(
-              this._contactPersonFormSource.firstName,
-              this._contactPersonFormSource.middleName,
-              this._contactPersonFormSource.lastName,
-              this._contactPersonFormSource.gender,
-              this._contactPersonFormSource.contactNumber
-            );
-            this._isBusy = true;
-
-            this.contactPersonService
-              .createContactPerson(
-                this._currentTenantId,
-                contactPersonForCreate
-              )
-              .pipe(
-                finalize(() => {
-                  this._isBusy = false;
-                })
-              )
-              .subscribe(
-                () => {
-                  this.dialogService.alert(
-                    this.translateService.instant(
-                      'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
-                    ),
-                    this.translateService.instant(
-                      'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
-                    ),
-                    () => {
-                      this.contactPersonService.updateContactPersonListFlag.next();
-                      this.router.back();
-                    }
-                  );
-                },
-                (error: Error) => {
-                  this.dialogService.alert(
-                    this.translateService.instant(
-                      'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.UPDATE_DIALOG.TITLE'
-                    ),
-                    this.translateService.instant(
-                      'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE'
-                    )
-                  );
-                }
-              );
-          }
-        });
-    }
+  initDialogTexts() {
+    this._saveNewDialogTexts = {
+      title: this.translateService.instant(
+        'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+      ),
+      confirmMessage: this.translateService.instant(
+        'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
+      ),
+      successMessage: this.translateService.instant(
+        'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
+      ),
+      errorMessage: this.translateService.instant(
+        'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE'
+      ),
+    };
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
@@ -125,13 +80,5 @@ export class TenantContactPersonAddComponent implements OnInit {
         label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
       },
     ];
-  }
-
-  get contactPersonFormSource(): ContactPersonDetailsFormSource {
-    return this._contactPersonFormSource;
-  }
-
-  get isBusy(): boolean {
-    return this._isBusy;
   }
 }

@@ -128,7 +128,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var selectedSpaceTypes = await _reserbizRepository
                 .ClientDbContext
                 .SpaceTypes
-                .Where(t => spaceTypeIds.IndexOf(t.Id) > -1).ToListAsync();
+                .Where(t => spaceTypeIds.Contains(t.Id)).ToListAsync();
 
             DeleteMultipleEntities(selectedSpaceTypes);
             return await SaveChanges();

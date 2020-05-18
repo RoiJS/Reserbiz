@@ -1,4 +1,4 @@
-<ns-action-bar [title]="currentSpaceType?.name" [hasMenu]="false">
+<ns-action-bar [title]="currentEntity?.name" [hasMenu]="false">
   <ActionItem
     id="deleteSpaceTypeActionItem"
     icon="font://&#xf2ed;"
@@ -8,7 +8,7 @@
   <ActionItem
     icon="font://&#xf0c7;"
     class="fa action-item-button"
-    (tap)="saveInformation()"
+    (tap)="updateInformation()"
   ></ActionItem>
 </ns-action-bar>
 
@@ -18,7 +18,7 @@
       <RadDataForm
         width="100%"
         height="100%"
-        [source]="spaceTypeFormSource"
+        [source]="entityFormSource"
         [isReadOnly]="isBusy"
       >
         <TKPropertyGroup tkDataFormGroups>

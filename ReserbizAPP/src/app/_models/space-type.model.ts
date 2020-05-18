@@ -15,22 +15,9 @@ export class SpaceType extends Entity {
   }
 
   get photoBackgroundColor(): string {
-    const colorList = [
-      '#f6d186',
-      '#a8d3da',
-      '#f4eeff',
-      '#ffaaa5',
-      '#beebe9',
-      '#f6eec7',
-      '#ffd5e5',
-      '#ffffdd',
-      '#81f5ff',
-      '#ffffc5',
-    ];
-
     const randomIndex = this.getNumberFirstDigit();
     // Get color randomly from the list
-    return colorList[randomIndex];
+    return this.colorList[randomIndex];
   }
 
   private getNumberFirstDigit(): number {
