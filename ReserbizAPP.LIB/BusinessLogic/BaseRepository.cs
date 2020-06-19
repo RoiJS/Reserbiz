@@ -25,6 +25,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _reserbizRepository.SetDbContext(_repoDbContext);
         }
 
+        public BaseRepository()
+        {
+
+        }
+
         public IBaseRepository<TEntity> SetCurrentUserId(int currentUserId)
         {
             _reserbizRepository.SetCurrentUser(currentUserId);
@@ -41,7 +46,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             _reserbizRepository.DeleteEntity(entity, forceDelete);
         }
-        
+
         public void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete = false)
         {
             _reserbizRepository.DeleteMultipleEntities(entities, forceDelete);

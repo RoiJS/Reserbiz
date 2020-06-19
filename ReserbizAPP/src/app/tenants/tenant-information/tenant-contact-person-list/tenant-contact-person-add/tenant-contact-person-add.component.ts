@@ -15,6 +15,8 @@ import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.hel
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-contact-person-add',
@@ -27,7 +29,8 @@ export class TenantContactPersonAddComponent
     ContactPersonDetailsFormSource,
     ContactPersonDto
   >
-  implements IBaseFormComponent, OnInit {
+  implements IBaseFormComponent, IGenderValueProvider, OnInit {
+  private _genderValueProvider: GenderValueProvider;
   constructor(
     public contactPersonService: ContactPersonService,
     public dialogService: DialogService,
@@ -39,6 +42,7 @@ export class TenantContactPersonAddComponent
     super(dialogService, ngZone, router, translateService);
     this._entityService = contactPersonService;
     this._entityDtoMapper = new ContactPersonMapper();
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
   }
 
   ngOnInit() {
@@ -70,15 +74,6 @@ export class TenantContactPersonAddComponent
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 }

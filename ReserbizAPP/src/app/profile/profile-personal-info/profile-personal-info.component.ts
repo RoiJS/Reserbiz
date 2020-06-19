@@ -14,13 +14,16 @@ import { User } from '@src/app/_models/user.model';
 import { UserPersonalInfoFormSource } from '@src/app/_models/user-personal-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
 
 @Component({
   selector: 'ns-profile',
   templateUrl: './profile-personal-info.component.html',
   styleUrls: ['./profile-personal-info.component.scss'],
 })
-export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
+export class ProfilePersonalInfoComponent
+  implements IGenderValueProvider, OnInit, OnDestroy {
   @ViewChild(RadDataFormComponent, { static: false })
   profileForm: RadDataFormComponent;
 
@@ -28,6 +31,7 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
   private _userFormSourceOriginal: UserPersonalInfoFormSource;
   private _currentUser: User;
   private _currentUserSub: Subscription;
+  private _genderValueProvider: GenderValueProvider;
 
   private _isBusy = false;
 
@@ -35,7 +39,9 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private dialogService: DialogService,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
+  }
 
   ngOnInit() {
     this._currentUserSub = this.authService.user.subscribe(
@@ -136,16 +142,7 @@ export class ProfilePersonalInfoComponent implements OnInit, OnDestroy {
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 
   get IsBusy(): boolean {

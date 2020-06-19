@@ -113,6 +113,8 @@ namespace ReserbizAPP.API.Controllers
             if (tenantIds.Count == 0)
                 return BadRequest("Empty tenants id list.");
 
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
             if (await _tenantRepository.DeleteMultipleTenantsAsync(tenantIds))
                 return NoContent();
 

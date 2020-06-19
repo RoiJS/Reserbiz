@@ -5,10 +5,27 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'terms-list',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'terms-list',
-    component: TermsListComponent
-  }
+    component: TermsListComponent,
+  },
+  {
+    path: 'term-add',
+    loadChildren: () =>
+      import('./term-add/term-add.module').then((m) => m.TermAddModule),
+  },
+  {
+    path: ':termId',
+    loadChildren: () =>
+      import('./term-information/term-information.module').then(
+        (m) => m.TermInformationModule
+      ),
+  },
+  {
+    path: 'term-information/:id',
+    loadChildren: () =>
+      import('./term-edit/term-edit.module').then((m) => m.TermEditModule),
+  },
 ];

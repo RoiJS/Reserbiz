@@ -2,22 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-
-import { environment } from '@src/environments/environment';
+import { map } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BaseService } from './base.service';
+import { SpaceTypeMapper } from '../_helpers/space-type-mapper.helper';
 import { SpaceType } from '../_models/space-type.model';
+import { SpaceTypeOption } from '../_models/space-type-option.model';
 import { IBaseService } from '../_interfaces/ibase-service.interface';
 import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
-import { SpaceTypeMapper } from '../_helpers/space-type-mapper.helper';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SpaceTypeService extends BaseService<SpaceType>
   implements IBaseService<SpaceType> {
-  private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _loadSpaceTypesFlag = new BehaviorSubject<void>(null);
-
   constructor(public http: HttpClient) {
     super(new SpaceTypeMapper(), http);
   }
@@ -26,6 +25,28 @@ export class SpaceTypeService extends BaseService<SpaceType>
     return this.getEntityFromServer(
       `${this._apiBaseUrl}/spaceType/${spaceTypeId}`
     );
+  }
+
+  getSpaceTypesAsOptions(translateService: TranslateService): Observable<SpaceTypeOption[]> {
+    return this.http
+      .get<SpaceTypeOption[]>(
+        `${this._apiBaseUrl}/spaceType/getSpaceTypeAsOptions`
+      )
+      .pipe(
+        map((stos: SpaceTypeOption[]) => {
+          return stos.map((st: SpaceTypeOption) => {
+            const spaceTypeOption = new SpaceTypeOption();
+            spaceTypeOption.id = st.id;
+            spaceTypeOption.name = st.name;
+            spaceTypeOption.rate = st.rate;
+            spaceTypeOption.isDelete = st.isDelete;
+            spaceTypeOption.isActive = st.isActive;
+            spaceTypeOption.canBeSelected = st.canBeSelected;
+            spaceTypeOption.inactiveText = translateService.instant('GENERAL_TEXTS.INACTIVE');
+            return spaceTypeOption;
+          });
+        })
+      );
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<SpaceType[]> {

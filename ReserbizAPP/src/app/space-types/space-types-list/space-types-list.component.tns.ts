@@ -25,13 +25,8 @@ export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
     router: RouterExtensions,
     translateService: TranslateService
   ) {
-    super();
-    this._dialogService = dialogService;
-    this._entityService = spaceTypeService;
-    this._location = location;
-    this._ngZone = ngZone;
-    this._router = router;
-    this._translateService = translateService;
+    super(dialogService, location, ngZone, router, translateService);
+    this.entityService = spaceTypeService;
   }
 
   ngOnInit() {
@@ -51,61 +46,61 @@ export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
 
   initDialogTexts() {
     this._deleteMultipleItemsDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPES_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPES_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPES_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPES_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._deleteItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPE_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPE_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPE_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPE_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._activateItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._deactivateItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };

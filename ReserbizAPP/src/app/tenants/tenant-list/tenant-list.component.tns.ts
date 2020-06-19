@@ -18,21 +18,15 @@ import { Tenant } from '@src/app/_models/tenant.model';
 export class TenantListComponent extends BaseListComponent<Tenant>
   implements IBaseListComponent, OnInit, OnDestroy {
   constructor(
-    private tenantService: TenantService,
-    dialogService: DialogService,
-    location: Location,
-    ngZone: NgZone,
-    translateService: TranslateService,
-    router: RouterExtensions
+    protected tenantService: TenantService,
+    protected dialogService: DialogService,
+    protected location: Location,
+    protected ngZone: NgZone,
+    protected translateService: TranslateService,
+    protected router: RouterExtensions
   ) {
-    super();
-
-    this._dialogService = dialogService;
-    this._entityService = tenantService;
-    this._location = location;
-    this._ngZone = ngZone;
-    this._router = router;
-    this._translateService = translateService;
+    super(dialogService, location, ngZone, router, translateService);
+    this.entityService = tenantService;
   }
 
   ngOnInit() {
@@ -52,61 +46,61 @@ export class TenantListComponent extends BaseListComponent<Tenant>
 
   initDialogTexts() {
     this._deleteMultipleItemsDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANTS_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._deleteItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.REMOVE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._activateItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._deactivateItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };

@@ -54,7 +54,7 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
   getContactPersonList() {
     this._isBusy = true;
     setTimeout(() => {
-      this._contactPersonListSub = this.addContactPersonsService.contactList
+      this._contactPersonListSub = this.addContactPersonsService.entityList
         .asObservable()
         .subscribe((contactPersons: ContactPerson[]) => {
           this._isBusy = false;
@@ -123,9 +123,7 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
               () => {
                 this.ngZone.run(() => {
                   this._isBusy = false;
-                  this.addContactPersonsService.removeContactPerson(
-                    contactPersonId
-                  );
+                  this.addContactPersonsService.removeEntity(contactPersonId);
                 });
               }
             );

@@ -1,0 +1,56 @@
+<FlexBoxLayout
+  class="page-container__page-divider term-detail-container__page-divider"
+  justifyContent="space-between"
+>
+  <label
+    alignSelf="center"
+    [text]="'TERM_DETAILS_PAGE.PANEL_HEADER_TEXT_INFORMATION' | translate"
+  ></label>
+  <button
+    alignSelf="center"
+    class="page-container__page-command btn btn-primary btn-rounded-lg"
+    text="Manage"
+    (tap)="onNavigateToEditPage()"
+  ></button>
+</FlexBoxLayout>
+
+<StackLayout class="term-detail-container__details-panel panel">
+
+  <!-- <StackLayout class="term-detail-container__details-group-panel">
+      
+  </StackLayout> -->
+
+  <StackLayout class="term-detail-container__detail-section detail-firstname">
+    <label
+      class="detail-name"
+      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.CODE_LABEL' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label [text]="currentTerm?.code"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout
+    class="term-detail-container__detail-section detail-emailaddress"
+  >
+    <label
+      class="detail-name"
+      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.NAME_LABEL' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label class="detail-value" [text]="currentTerm?.name"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout class="term-detail-container__detail-section detail-address">
+    <label
+      class="detail-name"
+      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.RATE_LABEL' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label [text]="currentTerm?.rate"></label>
+    </StackLayout>
+  </StackLayout>
+
+
+</StackLayout>

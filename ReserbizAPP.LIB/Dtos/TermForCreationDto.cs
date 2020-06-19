@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers.Custom_Validations;
@@ -83,5 +84,7 @@ namespace ReserbizAPP.LIB.Dtos
         [Required]
         [EnumDataType(typeof(DurationEnum))]
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+
+        public List<TermMiscellaneousForCreationDto> TermMiscellaneous { get; set; }
     }
 }

@@ -61,24 +61,20 @@ export class BaseListComponent<TEntity extends IEntity>
 
   protected _deactivateItemDialogTexts: IBaseDialogTexts = null;
 
-  protected _activatedRoute: ActivatedRoute;
+  protected activatedRoute: ActivatedRoute;
 
-  protected _entityService: IBaseService<TEntity>;
+  protected entityService: IBaseService<TEntity>;
 
-  protected _dialogService: DialogService;
-
-  protected _location: Location;
-
-  protected _ngZone: NgZone;
-
-  protected _router: RouterExtensions;
-
-  protected _translateService: TranslateService;
-
-  constructor() {}
+  constructor(
+    protected dialogService: DialogService,
+    protected location: Location,
+    protected ngZone: NgZone,
+    protected router: RouterExtensions,
+    protected translateService: TranslateService
+  ) {}
 
   ngOnInit() {
-    this._navigateBackSub = this._location.subscribe(() => {
+    this._navigateBackSub = this.location.subscribe(() => {
       this._isNotNavigateToOtherPage = true;
       this._multipleSelectionActive = false;
     });
@@ -95,7 +91,7 @@ export class BaseListComponent<TEntity extends IEntity>
   }
 
   setEntityService(entityService: IBaseService<TEntity>) {
-    this._entityService = entityService;
+    this.entityService = entityService;
   }
 
   getEntities(
@@ -104,12 +100,12 @@ export class BaseListComponent<TEntity extends IEntity>
   ) {
     this._isBusy = true;
     setTimeout(() => {
-      this._entityService
+      this.entityService
         .getEntities(entityFilter)
         .pipe(
           take(1),
           finalize(() => {
-            this._ngZone.run(() => {
+            this.ngZone.run(() => {
               this._isBusy = false;
             });
           })
@@ -165,11 +161,11 @@ export class BaseListComponent<TEntity extends IEntity>
         },
       };
 
-      if (this._activatedRoute) {
-        routeConfig.relativeTo = this._activatedRoute;
+      if (this.activatedRoute) {
+        routeConfig.relativeTo = this.activatedRoute;
       }
 
-      this._router.navigate([url], routeConfig);
+      this.router.navigate([url], routeConfig);
     }, 100);
   }
 
@@ -207,7 +203,7 @@ export class BaseListComponent<TEntity extends IEntity>
     const me = this;
     const selectedItems = this.appListView.listView.getSelectedItems();
     if (selectedItems.length > 0) {
-      this._dialogService
+      this.dialogService
         .confirm(
           this._deleteMultipleItemsDialogTexts.title,
           this._deleteMultipleItemsDialogTexts.confirmMessage
@@ -216,12 +212,12 @@ export class BaseListComponent<TEntity extends IEntity>
           if (res === ButtonOptions.YES) {
             this._isBusy = true;
 
-            this._entityService
+            this.entityService
               .deleteMultipleItems(selectedItems)
               .pipe(finalize(() => (this._isBusy = false)))
               .subscribe(
                 () => {
-                  this._dialogService.alert(
+                  this.dialogService.alert(
                     this._deleteMultipleItemsDialogTexts.title,
                     this._deleteMultipleItemsDialogTexts.successMessage
                   );
@@ -230,7 +226,7 @@ export class BaseListComponent<TEntity extends IEntity>
                   me.getEntities();
                 },
                 (error: Error) => {
-                  this._dialogService.alert(
+                  this.dialogService.alert(
                     this._deleteMultipleItemsDialogTexts.title,
                     this._deleteMultipleItemsDialogTexts.errorMessage
                   );
@@ -249,7 +245,7 @@ export class BaseListComponent<TEntity extends IEntity>
       this._currentItem
     );
 
-    this._dialogService
+    this.dialogService
       .confirm(
         this._deleteItemDialogTexts.title,
         this._deleteItemDialogTexts.confirmMessage
@@ -258,12 +254,12 @@ export class BaseListComponent<TEntity extends IEntity>
         if (res === ButtonOptions.YES) {
           this._isBusy = true;
 
-          this._entityService
+          this.entityService
             .deleteItem(this._currentItem.id)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._deleteItemDialogTexts.title,
                   this._deleteItemDialogTexts.successMessage,
                   () => {
@@ -272,7 +268,7 @@ export class BaseListComponent<TEntity extends IEntity>
                 );
               },
               (error: Error) => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._deleteItemDialogTexts.title,
                   this._deleteItemDialogTexts.errorMessage
                 );
@@ -286,7 +282,7 @@ export class BaseListComponent<TEntity extends IEntity>
    * @description Activates selected tenant
    */
   activateSelectedItem() {
-    this._dialogService
+    this.dialogService
       .confirm(
         this._activateItemDialogTexts.title,
         this._activateItemDialogTexts.confirmMessage
@@ -295,12 +291,12 @@ export class BaseListComponent<TEntity extends IEntity>
         if (res === ButtonOptions.YES) {
           this._isBusy = true;
 
-          this._entityService
+          this.entityService
             .setEntityStatus(this._currentItem.id, true)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._activateItemDialogTexts.title,
                   this._activateItemDialogTexts.successMessage
                 );
@@ -310,7 +306,7 @@ export class BaseListComponent<TEntity extends IEntity>
                 this.getEntities();
               },
               (error: Error) => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._activateItemDialogTexts.title,
                   this._activateItemDialogTexts.errorMessage
                 );
@@ -324,7 +320,7 @@ export class BaseListComponent<TEntity extends IEntity>
    * @description Deactivates selected item
    */
   deactivateSelectedItem() {
-    this._dialogService
+    this.dialogService
       .confirm(
         this._deactivateItemDialogTexts.title,
         this._deactivateItemDialogTexts.confirmMessage
@@ -333,12 +329,12 @@ export class BaseListComponent<TEntity extends IEntity>
         if (res === ButtonOptions.YES) {
           this._isBusy = true;
 
-          this._entityService
+          this.entityService
             .setEntityStatus(this._currentItem.id, false)
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._deactivateItemDialogTexts.title,
                   this._deactivateItemDialogTexts.successMessage
                 );
@@ -348,7 +344,7 @@ export class BaseListComponent<TEntity extends IEntity>
                 this.getEntities();
               },
               (error: Error) => {
-                this._dialogService.alert(
+                this.dialogService.alert(
                   this._deactivateItemDialogTexts.title,
                   this._deactivateItemDialogTexts.errorMessage
                 );
@@ -417,7 +413,7 @@ export class BaseListComponent<TEntity extends IEntity>
   get selectedCount(): string {
     return `${
       this.appListView.listView.getSelectedItems().length
-    } ${this._translateService.instant('GENERAL_TEXTS.SELECTED_ITEMS')}`;
+    } ${this.translateService.instant('GENERAL_TEXTS.SELECTED_ITEMS')}`;
   }
 
   get isCurrentItemActive(): boolean {

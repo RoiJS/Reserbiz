@@ -12,13 +12,16 @@ import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-add-contact-person-edit',
   templateUrl: './tenant-add-contact-person-edit.component.html',
   styleUrls: ['./tenant-add-contact-person-edit.component.css'],
 })
-export class TenantAddContactPersonEditComponent implements OnInit {
+export class TenantAddContactPersonEditComponent
+  implements IGenderValueProvider, OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
   contactPersonForm: RadDataFormComponent;
 
@@ -27,6 +30,7 @@ export class TenantAddContactPersonEditComponent implements OnInit {
   private _currentContacPerson: ContactPerson;
   private _contactPersonFormSource: ContactPersonDetailsFormSource;
   private _contactPersonFormSourceOriginal: ContactPersonDetailsFormSource;
+  private _genderValueProvider: GenderValueProvider;
 
   constructor(
     private addContactPersonsService: AddContactPersonsService,
@@ -34,14 +38,16 @@ export class TenantAddContactPersonEditComponent implements OnInit {
     private pageRoute: PageRoute,
     private router: RouterExtensions,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
+  }
 
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentContactPersonId = +paramMap.get('contactPersonId');
 
-        this._currentContacPerson = this.addContactPersonsService.getContactPerson(
+        this._currentContacPerson = this.addContactPersonsService.getEntity(
           this._currentContactPersonId
         );
 
@@ -84,7 +90,7 @@ export class TenantAddContactPersonEditComponent implements OnInit {
             this._currentContacPerson.gender = this._contactPersonFormSource.gender;
             this._currentContacPerson.contactNumber = this._contactPersonFormSource.contactNumber;
 
-            this.addContactPersonsService.updateContactPerson(
+            this.addContactPersonsService.updateEntity(
               this._currentContacPerson
             );
 
@@ -105,16 +111,7 @@ export class TenantAddContactPersonEditComponent implements OnInit {
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 
   get contactPersonFormSource(): ContactPersonDetailsFormSource {

@@ -63,6 +63,16 @@ namespace ReserbizAPP.API.Controllers
             return Ok(spaceTypesFromRepo);
         }
 
+        [HttpGet("getSpaceTypeAsOptions")]
+        public async Task<ActionResult<IEnumerable<SpaceTypeOptionDto>>> GetSpaceTypesAsOptions()
+        {
+            var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesAsOptions();
+
+            var spaceTypeOptions = _mapper.Map<IEnumerable<SpaceTypeOptionDto>>(spaceTypesFromRepo);
+
+            return Ok(spaceTypeOptions);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSpaceType(int id, SpaceTypeForUpdateDto spaceTypeForUpdateDto)
         {
@@ -106,6 +116,8 @@ namespace ReserbizAPP.API.Controllers
         {
             if (spaceTypeIds.Count == 0)
                 return BadRequest("Empty space type id list.");
+
+            _spaceTypeRepo.SetCurrentUserId(CurrentUserId);
 
             if (await _spaceTypeRepo.DeleteMultipleSpaceTypesAsync(spaceTypeIds))
                 return NoContent();

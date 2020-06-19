@@ -14,6 +14,8 @@ import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { TenantDto } from '@src/app/_dtos/tenant-create.dto';
 import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
 import { TenantMapper } from '@src/app/_helpers/tenant-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-edit-details',
@@ -22,7 +24,9 @@ import { TenantMapper } from '@src/app/_helpers/tenant-mapper.helper';
 })
 export class TenantEditDetailsComponent
   extends BaseFormComponent<Tenant, TenantDetailsFormSource, TenantDto>
-  implements IBaseFormComponent, OnInit {
+  implements IBaseFormComponent, IGenderValueProvider, OnInit {
+  private _genderValueProvider: GenderValueProvider;
+
   constructor(
     public pageRoute: PageRoute,
     public dialogService: DialogService,
@@ -34,6 +38,7 @@ export class TenantEditDetailsComponent
     super(dialogService, ngZone, router, translateService);
     this._entityService = tenantService;
     this._entityDtoMapper = new TenantMapper();
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
   }
 
   ngOnInit() {
@@ -75,15 +80,6 @@ export class TenantEditDetailsComponent
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 }

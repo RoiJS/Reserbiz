@@ -31,7 +31,7 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   constructor(
     private addTenantService: AddTenantService,
     private addContactPersonsService: AddContactPersonsService,
-    private dialgoService: DialogService,
+    private dialogService: DialogService,
     private tenantService: TenantService,
     private translateService: TranslateService,
     private router: RouterExtensions
@@ -40,13 +40,13 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeActionBarTitles();
 
-    this._tenantDetailsSub = this.addTenantService.tenantDetails
+    this._tenantDetailsSub = this.addTenantService.entityDetails
       .asObservable()
       .subscribe((tenant: Tenant) => {
         this._tenantDetails = tenant;
       });
 
-    this._contactPersonsSub = this.addContactPersonsService.contactList
+    this._contactPersonsSub = this.addContactPersonsService.entityList
       .asObservable()
       .subscribe((contactPersons: ContactPerson[]) => {
         this._contactPersons = contactPersons;
@@ -54,8 +54,13 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._tenantDetailsSub.unsubscribe();
-    this._contactPersonsSub.unsubscribe();
+    if (this._tenantDetailsSub) {
+      this._tenantDetailsSub.unsubscribe();
+    }
+
+    if (this._contactPersonsSub) {
+      this._contactPersonsSub.unsubscribe();
+    }
   }
 
   initializeActionBarTitles() {
@@ -77,13 +82,13 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   }
 
   saveInformation() {
-    this.addTenantService.tenantSavedDetails.next();
+    this.addTenantService.entitySavedDetails.next();
   }
 
   onTenantDetailsSaved(e: { newTenant: Tenant; isFormValid: boolean }) {
     // Check if new tenant form is valid
     if (!e.isFormValid) {
-      this.dialgoService.alert(
+      this.dialogService.alert(
         this.translateService.instant(
           'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
         ),
@@ -95,10 +100,9 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
     }
 
     const newTenant = e.newTenant;
-    const newContactPersons = this.addContactPersonsService.contactList.value;
+    const newContactPersons = this.addContactPersonsService.entityList.value;
     // Save the new tenant information
-    this._isBusy = true;
-    this.dialgoService
+    this.dialogService
       .confirm(
         this.translateService.instant(
           'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
@@ -109,6 +113,7 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
       )
       .then((result: ButtonOptions) => {
         if (result === ButtonOptions.YES) {
+          this._isBusy = true;
           this.tenantService
             .saveNewTenant(newTenant, newContactPersons)
             .pipe(
@@ -118,10 +123,10 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               () => {
-                this.addTenantService.resetTenantDetails();
-                this.addContactPersonsService.resetContactPersonList();
+                this.addTenantService.resetEntityDetails();
+                this.addContactPersonsService.resetEntityList();
 
-                this.dialgoService.alert(
+                this.dialogService.alert(
                   this.translateService.instant(
                     'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
                   ),
@@ -135,7 +140,7 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
                 );
               },
               () => {
-                this.dialgoService.alert(
+                this.dialogService.alert(
                   this.translateService.instant(
                     'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
                   ),
@@ -150,12 +155,12 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this.addTenantService.cancelTenantSavedDetails.next();
+    this.addTenantService.entityCancelSaveDetails.next();
   }
 
   onCancelTenantDetailsSaved(e: boolean) {
     if (e) {
-      this.dialgoService
+      this.dialogService
         .confirm(
           this.translateService.instant(
             'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.TITLE'
@@ -166,8 +171,8 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
         )
         .then((result: ButtonOptions) => {
           if (result === ButtonOptions.YES) {
-            this.addTenantService.resetTenantDetails();
-            this.addContactPersonsService.resetContactPersonList();
+            this.addTenantService.resetEntityDetails();
+            this.addContactPersonsService.resetEntityList();
             this.router.back();
           }
         });

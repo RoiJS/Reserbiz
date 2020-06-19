@@ -123,6 +123,8 @@ namespace ReserbizAPP.API.Controllers
             if (contactPersonIds.Count == 0)
                 return BadRequest("Empty contact person id list.");
 
+            _contactPersonRepository.SetCurrentUserId(CurrentUserId);
+
             if (await _contactPersonRepository.DeleteMultipleContactPersons(contactPersonIds))
                 return NoContent();
 

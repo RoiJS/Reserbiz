@@ -1,8 +1,9 @@
 import { IBaseEntityMapper } from '../_interfaces/ibase-entity-mapper.interface';
+import { IBaseDtoEntityMapper } from '../_interfaces/ibase-dto-entity-mapper.interface';
 import { SpaceType } from '../_models/space-type.model';
 import { SpaceTypeFormSource } from '../_models/space-type-form.model';
-import { IBaseDtoEntityMapper } from '../_interfaces/ibase-dto-entity-mapper.interface';
 import { SpaceTypeDto } from '../_dtos/space-type.dto';
+import { SpaceTypeOption } from '../_models/space-type-option.model';
 
 export class SpaceTypeMapper
   implements

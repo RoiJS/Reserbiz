@@ -14,10 +14,6 @@ export class ContactPersonDetailsFormSource extends BaseForm<
     super();
   }
 
-  static initialize() {
-    return new ContactPersonDetailsFormSource('', '', '', GenderEnum.Male, '');
-  }
-
   clone() {
     return new ContactPersonDetailsFormSource(
       this.firstName,

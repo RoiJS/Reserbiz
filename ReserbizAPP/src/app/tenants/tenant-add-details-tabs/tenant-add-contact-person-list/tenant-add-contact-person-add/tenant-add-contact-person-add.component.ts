@@ -10,34 +10,35 @@ import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
+import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-add-contact-person-add',
   templateUrl: './tenant-add-contact-person-add.component.html',
   styleUrls: ['./tenant-add-contact-person-add.component.css'],
 })
-export class TenantAddContactPersonAddComponent implements OnInit {
+export class TenantAddContactPersonAddComponent
+  implements IGenderValueProvider, OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
   contactPersonForm: RadDataFormComponent;
 
   private _contactPersonFormSource: ContactPersonDetailsFormSource;
   private _isBusy = false;
+  private _genderValueProvider: GenderValueProvider;
 
   constructor(
     private addContactPersonsService: AddContactPersonsService,
     private dialogService: DialogService,
     private router: RouterExtensions,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
+  }
 
   ngOnInit() {
-    this._contactPersonFormSource = new ContactPersonDetailsFormSource(
-      '',
-      '',
-      '',
-      GenderEnum.Male,
-      ''
-    );
+    this._contactPersonFormSource = new ContactPersonMapper().initFormSource();
   }
 
   saveInformation() {
@@ -66,9 +67,7 @@ export class TenantAddContactPersonAddComponent implements OnInit {
               newContactPerson.gender = this._contactPersonFormSource.gender;
               newContactPerson.contactNumber = this._contactPersonFormSource.contactNumber;
 
-              this.addContactPersonsService.addNewContactPerson(
-                newContactPerson
-              );
+              this.addContactPersonsService.addNewEntity(newContactPerson);
 
               this.dialogService.alert(
                 this.translateService.instant(
@@ -88,16 +87,7 @@ export class TenantAddContactPersonAddComponent implements OnInit {
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 
   get contactPersonFormSource(): ContactPersonDetailsFormSource {

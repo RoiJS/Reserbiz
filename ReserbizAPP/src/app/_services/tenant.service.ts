@@ -22,7 +22,6 @@ import { IDtoProcess } from '../_interfaces/idto-process.interface';
 })
 export class TenantService extends BaseService<Tenant>
   implements IBaseService<Tenant> {
-  private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _loadTenantListFlag = new BehaviorSubject<void>(null);
 
   constructor(public http: HttpClient) {

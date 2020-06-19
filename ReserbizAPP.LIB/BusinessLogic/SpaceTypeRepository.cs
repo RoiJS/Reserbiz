@@ -112,6 +112,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return allSpaceTypesFromRepo.OrderBy(s => s.Name).ToList();
         }
 
+        public async Task<IEnumerable<SpaceType>> GetSpaceTypesAsOptions()
+        {
+            return await _reserbizRepository.ClientDbContext.SpaceTypes
+                                    .OrderBy(s => s.Name)
+                                    .ToListAsync();
+        }
+
         public async Task<SpaceType> GetSpaceTypeAsync(int spaceTypeId)
         {
             var spaceTypeFromRepo = await _reserbizRepository.ClientDbContext.SpaceTypes

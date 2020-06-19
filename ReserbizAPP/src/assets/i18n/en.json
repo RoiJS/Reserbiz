@@ -14,7 +14,39 @@
       "MALE": "Male",
       "FEMALE": "Female"
     },
-    "SELECTED_ITEMS": "Selected Items"
+    "DETAILS": "Details",
+    "DURATION": {
+      "NONE": "",
+      "DAY": {
+        "BASE_FORM": "Day",
+        "S_FORM": "Days"
+      },
+      "WEEK": {
+        "BASE_FORM": "Week",
+        "S_FORM": "Weeks"
+      },
+      "MONTH": {
+        "BASE_FORM": "Month",
+        "S_FORM": "Months"
+      },
+      "QUARTER": {
+        "BASE_FORM": "Quarter",
+        "S_FORM": "Quarters"
+      },
+      "YEAR": {
+        "BASE_FORM": "Year",
+        "S_FORM": "Years"
+      }
+    },
+    "INACTIVE": "Inactive",
+    "SELECTED_ITEMS": "Selected Items",
+    "VALUE_TYPE": {
+      "FIXED": "Fixed",
+      "PERCENTAGE": "Percentage"
+    },
+    "CURRENCY": {
+      "PHP": "Php"
+    }
   },
 
   "AUTH_PAGE": {
@@ -161,7 +193,7 @@
 
     "TABS_OPTIONS": {
       "NEW_TENANT": "New Tenant",
-      "ADD_CONTACT_PERSONS": "Add Contact Persons"
+      "ADD_CONTACT_PERSONS": "Contact Persons"
     }
   },
 
@@ -392,6 +424,289 @@
         "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
         "SUCCESS_MESSAGE": "Selected space type has been removed!",
         "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+      }
+    }
+  },
+
+  "TERMS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Terms",
+    "SEARCH_BAR_HINT": "Enter terms name here...",
+    "SELECTED_TERMS": "Selected Terms",
+    "REMOVE_TERMS_DIALOG": {
+      "TITLE": "Remove selected terms",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected terms?",
+      "SUCCESS_MESSAGE": "Selected terms have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected terms. Please try again later."
+    },
+    "REMOVE_TERM_DIALOG": {
+      "TITLE": "Remove selected term",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected term. Please try again later."
+    },
+    "ACTIVATE_TERM_DIALOG": {
+      "TITLE": "Activate selected term",
+      "CONFIRM_MESSAGE": "Are you sure to activate selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been activated!",
+      "ERROR_MESSAGE": "Failed to activate selected term. Please try again later."
+    },
+    "DEACTIVATE_TERM_DIALOG": {
+      "TITLE": "Deactivate selected term",
+      "CONFIRM_MESSAGE": "Are you sure to deactivate selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate selected term. Please try again later."
+    }
+  },
+
+  "TERM_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add New Term",
+    "FORM_CONTROL": {
+      "GENERAL_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "NAME_CONTROL": {
+          "CONTROL_LABEL": "Name:",
+          "HINT_TEXT": "Enter name here",
+          "EMPTY_ERROR_MESSAGE": "Please enter name",
+          "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
+        },
+        "SPACE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Space Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select space type"
+        },
+        "RATE_CONTROL": {
+          "CONTROL_LABEL": "Rate:",
+          "HINT_TEXT": "Please enter rate"
+        },
+        "MAXIMUM_NUMBER_OF_OCCUPANTS": {
+          "CONTROL_LABEL": "Max no. of occupants:",
+          "HINT_TEXT": "Please enter maximum number of occupants"
+        }
+      },
+
+      "DURATION_CONTROL_GROUP": {
+        "LABEL": "Duration Details",
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "HINT_TEXT": "Please select duration unit"
+        },
+        "ADVANCED_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Advanced Payment Duration:",
+          "HINT_TEXT": "Please enter advanced payment duration value"
+        },
+        "DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Deposit Payment Duration:",
+          "HINT_TEXT": "Please enter deposit payment duration value"
+        }
+      },
+
+      "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
+        "LABEL": "Electric & Water Bill Details",
+        "EXCLUDE_ELECTRIC_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Electric Bill:"
+        },
+        "ELECTRIC_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Electric Bill Amount:",
+          "HINT_TEXT": "Please enter electric bill amount"
+        },
+        "EXCLUDE_WATER_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Water Bill:"
+        },
+        "WATER_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Water Bill Amount:",
+          "HINT_TEXT": "Please enter water bill amount"
+        }
+      },
+
+      "PENALTY_DETAILS_GROUP": {
+        "LABEL": "Penalty Details",
+        "PENALTY_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value:",
+          "HINT_TEXT": "Please enter penalty value"
+        },
+        "PENALTY_VALUE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value Type:",
+          "HINT_TEXT": "Please select penalty value type"
+        },
+        "PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Amount Per Duration:",
+          "HINT_TEXT": "Please select penalty amount per duration unit"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration Value:",
+          "HINT_TEXT": "Please enter penalty effective after duration value"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration:",
+          "HINT_TEXT": "Please enter penalty effective after duration unit"
+        }
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Save Term Information",
+        "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New term has been saved!",
+        "ERROR_MESSAGE": "Failed saving new term."
+      },
+      "LEAVE_PAGE_DIALOG": {
+        "TITLE": "Leave Page",
+        "CONFIRM_MESSAGE": "You have some unsaved changes. Are you sure to leave this page?"
+      }
+    },
+
+    "TABS_OPTIONS": {
+      "NEW_TERM": "New Term",
+      "ADD_MISCELLANEOUS": "Miscellaneous"
+    }
+  },
+
+  "TERM_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Term",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Please enter name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description"
+      },
+      "RATE_CONTROL": {
+        "CONTROL_LABEL": "Rate:",
+        "HINT_TEXT": "Please enter rate"
+      },
+      "SLOT_CONTROL": {
+        "CONTROL_LABEL": "Slot:",
+        "HINT_TEXT": "Please enter slot"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Space Type",
+        "CONFIRM_MESSAGE": "Are you sure to save new space type?",
+        "SUCCESS_MESSAGE": "New space type has been saved!",
+        "ERROR_MESSAGE": "Saving new space type failed. Please try again later."
+      }
+    }
+  },
+
+  "TERM_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Term Details",
+    "PANEL_HEADER_TEXT_INFORMATION": "Information",
+    "GENERAL_CONTROL_GROUP": {
+      "LABEL": "General Information",
+      "CODE_LABEL": "Code:",
+      "NAME_LABEL": "Name:",
+      "SPACE_TYPE_LABEL": "Space Type:",
+      "RATE_LABEL": "Rate:",
+      "MAXIMUM_NUMBER_OF_OCCUPANTS_LABEL": "Max no. of occupants:"
+    },
+
+    "DURATION_CONTROL_GROUP": {
+      "LABEL": "Duration Details",
+      "DURATION_LABEL": "Duration:",
+      "ADVANCED_PAYMENT_DURATION_LABEL": "Advanced Payment:",
+      "DEPOSIT_PAYMENT_DURATION_LABEL": "Deposit Payment:"
+    },
+
+    "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
+      "LABEL": "Electric & Water Bill Details",
+      "EXCLUDE_ELECTRIC_BILL_LABEL": "Electric bill not included",
+      "INCLUDE_ELECTRIC_BILL_LABEL": "Electric bill included",
+      "EXCLUDE_WATER_BILL_LABEL": "Water bill not included",
+      "INCLUDE_WATER_BILL_LABEL": "Water bill included",
+      "BILL_AMOUNT_LABEL": "Amount:"
+    },
+
+    "PENALTY_DETAILS_GROUP": {
+      "LABEL": "Penalty Details",
+      "PENALTY_AMOUNT_PER_DURATION_LABEL": "Penalty Amount Per {0}: {1}",
+      "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
+    },
+
+    "REMOVE_TENANT_DIALOG": {
+      "TITLE": "Remove tenant",
+      "CONFIRM_MESSAGE": "Are you sure to remove this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete this tenant. Please try again later."
+    },
+    "ACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Activate tenant",
+      "CONFIRM_MESSAGE": "Are you sure to activate this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been activated!",
+      "ERROR_MESSAGE": "Failed to activate this tenant. Please try again later."
+    },
+    "DEACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Deactivate tenant",
+      "CONFIRM_MESSAGE": "Are you sure to deactivate this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
+    }
+  },
+
+  "TERM_MISCELLANEOUS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Miscellaneous",
+    "SELECTED_TERM_MISCELLANEOUS": "Selected Term Miscellaneous",
+    "REMOVE_TERM_MISCELLANEOUS_DIALOG": {
+      "TITLE": "Remove selected miscellaneous",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected miscellaneous?",
+      "SUCCESS_MESSAGE": "Selected  miscellaneous have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected miscellaneous. Please try again later."
+    }
+  },
+
+  "TERM_MISCELLANEOUS_ADD_PAGE": {
+    "ACTION_BAR_TITLE": "Add Miscellaneous",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Enter name here",
+        "ERROR_EMPTY_TEXT": "Please enter miscellaneous name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Enter description here"
+      },
+      "AMOUNT_CONTROL": {
+        "CONTROL_LABEL": "Amount:",
+        "HINT_TEXT": "Enter amount here",
+        "ERROR_EMPTY_TEXT": "Please enter amount"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Miscellaneous",
+        "CONFIRM_MESSAGE": "Are you sure to save new miscellaneous?",
+        "SUCCESS_MESSAGE": "New miscellaneous has been saved!",
+        "ERROR_MESSAGE": "Saving new miscellaneous failed!"
+      }
+    }
+  },
+
+  "TERM_MISCELLANEOUS_EDIT_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Miscellaneous",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Enter name here",
+        "ERROR_EMPTY_TEXT": "Please enter miscellaneous name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Enter description here"
+      },
+      "AMOUNT_CONTROL": {
+        "CONTROL_LABEL": "Amount:",
+        "HINT_TEXT": "Enter amount here",
+        "ERROR_EMPTY_TEXT": "Please enter amount"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Miscellaneous",
+        "CONFIRM_MESSAGE": "Are you sure to save new changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Updating miscellaneous failed!"
       }
     }
   }

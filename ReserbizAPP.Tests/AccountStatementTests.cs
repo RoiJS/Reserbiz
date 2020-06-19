@@ -860,8 +860,10 @@ namespace ReserbizAPP.Tests
             Assert.IsFalse(result);
         }
 
-        [Test]
-        public void Test_ConvertPenaltyValue_WhenValueTypeIsFixed()
+        [TestCase(50, 50)]
+        [TestCase(80, 80)]
+        [TestCase(100.50f, 100.50f)]
+        public void Test_ConvertPenaltyValue_WhenValueTypeIsFixed(float penaltyValue, double expectedPenaltyValue)
         {
             // Arrange - Initialize test account statement
             var testAccountStatement = new AccountStatement
@@ -875,7 +877,7 @@ namespace ReserbizAPP.Tests
                 DepositPaymentDurationValue = 2,
                 ElectricBill = 127,
                 WaterBill = 280,
-                PenaltyValue = 50,
+                PenaltyValue = penaltyValue,
                 PenaltyValueType = ValueTypeEnum.Fixed,
                 PenaltyAmountPerDurationUnit = DurationEnum.Day,
                 PenaltyEffectiveAfterDurationValue = 3,
@@ -887,12 +889,14 @@ namespace ReserbizAPP.Tests
             var result = testAccountStatement.PenaltyAmountValue;
 
             // Assert
-            var expectedConvertedValue = 50;
+            var expectedConvertedValue = expectedPenaltyValue;
             Assert.AreEqual(expectedConvertedValue, result);
         }
 
-        [Test]
-        public void Test_ConvertPenaltyValue_WhenValueTypeIsPercentage()
+        [TestCase(9000, 1, 90)]
+        [TestCase(7500, 5, 375)]
+        [TestCase(300.50f, 10, 30.05f)]
+        public void Test_ConvertPenaltyValue_WhenValueTypeIsPercentage(float termRate, float penaltyValue, float expectedPenaltyValue)
         {
             // Arrange - Initialize test account statement
             var testAccountStatement = new AccountStatement
@@ -900,13 +904,13 @@ namespace ReserbizAPP.Tests
                 Id = 1,
                 ContractId = 1,
                 DueDate = new DateTime(2019, 11, 15),
-                Rate = 9000,
+                Rate = termRate,
                 DurationUnit = DurationEnum.Month,
                 AdvancedPaymentDurationValue = 1,
                 DepositPaymentDurationValue = 2,
                 ElectricBill = 127,
                 WaterBill = 280,
-                PenaltyValue = 1,
+                PenaltyValue = penaltyValue,
                 PenaltyValueType = ValueTypeEnum.Percentage,
                 PenaltyAmountPerDurationUnit = DurationEnum.Day,
                 PenaltyEffectiveAfterDurationValue = 3,
@@ -918,7 +922,7 @@ namespace ReserbizAPP.Tests
             var result = testAccountStatement.PenaltyAmountValue;
 
             // Assert
-            var expectedConvertedValue = 90;
+            var expectedConvertedValue = expectedPenaltyValue;
             Assert.AreEqual(expectedConvertedValue, result);
         }
 

@@ -200,7 +200,7 @@ namespace ReserbizAPP.LIB.Models
 
             if (PenaltyValueType == ValueTypeEnum.Percentage)
             {
-                penaltyAmountValue = (Rate * (PenaltyValue / 100));
+                penaltyAmountValue = (float)Math.Round((Rate * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
             }
 
             return penaltyAmountValue;

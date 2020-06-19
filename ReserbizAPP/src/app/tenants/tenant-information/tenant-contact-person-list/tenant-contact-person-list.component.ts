@@ -31,14 +31,9 @@ export class TenantContactPersonListComponent
     router: RouterExtensions,
     translateService: TranslateService
   ) {
-    super();
-    this._activatedRoute = activatedRoute;
-    this._entityService = contactPersonService;
-    this._dialogService = dialogService;
-    this._location = location;
-    this._ngZone = ngZone;
-    this._router = router;
-    this._translateService = translateService;
+    super(dialogService, location, ngZone, router, translateService);
+    this.activatedRoute = activatedRoute;
+    this.entityService = contactPersonService;
   }
 
   ngOnInit() {
@@ -64,31 +59,31 @@ export class TenantContactPersonListComponent
 
   initDialogTexts() {
     this._deleteMultipleItemsDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSONS_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSONS_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSONS_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSONS_DIALOG.ERROR_MESSAGE'
       ),
     };
 
     this._deleteItemDialogTexts = {
-      title: this._translateService.instant(
+      title: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.TITLE'
       ),
-      confirmMessage: this._translateService.instant(
+      confirmMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.CONFIRM_MESSAGE'
       ),
-      successMessage: this._translateService.instant(
+      successMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.SUCCESS_MESSAGE'
       ),
-      errorMessage: this._translateService.instant(
+      errorMessage: this.translateService.instant(
         'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.ERROR_MESSAGE'
       ),
     };

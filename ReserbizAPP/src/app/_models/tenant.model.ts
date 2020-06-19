@@ -18,6 +18,15 @@ export class Tenant extends Entity {
 
   constructor() {
     super();
+    this.id = 0;
+    this.firstName = '';
+    this.middleName = '';
+    this.lastName = '';
+    this.gender = GenderEnum.Male;
+    this.address = '';
+    this.contactNumber = '';
+    this.emailAddress = '';
+    this.photoUrl = '';
   }
 
   get fullName(): string {

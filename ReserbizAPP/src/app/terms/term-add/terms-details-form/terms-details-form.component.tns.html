@@ -1,0 +1,359 @@
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" class="page-container">
+    <StackLayout class="panel">
+      <RadDataForm
+        width="100%"
+        height="100%"
+        #termForm
+        [source]="termDetailsForm"
+        [isReadOnly]="IsBusy"
+        (propertyCommitted)="onPropertyCommitted($event)"
+      >
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="code"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="100"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="name"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="100"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="spaceTypeId"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.SPACE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="spaceTypeOptions"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="100"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="rate"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="100"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="maximumNumberOfOccupants"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.MAXIMUM_NUMBER_OF_OCCUPANTS.CONTROL_LABEL' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+              <TKPropertyEditorParams
+                tKEditorParams
+                minimum="1"
+              ></TKPropertyEditorParams>
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="100"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKDataFormGridLayout tkPropertyGroupLayout>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="durationUnit"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+              [valuesProvider]="durationOptions"
+              index="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="advancedPaymentDurationValue"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+              index="1"
+              columnIndex="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+                <TKPropertyEditorParams
+                  tKEditorParams
+                  [minimum]="durationDetailsRangeValueProvider.minimum"
+                  [maximum]="durationDetailsRangeValueProvider.maximum"
+                ></TKPropertyEditorParams>
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="depositPaymentDurationValue"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+              index="1"
+              columnIndex="1"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+                <TKPropertyEditorParams
+                  tKEditorParams
+                  [minimum]="durationDetailsRangeValueProvider.minimum"
+                  [maximum]="durationDetailsRangeValueProvider.maximum"
+                ></TKPropertyEditorParams>
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKDataFormGridLayout>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKDataFormGridLayout tkPropertyGroupLayout>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="excludeElectricBill"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_CONTROL.CONTROL_LABEL' | translate"
+              index="0"
+              columnIndex="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="electricBillAmount"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
+              index="0"
+              columnIndex="1"
+              [readOnly]="termDetailsForm.excludeElectricBill"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="excludeWaterBill"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_CONTROL.CONTROL_LABEL' | translate"
+              index="1"
+              columnIndex="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="waterBillAmount"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
+              index="1"
+              columnIndex="1"
+              [readOnly]="termDetailsForm.excludeWaterBill"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKDataFormGridLayout>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKDataFormStackLayout tkPropertyGroupLayout>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="penaltyValueType"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+              [valuesProvider]="valueTypeOptions"
+              index="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKDataFormStackLayout>
+
+          <TKDataFormGridLayout tkPropertyGroupLayout>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="penaltyValue"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_CONTROL.CONTROL_LABEL' | translate"
+              index="1"
+              columnIndex="1"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="penaltyAmountPerDurationUnit"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+              [valuesProvider]="durationOptions"
+              index="1"
+              columnIndex="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="penaltyEffectiveAfterDurationUnit"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+              [valuesProvider]="durationOptions"
+              index="2"
+              columnIndex="0"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="penaltyEffectiveAfterDurationValue"
+              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+              index="2"
+              columnIndex="1"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKDataFormGridLayout>
+        </TKPropertyGroup>
+      </RadDataForm>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

@@ -16,13 +16,17 @@ import { AddContactPersonsService } from '@src/app/_services/add-contact-persons
 import { TenantDetailsFormSource } from '@src/app/_models/tenant-details-form.model';
 import { Tenant } from '@src/app/_models/tenant.model';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
+import { TenantMapper } from '@src/app/_helpers/tenant-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-details-form',
   templateUrl: './tenant-details-form.component.html',
   styleUrls: ['./tenant-details-form.component.scss'],
 })
-export class TenantDetailsFormComponent implements OnInit, OnDestroy {
+export class TenantDetailsFormComponent
+  implements IGenderValueProvider, OnInit, OnDestroy {
   @ViewChild(RadDataFormComponent, { static: false })
   tenantForm: RadDataFormComponent;
 
@@ -36,24 +40,27 @@ export class TenantDetailsFormComponent implements OnInit, OnDestroy {
   private _tenantDetailsForm: TenantDetailsFormSource;
   private _tenantSavedDetailsSub: Subscription;
   private _cancelTenantSavedDetailsSub: Subscription;
+  private _genderValueProvider: GenderValueProvider;
 
   constructor(
     private addContanctPersonsService: AddContactPersonsService,
     private addTenantService: AddTenantService,
     private translateService: TranslateService
-  ) {}
+  ) {
+    this._genderValueProvider = new GenderValueProvider(this.translateService);
+  }
 
   ngOnInit() {
     this.initTenantDetails();
     this.initTenantForm();
 
-    this._tenantSavedDetailsSub = this.addTenantService.tenantSavedDetails.subscribe(
+    this._tenantSavedDetailsSub = this.addTenantService.entitySavedDetails.subscribe(
       () => {
         this.onTenantDetailsSavedEmit();
       }
     );
 
-    this._cancelTenantSavedDetailsSub = this.addTenantService.cancelTenantSavedDetails.subscribe(
+    this._cancelTenantSavedDetailsSub = this.addTenantService.entityCancelSaveDetails.subscribe(
       () => {
         this.onCancelTenantDetailsSavedEmit();
       }
@@ -67,30 +74,11 @@ export class TenantDetailsFormComponent implements OnInit, OnDestroy {
 
   initTenantDetails() {
     this._newTenantDetails = new Tenant();
-
-    this._newTenantDetails.id = 0;
-    this._newTenantDetails.firstName = '';
-    this._newTenantDetails.middleName = '';
-    this._newTenantDetails.lastName = '';
-    this._newTenantDetails.gender = GenderEnum.Male;
-    this._newTenantDetails.address = '';
-    this._newTenantDetails.contactNumber = '';
-    this._newTenantDetails.emailAddress = '';
-    this._newTenantDetails.photoUrl = '';
-
     return this._newTenantDetails;
   }
 
   initTenantForm() {
-    this._tenantDetailsForm = new TenantDetailsFormSource(
-      this._newTenantDetails.firstName,
-      this._newTenantDetails.middleName,
-      this._newTenantDetails.lastName,
-      this._newTenantDetails.gender,
-      this._newTenantDetails.address,
-      this._newTenantDetails.contactNumber,
-      this._newTenantDetails.emailAddress
-    );
+    this._tenantDetailsForm = new TenantMapper().initFormSource();
   }
 
   onTenantDetailsSavedEmit() {
@@ -124,7 +112,7 @@ export class TenantDetailsFormComponent implements OnInit, OnDestroy {
 
       const hasContent = !!(
         this._newTenantDetails.hasContent() ||
-        this.addContanctPersonsService.contactList.value.length > 0
+        this.addContanctPersonsService.entityList.value.length > 0
       );
 
       this.onCancelTenantDetailsSaved.emit(hasContent);
@@ -132,16 +120,7 @@ export class TenantDetailsFormComponent implements OnInit, OnDestroy {
   }
 
   get genderOptions(): Array<{ key: GenderEnum; label: string }> {
-    return [
-      {
-        key: GenderEnum.Male,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.MALE'),
-      },
-      {
-        key: GenderEnum.Female,
-        label: this.translateService.instant('GENERAL_TEXTS.GENDER.FEMALE'),
-      },
-    ];
+    return this._genderValueProvider.genderOptions;
   }
 
   get tenantDetailsForm(): TenantDetailsFormSource {

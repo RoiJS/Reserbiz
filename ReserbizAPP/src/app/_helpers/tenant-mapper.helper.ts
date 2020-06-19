@@ -4,6 +4,7 @@ import { Tenant } from '../_models/tenant.model';
 import { TenantDetailsFormSource } from '../_models/tenant-details-form.model';
 import { IBaseDtoEntityMapper } from '../_interfaces/ibase-dto-entity-mapper.interface';
 import { TenantDto } from '../_dtos/tenant-create.dto';
+import { GenderEnum } from '../_enum/gender.enum';
 
 export class TenantMapper
   implements
@@ -44,7 +45,17 @@ export class TenantMapper
   }
 
   initFormSource(): TenantDetailsFormSource {
-    throw new Error();
+    const tenantDetailsForm = new TenantDetailsFormSource(
+      '',
+      '',
+      '',
+      GenderEnum.Male,
+      '',
+      '',
+      ''
+    );
+
+    return tenantDetailsForm;
   }
 
   mapFormSourceToDto(tenantFormSource: TenantDetailsFormSource): TenantDto {

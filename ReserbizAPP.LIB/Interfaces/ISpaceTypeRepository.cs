@@ -9,6 +9,7 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task<IEnumerable<SpaceTypeDetailDto>> GetSpaceTypesBasedOnNameAsync(string spaceTypeName);
+        Task<IEnumerable<SpaceType>> GetSpaceTypesAsOptions();
         Task<SpaceType> GetSpaceTypeAsync(int spaceTypeId);
         Task<bool> DeleteMultipleSpaceTypesAsync(List<int> spaceTypeIds);
     }

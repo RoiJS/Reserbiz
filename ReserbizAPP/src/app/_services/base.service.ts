@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { environment } from '@src/environments/environment';
 
 import { IEntity } from '../_interfaces/ientity.interface';
 import { map } from 'rxjs/operators';
@@ -9,6 +11,8 @@ import { IBaseDTO } from '../_interfaces/ibase-dto.interface';
 
 Injectable({ providedIn: 'root' });
 export class BaseService<TEntity extends IEntity> {
+  protected _apiBaseUrl = environment.reserbizAPIEndPoint;
+
   constructor(
     public mapper: IBaseEntityMapper<IEntity>,
     public http: HttpClient

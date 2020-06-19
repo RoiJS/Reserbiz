@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { environment } from '@src/environments/environment';
-
 import { BaseService } from './base.service';
 import { ContactPersonMapper } from '../_helpers/contact-person-mapper.helper';
 import { ContactPerson } from '../_models/contact-person.model';
@@ -17,7 +15,6 @@ import { IDtoProcess } from '../_interfaces/idto-process.interface';
 })
 export class ContactPersonService extends BaseService<ContactPerson>
   implements IBaseService<ContactPerson> {
-  private _apiBaseUrl = environment.reserbizAPIEndPoint;
   private _updateContactPersonListFlag = new BehaviorSubject<void>(null);
 
   constructor(public http: HttpClient) {

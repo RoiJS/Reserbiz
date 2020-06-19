@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Term 
+    public class Term
         : Entity, IUserActionTracker
     {
         // User-defined term code
@@ -62,6 +63,37 @@ namespace ReserbizAPP.LIB.Models
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
+        public List<Contract> Contracts { get; set; }
+
+        public bool IsDeletable
+        {
+            get
+            {
+                return (this.Contracts.Count == 0);
+            }
+        }
+
+        public float PenaltyAmount
+        {
+            get
+            {
+                var amount = PenaltyValue;
+
+                // If the penalty value type is set to "Percentage",
+                // We will have to compute the amount based on the rate
+                if (PenaltyValueType == ValueTypeEnum.Percentage)
+                {
+                    amount = (float)Math.Round((Rate * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
+                }
+
+                return amount;
+            }
+        }
+
+        public Term()
+        {
+            Contracts = new List<Contract>();
+        }
 
         public int? DeletedById { get; set; }
         public Account DeletedBy { get; set; }

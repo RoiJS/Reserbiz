@@ -22,15 +22,21 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<SpaceType, SpaceTypeDetailDto>()
              .ForMember(dest => dest.IsDeletable,
                     opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<SpaceType, SpaceTypeOptionDto>();
+            CreateMap<SpaceType, SpaceTypeTermDetailDto>();
             CreateMap<Term, TermDetailDto>()
                 .ForMember(dest => dest.DurationUnitText,
                     opt => opt.MapFrom(src => src.DurationUnit.ToString()))
                 .ForMember(dest => dest.PenaltyAmountPerDurationUnitText, opt =>
                     opt.MapFrom(d => d.PenaltyAmountPerDurationUnit.ToString()))
                 .ForMember(dest => dest.PenaltyEffectiveAfterDurationUnitText, opt =>
-                    opt.MapFrom(d => d.PenaltyEffectiveAfterDurationUnit.ToString()));
+                    opt.MapFrom(d => d.PenaltyEffectiveAfterDurationUnit.ToString()))
+                .ForMember(dest => dest.PenaltyAmount, opt =>
+                    opt.MapFrom(d => d.PenaltyAmount));
 
-            CreateMap<Term, TermListDto>();
+            CreateMap<Term, TermListDto>()
+            .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<Term, ContractTermDetailsDto>();
             CreateMap<TermMiscellaneous, TermMiscellaneousDetailDto>();
             CreateMap<Contract, ContractDetailDto>()
