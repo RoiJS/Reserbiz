@@ -6,33 +6,31 @@ import { NativeScriptRouterModule } from 'nativescript-angular/router';
 import { ProfileTabsComponent } from './profile-tabs/profile-tabs.component';
 import { ProfileAccountInfoComponent } from './profile-account-info/profile-account-info.component';
 import { ProfilePersonalInfoComponent } from './profile-personal-info/profile-personal-info.component';
+import { ProfileInformationComponent } from './profile-information/profile-information.component';
 
 const routes: Routes = [
   {
-    path: 'tabs',
-    component: ProfileTabsComponent,
-    children: [
-      {
-        path: 'accountInfo',
-        component: ProfileAccountInfoComponent,
-        outlet: 'accountInfo'
-      },
-      {
-        path: 'personalInfo',
-        component: ProfilePersonalInfoComponent,
-        outlet: 'personalInfo'
-      }
-    ]
+    path: '',
+    component: ProfileInformationComponent,
   },
   {
-    path: '',
-    redirectTo: '/profile/tabs',
-    pathMatch: 'full'
-  }
+    path: 'personalInfo',
+    loadChildren: () =>
+      import('./profile-personal-info/profile-personal-info.module').then(
+        (m) => m.ProfilePersonalInfoModule
+      ),
+  },
+  {
+    path: 'accountInfo',
+    loadChildren: () =>
+      import('./profile-account-info/profile-account-info.module').then(
+        (m) => m.ProfilePersonalInfoModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [NativeScriptRouterModule.forChild(routes)],
-  exports: [NativeScriptRouterModule]
+  exports: [NativeScriptRouterModule],
 })
 export class ProfileRoutingModule {}

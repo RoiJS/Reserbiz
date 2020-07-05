@@ -63,4 +63,10 @@ export class ContactPersonMapper
 
     return contactPersonFormSource;
   }
+
+  mapFormSourceToEntity(
+    formSource: ContactPersonDetailsFormSource
+  ): ContactPerson {
+    throw new Error('Not implemented');
+  }
 }

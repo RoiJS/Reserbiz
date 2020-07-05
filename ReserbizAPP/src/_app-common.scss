@@ -110,9 +110,13 @@ $sidedrawer-list-icon-size: 20;
     margin-bottom: 10;
     Label {
       font-size: 18;
-      color: $accent-dark;
+      color: $primary;
       font-weight: bold;
     }
+  }
+
+  &__single-command-group {
+    justify-content: flex-end;
   }
 
   &__page-command {
@@ -129,6 +133,37 @@ $sidedrawer-list-icon-size: 20;
     padding-left: 5;
     padding-right: 5;
     box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+
+    &__details-group-panel {
+      margin-bottom: 20;
+    }
+
+    &__header-section {
+      color: white;
+      background-color: $primary;
+      border-radius: 5;
+      font-size: 16;
+      padding: 5;
+      text-align: center;
+      width: 100%;
+    }
+
+    &__body-section {
+      padding: 15;
+    }
+
+    &__details-section {
+      margin-top: 13;
+      border-bottom-width: 0.5;
+      padding-bottom: 7;
+
+      .details-label {
+        border-bottom-color: #cccccc;
+        font-size: 16;
+        color: black;
+        font-weight: bold;
+      }
+    }
   }
 }
 /*#endregion*/
@@ -170,7 +205,7 @@ $sidedrawer-list-icon-size: 20;
       }
 
       &--is-selected {
-        background-color: $accent-dark;
+        background-color: $primary;
       }
 
       &--is-not-selected {

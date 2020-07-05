@@ -4,24 +4,24 @@ import { NativeScriptCommonModule } from 'nativescript-angular/common';
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
 
 import { SharedModule } from '../shared/shared.module';
-import { ProfileRoutingModule } from './profile-routing.module.tns';
+import { ProfileRoutingModule } from './profile-routing.module';
 
-import { ProfileTabsComponent } from './profile-tabs/profile-tabs.component';
-import { ProfilePersonalInfoComponent } from './profile-personal-info/profile-personal-info.component';
-import { ProfileAccountInfoComponent } from './profile-account-info/profile-account-info.component';
+import { ProfileInformationComponent } from './profile-information/profile-information.component';
+import { ProfileGeneralInformationComponent } from './profile-information/profile-general-information/profile-general-information.component';
+import { ProfileAccountInformationComponent } from './profile-information/profile-account-information/profile-account-information.component';
 
 @NgModule({
   imports: [
     NativeScriptUIDataFormModule,
     NativeScriptCommonModule,
     SharedModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
   ],
   declarations: [
-    ProfileTabsComponent,
-    ProfilePersonalInfoComponent,
-    ProfileAccountInfoComponent
+    ProfileInformationComponent,
+    ProfileGeneralInformationComponent,
+    ProfileAccountInformationComponent,
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class ProfileModule {}

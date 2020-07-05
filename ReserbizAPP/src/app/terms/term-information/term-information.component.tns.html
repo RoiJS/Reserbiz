@@ -17,6 +17,8 @@
         <ns-term-details-panel
           [currentTerm]="currentTerm"
         ></ns-term-details-panel>
+        <ns-term-miscellaneous-list-panel [termId]="currentTerm?.id">
+        </ns-term-miscellaneous-list-panel>
       </StackLayout>
     </ScrollView>
   </StackLayout>

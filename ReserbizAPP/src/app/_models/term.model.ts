@@ -3,6 +3,7 @@ import { ValueTypeEnum } from '../_enum/value-type.enum';
 import { Entity } from './entity.model';
 import { TermMiscellaneous } from './term-miscellaneous.model';
 import { SpaceType } from './space-type.model';
+import { NumberFormatter } from '../_helpers/number-formatter.helper';
 
 export class Term extends Entity {
   public code: string;
@@ -17,7 +18,7 @@ export class Term extends Entity {
   public advancedPaymentDurationValue: number;
   public advancedPaymentDurationText: string;
   public depositPaymentDurationValue: number;
-  public depositPaymentDurationValueText: string;
+  public depositPaymentDurationText: string;
 
   public excludeElectricBill: boolean;
   public electricBillAmount: number;
@@ -28,11 +29,13 @@ export class Term extends Entity {
 
   public penaltyValue: number;
   public penaltyAmount: number;
+  public penaltyAmountText: string;
   public penaltyValueType: ValueTypeEnum;
   public penaltyAmountPerDurationUnit: DurationEnum;
   public penaltyAmountPerDurationUnitText: string;
 
   public penaltyEffectiveAfterDurationValue: number;
+  public penaltyEffectiveText: string;
   public penaltyEffectiveAfterDurationUnit: DurationEnum;
   public penaltyEffectiveAfterDurationUnitText: string;
 
@@ -43,6 +46,22 @@ export class Term extends Entity {
     this.penaltyAmountPerDurationUnit = DurationEnum.Day;
     this.penaltyEffectiveAfterDurationUnit = DurationEnum.Day;
     this.termMiscellaneous = [];
+  }
+
+  get formattedRate(): string {
+    return NumberFormatter.formatCurrency(this.rate);
+  }
+
+  get formattedElectricBillAmount(): string {
+    return NumberFormatter.formatCurrency(this.electricBillAmount);
+  }
+
+  get formattedWaterBillAmount(): string {
+    return NumberFormatter.formatCurrency(this.waterBillAmount);
+  }
+
+  get formattedPenaltyAmount(): string {
+    return NumberFormatter.formatCurrency(this.penaltyAmount);
   }
 
   hasContent() {

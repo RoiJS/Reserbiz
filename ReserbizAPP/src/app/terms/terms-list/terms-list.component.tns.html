@@ -56,12 +56,8 @@
       (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
     >
       <ng-template tkListItemTemplate let-term="item">
-        <GridLayout
-          class="tenant-detail app-list-item-template"
-          rows="*, *"
-          columns="70, *"
-        >
-          <!-- Template for not selected tenant Item -->
+        <GridLayout class="app-list-item-template" rows="*, *" columns="70, *">
+          <!-- Template for not selected term item -->
           <StackLayout
             *ngIf="multipleSelectionActive && !term.isSelected"
             row="0"
@@ -76,7 +72,7 @@
             </StackLayout>
           </StackLayout>
 
-          <!-- Template for selected tenant Item -->
+          <!-- Template for selected term Item -->
           <StackLayout
             *ngIf="multipleSelectionActive && term.isSelected"
             row="0"
@@ -96,7 +92,7 @@
             </StackLayout>
           </StackLayout>
 
-          <!-- Template tenant item photo placeholder -->
+          <!-- Template tenant term photo placeholder -->
           <StackLayout
             *ngIf="!multipleSelectionActive && !term.isSelected"
             row="0"
@@ -105,14 +101,13 @@
             class="m-r-10"
           >
             <StackLayout
-              class="app-list-item-template__image-container"
+              class="term-icon-placeholder app-list-item-template__image-container"
               verticalAlignment="middle"
-              [backgroundColor]="'yellow'"
             >
               <label
-                class="image"
+                class="image fa fa-solid"
                 horizontalAlignment="center"
-                [text]="'Term'"
+                text="&#xf570;"
               ></label>
             </StackLayout>
           </StackLayout>

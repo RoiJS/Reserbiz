@@ -10,6 +10,6 @@ export class SpaceTypeOption {
   get displayName(): string {
     return this.canBeSelected
       ? this.name
-      : `${this.name} (${this.inactiveText})`;
+      : `${this.name} - (${this.inactiveText})`;
   }
 }

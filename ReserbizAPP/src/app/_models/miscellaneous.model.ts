@@ -1,12 +1,13 @@
 import { Entity } from './entity.model';
+import { NumberFormatter } from '../_helpers/number-formatter.helper';
 
 export abstract class Miscellaneous extends Entity {
   public name: string;
   public description: string;
   public amount: number;
 
-  get amountWithCurrency(): string {
-    return `Php ${this.amount.toFixed(2)}`;
+  get formattedAmount(): string {
+    return NumberFormatter.formatCurrency(this.amount);
   }
 
   get nameInitials(): string {

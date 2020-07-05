@@ -19,14 +19,14 @@ export class TermInformationComponent implements OnInit, OnDestroy {
   private _isBusy = false;
 
   private _updateTermListFlag: Subscription;
-  private durationValurProvider: DurationValueProvider;
+  private _durationValurProvider: DurationValueProvider;
 
   constructor(
     private pageRoute: PageRoute,
     private translateService: TranslateService,
     private termService: TermService
   ) {
-    this.durationValurProvider = new DurationValueProvider(
+    this._durationValurProvider = new DurationValueProvider(
       this.translateService
     );
   }
@@ -56,17 +56,17 @@ export class TermInformationComponent implements OnInit, OnDestroy {
       this._currentTerm = await this.termService.getTerm(this._currentTermId);
       this._isBusy = false;
 
-      this._currentTerm.advancedPaymentDurationText = this.durationValurProvider.getDurationName(
+      this._currentTerm.advancedPaymentDurationText = this._durationValurProvider.getDurationName(
         this._currentTerm.advancedPaymentDurationValue,
         this._currentTerm.durationUnitText
       );
 
-      this._currentTerm.depositPaymentDurationValueText = this.durationValurProvider.getDurationName(
+      this._currentTerm.depositPaymentDurationText = this._durationValurProvider.getDurationName(
         this._currentTerm.depositPaymentDurationValue,
         this._currentTerm.durationUnitText
       );
 
-      this._currentTerm.penaltyEffectiveAfterDurationUnitText = this.durationValurProvider.getDurationName(
+      this._currentTerm.penaltyEffectiveAfterDurationUnitText = this._durationValurProvider.getDurationName(
         this._currentTerm.penaltyEffectiveAfterDurationValue,
         this._currentTerm.penaltyEffectiveAfterDurationUnitText
       );
@@ -76,17 +76,24 @@ export class TermInformationComponent implements OnInit, OnDestroy {
       );
       penaltyAmountText = penaltyAmountText
         .replace('{0}', this._currentTerm.penaltyAmountPerDurationUnitText)
-        .replace('{1}', this._currentTerm.penaltyAmount);
+        .replace(
+          '{1}',
+          this.translateService.instant('GENERAL_TEXTS.CURRENCY.PHP')
+        )
+        .replace('{2}', this._currentTerm.penaltyAmount);
 
-        let penaltyEffectiveText = this.translateService.instant(
+      let penaltyEffectiveText = this.translateService.instant(
         'TERM_DETAILS_PAGE.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_LABEL'
       );
       penaltyEffectiveText = penaltyEffectiveText
         .replace('{0}', this._currentTerm.penaltyEffectiveAfterDurationValue)
-        .replace('{1}', this._currentTerm.penaltyEffectiveAfterDurationUnitText);
+        .replace(
+          '{1}',
+          this._currentTerm.penaltyEffectiveAfterDurationUnitText
+        );
 
-        console.log(penaltyAmountText);
-        console.log(penaltyEffectiveText);
+      this._currentTerm.penaltyAmountText = penaltyAmountText;
+      this._currentTerm.penaltyEffectiveText = penaltyEffectiveText;
     })();
   }
 

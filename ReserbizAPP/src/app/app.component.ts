@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isComponentSelected(url: string): boolean {
-    return this.activatedUrl === url;
+    return this.activatedUrl.indexOf(url) > -1;
   }
 
   onNavItemTap(navItemRoute: string): void {

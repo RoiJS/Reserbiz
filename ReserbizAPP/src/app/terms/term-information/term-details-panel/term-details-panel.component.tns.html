@@ -9,48 +9,273 @@
   <button
     alignSelf="center"
     class="page-container__page-command btn btn-primary btn-rounded-lg"
-    text="Manage"
+    [text]="'GENERAL_TEXTS.MANAGE' | translate"
     (tap)="onNavigateToEditPage()"
   ></button>
 </FlexBoxLayout>
 
-<StackLayout class="term-detail-container__details-panel panel">
+<StackLayout class="term-detail-container panel">
+  <!-- General Information Group -->
+  <StackLayout class="term-detail-container__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="term-detail-container__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="term-detail-container__body-section">
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="horizontal"
+      >
+        <!-- Code -->
+        <StackLayout class="details-wrapper details-code">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.CODE_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="currentTerm?.code"></label>
+          </StackLayout>
+        </StackLayout>
 
-  <!-- <StackLayout class="term-detail-container__details-group-panel">
-      
-  </StackLayout> -->
+        <!-- Name -->
+        <StackLayout class="details-wrapper details-name">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.NAME_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="currentTerm?.name"></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
 
-  <StackLayout class="term-detail-container__detail-section detail-firstname">
-    <label
-      class="detail-name"
-      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.CODE_LABEL' | translate"
-    ></label>
-    <StackLayout orientation="horizontal">
-      <label [text]="currentTerm?.code"></label>
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="horizontal"
+      >
+        <!-- Space Type -->
+        <StackLayout class="details-wrapper details-space-type">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.SPACE_TYPE_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="currentTerm?.spaceType?.name"></label>
+          </StackLayout>
+        </StackLayout>
+
+        <!-- Rate -->
+        <StackLayout class="details-wrapper details-space-type">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.RATE_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label
+              [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+              class="m-r-5"
+            ></label>
+            <label [text]="currentTerm?.formattedRate"></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="horizontal"
+      >
+        <!-- Maximum number of occupants  -->
+        <StackLayout
+          class="details-wrapper details-maximum-number-of-occupants"
+        >
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.MAXIMUM_NUMBER_OF_OCCUPANTS_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="currentTerm?.maximumNumberOfOccupants"></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
     </StackLayout>
   </StackLayout>
 
-  <StackLayout
-    class="term-detail-container__detail-section detail-emailaddress"
-  >
-    <label
-      class="detail-name"
-      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.NAME_LABEL' | translate"
-    ></label>
-    <StackLayout orientation="horizontal">
-      <label class="detail-value" [text]="currentTerm?.name"></label>
+  <!-- Duration Details Group -->
+  <StackLayout class="term-detail-container__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="term-detail-container__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.DURATION_CONTROL_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="term-detail-container__body-section">
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="horizontal"
+      >
+        <!-- Duration -->
+        <StackLayout class="details-wrapper details-duration">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.DURATION_CONTROL_GROUP.DURATION_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="currentTerm?.durationUnitText"></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="horizontal"
+      >
+        <!-- Advanced Payment Duration Amount -->
+        <StackLayout class="details-wrapper details-advanced-payment-duration">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label
+              [text]="currentTerm?.advancedPaymentDurationValue + ' ' + currentTerm?.advancedPaymentDurationText"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+
+        <!-- Deposit Payment Durtion Amount -->
+        <StackLayout class="details-wrapper details-deposit-payment-duration">
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_LABEL' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label
+              [text]="currentTerm?.depositPaymentDurationValue + ' ' + currentTerm?.depositPaymentDurationText"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
     </StackLayout>
   </StackLayout>
 
-  <StackLayout class="term-detail-container__detail-section detail-address">
-    <label
-      class="detail-name"
-      [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.RATE_LABEL' | translate"
-    ></label>
-    <StackLayout orientation="horizontal">
-      <label [text]="currentTerm?.rate"></label>
+  <!-- Electric and Water Bill Group -->
+  <StackLayout class="term-detail-container__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="term-detail-container__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="term-detail-container__body-section">
+      <StackLayout class="term-detail-container__details-section">
+        <!-- Exclude Electric Bill -->
+        <FlexBoxLayout
+          class="details-exclude-electric-bill"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            *ngIf="currentTerm?.excludeElectricBill"
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_LABEL' | translate"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeElectricBill"
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.INCLUDE_ELECTRIC_BILL_LABEL' | translate"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeElectricBill"
+            [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+            class="m-r-5"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeElectricBill"
+            [text]="currentTerm?.formattedElectricBillAmount"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
+
+      <StackLayout
+        class="term-detail-container__details-section"
+        orientation="vertical"
+      >
+        <!-- Exclude Water Bill -->
+        <FlexBoxLayout
+          class="details-exclude-water-bill"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            *ngIf="currentTerm?.excludeWaterBill"
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_LABEL' | translate"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeWaterBill"
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.INCLUDE_WATER_BILL_LABEL' | translate"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeElectricBill"
+            [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+            class="m-r-5"
+          ></label>
+          <label
+            *ngIf="!currentTerm?.excludeWaterBill"
+            [text]="currentTerm?.formattedWaterBillAmount"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
     </StackLayout>
   </StackLayout>
 
+  <!-- Penalty Details Group -->
+  <StackLayout class="term-detail-container__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="term-detail-container__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.PENALTY_DETAILS_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="term-detail-container__body-section">
+      <StackLayout class="term-detail-container__details-section">
+        <!-- Penalty Amount Per Duration -->
+        <FlexBoxLayout
+          class="details-penalty-amount-per-duration"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            class="details-label"
+            [text]="currentTerm?.penaltyAmountText"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
 
+      <StackLayout class="term-detail-container__details-section">
+        <!-- Penalty Amount Per Duration -->
+        <FlexBoxLayout
+          class="details-penalty-effective-after-duration"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            class="details-label"
+            [text]="currentTerm?.penaltyEffectiveText"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
 </StackLayout>

@@ -32,15 +32,19 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return term;
         }
 
-        public async Task<IEnumerable<Term>> GetTermsAsync()
+        public async Task<IEnumerable<Term>> GetTermsAsync(string termKeywords)
         {
-            var termsFromRepo = await _reserbizRepository.ClientDbContext.Terms
+            var termsFromRepo = _reserbizRepository.ClientDbContext.Terms
                                     .AsQueryable()
                                     .Includes(t => t.Contracts)
-                                    .Where(t => t.IsDelete == false)
-                                    .ToListAsync();
+                                    .Where(t => t.IsDelete == false);
 
-            return termsFromRepo;
+            if (!string.IsNullOrEmpty(termKeywords))
+            {
+                termsFromRepo = termsFromRepo.Where(t => t.Code.Contains(termKeywords) || t.Name.Contains(termKeywords));
+            }
+
+            return await termsFromRepo.ToListAsync();
         }
 
         public async Task<bool> DeleteMultipleTermsAsync(List<int> termIds)

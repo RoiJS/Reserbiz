@@ -7,6 +7,7 @@ import { SpaceTypeOption } from '../_models/space-type-option.model';
 
 export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
   private _spaceTypesOptions: SpaceTypeOption[] = [];
+  private _currentValue = 0;
 
   constructor(
     private translateService: TranslateService,
@@ -36,15 +37,24 @@ export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
     );
   }
 
+  setCurrenValue(value) {
+    this._currentValue = value;
+  }
+
   get spaceTypeOptions(): {
     key: string;
     label: string;
     items: SpaceTypeOption[];
   } {
+    // Filter options that are not inactive or the current value
+    const _spaceTypeOptions = this._spaceTypesOptions.filter(
+      (sp) => sp.canBeSelected || sp.id === this._currentValue
+    );
+
     return {
       key: 'id',
       label: 'displayName',
-      items: this._spaceTypesOptions,
+      items: _spaceTypeOptions,
     };
   }
 }

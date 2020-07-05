@@ -18,7 +18,7 @@ namespace ReserbizAPP.LIB.Helpers.Custom_Validations
             var property = validationContext.ObjectType.GetProperty(_propertyName);
             var propertyValue = Convert.ToBoolean(property.GetValue(validationContext.ObjectInstance, null));
 
-            if (propertyValue == false && Convert.ToInt32(value) > 0)
+            if (propertyValue == true && Convert.ToInt32(value) > 0)
             {
                 return new ValidationResult(this.FormatErrorMessage(_propertyName));
             }

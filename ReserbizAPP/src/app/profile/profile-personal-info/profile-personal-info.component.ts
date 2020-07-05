@@ -16,6 +16,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
 import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'ns-profile',
@@ -38,6 +39,7 @@ export class ProfilePersonalInfoComponent
   constructor(
     private authService: AuthService,
     private dialogService: DialogService,
+    private router: RouterExtensions,
     private translateService: TranslateService
   ) {
     this._genderValueProvider = new GenderValueProvider(this.translateService);
@@ -103,8 +105,8 @@ export class ProfilePersonalInfoComponent
                       'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
                     ),
                     () => {
-                      this._userFormSourceOriginal = this._userFormSource.clone();
                       this.refreshUser();
+                      this.router.back();
                     }
                   );
                 },

@@ -45,7 +45,7 @@
     >
       <ng-template tkListItemTemplate let-contactPerson="item">
         <GridLayout class="app-list-item-template" rows="*, *" columns="70, *">
-          <!-- Template for not selected tenant Item -->
+          <!-- Template for not selected contact person Item -->
           <StackLayout
             *ngIf="multipleSelectionActive && !contactPerson.isSelected"
             row="0"
@@ -60,7 +60,7 @@
             </StackLayout>
           </StackLayout>
 
-          <!-- Template for selected tenant Item -->
+          <!-- Template for selected contact person Item -->
           <StackLayout
             *ngIf="multipleSelectionActive && contactPerson.isSelected"
             row="0"
@@ -80,7 +80,7 @@
             </StackLayout>
           </StackLayout>
 
-          <!-- Template tenant item photo placeholder -->
+          <!-- Template contact person item photo placeholder -->
           <StackLayout
             *ngIf="!multipleSelectionActive && !contactPerson.isSelected"
             row="0"

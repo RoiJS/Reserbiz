@@ -59,7 +59,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TermListDto>>> GetTerms(string termKeywords)
         {
-            var termsFromRepo = await _termRepo.GetTermsAsync();
+            var termsFromRepo = await _termRepo.GetTermsAsync(termKeywords);
 
             var termToReturn = _mapper.Map<IEnumerable<TermListDto>>(termsFromRepo);
 

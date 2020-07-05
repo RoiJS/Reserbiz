@@ -23,9 +23,4 @@ export const routes: Routes = [
         (m) => m.TermInformationModule
       ),
   },
-  {
-    path: 'term-information/:id',
-    loadChildren: () =>
-      import('./term-edit/term-edit.module').then((m) => m.TermEditModule),
-  },
 ];

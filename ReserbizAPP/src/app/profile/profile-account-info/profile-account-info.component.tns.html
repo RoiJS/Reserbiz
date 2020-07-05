@@ -1,6 +1,6 @@
 <ns-action-bar
   [title]="'ACCOUNT_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
-  [showBackButton]="false"
+  [hasMenu]="false"
 >
   <ActionItem
     icon="font://&#xf0c7;"
@@ -10,43 +10,58 @@
 </ns-action-bar>
 <StackLayout>
   <ns-loader-layout [busy]="IsBusy">
-    <RadDataForm
-      width="100%"
-      height="100%"
-      tkToggleNavButton
-      [source]="userAccountFormSource"
-      [isReadOnly]="IsBusy"
-      commitMode="Manual"
-      validationMode="Manual"
-      (propertyValidate)="onPropertyValidate($event)"
-    >
-      <TKPropertyGroup tkDataFormGroups>
-        <TKEntityProperty
-          tkPropertyGroupProperties
-          name="username"
-          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.HINT_TEXT' | translate"
-        ></TKEntityProperty>
-        <TKEntityProperty
-          tkPropertyGroupProperties
-          name="password"
-          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
+    <StackLayout width="100%" class="page-container">
+      <StackLayout class="panel">
+        <RadDataForm
+          width="100%"
+          [source]="userAccountFormSource"
+          [isReadOnly]="IsBusy"
+          commitMode="Manual"
+          validationMode="Manual"
+          (propertyValidate)="onPropertyValidate($event)"
         >
-          <TKPropertyEditor
-            tkEntityPropertyEditor
-            type="Password"
-          ></TKPropertyEditor>
-        </TKEntityProperty>
-        <TKEntityProperty
-          tkPropertyGroupProperties
-          name="confirmPassword"
-          [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.HINT_TEXT' | translate"
-        >
-          <TKPropertyEditor
-            tkEntityPropertyEditor
-            type="Password"
-          ></TKPropertyEditor>
-        </TKEntityProperty>
-      </TKPropertyGroup>
-    </RadDataForm>
+          <TKPropertyGroup
+            tkDataFormGroups
+            collapsible="true"
+            [name]="'GENERAL_TEXTS.DETAILS' | translate"
+            hidden="false"
+          >
+            <TKGroupTitleStyle
+              tkPropertyGroupTitleStyle
+              fillColor="#eb5a2e"
+              labelTextSize="17"
+              labelFontStyle="Bold"
+              labelTextColor="White"
+            ></TKGroupTitleStyle>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="username"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.HINT_TEXT' | translate"
+            ></TKEntityProperty>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="password"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor
+                tkEntityPropertyEditor
+                type="Password"
+              ></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="confirmPassword"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor
+                tkEntityPropertyEditor
+                type="Password"
+              ></TKPropertyEditor>
+            </TKEntityProperty>
+          </TKPropertyGroup>
+        </RadDataForm>
+      </StackLayout>
+    </StackLayout>
   </ns-loader-layout>
 </StackLayout>

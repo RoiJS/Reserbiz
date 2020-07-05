@@ -12,11 +12,12 @@ import { User } from '@src/app/_models/user.model';
 import { UserAccountInfoFormSource } from '@src/app/_models/user-account-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'ns-profile-account-info',
   templateUrl: './profile-account-info.component.html',
-  styleUrls: ['./profile-account-info.component.scss']
+  styleUrls: ['./profile-account-info.component.scss'],
 })
 export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
   @ViewChild(RadDataFormComponent, { static: false })
@@ -33,9 +34,9 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private dialogService: DialogService,
+    private router: RouterExtensions,
     private translateService: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this._currentUserSub = this.authService.user.subscribe(
@@ -77,7 +78,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
                 'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.CONFIRM_MESSAGE'
               )
             )
-            .then(res => {
+            .then((res) => {
               if (res === ButtonOptions.YES) {
                 this._isBusy = true;
 
@@ -96,20 +97,20 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
                         ),
                         this.translateService.instant(
                           'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
-                        )
+                        ),
+                        () => {
+                          this.refreshUser();
+                          this.router.back();
+                        }
                       );
-
-                      this._userAccountFormOriginal = this._userAccountFormSource.clone();
-
-                      this.refreshUser();
                     },
                     (error: Error) => {
                       this.dialogService.alert(
                         this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.TITLE'
+                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
                         ),
                         `${this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.UPDATE_DIALOG.ERROR_MESSAGE'
+                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.ERROR_MESSAGE'
                         )} ${error.message}`
                       );
                     }
@@ -154,7 +155,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     }
 
     // Check if username is already exists.
-    args.returnValue = new Promise<Boolean>(resolve => {
+    args.returnValue = new Promise<Boolean>((resolve) => {
       this.authService
         .validateUsernameExists(args.entityProperty.valueCandidate)
         .subscribe((res: boolean) => {

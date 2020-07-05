@@ -90,11 +90,75 @@ export class TermMapper
     return termFormSource;
   }
 
-  mapFormSourceToDto(termFormSouce: TermDetailsFormSource): TermDto {
-    throw new Error();
+  mapFormSourceToDto(termFormSource: TermDetailsFormSource): TermDto {
+    const term = new TermDto(
+      termFormSource.code,
+      termFormSource.name,
+      termFormSource.spaceTypeId,
+      termFormSource.rate,
+      termFormSource.maximumNumberOfOccupants,
+      termFormSource.durationUnit,
+      termFormSource.advancedPaymentDurationValue,
+      termFormSource.depositPaymentDurationValue,
+      termFormSource.excludeElectricBill,
+      termFormSource.electricBillAmount,
+      termFormSource.excludeWaterBill,
+      termFormSource.waterBillAmount,
+      termFormSource.penaltyValue,
+      termFormSource.penaltyValueType,
+      termFormSource.penaltyAmountPerDurationUnit,
+      termFormSource.penaltyEffectiveAfterDurationValue,
+      termFormSource.penaltyEffectiveAfterDurationUnit
+    );
+    return term;
   }
 
   mapEntityToFormSource(term: Term): TermDetailsFormSource {
-    throw new Error();
+    const termFormSource = new TermDetailsFormSource(
+      term.code,
+      term.name,
+      term.spaceTypeId,
+      term.rate,
+      term.maximumNumberOfOccupants,
+      term.durationUnit,
+      term.advancedPaymentDurationValue,
+      term.depositPaymentDurationValue,
+      term.excludeElectricBill,
+      term.electricBillAmount,
+      term.excludeWaterBill,
+      term.waterBillAmount,
+      term.penaltyValue,
+      term.penaltyValueType,
+      term.penaltyAmountPerDurationUnit,
+      term.penaltyEffectiveAfterDurationValue,
+      term.penaltyEffectiveAfterDurationUnit
+    );
+
+    return termFormSource;
+  }
+
+  mapFormSourceToEntity(formSource: TermDetailsFormSource): Term {
+    const term = new Term();
+    term.code = formSource.code;
+    term.name = formSource.name;
+    term.spaceTypeId = formSource.spaceTypeId;
+    term.rate = formSource.rate;
+    term.maximumNumberOfOccupants = formSource.maximumNumberOfOccupants;
+    term.durationUnit = formSource.durationUnit;
+    term.advancedPaymentDurationValue = formSource.advancedPaymentDurationValue;
+    term.depositPaymentDurationValue = formSource.depositPaymentDurationValue;
+    term.excludeElectricBill = formSource.excludeElectricBill;
+    term.electricBillAmount = formSource.electricBillAmount;
+    term.excludeWaterBill = formSource.excludeWaterBill;
+    term.waterBillAmount = formSource.waterBillAmount;
+    term.penaltyValue = formSource.penaltyValue;
+    term.penaltyValueType = formSource.penaltyValueType;
+    term.penaltyAmountPerDurationUnit = formSource.penaltyAmountPerDurationUnit;
+    term.penaltyEffectiveAfterDurationValue =
+      formSource.penaltyEffectiveAfterDurationValue;
+    term.penaltyEffectiveAfterDurationUnit =
+      formSource.penaltyEffectiveAfterDurationUnit;
+
+    return term;
   }
 }

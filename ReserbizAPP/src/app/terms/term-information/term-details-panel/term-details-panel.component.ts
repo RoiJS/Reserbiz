@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 import { Term } from '@src/app/_models/term.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ns-term-details-panel',
@@ -10,7 +11,10 @@ import { Term } from '@src/app/_models/term.model';
 })
 export class TermDetailsPanelComponent implements OnInit {
   @Input() currentTerm: Term;
-  constructor(private router: RouterExtensions) {}
+  constructor(
+    private activedRoute: ActivatedRoute,
+    private router: RouterExtensions
+  ) {}
 
   ngOnInit() {}
 

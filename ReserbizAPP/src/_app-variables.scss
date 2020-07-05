@@ -45,9 +45,9 @@ $page-content-placeholder-font-size: 20;
 
 // Colors
 $background: #fff;
-$primary: lighten(#000, 13%);
-$secondary: lighten(#000, 46%);
-$disabled: lighten(#000, 62%);
+$primary: #eb5a2e;
+$secondary: lighten($primary, 46%);
+$disabled: lighten($primary, 62%);
 $accent: $accent-dark;
 $error: $error-light;
 

@@ -33,7 +33,11 @@ export class TermMiscellaneousMapper
   }
 
   mapFormSourceToDto(tmf: TermMiscellaneousFormSource): TermMiscellaneousDto {
-    const termMiscellaneousDto = new TermMiscellaneousDto(tmf.name, tmf.amount);
+    const termMiscellaneousDto = new TermMiscellaneousDto(
+      tmf.name,
+      tmf.description,
+      tmf.amount
+    );
     return termMiscellaneousDto;
   }
 
@@ -46,5 +50,11 @@ export class TermMiscellaneousMapper
       termMiscellaneous.amount
     );
     return termMiscellaneousFormSource;
+  }
+
+  mapFormSourceToEntity(
+    formSource: TermMiscellaneousFormSource
+  ): TermMiscellaneous {
+    throw new Error('Not implemented');
   }
 }

@@ -8,7 +8,7 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task<Term> GetTermAsync(int id);
-        Task<IEnumerable<Term>> GetTermsAsync();
+        Task<IEnumerable<Term>> GetTermsAsync(string termKeywords);
         Task<bool> DeleteMultipleTermsAsync(List<int> termIds);
         bool CheckTermCodeIfExists(IList<Term> termList, int termId, string termCode);
     }

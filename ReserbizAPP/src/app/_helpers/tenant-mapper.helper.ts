@@ -85,4 +85,8 @@ export class TenantMapper
 
     return tenantFormSource;
   }
+
+  mapFormSourceToEntity(formSource: TenantDetailsFormSource): Tenant {
+    throw new Error('Not implemented');
+  }
 }

@@ -15,6 +15,7 @@ import { IEntity } from '@src/app/_interfaces/ientity.interface';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogService } from '@src/app/_services/dialog.service';
+import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 
 @Component({
   template: ``,
@@ -23,7 +24,7 @@ export class BaseFormComponent<
   TEntity extends IEntity,
   TFormSource extends IBaseFormSource<TFormSource>,
   TDtoEntity extends IBaseDTO
-> implements OnInit {
+> extends BaseFormHelper<TFormSource> implements OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
@@ -50,7 +51,9 @@ export class BaseFormComponent<
     public ngZone: NgZone,
     public router: RouterExtensions,
     public translateService: TranslateService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {}
 

@@ -48,7 +48,7 @@ namespace ReserbizAPP.LIB.Dtos
         // Amount of Electric bill
         [Required]
         // [MinLength(0, ErrorMessage = "Electric Bill must not be less than zero.")]
-        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
+        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
         public float ElectricBillAmount { get; set; }
 
         // Exluding Monthly Water Bill from the payment
@@ -58,7 +58,7 @@ namespace ReserbizAPP.LIB.Dtos
         // Amount of WaterBill
         [Required]
         // [MinLength(0, ErrorMessage = "Water Bill must not be less than zero.")]
-        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
+        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
         public float WaterBillAmount { get; set; }
 
         // Penalty amount value

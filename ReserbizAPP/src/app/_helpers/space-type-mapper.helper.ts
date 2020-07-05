@@ -46,4 +46,8 @@ export class SpaceTypeMapper
 
     return spaceTypeFormSource;
   }
+
+  mapFormSourceToEntity(formSource: SpaceTypeFormSource): SpaceType {
+    throw new Error('Not implemented');
+  }
 }

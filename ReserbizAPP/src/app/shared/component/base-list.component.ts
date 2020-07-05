@@ -37,6 +37,8 @@ export class BaseListComponent<TEntity extends IEntity>
 
   protected _currentItem: TEntity;
 
+  protected _currentItemParentId: number;
+
   protected _loadListFlagSub: Subscription;
 
   protected _multipleSelectionActive = false;
@@ -146,6 +148,14 @@ export class BaseListComponent<TEntity extends IEntity>
       // This will prevent the item from being selected
       if (!selectedItem.isDeletable) {
         this.appListView.listView.deselectItemAt(currentIndex);
+        this.dialogService.alert(
+          this.translateService.instant(
+            'INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
+          ),
+          this.translateService.instant(
+            'INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
+          )
+        );
         return;
       }
 
@@ -223,7 +233,7 @@ export class BaseListComponent<TEntity extends IEntity>
                   );
 
                   me._listItems = new ObservableArray<TEntity>([]);
-                  me.getEntities();
+                  this.entityService.reloadListFlag();
                 },
                 (error: Error) => {
                   this.dialogService.alert(
@@ -264,6 +274,7 @@ export class BaseListComponent<TEntity extends IEntity>
                   this._deleteItemDialogTexts.successMessage,
                   () => {
                     (<any>this._listItems).splice(selectedItemIndex, 1);
+                    this.entityService.reloadListFlag();
                   }
                 );
               },
@@ -303,7 +314,7 @@ export class BaseListComponent<TEntity extends IEntity>
 
                 this.appListView.listView.notifySwipeToExecuteFinished();
                 this._listItems = new ObservableArray<TEntity>([]);
-                this.getEntities();
+                this.entityService.reloadListFlag();
               },
               (error: Error) => {
                 this.dialogService.alert(

@@ -15,7 +15,6 @@
           rows="*, *"
           columns="70, *, 60"
         >
-          <!-- Template tenant item photo placeholder -->
           <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
             <StackLayout
               class="app-list-item-template__image-container"
@@ -42,7 +41,7 @@
           <StackLayout row="1" col="1">
             <label
               class="username"
-              [text]="termMiscellaneous.amountWithCurrency"
+              [text]="termMiscellaneous.formattedAmount"
             ></label>
           </StackLayout>
 

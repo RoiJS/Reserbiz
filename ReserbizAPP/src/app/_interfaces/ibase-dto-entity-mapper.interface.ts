@@ -10,4 +10,5 @@ export interface IBaseDtoEntityMapper<
   initFormSource(): TFormSource;
   mapFormSourceToDto(e: TFormSource): TDtoEntity;
   mapEntityToFormSource(e: TEntity): TFormSource;
+  mapFormSourceToEntity(e: TFormSource): TEntity;
 }

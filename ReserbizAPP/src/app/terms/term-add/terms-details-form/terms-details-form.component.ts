@@ -74,6 +74,11 @@ export class TermsDetailsFormComponent
     private translateService: TranslateService
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.initTermDetails();
+    this.initTermForm();
 
     this._durationValueProvider = new DurationValueProvider(
       this.translateService
@@ -87,11 +92,6 @@ export class TermsDetailsFormComponent
       this.translateService,
       this.spaceTypeService
     );
-  }
-
-  ngOnInit() {
-    this.initTermDetails();
-    this.initTermForm();
 
     this._durationDetailsRangeValueProvider = new DurationRangeValueProvider(
       this._termDetailsForm.durationUnit

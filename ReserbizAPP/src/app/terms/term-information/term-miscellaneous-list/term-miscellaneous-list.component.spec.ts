@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TermEditComponent } from './term-edit.component';
+import { TermMiscellaneousListComponent } from './term-miscellaneous-list.component';
 
-describe('TermEditComponent', () => {
-  let component: TermEditComponent;
-  let fixture: ComponentFixture<TermEditComponent>;
+describe('TermMiscellaneousListComponent', () => {
+  let component: TermMiscellaneousListComponent;
+  let fixture: ComponentFixture<TermMiscellaneousListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TermEditComponent ]
+      declarations: [ TermMiscellaneousListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TermEditComponent);
+    fixture = TestBed.createComponent(TermMiscellaneousListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

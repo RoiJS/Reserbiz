@@ -7,7 +7,19 @@
         [source]="tenantDetailsForm"
         [isReadOnly]="IsBusy"
       >
-        <TKPropertyGroup tkDataFormGroups>
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="'GENERAL_TEXTS.DETAILS' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
           <TKEntityProperty
             tkPropertyGroupProperties
             name="firstName"
