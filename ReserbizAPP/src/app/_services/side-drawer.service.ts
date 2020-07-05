@@ -5,7 +5,7 @@ import { MainMenu } from '../_models/main-menu.model';
   providedIn: 'root',
 })
 export class SideDrawerService {
-   mainMenu: MainMenu[];
+  mainMenu: MainMenu[];
 
   constructor() {
     this.mainMenu = [
@@ -22,9 +22,9 @@ export class SideDrawerService {
         hasSeparator: false,
       },
       {
-        text: 'MAIN_MENU.CONTRACTS',
-        icon: String.fromCharCode(0xf573),
-        url: '/contracts',
+        text: 'MAIN_MENU.SPACE_TYPES',
+        icon: String.fromCharCode(0xf015),
+        url: '/space-types',
         hasSeparator: false,
       },
       {
@@ -34,11 +34,12 @@ export class SideDrawerService {
         hasSeparator: false,
       },
       {
-        text: 'MAIN_MENU.SPACE_TYPES',
-        icon: String.fromCharCode(0xf015),
-        url: '/space-types',
+        text: 'MAIN_MENU.CONTRACTS',
+        icon: String.fromCharCode(0xf573),
+        url: '/contracts',
         hasSeparator: false,
       },
+
       {
         text: 'MAIN_MENU.PROFILE',
         icon: String.fromCharCode(0xf2bd),
