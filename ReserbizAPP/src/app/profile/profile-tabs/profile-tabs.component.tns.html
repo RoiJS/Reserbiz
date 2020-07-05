@@ -1,0 +1,21 @@
+<Tabs selectedIndex="0" tabsPosition="bottom">
+  <TabStrip>
+    <TabStripItem>
+      <image src="font://&#xf507;" class="fa fa-solid"></image>
+    </TabStripItem>
+    <TabStripItem>
+      <image src="font://&#xf505;" class="fa fa-solid"></image>
+    </TabStripItem>
+  </TabStrip>
+
+  <TabContentItem>
+    <page-router-outlet name="personalInfo"></page-router-outlet>
+  </TabContentItem>
+  <TabContentItem>
+    <page-router-outlet name="accountInfo"></page-router-outlet>
+  </TabContentItem>
+</Tabs>
+
+<FlexboxLayout justifyContent="center" alignItems="center" *ngIf="isLoading">
+  <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+</FlexboxLayout>

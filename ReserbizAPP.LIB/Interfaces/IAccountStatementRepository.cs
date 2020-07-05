@@ -10,7 +10,7 @@ namespace ReserbizAPP.LIB.Interfaces
         AccountStatement RegisterNewAccountStament(Contract contract);
         PenaltyBreakdown RegisterNewPenaltyItem(AccountStatement accountStatement);
         Task<AccountStatement> GetAccountStatementAsync(int id);
-        Task<IEnumerable<AccountStatement>> GetAccountStatementsPerContractAsync(int contractId);
+        Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId);
         Task<IEnumerable<AccountStatement>> GetActiveDueAccountStatementsPerContractAsync(int contractId);
     }
 }

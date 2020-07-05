@@ -1,0 +1,49 @@
+<FlexBoxLayout
+  class="page-container__single-command-group page-container__page-divider"
+>
+  <button
+    alignSelf="flex-end"
+    class="page-container__page-command btn btn-primary btn-rounded-lg"
+    [text]="'GENERAL_TEXTS.MANAGE' | translate"
+    (tap)="onNavigateToEditAccountInformation()"
+  ></button>
+</FlexBoxLayout>
+
+<StackLayout class="panel">
+  <StackLayout class="panel__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="panel__header-section">
+      <label
+        [text]="'PROFILE_INFORMATION_PAGE.ACCOUNT_CONTROL_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="panel__body-section">
+      <StackLayout class="panel__details-section" orientation="horizontal">
+        <StackLayout class="details-wrapper details-username">
+          <label
+            class="details-label"
+            [text]="'PROFILE_INFORMATION_PAGE.ACCOUNT_CONTROL_GROUP.USERNAME' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label [text]="username"></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+
+      <StackLayout class="panel__details-section" orientation="horizontal">
+        <StackLayout class="details-wrapper details-password">
+          <label
+            class="details-label"
+            [text]="'PROFILE_INFORMATION_PAGE.ACCOUNT_CONTROL_GROUP.PASSWORD' | translate"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label
+              [text]="'PROFILE_INFORMATION_PAGE.ACCOUNT_CONTROL_GROUP.PASSWORD_FAKE_VALUE' | translate"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+</StackLayout>

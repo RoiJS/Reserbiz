@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class AccountStatement : Entity
+    public class AccountStatement 
+        : Entity, IUserActionTracker
     {
         public int ContractId { get; set; }
         public Contract Contract { get; set; }
@@ -25,6 +27,45 @@ namespace ReserbizAPP.LIB.Models
         public int PenaltyEffectiveAfterDurationValue { get; set; }
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
+
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
+
+
+        private DateTime CurrentDateTime = DateTime.Now;
+
+        private DateTime NextDueDate
+        {
+            get
+            {
+                return GetNextDueDate();
+            }
+        }
+
+        // This is to set and simulate the current 
+        // date time for unit testing purposes
+        public void SetCurrentDateTime(DateTime dateTime)
+        {
+            CurrentDateTime = dateTime;
+        }
+
+        public bool IsPenaltySettingActive
+        {
+            get
+            {
+                // Generating penalty entry will be based on this settings.
+                // For now we will only consider the penalty value.
+                // Theres no reason to generate penalty item if penalty value 
+                // property is zero.
+                return PenaltyValue > 0;
+            }
+        }
 
         public bool IsFirstAccountStatement
         {
@@ -46,7 +87,8 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return DateTime.Now >= PenaltyNextDueDate;
+                return (PenaltyNextDueDate < NextDueDate
+                        && PenaltyNextDueDate <= CurrentDateTime);
             }
         }
 
@@ -54,7 +96,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return CalculatePenaltyValue();
+                return ConvertPenaltyValue();
             }
         }
 
@@ -102,19 +144,23 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (AccountStatementTotalAmount == CurrentAmountPaid);
+                return (CurrentAmountPaid >= AccountStatementTotalAmount);
             }
         }
 
-        private List<AccountStatement> ContractActiveAccountStatements
+        public bool IsValidForGeneratingPenalty
         {
             get
             {
-                var activeAccountStatements = Contract.AccountStatements.Where(a => a.IsActive).OrderBy(a => a.Id).ToList();
-                return activeAccountStatements;
+                // Generating of penalty item will based on these 3 criteria:
+                // (1) Account statement should be due for generating penalty.
+                // (2) Account statement should be not yet fully paid.
+                // (3) Account statement should not be the first account statement from the list.
+                return (IsDueToGeneratePenalty && !IsFullyPaid && !IsFirstAccountStatement);
             }
         }
 
+        
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
@@ -141,13 +187,20 @@ namespace ReserbizAPP.LIB.Models
             return nextDueDate;
         }
 
-        private float CalculatePenaltyValue()
+        private DateTime GetNextDueDate()
+        {
+            var daysBeforeNextDue = DueDate.CalculateDaysBasedOnDuration(1, DurationUnit);
+            var accountStatementNextDueDate = DueDate.AddDays(daysBeforeNextDue);
+            return accountStatementNextDueDate;
+        }
+
+        private float ConvertPenaltyValue()
         {
             var penaltyAmountValue = PenaltyValue;
 
             if (PenaltyValueType == ValueTypeEnum.Percentage)
             {
-                penaltyAmountValue = (Rate * (PenaltyValue / 100));
+                penaltyAmountValue = (float)Math.Round((Rate * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
             }
 
             return penaltyAmountValue;
@@ -189,8 +242,10 @@ namespace ReserbizAPP.LIB.Models
 
         private bool IsFirstAccountStatementItem()
         {
-            return ContractActiveAccountStatements.Count == 1
-                    || (ContractActiveAccountStatements.Count > 0 && ContractActiveAccountStatements[0].Id == Id);
+            var activeAccountStatements = Contract.AccountStatements.Where(a => a.IsActive).OrderBy(a => a.Id).ToList();
+
+            return activeAccountStatements.Count == 1
+                    || (activeAccountStatements.Count > 0 && activeAccountStatements[0].Id == Id);
         }
 
         private float CalculateCurrentAmountPaid()

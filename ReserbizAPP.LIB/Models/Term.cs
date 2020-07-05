@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Term : Entity
+    public class Term
+        : Entity, IUserActionTracker
     {
         // User-defined term code
         public string Code { get; set; }
@@ -25,7 +27,7 @@ namespace ReserbizAPP.LIB.Models
         // Payment duration based on DurationEnum (Daily = 0, Weekly = 1, Monthly = 2, Quarterly = 3, Yearly = 4)
         public DurationEnum DurationUnit { get; set; } = DurationEnum.Month;
 
-        // Advanced payment value based on the selected duration (Ex. 2 Months)  
+        // Advanced payment value based on the selected duration (Ex. 2 Months)
         public int AdvancedPaymentDurationValue { get; set; }
 
         // Deposit payment value based on the selected duration (Ex. 2 Months) 
@@ -60,5 +62,46 @@ namespace ReserbizAPP.LIB.Models
 
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+
+        public List<Contract> Contracts { get; set; }
+
+        public bool IsDeletable
+        {
+            get
+            {
+                return (this.Contracts.Count == 0);
+            }
+        }
+
+        public float PenaltyAmount
+        {
+            get
+            {
+                var amount = PenaltyValue;
+
+                // If the penalty value type is set to "Percentage",
+                // We will have to compute the amount based on the rate
+                if (PenaltyValueType == ValueTypeEnum.Percentage)
+                {
+                    amount = (float)Math.Round((Rate * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
+                }
+
+                return amount;
+            }
+        }
+
+        public Term()
+        {
+            Contracts = new List<Contract>();
+        }
+
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
     }
 }

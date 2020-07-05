@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
@@ -19,6 +19,8 @@ using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
 using System.Security.Claims;
+using System.Threading.Tasks;
+
 
 namespace ReserbizAPP.API
 {
@@ -47,9 +49,16 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(ITermMiscellaneousRepository<TermMiscellaneous>), typeof(TermMiscellaneousRepository));
             services.AddScoped(typeof(IContractRepository<Contract>), typeof(ContractRepository));
             services.AddScoped(typeof(IAccountStatementRepository<AccountStatement>), typeof(AccountStatementRepository));
+            services.AddScoped(typeof(IAccountStatementMiscellaneousRepository<AccountStatementMiscellaneous>), typeof(AccountStatementMiscellaneousRepository));
             services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
+            services.AddScoped(typeof(IPenaltyBreakdownRepository<PenaltyBreakdown>), typeof(PenaltyBreakdownRepository));
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
+            services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
+            services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
+
+            // Register IOptions pattern for AppSettings section
+            services.Configure<IApplicationSettings>(Configuration.GetSection("AppSettings"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -59,7 +68,8 @@ namespace ReserbizAPP.API
 
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
-            var ActivateEFMigration = Configuration.GetValue<bool>("ActivateEFMigration");
+            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:ActivateEFMigration").Value);
+
             if (ActivateEFMigration)
             {
                 services.AddDbContext<ReserbizClientDataContext>(
@@ -80,20 +90,25 @@ namespace ReserbizAPP.API
                     // Get the encrypted App-Secret-Token header
                     var appSecretToken = httpContext.Request.Headers["App-Secret-Token"].ToString();
 
-                    // Get the client information based on the app secret token
-                    var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
+                    // If app secret token is not provided, it is always 
+                    // assume that the request is going to ReserbizDataContext
+                    if (appSecretToken != "")
+                    {
+                        // Get the client information based on the app secret token
+                        var clientInfo = systemDataContext.Clients.FirstOrDefault(c => c.DBHashName == appSecretToken);
 
-                    if (clientInfo == null)
-                        throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
+                        if (clientInfo == null)
+                            throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
-                    // Format and configure connection string for the current http request.
-                    var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
-                    options.UseSqlServer(connectionString);
+                        // Format and configure connection string for the current http request.
+                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
+                        options.UseSqlServer(connectionString);
+                    }
+
                 });
             }
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            .AddJsonOptions(opt =>
+            services.AddMvc().AddNewtonsoftJson(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
@@ -104,16 +119,30 @@ namespace ReserbizAPP.API
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateAudience = false,
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value))
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -126,7 +155,6 @@ namespace ReserbizAPP.API
                     builder.Run(async context =>
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
@@ -148,13 +176,12 @@ namespace ReserbizAPP.API
                                     Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier))
                                 );
                             }
-                            
+
                             // This will attach the error information along with the http response
                             context.Response.Headers.Add("Application-Error", errorInfo.Message);
                             context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
                             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                             await context.Response.WriteAsync(errorInfo.Message);
-
                         }
                     });
                 });
@@ -165,7 +192,9 @@ namespace ReserbizAPP.API
             //app.UseHttpsRedirection();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

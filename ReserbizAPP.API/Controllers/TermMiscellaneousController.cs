@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class TermMiscellaneousController : ControllerBase
+    public class TermMiscellaneousController : ReserbizBaseController
     {
         private readonly ITermMiscellaneousRepository<TermMiscellaneous> _termMiscellaneousRepository;
         private readonly IMapper _mapper;
@@ -35,6 +36,8 @@ namespace ReserbizAPP.API.Controllers
 
             if (termFromRepo == null)
                 return NotFound("Term not found.");
+
+            _termRepository.SetCurrentUserId(CurrentUserId);
 
             var termMiscellaneousToCreate = _mapper.Map<TermMiscellaneous>(termMiscellaneousForCreationDto);
 
@@ -69,7 +72,12 @@ namespace ReserbizAPP.API.Controllers
         {
             var termFromRepo = await _termRepository.GetTermAsync(termId);
 
-            var termMiscellaneousToReturn = _mapper.Map<IEnumerable<TermMiscellaneousDetailDto>>(termFromRepo.TermMiscellaneous);
+            if (termFromRepo == null)
+                return NotFound("Term does not exists.");
+
+            var termMiscellaneousFromRepo = await _termMiscellaneousRepository.GetAllTermMiscellaneousPerTerm(termId);
+
+            var termMiscellaneousToReturn = _mapper.Map<IEnumerable<TermMiscellaneousDetailDto>>(termMiscellaneousFromRepo);
 
             return Ok(termMiscellaneousToReturn);
         }
@@ -81,6 +89,8 @@ namespace ReserbizAPP.API.Controllers
 
             if (termMiscellaneousFromRepo == null)
                 return NotFound("Term Miscellaneous not found.");
+
+            _termMiscellaneousRepository.SetCurrentUserId(CurrentUserId);
 
             _mapper.Map(termMiscellaneousForCreationDto, termMiscellaneousFromRepo);
 
@@ -101,7 +111,9 @@ namespace ReserbizAPP.API.Controllers
             if (termMiscellaneousFromRepo == null)
                 return NotFound("Term Miscellaneous not found.");
 
-            _termMiscellaneousRepository.DeleteEntity(termMiscellaneousFromRepo);
+            _termMiscellaneousRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(termMiscellaneousFromRepo);
 
             var termMiscellaneousToReturn = _mapper.Map<TermMiscellaneousDetailDto>(termMiscellaneousFromRepo);
 
@@ -109,6 +121,20 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(termMiscellaneousToReturn);
 
             throw new Exception($"Deleting term miscellaneous with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleTermMiscellaneous")]
+        public async Task<IActionResult> DeleteMultipleTermMiscellaneous(List<int> termMiscellaneousIds)
+        {
+            if (termMiscellaneousIds.Count == 0)
+                return BadRequest("Empty term miscellaneous id list.");
+
+            _termMiscellaneousRepository.SetCurrentUserId(CurrentUserId);
+
+            if (await _termMiscellaneousRepository.DeleteMultipleTermMiscelleneousAsync(termMiscellaneousIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting term miscelleneous!");
         }
     }
 }

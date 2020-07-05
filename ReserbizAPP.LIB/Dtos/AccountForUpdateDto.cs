@@ -5,24 +5,9 @@ namespace ReserbizAPP.LIB.Dtos
 {
     public class AccountForUpdateDto
     {
-        public int Id { get; set; }
-        
-        [Required]
-        public string FirstName { get; set; }
-
-        public string MiddleName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        public GenderEnum Gender { get; set; }
-
         [Required]
         public string Username { get; set; }
 
-        [Required]
-        [StringLength(16, MinimumLength = 4, ErrorMessage = "You must specify password between 4 and 16 characters")]
         public string Password { get; set; }
     }
 }

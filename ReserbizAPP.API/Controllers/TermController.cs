@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class TermController : ControllerBase
+    public class TermController : ReserbizBaseController
     {
         private readonly ITermRepository<Term> _termRepo;
         private readonly IMapper _mapper;
@@ -29,7 +29,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var termToCreate = _mapper.Map<Term>(termForCreationDto);
 
-            await _termRepo.AddTerm(termToCreate);
+            await _termRepo
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(termToCreate);
 
             var termtoReturn = _mapper.Map<TermDetailDto>(termToCreate);
 
@@ -41,7 +43,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
 
-        [HttpGet("{id}", Name = "GetTerm")] 
+        [HttpGet("{id}", Name = "GetTerm")]
         public async Task<ActionResult<TermDetailDto>> GetTerm(int id)
         {
             var termFromRepo = await _termRepo.GetTermAsync(id);
@@ -55,9 +57,9 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TermListDto>>> GetTerms()
+        public async Task<ActionResult<IEnumerable<TermListDto>>> GetTerms(string termKeywords)
         {
-            var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
+            var termsFromRepo = await _termRepo.GetTermsAsync(termKeywords);
 
             var termToReturn = _mapper.Map<IEnumerable<TermListDto>>(termsFromRepo);
 
@@ -71,6 +73,8 @@ namespace ReserbizAPP.API.Controllers
 
             if (termFromRepo == null)
                 return NotFound("Term not found.");
+
+            _termRepo.SetCurrentUserId(CurrentUserId);
 
             _mapper.Map(termForUpdateDto, termFromRepo);
 
@@ -91,7 +95,9 @@ namespace ReserbizAPP.API.Controllers
             if (termFromRepo == null)
                 return NotFound("Term not found.");
 
-            _termRepo.DeleteEntity(termFromRepo);
+            _termRepo
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(termFromRepo);
 
             var termToReturn = _mapper.Map<TermDetailDto>(termFromRepo);
 
@@ -99,6 +105,29 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(termToReturn);
 
             throw new Exception($"Deleting term with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleTerms")]
+        public async Task<IActionResult> DeleteMultipleTerms(List<int> termIds)
+        {
+            if (termIds.Count == 0)
+                return BadRequest("Empty terms id list.");
+
+            _termRepo.SetCurrentUserId(CurrentUserId);
+
+            if (await _termRepo.DeleteMultipleTermsAsync(termIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting terms!");
+        }
+
+
+        [HttpGet("checkTermCodeIfExists/{termId}/{termCode}")]
+        public async Task<ActionResult<bool>> CheckTermCodeIfExists(int termId, string termCode)
+        {
+            var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
+
+            return Ok(_termRepo.CheckTermCodeIfExists(termsFromRepo, termId, termCode));
         }
     }
 }

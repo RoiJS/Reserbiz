@@ -1,0 +1,47 @@
+<ns-action-bar
+  [title]="currentActionBarTitle"
+  [hasMenu]="false"
+  [overrideBackAction]="true"
+  (onNavigationBack)="navigateBack()"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa action-item-button"
+    (tap)="saveInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <Tabs
+    width="100%"
+    height="100%"
+    selectedIndex="0"
+    tabsPosition="bottom"
+    (selectedIndexChanged)="tabsIndexChanged($event)"
+  >
+    <TabStrip>
+      <TabStripItem>
+        <image src="font://&#xf2bb;" class="fa fa-solid"></image>
+        <label
+          [text]="'TENANTS_ADD_DETAILS_PAGE.TABS_OPTIONS.NEW_TENANT' | translate"
+        ></label>
+      </TabStripItem>
+      <TabStripItem>
+        <image src="font://&#xf0c0;" class="fa fa-solid"></image>
+        <label
+          [text]="'TENANTS_ADD_DETAILS_PAGE.TABS_OPTIONS.ADD_CONTACT_PERSONS' | translate"
+        ></label>
+      </TabStripItem>
+    </TabStrip>
+
+    <TabContentItem>
+      <ns-tenant-details-form
+        (onTenantDetailsSaved)="onTenantDetailsSaved($event)"
+        (onCancelTenantDetailsSaved)="onCancelTenantDetailsSaved($event)"
+      ></ns-tenant-details-form>
+    </TabContentItem>
+    <TabContentItem>
+      <ns-tenant-add-contact-person-list></ns-tenant-add-contact-person-list>
+    </TabContentItem>
+  </Tabs>
+</ns-loader-layout>

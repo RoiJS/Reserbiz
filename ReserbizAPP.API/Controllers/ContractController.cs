@@ -16,7 +16,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ContractController : ControllerBase
+    public class ContractController : ReserbizBaseController
     {
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IMapper _mapper;
@@ -34,7 +34,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var contractToCreate = _mapper.Map<Contract>(contractForCreationDto);
 
-            await _contractRepository.CreateContract(contractToCreate);
+            await _contractRepository
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(contractToCreate);
 
             var contractToReturn = _mapper.Map<ContractDetailDto>(contractToCreate);
 
@@ -52,7 +54,7 @@ namespace ReserbizAPP.API.Controllers
                                             .GetEntity(id)
                                             .Includes(
                                                 c => c.AccountStatements,
-                                                c => c.Tenant, 
+                                                c => c.Tenant,
                                                 c => c.Term
                                             )
                                             .ToObjectAsync();
@@ -65,13 +67,53 @@ namespace ReserbizAPP.API.Controllers
             return Ok(contractToReturn);
         }
 
+        [HttpGet("getAllContracts")]
+        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts()
+        {
+            var contractsFromRepo = await _contractRepository.GetAllContractsAsync();
+
+            var contractsToReturn = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
+
+            return Ok(contractsToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateContract(int id, ContractForUpdateDto contractForUpdateDto)
+        {
+
+            if (id != contractForUpdateDto.Id)
+                return BadRequest("Contract id does not match.");
+
+            var contractFromRepo = await _contractRepository.GetEntity(id)
+                                                            .Includes(c => c.AccountStatements)
+                                                            .ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return NotFound("Contract not exists.");
+
+            if (contractFromRepo.AccountStatements.Count > 0)
+                return BadRequest("Contract cannot be updated anymore because it has already account statement attached to it.");
+
+            _contractRepository.SetCurrentUserId(CurrentUserId);
+            
+            _mapper.Map(contractForUpdateDto, contractFromRepo);
+
+            if (!_contractRepository.HasChanged())
+                return BadRequest("Nothing was changed on the object.");
+
+            if (await _contractRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Updating contract information with an id of {id} failed on save.");
+        }
+
         [HttpGet("getAllContractsPerTenant/{tenantId}")]
         public async Task<ActionResult<IEnumerable<ContractListDto>>> GetContractsPerTenant(int tenantId)
         {
             var tenantFromRepo = await _tenantRepository.GetEntity(tenantId).ToObjectAsync();
 
             if (tenantFromRepo == null)
-                return NotFound("Tenant does exists.");
+                return NotFound("Tenant does not exists.");
 
             var contractsPerTenantFromRepo = await _contractRepository.GetContractsPerTenantAsync(tenantId);
 
@@ -88,7 +130,9 @@ namespace ReserbizAPP.API.Controllers
             if (contractFromRepo == null)
                 return NotFound("Contract not found.");
 
-            contractFromRepo.IsActive = status;
+            _contractRepository
+                .SetCurrentUserId(CurrentUserId)
+                .SetEntityStatus(contractFromRepo, status);
 
             if (!_contractRepository.HasChanged())
                 return BadRequest("Nothing was changed on the object.");
@@ -105,7 +149,7 @@ namespace ReserbizAPP.API.Controllers
             var contractFromRepo = await _contractRepository
                                             .GetEntity(id)
                                             .Includes(
-                                                c => c.Tenant, 
+                                                c => c.Tenant,
                                                 c => c.Term,
                                                 c => c.AccountStatements
                                             )

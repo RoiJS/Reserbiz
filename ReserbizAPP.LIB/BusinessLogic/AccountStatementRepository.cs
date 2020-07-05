@@ -21,13 +21,23 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public AccountStatement RegisterNewAccountStament(Contract contract)
         {
             var contractTerm = contract.Term;
+
+            // Value for electric and water bill will be 0 for the 
+            // first account statement and will be based on term
+            // for the succeeding generation of account statements.
+            var waterBill = contract.AccountStatements.Count > 0 ? contractTerm.WaterBillAmount : 0;
+            var electricBill = contract.AccountStatements.Count > 0 ? contractTerm.ElectricBillAmount : 0;
+
             var newAccountStatement = new AccountStatement
             {
                 DueDate = contract.NextDueDate,
                 Rate = contractTerm.Rate,
-                ElectricBill = contractTerm.ElectricBillAmount,
-                WaterBill = contractTerm.WaterBillAmount,
+                DurationUnit = contractTerm.DurationUnit,
+                ElectricBill = electricBill,
+                WaterBill = waterBill,
                 PenaltyValue = contractTerm.PenaltyValue,
+                AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
+                DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
                 PenaltyValueType = contractTerm.PenaltyValueType,
                 PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
@@ -76,7 +86,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return accountStatementFromRepo;
         }
 
-        public async Task<IEnumerable<AccountStatement>> GetAccountStatementsPerContractAsync(int contractId)
+        public async Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId)
         {
             var activeAccountStatementsPerContractFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
                                                             .AsQueryable()
@@ -87,7 +97,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                                 c => c.PaymentBreakdowns,
                                                                 c => c.PenaltyBreakdowns
                                                             )
-                                                            .Where(c => c.ContractId == contractId)
+                                                            .Where(c =>
+                                                                c.IsActive
+                                                                && c.ContractId == contractId
+                                                            )
                                                             .ToListAsync();
 
             return activeAccountStatementsPerContractFromRepo;

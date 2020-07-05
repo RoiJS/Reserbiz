@@ -20,11 +20,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _clientSettingsRepository = clientSettingsRepository;
         }
 
-        public async Task CreateContract(Contract contract)
+        public async Task<IEnumerable<Contract>> GetAllContractsAsync()
         {
-            await AddEntity(contract);
+            var contractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts.ToListAsync();
+            return contractsPerTenantFromRepo;
         }
-
+        
         public async Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId)
         {
             var contractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts
@@ -62,6 +63,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var activeContractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts
+                                                .AsQueryable()
+                                                .Includes(
+                                                    c => c.Term,
+                                                    c => c.Term.TermMiscellaneous,
+                                                    c => c.AccountStatements
+                                                )
                                                 .Where(c =>
                                                     c.IsActive
                                                     && c.TenantId == tenantId

@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class SpaceTypeController : ControllerBase
+    public class SpaceTypeController : ReserbizBaseController
     {
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepo;
         private readonly IMapper _mapper;
@@ -29,8 +29,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var spaceTypeToCreate = _mapper.Map<SpaceType>(spaceTypeForCreationDto);
 
-            await _spaceTypeRepo.AddEntity(spaceTypeToCreate);
-            await _spaceTypeRepo.SaveChanges();
+            await _spaceTypeRepo
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(spaceTypeToCreate);
 
             var spaceTypeToReturn = _mapper.Map<SpaceTypeDetailDto>(spaceTypeToCreate);
 
@@ -44,7 +45,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetSpaceType")]
         public async Task<ActionResult<SpaceTypeDetailDto>> GetSpaceType(int id)
         {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetSpaceTypeAsync(id);
 
             if (spaceTypeFromRepo == null)
                 return NotFound("Space type not found.");
@@ -55,19 +56,29 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SpaceTypeDetailDto>>> GetSpaceTypes(int id)
+        public async Task<ActionResult<IEnumerable<SpaceTypeDetailDto>>> GetSpaceTypes(string spaceTypeName)
         {
-            var spaceTypesFromRepo = await _spaceTypeRepo.GetAllEntities().ToListObjectAsync();
+            var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesBasedOnNameAsync(spaceTypeName);
 
-            var spaceTypesToReturn = _mapper.Map<IEnumerable<SpaceTypeDetailDto>>(spaceTypesFromRepo);
+            return Ok(spaceTypesFromRepo);
+        }
 
-            return Ok(spaceTypesToReturn);
+        [HttpGet("getSpaceTypeAsOptions")]
+        public async Task<ActionResult<IEnumerable<SpaceTypeOptionDto>>> GetSpaceTypesAsOptions()
+        {
+            var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesAsOptions();
+
+            var spaceTypeOptions = _mapper.Map<IEnumerable<SpaceTypeOptionDto>>(spaceTypesFromRepo);
+
+            return Ok(spaceTypeOptions);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSpaceType(int id, SpaceTypeForUpdateDto spaceTypeForUpdateDto)
         {
             var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(id).ToObjectAsync();
+
+            _spaceTypeRepo.SetCurrentUserId(CurrentUserId);
 
             _mapper.Map(spaceTypeForUpdateDto, spaceTypeFromRepo);
 
@@ -88,7 +99,9 @@ namespace ReserbizAPP.API.Controllers
             if (spaceTypeFromRepo == null)
                 return BadRequest("Space Type does not exists.");
 
-            _spaceTypeRepo.DeleteEntity(spaceTypeFromRepo);
+            _spaceTypeRepo
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(spaceTypeFromRepo);
 
             var spaceTypeToReturn = _mapper.Map<SpaceTypeDetailDto>(spaceTypeFromRepo);
 
@@ -96,6 +109,20 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(spaceTypeToReturn);
 
             throw new Exception($"Deleting space type with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleSpaceTypes")]
+        public async Task<IActionResult> DeleteMultipleTenants(List<int> spaceTypeIds)
+        {
+            if (spaceTypeIds.Count == 0)
+                return BadRequest("Empty space type id list.");
+
+            _spaceTypeRepo.SetCurrentUserId(CurrentUserId);
+
+            if (await _spaceTypeRepo.DeleteMultipleSpaceTypesAsync(spaceTypeIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting space types!");
         }
     }
 }

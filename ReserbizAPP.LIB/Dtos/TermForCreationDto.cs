@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers.Custom_Validations;
@@ -32,12 +33,12 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Advanced payment value based on the selected duration (Ex. 2 Months)  
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int AdvancedPaymentDurationValue { get; set; }
 
         // Deposit payment value based on the selected duration (Ex. 2 Months) 
         [Required]
-        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int DepositPaymentDurationValue { get; set; }
 
         // Exluding Monthly Electric Bill from the payment
@@ -46,7 +47,8 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Amount of Electric bill
         [Required]
-        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
+        // [MinLength(0, ErrorMessage = "Electric Bill must not be less than zero.")]
+        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
         public float ElectricBillAmount { get; set; }
 
         // Exluding Monthly Water Bill from the payment
@@ -55,7 +57,8 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Amount of WaterBill
         [Required]
-        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
+        // [MinLength(0, ErrorMessage = "Water Bill must not be less than zero.")]
+        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
         public float WaterBillAmount { get; set; }
 
         // Penalty amount value
@@ -74,12 +77,14 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Penalty will be effective after duration value
         [Required]
-        [DurationValueRange("PenaltyEffectiveAfterDurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
+        [DurationValueRange("PenaltyEffectiveAfterDurationUnit", ErrorMessage = "Value for duration unit of {0} shall not exceed {1}.")]
         public int PenaltyEffectiveAfterDurationValue { get; set; }
 
         // Penalty will be effective after duration unit based on DurationEnum value
         [Required]
         [EnumDataType(typeof(DurationEnum))]
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+
+        public List<TermMiscellaneousForCreationDto> TermMiscellaneous { get; set; }
     }
 }

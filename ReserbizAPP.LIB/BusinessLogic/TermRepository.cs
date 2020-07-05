@@ -2,6 +2,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
+using ReserbizAPP.LIB.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {
@@ -14,18 +17,54 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public async Task AddTerm(Term term)
+        public TermRepository() : base()
         {
-            await AddEntity(term);
+
         }
 
         public async Task<Term> GetTermAsync(int id)
         {
             var term = await _reserbizRepository.ClientDbContext.Terms
                 .Include(t => t.TermMiscellaneous)
+                .Include(t => t.SpaceType)
                 .FirstOrDefaultAsync(t => t.Id == id);
-            
+
             return term;
+        }
+
+        public async Task<IEnumerable<Term>> GetTermsAsync(string termKeywords)
+        {
+            var termsFromRepo = _reserbizRepository.ClientDbContext.Terms
+                                    .AsQueryable()
+                                    .Includes(t => t.Contracts)
+                                    .Where(t => t.IsDelete == false);
+
+            if (!string.IsNullOrEmpty(termKeywords))
+            {
+                termsFromRepo = termsFromRepo.Where(t => t.Code.Contains(termKeywords) || t.Name.Contains(termKeywords));
+            }
+
+            return await termsFromRepo.ToListAsync();
+        }
+
+        public async Task<bool> DeleteMultipleTermsAsync(List<int> termIds)
+        {
+            var selectedTerms = await _reserbizRepository
+                .ClientDbContext
+                .Terms
+                .Where(t => termIds.Contains(t.Id)).ToListAsync();
+
+            DeleteMultipleEntities(selectedTerms);
+            return await SaveChanges();
+        }
+
+        public bool CheckTermCodeIfExists(IList<Term> termList, int termId, string termCode)
+        {
+            var termWithTheSameCode = termList
+                                .Where(t => (termId != 0 && (t.Id != termId && t.Code == termCode)) || (termId == 0 && t.Code == termCode))
+                                .Count();
+
+            return termWithTheSameCode > 0;
         }
     }
 }

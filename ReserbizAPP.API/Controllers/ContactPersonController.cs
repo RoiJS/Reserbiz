@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ContactPersonController : ControllerBase
+    public class ContactPersonController : ReserbizBaseController
     {
         private readonly IContactPersonRepository<ContactPerson> _contactPersonRepository;
         private readonly IMapper _mapper;
@@ -35,9 +35,12 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant information not found.");
 
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
             var contactPersonToCreate = _mapper.Map<ContactPerson>(contactPersonForCreationDto);
 
             tenantFromRepo.ContactPersons.Add(contactPersonToCreate);
+
             if (!await _tenantRepository.SaveChanges())
                 return BadRequest("Failed to add contact person");
 
@@ -66,12 +69,9 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAllContactPersonsPerTenant/{tenantId}")]
         public async Task<ActionResult<IEnumerable<ContactPersonDetailDto>>> GetAllContactPersons(int tenantId)
         {
-            var tenantFromRepo = await _tenantRepository
-                                        .GetEntity(tenantId)
-                                        .Includes(c => c.ContactPersons)
-                                        .ToObjectAsync();
+            var contactPersonsFromRepo = await _contactPersonRepository.GetContactPersonsPerTenant(tenantId);
 
-            var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(tenantFromRepo.ContactPersons);
+            var contactPersonsToReturn = _mapper.Map<IEnumerable<ContactPersonDetailDto>>(contactPersonsFromRepo);
 
             return Ok(contactPersonsToReturn);
         }
@@ -83,6 +83,8 @@ namespace ReserbizAPP.API.Controllers
 
             if (contactPersonFromRepo == null)
                 return NotFound("Contact Person not found.");
+
+            _contactPersonRepository.SetCurrentUserId(CurrentUserId);
 
             _mapper.Map(contactPersonForUpdateDto, contactPersonFromRepo);
 
@@ -103,7 +105,9 @@ namespace ReserbizAPP.API.Controllers
             if (contactPersonFromRepo == null)
                 return NotFound("Contact person not found.");
 
-            _contactPersonRepository.DeleteEntity(contactPersonFromRepo);
+            _contactPersonRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(contactPersonFromRepo);
 
             var contactPersonToReturn = _mapper.Map<ContactPersonDetailDto>(contactPersonFromRepo);
 
@@ -111,6 +115,20 @@ namespace ReserbizAPP.API.Controllers
                 return Ok(contactPersonToReturn);
 
             throw new Exception($"Deleting contact person with an id of {id} failed on save.");
+        }
+
+        [HttpPost("deleteMultipleContactPersons")]
+        public async Task<IActionResult> DeleteMultipleContactPersons(List<int> contactPersonIds)
+        {
+            if (contactPersonIds.Count == 0)
+                return BadRequest("Empty contact person id list.");
+
+            _contactPersonRepository.SetCurrentUserId(CurrentUserId);
+
+            if (await _contactPersonRepository.DeleteMultipleContactPersons(contactPersonIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting contact persons!");
         }
     }
 }

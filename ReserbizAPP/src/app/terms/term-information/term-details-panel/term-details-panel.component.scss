@@ -1,0 +1,38 @@
+@import '../../../../app-variables';
+
+.term-detail-container {
+  &__details-group-panel {
+    margin-bottom: 20;
+  }
+
+  &__header-section {
+    color: white;
+    background-color: $primary;
+    border-radius: 5;
+    font-size: 16;
+    padding: 5;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__body-section {
+    padding: 15;
+  }
+
+  &__details-section {
+    margin-top: 13;
+    border-bottom-width: 0.5;
+    padding-bottom: 7;
+
+    .details-wrapper {
+      width: 50%;
+    }
+
+    .details-label {
+      border-bottom-color: #cccccc;
+      font-size: 16;
+      color: black;
+      font-weight: bold;
+    }
+  }
+}

@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class TenantController : ControllerBase
+    public class TenantController : ReserbizBaseController
     {
         private readonly ITenantRepository<Tenant> _tenantRepository;
         private readonly IMapper _mapper;
@@ -29,7 +29,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var tenantToCreate = _mapper.Map<Tenant>(tenantForCreationDto);
 
-            await _tenantRepository.CreateTenant(tenantToCreate);
+            await _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .AddEntity(tenantToCreate);
 
             var tenantToReturn = _mapper.Map<TenantDetailsDto>(tenantToCreate);
 
@@ -52,31 +54,33 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(tenantToReturn);
         }
-        
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TenantDetailsDto>>> GetAllTenants(int id)
+        public async Task<ActionResult<IEnumerable<TenantForListDto>>> GetAllTenants(string tenantName)
         {
-            var tenantsFromRepo = await _tenantRepository.GetAllEntities().ToListObjectAsync();
-            var tenantsToReturn = _mapper.Map<IEnumerable<TenantDetailsDto>>(tenantsFromRepo);
+            var tenantsFromRepo = await _tenantRepository.GetTenantsBasedOnNameAsync(tenantName);
+            var tenantsToReturn = _mapper.Map<IEnumerable<TenantForListDto>>(tenantsFromRepo);
             return Ok(tenantsToReturn);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTenant(int id, TenantForUpdateDto tenantForEditDto)
+        public async Task<IActionResult> UpdateTenant(int id, TenantForUpdateDto tenantForUpdateDto)
         {
             var tenantFromRepo = await _tenantRepository.GetEntity(id).ToObjectAsync();
 
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");
 
-            _mapper.Map(tenantForEditDto, tenantFromRepo);
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
+            _mapper.Map(tenantForUpdateDto, tenantFromRepo);
 
             if (!_tenantRepository.HasChanged())
             {
                 return BadRequest("There are no changes to applied.");
             }
 
-            if (!await _tenantRepository.SaveChanges())
+            if (await _tenantRepository.SaveChanges())
                 return NoContent();
 
             throw new Exception($"Updating tenant with an id of {id} failed on save.");
@@ -90,7 +94,9 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists.");
 
-            _tenantRepository.SetEntityStatus(tenantFromRepo, status);
+            _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .SetEntityStatus(tenantFromRepo, status);
 
             if (!_tenantRepository.HasChanged())
                 return BadRequest("Nothing was changed on the object");
@@ -100,6 +106,35 @@ namespace ReserbizAPP.API.Controllers
 
             throw new Exception($"Updating tenant status with an id of {id} failed on save.");
         }
-    }
 
+        [HttpPost("deleteMultipleTenants")]
+        public async Task<IActionResult> DeleteMultipleTenants(List<int> tenantIds)
+        {
+            if (tenantIds.Count == 0)
+                return BadRequest("Empty tenants id list.");
+
+            _tenantRepository.SetCurrentUserId(CurrentUserId);
+
+            if (await _tenantRepository.DeleteMultipleTenantsAsync(tenantIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting tenants!");
+        }
+
+        [HttpDelete("deleteTenant")]
+        public async Task<IActionResult> DeleteTenant(int tenantId)
+        {
+            var tenantFromRepo = await _tenantRepository.GetEntity(tenantId).ToObjectAsync();
+
+            if (tenantFromRepo == null)
+                return NotFound("Tenant does not exists!");
+
+            _tenantRepository.DeleteEntity(tenantFromRepo);
+
+            if (await _tenantRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Error when deleting tenant with id of ${tenantId}!");
+        }
+    }
 }

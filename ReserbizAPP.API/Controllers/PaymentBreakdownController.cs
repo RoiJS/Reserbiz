@@ -15,7 +15,7 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class PaymentBreakdownController : ControllerBase
+    public class PaymentBreakdownController : ReserbizBaseController
     {
         private readonly IPaymentBreakdownRepository<PaymentBreakdown> _paymentBreakdownRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
@@ -41,11 +41,13 @@ namespace ReserbizAPP.API.Controllers
 
             var newPaymentDetails = new PaymentBreakdown()
             {
-                ReceivedById = Convert.ToInt32(User.Identity.GetUserClaim(ClaimTypes.NameIdentifier)),
+                ReceivedById = CurrentUserId,
                 Amount = paymentForCreationDto.Amount,
                 DateTimeReceived = paymentForCreationDto.DateTimeReceived
             };
 
+            _accountStatementRepository.SetCurrentUserId(CurrentUserId);
+            
             accountStatementFromRepo.PaymentBreakdowns.Add(newPaymentDetails);
 
             if (!await _accountStatementRepository.SaveChanges())

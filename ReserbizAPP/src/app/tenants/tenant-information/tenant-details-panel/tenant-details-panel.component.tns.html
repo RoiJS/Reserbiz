@@ -1,0 +1,84 @@
+<FlexBoxLayout
+  class="page-container__page-divider tenant-detail-container__page-divider"
+  justifyContent="space-between"
+>
+  <label
+    alignSelf="center"
+    [text]="'TENANTS_DETAILS_PAGE.PANEL_HEADER_TEXT_INFORMATION' | translate"
+  ></label>
+  <button
+    alignSelf="center"
+    class="page-container__page-command btn btn-primary btn-rounded-lg"
+    text="Manage"
+    (tap)="onNavigateToEditPage()"
+  ></button>
+</FlexBoxLayout>
+<StackLayout
+  verticalAlignment="center"
+  class="tenant-detail-container__photo-placeholder"
+  [backgroundColor]="currentTenant?.photoBackgroundColor"
+>
+  <label [text]="currentTenant?.nameInitials"></label>
+</StackLayout>
+
+<StackLayout class="tenant-detail-container__details-panel panel">
+  <StackLayout class="tenant-detail-container__detail-section detail-firstname">
+    <label
+      class="detail-name"
+      [text]="'TENANTS_DETAILS_PAGE.LABEL_FULL_NAME' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label text="&#xf507;" class="fa fa-solid m-r-5"></label>
+      <label [text]="currentTenant?.fullName"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout
+    class="tenant-detail-container__detail-section detail-emailaddress"
+  >
+    <label
+      class="detail-name"
+      [text]="'TENANTS_DETAILS_PAGE.LABEL_EMAIL_ADDRESS' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label text="&#xf1fa;" class="fa fa-solid m-r-5"></label>
+      <label class="detail-value" [text]="currentTenant?.emailAddress"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout class="tenant-detail-container__detail-section detail-address">
+    <label
+      class="detail-name"
+      [text]="'TENANTS_DETAILS_PAGE.LABEL_PERMANENT_ADDRESS' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label text="&#xf3c5;" class="fa fa-solid m-r-5"></label>
+      <label [text]="currentTenant?.address"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout
+    class="tenant-detail-container__detail-section detail-contact-number"
+  >
+    <label
+      class="detail-name"
+      [text]="'TENANTS_DETAILS_PAGE.LABEL_CONTACT_NUMBER' | translate"
+    ></label>
+
+    <StackLayout orientation="horizontal">
+      <label text="&#xf87b;" class="fa fa-solid m-r-5"></label>
+      <label [text]="currentTenant?.contactNumber"></label>
+    </StackLayout>
+  </StackLayout>
+
+  <StackLayout class="tenant-detail-container__detail-section detail-gender">
+    <label
+      class="detail-name"
+      [text]="'TENANTS_DETAILS_PAGE.LABEL_GENDER' | translate"
+    ></label>
+    <StackLayout orientation="horizontal">
+      <label text="&#xf228;" class="fa fa-solid m-r-5"></label>
+      <label [text]="currentTenant?.genderName"></label>
+    </StackLayout>
+  </StackLayout>
+</StackLayout>

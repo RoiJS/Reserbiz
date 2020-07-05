@@ -10,21 +10,33 @@ namespace ReserbizAPP.API.Helpers
         {
             CreateMap<Client, ClientDetailsDto>();
             CreateMap<Client, ClientForListDto>();
-            CreateMap<Tenant, TenantDetailsDto>();
-            CreateMap<Tenant, TenantForListDto>();
+            CreateMap<Tenant, TenantDetailsDto>()
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<Tenant, TenantForListDto>()
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<Account, AccountForListDto>();
             CreateMap<Account, AccountForDetailDto>();
             CreateMap<ContactPerson, ContactPersonDetailDto>();
-            CreateMap<SpaceType, SpaceTypeDetailDto>();
+            CreateMap<SpaceType, SpaceTypeDetailDto>()
+             .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<SpaceType, SpaceTypeOptionDto>();
+            CreateMap<SpaceType, SpaceTypeTermDetailDto>();
             CreateMap<Term, TermDetailDto>()
                 .ForMember(dest => dest.DurationUnitText,
                     opt => opt.MapFrom(src => src.DurationUnit.ToString()))
                 .ForMember(dest => dest.PenaltyAmountPerDurationUnitText, opt =>
                     opt.MapFrom(d => d.PenaltyAmountPerDurationUnit.ToString()))
                 .ForMember(dest => dest.PenaltyEffectiveAfterDurationUnitText, opt =>
-                    opt.MapFrom(d => d.PenaltyEffectiveAfterDurationUnit.ToString()));
+                    opt.MapFrom(d => d.PenaltyEffectiveAfterDurationUnit.ToString()))
+                .ForMember(dest => dest.PenaltyAmount, opt =>
+                    opt.MapFrom(d => d.PenaltyAmount));
 
-            CreateMap<Term, TermListDto>();
+            CreateMap<Term, TermListDto>()
+            .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<Term, ContractTermDetailsDto>();
             CreateMap<TermMiscellaneous, TermMiscellaneousDetailDto>();
             CreateMap<Contract, ContractDetailDto>()
@@ -75,6 +87,7 @@ namespace ReserbizAPP.API.Helpers
                 .ForMember(dest => dest.ReceivedBy,
                     opt => opt.MapFrom(src => src.ReceivedBy.PersonFullName));
 
+            CreateMap<PersonalInformationForUpdateDto, Account>();
             CreateMap<TenantForCreationDto, Tenant>();
             CreateMap<TenantForUpdateDto, Tenant>();
             CreateMap<ClientForUpdateDto, Client>();
@@ -87,6 +100,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<TermMiscellaneousForCreationDto, TermMiscellaneous>();
             CreateMap<TermMiscellaneousForUpdateDto, TermMiscellaneous>();
             CreateMap<ContractForCreationDto, Contract>();
+            CreateMap<ContractForUpdateDto, Contract>();
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
         }
     }

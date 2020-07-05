@@ -5,6 +5,7 @@ namespace ReserbizAPP.LIB.Dtos
 {
     public class AccountForDetailDto
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
 
         public string MiddleName { get; set; }

@@ -7,10 +7,12 @@ namespace ReserbizAPP.LIB.Dtos
     public class TermDetailDto
     {
         public int Id { get; set; }
-
+        public string Code { get; set; }
         public string Name { get; set; }
 
         public int SpaceTypeId { get; set; }
+
+        public SpaceTypeTermDetailDto SpaceType { get; set; }
 
         // Rate value for the selected Space type.
         // Initially set to value based from the selected Space Type.
@@ -44,6 +46,9 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Penalty amount value
         public float PenaltyValue { get; set; }
+        
+        // Computed penalty amount
+        public float PenaltyAmount { get; set; }
 
         // Penalty amount value type (Fixed = 0, Percentage = 1)
         public ValueTypeEnum PenaltyValueType { get; set; } = ValueTypeEnum.Fixed;
@@ -58,7 +63,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
-        
+
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
 
         public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }

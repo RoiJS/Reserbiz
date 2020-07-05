@@ -15,8 +15,20 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<ClientSettings> GetClientSettings()
         {
-            var clientSettingsFromRepo = await _reserbizRepository.GetEntity(1).ToObjectAsync();
-            return clientSettingsFromRepo;
+            var clientSettingsFromRepo = await GetAllEntities().ToListObjectAsync();
+            return clientSettingsFromRepo.Count > 0 ? clientSettingsFromRepo[0] : null;
+        }
+
+        public override async Task Reset()
+        {
+            // Reset settings
+            await base.Reset();
+
+            // Create new settings
+            await AddEntity(new ClientSettings
+            {
+                GenerateAccountStatementDaysBeforeValue = 3
+            });
         }
     }
 }

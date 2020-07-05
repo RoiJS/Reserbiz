@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Contract : Entity
+    public class Contract 
+        : Entity, IUserActionTracker
     {
         public string Code { get; set; }
 
@@ -25,6 +27,25 @@ namespace ReserbizAPP.LIB.Models
 
         public List<AccountStatement> AccountStatements { get; set; }
 
+        public int? DeletedById { get; set; }
+        public Account DeletedBy { get; set; }
+        public int? UpdatedById { get; set; }
+        public Account UpdatedBy { get; set; }
+        public int? CreatedById { get; set; }
+        public Account CreatedBy { get; set; }
+        public int? DeactivatedById { get; set; }
+        public Account DeactivatedBy { get; set; }
+
+
+        private DateTime CurrentDateTime = DateTime.Now;
+
+        // This is to set and simulate the current 
+        // date time for unit testing purposes
+        public void SetCurrentDateTime(DateTime dateTime)
+        {
+            CurrentDateTime = dateTime;
+        }
+
         public DateTime ExpirationDate
         {
             get
@@ -36,7 +57,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (DateTime.Now >= ExpirationDate);
+                return (CurrentDateTime >= ExpirationDate);
             }
         }
 
@@ -52,17 +73,21 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (DateTime.Now >= NextDueDate);
+                return (CurrentDateTime >= NextDueDate);
             }
         }
 
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {
-            return !IsExpired && (EffectiveDate == NextDueDate || NextDueDate.Subtract(DateTime.Now).Days <= daysBeforeGeneratingAccountStatement);
+            return ((NextDueDate <= ExpirationDate) && (EffectiveDate == NextDueDate
+                || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
         }
 
         private DateTime CalculateExpirationDate()
         {
+            // If contract is open, return datetime max value
+            if (IsOpenContract) return DateTime.MaxValue;
+
             var daysBeforeExpiration = EffectiveDate.CalculateDaysBasedOnDuration(DurationValue, DurationUnit);
             var expirationDate = EffectiveDate.AddDays(daysBeforeExpiration);
             return expirationDate;

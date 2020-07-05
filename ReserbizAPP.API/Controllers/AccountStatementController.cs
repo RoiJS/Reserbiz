@@ -39,7 +39,7 @@ namespace ReserbizAPP.API.Controllers
         public async Task<ActionResult<AccountStatementDetailsDto>> GetAccountStatement(int id)
         {
             var accountStatementFromRepo = await _accountStatementRepository.GetAccountStatementAsync(id);
-            
+
             if (accountStatementFromRepo == null)
                 return NotFound("Account Statement not found.");
 
@@ -51,45 +51,40 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAccountStatementsPerContract/{contractId}")]
         public async Task<ActionResult<IEnumerable<AccountStatementForListDto>>> GetAccountStatementsPerContract(int contractId)
         {
-            var accountStatementsFromRepo = await _accountStatementRepository.GetAccountStatementsPerContractAsync(contractId);
+            var accountStatementsFromRepo = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contractId);
 
             var accountStatementToReturn = _mapper.Map<IEnumerable<AccountStatementForListDto>>(accountStatementsFromRepo);
 
             return Ok(accountStatementToReturn);
         }
-
-        /// <summary>
-        /// This method is called by a background services which scheduled to run daily.
-        /// This will auto generate account statements per contract.
-        /// It has been set to AllowAnonymous because scheduler does not
-        /// have to be authenticated to called this method.
-        /// </summary>
-        /// <returns></returns>
+        
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
         {
+            var currentDate = DateTime.Now;
+            var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
 
             foreach (var tenant in activeTenantsFromRepo)
             {
-                var activeTenantDueContracts = await _contractRepository.GetActiveDueContractsPerTenantAsync(tenant.Id);
+                var activeTenantContracts = await _contractRepository.GetActiveContractsPerTenantAsync(tenant.Id);
 
-                foreach (var contract in activeTenantDueContracts)
+                foreach (var contract in activeTenantContracts)
                 {
-                    if (!contract.IsExpired)
+                    while (contract.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue))
                     {
                         var newContractAccountStatement = _accountStatementRepository.RegisterNewAccountStament(contract);
                         contract.AccountStatements.Add(newContractAccountStatement);
+                    }
 
-                        try
-                        {
-                            await _contractRepository.SaveChanges();
-                        }
-                        catch (Exception exception)
-                        {
-                            throw new Exception($"Registering new account statement failed on save. Error messsage: {exception.Message}");
-                        }
+                    try
+                    {
+                        await _contractRepository.SaveChanges();
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new Exception($"Registering new account statement failed on save. Error messsage: {exception.Message}");
                     }
                 }
             }
@@ -109,23 +104,25 @@ namespace ReserbizAPP.API.Controllers
 
                 foreach (var contract in activeTenantContracts)
                 {
-                    var activeContractDueAccountStatements = await _accountStatementRepository.GetActiveDueAccountStatementsPerContractAsync(contract.Id);
+                    var activeContractAccountStatements = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contract.Id);
 
-                    foreach (var accountStatement in activeContractDueAccountStatements)
+                    foreach (var accountStatement in activeContractAccountStatements)
                     {
-                        if (!accountStatement.IsFullyPaid)
+                        if (!accountStatement.IsPenaltySettingActive) continue;
+
+                        while (accountStatement.IsValidForGeneratingPenalty)
                         {
                             var newPenaltyItem = _accountStatementRepository.RegisterNewPenaltyItem(accountStatement);
                             accountStatement.PenaltyBreakdowns.Add(newPenaltyItem);
+                        }
 
-                            try
-                            {
-                                await _accountStatementRepository.SaveChanges();
-                            }
-                            catch (Exception exception)
-                            {
-                                throw new Exception($"Registering new penalty details failed on save. Error messsage: {exception.Message}");
-                            }
+                        try
+                        {
+                            await _accountStatementRepository.SaveChanges();
+                        }
+                        catch (Exception exception)
+                        {
+                            throw new Exception($"Registering new penalty details failed on save. Error messsage: {exception.Message}");
                         }
                     }
                 }

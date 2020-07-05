@@ -25,6 +25,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _reserbizRepository.SetDbContext(_repoDbContext);
         }
 
+        public BaseRepository()
+        {
+
+        }
+
+        public IBaseRepository<TEntity> SetCurrentUserId(int currentUserId)
+        {
+            _reserbizRepository.SetCurrentUser(currentUserId);
+
+            return this;
+        }
 
         public async Task AddEntity(TEntity entity)
         {
@@ -34,6 +45,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public void DeleteEntity(TEntity entity, bool forceDelete = false)
         {
             _reserbizRepository.DeleteEntity(entity, forceDelete);
+        }
+
+        public void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete = false)
+        {
+            _reserbizRepository.DeleteMultipleEntities(entities, forceDelete);
         }
 
         public void SetEntityStatus(TEntity entity, bool status)
@@ -46,7 +62,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return _repoDbContext.ChangeTracker.HasChanges();
         }
 
-        public async Task<bool> IsExists(int id) 
+        public async Task<bool> IsExists(int id)
         {
             var entity = await GetEntity(id).ToObjectAsync();
             return (entity != null);
@@ -60,7 +76,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public IBaseRepository<TEntity> GetAllEntities(bool includeDeleted = false)
         {
-             _reserbizRepository.GetAllEntities(includeDeleted);
+            _reserbizRepository.GetAllEntities(includeDeleted);
             return this;
         }
 
@@ -75,8 +91,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var entityObject = await _reserbizRepository.ToObjectAsync();
             return entityObject;
         }
-       
-        public async Task<IEnumerable<TEntity>> ToListObjectAsync()
+
+        public async Task<IList<TEntity>> ToListObjectAsync()
         {
             var entitiesObject = await _reserbizRepository.ToListObjectAsync();
             return entitiesObject;
@@ -85,6 +101,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<bool> SaveChanges()
         {
             return await _reserbizRepository.SaveChangesAsync();
+        }
+
+        public async virtual Task Reset()
+        {
+            await _reserbizRepository.Reset();
         }
     }
 }

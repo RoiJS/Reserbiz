@@ -39,27 +39,32 @@ namespace ReserbizAPP.LIB.Helpers.Custom_Validations
         {
             var validationResult = new ValidateDurationRangeResult();
 
-            if (propDurationType == DurationEnum.Day && propertyValue > SystemConstants.DurationUnitRangeValues.DAY_MAX_VALUE)
+            if (propDurationType == DurationEnum.Day 
+                && (propertyValue < 0 || propertyValue > SystemConstants.DurationUnitRangeValues.DAY_MAX_VALUE))
             {
                 validationResult.result = false;
                 validationResult.maxValue = SystemConstants.DurationUnitRangeValues.DAY_MAX_VALUE;
             }
-            else if (propDurationType == DurationEnum.Month && propertyValue > SystemConstants.DurationUnitRangeValues.MONTH_MAX_VALUE)
+            else if (propDurationType == DurationEnum.Month 
+                && (propertyValue < 0 || propertyValue > SystemConstants.DurationUnitRangeValues.MONTH_MAX_VALUE))
             {
                 validationResult.result = false;
                 validationResult.maxValue = SystemConstants.DurationUnitRangeValues.MONTH_MAX_VALUE;
             }
-            else if (propDurationType == DurationEnum.Quarter && propertyValue > SystemConstants.DurationUnitRangeValues.QUARTER_MAX_VALUE)
+            else if (propDurationType == DurationEnum.Quarter 
+                && (propertyValue < 0 || propertyValue > SystemConstants.DurationUnitRangeValues.QUARTER_MAX_VALUE))
             {
                 validationResult.result = false;
                 validationResult.maxValue = SystemConstants.DurationUnitRangeValues.QUARTER_MAX_VALUE;
             }
-            else if (propDurationType == DurationEnum.Week && propertyValue > SystemConstants.DurationUnitRangeValues.WEEK_MAX_VALUE)
+            else if (propDurationType == DurationEnum.Week 
+                && (propertyValue < 0 || propertyValue > SystemConstants.DurationUnitRangeValues.WEEK_MAX_VALUE))
             {
                 validationResult.result = false;
                 validationResult.maxValue = SystemConstants.DurationUnitRangeValues.WEEK_MAX_VALUE;
             }
-            else if (propDurationType == DurationEnum.Year && propertyValue > SystemConstants.DurationUnitRangeValues.YEAR_MAX_VALUE)
+            else if (propDurationType == DurationEnum.Year 
+                && (propertyValue < 0 || propertyValue > SystemConstants.DurationUnitRangeValues.YEAR_MAX_VALUE))
             {
                 validationResult.result = false;
                 validationResult.maxValue = SystemConstants.DurationUnitRangeValues.YEAR_MAX_VALUE;

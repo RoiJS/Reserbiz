@@ -1,0 +1,60 @@
+<FlexBoxLayout
+  flexDirection="column"
+  justifyContent="space-around"
+  class="login-main-container"
+>
+  <StackLayout class="app-logo-container">
+    <Label text="Reserbiz"></Label>
+  </StackLayout>
+  <StackLayout class="login-form form" [formGroup]="form">
+    <StackLayout class="input-field">
+      <Label
+        class="label"
+        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
+        [ngClass]="{ invalid: !emailControlIsValid }"
+      ></Label>
+      <TextField
+        class="input"
+        returnKey="next"
+        [autocorrection]="false"
+        autocapitalizationType="none"
+        formControlName="username"
+        #usernameEl
+      ></TextField>
+      <Label
+        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
+        *ngIf="!usernameControlIsValid"
+      ></Label>
+    </StackLayout>
+    <StackLayout class="input-field">
+      <label
+        class="label"
+        [text]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
+        [ngClass]="{ invalid: !passwordControlIsValid }"
+      ></label>
+      <TextField
+        class="input"
+        returnKey="done"
+        [autocorrection]="false"
+        autocapitalizationType="none"
+        [secure]="true"
+        [hint]="'AUTH_PAGE.PASSWORD_CONTROL.PLACE_HOLDER' | translate"
+        formControlName="password"
+        #passwordEl
+        (returnPress)="onDone()"
+      ></TextField>
+      <label
+        [text]="'AUTH_PAGE.PASSWORD_CONTROL.ERROR_LABEL' | translate"
+        *ngIf="!passwordControlIsValid"
+      ></label>
+    </StackLayout>
+    <button
+      [text]="'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL' | translate"
+      class="btn btn-primary btn-rounded-lg"
+      (tap)="onSubmit()"
+      [isEnabled]="form.valid"
+      *ngIf="!isLoading"
+    ></button>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+  </StackLayout>
+</FlexBoxLayout>

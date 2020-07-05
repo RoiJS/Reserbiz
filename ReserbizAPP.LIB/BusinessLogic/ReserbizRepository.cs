@@ -20,6 +20,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private int _entityId;
         private bool _includeDeleted;
         private DbSet<TEntity> _dbSet;
+        private int? _currentUserId;
+
         private Expression<Func<TEntity, object>>[] _includes;
 
         public ReserbizRepository(ReserbizDataContext systemDbContext, ReserbizClientDataContext clientDbContext)
@@ -30,7 +32,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public void SetDbContext(DbContext dbContext)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
+        }
+
+        public void SetCurrentUser(int currentUserId)
+        {
+            _currentUserId = currentUserId;
+
+            if (_dbContext.GetType() == typeof(ReserbizClientDataContext))
+            {
+                ((ReserbizClientDataContext)_dbContext).CurrentUserId = _currentUserId;
+            }
         }
 
         /// <summary>
@@ -62,6 +74,36 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 entity.DateDeleted = DateTime.Now;
                 entity.IsDelete = true;
+
+                if (entity is IUserActionTracker)
+                    ((IUserActionTracker)entity).DeletedById = _currentUserId;
+            }
+        }
+
+        /// <summary>
+        /// This function will remove multiple entities at once.
+        /// If parameter forceDelete is true, it will perform an actual deletion of the entity, 
+        /// If not, it will only mark the entity as deleted and it will not remove it from the db.
+        /// </summary>
+        /// <param name="entities">Entity that is to be removed or just mark as remove.</param>
+        /// <param name="forceDelete">This will determine if the entity will be removed from the db or just mark it as deleted</param>
+        /// <typeparam name="TEntity">Class type of the entity.true Note: parameter T must a class that inherits IEntity interface</typeparam>
+        public void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete)
+        {
+            if (forceDelete)
+            {
+                _dbContext.RemoveRange(entities);
+            }
+            else
+            {
+                foreach (var entity in entities)
+                {
+                    entity.DateDeleted = DateTime.Now;
+                    entity.IsDelete = true;
+
+                    if (entity is IUserActionTracker)
+                        ((IUserActionTracker)entity).DeletedById = _currentUserId;
+                }
             }
         }
 
@@ -69,6 +111,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             entity.IsActive = status;
             entity.DateDeactivated = status ? DateTime.MinValue : DateTime.Now;
+
+            if (entity is IUserActionTracker)
+                ((IUserActionTracker)entity).DeactivatedById = (status ? null as int? : _currentUserId);
+
         }
 
         /// <summary>
@@ -99,7 +145,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public IReserbizRepository<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
         {
-            if (includes.Length > 0) 
+            if (includes.Length > 0)
                 _includes = includes;
             return this;
         }
@@ -111,8 +157,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                      .FirstOrDefaultAsync(e => e.Id == _entityId);
             return entity;
         }
-        
-        public async Task<IEnumerable<TEntity>> ToListObjectAsync()
+
+        public async Task<IList<TEntity>> ToListObjectAsync()
         {
             var entities = await _dbSet.AsQueryable()
                                     .Includes(_includes)
@@ -128,6 +174,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<bool> SaveChangesAsync()
         {
             return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task Reset()
+        {
+            _dbContext.RemoveRange(await _dbContext.Set<TEntity>().ToListAsync());
+            await _dbContext.SaveChangesAsync();
         }
 
         public ReserbizDataContext SystemDbContext => _systemDbContext;
