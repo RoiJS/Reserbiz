@@ -68,9 +68,22 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getAllContracts")]
-        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts()
+        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts(string code, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract)
         {
             var contractsFromRepo = await _contractRepository.GetAllContractsAsync();
+
+            var contractFilter = new ContractFilter
+            {
+                Code = code,
+                TenantId = tenantId,
+                ActiveFrom = activeFrom,
+                ActiveTo = activeTo,
+                NextDueDateFrom = nextDueDateFrom,
+                NextDueDateTo = nextDueDateTo,
+                OpenContract = openContract
+            };
+
+            contractsFromRepo = _contractRepository.GetFilteredContracts(contractsFromRepo.ToList(), contractFilter);
 
             var contractsToReturn = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
 
@@ -95,7 +108,7 @@ namespace ReserbizAPP.API.Controllers
                 return BadRequest("Contract cannot be updated anymore because it has already account statement attached to it.");
 
             _contractRepository.SetCurrentUserId(CurrentUserId);
-            
+
             _mapper.Map(contractForUpdateDto, contractFromRepo);
 
             if (!_contractRepository.HasChanged())

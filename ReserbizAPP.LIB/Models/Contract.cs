@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class Contract 
+    public class Contract
         : Entity, IUserActionTracker
     {
         public string Code { get; set; }
@@ -36,6 +37,10 @@ namespace ReserbizAPP.LIB.Models
         public int? DeactivatedById { get; set; }
         public Account DeactivatedBy { get; set; }
 
+        public Contract()
+        {
+
+        }
 
         private DateTime CurrentDateTime = DateTime.Now;
 
@@ -53,6 +58,7 @@ namespace ReserbizAPP.LIB.Models
                 return CalculateExpirationDate();
             }
         }
+
         public bool IsExpired
         {
             get
@@ -77,6 +83,24 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public List<IContractDurationBeforeContractEnds> ContractDurationBeforeContractEnds
+        {
+            get
+            {
+                return GetContractDurationBeforeContractEnds();
+            }
+        }
+
+        // We can determine if contract is deletable or not
+        // based on the current count of account statements
+        public bool IsDeletable
+        {
+            get
+            {
+                return (this.AccountStatements.Count == 0);
+            }
+        }
+
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {
             return ((NextDueDate <= ExpirationDate) && (EffectiveDate == NextDueDate
@@ -97,19 +121,40 @@ namespace ReserbizAPP.LIB.Models
         {
             var nextDueDate = new DateTime();
 
+            // If the there are no account statements yet,
+            // We will consider the effective date as the
+            // next due date, If not, we will
+            // calculate the next due date based 
+            // on the duration unit
             if (AccountStatements.Count == 0)
             {
                 nextDueDate = EffectiveDate;
             }
             else
             {
-                var lastAccountStatement = AccountStatements[AccountStatements.Count - 1];
+                // Make sure that statement of accounts are ordered by due date ascending
+                var accountStatementsOrderByDueDateAscending = AccountStatements.OrderBy(a => a.DueDate).ToList();
+                var lastAccountStatement = accountStatementsOrderByDueDateAscending[AccountStatements.Count - 1];
                 var currentDueDate = lastAccountStatement.DueDate;
                 var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, lastAccountStatement.DurationUnit);
                 nextDueDate = currentDueDate.AddDays(daysBeforeNextDueDate);
             }
 
             return nextDueDate;
+        }
+
+        private List<IContractDurationBeforeContractEnds> GetContractDurationBeforeContractEnds()
+        {
+            var durationBeforeContractEnds = new List<IContractDurationBeforeContractEnds>();
+
+            // Check if contract is open
+            if (IsOpenContract || IsExpired) return durationBeforeContractEnds;
+    
+            var totalDaysBeforeContractEnds = ExpirationDate.Subtract(CurrentDateTime).TotalDays;
+
+            ContractHelper.CalculateDurationValueBeforeContractEnds(ref durationBeforeContractEnds, totalDaysBeforeContractEnds);
+
+            return durationBeforeContractEnds;
         }
     }
 }

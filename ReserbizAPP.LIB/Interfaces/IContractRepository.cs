@@ -11,5 +11,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId);
         Task<IEnumerable<Contract>> GetActiveDueContractsPerTenantAsync(int tenantId);
         Task<IEnumerable<Contract>> GetActiveContractsPerTenantAsync(int tenantId);
+        List<Contract> GetFilteredContracts(IList<Contract> unfilteredContracts, IContractFilter contractFilter);
     }
 }

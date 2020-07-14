@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Models;
+using ReserbizAPP.Tests.Comparers;
 
 namespace ReserbizAPP.Tests
 {
@@ -574,6 +577,171 @@ namespace ReserbizAPP.Tests
             Assert.IsFalse(result);
         }
 
+        [TestCase("2019-12-15")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsMoreThanTwoYears(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 3;
+            contract.DurationUnit = DurationEnum.Year;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            // Expected is 2 years, 9 months and 1 day
+            var expectedResult = new List<ContractDurationBeforeContractEnds>{
+                new ContractDurationBeforeContractEnds {
+                    DurationValue =  2,
+                    DurationUnit = DurationEnum.Year
+                },
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 9,
+                    DurationUnit = DurationEnum.Month
+                },
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 1,
+                    DurationUnit = DurationEnum.Day
+                }
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [TestCase("2020-01-20")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsMoreThanOneYearButLessThanTwoYears(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 2;
+            contract.DurationUnit = DurationEnum.Year;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            var expectedResult = new List<ContractDurationBeforeContractEnds>{
+                new ContractDurationBeforeContractEnds {
+                    DurationValue =  1,
+                    DurationUnit = DurationEnum.Year
+                },
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 7,
+                    DurationUnit = DurationEnum.Month
+                },
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 26,
+                    DurationUnit = DurationEnum.Day
+                }
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [TestCase("2020-09-15")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsEqualToOneYear(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 2;
+            contract.DurationUnit = DurationEnum.Year;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            var expectedResult = new List<ContractDurationBeforeContractEnds>{
+                new ContractDurationBeforeContractEnds {
+                    DurationValue =  1,
+                    DurationUnit = DurationEnum.Year
+                }
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [TestCase("2020-03-15")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsMoreThanOneMonthButLessThanOneYear(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 1;
+            contract.DurationUnit = DurationEnum.Year;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            var expectedResult = new List<ContractDurationBeforeContractEnds>{
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 6,
+                    DurationUnit = DurationEnum.Month
+                },
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 1,
+                    DurationUnit = DurationEnum.Day
+                }
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [TestCase("2019-10-29")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsLessThanAMonth(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 2;
+            contract.DurationUnit = DurationEnum.Month;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            var expectedResult = new List<ContractDurationBeforeContractEnds>{
+                new ContractDurationBeforeContractEnds {
+                    DurationValue = 17,
+                    DurationUnit = DurationEnum.Day
+                }
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [TestCase("2020-09-15")]
+        public void Test_ContractDurationValueBeforeContractEnds_WhenRemainingDaysBeforeContractEndsIsEqualToExpirationDate(DateTime currentDateTime)
+        {
+            // Arrange
+            var contract = GetTestContractObject();
+            contract.SetCurrentDateTime(currentDateTime);
+            contract.DurationValue = 1;
+            contract.DurationUnit = DurationEnum.Year;
+
+            var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
+
+            // Act
+            var actualResult = contract.ContractDurationBeforeContractEnds;
+
+            // Assert
+            var expectedResult = new List<ContractDurationBeforeContractEnds>();
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
 
         private DateTime GetTestEffectiveDate()
         {

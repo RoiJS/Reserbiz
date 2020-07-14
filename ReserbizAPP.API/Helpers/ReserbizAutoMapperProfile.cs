@@ -47,8 +47,8 @@ namespace ReserbizAPP.API.Helpers
                 .ForMember(dest => dest.AccountStatementsCount,
                     opt => opt.MapFrom(src => src.AccountStatements.Count));
             CreateMap<Contract, ContractListDto>()
-                .ForMember(dest => dest.Status,
-                    opt => opt.MapFrom(src => src.IsActive));
+                .ForMember(dest => dest.TenantName,
+                    opt => opt.MapFrom(src => src.Tenant.PersonFullName));
             CreateMap<Tenant, ContractTenantDetailsDto>();
             CreateMap<AccountStatement, AccountStatementDetailsDto>()
                 .ForMember(dest => dest.PenaltyTotalAmount,

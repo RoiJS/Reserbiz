@@ -101,6 +101,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                                 c.IsActive
                                                                 && c.ContractId == contractId
                                                             )
+                                                            .OrderBy(c => c.DueDate)
                                                             .ToListAsync();
 
             return activeAccountStatementsPerContractFromRepo;
