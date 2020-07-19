@@ -6,6 +6,6 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         double DurationValue { get; set; }
 
-        DurationEnum DurationUnit { get; set; }
+        string DurationUnitText { get; set; }
     }
 }

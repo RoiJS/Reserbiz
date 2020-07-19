@@ -1,16 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '@src/environments/environment';
+
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { BaseService } from './base.service';
 import { Contract } from '../_models/contract.model';
+import { ContractMapper } from '../_helpers/contract-mapper.helper';
+import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
 
 @Injectable({ providedIn: 'root' })
-export class ContractService {
-  private _apiBaseUrl = environment.reserbizAPIEndPoint;
+export class ContractService extends BaseService<Contract>
+  implements IBaseService<Contract> {
+  private _loadContractListFlag = new BehaviorSubject<void>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(public http: HttpClient) {
+    super(new ContractMapper(), http);
+  }
+
+  getEntities(entityFilter: IEntityFilter): Observable<Contract[]> {
+    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    return this.getEntitiesFromServer(
+      `${this._apiBaseUrl}/contract/getAllContracts`
+    );
+  }
+
+  deleteMultipleItems(contracts: Contract[]): Observable<void> {
+    return this.deleteMultipleItemsOnServer(
+      `${this._apiBaseUrl}/tenant/deleteMultipleTenants`,
+      contracts
+    );
+  }
+
+  deleteItem(tenantId: number): Observable<void> {
+    return this.deleteItemOnServer(
+      `${this._apiBaseUrl}/tenant/deleteTenant?tenantId=${tenantId}`
+    );
+  }
 
   getContracts(tenantId: number): Observable<Contract[]> {
     return this.http
@@ -29,7 +56,6 @@ export class ContractService {
             contract.effectiveDate = c.effectiveDate;
             contract.isOpenContract = c.isOpenContract;
             contract.durationValue = c.durationValue;
-            contract.status = c.status;
             contract.expirationDate = c.expirationDate;
             contract.isExpired = c.isExpired;
 
@@ -37,5 +63,13 @@ export class ContractService {
           });
         })
       );
+  }
+
+  reloadListFlag() {
+    this._loadContractListFlag.next();
+  }
+
+  get loadContractListFlag(): BehaviorSubject<void> {
+    return this._loadContractListFlag;
   }
 }

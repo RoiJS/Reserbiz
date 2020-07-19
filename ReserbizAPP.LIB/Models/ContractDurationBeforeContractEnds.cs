@@ -8,6 +8,6 @@ namespace ReserbizAPP.LIB.Models
     {
         public double DurationValue { get; set; }
 
-        public DurationEnum DurationUnit { get; set; }
+        public string DurationUnitText { get; set; }
     }
 }

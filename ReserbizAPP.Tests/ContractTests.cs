@@ -596,15 +596,15 @@ namespace ReserbizAPP.Tests
             var expectedResult = new List<ContractDurationBeforeContractEnds>{
                 new ContractDurationBeforeContractEnds {
                     DurationValue =  2,
-                    DurationUnit = DurationEnum.Year
+                    DurationUnitText = DurationEnum.Year.ToString()
                 },
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 9,
-                    DurationUnit = DurationEnum.Month
+                    DurationUnitText = DurationEnum.Month.ToString()
                 },
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 1,
-                    DurationUnit = DurationEnum.Day
+                    DurationUnitText = DurationEnum.Day.ToString()
                 }
             };
 
@@ -629,15 +629,15 @@ namespace ReserbizAPP.Tests
             var expectedResult = new List<ContractDurationBeforeContractEnds>{
                 new ContractDurationBeforeContractEnds {
                     DurationValue =  1,
-                    DurationUnit = DurationEnum.Year
+                    DurationUnitText = DurationEnum.Year.ToString()
                 },
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 7,
-                    DurationUnit = DurationEnum.Month
+                    DurationUnitText = DurationEnum.Month.ToString()
                 },
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 26,
-                    DurationUnit = DurationEnum.Day
+                    DurationUnitText = DurationEnum.Day.ToString()
                 }
             };
 
@@ -662,7 +662,7 @@ namespace ReserbizAPP.Tests
             var expectedResult = new List<ContractDurationBeforeContractEnds>{
                 new ContractDurationBeforeContractEnds {
                     DurationValue =  1,
-                    DurationUnit = DurationEnum.Year
+                    DurationUnitText = DurationEnum.Year.ToString()
                 }
             };
 
@@ -687,11 +687,11 @@ namespace ReserbizAPP.Tests
             var expectedResult = new List<ContractDurationBeforeContractEnds>{
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 6,
-                    DurationUnit = DurationEnum.Month
+                    DurationUnitText = DurationEnum.Month.ToString()
                 },
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 1,
-                    DurationUnit = DurationEnum.Day
+                    DurationUnitText = DurationEnum.Day.ToString()
                 }
             };
 
@@ -716,7 +716,7 @@ namespace ReserbizAPP.Tests
             var expectedResult = new List<ContractDurationBeforeContractEnds>{
                 new ContractDurationBeforeContractEnds {
                     DurationValue = 17,
-                    DurationUnit = DurationEnum.Day
+                    DurationUnitText = DurationEnum.Day.ToString()
                 }
             };
 
