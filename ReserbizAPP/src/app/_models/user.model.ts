@@ -10,6 +10,6 @@ export class User {
   ) {}
 
   get fullname(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.firstName} ${this.lastName}`.trim();
   }
 }

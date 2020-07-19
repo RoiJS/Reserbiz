@@ -10,6 +10,7 @@
   },
 
   "GENERAL_TEXTS": {
+    "AND": "and",
     "GENDER": {
       "MALE": "Male",
       "FEMALE": "Female"

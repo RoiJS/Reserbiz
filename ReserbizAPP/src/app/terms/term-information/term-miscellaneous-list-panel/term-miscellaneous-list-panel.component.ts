@@ -1,11 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-
-import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'ns-term-miscellaneous-list-panel',
@@ -13,50 +6,9 @@ import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
   styleUrls: ['./term-miscellaneous-list-panel.component.scss'],
 })
 export class TermMiscellaneousListPanelComponent implements OnInit, OnDestroy {
-  @Input() termId: number;
+  constructor() {}
 
-  private _termMiscellaneousList: TermMiscellaneous[];
-  private _updateTermMiscellaneousListFlag: Subscription;
+  ngOnInit() {}
 
-  constructor(
-    private router: RouterExtensions,
-    private termMiscellaneousService: TermMiscellaneousService
-  ) {}
-
-  ngOnInit() {
-    this._updateTermMiscellaneousListFlag = this.termMiscellaneousService.loadTermMiscellaneousListFlag.subscribe(
-      () => {
-        this.getTermMiscellaneousList();
-      }
-    );
-  }
-
-  ngOnDestroy() {
-    if (this._updateTermMiscellaneousListFlag) {
-      this._updateTermMiscellaneousListFlag.unsubscribe();
-    }
-  }
-
-  getTermMiscellaneousList() {
-    setTimeout(() => {
-      this.termMiscellaneousService
-        .getEntities({ parentId: this.termId })
-        .pipe(take(1))
-        .subscribe((termMiscellaneous: TermMiscellaneous[]) => {
-          this._termMiscellaneousList = termMiscellaneous;
-        });
-    }, 500);
-  }
-
-  onNavigateToManageTermMiscellaneousList() {
-    this.router.navigate([`/terms/${this.termId}/term-miscellaneous-list`], {
-      transition: {
-        name: 'slideLeft',
-      },
-    });
-  }
-
-  get termMiscellaneousList(): TermMiscellaneous[] {
-    return this._termMiscellaneousList;
-  }
+  ngOnDestroy() {}
 }

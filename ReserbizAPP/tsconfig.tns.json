@@ -11,6 +11,11 @@
     }
   },
   "files": [
-    "src/main.tns.ts"
+    "src/main.tns.ts",
+    "src/tests/test.tns.ts"
+  ],
+  "include": [
+    "src/tests/*.test.tns.ts",
+    "src/tests/*.test.ts"
   ]
 }

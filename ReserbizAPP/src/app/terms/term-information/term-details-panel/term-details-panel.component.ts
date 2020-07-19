@@ -1,8 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
-
-import { Term } from '@src/app/_models/term.model';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ns-term-details-panel',
@@ -10,19 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./term-details-panel.component.scss'],
 })
 export class TermDetailsPanelComponent implements OnInit {
-  @Input() currentTerm: Term;
-  constructor(
-    private activedRoute: ActivatedRoute,
-    private router: RouterExtensions
-  ) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  onNavigateToEditPage() {
-    this.router.navigate([`/terms/${this.currentTerm.id}/edit`], {
-      transition: {
-        name: 'slideLeft',
-      },
-    });
-  }
 }

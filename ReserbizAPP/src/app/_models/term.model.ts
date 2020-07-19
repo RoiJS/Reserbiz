@@ -65,11 +65,8 @@ export class Term extends Entity {
   }
 
   hasContent() {
-    const hasContent = !!(
-      this.code ||
-      this.name ||
-      this.spaceTypeId ||
-      this.rate
+    const hasContent = Boolean(
+      this.code || this.name || this.spaceTypeId || this.rate
     );
 
     return hasContent;

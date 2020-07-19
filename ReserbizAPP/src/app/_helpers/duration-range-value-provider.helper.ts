@@ -30,6 +30,6 @@ export class DurationRangeValueProvider implements IDurationRangeValueProvider {
   }
 
   checkIfExceed(value: number) {
-    return !!(value > this.maximum);
+    return Boolean(value > this.maximum);
   }
 }

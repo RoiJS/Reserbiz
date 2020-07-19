@@ -30,11 +30,14 @@ export class Tenant extends Entity {
   }
 
   get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.firstName} ${this.lastName}`.trim();
   }
 
   get nameInitials(): string {
-    return `${this.firstName[0]}${this.lastName[0]}`;
+    const firstNameInitial = this.firstName.length > 0 ? this.firstName[0] : '';
+    const lastNameInitial = this.lastName[0].length > 0 ? this.lastName[0] : '';
+
+    return `${firstNameInitial}${lastNameInitial}`;
   }
 
   get genderName(): string {
@@ -42,33 +45,20 @@ export class Tenant extends Entity {
   }
 
   get photoBackgroundColor(): string {
-    const colorList = [
-      '#f6d186',
-      '#a8d3da',
-      '#f4eeff',
-      '#ffaaa5',
-      '#beebe9',
-      '#f6eec7',
-      '#ffd5e5',
-      '#ffffdd',
-      '#81f5ff',
-      '#ffffc5',
-    ];
-
     const randomIndex = this.getNumberFirstDigit();
     // Get color randomly from the list
-    return colorList[randomIndex];
+    return this.colorList[randomIndex];
   }
 
   hasContent(): boolean {
-    const hasContent = !!(
+    const hasContent = Boolean(
       this.firstName ||
-      this.middleName ||
-      this.lastName ||
-      this.gender ||
-      this.address ||
-      this.contactNumber ||
-      this.emailAddress
+        this.middleName ||
+        this.lastName ||
+        this.gender ||
+        this.address ||
+        this.contactNumber ||
+        this.emailAddress
     );
 
     return hasContent;
