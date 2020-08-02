@@ -100,6 +100,16 @@ namespace ReserbizAPP.LIB.Models
                 return (this.AccountStatements.Count == 0);
             }
         }
+        
+        // We can determine if contract is archived or not
+        // if contract is either expired or inactive
+        public bool IsArchived
+        {
+            get
+            {
+                return (IsExpired || IsActive == false);
+            }
+        }
 
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {

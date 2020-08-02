@@ -40,7 +40,8 @@ export class TermMiscellaneousListComponent
 
         this._loadListFlagSub = this.termMiscellaneousService.loadTermMiscellaneousListFlag.subscribe(
           () => {
-            this.getEntities({ parentId: this._currentItemParentId });
+            this._entityFilter.parentId = this._currentItemParentId;
+            this.getEntities();
           }
         );
       });

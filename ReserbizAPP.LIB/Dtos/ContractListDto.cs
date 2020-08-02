@@ -5,7 +5,7 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class ContractListDto
+    public class ContractListDto: IEntityDto
     {
         public int Id { get; set; }
 

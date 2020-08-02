@@ -33,6 +33,7 @@ export class Contract extends Entity {
     this.durationUnit = DurationEnum.None;
     this.expirationDate = null;
     this.isExpired = false;
+    this.nextDueDate = null;
     this.contractDurationBeforeContractEnds = [];
     this.contractDurationBeforeContractEndsText = '';
   }
@@ -41,6 +42,8 @@ export class Contract extends Entity {
     translateService: TranslateService
   ): void {
     let counter = 0;
+    this.contractDurationBeforeContractEndsText = '';
+
     this.contractDurationBeforeContractEnds.forEach(
       (c: ContractDurationBeforeContractEnds) => {
         const value = c.durationValue;
@@ -83,5 +86,47 @@ export class Contract extends Entity {
           );
 
     return durationName;
+  }
+
+  get nextDueDateMonthName(): string {
+    if (!this.nextDueDate) {
+      return '';
+    }
+
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    const monthName = months[this.nextDueDate.getMonth()];
+    return monthName;
+  }
+
+  get nextDueDateDayName(): string {
+    if (!this.nextDueDate) {
+      return '';
+    }
+
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const dayName = days[this.nextDueDate.getDay()];
+    return dayName;
+  }
+
+  get nextDueDateDay(): number {
+    if (!this.nextDueDate) {
+      return 0;
+    }
+    return this.nextDueDate.getDate();
   }
 }

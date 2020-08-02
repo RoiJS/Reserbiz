@@ -1,5 +1,13 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  NgZone,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -9,6 +17,8 @@ import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-
 import {
   ListViewEventData,
   SwipeActionsEventData,
+  LoadOnDemandListViewEventData,
+  RadListView,
 } from 'nativescript-ui-listview';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 
@@ -18,12 +28,13 @@ import { take, finalize } from 'rxjs/operators';
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
 import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
-import { IEntityFilter } from '@src/app/_interfaces/ientity-filter.interface';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
 import { ActivatedRoute } from '@angular/router';
+import { IEntityPaginationList } from '@src/app/_interfaces/ientity-pagination-list.interface';
+import { EntityFilter } from '@src/app/_models/entity-filter.model';
 
 @Component({
   template: ``,
@@ -33,15 +44,22 @@ export class BaseListComponent<TEntity extends IEntity>
   @ViewChild('appListView', { static: false })
   appListView: RadListViewComponent;
 
+  @ViewChild('searchBar', { static: false })
+  searchBarElem: ElementRef;
+
   protected _listItems: ObservableArray<TEntity>;
 
   protected _currentItem: TEntity;
 
   protected _currentItemParentId: number;
 
+  protected _entityFilter: EntityFilter;
+
   protected _loadListFlagSub: Subscription;
 
   protected _multipleSelectionActive = false;
+
+  protected _filterOptionActive = false;
 
   protected _isBusy = false;
 
@@ -61,11 +79,21 @@ export class BaseListComponent<TEntity extends IEntity>
 
   protected _activateItemDialogTexts: IBaseDialogTexts = null;
 
+  protected _activateMultipleItemDialogTexts: IBaseDialogTexts = null;
+
   protected _deactivateItemDialogTexts: IBaseDialogTexts = null;
+
+  protected _deactivateMultipleItemDialogTexts: IBaseDialogTexts = null;
+
+  protected _totalNumberOfItems: number;
+
+  protected _listViewDateEvent: ListViewEventData;
 
   protected activatedRoute: ActivatedRoute;
 
   protected entityService: IBaseService<TEntity>;
+
+  protected changeDetectorRef: ChangeDetectorRef;
 
   constructor(
     protected dialogService: DialogService,
@@ -73,7 +101,11 @@ export class BaseListComponent<TEntity extends IEntity>
     protected ngZone: NgZone,
     protected router: RouterExtensions,
     protected translateService: TranslateService
-  ) {}
+  ) {
+    this._totalNumberOfItems = 0;
+    this._entityFilter = new EntityFilter();
+    this._entityFilter.page = 1;
+  }
 
   ngOnInit() {
     this._navigateBackSub = this.location.subscribe(() => {
@@ -96,14 +128,11 @@ export class BaseListComponent<TEntity extends IEntity>
     this.entityService = entityService;
   }
 
-  getEntities(
-    entityFilter: IEntityFilter = null,
-    onGetListFinished?: () => void
-  ) {
+  getEntities(onGetListFinishedCallback?: () => void) {
     this._isBusy = true;
     setTimeout(() => {
       this.entityService
-        .getEntities(entityFilter)
+        .getEntities(this._entityFilter)
         .pipe(
           take(1),
           finalize(() => {
@@ -115,17 +144,77 @@ export class BaseListComponent<TEntity extends IEntity>
         .subscribe((entities: TEntity[]) => {
           this._listItems = new ObservableArray<TEntity>(entities);
 
-          this._multipleSelectionActive = false;
-
           this._isNotNavigateToOtherPage = true;
 
           this._itemListHasLoaded = true;
 
-          if (onGetListFinished) {
-            onGetListFinished();
+          if (this._listViewDateEvent) {
+            this._listViewDateEvent.object.notifyPullToRefreshFinished();
+          }
+
+          if (onGetListFinishedCallback) {
+            onGetListFinishedCallback();
           }
         });
     }, 500);
+  }
+
+  getPaginatedEntities(
+    onGetListFinishedCallback?: (
+      entityPaginationList: IEntityPaginationList
+    ) => void
+  ) {
+    if (this._entityFilter.page === 1) {
+      this._isBusy = true;
+    }
+
+    setTimeout(() => {
+      this.entityService
+        .getPaginatedEntities(this._entityFilter)
+        .pipe(
+          take(1),
+          finalize(() => {
+            this.ngZone.run(() => {
+              this._isBusy = false;
+            });
+          })
+        )
+        .subscribe((entityPaginationList: IEntityPaginationList) => {
+          if (this._entityFilter.page === 1) {
+            this._listItems = new ObservableArray<TEntity>(
+              <TEntity[]>entityPaginationList.items
+            );
+            this._itemListHasLoaded = true;
+          } else {
+            this._listItems.push(...(<TEntity[]>entityPaginationList.items));
+          }
+
+          this._totalNumberOfItems = entityPaginationList.totalItems;
+
+          this._isNotNavigateToOtherPage = true;
+
+          if (this._listViewDateEvent) {
+            this._listViewDateEvent.object.notifyPullToRefreshFinished();
+          }
+
+          if (onGetListFinishedCallback) {
+            onGetListFinishedCallback(entityPaginationList);
+          }
+        });
+    }, 500);
+  }
+
+  onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData) {
+    const that = new WeakRef(this);
+    const listView: RadListView = args.object;
+    if (this._listItems.length !== this._totalNumberOfItems) {
+      that.get()._entityFilter.page += 1;
+      that.get().entityService.reloadListFlag();
+      listView.notifyLoadOnDemandFinished();
+    } else {
+      args.returnValue = false;
+      listView.notifyLoadOnDemandFinished(true);
+    }
   }
 
   selectItem(currentIndex: number, url: string) {
@@ -150,10 +239,10 @@ export class BaseListComponent<TEntity extends IEntity>
         this.appListView.listView.deselectItemAt(currentIndex);
         this.dialogService.alert(
           this.translateService.instant(
-            'INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
+            'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
           ),
           this.translateService.instant(
-            'INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
+            'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
           )
         );
         return;
@@ -207,6 +296,24 @@ export class BaseListComponent<TEntity extends IEntity>
   }
 
   /**
+   * Responsible for showing/hiding action bar
+   * that contains filter options
+   */
+  activateDeactivateFilterOptions() {
+    this._filterOptionActive = !this._filterOptionActive;
+
+    // Identify if filter action bar is active
+    // then we focus on the search bar, otherwise
+    // we close the keyboard
+    if (this._filterOptionActive) {
+      this.changeDetectorRef.detectChanges();
+      this.searchBarElem.nativeElement.focus();
+    } else {
+      this.searchBarElem.nativeElement.dismissSoftInput();
+    }
+  }
+
+  /**
    * @description Delete multiple selected items from the list.
    */
   deleteSelectedItems() {
@@ -233,7 +340,8 @@ export class BaseListComponent<TEntity extends IEntity>
                   );
 
                   me._listItems = new ObservableArray<TEntity>([]);
-                  this.entityService.reloadListFlag();
+                  me._multipleSelectionActive = false;
+                  me.entityService.reloadListFlag();
                 },
                 (error: Error) => {
                   this.dialogService.alert(
@@ -274,7 +382,6 @@ export class BaseListComponent<TEntity extends IEntity>
                   this._deleteItemDialogTexts.successMessage,
                   () => {
                     (<any>this._listItems).splice(selectedItemIndex, 1);
-                    this.entityService.reloadListFlag();
                   }
                 );
               },
@@ -327,6 +434,45 @@ export class BaseListComponent<TEntity extends IEntity>
       });
   }
 
+  activateSelectedItems() {
+    const me = this;
+    const selectedItems = this.appListView.listView.getSelectedItems();
+    if (selectedItems.length > 0) {
+      this.dialogService
+        .confirm(
+          this._activateMultipleItemDialogTexts.title,
+          this._activateMultipleItemDialogTexts.confirmMessage
+        )
+        .then((res: ButtonOptions) => {
+          if (res === ButtonOptions.YES) {
+            this._isBusy = true;
+
+            this.entityService
+              .setMultipleEntityStatus(selectedItems, true)
+              .pipe(finalize(() => (this._isBusy = false)))
+              .subscribe(
+                () => {
+                  this.dialogService.alert(
+                    this._activateMultipleItemDialogTexts.title,
+                    this._activateMultipleItemDialogTexts.successMessage
+                  );
+
+                  me._listItems = new ObservableArray<TEntity>([]);
+                  me._multipleSelectionActive = false;
+                  me.entityService.reloadListFlag();
+                },
+                (error: Error) => {
+                  this.dialogService.alert(
+                    this._activateMultipleItemDialogTexts.title,
+                    this._activateMultipleItemDialogTexts.errorMessage
+                  );
+                }
+              );
+          }
+        });
+    }
+  }
+
   /**
    * @description Deactivates selected item
    */
@@ -352,7 +498,7 @@ export class BaseListComponent<TEntity extends IEntity>
 
                 this.appListView.listView.notifySwipeToExecuteFinished();
                 this._listItems = new ObservableArray<TEntity>([]);
-                this.getEntities();
+                this.entityService.reloadListFlag();
               },
               (error: Error) => {
                 this.dialogService.alert(
@@ -363,6 +509,45 @@ export class BaseListComponent<TEntity extends IEntity>
             );
         }
       });
+  }
+
+  deactivateSelectedItems() {
+    const me = this;
+    const selectedItems = this.appListView.listView.getSelectedItems();
+    if (selectedItems.length > 0) {
+      this.dialogService
+        .confirm(
+          this._deactivateMultipleItemDialogTexts.title,
+          this._deactivateMultipleItemDialogTexts.confirmMessage
+        )
+        .then((res: ButtonOptions) => {
+          if (res === ButtonOptions.YES) {
+            this._isBusy = true;
+
+            this.entityService
+              .setMultipleEntityStatus(selectedItems, false)
+              .pipe(finalize(() => (this._isBusy = false)))
+              .subscribe(
+                () => {
+                  this.dialogService.alert(
+                    this._deactivateMultipleItemDialogTexts.title,
+                    this._deactivateMultipleItemDialogTexts.successMessage
+                  );
+
+                  me._listItems = new ObservableArray<TEntity>([]);
+                  me._multipleSelectionActive = false;
+                  me.entityService.reloadListFlag();
+                },
+                (error: Error) => {
+                  this.dialogService.alert(
+                    this._deactivateMultipleItemDialogTexts.title,
+                    this._deactivateMultipleItemDialogTexts.errorMessage
+                  );
+                }
+              );
+          }
+        });
+    }
   }
 
   /**
@@ -386,9 +571,16 @@ export class BaseListComponent<TEntity extends IEntity>
    * @param args ListViewEventData
    */
   onPullToRefreshInitiated(args: ListViewEventData) {
-    this.getEntities(null, () => {
-      args.object.notifyPullToRefreshFinished();
-    });
+    this._listViewDateEvent = args;
+    this._multipleSelectionActive = false;
+    this.entityService.reloadListFlag();
+  }
+
+  onPullToRefreshInitiatedForPaginatedList(args: ListViewEventData) {
+    this._listViewDateEvent = args;
+    this._entityFilter.page = 1;
+    this._multipleSelectionActive = false;
+    this.entityService.reloadListFlag();
   }
 
   searchBarLoaded(args: any) {
@@ -401,20 +593,30 @@ export class BaseListComponent<TEntity extends IEntity>
   onClearSearchText(args: any) {
     if (this._itemListHasLoaded) {
       args.object.text = '';
-      this.getEntities({ searchKeyword: args.object.text });
+      this._entityFilter.searchKeyword = args.object.text;
+      this.entityService.reloadListFlag();
     }
   }
 
   onSubmitSearchText(args: any) {
-    this.getEntities({ searchKeyword: args.object.text });
+    this._entityFilter.searchKeyword = args.object.text;
+    this.entityService.reloadListFlag();
   }
 
   get items(): ObservableArray<TEntity> {
     return this._listItems;
   }
 
+  get totalNumberOfItems(): number {
+    return this._totalNumberOfItems;
+  }
+
   get multipleSelectionActive(): boolean {
     return this._multipleSelectionActive;
+  }
+
+  get filterOptionActive(): boolean {
+    return this._filterOptionActive;
   }
 
   get IsBusy(): boolean {
@@ -437,5 +639,9 @@ export class BaseListComponent<TEntity extends IEntity>
 
   get isNotNavigateToOtherPage(): boolean {
     return this._isNotNavigateToOtherPage;
+  }
+
+  get isFilterActive(): boolean {
+    return this._entityFilter.isFilterActive();
   }
 }

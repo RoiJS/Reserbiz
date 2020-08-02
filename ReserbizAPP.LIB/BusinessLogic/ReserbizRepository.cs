@@ -107,6 +107,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
+        /// <summary>
+        /// This sets the status of the entity
+        /// </summary>
+        /// <param name="entity">The entity that will either be activated or deactivated</param>
+        /// <param name="status">Status that will be set to the entity</param>
         public void SetEntityStatus(TEntity entity, bool status)
         {
             entity.IsActive = status;
@@ -115,6 +120,31 @@ namespace ReserbizAPP.LIB.BusinessLogic
             if (entity is IUserActionTracker)
                 ((IUserActionTracker)entity).DeactivatedById = (status ? null as int? : _currentUserId);
 
+        }
+
+        /// <summary>
+        /// This sets the status of multiple entities
+        /// </summary>
+        /// <param name="entities">The entities that will either be activated or deactivated</param>
+        /// <param name="status">Status that will be set to the entities</param>
+        public void SetMultipleEntitiesStatus(List<TEntity> entities, bool status)
+        {
+            foreach (var entity in entities)
+            {
+                // If the current status is false,
+                // We will store the date when it was deactivated,
+                // otherwise, reset the value with the 
+                // minimum value of class datetime
+                if (status == false)
+                    entity.DateDeactivated = DateTime.Now;
+                else
+                    entity.DateDeactivated = DateTime.MinValue;
+
+                entity.IsActive = status;
+
+                if (entity is IUserActionTracker)
+                    ((IUserActionTracker)entity).DeactivatedById = _currentUserId;
+            }
         }
 
         /// <summary>

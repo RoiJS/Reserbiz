@@ -21,7 +21,7 @@ export class TermService extends BaseService<Term>
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<Term[]> {
-    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    const searchKeyword = entityFilter.searchKeyword || '';
     return this.getEntitiesFromServer(
       `${this._apiBaseUrl}/term?termKeywords=${searchKeyword}`
     );

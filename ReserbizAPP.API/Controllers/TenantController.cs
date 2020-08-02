@@ -55,6 +55,16 @@ namespace ReserbizAPP.API.Controllers
             return Ok(tenantToReturn);
         }
 
+        [HttpGet("getTenantAsOptions")]
+        public async Task<ActionResult<IEnumerable<TenantOptionDto>>> GetSpaceTypesAsOptions()
+        {
+            var tenantsFromRepo = await _tenantRepository.GetTenantAsOptions();
+
+            var tenantsOptions = _mapper.Map<IEnumerable<TenantOptionDto>>(tenantsFromRepo);
+
+            return Ok(tenantsOptions);
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TenantForListDto>>> GetAllTenants(string tenantName)
         {
@@ -129,7 +139,9 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists!");
 
-            _tenantRepository.DeleteEntity(tenantFromRepo);
+            _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(tenantFromRepo);
 
             if (await _tenantRepository.SaveChanges())
                 return NoContent();

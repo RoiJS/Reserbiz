@@ -21,12 +21,14 @@ namespace ReserbizAPP.API.Controllers
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IMapper _mapper;
         private readonly ITenantRepository<Tenant> _tenantRepository;
+        private readonly IPaginationService _paginationService;
 
-        public ContractController(IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository, IMapper mapper)
+        public ContractController(IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository, IMapper mapper, IPaginationService paginationService)
         {
             _mapper = mapper;
             _tenantRepository = tenantRepository;
             _contractRepository = contractRepository;
+            _paginationService = paginationService;
         }
 
         [HttpPost("create")]
@@ -68,9 +70,9 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getAllContracts")]
-        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetAllContracts(string code, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract)
+        public async Task<ActionResult<EntityPaginationListDto>> GetAllContracts(string code, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, int page)
         {
-            var contractsFromRepo = await _contractRepository.GetAllContractsAsync();
+            var contractsFromRepo = await _contractRepository.GetAllActiveContractsAsync();
 
             var contractFilter = new ContractFilter
             {
@@ -85,9 +87,30 @@ namespace ReserbizAPP.API.Controllers
 
             contractsFromRepo = _contractRepository.GetFilteredContracts(contractsFromRepo.ToList(), contractFilter);
 
-            var contractsToReturn = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
+            var sampleLargeList = contractsFromRepo
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo)
+                                .Concat(contractsFromRepo);
 
-            return Ok(contractsToReturn);
+            var mappedContracts = _mapper.Map<IEnumerable<ContractListDto>>(sampleLargeList);
+
+            var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<ContractPaginationListDto>(mappedContracts, page);
+
+            entityPaginationListDto.TotalNumberOfOpenContracts = mappedContracts.Where((m) => m.IsOpenContract).Count();
+
+            return Ok(entityPaginationListDto);
         }
 
         [HttpPut("{id}")]
@@ -174,6 +197,52 @@ namespace ReserbizAPP.API.Controllers
             var contractToReturn = _mapper.Map<ContractDetailDto>(contractFromRepo);
 
             return Ok(contractToReturn);
+        }
+
+        [HttpPost("deleteMultipleContracts")]
+        public async Task<IActionResult> DeleteMultipleContracts(List<int> contractIds)
+        {
+            if (contractIds.Count == 0)
+                return BadRequest("Empty contracts id list.");
+
+            _contractRepository.SetCurrentUserId(CurrentUserId);
+
+            if (await _contractRepository.DeleteMultipleContractsAsync(contractIds))
+                return NoContent();
+
+            throw new Exception($"Error when deleting contracts!");
+        }
+
+        [HttpDelete("deleteContract")]
+        public async Task<IActionResult> DeleteContract(int contractId)
+        {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return NotFound("Contract does not exists!");
+
+            _contractRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(contractFromRepo);
+
+            if (await _contractRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Error when deleting contract with id of ${contractId}!");
+        }
+
+        [HttpPost("setMultipleContractsStatus/{status}")]
+        public async Task<IActionResult> SetMultipleContractsStatus( bool status, List<int> entityIds)
+        {
+            if (entityIds.Count == 0)
+                return BadRequest("Empty contracts id list.");
+
+            _contractRepository.SetCurrentUserId(CurrentUserId);
+
+            if (await _contractRepository.SetMultipleContractsStatus(entityIds, status))
+                return NoContent();
+
+            throw new Exception($"Error occurs processing contracts!");
         }
     }
 }

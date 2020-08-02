@@ -27,7 +27,9 @@ export class SpaceTypeService extends BaseService<SpaceType>
     );
   }
 
-  getSpaceTypesAsOptions(translateService: TranslateService): Observable<SpaceTypeOption[]> {
+  getSpaceTypesAsOptions(
+    translateService: TranslateService
+  ): Observable<SpaceTypeOption[]> {
     return this.http
       .get<SpaceTypeOption[]>(
         `${this._apiBaseUrl}/spaceType/getSpaceTypeAsOptions`
@@ -42,7 +44,9 @@ export class SpaceTypeService extends BaseService<SpaceType>
             spaceTypeOption.isDelete = st.isDelete;
             spaceTypeOption.isActive = st.isActive;
             spaceTypeOption.canBeSelected = st.canBeSelected;
-            spaceTypeOption.inactiveText = translateService.instant('GENERAL_TEXTS.INACTIVE');
+            spaceTypeOption.inactiveText = translateService.instant(
+              'GENERAL_TEXTS.INACTIVE'
+            );
             return spaceTypeOption;
           });
         })
@@ -50,7 +54,7 @@ export class SpaceTypeService extends BaseService<SpaceType>
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<SpaceType[]> {
-    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    const searchKeyword = entityFilter.searchKeyword || '';
     return this.getEntitiesFromServer(
       `${this._apiBaseUrl}/spaceType?spaceTypeName=${searchKeyword}`
     );

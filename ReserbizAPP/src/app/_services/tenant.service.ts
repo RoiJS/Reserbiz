@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
-import { environment } from '@src/environments/environment';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Tenant } from '../_models/tenant.model';
 
 import { BaseService } from './base.service';
 
 import { ContactPerson } from '../_models/contact-person.model';
+import { TenantOption } from '../_models/tenant-option.model';
 import { TenantDto } from '../_dtos/tenant-create.dto';
 import { ContactPersonDto } from '../_dtos/contact-person.dto';
 
@@ -33,10 +36,33 @@ export class TenantService extends BaseService<Tenant>
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<Tenant[]> {
-    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    const searchKeyword = entityFilter.searchKeyword || '';
     return this.getEntitiesFromServer(
       `${this._apiBaseUrl}/tenant?tenantName=${searchKeyword}`
     );
+  }
+
+  getTenantAsOptions(
+    translateService: TranslateService
+  ): Observable<TenantOption[]> {
+    return this.http
+      .get<TenantOption[]>(`${this._apiBaseUrl}/tenant/getTenantAsOptions`)
+      .pipe(
+        map((stos: TenantOption[]) => {
+          return stos.map((st: TenantOption) => {
+            const tenantOption = new TenantOption();
+            tenantOption.id = st.id;
+            tenantOption.name = st.name;
+            tenantOption.isDelete = st.isDelete;
+            tenantOption.isActive = st.isActive;
+            tenantOption.canBeSelected = st.canBeSelected;
+            tenantOption.inactiveText = translateService.instant(
+              'GENERAL_TEXTS.INACTIVE'
+            );
+            return tenantOption;
+          });
+        })
+      );
   }
 
   deleteMultipleItems(tenants: Tenant[]): Observable<void> {

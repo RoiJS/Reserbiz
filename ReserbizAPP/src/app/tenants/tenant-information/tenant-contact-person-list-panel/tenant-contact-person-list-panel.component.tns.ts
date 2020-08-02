@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
+import { EntityFilter } from '@src/app/_models/entity-filter.model';
 
 @Component({
   selector: 'ns-tenant-contact-person-list-panel',
@@ -37,8 +38,11 @@ export class TenantContactPersonListPanelComponent
 
   getContactPersonList() {
     setTimeout(() => {
+      const filter = new EntityFilter();
+      filter.parentId = this.tenantId;
+
       this.contactPersonService
-        .getEntities({ parentId: this.tenantId })
+        .getEntities(filter)
         .pipe(take(1))
         .subscribe((contactPersons: ContactPerson[]) => {
           this._contactPersons = contactPersons;

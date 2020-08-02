@@ -20,13 +20,14 @@ export class ContractMapper
     contract.tenantId = c.tenantId;
     contract.tenantName = c.tenantName;
     contract.termId = c.termId;
-    contract.effectiveDate = c.effectiveDate;
+    contract.effectiveDate = new Date(c.effectiveDate);
     contract.isOpenContract = c.isOpenContract;
     contract.durationValue = c.durationValue;
-    contract.expirationDate = c.expirationDate;
+    contract.expirationDate = new Date(c.expirationDate);
     contract.isExpired = c.isExpired;
+    contract.isDeletable = c.isDeletable;
 
-    contract.nextDueDate = c.nextDueDate;
+    contract.nextDueDate = new Date(c.nextDueDate);
 
     if (c.contractDurationBeforeContractEnds.length > 0) {
       contract.contractDurationBeforeContractEnds = c.contractDurationBeforeContractEnds.map(

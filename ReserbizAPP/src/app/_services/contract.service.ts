@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { BaseService } from './base.service';
 import { Contract } from '../_models/contract.model';
 import { ContractMapper } from '../_helpers/contract-mapper.helper';
 import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { EntityPaginationList } from '../_models/entity-pagination-list.model';
+import { IContractFilter } from '../_interfaces/icontract-filter.interface';
+import { ContractPaginationList } from '../_models/contract-pagination-list.model';
 
 @Injectable({ providedIn: 'root' })
 export class ContractService extends BaseService<Contract>
@@ -19,54 +20,65 @@ export class ContractService extends BaseService<Contract>
     super(new ContractMapper(), http);
   }
 
-  getEntities(entityFilter: IEntityFilter): Observable<Contract[]> {
-    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
-    return this.getEntitiesFromServer(
-      `${this._apiBaseUrl}/contract/getAllContracts`
+  getPaginatedEntities(
+    contractFilter: IContractFilter
+  ): Observable<EntityPaginationList> {
+    const params = this.parseRequestParams(contractFilter);
+    return this.getPaginatedEntitiesFromServer(
+      `${this._apiBaseUrl}/contract/getAllContracts`,
+      params
     );
   }
 
   deleteMultipleItems(contracts: Contract[]): Observable<void> {
     return this.deleteMultipleItemsOnServer(
-      `${this._apiBaseUrl}/tenant/deleteMultipleTenants`,
+      `${this._apiBaseUrl}/contract/deleteMultipleContracts`,
       contracts
     );
   }
 
-  deleteItem(tenantId: number): Observable<void> {
+  deleteItem(contractId: number): Observable<void> {
     return this.deleteItemOnServer(
-      `${this._apiBaseUrl}/tenant/deleteTenant?tenantId=${tenantId}`
+      `${this._apiBaseUrl}/contract/deleteContract?contractId=${contractId}`
     );
   }
 
-  getContracts(tenantId: number): Observable<Contract[]> {
-    return this.http
-      .get<Contract[]>(
-        `${this._apiBaseUrl}/contract/getAllContractsPerTenant/${tenantId}`
-      )
-      .pipe(
-        map((tenants: Contract[]) => {
-          return tenants.map((c: Contract) => {
-            const contract = new Contract();
+  setEntityStatus(contractId: number, status: boolean): Observable<void> {
+    return this.setEntityStatusOnServer(
+      `${this._apiBaseUrl}/contract/setStatus/${contractId}/${status}`
+    );
+  }
 
-            contract.id = c.id;
-            contract.code = c.code;
-            contract.tenantId = c.tenantId;
-            contract.termId = c.termId;
-            contract.effectiveDate = c.effectiveDate;
-            contract.isOpenContract = c.isOpenContract;
-            contract.durationValue = c.durationValue;
-            contract.expirationDate = c.expirationDate;
-            contract.isExpired = c.isExpired;
-
-            return contract;
-          });
-        })
-      );
+  setMultipleEntityStatus(
+    contracts: Contract[],
+    status: boolean
+  ): Observable<void> {
+    return this.setMultipleEntityStatusOnServer(
+      `${this._apiBaseUrl}/contract/setMultipleContractsStatus/${status}`,
+      contracts,
+      status
+    );
   }
 
   reloadListFlag() {
     this._loadContractListFlag.next();
+  }
+
+  mapPaginatedEntityData(data: ContractPaginationList): EntityPaginationList {
+    const contractPaginationList = new ContractPaginationList();
+
+    contractPaginationList.totalItems = data.totalItems;
+    contractPaginationList.totalNumberOfOpenContracts =
+      data.totalNumberOfOpenContracts;
+    contractPaginationList.page = data.page;
+    contractPaginationList.numberOfItemsPerPage = data.numberOfItemsPerPage;
+    const items = data.items.map((d: Contract) => {
+      return this.mapper.mapEntity(d);
+    });
+
+    contractPaginationList.items = items;
+
+    return contractPaginationList;
   }
 
   get loadContractListFlag(): BehaviorSubject<void> {

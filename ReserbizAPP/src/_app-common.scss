@@ -1,6 +1,6 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
-@import './app-variables'; 
+@import './app-variables';
 
 /*#region FONT ICON CLASSES*/
 .fa {
@@ -20,6 +20,22 @@
 .action-bar {
   .action-item-button {
     font-size: 7;
+  }
+
+  .custom-action-item-button {
+    color: white;
+    background-color: $primary;
+    border-radius: 50%;
+    font-size: 23;
+    height: 40;
+    padding: 8;
+    text-align: center;
+    width: 40;
+  }
+
+  .custom-action-item-button--active {
+    color: $primary;
+    background-color: white;
   }
 }
 /*#endregion*/
@@ -256,6 +272,24 @@ $sidedrawer-list-icon-size: 20;
       font-size: 20;
       background-color: white;
     }
+  }
+}
+/*#endregion*/
+
+/*#region DIALOG CONTAINER CLASSES*/
+.dialog-container {
+  .dialog-header {
+    font-size: 20;
+    padding: 10;
+    background-color: $primary;
+    color: white;
+    height: 50;
+  }
+  .dialog-body {
+    padding: 10;
+  }
+  .dialog-footer {
+    padding: 10;
   }
 }
 /*#endregion*/

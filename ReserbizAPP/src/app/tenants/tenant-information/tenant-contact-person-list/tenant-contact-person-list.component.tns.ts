@@ -43,7 +43,8 @@ export class TenantContactPersonListComponent
 
         this._loadListFlagSub = this.contactPersonService.updateContactPersonListFlag.subscribe(
           () => {
-            this.getEntities({ parentId: this.currentTenantId });
+            this._entityFilter.parentId = this.currentTenantId;
+            this.getEntities();
           }
         );
       });

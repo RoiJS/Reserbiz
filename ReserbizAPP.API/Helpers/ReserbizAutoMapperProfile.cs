@@ -50,6 +50,9 @@ namespace ReserbizAPP.API.Helpers
                 .ForMember(dest => dest.TenantName,
                     opt => opt.MapFrom(src => src.Tenant.PersonFullName));
             CreateMap<Tenant, ContractTenantDetailsDto>();
+            CreateMap<Tenant, TenantOptionDto>()
+                .ForMember(dest => dest.Name,
+                        opt => opt.MapFrom(src => src.PersonFullName));
             CreateMap<AccountStatement, AccountStatementDetailsDto>()
                 .ForMember(dest => dest.PenaltyTotalAmount,
                     opt => opt.MapFrom(src => src.PenaltyTotalAmount))

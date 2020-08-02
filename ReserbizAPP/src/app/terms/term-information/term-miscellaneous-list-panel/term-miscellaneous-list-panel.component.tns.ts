@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
+import { EntityFilter } from '@src/app/_models/entity-filter.model';
 
 @Component({
   selector: 'ns-term-miscellaneous-list-panel',
@@ -39,8 +40,11 @@ export class TermMiscellaneousListPanelComponent implements OnInit, OnDestroy {
 
   getTermMiscellaneousList() {
     setTimeout(() => {
+      const filter = new EntityFilter();
+      filter.parentId = this.termId;
+
       this.termMiscellaneousService
-        .getEntities({ parentId: this.termId })
+        .getEntities(filter)
         .pipe(take(1))
         .subscribe((termMiscellaneous: TermMiscellaneous[]) => {
           this._termMiscellaneousList = termMiscellaneous;

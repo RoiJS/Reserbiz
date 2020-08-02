@@ -26,7 +26,23 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public async Task<IEnumerable<Contract>> GetAllContractsAsync()
+        public async Task<IEnumerable<Contract>> GetAllActiveContractsAsync()
+        {
+            var allActiveContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
+                                            .AsQueryable()
+                                            .Includes(
+                                                c => c.Tenant,
+                                                c => c.AccountStatements
+                                            )
+                                            .ToListAsync();
+
+            return allActiveContractsFromRepo
+                        .Where(c => c.IsArchived == false && c.IsDelete == false)
+                        .OrderBy(c => c.NextDueDate)
+                        .ToList();
+        }
+
+        public async Task<IEnumerable<Contract>> GetAllArchivedContractsAsync()
         {
             var allContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
                                             .AsQueryable()
@@ -35,13 +51,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                 c => c.AccountStatements
                                             )
                                             .ToListAsync();
-            return allContractsFromRepo;
+
+            return allContractsFromRepo
+                        .OrderBy(c => c.NextDueDate)
+                        .ThenBy(c => c.IsArchived && c.IsDelete == false)
+                        .ToList();
         }
 
         public async Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId)
         {
             var contractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts
-                                                .Where(c => c.TenantId == tenantId)
+                                                .Where(c => c.TenantId == tenantId && c.IsDelete == false)
                                                 .ToListAsync();
 
             return contractsPerTenantFromRepo;
@@ -60,6 +80,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                 .Where(c =>
                                                     c.IsActive
                                                     && c.TenantId == tenantId
+                                                    && c.IsDelete == false
                                                 )
                                                 .ToListAsync();
 
@@ -84,6 +105,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                 .Where(c =>
                                                     c.IsActive
                                                     && c.TenantId == tenantId
+                                                    && c.IsDelete == false
                                                 )
                                                 .ToListAsync();
 
@@ -141,6 +163,29 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
 
             return filteredContracts.ToList();
+        }
+
+        public async Task<bool> DeleteMultipleContractsAsync(List<int> contractIds)
+        {
+            var selectedContracts = await _reserbizRepository
+                .ClientDbContext
+                .Contracts
+                .Where(c => contractIds.Contains(c.Id)).ToListAsync();
+
+            DeleteMultipleEntities(selectedContracts);
+            return await SaveChanges();
+        }
+
+        public async Task<bool> SetMultipleContractsStatus(List<int> contractIds, bool status)
+        {
+            var selectedContracts = await _reserbizRepository
+                .ClientDbContext
+                .Contracts
+                .Where(c => contractIds.Contains(c.Id)).ToListAsync();
+
+            SetMultipleEntitiesStatus(selectedContracts, status);
+
+            return await SaveChanges();
         }
     }
 }

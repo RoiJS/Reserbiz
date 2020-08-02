@@ -57,6 +57,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _reserbizRepository.SetEntityStatus(entity, status);
         }
 
+        public void SetMultipleEntitiesStatus(List<TEntity> entities, bool status)
+        {
+            _reserbizRepository.SetMultipleEntitiesStatus(entities, status);
+        }
+
         public bool HasChanged()
         {
             return _repoDbContext.ChangeTracker.HasChanges();

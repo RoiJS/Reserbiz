@@ -6,8 +6,12 @@ export const environment = {
   production: false,
   // whitelistedDomains: ['localhost:5000'],
   // reserbizAPIEndPoint: 'http://localhost:5000/api',
+
+  // FOR TESTING USING EMULATOR
   whitelistedDomains: ['10.0.2.2:9152'],
   reserbizAPIEndPoint: 'http://10.0.2.2:9152/api',
+
+  // FOR DEPLOYED VERSION
   // whitelistedDomains: ['192.168.254.101:3000'],
   // reserbizAPIEndPoint: 'http://192.168.254.101:3000/api',
 

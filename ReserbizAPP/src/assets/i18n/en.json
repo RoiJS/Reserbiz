@@ -11,6 +11,10 @@
 
   "GENERAL_TEXTS": {
     "AND": "and",
+    "BUTTONS": {
+      "CONFIRM": "Confirm",
+      "RESET": "Reset"
+    },
     "GENDER": {
       "MALE": "Male",
       "FEMALE": "Female"
@@ -810,6 +814,64 @@
         "SUCCESS_MESSAGE": "New changes has been saved!",
         "ERROR_MESSAGE": "Updating miscellaneous failed!"
       }
+    }
+  },
+
+  "CONTRACT_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contracts",
+      "SEARCH_BAR_HINT_TEXT": "Enter contract code here...",
+      "OPTIONS": {
+        "MULTIPLE_SELECT": "Multiple Select",
+        "ARCHIVED_LIST": "See Archived List"
+      }
+    },
+    "HEADER_SECTION": {
+      "TOTAL_CONTRACTS": "Total Contracts",
+      "OPEN_CONTRACTS": "Open Contracts"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired"
+    },
+    "REMOVE_CONTRACTS_DIALOG": {
+      "TITLE": "Remove selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contracts?",
+      "SUCCESS_MESSAGE": "Selected contract have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected contracts. Please try again later."
+    },
+    "REMOVE_CONTRACT_DIALOG": {
+      "TITLE": "Remove selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contract?",
+      "SUCCESS_MESSAGE": "Selected contract has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete contract contract. Please try again later."
+    },
+    "ARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Archive selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    }
+  },
+
+  "CONTRACT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Contract Filter"
+    },
+    "BODY_SECTION": {
+      "TENANT_LABEL": "Tenant:",
+      "ACTIVE_FROM_LABEL": "Active From:",
+      "ACTIVE_TO_LABEL": "Active To:",
+      "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
+      "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
+      "OPEN_CONTRACT_LABEL": "Open Contract:"
     }
   }
 }
