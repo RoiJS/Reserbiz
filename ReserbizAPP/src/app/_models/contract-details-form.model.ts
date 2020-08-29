@@ -12,7 +12,7 @@ export class ContractDetailsFormSource
     public effectiveDate: Date,
     public isOpenContract: boolean,
     public durationValue: number,
-    public durationUnit: DurationEnum
+    public durationUnit: DurationEnum,
   ) {
     super();
   }
@@ -25,7 +25,7 @@ export class ContractDetailsFormSource
       this.effectiveDate,
       this.isOpenContract,
       this.durationValue,
-      this.durationUnit
+      this.durationUnit,
     );
   }
 }

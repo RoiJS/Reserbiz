@@ -42,7 +42,7 @@ export class TermMiscellaneousEditComponent
         this._currentFormEntityId = +paramMap.get('termMiscellaneousId');
 
         this.termMiscellaneousService
-          .getTermMiscellneous(this._currentFormEntityId)
+          .getTermMiscellaneous(this._currentFormEntityId)
           .pipe(
             take(1),
             finalize(() => (this._isBusy = false))

@@ -11,10 +11,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
     public class TermRepository
         : BaseRepository<Term>, ITermRepository<Term>
     {
-        public TermRepository(IReserbizRepository<Term> reserbizRepository)
+        private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepository;
+
+        public TermRepository(IReserbizRepository<Term> reserbizRepository, ISpaceTypeRepository<SpaceType> spaceTypeRepository)
             : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
-
+            _spaceTypeRepository = spaceTypeRepository;
         }
 
         public TermRepository() : base()
@@ -37,7 +39,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var termsFromRepo = _reserbizRepository.ClientDbContext.Terms
                                     .AsQueryable()
                                     .Includes(t => t.Contracts)
-                                    .Where(t => t.IsDelete == false);
+                                    .Where(t => t.IsDelete == false && t.TermParentId == 0);
 
             if (!string.IsNullOrEmpty(termKeywords))
             {
@@ -45,6 +47,30 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
 
             return await termsFromRepo.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Term>> GetTermsAsOptions()
+        {
+            return await _reserbizRepository.ClientDbContext.Terms
+                                    .Where(t => t.TermParentId == 0)
+                                    .OrderBy(s => s.Name)
+                                    .ToListAsync();
+        }
+
+        public async Task<Term> DuplicateTerm(int termId)
+        {
+            var termDetailsFromRepo = await GetTermAsync(termId);
+
+            // Assigning the current term id as the 
+            // parent term id of the term to be duplicated
+            termDetailsFromRepo.TermParentId = termId;
+
+            DetachEntity<Term>(termDetailsFromRepo);
+            DetachEntities<TermMiscellaneous>(termDetailsFromRepo.TermMiscellaneous);
+
+            await AddEntity(termDetailsFromRepo);
+
+            return termDetailsFromRepo;
         }
 
         public async Task<bool> DeleteMultipleTermsAsync(List<int> termIds)
@@ -66,5 +92,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             return termWithTheSameCode > 0;
         }
+
+        public async Task<bool> CheckTermSpaceTypeAvailability(int termId)
+        {
+            var termFromRepo = await GetEntity(termId).ToObjectAsync();
+            return await _spaceTypeRepository.CheckSpaceTypeAvailability(termFromRepo.SpaceTypeId);
+        }
+
     }
 }

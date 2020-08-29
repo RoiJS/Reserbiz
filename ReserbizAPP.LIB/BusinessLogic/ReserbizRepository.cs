@@ -57,6 +57,35 @@ namespace ReserbizAPP.LIB.BusinessLogic
         }
 
         /// <summary>
+        /// This function will detach an entity from being tracked by EF Core
+        /// </summary>
+        /// <param name="entity">Class type TEntity that is to be detached</param>
+        /// <returns>Detached entity</returns>
+        public T DetachEntity<T>(T entity) where T : class
+        {
+            _dbContext.Entry(entity).State = EntityState.Detached;
+            if (entity.GetType().GetProperty("Id") != null)
+            {
+                entity.GetType().GetProperty("Id").SetValue(entity, 0);
+            }
+            return entity;
+        }
+
+        /// <summary>
+        /// This function will detach a list of entities from being tracked by EF Core
+        /// </summary>
+        /// <param name="entities">Class type of List of TEntity that are to be detached</param>
+        /// <returns>Detached entities</returns>
+        public List<T> DetachEntities<T>(List<T> entities) where T : class  
+        {
+            foreach (var entity in entities)
+            {
+                DetachEntity(entity);
+            }
+            return entities;
+        }
+
+        /// <summary>
         /// This function will remove an entity.
         /// If parameter forceDelete is true, it will perform an actual deletion of the entity, 
         /// If not, it will only mark the entity as deleted and it will not remove it from the db.

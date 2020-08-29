@@ -8,7 +8,6 @@ namespace ReserbizAPP.LIB.Dtos
         [MaxLength(100, ErrorMessage = "{0} must not exceed to {1}.")]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(200, ErrorMessage = "{0} must not exceed to {1}.")]
         public string Description { get; set; }
 

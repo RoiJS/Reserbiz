@@ -3,6 +3,8 @@ import { IEntity } from '../_interfaces/ientity.interface';
 
 export class ContractPaginationList implements IContractPaginationList {
   public totalNumberOfOpenContracts: number;
+  public totalNumberOfInactiveContracts: number;
+  public totalNumberOfExpiredContracts: number;
   public totalItems: number;
   public page: number;
   public numberOfItemsPerPage: number;

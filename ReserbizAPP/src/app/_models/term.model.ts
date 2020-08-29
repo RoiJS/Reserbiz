@@ -7,6 +7,7 @@ import { NumberFormatter } from '../_helpers/number-formatter.helper';
 
 export class Term extends Entity {
   public code: string;
+  public termParentId: number;
   public name: string;
   public spaceTypeId: number;
   public spaceType: SpaceType;

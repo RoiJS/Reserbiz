@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +12,16 @@ namespace ReserbizAPP.LIB.BusinessLogic
     public class AccountStatementRepository
         : BaseRepository<AccountStatement>, IAccountStatementRepository<AccountStatement>
     {
+        private readonly IContractRepository<Contract> _contractRepository;
 
-        public AccountStatementRepository(IReserbizRepository<AccountStatement> reserbizRepository)
+        private readonly IClientSettingsRepository<ClientSettings> _clientSettingsRepository;
+
+        public AccountStatementRepository(IReserbizRepository<AccountStatement> reserbizRepository,
+            IContractRepository<Contract> contractRepository, IClientSettingsRepository<ClientSettings> clientSettingsRepository)
                 : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
-
+            _contractRepository = contractRepository;
+            _clientSettingsRepository = clientSettingsRepository;
         }
 
         public AccountStatement RegisterNewAccountStament(Contract contract)
@@ -127,6 +133,59 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var activeDueAccountStatements = activeAccountStatementsPerContractFromRepo.Where(a => a.IsDueToGeneratePenalty).ToList();
 
             return activeDueAccountStatements;
+        }
+
+        public async Task GenerateContractAccountStatements(int contractId)
+        {
+            var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
+            var contract = await _contractRepository
+                                    .GetEntity(contractId)
+                                    .Includes(
+                                        c => c.Term,
+                                        c => c.Term.TermMiscellaneous,
+                                        c => c.AccountStatements
+                                    )
+                                    .ToObjectAsync();
+
+            while (contract.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue))
+            {
+                var newContractAccountStatement = RegisterNewAccountStament(contract);
+                contract.AccountStatements.Add(newContractAccountStatement);
+            }
+
+            try
+            {
+                await _contractRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Registering new statement of accounts for contract with id={contract.Id} failed on save. Error message: {ex.Message}.", ex);
+            }
+        }
+
+        public async Task GenerateAccountStatementPenalties(int contractId)
+        {
+            var activeContractAccountStatements = await GetActiveAccountStatementsPerContractAsync(contractId);
+
+            foreach (var accountStatement in activeContractAccountStatements)
+            {
+                if (!accountStatement.IsPenaltySettingActive) continue;
+
+                while (accountStatement.IsValidForGeneratingPenalty)
+                {
+                    var newPenaltyItem = RegisterNewPenaltyItem(accountStatement);
+                    accountStatement.PenaltyBreakdowns.Add(newPenaltyItem);
+                }
+
+                try
+                {
+                    await SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Registering new penalty details for statement of account with id={accountStatement.Id} failed on save. Error messsage: {ex.Message}.", ex);
+                }
+            }
         }
     }
 }

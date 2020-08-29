@@ -4,5 +4,6 @@ export interface IEntityFilter {
   searchKeyword?: string;
 
   reset(): void;
+  toFilterJSON(): any;
   isFilterActive(): boolean;
 }

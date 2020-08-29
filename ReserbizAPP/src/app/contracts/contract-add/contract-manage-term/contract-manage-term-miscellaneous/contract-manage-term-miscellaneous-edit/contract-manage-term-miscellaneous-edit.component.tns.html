@@ -1,0 +1,88 @@
+<ns-action-bar
+  [title]="'TERM_MISCELLANEOUS_EDIT_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa action-item-button"
+    (tap)="saveInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <StackLayout class="panel">
+      <RadDataForm
+        width="100%"
+        [source]="termMiscellaneousFormSource"
+        [isReadOnly]="isBusy"
+      >
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="'GENERAL_TEXTS.DETAILS' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="name"
+            [displayName]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.NAME_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.NAME_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.NAME_CONTROL.ERROR_EMPTY_TEXT' | translate"
+            ></TKNonEmptyValidator>
+
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="description"
+            [displayName]="'TERM_MISCELLANEOUS_ADD_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_MISCELLANEOUS_ADD_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="amount"
+            [displayName]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.AMOUNT_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.AMOUNT_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.AMOUNT_CONTROL.ERROR_EMPTY_TEXT' | translate"
+            ></TKNonEmptyValidator>
+
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+      </RadDataForm>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

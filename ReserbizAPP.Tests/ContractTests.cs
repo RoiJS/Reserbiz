@@ -227,6 +227,9 @@ namespace ReserbizAPP.Tests
             contractObject.DurationUnit = DurationEnum.Year;
             contractObject.SetCurrentDateTime(currentDateTime);
 
+            // Set up sample account statement
+            contractObject.AccountStatements = new List<AccountStatement>();
+
             // Act
             var result = contractObject.IsExpired;
 
@@ -245,6 +248,84 @@ namespace ReserbizAPP.Tests
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Year;
             contractObject.SetCurrentDateTime(currentDateTime);
+
+            // Set up sample account statement
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Act
+            var result = contractObject.IsExpired;
+
+            // Assert 
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_ContractIsExpiredReturnTrue_WhenNextDueDateIsGreaterThanTheExpirationDate()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value and also the current date time
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set up sample account statement
+            contractObject.AccountStatements = new List<AccountStatement>();
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                DurationUnit = DurationEnum.Month,
+                DueDate = new DateTime(2020, 08, 17)
+            });
+
+            // Act
+            var result = contractObject.IsExpired;
+
+            // Assert 
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsLessThanTheExpirationDate()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value and also the current date time
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set up sample account statement
+            contractObject.AccountStatements = new List<AccountStatement>();
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                DurationUnit = DurationEnum.Month,
+                DueDate = new DateTime(2020, 08, 14)
+            });
+
+            // Act
+            var result = contractObject.IsExpired;
+
+            // Assert 
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsToTheExpirationDate()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value and also the current date time
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set up sample account statement
+            contractObject.AccountStatements = new List<AccountStatement>();
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                DurationUnit = DurationEnum.Month,
+                DueDate = new DateTime(2020, 08, 15)
+            });
 
             // Act
             var result = contractObject.IsExpired;
@@ -585,6 +666,7 @@ namespace ReserbizAPP.Tests
             contract.SetCurrentDateTime(currentDateTime);
             contract.DurationValue = 3;
             contract.DurationUnit = DurationEnum.Year;
+            contract.AccountStatements = new List<AccountStatement>();
 
             var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
 
@@ -619,6 +701,7 @@ namespace ReserbizAPP.Tests
             contract.SetCurrentDateTime(currentDateTime);
             contract.DurationValue = 2;
             contract.DurationUnit = DurationEnum.Year;
+            contract.AccountStatements = new List<AccountStatement>();
 
             var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
 
@@ -652,6 +735,7 @@ namespace ReserbizAPP.Tests
             contract.SetCurrentDateTime(currentDateTime);
             contract.DurationValue = 2;
             contract.DurationUnit = DurationEnum.Year;
+            contract.AccountStatements = new List<AccountStatement>();
 
             var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
 
@@ -677,6 +761,7 @@ namespace ReserbizAPP.Tests
             contract.SetCurrentDateTime(currentDateTime);
             contract.DurationValue = 1;
             contract.DurationUnit = DurationEnum.Year;
+            contract.AccountStatements = new List<AccountStatement>();
 
             var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
 
@@ -706,6 +791,7 @@ namespace ReserbizAPP.Tests
             contract.SetCurrentDateTime(currentDateTime);
             contract.DurationValue = 2;
             contract.DurationUnit = DurationEnum.Month;
+            contract.AccountStatements = new List<AccountStatement>();
 
             var comparer = new ContractDurationBeforeContractEndsCollectionComparer();
 

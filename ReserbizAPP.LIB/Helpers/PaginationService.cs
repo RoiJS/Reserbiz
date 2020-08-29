@@ -24,7 +24,16 @@ namespace ReserbizAPP.LIB.Helpers
             var items = new List<IEntityDto>();
             var skip = NumberOfItemsPerPage * (pageNumber - 1);
 
-            items = entityDtoList.Skip(skip).Take(NumberOfItemsPerPage).ToList();
+            // Check if current page number is 0, If so
+            // get all items, otherwise, apply pagination
+            if (pageNumber == 0)
+            {
+                items = entityDtoList.ToList();
+            }
+            else
+            {
+                items = entityDtoList.Skip(skip).Take(NumberOfItemsPerPage).ToList();
+            }
 
             entityPaginationListDto.TotalItems = entityDtoList.Count();
             entityPaginationListDto.NumberOfItemsPerPage = NumberOfItemsPerPage;
@@ -40,7 +49,16 @@ namespace ReserbizAPP.LIB.Helpers
             var items = new List<IEntityDto>();
             var skip = NumberOfItemsPerPage * (pageNumber - 1);
 
-            items = entityDtoList.Skip(skip).Take(NumberOfItemsPerPage).ToList();
+            // Check if current page number is 0, If so
+            // get all items, otherwise, apply pagination
+            if (pageNumber == 0)
+            {
+                items = entityDtoList.ToList();
+            }
+            else
+            {
+                items = entityDtoList.Skip(skip).Take(NumberOfItemsPerPage).ToList();
+            }
 
             entityPaginationListDto.TotalItems = entityDtoList.Count();
             entityPaginationListDto.NumberOfItemsPerPage = NumberOfItemsPerPage;

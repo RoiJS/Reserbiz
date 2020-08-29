@@ -10,17 +10,23 @@ import { TenantOption } from '@src/app/_models/tenant-option.model';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
 import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
 import { FilterOptionEnum } from '@src/app/_enum/filter-option.enum';
+import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { ContractFilterFormSource } from '@src/app/_models/contract-filter-form.model';
 
 @Component({
   selector: 'ns-contract-filter-dialog',
   templateUrl: './contract-filter-dialog.component.html',
   styleUrls: ['./contract-filter-dialog.component.scss'],
 })
-export class ContractFilterDialogComponent implements OnInit, AfterViewInit {
+export class ContractFilterDialogComponent
+  extends BaseFormHelper<ContractFilterFormSource>
+  implements OnInit, AfterViewInit {
   @ViewChild(RadDataFormComponent, { static: false })
   contractFilterForm: RadDataFormComponent;
 
   private _contractFilterData: ContractFilter;
+  private _contractFilterFormSource: ContractFilterFormSource;
+  private _contractFilterFormSourceOriginal: ContractFilterFormSource;
 
   private _tenantValueProvider: TenantValueProvider;
   private _tenantOptions;
@@ -30,8 +36,19 @@ export class ContractFilterDialogComponent implements OnInit, AfterViewInit {
     private tenantService: TenantService,
     private translateService: TranslateService
   ) {
-    this._contractFilterData = new ContractFilter();
-    this.initFilterOptions(params.context.contractFilter);
+    super();
+    this._contractFilterData = <ContractFilter>params.context.contractFilter;
+    this._contractFilterFormSource = new ContractFilterFormSource(
+      this._contractFilterData.tenantId,
+      this._contractFilterData.activeFromFilter,
+      this._contractFilterData.activeToFilter,
+      this._contractFilterData.nextDueDateFromFilter,
+      this._contractFilterData.nextDueDateToFilter,
+      this._contractFilterData.openContract
+    );
+
+    this._contractFilterFormSourceOriginal = this._contractFilterFormSource.clone();
+    this.initFilterOptions(this._contractFilterData);
   }
 
   ngOnInit() {
@@ -45,7 +62,7 @@ export class ContractFilterDialogComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this._tenantValueProvider.setCurrenValue(
-        this._contractFilterData.tenantId
+        this._contractFilterFormSource.tenantId
       );
 
       this._tenantOptions = this._tenantValueProvider.tenantOptions;
@@ -54,57 +71,86 @@ export class ContractFilterDialogComponent implements OnInit, AfterViewInit {
 
   initFilterOptions(contractFilter: ContractFilter) {
     if (contractFilter.tenantId) {
-      this._contractFilterData.tenantId = Number(contractFilter.tenantId);
+      this._contractFilterFormSource.tenantId = Number(contractFilter.tenantId);
     }
 
-    if (contractFilter.activeFrom) {
-      this._contractFilterData.activeFrom = new Date(contractFilter.activeFrom);
-    }
-
-    if (contractFilter.activeTo) {
-      this._contractFilterData.activeTo = new Date(contractFilter.activeTo);
-    }
-
-    if (contractFilter.nextDueDateFrom) {
-      this._contractFilterData.nextDueDateFrom = new Date(
-        contractFilter.nextDueDateFrom
+    if (contractFilter.activeFromFilter) {
+      this._contractFilterFormSource.activeFrom = new Date(
+        contractFilter.activeFromFilter
       );
     }
 
-    if (contractFilter.nextDueDateTo) {
-      this._contractFilterData.nextDueDateTo = new Date(
-        contractFilter.nextDueDateTo
+    if (contractFilter.activeToFilter) {
+      this._contractFilterFormSource.activeTo = new Date(
+        contractFilter.activeToFilter
+      );
+    }
+
+    if (contractFilter.nextDueDateFromFilter) {
+      this._contractFilterFormSource.nextDueDateFrom = new Date(
+        contractFilter.nextDueDateFromFilter
+      );
+    }
+
+    if (contractFilter.nextDueDateToFilter) {
+      this._contractFilterFormSource.nextDueDateTo = new Date(
+        contractFilter.nextDueDateToFilter
       );
     }
 
     if (contractFilter.openContract) {
-      this._contractFilterData.openContract = Boolean(
+      this._contractFilterFormSource.openContract = Boolean(
         contractFilter.openContract
       );
     }
   }
 
   onConfirm() {
+    const filterHasChanged = !this._contractFilterFormSource.isSame(
+      this._contractFilterFormSourceOriginal
+    );
+    if (filterHasChanged) {
+      this.setFilterValues();
+    }
     this.params.closeCallback({
-      result: FilterOptionEnum.Confirm,
+      filterHasChanged: filterHasChanged,
       filter: this._contractFilterData,
     });
   }
 
   onReset() {
-    this._contractFilterData.reset();
-    this.params.closeCallback({
-      result: FilterOptionEnum.Reset,
-      filter: this._contractFilterData,
-    });
+    this.resetFilterValues();
+  }
+
+  setFilterValues() {
+    this._contractFilterData.tenantId = this._contractFilterFormSource.tenantId;
+    this._contractFilterData.activeFromFilter = this._contractFilterFormSource.activeFrom;
+    this._contractFilterData.activeToFilter = this._contractFilterFormSource.activeTo;
+    this._contractFilterData.nextDueDateFromFilter = this._contractFilterFormSource.nextDueDateFrom;
+    this._contractFilterData.nextDueDateToFilter = this._contractFilterFormSource.nextDueDateTo;
+    this._contractFilterData.openContract = this._contractFilterFormSource.openContract;
+  }
+
+  resetFilterValues() {
+    this._contractFilterFormSource = this.reloadFormSource(
+      this._contractFilterFormSource,
+      <ContractFilterFormSource>{
+        tenantId: null,
+        activeFrom: null,
+        activeTo: null,
+        nextDueDateFrom: null,
+        nextDueDateTo: null,
+        openContract: null,
+      }
+    );
   }
 
   closeDialog() {
     this.params.closeCallback();
   }
 
-  get contractFilterData() {
-    return this._contractFilterData;
+  get contractFilterFormSource() {
+    return this._contractFilterFormSource;
   }
 
   get tenantOptions(): {

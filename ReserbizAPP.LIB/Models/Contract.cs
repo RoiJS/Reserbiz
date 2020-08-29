@@ -63,7 +63,10 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (CurrentDateTime >= ExpirationDate);
+                // Contract is considered as expired based on the following criteria:
+                // (1) Current Date is greater than or equal to the expiration date
+                // (2) Next duedate is greater than expiration date.
+                return (CurrentDateTime >= ExpirationDate || NextDueDate > ExpirationDate);
             }
         }
 
@@ -100,7 +103,7 @@ namespace ReserbizAPP.LIB.Models
                 return (this.AccountStatements.Count == 0);
             }
         }
-        
+
         // We can determine if contract is archived or not
         // if contract is either expired or inactive
         public bool IsArchived
@@ -113,8 +116,13 @@ namespace ReserbizAPP.LIB.Models
 
         public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
         {
-            return ((NextDueDate <= ExpirationDate) && (EffectiveDate == NextDueDate
-                || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
+            // Generating new account statement is based on these criteria below:
+            // (1) NextDuedate should be before or on the exact date of expiration date.
+            // (2) EffectiveDate should be before or today.
+            // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
+            return ((NextDueDate <= ExpirationDate)
+                    && (EffectiveDate <= CurrentDateTime)
+                    && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
         }
 
         private DateTime CalculateExpirationDate()
@@ -159,7 +167,7 @@ namespace ReserbizAPP.LIB.Models
 
             // Check if contract is open
             if (IsOpenContract || IsExpired) return durationBeforeContractEnds;
-    
+
             var totalDaysBeforeContractEnds = ExpirationDate.Subtract(CurrentDateTime).TotalDays;
 
             ContractHelper.CalculateDurationValueBeforeContractEnds(ref durationBeforeContractEnds, totalDaysBeforeContractEnds);

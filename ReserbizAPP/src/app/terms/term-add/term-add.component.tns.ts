@@ -106,6 +106,7 @@ export class TermAddComponent implements OnInit, OnDestroy {
     const newTerm = e.newTerm;
     const newTermMiscellaneous = this.addTermMiscellaneousService.entityList
       .value;
+
     // Save the new term information
     this.dialogService
       .confirm(

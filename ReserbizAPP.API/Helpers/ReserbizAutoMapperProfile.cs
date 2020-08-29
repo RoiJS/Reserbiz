@@ -23,6 +23,7 @@ namespace ReserbizAPP.API.Helpers
              .ForMember(dest => dest.IsDeletable,
                     opt => opt.MapFrom(src => src.IsDeletable));
             CreateMap<SpaceType, SpaceTypeOptionDto>();
+            CreateMap<Term, TermOptionDto>();
             CreateMap<SpaceType, SpaceTypeTermDetailDto>();
             CreateMap<Term, TermDetailDto>()
                 .ForMember(dest => dest.DurationUnitText,

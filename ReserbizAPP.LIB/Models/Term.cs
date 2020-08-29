@@ -14,6 +14,8 @@ namespace ReserbizAPP.LIB.Models
         // Name of the term.
         public string Name { get; set; }
 
+        public int TermParentId { get; set; }
+
         public int SpaceTypeId { get; set; }
 
         public SpaceType SpaceType { get; set; }

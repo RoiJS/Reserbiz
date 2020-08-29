@@ -2,7 +2,7 @@ import { IBaseEntityMapper } from '../_interfaces/ibase-entity-mapper.interface'
 import { IBaseDtoEntityMapper } from '../_interfaces/ibase-dto-entity-mapper.interface';
 
 import { Contract } from '../_models/contract.model';
-import { ContractDetailsFormSource } from '../_models/contact-details-form.model';
+import { ContractDetailsFormSource } from '../_models/contract-details-form.model';
 import { ContractDurationBeforeContractEnds } from '../_models/contract-duration-before-contract-ends.model';
 
 import { ContractDto } from '../_dtos/contract-dto';
@@ -26,6 +26,7 @@ export class ContractMapper
     contract.expirationDate = new Date(c.expirationDate);
     contract.isExpired = c.isExpired;
     contract.isDeletable = c.isDeletable;
+    contract.isActive = c.isActive;
 
     contract.nextDueDate = new Date(c.nextDueDate);
 
@@ -34,8 +35,11 @@ export class ContractMapper
         (cd: ContractDurationBeforeContractEnds) => {
           const contractDurationBeforeContractEnds = new ContractDurationBeforeContractEnds();
 
-          contractDurationBeforeContractEnds.durationValue = Math.round(cd.durationValue);
-          contractDurationBeforeContractEnds.durationUnitText = cd.durationUnitText;
+          contractDurationBeforeContractEnds.durationValue = Math.round(
+            cd.durationValue
+          );
+          contractDurationBeforeContractEnds.durationUnitText =
+            cd.durationUnitText;
 
           return contractDurationBeforeContractEnds;
         }
@@ -68,6 +72,7 @@ export class ContractMapper
       contractFormSource.termId,
       contractFormSource.effectiveDate,
       contractFormSource.isOpenContract,
+      contractFormSource.durationUnit,
       contractFormSource.durationValue
     );
 
@@ -88,7 +93,18 @@ export class ContractMapper
     return contractFormSource;
   }
 
-  mapFormSourceToEntity(formSource: ContractDetailsFormSource): Contract {
-    throw new Error('Not implemented');
+  mapFormSourceToEntity(
+    contractFormSource: ContractDetailsFormSource
+  ): Contract {
+    const contract = new Contract();
+
+    contract.code = contractFormSource.code;
+    contract.tenantId = contractFormSource.tenantId;
+    contract.termId = contractFormSource.termId;
+    contract.effectiveDate = contractFormSource.effectiveDate;
+    contract.isOpenContract = contractFormSource.isOpenContract;
+    contract.durationUnit = contractFormSource.durationUnit;
+    contract.durationValue = contractFormSource.durationValue;
+    return contract;
   }
 }

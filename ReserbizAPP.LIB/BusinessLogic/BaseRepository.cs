@@ -52,6 +52,16 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _reserbizRepository.DeleteMultipleEntities(entities, forceDelete);
         }
 
+        public T DetachEntity<T>(T entity) where T : class
+        {
+            return _reserbizRepository.DetachEntity<T>(entity);
+        }
+
+        public List<T> DetachEntities<T>(List<T> entities) where T : class
+        {
+            return _reserbizRepository.DetachEntities<T>(entities);
+        }
+
         public void SetEntityStatus(TEntity entity, bool status)
         {
             _reserbizRepository.SetEntityStatus(entity, status);

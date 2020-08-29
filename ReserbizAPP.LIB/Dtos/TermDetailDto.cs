@@ -67,6 +67,5 @@ namespace ReserbizAPP.LIB.Dtos
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
 
         public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }
-
     }
 }

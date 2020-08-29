@@ -4,7 +4,6 @@ import {
   OnInit,
   OnDestroy,
   NgZone,
-  ElementRef,
   ChangeDetectorRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -20,15 +19,13 @@ import { BaseListComponent } from '@src/app/shared/component/base-list.component
 
 import { Contract } from '@src/app/_models/contract.model';
 import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { ContractFilterDialogComponent } from '../contract-filter-dialog/contract-filter-dialog.component';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { StorageService } from '@src/app/_services/storage.service';
 import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
-import { ContractFilterDialogComponent } from '../contract-filter-dialog/contract-filter-dialog.component';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
-import { IContractFilter } from '@src/app/_interfaces/icontract-filter.interface';
-import { FilterOptionEnum } from '@src/app/_enum/filter-option.enum';
 
 @Component({
   selector: 'ns-contract-list',
@@ -94,36 +91,6 @@ export class ContractListComponent extends BaseListComponent<Contract>
   }
 
   initDialogTexts() {
-    this._deleteMultipleItemsDialogTexts = {
-      title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACTS_DIALOG.TITLE'
-      ),
-      confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACTS_DIALOG.CONFIRM_MESSAGE'
-      ),
-      successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACTS_DIALOG.SUCCESS_MESSAGE'
-      ),
-      errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACTS_DIALOG.ERROR_MESSAGE'
-      ),
-    };
-
-    this._deleteItemDialogTexts = {
-      title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACT_DIALOG.TITLE'
-      ),
-      confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
-      ),
-      successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
-      ),
-      errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.REMOVE_CONTRACT_DIALOG.ERROR_MESSAGE'
-      ),
-    };
-
     this._deactivateMultipleItemDialogTexts = {
       title: this.translateService.instant(
         'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.TITLE'
@@ -184,21 +151,23 @@ export class ContractListComponent extends BaseListComponent<Contract>
     }
 
     if (activeFrom) {
-      (<ContractFilter>this._entityFilter).activeFrom = new Date(activeFrom);
+      (<ContractFilter>this._entityFilter).activeFromFilter = new Date(
+        activeFrom
+      );
     }
 
     if (activeTo) {
-      (<ContractFilter>this._entityFilter).activeTo = new Date(activeTo);
+      (<ContractFilter>this._entityFilter).activeToFilter = new Date(activeTo);
     }
 
     if (nextDueDateFrom) {
-      (<ContractFilter>this._entityFilter).nextDueDateFrom = new Date(
+      (<ContractFilter>this._entityFilter).nextDueDateFromFilter = new Date(
         nextDueDateFrom
       );
     }
 
     if (nextDueDateTo) {
-      (<ContractFilter>this._entityFilter).nextDueDateTo = new Date(
+      (<ContractFilter>this._entityFilter).nextDueDateToFilter = new Date(
         nextDueDateTo
       );
     }
@@ -212,10 +181,10 @@ export class ContractListComponent extends BaseListComponent<Contract>
 
   storeFilterOptions(contractFilter: ContractFilter) {
     const tenantId = contractFilter.tenantId;
-    const activeFrom = contractFilter.activeFrom;
-    const activeTo = contractFilter.activeTo;
-    const nextDueDateFrom = contractFilter.nextDueDateFrom;
-    const nextDueDateTo = contractFilter.nextDueDateTo;
+    const activeFrom = contractFilter.activeFromFilter;
+    const activeTo = contractFilter.activeToFilter;
+    const nextDueDateFrom = contractFilter.nextDueDateFromFilter;
+    const nextDueDateTo = contractFilter.nextDueDateToFilter;
     const openContract = contractFilter.openContract;
 
     if (tenantId) {
@@ -288,12 +257,16 @@ export class ContractListComponent extends BaseListComponent<Contract>
 
   openFilterDialog() {
     this.initFilterDialog().then(
-      (data: { result: FilterOptionEnum; filter: ContractFilter }) => {
+      (data: { filterHasChanged: boolean; filter: ContractFilter }) => {
         if (!data) {
           return;
         }
 
-        if (data.result === FilterOptionEnum.Confirm) {
+        if (!data.filterHasChanged) {
+          return;
+        }
+
+        if (data.filter.isFilterActive()) {
           this.storeFilterOptions(data.filter);
         } else {
           (<ContractFilter>this._entityFilter).reset();

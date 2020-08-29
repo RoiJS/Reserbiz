@@ -22,7 +22,6 @@ namespace ReserbizAPP.API.Controllers
         private readonly ITenantRepository<Tenant> _tenantRepository;
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
-        private readonly IClientSettingsRepository<ClientSettings> _clientSettingsRepository;
 
         public AccountStatementController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
             ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository, IClientSettingsRepository<ClientSettings> clientSettingsRepository,
@@ -32,7 +31,6 @@ namespace ReserbizAPP.API.Controllers
             _tenantRepository = tenantRepository;
             _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
-            _clientSettingsRepository = clientSettingsRepository;
         }
 
         [HttpGet("{id}")]
@@ -57,13 +55,11 @@ namespace ReserbizAPP.API.Controllers
 
             return Ok(accountStatementToReturn);
         }
-        
+
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
         {
-            var currentDate = DateTime.Now;
-            var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
 
             foreach (var tenant in activeTenantsFromRepo)
@@ -72,19 +68,13 @@ namespace ReserbizAPP.API.Controllers
 
                 foreach (var contract in activeTenantContracts)
                 {
-                    while (contract.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue))
-                    {
-                        var newContractAccountStatement = _accountStatementRepository.RegisterNewAccountStament(contract);
-                        contract.AccountStatements.Add(newContractAccountStatement);
-                    }
-
                     try
                     {
-                        await _contractRepository.SaveChanges();
+                        await _accountStatementRepository.GenerateContractAccountStatements(contract.Id);
                     }
                     catch (Exception exception)
                     {
-                        throw new Exception($"Registering new account statement failed on save. Error messsage: {exception.Message}");
+                        throw new Exception(exception.Message);
                     }
                 }
             }
@@ -104,26 +94,13 @@ namespace ReserbizAPP.API.Controllers
 
                 foreach (var contract in activeTenantContracts)
                 {
-                    var activeContractAccountStatements = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contract.Id);
-
-                    foreach (var accountStatement in activeContractAccountStatements)
+                    try
                     {
-                        if (!accountStatement.IsPenaltySettingActive) continue;
-
-                        while (accountStatement.IsValidForGeneratingPenalty)
-                        {
-                            var newPenaltyItem = _accountStatementRepository.RegisterNewPenaltyItem(accountStatement);
-                            accountStatement.PenaltyBreakdowns.Add(newPenaltyItem);
-                        }
-
-                        try
-                        {
-                            await _accountStatementRepository.SaveChanges();
-                        }
-                        catch (Exception exception)
-                        {
-                            throw new Exception($"Registering new penalty details failed on save. Error messsage: {exception.Message}");
-                        }
+                        await _accountStatementRepository.GenerateAccountStatementPenalties(contract.Id);
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new Exception(exception.Message);
                     }
                 }
             }

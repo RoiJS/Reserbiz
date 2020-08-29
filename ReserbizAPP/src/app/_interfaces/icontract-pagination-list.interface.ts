@@ -1,6 +1,7 @@
 import { IEntityPaginationList } from './ientity-pagination-list.interface';
 
-export interface IContractPaginationList
-  extends IEntityPaginationList {
+export interface IContractPaginationList extends IEntityPaginationList {
   totalNumberOfOpenContracts: number;
+  totalNumberOfInactiveContracts: number;
+  totalNumberOfExpiredContracts: number;
 }

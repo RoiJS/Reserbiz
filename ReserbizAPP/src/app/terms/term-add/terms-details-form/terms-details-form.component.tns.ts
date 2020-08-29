@@ -214,14 +214,14 @@ export class TermsDetailsFormComponent
     dataForm.notifyValidated('name', isNameValid);
     dataForm.notifyValidated('spaceTypeId', isSpaceTypeValid);
 
-    return !!(isCodeValid && isNameValid && isSpaceTypeValid);
+    return Boolean(isCodeValid && isNameValid && isSpaceTypeValid);
   }
 
   onCancelTermDetailsSavedEmit() {
     if (this.termForm) {
       this.mapFormSourceToEntity();
 
-      const hasContent = !!(
+      const hasContent = Boolean(
         this._newTermDetails.hasContent() ||
         this.addTermMiscellaneous.entityList.value.length > 0
       );

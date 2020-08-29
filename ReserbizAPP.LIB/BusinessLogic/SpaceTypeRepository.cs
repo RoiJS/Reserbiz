@@ -59,7 +59,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // These are marked as deletable false.
             var spaceTypesWithTermsAndContracts = (from stc in spaceTypesLeftJoinTermsAndContracts
 
-                                                   where stc.space_term != null
+                                                   where stc.space_term != null && stc.term_contract != null
 
                                                    group stc by new
                                                    {
@@ -139,6 +139,90 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             DeleteMultipleEntities(selectedSpaceTypes);
             return await SaveChanges();
+        }
+
+        public async Task<bool> CheckSpaceTypeAvailability(int spaceTypeId)
+        {
+
+            var spaceTypeFromRepo = await GetEntity(spaceTypeId).ToObjectAsync();
+            var spaceTypeUsedSlot = await GetSpaceTypeCurrentUsedSlot(spaceTypeId);
+            var spaceTypeCurrentSlot = spaceTypeFromRepo.AvailableSlot;
+            var isSpaceTypeAvailable = (spaceTypeCurrentSlot - spaceTypeUsedSlot) > 0;
+
+            return isSpaceTypeAvailable;
+        }
+
+        public async Task<bool> ValidateSpaceTypeProposedNewAvailableSlot(int spaceTypeId, int proposedNewSlotValue)
+        {
+            var spaceTypeUsedSlot = await GetSpaceTypeCurrentUsedSlot(spaceTypeId);
+            var isProposedAvailableSlotValid = proposedNewSlotValue >= spaceTypeUsedSlot;
+
+            return isProposedAvailableSlotValid;
+        }
+
+
+        private async Task<int> GetSpaceTypeCurrentUsedSlot(int spaceTypeId)
+        {
+            // Performs left join on Space types, Terms and Contracts tables
+            var spaceTypesLeftJoinTermsAndContracts = await (from space_type in _reserbizRepository.ClientDbContext.SpaceTypes
+
+                                                                 // Inner Join SpaceTypes and Terms
+                                                             join term in _reserbizRepository.ClientDbContext.Terms
+                                                             on space_type.Id equals term.SpaceTypeId into spt_group
+                                                             from space_term in spt_group.DefaultIfEmpty()
+
+                                                                 // Inner join Terms and Contracts
+                                                             join contract in _reserbizRepository.ClientDbContext.Contracts
+                                                             on new
+                                                             {
+                                                                 Id = space_term.Id,
+                                                                 IsActive = true,
+                                                                 IsDeleted = false
+                                                             }
+                                                            equals
+                                                            new
+                                                            {
+                                                                Id = contract.TermId,
+                                                                IsActive = contract.IsActive,
+                                                                IsDeleted = contract.IsDelete
+                                                            } into tc_group
+                                                             from term_contract in tc_group.DefaultIfEmpty()
+
+                                                                 // Make sure deleted space types will no longer available on the list
+                                                             where space_type.IsDelete == false
+                                                                && space_type.Id == spaceTypeId
+
+                                                             select new
+                                                             {
+                                                                 space_type,
+                                                                 space_term,
+                                                                 term_contract
+                                                             }).ToListAsync();
+
+
+            // These are space types that are attached to Term/s and Term/s are attached to Contract/s.
+            // These are marked as deletable false.
+            var spaceTypesWithTermsAndContracts = (from stc in spaceTypesLeftJoinTermsAndContracts
+
+                                                   where stc.space_term != null
+                                                    && stc.term_contract != null
+
+                                                   group stc by new
+                                                   {
+                                                       stc.space_type.Id,
+                                                       stc.space_type.Name,
+                                                       stc.space_type.Description,
+                                                       stc.space_type.Rate,
+                                                       stc.space_type.AvailableSlot,
+                                                       stc.space_type.IsActive
+                                                   } into g
+
+                                                   select new
+                                                   {
+                                                       UsedSlot = g.Count()
+                                                   }).FirstOrDefault();
+
+            return spaceTypesWithTermsAndContracts.UsedSlot;
         }
     }
 }

@@ -235,7 +235,7 @@ export class BaseListComponent<TEntity extends IEntity>
       this.navigateToOtherPage(url.replace(':id', selectedItem.id.toString()));
     } else {
       // This will prevent the item from being selected
-      if (!selectedItem.isDeletable) {
+      if (!selectedItem.isDeletable && this._deleteMultipleItemsDialogTexts) {
         this.appListView.listView.deselectItemAt(currentIndex);
         this.dialogService.alert(
           this.translateService.instant(
@@ -562,8 +562,14 @@ export class BaseListComponent<TEntity extends IEntity>
     const swipeLimits = args.data.swipeLimits;
     const swipeView = args['object'];
     const itemSwipeActions = swipeView.getViewById<View>('itemSwipeActions');
-    swipeLimits.right = itemSwipeActions.getMeasuredWidth();
-    swipeLimits.threshold = itemSwipeActions.getMeasuredWidth();
+
+    if (itemSwipeActions) {
+      swipeLimits.right = itemSwipeActions.getMeasuredWidth();
+      swipeLimits.threshold = itemSwipeActions.getMeasuredWidth();
+    } else {
+      swipeLimits.right = 0;
+      swipeLimits.threshold = 0;
+    }
   }
 
   /**

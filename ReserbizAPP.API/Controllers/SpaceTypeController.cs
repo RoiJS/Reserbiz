@@ -124,5 +124,27 @@ namespace ReserbizAPP.API.Controllers
 
             throw new Exception($"Error when deleting space types!");
         }
+
+        [HttpGet("checkSpaceTypeAvailability/{spaceTypeId}")]
+        public async Task<IActionResult> CheckSpaceTypeAvailability(int spaceTypeId)
+        {
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(spaceTypeId).ToObjectAsync();
+
+            if (spaceTypeFromRepo == null)
+                return BadRequest("Space Type does not exists");
+
+            return Ok(await _spaceTypeRepo.CheckSpaceTypeAvailability(spaceTypeId));
+        }
+
+        [HttpGet("validateSpaceTypeProposedNewAvailableSlot/{spaceTypeId}/{proposedNewSlot}")]
+        public async Task<IActionResult> ValidateSpaceTypeProposedNewAvailableSlot(int spaceTypeId, int proposedNewSlot)
+        {
+            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(spaceTypeId).ToObjectAsync();
+
+            if (spaceTypeFromRepo == null)
+                return BadRequest("Space Type does not exists");
+
+            return Ok(await _spaceTypeRepo.ValidateSpaceTypeProposedNewAvailableSlot(spaceTypeId, proposedNewSlot));
+        }
     }
 }

@@ -87,6 +87,25 @@ export class SpaceTypeService extends BaseService<SpaceType>
     );
   }
 
+  async checkAvailability(spaceTypeId: number): Promise<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this._apiBaseUrl}/spaceType/checkSpaceTypeAvailability/${spaceTypeId}`
+      )
+      .toPromise();
+  }
+
+  async validateSpaceTypeProposedNewAvailableSlot(
+    spaceTypeId: number,
+    proposedNewValue: number
+  ): Promise<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this._apiBaseUrl}/spaceType/validateSpaceTypeProposedNewAvailableSlot/${spaceTypeId}/${proposedNewValue}`
+      )
+      .toPromise();
+  }
+
   reloadListFlag() {
     this._loadSpaceTypesFlag.next();
   }

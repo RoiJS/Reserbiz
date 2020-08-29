@@ -12,4 +12,8 @@ export class EntityFilter implements IEntityFilter {
   isFilterActive() {
     return false;
   }
+
+  toFilterJSON() {
+    return {};
+  }
 }

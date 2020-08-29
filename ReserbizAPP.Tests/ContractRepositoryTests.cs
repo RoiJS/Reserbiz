@@ -299,7 +299,7 @@ namespace ReserbizAPP.Tests
 
             CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
         }
-        
+
         [TestCase("2019-12-02")]
         public void Test_GetFilteredContracts_WhenFilterActiveToIsEqualtoTheContractExpirationDate(DateTime activeTo)
         {

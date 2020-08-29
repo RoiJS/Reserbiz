@@ -19,6 +19,10 @@ export class EntityService<TEntity extends IEntity>
     this._entityDetails.next(new this.tentity());
   }
 
+  isSame(otherEntityDetails: TEntity): boolean {
+    return true;
+  }
+
   get entityDetails(): BehaviorSubject<TEntity> {
     return this._entityDetails;
   }

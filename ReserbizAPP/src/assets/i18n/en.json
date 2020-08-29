@@ -437,7 +437,8 @@
       },
       "SLOT_CONTROL": {
         "CONTROL_LABEL": "Slot:",
-        "HINT_TEXT": "Please enter slot"
+        "HINT_TEXT": "Please enter slot",
+        "INVALID_AVAILABLE_SLOT": "Available slot should not be less than the current used slot. Please enter a valid value."
       },
       "EDIT_DIALOG": {
         "TITLE": "Edit Space Type",
@@ -588,6 +589,7 @@
 
     "TABS_OPTIONS": {
       "NEW_TERM": "New Term",
+      "TERM_DETAILS": "Term Details",
       "ADD_MISCELLANEOUS": "Miscellaneous"
     }
   },
@@ -823,7 +825,8 @@
       "SEARCH_BAR_HINT_TEXT": "Enter contract code here...",
       "OPTIONS": {
         "MULTIPLE_SELECT": "Multiple Select",
-        "ARCHIVED_LIST": "See Archived List"
+        "ARCHIVED_LIST": "Archived List",
+        "CALENDAR_VIEW": "Calendar View"
       }
     },
     "HEADER_SECTION": {
@@ -834,18 +837,6 @@
       "OPEN_CONTRACT": "Open Contract",
       "EXPIRATION": "Expiration: ",
       "EXPIRED": "Expired"
-    },
-    "REMOVE_CONTRACTS_DIALOG": {
-      "TITLE": "Remove selected contracts",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected contracts?",
-      "SUCCESS_MESSAGE": "Selected contract have been deleted!",
-      "ERROR_MESSAGE": "Failed to delete selected contracts. Please try again later."
-    },
-    "REMOVE_CONTRACT_DIALOG": {
-      "TITLE": "Remove selected contract",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected contract?",
-      "SUCCESS_MESSAGE": "Selected contract has been deleted!",
-      "ERROR_MESSAGE": "Failed to delete contract contract. Please try again later."
     },
     "ARCHIVE_CONTRACTS_DIALOG": {
       "TITLE": "Archive selected contracts",
@@ -872,6 +863,125 @@
       "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
       "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
       "OPEN_CONTRACT_LABEL": "Open Contract:"
+    }
+  },
+
+  "CONTRACT_CALENDAR_VIEW_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contracts Calendar View"
+    },
+    "CALENDAR_VIEW_MODES_BUTTON": {
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired",
+      "EMPTY_LIST_LABEL_TEXT": "Select Date To View Contracts"
+    },
+    "ARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Archive selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    }
+  },
+
+  "CONTRACT_ARCHIVED_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Archived Contracts",
+      "SEARCH_BAR_HINT_TEXT": "Enter contract code here...",
+      "OPTIONS": {
+        "MULTIPLE_SELECT": "Multiple Select",
+        "ARCHIVED_LIST": "Archived List",
+        "CALENDAR_VIEW": "Calendar View"
+      }
+    },
+    "HEADER_SECTION": {
+      "TOTAL_CONTRACTS": "Total Archived Contracts",
+      "EXPIRED_CONTRACTS": "Expired Contracts",
+      "ARCHIVED_CONTRACTS": "Inactive Contracts"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
+    "ARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Archive selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    }
+  },
+
+  "CONTRACT_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Add Contract Details",
+      "OPTIONS": {
+        "MANAGE_TERM_DETAILS": "Manage Term Details"
+      }
+    },
+    "FORM_CONTROL": {
+      "CODE_CONTROL": {
+        "CONTROL_LABEL": "Code:",
+        "HINT_TEXT": "Enter code here",
+        "EMPTY_ERROR_MESSAGE": "Please enter code",
+        "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+        "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+      },
+      "TENANT_CONTROL": {
+        "CONTROL_LABEL": "Tenant:",
+        "EMPTY_ERROR_MESSAGE": "Please select tenant"
+      },
+      "TERM_CONTROL": {
+        "CONTROL_LABEL": "Term:",
+        "EMPTY_ERROR_MESSAGE": "Please select term",
+        "TERM_SPACE_TYPE_NOT_AVAILABLE": "The space type attached on this term has no available slot anymore. Please select different space type."
+      },
+      "EFFECTIVE_DATE_CONTROL": {
+        "CONTROL_LABEL": "Effective Date:",
+        "HINT_TEXT": "Please enter effective date"
+      },
+      "OPEN_CONTRACT_CONTROL": {
+        "CONTROL_LABEL": "Open Contract:"
+      },
+      "DURATION_UNIT_CONTROL": {
+        "CONTROL_LABEL": "Duration Unit:",
+        "EMPTY_ERROR_MESSAGE": "Please select duration unit"
+      },
+      "DURATION_VALUE_CONTROL": {
+        "CONTROL_LABEL": "Duration Value:",
+        "EMPTY_ERROR_MESSAGE": "Please provide duration value"
+      },
+      "EXPIRATION_DATE_CONTROL": {
+        "CONTROL_LABEL": "Expiration Date:"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add New Contract",
+        "CONFIRM_MESSAGE": "Are you sure to save new contract?",
+        "SUCCESS_MESSAGE": "New contract has been saved!",
+        "ERROR_MESSAGE": "Saving new contract failed. Please try again later."
+      },
+      "NO_SELECTED_TERM_DIALOG": {
+        "TITLE": "No Selected Term",
+        "WARNING_MESSAGE": "Please select term from the list."
+      }
     }
   }
 }

@@ -68,6 +68,12 @@ export class Contract extends Entity {
     this.contractDurationBeforeContractEndsText = this.contractDurationBeforeContractEndsText.trim();
   }
 
+  get backgroundColor(): string {
+    const randomIndex = this.getNumberFirstDigit();
+    // Get color randomly from the list
+    return this.colorList[randomIndex];
+  }
+
   private getDurationUnitText(
     durationValue: number,
     durationUnitText: string,
@@ -86,6 +92,11 @@ export class Contract extends Entity {
           );
 
     return durationName;
+  }
+
+  private getNumberFirstDigit(): number {
+    const stringId = this.id.toString().split('');
+    return +stringId[stringId.length - 1];
   }
 
   get nextDueDateMonthName(): string {

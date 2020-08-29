@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Term } from '../_models/term.model';
 import { BaseService } from './base.service';
@@ -10,6 +11,8 @@ import { IBaseService } from '../_interfaces/ibase-service.interface';
 import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
+import { TranslateService } from '@ngx-translate/core';
+import { TermOption } from '../_models/term-option.model';
 
 @Injectable({ providedIn: 'root' })
 export class TermService extends BaseService<Term>
@@ -31,6 +34,29 @@ export class TermService extends BaseService<Term>
     return await this.getEntityFromServer(
       `${this._apiBaseUrl}/term/${termId}`
     ).toPromise();
+  }
+
+  getTermsAsOptions(
+    translateService: TranslateService
+  ): Observable<TermOption[]> {
+    return this.http
+      .get<TermOption[]>(`${this._apiBaseUrl}/term/getTermsAsOptions`)
+      .pipe(
+        map((stos: TermOption[]) => {
+          return stos.map((st: TermOption) => {
+            const spaceTypeOption = new TermOption();
+            spaceTypeOption.id = st.id;
+            spaceTypeOption.name = st.name;
+            spaceTypeOption.isDelete = st.isDelete;
+            spaceTypeOption.isActive = st.isActive;
+            spaceTypeOption.canBeSelected = st.canBeSelected;
+            spaceTypeOption.inactiveText = translateService.instant(
+              'GENERAL_TEXTS.INACTIVE'
+            );
+            return spaceTypeOption;
+          });
+        })
+      );
   }
 
   deleteMultipleItems(terms: Term[]): Observable<void> {
@@ -107,6 +133,14 @@ export class TermService extends BaseService<Term>
     return await this.http
       .get<boolean>(
         `${this._apiBaseUrl}/term/checkTermCodeIfExists/${termId}/${termCode}`
+      )
+      .toPromise();
+  }
+
+  async checkSpaceTypeAvailability(termId: number): Promise<boolean> {
+    return this.http
+      .get<boolean>(
+        `${this._apiBaseUrl}/term/checkTermSpaceTypeAvailability/${termId}`
       )
       .toPromise();
   }

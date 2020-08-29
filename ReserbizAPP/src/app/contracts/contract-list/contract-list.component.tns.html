@@ -19,6 +19,12 @@
   <ActionItem
     [text]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.ARCHIVED_LIST' | translate"
     android.position="popup"
+    (tap)="navigateToOtherPage('contracts/contract-archived-list')"
+  ></ActionItem>
+  <ActionItem
+    [text]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.CALENDAR_VIEW' | translate"
+    android.position="popup"
+    (tap)="navigateToOtherPage('contracts/contract-calendar')"
   ></ActionItem>
 </ns-action-bar>
 
@@ -32,11 +38,6 @@
     icon="font://&#xf1c6;"
     class="fa fa-solid action-item-button"
     (tap)="deactivateSelectedItems()"
-  ></ActionItem>
-  <ActionItem
-    icon="font://&#xf2ed;"
-    class="fa fa-solid action-item-button"
-    (tap)="deleteSelectedItems()"
   ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
@@ -212,9 +213,9 @@
                 *ngIf="!contract.isExpired"
               >
                 <label
-                  class="next-due-date-label__day-name"
+                  class="next-due-date-label__month-name"
                   horizontalAlignment="center"
-                  [text]="contract.nextDueDateDayName"
+                  [text]="contract.nextDueDateMonthName"
                 ></label>
 
                 <label
@@ -224,9 +225,9 @@
                 ></label>
 
                 <label
-                  class="next-due-date-label__month-name"
+                  class="next-due-date-label__day-name"
                   horizontalAlignment="center"
-                  [text]="contract.nextDueDateMonthName"
+                  [text]="contract.nextDueDateDayName"
                 ></label>
               </StackLayout>
             </StackLayout>
@@ -312,13 +313,6 @@
           >
             <button
               alignSelf="center"
-              class="fa fa-solid app-list-item-swipe-template__option"
-              text="&#xf2ed;"
-              [isEnabled]="isCurrentItemDeletable"
-              (tap)="deleteSelectedItem()"
-            ></button>
-            <button
-              alignSelf="center"
               class="fa app-list-item-swipe-template__option"
               text="&#xf1c6;"
               (tap)="activateSelectedItem()"
@@ -338,7 +332,7 @@
   </StackLayout>
 
   <ns-floating-button
-    (tapButton)="navigateToOtherPage('/tenants/add-tenant')"
+    (tapButton)="navigateToOtherPage('/contracts/contract-add')"
     [icon]="'&#xf067;'"
   ></ns-floating-button>
 </ns-loader-layout>

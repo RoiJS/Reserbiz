@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
+using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
-using ReserbizAPP.LIB.Helpers;
-using System.Linq;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -21,11 +21,17 @@ namespace ReserbizAPP.API.Controllers
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IMapper _mapper;
         private readonly ITenantRepository<Tenant> _tenantRepository;
+
+        private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
+
         private readonly IPaginationService _paginationService;
 
-        public ContractController(IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository, IMapper mapper, IPaginationService paginationService)
+        public ContractController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
+            IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository,
+            IMapper mapper, IPaginationService paginationService)
         {
             _mapper = mapper;
+            _accountStatementRepository = accountStatementRepository;
             _tenantRepository = tenantRepository;
             _contractRepository = contractRepository;
             _paginationService = paginationService;
@@ -36,9 +42,35 @@ namespace ReserbizAPP.API.Controllers
         {
             var contractToCreate = _mapper.Map<Contract>(contractForCreationDto);
 
+            // (1) Save the new contract
             await _contractRepository
                 .SetCurrentUserId(CurrentUserId)
                 .AddEntity(contractToCreate);
+
+            try
+            {
+                // (3) This will auto generate statement of accounts for the contract
+                await _accountStatementRepository.GenerateContractAccountStatements(contractToCreate.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            try
+            {
+                // (4) This will auto generate penalties per statement account for the contract
+                await _accountStatementRepository.GenerateAccountStatementPenalties(contractToCreate.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            var contractFromRepo = await _contractRepository
+                .GetEntity(contractToCreate.Id)
+                .Includes(c => c.AccountStatements)
+                .ToObjectAsync();
 
             var contractToReturn = _mapper.Map<ContractDetailDto>(contractToCreate);
 
@@ -53,13 +85,13 @@ namespace ReserbizAPP.API.Controllers
         public async Task<ActionResult<ContractDetailDto>> GetContract(int id)
         {
             var contractFromRepo = await _contractRepository
-                                            .GetEntity(id)
-                                            .Includes(
-                                                c => c.AccountStatements,
-                                                c => c.Tenant,
-                                                c => c.Term
-                                            )
-                                            .ToObjectAsync();
+                .GetEntity(id)
+                .Includes(
+                    c => c.AccountStatements,
+                    c => c.Tenant,
+                    c => c.Term
+                )
+                .ToObjectAsync();
 
             if (contractFromRepo == null)
                 return NotFound("Contract not found.");
@@ -70,45 +102,47 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getAllContracts")]
-        public async Task<ActionResult<EntityPaginationListDto>> GetAllContracts(string code, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, int page)
+        public async Task<ActionResult<EntityPaginationListDto>> GetAllContracts(string searchKeyword, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, bool archived, int page)
         {
-            var contractsFromRepo = await _contractRepository.GetAllActiveContractsAsync();
+            var contractsFromRepo = await _contractRepository.GetAllContractsAsync(archived);
 
             var contractFilter = new ContractFilter
             {
-                Code = code,
+                Code = searchKeyword,
                 TenantId = tenantId,
                 ActiveFrom = activeFrom,
                 ActiveTo = activeTo,
                 NextDueDateFrom = nextDueDateFrom,
                 NextDueDateTo = nextDueDateTo,
-                OpenContract = openContract
+                OpenContract = openContract,
             };
 
             contractsFromRepo = _contractRepository.GetFilteredContracts(contractsFromRepo.ToList(), contractFilter);
 
-            var sampleLargeList = contractsFromRepo
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo)
-                                .Concat(contractsFromRepo);
+            // var sampleLargeList = contractsFromRepo
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo)
+            //     .Concat(contractsFromRepo);
 
-            var mappedContracts = _mapper.Map<IEnumerable<ContractListDto>>(sampleLargeList);
+            var mappedContracts = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<ContractPaginationListDto>(mappedContracts, page);
 
             entityPaginationListDto.TotalNumberOfOpenContracts = mappedContracts.Where((m) => m.IsOpenContract).Count();
+            entityPaginationListDto.TotalNumberOfExpiredContracts = mappedContracts.Where((m) => m.IsExpired).Count();
+            entityPaginationListDto.TotalNumberOfInactiveContracts = mappedContracts.Where((m) => m.IsActive == false).Count();
 
             return Ok(entityPaginationListDto);
         }
@@ -121,8 +155,8 @@ namespace ReserbizAPP.API.Controllers
                 return BadRequest("Contract id does not match.");
 
             var contractFromRepo = await _contractRepository.GetEntity(id)
-                                                            .Includes(c => c.AccountStatements)
-                                                            .ToObjectAsync();
+                .Includes(c => c.AccountStatements)
+                .ToObjectAsync();
 
             if (contractFromRepo == null)
                 return NotFound("Contract not exists.");
@@ -183,13 +217,13 @@ namespace ReserbizAPP.API.Controllers
         public async Task<ActionResult<ContractDetailDto>> GetContractAccountStatements(int id)
         {
             var contractFromRepo = await _contractRepository
-                                            .GetEntity(id)
-                                            .Includes(
-                                                c => c.Tenant,
-                                                c => c.Term,
-                                                c => c.AccountStatements
-                                            )
-                                            .ToObjectAsync();
+                .GetEntity(id)
+                .Includes(
+                    c => c.Tenant,
+                    c => c.Term,
+                    c => c.AccountStatements
+                )
+                .ToObjectAsync();
 
             if (contractFromRepo == null)
                 return NotFound("Contract not found.");
@@ -232,7 +266,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost("setMultipleContractsStatus/{status}")]
-        public async Task<IActionResult> SetMultipleContractsStatus( bool status, List<int> entityIds)
+        public async Task<IActionResult> SetMultipleContractsStatus(bool status, List<int> entityIds)
         {
             if (entityIds.Count == 0)
                 return BadRequest("Empty contracts id list.");
@@ -243,6 +277,22 @@ namespace ReserbizAPP.API.Controllers
                 return NoContent();
 
             throw new Exception($"Error occurs processing contracts!");
+        }
+
+        [HttpGet("checkContractCodeIfExists/{contractId}/{contractCode}")]
+        public async Task<ActionResult<bool>> CheckTermCodeIfExists(int contractId, string contractCode)
+        {
+            var termsFromRepo = await _contractRepository.GetAllEntities().ToListObjectAsync();
+
+            return Ok(_contractRepository.CheckContractCodeIfExists(termsFromRepo, contractId, contractCode));
+        }
+
+        [HttpGet("calculateExpirationDate/{effectiveDate}/{durationUnit}/{durationValue}")]
+        public ActionResult<DateTime> CalculateExpirationDate(DateTime effectiveDate, DurationEnum durationUnit, int durationValue)
+        {
+            var durationDays = effectiveDate.CalculateDaysBasedOnDuration(durationValue, durationUnit);
+            var expirationDate = effectiveDate.AddDays(durationDays);
+            return Ok(expirationDate);
         }
     }
 }

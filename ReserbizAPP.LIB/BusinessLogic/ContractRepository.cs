@@ -26,7 +26,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public async Task<IEnumerable<Contract>> GetAllActiveContractsAsync()
+        public async Task<IEnumerable<Contract>> GetAllContractsAsync(bool onlyArchivedContracts)
         {
             var allActiveContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
                                             .AsQueryable()
@@ -36,26 +36,22 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                             )
                                             .ToListAsync();
 
+            if (onlyArchivedContracts == true)
+            {
+                allActiveContractsFromRepo = allActiveContractsFromRepo
+                    .Where(c => c.IsArchived == true && c.IsDelete == false)
+                    .ToList();
+            }
+            else
+            {
+                allActiveContractsFromRepo = allActiveContractsFromRepo
+                    .Where(c => c.IsArchived == false && c.IsDelete == false)
+                    .ToList();
+            }
+
             return allActiveContractsFromRepo
-                        .Where(c => c.IsArchived == false && c.IsDelete == false)
-                        .OrderBy(c => c.NextDueDate)
-                        .ToList();
-        }
-
-        public async Task<IEnumerable<Contract>> GetAllArchivedContractsAsync()
-        {
-            var allContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
-                                            .AsQueryable()
-                                            .Includes(
-                                                c => c.Tenant,
-                                                c => c.AccountStatements
-                                            )
-                                            .ToListAsync();
-
-            return allContractsFromRepo
-                        .OrderBy(c => c.NextDueDate)
-                        .ThenBy(c => c.IsArchived && c.IsDelete == false)
-                        .ToList();
+                .OrderBy(c => c.NextDueDate)
+                .ToList();
         }
 
         public async Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId)
@@ -186,6 +182,15 @@ namespace ReserbizAPP.LIB.BusinessLogic
             SetMultipleEntitiesStatus(selectedContracts, status);
 
             return await SaveChanges();
+        }
+
+        public bool CheckContractCodeIfExists(IList<Contract> contractList, int contractId, string contractCode)
+        {
+            var termWithTheSameCode = contractList
+                                .Where(t => (contractId != 0 && (t.Id != contractId && t.Code == contractCode)) || (contractId == 0 && t.Code == contractCode))
+                                .Count();
+
+            return termWithTheSameCode > 0;
         }
     }
 }

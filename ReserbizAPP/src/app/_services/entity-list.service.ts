@@ -54,6 +54,10 @@ export class EntityListService<TEntity extends Entity>
     this._entityList.next(this._entityList.value);
   }
 
+  isSame(otherEntityList: TEntity[]): boolean {
+    return true;
+  }
+
   resetEntityList() {
     this._entityList.next([]);
   }

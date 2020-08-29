@@ -8,7 +8,7 @@ namespace ReserbizAPP.LIB.Dtos
     public class ContractForCreationDto
     {
         [Required]
-        [MaxLength(20, ErrorMessage = "{0} must not exceed to {1}.")]
+        [MaxLength(10, ErrorMessage = "{0} must not exceed to {1}.")]
         public string Code { get; set; }
 
         [Required]
@@ -16,6 +16,9 @@ namespace ReserbizAPP.LIB.Dtos
 
         [Required]
         public int TermId { get; set; }
+
+        [Required]
+        public TermForCreationDto Term { get; set; }
 
         [Required]
         public DateTime EffectiveDate { get; set; }

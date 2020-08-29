@@ -66,6 +66,16 @@ namespace ReserbizAPP.API.Controllers
             return Ok(termToReturn);
         }
 
+        [HttpGet("getTermsAsOptions")]
+        public async Task<ActionResult<IEnumerable<TermOptionDto>>> GetTermsAsOptions()
+        {
+            var termsFromRepo = await _termRepo.GetTermsAsOptions();
+
+            var termOptions = _mapper.Map<IEnumerable<TermOptionDto>>(termsFromRepo);
+
+            return Ok(termOptions);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTerm(int id, TermForUpdateDto termForUpdateDto)
         {
@@ -128,6 +138,17 @@ namespace ReserbizAPP.API.Controllers
             var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
 
             return Ok(_termRepo.CheckTermCodeIfExists(termsFromRepo, termId, termCode));
+        }
+
+        [HttpGet("checkTermSpaceTypeAvailability/{termId}")]
+        public async Task<IActionResult> CheckTermSpaceTypeAvailability(int termId)
+        {
+            var termFromRepo = await _termRepo.GetEntity(termId).ToObjectAsync();
+
+            if (termFromRepo == null)
+                return BadRequest("Term does not exists!");
+
+            return Ok(await _termRepo.CheckTermSpaceTypeAvailability(termId));
         }
     }
 }
