@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Interfaces
@@ -15,6 +17,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<bool> DeleteMultipleContractsAsync(List<int> contractIds);
         Task<bool> SetMultipleContractsStatus(List<int> contractIds, bool status);
         bool CheckContractCodeIfExists(IList<Contract> contractList, int contractId, string contractCode);
-
+        bool ValidateExpirationDate(Contract contract, DateTime effectiveDate, DurationEnum durationUnit, int durationValue);
     }
 }

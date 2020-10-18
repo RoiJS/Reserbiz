@@ -1,11 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PageRoute } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { Page } from 'tns-core-modules/ui/page';
 
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { Term } from '@src/app/_models/term.model';
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+
+import { ActionItemService } from '@src/app/_services/action-item.service';
+import { DialogService } from '@src/app/_services/dialog.service';
 import { TermService } from '@src/app/_services/term.service';
+
 import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
 
 @Component({
@@ -22,7 +30,11 @@ export class TermInformationComponent implements OnInit, OnDestroy {
   private _durationValueProvider: DurationValueProvider;
 
   constructor(
+    private actionItemService: ActionItemService,
+    private dialogService: DialogService,
+    private page: Page,
     private pageRoute: PageRoute,
+    private router: RouterExtensions,
     private translateService: TranslateService,
     private termService: TermService
   ) {
@@ -94,7 +106,60 @@ export class TermInformationComponent implements OnInit, OnDestroy {
 
       this._currentTerm.penaltyAmountText = penaltyAmountText;
       this._currentTerm.penaltyEffectiveText = penaltyEffectiveText;
+
+      const isValidForDeletion = await this.termService.validateEntityForDeletion();
+      this.actionItemService
+        .setPage(this.page)
+        .setActionItem('deleteTermActionItem')
+        .enable(isValidForDeletion);
     })();
+  }
+
+  deleteSelectedTenant() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.termService
+            .deleteItem(this._currentTermId)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    this.termService.loadTermListFlag.next();
+                    this.router.back();
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'TERM_DETAILS_PAGE.REMOVE_TERM_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
   }
 
   get currentTerm(): Term {

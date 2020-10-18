@@ -7,7 +7,7 @@ using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class AccountStatement 
+    public class AccountStatement
         : Entity, IUserActionTracker
     {
         public int ContractId { get; set; }
@@ -36,7 +36,6 @@ namespace ReserbizAPP.LIB.Models
         public Account CreatedBy { get; set; }
         public int? DeactivatedById { get; set; }
         public Account DeactivatedBy { get; set; }
-
 
         private DateTime CurrentDateTime = DateTime.Now;
 
@@ -160,11 +159,11 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
             PaymentBreakdowns = new List<PaymentBreakdown>();
+            PenaltyBreakdowns = new List<PenaltyBreakdown>();
         }
 
         private DateTime GetPenaltyNextDueDate()

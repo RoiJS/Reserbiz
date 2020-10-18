@@ -11,10 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TermDetailsPanelComponent implements OnInit {
   @Input() currentTerm: Term;
-  constructor(
-    private activedRoute: ActivatedRoute,
-    private router: RouterExtensions
-  ) {}
+  constructor(private router: RouterExtensions) {}
 
   ngOnInit() {}
 

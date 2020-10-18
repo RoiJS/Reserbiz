@@ -1,1 +1,1 @@
-export interface IBaseDTO {}
+export interface IBaseDto {}

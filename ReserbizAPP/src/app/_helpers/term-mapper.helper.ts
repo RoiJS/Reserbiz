@@ -21,6 +21,7 @@ export class TermMapper
     term.id = t.id;
     term.code = t.code;
     term.name = t.name;
+    term.termParentId = t.termParentId;
     term.spaceTypeId = t.spaceTypeId;
 
     if (t.spaceType) {
@@ -53,7 +54,6 @@ export class TermMapper
     term.penaltyEffectiveAfterDurationUnitText =
       t.penaltyEffectiveAfterDurationUnitText;
     term.isActive = t.isActive;
-    term.isDeletable = t.isDeletable;
 
     if (t.termMiscellaneous && t.termMiscellaneous.length > 0) {
       term.termMiscellaneous = t.termMiscellaneous.map(

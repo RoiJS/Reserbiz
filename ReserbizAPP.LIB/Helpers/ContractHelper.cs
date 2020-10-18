@@ -22,7 +22,7 @@ namespace ReserbizAPP.LIB.Helpers
             var durationUnit = GetDurationUnit(remainingDays);
 
             durationValue.DurationValue = durationUnit == DurationEnum.Day ? remainingDays : Math.Floor(remainingDays / GetAverageDaysValuePerDurationUnit(durationUnit));
-            durationValue.DurationUnitText = durationUnit.ToString();;
+            durationValue.DurationUnitText = durationUnit.ToString();
 
             // Check if current value is not zero
             if (durationValue.DurationValue != 0)

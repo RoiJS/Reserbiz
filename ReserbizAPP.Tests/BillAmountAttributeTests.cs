@@ -12,7 +12,7 @@ namespace ReserbizAPP.Tests
         public void Should_ReturnNull_When_ExcludeElectricBillIsSetToFalse_And_ElectricBillAmountIsSetToZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeElectricBill = false };
+            var termObject = new TermForManageDto { ExcludeElectricBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeElectricBill");
             var electricBillAmount = 0;
 
@@ -27,7 +27,7 @@ namespace ReserbizAPP.Tests
         public void Should_ReturnNull_When_ExcludeElectricBillIsSetToTrue_And_ElectricBillAmountIsSetToZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeElectricBill = true };
+            var termObject = new TermForManageDto { ExcludeElectricBill = true };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeElectricBill");
             var electricBillAmount = 0;
 
@@ -39,10 +39,10 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_ReturnNull_When_ExcludeElectricBillIsSetToTrue_And_ElectricBillAmountIsGreaterThanZero()
+        public void Should_ReturnNull_When_ExcludeElectricBillIsSetToFalse_And_ElectricBillAmountIsGreaterThanZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeElectricBill = true };
+            var termObject = new TermForManageDto { ExcludeElectricBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeElectricBill");
             var electricBillAmount = 100;
             var expectedResult = "The field ExcludeElectricBill is invalid.";
@@ -54,10 +54,10 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_ReturnErrorMessage_When_ExcludeElectricBillIsSetToTrue_And_ElectricBillAmountIsGreaterThanZero()
+        public void Should_ReturnErrorMessage_When_ExcludeElectricBillIsSetToFalse_And_ElectricBillAmountIsGreaterThanZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeElectricBill = true };
+            var termObject = new TermForManageDto { ExcludeElectricBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeElectricBill");
             var electricBillAmount = 100;
             var expectedResult = "The field ExcludeElectricBill is invalid.";
@@ -72,7 +72,7 @@ namespace ReserbizAPP.Tests
         public void Should_ReturnNull_When_ExcludeWaterBillIsSetToFalse_And_ElectricBillAmountIsSetToZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeWaterBill = false };
+            var termObject = new TermForManageDto { ExcludeWaterBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeWaterBill");
             var waterBillAmount = 0;
 
@@ -87,7 +87,7 @@ namespace ReserbizAPP.Tests
         public void Should_ReturnNull_When_ExcludeWaterBillIsSetToTrue_And_ElectricBillAmountIsSetToZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeWaterBill = true };
+            var termObject = new TermForManageDto { ExcludeWaterBill = true };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeWaterBill");
             var waterBillAmount = 0;
 
@@ -99,10 +99,10 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_ReturnNull_When_ExcludeWaterBillIsSetToTrue_And_ElectricBillAmountIsGreaterThanZero()
+        public void Should_ReturnNull_When_ExcludeWaterBillIsSetToFalse_And_ElectricBillAmountIsGreaterThanZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeWaterBill = true };
+            var termObject = new TermForManageDto { ExcludeWaterBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeWaterBill");
             var waterBillAmount = 100;
             var expectedResult = "The field ExcludeWaterBill is invalid.";
@@ -114,10 +114,10 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_ReturnErrorMessage_When_ExcludeWaterBillIsSetToTrue_And_ElectricBillAmountIsGreaterThanZero()
+        public void Should_ReturnErrorMessage_When_ExcludeWaterBillIsSetToFalse_And_ElectricBillAmountIsGreaterThanZero()
         {
             // Arrange
-            var termObject = new TermForCreationDto { ExcludeWaterBill = true };
+            var termObject = new TermForManageDto { ExcludeWaterBill = false };
             var billAmountAttribute = GetBillAmountStateAttribute("ExcludeWaterBill");
             var waterBillAmount = 100;
             var expectedResult = "The field ExcludeWaterBill is invalid.";

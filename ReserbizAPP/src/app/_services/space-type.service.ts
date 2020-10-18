@@ -14,9 +14,13 @@ import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({ providedIn: 'root' })
-export class SpaceTypeService extends BaseService<SpaceType>
+export class SpaceTypeService
+  extends BaseService<SpaceType>
   implements IBaseService<SpaceType> {
   private _loadSpaceTypesFlag = new BehaviorSubject<void>(null);
+  private _currentSpaceType = new BehaviorSubject<{ id: number; name: string }>(
+    { id: 0, name: '' }
+  );
   constructor(public http: HttpClient) {
     super(new SpaceTypeMapper(), http);
   }
@@ -87,30 +91,15 @@ export class SpaceTypeService extends BaseService<SpaceType>
     );
   }
 
-  async checkAvailability(spaceTypeId: number): Promise<boolean> {
-    return this.http
-      .get<boolean>(
-        `${this._apiBaseUrl}/spaceType/checkSpaceTypeAvailability/${spaceTypeId}`
-      )
-      .toPromise();
-  }
-
-  async validateSpaceTypeProposedNewAvailableSlot(
-    spaceTypeId: number,
-    proposedNewValue: number
-  ): Promise<boolean> {
-    return this.http
-      .get<boolean>(
-        `${this._apiBaseUrl}/spaceType/validateSpaceTypeProposedNewAvailableSlot/${spaceTypeId}/${proposedNewValue}`
-      )
-      .toPromise();
-  }
-
   reloadListFlag() {
     this._loadSpaceTypesFlag.next();
   }
 
   get loadSpaceTypesFlag(): BehaviorSubject<void> {
     return this._loadSpaceTypesFlag;
+  }
+
+  get currentSpaceType(): BehaviorSubject<{ id: number; name: string }> {
+    return this._currentSpaceType;
   }
 }

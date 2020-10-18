@@ -14,7 +14,6 @@
     <StackLayout class="panel">
       <RadDataForm
         width="100%"
-        height="100%"
         [source]="entityFormSource"
         [isReadOnly]="isBusy"
       >
@@ -30,7 +29,7 @@
             labelFontStyle="Bold"
             labelTextColor="White"
           ></TKGroupTitleStyle>
-          
+
           <TKEntityProperty
             tkPropertyGroupProperties
             name="name"
@@ -41,6 +40,12 @@
               tkEntityPropertyValidators
               [errorMessage]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.NAME_CONTROL.HINT_TEXT' | translate"
             ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
 
           <TKEntityProperty
@@ -49,10 +54,12 @@
             [displayName]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.CONTROL_LABEL' | translate"
             [hintText]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.HINT_TEXT' | translate"
           >
-            <TKPropertyEditor
-              tkEntityPropertyEditor
-              type="MultilineText"
-            ></TKPropertyEditor>
+            <TKPropertyEditor tkEntityPropertyEditor type="MultilineText">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
 
           <TKEntityProperty
@@ -65,18 +72,13 @@
               tkEntityPropertyValidators
               [errorMessage]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.RATE_CONTROL.HINT_TEXT' | translate"
             ></TKNonEmptyValidator>
-          </TKEntityProperty>
 
-          <TKEntityProperty
-            tkPropertyGroupProperties
-            name="availableSlot"
-            [displayName]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.SLOT_CONTROL.CONTROL_LABEL' | translate"
-            [hintText]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.SLOT_CONTROL.HINT_TEXT' | translate"
-          >
-            <TKNonEmptyValidator
-              tkEntityPropertyValidators
-              [errorMessage]="'SPACE_TYPE_ADD_DETAILS_PAGE.FORM_CONTROL.SLOT_CONTROL.HINT_TEXT' | translate"
-            ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Number">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
         </TKPropertyGroup>
       </RadDataForm>

@@ -14,7 +14,6 @@
     <StackLayout class="panel">
       <RadDataForm
         width="100%"
-        height="100%"
         [source]="entityFormSource"
         [isReadOnly]="isBusy"
       >
@@ -41,14 +40,28 @@
               tkEntityPropertyValidators
               [errorMessage]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
             ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
+
           <TKEntityProperty
             tkPropertyGroupProperties
             name="middleName"
             [displayName]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.CONTROL_LABEL' | translate"
             [hintText]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.HINT_TEXT' | translate"
           >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
+
           <TKEntityProperty
             tkPropertyGroupProperties
             name="lastName"
@@ -59,6 +72,12 @@
               tkEntityPropertyValidators
               [errorMessage]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
             ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
 
           <TKEntityProperty
@@ -67,10 +86,12 @@
             [displayName]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.GENDER_CONTROL.CONTROL_LABEL' | translate"
             [valuesProvider]="genderOptions"
           >
-            <TKPropertyEditor
-              tkEntityPropertyEditor
-              type="SegmentedEditor"
-            ></TKPropertyEditor>
+            <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
           </TKEntityProperty>
 
           <TKEntityProperty
@@ -84,6 +105,10 @@
               [errorMessage]="'TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE.FORM_CONTROL.CONTACT_NUMBER_CONTROL.HINT_TEXT' | translate"
             ></TKNonEmptyValidator>
             <TKPropertyEditor tkEntityPropertyEditor type="Phone">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>
         </TKPropertyGroup>

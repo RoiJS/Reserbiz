@@ -10,6 +10,8 @@ namespace ReserbizAPP.LIB.Dtos
         public string Code { get; set; }
         public string Name { get; set; }
 
+        public int TermParentId { get; set; }
+
         public int SpaceTypeId { get; set; }
 
         public SpaceTypeTermDetailDto SpaceType { get; set; }

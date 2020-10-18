@@ -1,13 +1,11 @@
+import * as moment from 'moment';
+
 export class DateFormatter {
-  static format(date: Date) {
+  static format(date: Date, format: string = 'YYYY-MM-DD') {
     if (!date) {
       return '';
     }
 
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    return `${year}-${month}-${day}`;
+    return moment(date).format(format);
   }
 }

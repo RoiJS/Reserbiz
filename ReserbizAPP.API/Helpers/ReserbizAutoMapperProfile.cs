@@ -22,7 +22,21 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<SpaceType, SpaceTypeDetailDto>()
              .ForMember(dest => dest.IsDeletable,
                     opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<Space, SpaceDetailDto>()
+             .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable))
+                .ForMember(dest => dest.SpaceTypeName,
+                    opt => opt.MapFrom(src => src.SpaceType.Name))
+                .ForMember(dest => dest.SpaceTypeRate,
+                    opt => opt.MapFrom(src => src.SpaceType.Rate));
             CreateMap<SpaceType, SpaceTypeOptionDto>();
+            CreateMap<Space, SpaceOptionDto>()
+                .ForMember(dest => dest.Name,
+                    opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.OccupiedByContractId,
+                    opt => opt.MapFrom(src => src.OccupiedByContractId))
+                .ForMember(dest => dest.IsNotOccupied,
+                    opt => opt.MapFrom(src => src.IsNotOccupied));
             CreateMap<Term, TermOptionDto>();
             CreateMap<SpaceType, SpaceTypeTermDetailDto>();
             CreateMap<Term, TermDetailDto>()
@@ -34,15 +48,18 @@ namespace ReserbizAPP.API.Helpers
                     opt.MapFrom(d => d.PenaltyEffectiveAfterDurationUnit.ToString()))
                 .ForMember(dest => dest.PenaltyAmount, opt =>
                     opt.MapFrom(d => d.PenaltyAmount));
-
-            CreateMap<Term, TermListDto>()
-            .ForMember(dest => dest.IsDeletable,
-                    opt => opt.MapFrom(src => src.IsDeletable));
+            CreateMap<Term, TermListDto>();
             CreateMap<Term, ContractTermDetailsDto>();
             CreateMap<TermMiscellaneous, TermMiscellaneousDetailDto>();
             CreateMap<Contract, ContractDetailDto>()
+                .ForMember(dest => dest.TenantName,
+                    opt => opt.MapFrom(src => src.Tenant.PersonFullName))
+                .ForMember(dest => dest.SpaceName,
+                    opt => opt.MapFrom(src => src.Space.Description))
                 .ForMember(dest => dest.Status,
                     opt => opt.MapFrom(src => src.IsActive))
+                .ForMember(dest => dest.IsEditable,
+                    opt => opt.MapFrom(src => src.IsEditable))
                 .ForMember(dest => dest.NextDueDate,
                     opt => opt.MapFrom(src => src.NextDueDate))
                 .ForMember(dest => dest.AccountStatementsCount,
@@ -99,12 +116,13 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<ContactPersonForUpdateDto, ContactPerson>();
             CreateMap<SpaceTypeForCreationDto, SpaceType>();
             CreateMap<SpaceTypeForUpdateDto, SpaceType>();
-            CreateMap<TermForCreationDto, Term>();
+            CreateMap<SpaceForCreationDto, Space>();
+            CreateMap<SpaceForUpdateDto, Space>();
+            CreateMap<TermForManageDto, Term>();
             CreateMap<TermForUpdateDto, Term>();
-            CreateMap<TermMiscellaneousForCreationDto, TermMiscellaneous>();
+            CreateMap<TermMiscellaneousManageDto, TermMiscellaneous>();
             CreateMap<TermMiscellaneousForUpdateDto, TermMiscellaneous>();
-            CreateMap<ContractForCreationDto, Contract>();
-            CreateMap<ContractForUpdateDto, Contract>();
+            CreateMap<ContractManageDto, Contract>();
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
         }
     }

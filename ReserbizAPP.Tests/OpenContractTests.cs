@@ -15,7 +15,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = new OpenContract("DurationUnit", "DurationValue");
-            var contractObj = new ContractForCreationDto
+            var contractObj = new ContractManageDto
             {
                 DurationUnit = DurationEnum.None,
                 DurationValue = 0
@@ -34,7 +34,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = new OpenContract("DurationUnit", "DurationValue");
-            var contractObj = new ContractForCreationDto
+            var contractObj = new ContractManageDto
             {
                 DurationUnit = DurationEnum.None,
                 DurationValue = 0
@@ -57,7 +57,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = new OpenContract("DurationUnit", "DurationValue");
-            var contractObj = new ContractForCreationDto
+            var contractObj = new ContractManageDto
             {
                 DurationUnit = durationUnit,
                 DurationValue = 0
@@ -83,7 +83,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = new OpenContract("DurationUnit", "DurationValue");
-            var contractObj = new ContractForCreationDto
+            var contractObj = new ContractManageDto
             {
                 DurationUnit = DurationEnum.None,
                 DurationValue = value
@@ -143,7 +143,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = new OpenContract("DurationUnit", "DurationValue");
-            var contractObj = new ContractForCreationDto
+            var contractObj = new ContractManageDto
             {
                 DurationUnit = durationUnit,
                 DurationValue = value

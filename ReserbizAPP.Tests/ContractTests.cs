@@ -127,6 +127,10 @@ namespace ReserbizAPP.Tests
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Month;
+            contractObject.Term = new Term
+            {
+                DurationUnit = DurationEnum.Month
+            };
             contractObject.AccountStatements = new List<AccountStatement>();
 
             // Arrange - Create test statement of accounts
@@ -167,6 +171,10 @@ namespace ReserbizAPP.Tests
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Month;
+            contractObject.Term = new Term
+            {
+                DurationUnit = DurationEnum.Month
+            };
             contractObject.AccountStatements = new List<AccountStatement>();
 
             // Arrange - Create test statement of accounts
@@ -284,15 +292,21 @@ namespace ReserbizAPP.Tests
             Assert.IsTrue(result);
         }
 
-        [Test]
-        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsLessThanTheExpirationDate()
+        [TestCase("12/15/2019")]
+        [TestCase("12/16/2019")]
+        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsLessThanTheExpirationDate(DateTime currentDateTime)
         {
             // Arrange
             var contractObject = GetTestContractObject();
+            contractObject.SetCurrentDateTime(currentDateTime);
 
             // Arrange - Set duration unit and value and also the current date time
             contractObject.DurationValue = 1;
             contractObject.DurationUnit = DurationEnum.Year;
+            contractObject.Term = new Term
+            {
+                DurationUnit = DurationEnum.Month
+            };
 
             // Set up sample account statement
             contractObject.AccountStatements = new List<AccountStatement>();
@@ -309,11 +323,13 @@ namespace ReserbizAPP.Tests
             Assert.IsFalse(result);
         }
 
-        [Test]
-        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsToTheExpirationDate()
+        [TestCase("12/15/2019")]
+        [TestCase("12/16/2019")]
+        public void Should_ContractIsExpiredReturnFalse_WhenNextDueDateIsEqualToTheExpirationDate(DateTime currentDateTime)
         {
             // Arrange
             var contractObject = GetTestContractObject();
+            contractObject.SetCurrentDateTime(currentDateTime);
 
             // Arrange - Set duration unit and value and also the current date time
             contractObject.DurationValue = 1;
@@ -844,6 +860,11 @@ namespace ReserbizAPP.Tests
                 TermId = 4,
                 EffectiveDate = GetTestEffectiveDate(),
                 IsOpenContract = false
+            };
+
+            contract.Term = new Term
+            {
+                DurationUnit = DurationEnum.Month
             };
 
             return contract;

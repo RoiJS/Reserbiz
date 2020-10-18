@@ -22,8 +22,14 @@ export class SideDrawerService {
         hasSeparator: false,
       },
       {
+        text: 'MAIN_MENU.SPACES',
+        icon: String.fromCharCode(0xf009),
+        url: '/spaces',
+        hasSeparator: false,
+      },
+      {
         text: 'MAIN_MENU.SPACE_TYPES',
-        icon: String.fromCharCode(0xf015),
+        icon: String.fromCharCode(0xf550),
         url: '/space-types',
         hasSeparator: false,
       },

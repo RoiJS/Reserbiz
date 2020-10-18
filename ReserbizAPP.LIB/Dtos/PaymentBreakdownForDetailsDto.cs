@@ -8,5 +8,6 @@ namespace ReserbizAPP.LIB.Dtos
         public float Amount { get; set; }
         public DateTime DateTimeReceived { get; set; }
         public string ReceivedBy { get; set; }
+        public string Notes { get; set; }
     }
 }

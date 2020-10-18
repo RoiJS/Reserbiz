@@ -11,6 +11,7 @@ namespace ReserbizAPP.LIB.Models
         public DateTime DateTimeReceived { get; set; }
         public int ReceivedById { get; set; }
         public Account ReceivedBy { get; set; }
+        public string Notes { get; set; }
 
         public int? DeletedById { get; set; }
         public Account DeletedBy { get; set; }

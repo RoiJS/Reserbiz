@@ -403,6 +403,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<bool>("IsOpenContract")
                         .HasColumnType("bit");
 
+                    b.Property<int>("SpaceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
@@ -419,6 +422,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("DeactivatedById");
 
                     b.HasIndex("DeletedById");
+
+                    b.HasIndex("SpaceId");
 
                     b.HasIndex("TenantId");
 
@@ -515,6 +520,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ReceivedById")
                         .HasColumnType("int");
@@ -619,6 +627,64 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("AccountId");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SpaceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeactivatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("SpaceTypeId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Spaces");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
@@ -1067,6 +1133,12 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("DeletedById")
                         .HasConstraintName("FK_Contracts_DeletedById_Accounts_AccountId");
 
+                    b.HasOne("ReserbizAPP.LIB.Models.Space", "Space")
+                        .WithMany()
+                        .HasForeignKey("SpaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
                         .WithMany("Contracts")
                         .HasForeignKey("TenantId")
@@ -1147,6 +1219,35 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasConstraintName("FK_RefreshToken_Accounts_AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
+                        .WithMany("CreatedSpaces")
+                        .HasForeignKey("CreatedById")
+                        .HasConstraintName("FK_Spaces_CreatedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
+                        .WithMany("DeactivatedSpaces")
+                        .HasForeignKey("DeactivatedById")
+                        .HasConstraintName("FK_Spaces_DeactivatedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
+                        .WithMany("DeletedSpaces")
+                        .HasForeignKey("DeletedById")
+                        .HasConstraintName("FK_Spaces_DeletedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.SpaceType", "SpaceType")
+                        .WithMany()
+                        .HasForeignKey("SpaceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
+                        .WithMany("UpdatedSpaces")
+                        .HasForeignKey("UpdatedById")
+                        .HasConstraintName("FK_Spaces_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>

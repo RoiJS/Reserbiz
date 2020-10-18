@@ -13,7 +13,11 @@
         ></label>
       </StackLayout>
       <StackLayout>
-        <label text="&#xf00d;" class="fa fa-solid" (tap)="closeDialog()"></label>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid"
+          (tap)="closeDialog()"
+        ></label>
       </StackLayout>
     </FlexboxLayout>
   </StackLayout>
@@ -112,6 +116,28 @@
 
       <TKPropertyGroup
         tkDataFormGroups
+        name="Group_Sort_Order"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="sortOrder"
+          [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate"
+          [valuesProvider]="sortOrderOptions"
+          index="2"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+
+      <TKPropertyGroup
+        tkDataFormGroups
         name="Group_Open_Contract"
         [titleHidden]="true"
         hidden="false"
@@ -120,7 +146,7 @@
           tkPropertyGroupProperties
           name="openContract"
           [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.OPEN_CONTRACT_LABEL' | translate"
-          index="2"
+          index="3"
         >
           <TKPropertyEditor tkEntityPropertyEditor type="Switch">
             <TKPropertyEditorStyle

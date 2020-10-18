@@ -1,8 +1,9 @@
 using System;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class AccountStatementForListDto
+    public class AccountStatementForListDto : EntityPaginationListDto, IEntityDto
     {
         public int Id { get; set; }
         public int ContractId { get; set; }

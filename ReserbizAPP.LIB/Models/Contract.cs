@@ -18,6 +18,9 @@ namespace ReserbizAPP.LIB.Models
         public int TermId { get; set; }
         public Term Term { get; set; }
 
+        public int? SpaceId { get; set; }
+        public Space Space { get; set; }
+
         public DateTime EffectiveDate { get; set; }
 
         public bool IsOpenContract { get; set; }
@@ -104,6 +107,16 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        // We can determine if some of contract details are editable or not
+        // based on the current count of account statements
+        public bool IsEditable
+        {
+            get
+            {
+                return (this.AccountStatements.Count == 0);
+            }
+        }
+
         // We can determine if contract is archived or not
         // if contract is either expired or inactive
         public bool IsArchived
@@ -154,7 +167,7 @@ namespace ReserbizAPP.LIB.Models
                 var accountStatementsOrderByDueDateAscending = AccountStatements.OrderBy(a => a.DueDate).ToList();
                 var lastAccountStatement = accountStatementsOrderByDueDateAscending[AccountStatements.Count - 1];
                 var currentDueDate = lastAccountStatement.DueDate;
-                var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, lastAccountStatement.DurationUnit);
+                var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, Term.DurationUnit);
                 nextDueDate = currentDueDate.AddDays(daysBeforeNextDueDate);
             }
 
@@ -168,7 +181,7 @@ namespace ReserbizAPP.LIB.Models
             // Check if contract is open
             if (IsOpenContract || IsExpired) return durationBeforeContractEnds;
 
-            var totalDaysBeforeContractEnds = ExpirationDate.Subtract(CurrentDateTime).TotalDays;
+            var totalDaysBeforeContractEnds = ExpirationDate.Subtract(CurrentDateTime).Days;
 
             ContractHelper.CalculateDurationValueBeforeContractEnds(ref durationBeforeContractEnds, totalDaysBeforeContractEnds);
 

@@ -45,6 +45,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
             services.AddScoped(typeof(ISpaceTypeRepository<SpaceType>), typeof(SpaceTypeRepository));
+            services.AddScoped(typeof(ISpaceRepository<Space>), typeof(SpaceRepository));
             services.AddScoped(typeof(ITermRepository<Term>), typeof(TermRepository));
             services.AddScoped(typeof(ITermMiscellaneousRepository<TermMiscellaneous>), typeof(TermMiscellaneousRepository));
             services.AddScoped(typeof(IContractRepository<Contract>), typeof(ContractRepository));

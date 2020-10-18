@@ -7,7 +7,7 @@ import { environment } from '@src/environments/environment';
 
 import { IEntity } from '../_interfaces/ientity.interface';
 import { IBaseEntityMapper } from '../_interfaces/ibase-entity-mapper.interface';
-import { IBaseDTO } from '../_interfaces/ibase-dto.interface';
+import { IBaseDto } from '../_interfaces/ibase-dto.interface';
 import { IEntityPaginationList } from '../_interfaces/ientity-pagination-list.interface';
 import { EntityPaginationList } from '../_models/entity-pagination-list.model';
 
@@ -78,11 +78,11 @@ export class BaseService<TEntity extends IEntity> {
     return this.http.post<void>(url, entityIds);
   }
 
-  saveNewEntityToServer(url: string, dtoToCreate: IBaseDTO): Observable<void> {
+  saveNewEntityToServer(url: string, dtoToCreate: IBaseDto): Observable<void> {
     return this.http.post<void>(url, dtoToCreate);
   }
 
-  updateEntityToServer(url: string, dtoForUpdate: IBaseDTO): Observable<void> {
+  updateEntityToServer(url: string, dtoForUpdate: IBaseDto): Observable<void> {
     return this.http.put<void>(url, dtoForUpdate);
   }
 

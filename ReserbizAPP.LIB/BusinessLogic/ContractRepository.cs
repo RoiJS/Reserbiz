@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -31,6 +32,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var allActiveContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
                                             .AsQueryable()
                                             .Includes(
+                                                c => c.Term,
                                                 c => c.Tenant,
                                                 c => c.AccountStatements
                                             )
@@ -158,7 +160,20 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 filteredContracts = filteredContracts.Where(c => c.IsOpenContract).ToList();
             }
 
-            return filteredContracts.ToList();
+            // Set sort order based on next due date
+            // Sort order is ascending by default
+            if (contractFilter.SortOrder == SortOrderEnum.Ascending)
+            {
+                return filteredContracts
+                    .OrderBy(c => c.NextDueDate)
+                    .ToList();
+            }
+            else
+            {
+                return filteredContracts
+                    .OrderByDescending(c => c.NextDueDate)
+                    .ToList();
+            }
         }
 
         public async Task<bool> DeleteMultipleContractsAsync(List<int> contractIds)
@@ -191,6 +206,30 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                 .Count();
 
             return termWithTheSameCode > 0;
+        }
+
+        public bool ValidateExpirationDate(Contract contract, DateTime effectiveDate, DurationEnum durationUnit, int durationValue)
+        {
+            // Contract has no statement of accounts 
+            // at the moment is valid
+            if (contract.AccountStatements.Count == 0)
+            {
+                return true;
+            }
+
+            var contractNextDueDate = contract.NextDueDate;
+            var durationDays = effectiveDate.CalculateDaysBasedOnDuration(durationValue, durationUnit);
+            var expirationDate = effectiveDate.AddDays(durationDays);
+
+            // The new expiration date is greater than or
+            // equal with contract next due date
+            // is valid
+            if (expirationDate >= contractNextDueDate)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

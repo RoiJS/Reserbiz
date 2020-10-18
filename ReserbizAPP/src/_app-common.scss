@@ -126,7 +126,7 @@ $sidedrawer-list-icon-size: 20;
     margin-top: 10;
     margin-bottom: 10;
     Label {
-      font-size: 18;
+      font-size: 17;
       color: $primary;
       font-weight: bold;
     }
@@ -138,6 +138,7 @@ $sidedrawer-list-icon-size: 20;
 
   &__page-command {
     width: 100;
+    margin-right: 0;
   }
 
   .panel {
@@ -172,8 +173,12 @@ $sidedrawer-list-icon-size: 20;
     &__details-section {
       margin-top: 13;
       border-bottom-width: 0.5;
-      padding-bottom: 7;
+      padding-bottom: 5;
 
+      .details-wrapper {
+        width: 50%;
+      }
+      
       .details-label {
         border-bottom-color: #cccccc;
         font-size: 16;

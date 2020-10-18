@@ -10,7 +10,7 @@ import { IBaseFormSource } from '@src/app/_interfaces/ibase-form-source.interfac
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
 import { IBaseDtoEntityMapper } from '@src/app/_interfaces/ibase-dto-entity-mapper.interface';
 import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
-import { IBaseDTO } from '@src/app/_interfaces/ibase-dto.interface';
+import { IBaseDto } from '@src/app/_interfaces/ibase-dto.interface';
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
@@ -23,7 +23,7 @@ import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 export class BaseFormComponent<
   TEntity extends IEntity,
   TFormSource extends IBaseFormSource<TFormSource>,
-  TDtoEntity extends IBaseDTO
+  TDtoEntity extends IBaseDto
 > extends BaseFormHelper<TFormSource> implements OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;

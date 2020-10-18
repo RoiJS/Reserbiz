@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Models;
+using ReserbizAPP.Tests.Comparers;
 
 namespace ReserbizAPP.Tests
 {
@@ -2727,7 +2729,7 @@ namespace ReserbizAPP.Tests
             // Assert 
             Assert.IsTrue(result);
         }
-       
+
         [Test]
         public void Should_IsPenaltySettingActiveReturnFalse_WhenPenaltyValueIsNotGreaterThanZero()
         {
@@ -2758,6 +2760,387 @@ namespace ReserbizAPP.Tests
             Assert.IsFalse(result);
         }
 
+        [Test]
+        public void Test_GetFilteredAccountStatements_WhenFilterPaymentStatusIsPaid()
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                PaymentStatus = PaymentStatusEnum.Paid
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 1
+                },
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 9
+                },
+                new AccountStatement {
+                    Id = 10
+                },
+                new AccountStatement {
+                    Id = 12
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredAccountStatements_WhenFilterPaymentStatusIsUnpaid()
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                PaymentStatus = PaymentStatusEnum.Unpaid
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 2
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+                new AccountStatement {
+                    Id = 11
+                }
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredAccountStatements_WhenFilterPaymentStatusIsAll()
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                PaymentStatus = PaymentStatusEnum.All
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 1
+                },
+                new AccountStatement {
+                    Id = 2
+                },
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+                new AccountStatement {
+                    Id = 9
+                },
+                new AccountStatement {
+                    Id = 10
+                },
+                new AccountStatement {
+                    Id = 11
+                },
+                new AccountStatement {
+                    Id = 12
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [TestCase("2020-01-01")]
+        [TestCase("2020-01-15")]
+        public void Test_GetFilteredAccountStatements_WhenFilterFromDateIsAvailable(DateTime fromDate)
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                FromDate = fromDate
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+                new AccountStatement {
+                    Id = 9
+                },
+                new AccountStatement {
+                    Id = 10
+                },
+                new AccountStatement {
+                    Id = 11
+                },
+                new AccountStatement {
+                    Id = 12
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [TestCase("2020-01-15")]
+        [TestCase("2020-01-30")]
+        public void Test_GetFilteredAccountStatements_WhenFilterToDateIsAvailable(DateTime toDate)
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                ToDate = toDate
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 1
+                },
+                new AccountStatement {
+                    Id = 2
+                },
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [TestCase("2019-12-01", "2020-05-30")]
+        [TestCase("2019-12-15", "2020-05-15")]
+        public void Test_GetFilteredAccountStatements_WhenFilterFromDateAndToDateAreAvailable(DateTime fromDate, DateTime toDate)
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredAccountStatements_WhenFilterSortOrderAscendingIsAvailable()
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                SortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 1
+                },
+                new AccountStatement {
+                    Id = 2
+                },
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+                new AccountStatement {
+                    Id = 9
+                },
+                new AccountStatement {
+                    Id = 10
+                },
+                new AccountStatement {
+                    Id = 11
+                },
+                new AccountStatement {
+                    Id = 12
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredAccountStatements_WhenFilterSortOrderDescendingIsAvailable()
+        {
+            // Arrange
+            var accountStatementRepository = new AccountStatementRepository();
+            var accountStatementList = GetTestContractObjectWithAccountStatements();
+            var comparer = new AccountStatementComparer();
+            var accountStatementFilter = new AccountStatementFilter
+            {
+                SortOrder = SortOrderEnum.Descending
+            };
+
+            // Act 
+            var actualResult = accountStatementRepository.GetFilteredAccountStatements(accountStatementList, accountStatementFilter);
+
+            // Assert
+            var expectedResult = new List<AccountStatement>{
+                new AccountStatement {
+                    Id = 12
+                },
+                new AccountStatement {
+                    Id = 11
+                },
+                new AccountStatement {
+                    Id = 10
+                },
+                new AccountStatement {
+                    Id = 9
+                },
+                new AccountStatement {
+                    Id = 8
+                },
+                new AccountStatement {
+                    Id = 7
+                },
+                new AccountStatement {
+                    Id = 6
+                },
+                new AccountStatement {
+                    Id = 5
+                },
+                new AccountStatement {
+                    Id = 4
+                },
+                new AccountStatement {
+                    Id = 3
+                },
+                new AccountStatement {
+                    Id = 2
+                },
+                new AccountStatement {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(expectedResult, actualResult, comparer);
+        }
+
         private Contract GetTestContractObject()
         {
             var contract = new Contract
@@ -2771,6 +3154,831 @@ namespace ReserbizAPP.Tests
             };
 
             return contract;
+        }
+
+        private List<AccountStatement> GetTestContractObjectWithAccountStatements()
+        {
+            var contract = new Contract
+            {
+                Id = 1,
+                Code = "G1-Code-1001",
+                TenantId = 1,
+                TermId = 1,
+                EffectiveDate = new DateTime(2019, 09, 15),
+                IsOpenContract = false,
+                DurationValue = 1,
+                DurationUnit = DurationEnum.Year,
+                AccountStatements = new List<AccountStatement>
+                    {
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 1,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 0,
+                            WaterBill = 0,
+                            Rate = 9000,
+                            DueDate = new DateTime(2019, 10, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 27000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150
+                                }
+                            }
+                        },
+                        // NOT PAID
+                        new AccountStatement
+                        {
+                            Id = 2,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 300,
+                            WaterBill = 250,
+                            Rate = 9000,
+                            DueDate = new DateTime(2019, 11, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 10000
+                                }
+                            }
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 3,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 300,
+                            WaterBill = 250,
+                            Rate = 9000,
+                            DueDate = new DateTime(2019, 12, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 10700
+                                }
+                            }
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 4,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 335,
+                            WaterBill = 230,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 01, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 10800
+                                }
+                            }
+                        },
+                        // NOT PAID
+                        new AccountStatement
+                        {
+                            Id = 5,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 500,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 02, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PenaltyBreakdowns = new List<PenaltyBreakdown> {
+                                new PenaltyBreakdown {
+                                    Amount = 50
+                                },
+                                new PenaltyBreakdown {
+                                    Amount = 50,
+                                },
+                                new PenaltyBreakdown {
+                                    Amount = 50,
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1000
+                                }
+                            },
+                        },
+                        // NOT PAID
+                        new AccountStatement
+                        {
+                            Id = 6,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 550,
+                            WaterBill = 350,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 03, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PenaltyBreakdowns = new List<PenaltyBreakdown> {
+                                new PenaltyBreakdown {
+                                    Amount = 50
+                                },
+                                new PenaltyBreakdown {
+                                    Amount = 50,
+                                },
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1000
+                                }
+                            },
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 7,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 450,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 04, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1000
+                                }
+                            },
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 8,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 420,
+                            WaterBill = 280,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 05, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                            },
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 9,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 450,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 06, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1900
+                                },
+                            },
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 10,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 450,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 07, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1900
+                                },
+                            },
+                        },
+                         // NOT PAID
+                        new AccountStatement
+                        {
+                            Id = 11,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 450,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 08, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                            },
+                        },
+                        // PAID
+                        new AccountStatement
+                        {
+                            Id = 12,
+                            DurationUnit = DurationEnum.Month,
+                            AdvancedPaymentDurationValue = 1,
+                            DepositPaymentDurationValue = 2,
+                            ElectricBill = 450,
+                            WaterBill = 300,
+                            Rate = 9000,
+                            DueDate = new DateTime(2020, 09, 15),
+                            AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                                new AccountStatementMiscellaneous {
+                                    Amount = 500
+                                },
+                                new AccountStatementMiscellaneous {
+                                    Amount = 650
+                                }
+                            },
+                            PaymentBreakdowns = new List<PaymentBreakdown> {
+                                new PaymentBreakdown
+                                {
+                                    Amount = 6000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 3000
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1900
+                                },
+                            },
+                        },
+                    }
+            };
+
+            var accountStatements = new List<AccountStatement> {
+                // PAID
+                new AccountStatement
+                {
+                    Id = 1,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 0,
+                    WaterBill = 0,
+                    Rate = 9000,
+                    DueDate = new DateTime(2019, 10, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 27000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150
+                        }
+                    }
+                },
+                // NOT PAID
+                new AccountStatement
+                {
+                    Id = 2,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 300,
+                    WaterBill = 250,
+                    Rate = 9000,
+                    DueDate = new DateTime(2019, 11, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 10000
+                        }
+                    }
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 3,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 300,
+                    WaterBill = 250,
+                    Rate = 9000,
+                    DueDate = new DateTime(2019, 12, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 10700
+                        }
+                    }
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 4,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 335,
+                    WaterBill = 230,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 01, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 10800
+                        }
+                    }
+                },
+                // NOT PAID
+                new AccountStatement
+                {
+                    Id = 5,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 500,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 02, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PenaltyBreakdowns = new List<PenaltyBreakdown> {
+                        new PenaltyBreakdown {
+                            Amount = 50
+                        },
+                        new PenaltyBreakdown {
+                            Amount = 50,
+                        },
+                        new PenaltyBreakdown {
+                            Amount = 50,
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1000
+                        }
+                    },
+                },
+                // NOT PAID
+                new AccountStatement
+                {
+                    Id = 6,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 550,
+                    WaterBill = 350,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 03, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PenaltyBreakdowns = new List<PenaltyBreakdown> {
+                        new PenaltyBreakdown {
+                            Amount = 50
+                        },
+                        new PenaltyBreakdown {
+                            Amount = 50,
+                        },
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1000
+                        }
+                    },
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 7,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 450,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 04, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1000
+                        }
+                    },
+                },
+                // NOT PAID
+                new AccountStatement
+                {
+                    Id = 8,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 420,
+                    WaterBill = 280,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 05, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                    },
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 9,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 450,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 06, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1900
+                        },
+                    },
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 10,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 450,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 07, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1900
+                        },
+                    },
+                },
+                // NOT PAID
+                new AccountStatement
+                {
+                    Id = 11,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 450,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 08, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                    },
+                },
+                // PAID
+                new AccountStatement
+                {
+                    Id = 12,
+                    Contract = contract,
+                    DurationUnit = DurationEnum.Month,
+                    AdvancedPaymentDurationValue = 1,
+                    DepositPaymentDurationValue = 2,
+                    ElectricBill = 450,
+                    WaterBill = 300,
+                    Rate = 9000,
+                    DueDate = new DateTime(2020, 09, 15),
+                    AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous> {
+                        new AccountStatementMiscellaneous {
+                            Amount = 500
+                        },
+                        new AccountStatementMiscellaneous {
+                            Amount = 650
+                        }
+                    },
+                    PaymentBreakdowns = new List<PaymentBreakdown> {
+                        new PaymentBreakdown
+                        {
+                            Amount = 6000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 3000
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1900
+                        },
+                    },
+                },
+            };
+
+            return accountStatements;
         }
     }
 }

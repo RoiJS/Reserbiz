@@ -14,9 +14,11 @@ import { SpaceTypeDto } from '@src/app/_dtos/space-type.dto';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { ActionItemService } from '@src/app/_services/action-item.service';
-import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 import { SpaceTypeMapper } from '@src/app/_helpers/space-type-mapper.helper';
+
 import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+
+import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
 @Component({
   selector: 'ns-space-type-edit',
@@ -85,55 +87,6 @@ export class SpaceTypeEditComponent
         'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE'
       ),
     };
-  }
-
-  updateInformation() {
-    (async () => {
-      const isFormValid = await this.validateForm();
-
-      if (isFormValid) {
-        super.updateInformation();
-      }
-    })();
-  }
-
-  async validateForm(): Promise<boolean> {
-    let isNameValid: boolean, isAvailableSlotValid: boolean;
-    isNameValid = isAvailableSlotValid = true;
-
-    const dataForm = this.formSource.dataForm;
-    const nameProperty = dataForm.getPropertyByName('name');
-    const availableSlotProperty = dataForm.getPropertyByName('availableSlot');
-
-    // Check and validate name field
-    if (this._entityFormSource.name.trim() === '') {
-      nameProperty.errorMessage = this.translateService.instant(
-        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.NAME_CONTROL.HINT_TEXT'
-      );
-      isNameValid = false;
-    } else {
-      isNameValid = true;
-    }
-
-    // Check and validate available slot field
-    const validateProposedNewSlotValue = await this.spaceTypeService.validateSpaceTypeProposedNewAvailableSlot(
-      this._currentEntity.id,
-      this._entityFormSource.availableSlot
-    );
-
-    if (!validateProposedNewSlotValue) {
-      availableSlotProperty.errorMessage = this.translateService.instant(
-        'SPACE_TYPE_EDIT_DETAILS_PAGE.FORM_CONTROL.SLOT_CONTROL.INVALID_AVAILABLE_SLOT'
-      );
-      isAvailableSlotValid = false;
-    } else {
-      isAvailableSlotValid = true;
-    }
-
-    dataForm.notifyValidated('name', isNameValid);
-    dataForm.notifyValidated('availableSlot', isAvailableSlotValid);
-
-    return Boolean(isNameValid && isAvailableSlotValid);
   }
 
   deleteSelectedSpaceType() {

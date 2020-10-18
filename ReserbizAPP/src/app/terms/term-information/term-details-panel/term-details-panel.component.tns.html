@@ -1,5 +1,5 @@
 <FlexBoxLayout
-  class="page-container__page-divider term-detail-container__page-divider"
+  class="page-container__page-divider panel__page-divider"
   justifyContent="space-between"
 >
   <label
@@ -16,17 +16,17 @@
 
 <StackLayout class="term-detail-container panel">
   <!-- General Information Group -->
-  <StackLayout class="term-detail-container__details-group-panel">
+  <StackLayout class="panel__details-group-panel">
     <!-- Group Header -->
-    <StackLayout class="term-detail-container__header-section">
+    <StackLayout class="panel__header-section">
       <label
         [text]="'TERM_DETAILS_PAGE.GENERAL_CONTROL_GROUP.LABEL' | translate"
       ></label>
     </StackLayout>
     <!-- Group body -->
-    <StackLayout class="term-detail-container__body-section">
+    <StackLayout class="panel__body-section">
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="horizontal"
       >
         <!-- Code -->
@@ -53,7 +53,7 @@
       </StackLayout>
 
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="horizontal"
       >
         <!-- Space Type -->
@@ -84,7 +84,7 @@
       </StackLayout>
 
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="horizontal"
       >
         <!-- Maximum number of occupants  -->
@@ -104,17 +104,17 @@
   </StackLayout>
 
   <!-- Duration Details Group -->
-  <StackLayout class="term-detail-container__details-group-panel">
+  <StackLayout class="panel__details-group-panel">
     <!-- Group Header -->
-    <StackLayout class="term-detail-container__header-section">
+    <StackLayout class="panel__header-section">
       <label
         [text]="'TERM_DETAILS_PAGE.DURATION_CONTROL_GROUP.LABEL' | translate"
       ></label>
     </StackLayout>
     <!-- Group body -->
-    <StackLayout class="term-detail-container__body-section">
+    <StackLayout class="panel__body-section">
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="horizontal"
       >
         <!-- Duration -->
@@ -130,7 +130,7 @@
       </StackLayout>
 
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="horizontal"
       >
         <!-- Advanced Payment Duration Amount -->
@@ -163,16 +163,16 @@
   </StackLayout>
 
   <!-- Electric and Water Bill Group -->
-  <StackLayout class="term-detail-container__details-group-panel">
+  <StackLayout class="panel__details-group-panel">
     <!-- Group Header -->
-    <StackLayout class="term-detail-container__header-section">
+    <StackLayout class="panel__header-section">
       <label
         [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.LABEL' | translate"
       ></label>
     </StackLayout>
     <!-- Group body -->
-    <StackLayout class="term-detail-container__body-section">
-      <StackLayout class="term-detail-container__details-section">
+    <StackLayout class="panel__body-section">
+      <StackLayout class="panel__details-section">
         <!-- Exclude Electric Bill -->
         <FlexBoxLayout
           class="details-exclude-electric-bill"
@@ -203,7 +203,7 @@
       </StackLayout>
 
       <StackLayout
-        class="term-detail-container__details-section"
+        class="panel__details-section"
         orientation="vertical"
       >
         <!-- Exclude Water Bill -->
@@ -238,16 +238,16 @@
   </StackLayout>
 
   <!-- Penalty Details Group -->
-  <StackLayout class="term-detail-container__details-group-panel">
+  <StackLayout class="panel__details-group-panel">
     <!-- Group Header -->
-    <StackLayout class="term-detail-container__header-section">
+    <StackLayout class="panel__header-section">
       <label
         [text]="'TERM_DETAILS_PAGE.PENALTY_DETAILS_GROUP.LABEL' | translate"
       ></label>
     </StackLayout>
     <!-- Group body -->
-    <StackLayout class="term-detail-container__body-section">
-      <StackLayout class="term-detail-container__details-section">
+    <StackLayout class="panel__body-section">
+      <StackLayout class="panel__details-section">
         <!-- Penalty Amount Per Duration -->
         <FlexBoxLayout
           class="details-penalty-amount-per-duration"
@@ -262,7 +262,7 @@
         </FlexBoxLayout>
       </StackLayout>
 
-      <StackLayout class="term-detail-container__details-section">
+      <StackLayout class="panel__details-section">
         <!-- Penalty Amount Per Duration -->
         <FlexBoxLayout
           class="details-penalty-effective-after-duration"

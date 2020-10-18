@@ -11,14 +11,7 @@ import { ContractAddComponent } from './contract-add.component';
       {
         path: '',
         component: ContractAddComponent,
-      },
-      {
-        path: 'manage-term/:termId',
-        loadChildren: () =>
-          import('./contract-manage-term/contract-manage-term.module').then(
-            (m) => m.ContractManageTermModule
-          ),
-      },
+      }
     ]),
     SharedModule,
   ],

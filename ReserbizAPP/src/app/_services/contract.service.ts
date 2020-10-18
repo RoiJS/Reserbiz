@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, BehaviorSubject, ObservableLike } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 
 import { BaseService } from './base.service';
@@ -16,6 +16,7 @@ import { ContractMapper } from '../_helpers/contract-mapper.helper';
 
 import { IBaseService } from '../_interfaces/ibase-service.interface';
 import { IContractFilter } from '../_interfaces/icontract-filter.interface';
+import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 import { DurationEnum } from '../_enum/duration-unit.enum';
 import { ContractDto } from '../_dtos/contract-dto';
@@ -43,6 +44,12 @@ export class ContractService
     );
   }
 
+  async getContract(contractId: number): Promise<Contract> {
+    return await this.getEntityFromServer(
+      `${this._apiBaseUrl}/contract/${contractId}`
+    ).toPromise();
+  }
+
   deleteMultipleItems(contracts: Contract[]): Observable<void> {
     return this.deleteMultipleItemsOnServer(
       `${this._apiBaseUrl}/contract/deleteMultipleContracts`,
@@ -62,6 +69,13 @@ export class ContractService
     );
   }
 
+  updateEntity(contractForUpdateDto: IDtoProcess): Observable<void> {
+    return this.updateEntityToServer(
+      `${this._apiBaseUrl}/contract/${contractForUpdateDto.id}`,
+      contractForUpdateDto.dtoEntity
+    );
+  }
+
   setMultipleEntityStatus(
     contracts: Contract[],
     status: boolean
@@ -73,58 +87,94 @@ export class ContractService
     );
   }
 
-  async saveNewContract(
+  async manageContract(
     contractDetails: Contract,
     termDetails: Term,
     termMiscellaneousList: TermMiscellaneous[]
   ): Promise<void> {
-    const contractCreateDto = new ContractDto(
+    const contractManageDto = this.mapContractDto(
+      contractDetails,
+      termDetails,
+      termMiscellaneousList
+    );
+
+    if (contractDetails.id === 0) {
+      return this.http
+        .post<void>(`${this._apiBaseUrl}/contract/create`, contractManageDto)
+        .toPromise();
+    } else {
+      return this.http
+        .put<void>(
+          `${this._apiBaseUrl}/contract/${contractDetails.id}`,
+          contractManageDto
+        )
+        .toPromise();
+    }
+  }
+
+  mapContractDto(
+    contractDetails: Contract,
+    termDetails: Term,
+    termMiscellaneousList: TermMiscellaneous[]
+  ): ContractDto {
+    const isNewContract = contractDetails.id === 0;
+
+    const contractManageDto = new ContractDto(
       contractDetails.code,
       contractDetails.tenantId,
       contractDetails.termId,
+      contractDetails.spaceId,
       contractDetails.effectiveDate,
       contractDetails.isOpenContract,
       contractDetails.durationUnit,
       contractDetails.durationValue
     );
 
-    contractCreateDto.term.code = termDetails.code;
-    contractCreateDto.term.name = termDetails.name;
-    contractCreateDto.term.spaceTypeId = termDetails.spaceTypeId;
-    contractCreateDto.term.rate = termDetails.rate;
-    contractCreateDto.term.maximumNumberOfOccupants =
+    if (!isNewContract) {
+      contractManageDto.term.id = termDetails.id;
+    }
+
+    contractManageDto.term.code = termDetails.code;
+    contractManageDto.term.name = termDetails.name;
+    contractManageDto.term.spaceTypeId = termDetails.spaceTypeId;
+    contractManageDto.term.rate = termDetails.rate;
+    contractManageDto.term.maximumNumberOfOccupants =
       termDetails.maximumNumberOfOccupants;
-    contractCreateDto.term.durationUnit = termDetails.durationUnit;
-    contractCreateDto.term.advancedPaymentDurationValue =
+    contractManageDto.term.durationUnit = termDetails.durationUnit;
+    contractManageDto.term.advancedPaymentDurationValue =
       termDetails.advancedPaymentDurationValue;
-    contractCreateDto.term.depositPaymentDurationValue =
+    contractManageDto.term.depositPaymentDurationValue =
       termDetails.depositPaymentDurationValue;
-    contractCreateDto.term.excludeElectricBill =
+    contractManageDto.term.excludeElectricBill =
       termDetails.excludeElectricBill;
-    contractCreateDto.term.electricBillAmount = termDetails.electricBillAmount;
-    contractCreateDto.term.excludeWaterBill = termDetails.excludeWaterBill;
-    contractCreateDto.term.waterBillAmount = termDetails.waterBillAmount;
-    contractCreateDto.term.penaltyValue = termDetails.penaltyValue;
-    contractCreateDto.term.penaltyValueType = termDetails.penaltyValueType;
-    contractCreateDto.term.penaltyAmountPerDurationUnit =
+    contractManageDto.term.electricBillAmount = termDetails.electricBillAmount;
+    contractManageDto.term.excludeWaterBill = termDetails.excludeWaterBill;
+    contractManageDto.term.waterBillAmount = termDetails.waterBillAmount;
+    contractManageDto.term.penaltyValue = termDetails.penaltyValue;
+    contractManageDto.term.penaltyValueType = termDetails.penaltyValueType;
+    contractManageDto.term.penaltyAmountPerDurationUnit =
       termDetails.penaltyAmountPerDurationUnit;
-    contractCreateDto.term.penaltyEffectiveAfterDurationValue =
+    contractManageDto.term.penaltyEffectiveAfterDurationValue =
       termDetails.penaltyEffectiveAfterDurationValue;
-    contractCreateDto.term.penaltyEffectiveAfterDurationUnit =
+    contractManageDto.term.penaltyEffectiveAfterDurationUnit =
       termDetails.penaltyEffectiveAfterDurationUnit;
 
-    contractCreateDto.term.termMiscellaneous = termMiscellaneousList.map(
+    contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {
         const termMiscellaneous = new TermMiscellaneous();
+
+        if (!isNewContract) {
+          termMiscellaneous.id = tm.id;
+        }
+
         termMiscellaneous.name = tm.name;
         termMiscellaneous.description = tm.description;
+        termMiscellaneous.amount = tm.amount;
         return termMiscellaneous;
       }
     );
 
-    return this.http
-      .post<void>(`${this._apiBaseUrl}/contract/create`, contractCreateDto)
-      .toPromise();
+    return contractManageDto;
   }
 
   reloadListFlag() {
@@ -159,6 +209,19 @@ export class ContractService
     return await this.http
       .get<boolean>(
         `${this._apiBaseUrl}/contract/checkContractCodeIfExists/${contractId}/${contractCode}`
+      )
+      .toPromise();
+  }
+
+  async validateExpirationDate(
+    contractId: number,
+    effectiveDate: string,
+    durationUnit: DurationEnum,
+    durationValue: number
+  ): Promise<boolean> {
+    return await this.http
+      .get<boolean>(
+        `${this._apiBaseUrl}/contract/validateExpirationDate/${contractId}/${effectiveDate}/${durationUnit}/${durationValue}`
       )
       .toPromise();
   }

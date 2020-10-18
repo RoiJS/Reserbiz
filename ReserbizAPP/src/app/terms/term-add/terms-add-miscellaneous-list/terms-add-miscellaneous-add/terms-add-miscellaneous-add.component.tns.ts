@@ -4,13 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
 import { RouterExtensions } from 'nativescript-angular/router';
 
-import { AddTermMiscellaneousService } from '@src/app/_services/add-term-miscellaneous.service';
+import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
-import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
 import { TermMiscellaneousMapper } from '@src/app/_helpers/term-miscellaneous-mapper.helper';
-import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+
+import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
+
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
   selector: 'ns-terms-add-miscellaneous-add',
@@ -25,7 +27,7 @@ export class TermsAddMiscellaneousAddComponent implements OnInit {
   private _isBusy = false;
 
   constructor(
-    private addTermMiscellaneousService: AddTermMiscellaneousService,
+    private localManageTermMiscellaneousService: LocalManageTermMiscellaneousService,
     private dialogService: DialogService,
     private router: RouterExtensions,
     private translateService: TranslateService
@@ -59,7 +61,7 @@ export class TermsAddMiscellaneousAddComponent implements OnInit {
               newMiscellaneous.description = this._termMiscellaneousFormSource.description;
               newMiscellaneous.amount = this._termMiscellaneousFormSource.amount;
 
-              this.addTermMiscellaneousService.addNewEntity(newMiscellaneous);
+              this.localManageTermMiscellaneousService.addNewEntity(newMiscellaneous);
 
               this.dialogService.alert(
                 this.translateService.instant(

@@ -8,7 +8,7 @@ import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-
 import { Subscription } from 'rxjs';
 
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
-import { AddTermMiscellaneousService } from '@src/app/_services/add-term-miscellaneous.service';
+import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ListViewEventData } from 'nativescript-ui-listview';
@@ -33,7 +33,7 @@ export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
   constructor(
     private active: ActivatedRoute,
     private router: RouterExtensions,
-    private addTermMiscellaneousService: AddTermMiscellaneousService,
+    private localManageTermMiscellaneousService: LocalManageTermMiscellaneousService,
     private dialogService: DialogService,
     private location: Location,
     private ngZone: NgZone,
@@ -56,7 +56,7 @@ export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
   getTermMiscellaneousList() {
     this._isBusy = true;
     setTimeout(() => {
-      this._termMiscellaneousListSub = this.addTermMiscellaneousService.entityList
+      this._termMiscellaneousListSub = this.localManageTermMiscellaneousService.entityList
         .asObservable()
         .subscribe((termMiscellaneous: TermMiscellaneous[]) => {
           this._isBusy = false;
@@ -120,7 +120,7 @@ export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
               () => {
                 this.ngZone.run(() => {
                   this._isBusy = false;
-                  this.addTermMiscellaneousService.removeEntity(
+                  this.localManageTermMiscellaneousService.removeEntity(
                     termMiscellaneousId
                   );
                 });

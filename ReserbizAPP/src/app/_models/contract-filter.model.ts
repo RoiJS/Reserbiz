@@ -1,6 +1,7 @@
 import { IContractFilter } from '../_interfaces/icontract-filter.interface';
 import { EntityFilter } from './entity-filter.model';
 import { DateFormatter } from '../_helpers/date-formatter.helper';
+import { SortOrderEnum } from '../_enum/sort-order.enum';
 
 export class ContractFilter extends EntityFilter implements IContractFilter {
   public code: string;
@@ -21,6 +22,7 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
     this.nextDueDateFromFilter = null;
     this.nextDueDateToFilter = null;
     this.openContract = false;
+    this.sortOrder = SortOrderEnum.Ascending;
   }
 
   reset(): void {
@@ -30,6 +32,7 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
     this.nextDueDateFromFilter = null;
     this.nextDueDateToFilter = null;
     this.openContract = null;
+    this.sortOrder = SortOrderEnum.Ascending;
   }
 
   isFilterActive(): boolean {
@@ -39,7 +42,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
         this.activeToFilter ||
         this.nextDueDateFromFilter ||
         this.nextDueDateToFilter ||
-        this.openContract
+        this.openContract ||
+        this.sortOrder === SortOrderEnum.Descending
     );
 
     return hasFilter;
@@ -55,7 +59,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
       openContract: this.openContract,
       archived: this.archived,
       page: this.page,
-      searchKeyword: this.searchKeyword
+      searchKeyword: this.searchKeyword,
+      sortOrder: this.sortOrder,
     };
   }
 }

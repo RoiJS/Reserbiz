@@ -1,0 +1,32 @@
+@import '../../../../../app-variables';
+
+.txt-water-bill-amount,
+.txt-electric-bill-amount {
+  width: 100%;
+  font-size: 15;
+}
+
+.panel {
+  &__border {
+    border-width: 5;
+    width: 100%;
+    margin-top: 10;
+    border-color: $primary;
+  }
+
+  &__details-section {
+    border-bottom-width: 0;
+
+    .bill-category-name {
+      width: 50%;
+
+      .details-label {
+        color: $primary;
+      }
+    }
+
+    .bill-category-value {
+      width: 50%;
+    }
+  }
+}

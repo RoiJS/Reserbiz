@@ -6,12 +6,15 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { TenantService } from '@src/app/_services/tenant.service';
+
 import { TenantOption } from '@src/app/_models/tenant-option.model';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
-import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
-import { FilterOptionEnum } from '@src/app/_enum/filter-option.enum';
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 import { ContractFilterFormSource } from '@src/app/_models/contract-filter-form.model';
+import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
+
+import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
+import { SortOrderValueProvider } from '@src/app/_helpers/sort-order-value-provider.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 
 @Component({
   selector: 'ns-contract-filter-dialog',
@@ -29,6 +32,7 @@ export class ContractFilterDialogComponent
   private _contractFilterFormSourceOriginal: ContractFilterFormSource;
 
   private _tenantValueProvider: TenantValueProvider;
+  private _sortOrderValueProvider: SortOrderValueProvider;
   private _tenantOptions;
 
   constructor(
@@ -44,7 +48,8 @@ export class ContractFilterDialogComponent
       this._contractFilterData.activeToFilter,
       this._contractFilterData.nextDueDateFromFilter,
       this._contractFilterData.nextDueDateToFilter,
-      this._contractFilterData.openContract
+      this._contractFilterData.openContract,
+      this._contractFilterData.sortOrder
     );
 
     this._contractFilterFormSourceOriginal = this._contractFilterFormSource.clone();
@@ -55,6 +60,10 @@ export class ContractFilterDialogComponent
     this._tenantValueProvider = new TenantValueProvider(
       this.translateService,
       this.tenantService
+    );
+
+    this._sortOrderValueProvider = new SortOrderValueProvider(
+      this.translateService
     );
     this._tenantOptions = this._tenantValueProvider.tenantOptions;
   }
@@ -103,6 +112,10 @@ export class ContractFilterDialogComponent
         contractFilter.openContract
       );
     }
+
+    if (contractFilter.sortOrder) {
+      this._contractFilterFormSource.sortOrder = contractFilter.sortOrder;
+    }
   }
 
   onConfirm() {
@@ -129,6 +142,7 @@ export class ContractFilterDialogComponent
     this._contractFilterData.nextDueDateFromFilter = this._contractFilterFormSource.nextDueDateFrom;
     this._contractFilterData.nextDueDateToFilter = this._contractFilterFormSource.nextDueDateTo;
     this._contractFilterData.openContract = this._contractFilterFormSource.openContract;
+    this._contractFilterData.sortOrder = this._contractFilterFormSource.sortOrder;
   }
 
   resetFilterValues() {
@@ -141,6 +155,7 @@ export class ContractFilterDialogComponent
         nextDueDateFrom: null,
         nextDueDateTo: null,
         openContract: null,
+        sortOrder: SortOrderEnum.Ascending,
       }
     );
   }
@@ -159,5 +174,9 @@ export class ContractFilterDialogComponent
     items: TenantOption[];
   } {
     return this._tenantOptions;
+  }
+
+  get sortOrderOptions(): Array<{ key: SortOrderEnum; label: string }> {
+    return this._sortOrderValueProvider.sortOrderOptions;
   }
 }

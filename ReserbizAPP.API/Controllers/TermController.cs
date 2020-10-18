@@ -25,7 +25,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForCreationDto termForCreationDto)
+        public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForManageDto termForCreationDto)
         {
             var termToCreate = _mapper.Map<Term>(termForCreationDto);
 

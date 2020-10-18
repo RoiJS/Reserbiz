@@ -5,38 +5,35 @@ import {
   OnDestroy,
   NgZone,
   ChangeDetectorRef,
-  ViewContainerRef,
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from 'nativescript-angular/router';
-import {
-  ModalDialogService,
-  ModalDialogOptions,
-} from 'nativescript-angular/modal-dialog';
 
-import { BaseListComponent } from '@src/app/shared/component/base-list.component';
-
-import { Contract } from '@src/app/_models/contract.model';
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
-import { ContractFilterDialogComponent } from '../../contract-filter-dialog/contract-filter-dialog.component';
-
-import { ContractService } from '@src/app/_services/contract.service';
-import { DialogService } from '@src/app/_services/dialog.service';
-import { StorageService } from '@src/app/_services/storage.service';
-import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
-import { ContractFilter } from '@src/app/_models/contract-filter.model';
 import {
   ListViewEventData,
   SwipeActionsEventData,
 } from 'nativescript-ui-listview';
+
+import { BaseListComponent } from '@src/app/shared/component/base-list.component';
+
+import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+
+import { ContractService } from '@src/app/_services/contract.service';
+import { DialogService } from '@src/app/_services/dialog.service';
+import { TermService } from '@src/app/_services/term.service';
+
+import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
+import { ContractFilter } from '@src/app/_models/contract-filter.model';
+import { Contract } from '@src/app/_models/contract.model';
 
 @Component({
   selector: 'ns-contract-archived-list',
   templateUrl: './contract-archived-list.component.html',
   styleUrls: ['./contract-archived-list.component.scss'],
 })
-export class ContractArchivedListComponent extends BaseListComponent<Contract>
+export class ContractArchivedListComponent
+  extends BaseListComponent<Contract>
   implements IBaseListComponent, OnInit, OnDestroy {
   private _expiredContractsCount: number;
   private _inactiveContractsCount: number;
@@ -50,9 +47,7 @@ export class ContractArchivedListComponent extends BaseListComponent<Contract>
     protected ngZone: NgZone,
     protected translateService: TranslateService,
     protected router: RouterExtensions,
-    private modalDialogService: ModalDialogService,
-    private vcRef: ViewContainerRef,
-    private storageService: StorageService
+    private termService: TermService
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = contractService;
@@ -93,33 +88,33 @@ export class ContractArchivedListComponent extends BaseListComponent<Contract>
   }
 
   initDialogTexts() {
-    this._deactivateMultipleItemDialogTexts = {
+    this._activateMultipleItemDialogTexts = {
       title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.TITLE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACTS_DIALOG.TITLE'
       ),
       confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.CONFIRM_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACTS_DIALOG.CONFIRM_MESSAGE'
       ),
       successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.SUCCESS_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACTS_DIALOG.SUCCESS_MESSAGE'
       ),
       errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.ERROR_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACTS_DIALOG.ERROR_MESSAGE'
       ),
     };
 
-    this._deactivateItemDialogTexts = {
+    this._activateItemDialogTexts = {
       title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE'
       ),
       confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
       ),
       successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
       ),
       errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE'
+        'CONTRACT_ARCHIVED_LIST_PAGE.DEARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE'
       ),
     };
   }
@@ -133,6 +128,29 @@ export class ContractArchivedListComponent extends BaseListComponent<Contract>
       .bindingContext as Contract;
     this._isCurrentItemExpired = contract.isExpired;
     super.onSwipeCellStarted(args);
+  }
+
+  activateSelectedItem() {
+    (async () => {
+      const isTermSpaceTypeAvailable = await this.termService.checkSpaceTypeAvailability(
+        this._currentItem.termId
+      );
+
+      // Check the availability of space type attached to the term of the contract
+      if (!isTermSpaceTypeAvailable) {
+        this.dialogService.alert(
+          this.translateService.instant(
+            'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'
+          ),
+          this.translateService.instant(
+            'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.ERROR_MESSAGE'
+          )
+        );
+        return;
+      }
+
+      super.activateSelectedItem();
+    })();
   }
 
   get expiredContractsCount(): number {

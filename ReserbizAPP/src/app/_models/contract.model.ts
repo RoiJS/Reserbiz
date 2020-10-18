@@ -4,11 +4,15 @@ import { Entity } from './entity.model';
 import { ContractDurationBeforeContractEnds } from './contract-duration-before-contract-ends.model';
 
 import { DurationEnum } from '../_enum/duration-unit.enum';
+import { DateFormatter } from '../_helpers/date-formatter.helper';
 
 export class Contract extends Entity {
   public code: string;
   public tenantId: number;
   public termId: number;
+  public spaceId: number;
+  public spaceName: string;
+  public termParentId: number;
   public tenantName: string;
   public effectiveDate: Date;
   public isOpenContract: boolean;
@@ -16,10 +20,14 @@ export class Contract extends Entity {
   public durationUnit: DurationEnum;
   public expirationDate: Date;
   public isExpired: boolean;
+  public isEditable: boolean;
 
   public nextDueDate: Date;
   public contractDurationBeforeContractEnds: ContractDurationBeforeContractEnds[];
   public contractDurationBeforeContractEndsText: string;
+  public spaceTypeName: string;
+  public spaceTypeId: number;
+  public accountStatementsCount: number;
 
   constructor() {
     super();
@@ -27,15 +35,21 @@ export class Contract extends Entity {
     this.code = '';
     this.tenantId = 0;
     this.termId = 0;
+    this.spaceId = 0;
+    this.spaceName = '';
     this.effectiveDate = null;
     this.isOpenContract = false;
     this.durationValue = 0;
     this.durationUnit = DurationEnum.None;
     this.expirationDate = null;
     this.isExpired = false;
+    this.isEditable = true;
     this.nextDueDate = null;
     this.contractDurationBeforeContractEnds = [];
     this.contractDurationBeforeContractEndsText = '';
+    this.spaceTypeName = '';
+    this.spaceTypeId = 0;
+    this.accountStatementsCount = 0;
   }
 
   public convertDurationBeforeContractEndsToString(
@@ -99,6 +113,10 @@ export class Contract extends Entity {
     return +stringId[stringId.length - 1];
   }
 
+  get hasAccountStatements(): boolean {
+    return this.accountStatementsCount > 0;
+  }
+
   get nextDueDateMonthName(): string {
     if (!this.nextDueDate) {
       return '';
@@ -139,5 +157,31 @@ export class Contract extends Entity {
       return 0;
     }
     return this.nextDueDate.getDate();
+  }
+
+  get nextDueDateYear(): number {
+    if (!this.nextDueDate) {
+      return 0;
+    }
+    return this.nextDueDate.getFullYear();
+  }
+
+  get isNextDueDateYearCurrentYear(): boolean {
+    const result = Boolean(
+      this.nextDueDate.getFullYear() === new Date().getFullYear()
+    );
+    return result;
+  }
+
+  get effectiveDateFormatted(): string {
+    return DateFormatter.format(this.effectiveDate, 'MMM DD YYYY');
+  }
+
+  get nextDueDateFormatted(): string {
+    return DateFormatter.format(this.nextDueDate, 'MMM DD YYYY');
+  }
+
+  get expirationDateFormatted(): string {
+    return DateFormatter.format(this.expirationDate, 'MMM DD YYYY');
   }
 }

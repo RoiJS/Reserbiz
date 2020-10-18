@@ -1,8 +1,10 @@
 import { DurationEnum } from '../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../_enum/value-type.enum';
+
 import { Entity } from './entity.model';
 import { TermMiscellaneous } from './term-miscellaneous.model';
 import { SpaceType } from './space-type.model';
+
 import { NumberFormatter } from '../_helpers/number-formatter.helper';
 
 export class Term extends Entity {
@@ -63,6 +65,10 @@ export class Term extends Entity {
 
   get formattedPenaltyAmount(): string {
     return NumberFormatter.formatCurrency(this.penaltyAmount);
+  }
+
+  get isChildCopy(): boolean {
+    return this.termParentId > 0;
   }
 
   hasContent() {

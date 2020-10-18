@@ -26,13 +26,15 @@ import { DialogService } from '@src/app/_services/dialog.service';
 import { StorageService } from '@src/app/_services/storage.service';
 import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
+import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
 @Component({
   selector: 'ns-contract-list',
   templateUrl: './contract-list.component.html',
   styleUrls: ['./contract-list.component.scss'],
 })
-export class ContractListComponent extends BaseListComponent<Contract>
+export class ContractListComponent
+  extends BaseListComponent<Contract>
   implements IBaseListComponent, OnInit, OnDestroy {
   private _openContractsCount: number;
 
@@ -42,6 +44,7 @@ export class ContractListComponent extends BaseListComponent<Contract>
   private CONTRACT_FILTER_NEXT_DUE_DATE_FROM = 'contractFilter_nextDueDateFrom';
   private CONTRACT_FILTER_NEXT_DUE_DATE_TO = 'contractFilter_nextDueDateTo';
   private CONTRACT_FILTER_OPEN_CONTRACT = 'contractFilter_openContract';
+  private CONTRACT_FILTER_SORT_ORDER = 'contractFilter_sortOrder';
 
   constructor(
     protected contractService: ContractService,
@@ -145,6 +148,9 @@ export class ContractListComponent extends BaseListComponent<Contract>
     const openContract = this.storageService.getString(
       this.CONTRACT_FILTER_OPEN_CONTRACT
     );
+    const sortOrder = this.storageService.getString(
+      this.CONTRACT_FILTER_SORT_ORDER
+    );
 
     if (tenantId) {
       (<ContractFilter>this._entityFilter).tenantId = Number(tenantId);
@@ -177,6 +183,12 @@ export class ContractListComponent extends BaseListComponent<Contract>
         JSON.parse(openContract)
       );
     }
+
+    if (sortOrder) {
+      (<ContractFilter>this._entityFilter).sortOrder = <SortOrderEnum>(
+        parseInt(sortOrder)
+      );
+    }
   }
 
   storeFilterOptions(contractFilter: ContractFilter) {
@@ -186,6 +198,7 @@ export class ContractListComponent extends BaseListComponent<Contract>
     const nextDueDateFrom = contractFilter.nextDueDateFromFilter;
     const nextDueDateTo = contractFilter.nextDueDateToFilter;
     const openContract = contractFilter.openContract;
+    const sortOrder = contractFilter.sortOrder;
 
     if (tenantId) {
       this.storageService.storeString(
@@ -228,6 +241,13 @@ export class ContractListComponent extends BaseListComponent<Contract>
         openContract.toString()
       );
     }
+
+    if (sortOrder) {
+      this.storageService.storeString(
+        this.CONTRACT_FILTER_SORT_ORDER,
+        sortOrder.toString()
+      );
+    }
   }
 
   resetFilterOptions() {
@@ -237,6 +257,7 @@ export class ContractListComponent extends BaseListComponent<Contract>
     this.storageService.remove(this.CONTRACT_FILTER_NEXT_DUE_DATE_FROM);
     this.storageService.remove(this.CONTRACT_FILTER_NEXT_DUE_DATE_TO);
     this.storageService.remove(this.CONTRACT_FILTER_OPEN_CONTRACT);
+    this.storageService.remove(this.CONTRACT_FILTER_SORT_ORDER);
   }
 
   initFilterDialog(): Promise<any> {
@@ -273,6 +294,9 @@ export class ContractListComponent extends BaseListComponent<Contract>
           this.resetFilterOptions();
         }
 
+        // Needs to reset the page number to get
+        // the correct data
+        this._entityFilter.page = 1;
         this.entityService.reloadListFlag();
       }
     );

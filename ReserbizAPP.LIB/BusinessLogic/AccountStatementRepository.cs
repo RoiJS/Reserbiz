@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -22,6 +23,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             _contractRepository = contractRepository;
             _clientSettingsRepository = clientSettingsRepository;
+        }
+
+        public AccountStatementRepository() : base()
+        {
+
         }
 
         public AccountStatement RegisterNewAccountStament(Contract contract)
@@ -133,6 +139,48 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var activeDueAccountStatements = activeAccountStatementsPerContractFromRepo.Where(a => a.IsDueToGeneratePenalty).ToList();
 
             return activeDueAccountStatements;
+        }
+
+
+        public List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter)
+        {
+            var filteredAccountStatements = unfilteredAccountStatements;
+
+            // Filter account statements where the filter FromDate should 
+            // be less than or equal to account statement Due Date
+            if (accountStatementFilter.FromDate != DateTime.MinValue)
+            {
+                filteredAccountStatements = filteredAccountStatements.Where(c => !(accountStatementFilter.FromDate > c.DueDate)).ToList();
+            }
+
+            // Filter account statements where the filter ToDate should 
+            // be greater than or equal to account statement Due Date
+            if (accountStatementFilter.ToDate != DateTime.MinValue)
+            {
+                filteredAccountStatements = filteredAccountStatements.Where(c => !(accountStatementFilter.ToDate < c.DueDate)).ToList();
+            }
+
+            // Filter open contracts 
+            if (accountStatementFilter.PaymentStatus != PaymentStatusEnum.All)
+            {
+                var isPaid = (accountStatementFilter.PaymentStatus == PaymentStatusEnum.Paid);
+                filteredAccountStatements = filteredAccountStatements.Where(c => c.IsFullyPaid == isPaid).ToList();
+            }
+
+            // Set sort order based on due date
+            // Sort order is ascending by default
+            if (accountStatementFilter.SortOrder == SortOrderEnum.Ascending)
+            {
+                return filteredAccountStatements
+                    .OrderBy(c => c.DueDate)
+                    .ToList();
+            }
+            else
+            {
+                return filteredAccountStatements
+                    .OrderByDescending(c => c.DueDate)
+                    .ToList();
+            }
         }
 
         public async Task GenerateContractAccountStatements(int contractId)

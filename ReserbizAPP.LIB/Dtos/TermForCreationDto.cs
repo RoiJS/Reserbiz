@@ -5,8 +5,10 @@ using ReserbizAPP.LIB.Helpers.Custom_Validations;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class TermForCreationDto
+    public class TermForManageDto
     {
+        public int Id { get; set; }
+
         [Required]
         [MaxLength(20, ErrorMessage = "{0} must not exceed to {1}.")]
         public string Code { get; set; }
@@ -50,7 +52,7 @@ namespace ReserbizAPP.LIB.Dtos
         // Amount of Electric bill
         [Required]
         // [MinLength(0, ErrorMessage = "Electric Bill must not be less than zero.")]
-        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
+        [BillAmountState("ExcludeElectricBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
         public float ElectricBillAmount { get; set; }
 
         // Exluding Monthly Water Bill from the payment
@@ -60,7 +62,7 @@ namespace ReserbizAPP.LIB.Dtos
         // Amount of WaterBill
         [Required]
         // [MinLength(0, ErrorMessage = "Water Bill must not be less than zero.")]
-        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to true.")]
+        [BillAmountState("ExcludeWaterBill", ErrorMessage = "Value must be 0 when property {0} is set to false.")]
         public float WaterBillAmount { get; set; }
 
         // Penalty amount value
@@ -87,6 +89,6 @@ namespace ReserbizAPP.LIB.Dtos
         [EnumDataType(typeof(DurationEnum))]
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
-        public List<TermMiscellaneousForCreationDto> TermMiscellaneous { get; set; }
+        public List<TermMiscellaneousManageDto> TermMiscellaneous { get; set; }
     }
 }

@@ -8,6 +8,7 @@ export class ContractDto {
     public code: string,
     public tenantId: number,
     public termId: number,
+    public spaceId: number,
     public effectiveDate: Date,
     public isOpenContract: boolean,
     public durationUnit: DurationEnum,

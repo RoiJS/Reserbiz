@@ -6,12 +6,14 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AddTermService } from '@src/app/_services/add-term.service';
-import { AddTermMiscellaneousService } from '@src/app/_services/add-term-miscellaneous.service';
+import { LocalManageTermService } from '@src/app/_services/local-manage-term.service';
+import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TermService } from '@src/app/_services/term.service';
+
 import { Term } from '@src/app/_models/term.model';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
+
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
@@ -29,8 +31,8 @@ export class TermAddComponent implements OnInit, OnDestroy {
   private _isBusy = false;
 
   constructor(
-    private addTermService: AddTermService,
-    private addTermMiscellaneousService: AddTermMiscellaneousService,
+    private localManageTermService: LocalManageTermService,
+    private localManageTermMiscellaneousService: LocalManageTermMiscellaneousService,
     private dialogService: DialogService,
     private termService: TermService,
     private translateService: TranslateService,
@@ -40,13 +42,13 @@ export class TermAddComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeActionBarTitles();
 
-    this._termDetailsSub = this.addTermService.entityDetails.subscribe(
+    this._termDetailsSub = this.localManageTermService.entityDetails.subscribe(
       (term: Term) => {
         this._termDetails = term;
       }
     );
 
-    this._termMiscellaneousSub = this.addTermMiscellaneousService.entityList.subscribe(
+    this._termMiscellaneousSub = this.localManageTermMiscellaneousService.entityList.subscribe(
       (termMiscellaneous: TermMiscellaneous[]) => {
         this._termMiscellaneous = termMiscellaneous;
       }
@@ -82,11 +84,11 @@ export class TermAddComponent implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this.addTermService.entityCancelSaveDetails.next();
+    this.localManageTermService.entityCancelSaveDetails.next();
   }
 
   saveInformation() {
-    this.addTermService.entitySavedDetails.next();
+    this.localManageTermService.entitySavedDetails.next();
   }
 
   onTermsDetailsSaved(e: { newTerm: Term; isFormValid: boolean }) {
@@ -104,7 +106,7 @@ export class TermAddComponent implements OnInit, OnDestroy {
     }
 
     const newTerm = e.newTerm;
-    const newTermMiscellaneous = this.addTermMiscellaneousService.entityList
+    const newTermMiscellaneous = this.localManageTermMiscellaneousService.entityList
       .value;
 
     // Save the new term information
@@ -129,8 +131,8 @@ export class TermAddComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               () => {
-                this.addTermService.resetEntityDetails();
-                this.addTermMiscellaneousService.resetEntityList();
+                this.localManageTermService.resetEntityDetails();
+                this.localManageTermMiscellaneousService.resetEntityList();
 
                 this.dialogService.alert(
                   this.translateService.instant(
@@ -173,8 +175,8 @@ export class TermAddComponent implements OnInit, OnDestroy {
         )
         .then((result: ButtonOptions) => {
           if (result === ButtonOptions.YES) {
-            this.addTermService.resetEntityDetails();
-            this.addTermMiscellaneousService.resetEntityList();
+            this.localManageTermService.resetEntityDetails();
+            this.localManageTermMiscellaneousService.resetEntityList();
             this.router.back();
           }
         });

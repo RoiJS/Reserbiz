@@ -21,9 +21,10 @@ import { ITermFormValueProvider } from '@src/app/_interfaces/iterm-form-value-pr
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 
-import { AddTermService } from '@src/app/_services/add-term.service';
-import { AddTermMiscellaneousService } from '@src/app/_services/add-term-miscellaneous.service';
+import { LocalManageTermService } from '@src/app/_services/local-manage-term.service';
+import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
+import { TermService } from '@src/app/_services/term.service';
 
 import { TermMapper } from '@src/app/_helpers/term-mapper.helper';
 import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
@@ -32,7 +33,6 @@ import { SpaceTypeValueProvider } from '@src/app/_helpers/space-type-value-provi
 import { PickerEditorValidator } from '@src/app/_helpers/picker-editor-validator.helper';
 import { DurationRangeValueProvider } from '@src/app/_helpers/duration-range-value-provider.helper';
 import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
-import { TermService } from '@src/app/_services/term.service';
 
 registerElement('PickerEditorValidator', () => <any>PickerEditorValidator);
 
@@ -67,8 +67,8 @@ export class TermsDetailsFormComponent
   private _IsBusy = false;
 
   constructor(
-    private addTermService: AddTermService,
-    private addTermMiscellaneous: AddTermMiscellaneousService,
+    private localManageTermService: LocalManageTermService,
+    private localManageTermMiscellaneous: LocalManageTermMiscellaneousService,
     private spaceTypeService: SpaceTypeService,
     private termService: TermService,
     private translateService: TranslateService
@@ -101,13 +101,13 @@ export class TermsDetailsFormComponent
       this._termDetailsForm.penaltyEffectiveAfterDurationUnit
     );
 
-    this._termSavedDetailsSub = this.addTermService.entitySavedDetails.subscribe(
+    this._termSavedDetailsSub = this.localManageTermService.entitySavedDetails.subscribe(
       () => {
         this.onTermDetailsSavedEmit();
       }
     );
 
-    this._cancelTermSavedDetailsSub = this.addTermService.entityCancelSaveDetails.subscribe(
+    this._cancelTermSavedDetailsSub = this.localManageTermService.entityCancelSaveDetails.subscribe(
       () => {
         this.onCancelTermDetailsSavedEmit();
       }
@@ -223,7 +223,7 @@ export class TermsDetailsFormComponent
 
       const hasContent = Boolean(
         this._newTermDetails.hasContent() ||
-        this.addTermMiscellaneous.entityList.value.length > 0
+        this.localManageTermMiscellaneous.entityList.value.length > 0
       );
 
       this.onCancelTermDetailsSaved.emit(hasContent);
@@ -281,7 +281,7 @@ export class TermsDetailsFormComponent
      */
     if (args.propertyName === 'excludeElectricBill') {
       if (
-        this._termDetailsForm.excludeElectricBill &&
+        !this._termDetailsForm.excludeElectricBill &&
         this._termDetailsForm.electricBillAmount > 0
       ) {
         this._termDetailsForm = this.reloadFormSource(this._termDetailsForm, {
@@ -296,7 +296,7 @@ export class TermsDetailsFormComponent
      */
     if (args.propertyName === 'excludeWaterBill') {
       if (
-        this._termDetailsForm.excludeWaterBill &&
+        !this._termDetailsForm.excludeWaterBill &&
         this._termDetailsForm.waterBillAmount > 0
       ) {
         this._termDetailsForm = this.reloadFormSource(this._termDetailsForm, {

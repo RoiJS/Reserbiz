@@ -5,9 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
+
 import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { DialogService } from '@src/app/_services/dialog.service';
+
 import { SpaceType } from '@src/app/_models/space-type.model';
 
 @Component({
@@ -72,36 +75,6 @@ export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
       ),
       errorMessage: this.translateService.instant(
         'SPACE_TYPE_LIST_PAGE.REMOVE_SPACE_TYPE_DIALOG.ERROR_MESSAGE'
-      ),
-    };
-
-    this._activateItemDialogTexts = {
-      title: this.translateService.instant(
-        'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
-      ),
-      confirmMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
-      ),
-      successMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
-      ),
-      errorMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
-      ),
-    };
-
-    this._deactivateItemDialogTexts = {
-      title: this.translateService.instant(
-        'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
-      ),
-      confirmMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
-      ),
-      successMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
-      ),
-      errorMessage: this.translateService.instant(
-        'TENANTS_LIST_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
       ),
     };
   }

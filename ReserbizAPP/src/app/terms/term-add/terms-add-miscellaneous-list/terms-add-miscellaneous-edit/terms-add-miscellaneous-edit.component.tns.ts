@@ -5,10 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
 
-import { AddTermMiscellaneousService } from '@src/app/_services/add-term-miscellaneous.service';
+import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
+
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
+
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
@@ -27,7 +29,7 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
   private _termMiscellaneousFormSourceOriginal: TermMiscellaneousFormSource;
 
   constructor(
-    private addTermMiscellaneous: AddTermMiscellaneousService,
+    private localManageTermMiscellaneous: LocalManageTermMiscellaneousService,
     private dialogService: DialogService,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
@@ -39,7 +41,7 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentTermMiscellaneousId = +paramMap.get('termMiscellaneousId');
 
-        this._currentTermMiscellaneous = this.addTermMiscellaneous.getEntity(
+        this._currentTermMiscellaneous = this.localManageTermMiscellaneous.getEntity(
           this._currentTermMiscellaneousId
         );
 
@@ -77,7 +79,7 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
             this._currentTermMiscellaneous.name = this._termMiscellaneousFormSource.name;
             this._currentTermMiscellaneous.amount = this._termMiscellaneousFormSource.amount;
 
-            this.addTermMiscellaneous.updateEntity(
+            this.localManageTermMiscellaneous.updateEntity(
               this._currentTermMiscellaneous
             );
 

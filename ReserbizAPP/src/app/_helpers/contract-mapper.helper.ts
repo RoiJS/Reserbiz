@@ -20,17 +20,27 @@ export class ContractMapper
     contract.tenantId = c.tenantId;
     contract.tenantName = c.tenantName;
     contract.termId = c.termId;
+    contract.termParentId = c.termParentId;
+    contract.spaceTypeName = c.spaceTypeName;
+    contract.spaceTypeId = c.spaceTypeId;
+    contract.spaceId = c.spaceId;
+    contract.spaceName = c.spaceName;
     contract.effectiveDate = new Date(c.effectiveDate);
     contract.isOpenContract = c.isOpenContract;
     contract.durationValue = c.durationValue;
+    contract.durationUnit = c.durationUnit;
     contract.expirationDate = new Date(c.expirationDate);
     contract.isExpired = c.isExpired;
-    contract.isDeletable = c.isDeletable;
+    contract.isEditable = c.isEditable;
     contract.isActive = c.isActive;
+    contract.accountStatementsCount = c.accountStatementsCount;
 
     contract.nextDueDate = new Date(c.nextDueDate);
 
-    if (c.contractDurationBeforeContractEnds.length > 0) {
+    if (
+      c.contractDurationBeforeContractEnds &&
+      c.contractDurationBeforeContractEnds.length > 0
+    ) {
       contract.contractDurationBeforeContractEnds = c.contractDurationBeforeContractEnds.map(
         (cd: ContractDurationBeforeContractEnds) => {
           const contractDurationBeforeContractEnds = new ContractDurationBeforeContractEnds();
@@ -54,6 +64,8 @@ export class ContractMapper
       '',
       0,
       0,
+      '',
+      0,
       new Date(),
       false,
       0,
@@ -70,6 +82,7 @@ export class ContractMapper
       contractFormSource.code,
       contractFormSource.tenantId,
       contractFormSource.termId,
+      contractFormSource.spaceId,
       contractFormSource.effectiveDate,
       contractFormSource.isOpenContract,
       contractFormSource.durationUnit,
@@ -83,7 +96,9 @@ export class ContractMapper
     const contractFormSource = new ContractDetailsFormSource(
       contract.code,
       contract.tenantId,
-      contract.termId,
+      contract.termParentId,
+      contract.spaceTypeName,
+      contract.spaceId,
       contract.effectiveDate,
       contract.isOpenContract,
       contract.durationValue,
@@ -101,6 +116,7 @@ export class ContractMapper
     contract.code = contractFormSource.code;
     contract.tenantId = contractFormSource.tenantId;
     contract.termId = contractFormSource.termId;
+    contract.spaceId = contractFormSource.spaceId;
     contract.effectiveDate = contractFormSource.effectiveDate;
     contract.isOpenContract = contractFormSource.isOpenContract;
     contract.durationUnit = contractFormSource.durationUnit;

@@ -1,4 +1,5 @@
 using System;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
@@ -12,5 +13,6 @@ namespace ReserbizAPP.LIB.Models
         public DateTime NextDueDateFrom { get; set; }
         public DateTime NextDueDateTo { get; set; }
         public bool OpenContract { get; set; }
+        public SortOrderEnum? SortOrder { get; set; } = Enums.SortOrderEnum.Ascending;
     }
 }

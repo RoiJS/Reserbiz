@@ -58,7 +58,7 @@
       <ng-template tkListItemTemplate let-spaceType="item">
         <GridLayout
           class="app-list-item-template"
-          rows="*, *, *"
+          rows="*, *"
           columns="70, *"
         >
           <StackLayout
@@ -130,14 +130,6 @@
             col="1"
           >
             <label [text]="spaceType.description" fontWeight="bold"></label>
-          </StackLayout>
-
-          <StackLayout orientation="horizontal" row="2" col="1">
-            <label
-              [text]="'SPACE_TYPE_LIST_PAGE.AVAILABLE_SLOT' | translate"
-              class="m-r-5"
-            ></label>
-            <label [text]="spaceType.availableSlot"></label>
           </StackLayout>
         </GridLayout>
       </ng-template>

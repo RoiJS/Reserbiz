@@ -58,11 +58,16 @@
 
     .next-due-date-label {
       color: white;
-      padding-top: 5;
+      padding-top: 10;
+      padding-bottom: 5;
 
-      &__day-name,
+      &__year,
       &__month-name {
         font-size: 15;
+      }
+
+      &__day-name {
+        font-size: 12;
       }
 
       &__day-number {

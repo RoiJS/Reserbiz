@@ -50,6 +50,13 @@ namespace ReserbizAPP.LIB.Models
         public List<SpaceType> CreatedSpaceTypes { get; set; }
         public List<SpaceType> DeactivatedSpaceTypes { get; set; }
         #endregion
+
+        #region Spaces
+        public List<Space> DeletedSpaces { get; set; }
+        public List<Space> UpdatedSpaces { get; set; }
+        public List<Space> CreatedSpaces { get; set; }
+        public List<Space> DeactivatedSpaces { get; set; }
+        #endregion
         
         #region Term Tracker
         public List<Term> DeletedTerms { get; set; }

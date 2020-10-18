@@ -29,13 +29,13 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
+                    Id = 3
                 },
                 new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 3
+                    Id = 1
                 },
                 new Contract {
                     Id = 4
@@ -97,22 +97,22 @@ namespace ReserbizAPP.Tests
                     Id = 1
                 },
                 new Contract {
-                    Id = 4
-                },
-                new Contract {
-                    Id = 5
-                },
-                new Contract {
                     Id = 6
+                },
+                new Contract {
+                    Id = 4
                 },
                 new Contract {
                     Id = 7
                 },
                 new Contract {
+                    Id = 10
+                },
+                new Contract {
                     Id = 9
                 },
                 new Contract {
-                    Id = 10
+                    Id = 5
                 },
             };
 
@@ -144,28 +144,28 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
-                },
-                new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 4
-                },
-                new Contract {
-                    Id = 5
+                    Id = 1
                 },
                 new Contract {
                     Id = 6
                 },
                 new Contract {
+                    Id = 4
+                },
+                new Contract {
                     Id = 7
+                },
+                new Contract {
+                    Id = 10
                 },
                 new Contract {
                     Id = 9
                 },
                 new Contract {
-                    Id = 10
+                    Id = 5
                 },
             };
 
@@ -200,22 +200,22 @@ namespace ReserbizAPP.Tests
                     Id = 1
                 },
                 new Contract {
-                    Id = 4
-                },
-                new Contract {
-                    Id = 5
-                },
-                new Contract {
                     Id = 6
+                },
+                new Contract {
+                    Id = 4
                 },
                 new Contract {
                     Id = 7
                 },
                 new Contract {
+                    Id = 10
+                },
+                new Contract {
                     Id = 9
                 },
                 new Contract {
-                    Id = 10
+                    Id = 5
                 },
             };
 
@@ -240,16 +240,16 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
+                    Id = 3
                 },
                 new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 3
+                    Id = 8
                 },
                 new Contract {
-                    Id = 8
+                    Id = 1
                 },
             };
 
@@ -281,19 +281,19 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
+                    Id = 3
                 },
                 new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 3
+                    Id = 8
+                },
+                new Contract {
+                    Id = 1
                 },
                 new Contract {
                     Id = 6
-                },
-                new Contract {
-                    Id = 8
                 },
             };
 
@@ -325,16 +325,16 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
+                    Id = 3
                 },
                 new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 3
+                    Id = 8
                 },
                 new Contract {
-                    Id = 8
+                    Id = 1
                 },
             };
 
@@ -363,16 +363,16 @@ namespace ReserbizAPP.Tests
                     Id = 1
                 },
                 new Contract {
-                    Id = 4
-                },
-                new Contract {
-                    Id = 5
-                },
-                new Contract {
                     Id = 6
                 },
                 new Contract {
+                    Id = 4
+                },
+                new Contract {
                     Id = 7
+                },
+                new Contract {
+                    Id = 5
                 },
             };
 
@@ -397,22 +397,22 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 4
-                },
-                new Contract {
-                    Id = 5
-                },
-                new Contract {
                     Id = 6
+                },
+                new Contract {
+                    Id = 4
                 },
                 new Contract {
                     Id = 7
                 },
                 new Contract {
+                    Id = 10
+                },
+                new Contract {
                     Id = 9
                 },
                 new Contract {
-                    Id = 10
+                    Id = 5
                 },
             };
 
@@ -446,16 +446,16 @@ namespace ReserbizAPP.Tests
                     Id = 4
                 },
                 new Contract {
-                    Id = 5
+                    Id = 7
                 },
                 new Contract {
-                    Id = 7
+                    Id = 10
                 },
                 new Contract {
                     Id = 9
                 },
                 new Contract {
-                    Id = 10
+                    Id = 5
                 },
             };
 
@@ -480,16 +480,16 @@ namespace ReserbizAPP.Tests
             // Assert
             var expectedResult = new List<Contract> {
                 new Contract {
-                    Id = 1
+                    Id = 3
                 },
                 new Contract {
                     Id = 2
                 },
                 new Contract {
-                    Id = 3
+                    Id = 8
                 },
                 new Contract {
-                    Id = 8
+                    Id = 1
                 },
             };
 
@@ -518,10 +518,10 @@ namespace ReserbizAPP.Tests
                     Id = 1
                 },
                 new Contract {
-                    Id = 4
+                    Id = 6
                 },
                 new Contract {
-                    Id = 6
+                    Id = 4
                 },
                 new Contract {
                     Id = 7
@@ -552,10 +552,166 @@ namespace ReserbizAPP.Tests
                     Id = 4
                 },
                 new Contract {
-                    Id = 5
+                    Id = 10
                 },
                 new Contract {
+                    Id = 5
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContracts_WhenFilterSortOrderAscendingIsAvailable()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                SortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 1
+                },
+                 new Contract {
+                    Id = 6
+                },
+                 new Contract {
+                    Id = 4
+                },
+                 new Contract {
+                    Id = 7
+                },
+                 new Contract {
                     Id = 10
+                },
+                 new Contract {
+                    Id = 9
+                },
+                 new Contract {
+                    Id = 5
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContracts_WhenFilterSortOrderIsNotAvailable()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                SortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 1
+                },
+                 new Contract {
+                    Id = 6
+                },
+                 new Contract {
+                    Id = 4
+                },
+                 new Contract {
+                    Id = 7
+                },
+                 new Contract {
+                    Id = 10
+                },
+                 new Contract {
+                    Id = 9
+                },
+                 new Contract {
+                    Id = 5
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContracts_WhenFilterSortOrderDescendingAvailable()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                SortOrder = SortOrderEnum.Descending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                 new Contract {
+                    Id = 5
+                },
+                 new Contract {
+                    Id = 9
+                },
+                 new Contract {
+                    Id = 10
+                },
+                 new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 4
+                },
+                 new Contract {
+                    Id = 6
+                },
+                 new Contract {
+                    Id = 1
+                },
+                 new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 3
                 },
             };
 
@@ -577,6 +733,10 @@ namespace ReserbizAPP.Tests
                     IsOpenContract = false,
                     DurationValue = 1,
                     DurationUnit = DurationEnum.Year,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
                     AccountStatements = new List<AccountStatement>
                     {
                         new AccountStatement
@@ -604,6 +764,10 @@ namespace ReserbizAPP.Tests
                    IsOpenContract = false,
                    DurationValue = 5,
                    DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Week
+                   },
                    AccountStatements = new List<AccountStatement>
                    {
                         new AccountStatement
@@ -636,6 +800,10 @@ namespace ReserbizAPP.Tests
                     IsOpenContract = false,
                     DurationValue = 6,
                     DurationUnit = DurationEnum.Month,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
                     AccountStatements = new List<AccountStatement>()
                 }
             );
@@ -649,6 +817,10 @@ namespace ReserbizAPP.Tests
                     TermId = 1,
                     EffectiveDate = new DateTime(2020, 02, 11),
                     IsOpenContract = true,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
                     AccountStatements = new List<AccountStatement>
                     {
                         new AccountStatement
@@ -669,6 +841,10 @@ namespace ReserbizAPP.Tests
                    TermId = 3,
                    EffectiveDate = new DateTime(2020, 01, 23),
                    IsOpenContract = true,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Quarter
+                   },
                    AccountStatements = new List<AccountStatement>
                    {
                         new AccountStatement
@@ -696,6 +872,10 @@ namespace ReserbizAPP.Tests
                    IsOpenContract = false,
                    DurationValue = 1,
                    DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Week
+                   },
                    AccountStatements = new List<AccountStatement>
                    {
                         new AccountStatement
@@ -728,6 +908,10 @@ namespace ReserbizAPP.Tests
                    IsOpenContract = false,
                    DurationValue = 1,
                    DurationUnit = DurationEnum.Year,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Month
+                   },
                    AccountStatements = new List<AccountStatement>
                    {
                         new AccountStatement
@@ -760,6 +944,10 @@ namespace ReserbizAPP.Tests
                    IsOpenContract = false,
                    DurationValue = 3,
                    DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Month
+                   },
                    AccountStatements = new List<AccountStatement>
                    {
                         new AccountStatement
@@ -787,6 +975,10 @@ namespace ReserbizAPP.Tests
                     IsOpenContract = false,
                     DurationValue = 4,
                     DurationUnit = DurationEnum.Quarter,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Quarter
+                    },
                     AccountStatements = new List<AccountStatement>
                     {
                         new AccountStatement
@@ -807,6 +999,10 @@ namespace ReserbizAPP.Tests
                     TermId = 1,
                     EffectiveDate = new DateTime(2020, 04, 12),
                     IsOpenContract = true,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
                     AccountStatements = new List<AccountStatement>
                     {
                         new AccountStatement

@@ -1,6 +1,6 @@
-import { IBaseDTO } from './ibase-dto.interface';
+import { IBaseDto } from './ibase-dto.interface';
 
 export interface IDtoProcess {
   id?: number;
-  dtoEntity?: IBaseDTO;
+  dtoEntity?: IBaseDto;
 }

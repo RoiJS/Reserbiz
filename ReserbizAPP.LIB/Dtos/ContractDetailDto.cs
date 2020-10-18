@@ -12,10 +12,20 @@ namespace ReserbizAPP.LIB.Dtos
         public string Code { get; set; }
 
         public int TenantId { get; set; }
-        public ContractTenantDetailsDto Tenant { get; set; }
+
+        public string TenantName { get; set; }
 
         public int TermId { get; set; }
+        public int TermParentId { get; set; }
+
+        public int SpaceId { get; set; }
+        public string SpaceName { get; set; }
+
         public ContractTermDetailsDto Term { get; set; }
+
+        public int SpaceTypeId { get; set; }
+
+        public string SpaceTypeName { get; set; }
 
         public DateTime EffectiveDate { get; set; }
 
@@ -30,7 +40,11 @@ namespace ReserbizAPP.LIB.Dtos
         public DateTime ExpirationDate { get; set; }
 
         public bool IsExpired { get; set; }
-        
+
+        public bool IsActive { get; set; }
+
+        public bool IsEditable { get; set; }
+
         public DateTime NextDueDate { get; set; }
 
         public int AccountStatementsCount { get; set; }

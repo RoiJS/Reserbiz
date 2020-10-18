@@ -8,9 +8,12 @@ import {
   ElementRef,
   ChangeDetectorRef,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { RouterExtensions } from 'nativescript-angular/router';
+import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
 
 import { View, isAndroid } from 'tns-core-modules/ui/page/page';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
@@ -28,12 +31,10 @@ import { take, finalize } from 'rxjs/operators';
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
 import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
+import { IEntityPaginationList } from '@src/app/_interfaces/ientity-pagination-list.interface';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
-import { ActivatedRoute } from '@angular/router';
-import { IEntityPaginationList } from '@src/app/_interfaces/ientity-pagination-list.interface';
 import { EntityFilter } from '@src/app/_models/entity-filter.model';
 
 @Component({
@@ -213,7 +214,7 @@ export class BaseListComponent<TEntity extends IEntity>
       listView.notifyLoadOnDemandFinished();
     } else {
       args.returnValue = false;
-      listView.notifyLoadOnDemandFinished(true);
+      listView.notifyLoadOnDemandFinished();
     }
   }
 
@@ -234,22 +235,61 @@ export class BaseListComponent<TEntity extends IEntity>
       // when navigating to other page.
       this.navigateToOtherPage(url.replace(':id', selectedItem.id.toString()));
     } else {
-      // This will prevent the item from being selected
-      if (!selectedItem.isDeletable && this._deleteMultipleItemsDialogTexts) {
-        this.appListView.listView.deselectItemAt(currentIndex);
-        this.dialogService.alert(
-          this.translateService.instant(
-            'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
-          ),
-          this.translateService.instant(
-            'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
-          )
+      (async () => {
+        // This will prevent the item from being selected
+        const isValidForDeletion = await this.validateEntityForDeletion(
+          selectedItem,
+          currentIndex
         );
-        return;
-      }
+        if (!isValidForDeletion) {
+          selectedItem.isSelected = false;
+          return;
+        }
 
-      selectedItem.isSelected = true;
+        selectedItem.isSelected = true;
+      })();
     }
+  }
+
+  async validateEntityForDeletion(
+    selectedEntity: TEntity,
+    currentIndex: number
+  ): Promise<boolean> {
+    let isValidForDeletion = true;
+    if (
+      this._deleteMultipleItemsDialogTexts &&
+      this.entityService.validateEntityForDeletion
+    ) {
+      isValidForDeletion = await this.entityService.validateEntityForDeletion(
+        selectedEntity.id
+      );
+
+      if (!isValidForDeletion) {
+        this.showInvalidEntityDeletion(currentIndex);
+      }
+      return isValidForDeletion;
+    }
+
+    if (this._deleteMultipleItemsDialogTexts && !selectedEntity.isDeletable) {
+      this.showInvalidEntityDeletion(currentIndex);
+      isValidForDeletion = false;
+
+      return isValidForDeletion;
+    }
+
+    return isValidForDeletion;
+  }
+
+  showInvalidEntityDeletion(currentIndex: number) {
+    this.appListView.listView.deselectItemAt(currentIndex);
+    this.dialogService.alert(
+      this.translateService.instant(
+        'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
+      ),
+      this.translateService.instant(
+        'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
+      )
+    );
   }
 
   navigateToOtherPage(url: string) {

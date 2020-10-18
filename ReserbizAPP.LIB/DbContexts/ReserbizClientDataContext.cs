@@ -27,6 +27,7 @@ namespace ReserbizAPP.LIB.DbContexts
         public DbSet<ContactPerson> ContactPersons { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<SpaceType> SpaceTypes { get; set; }
+        public DbSet<Space> Spaces { get; set; }
         public DbSet<TermMiscellaneous> TermMiscellaneous { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<AccountStatement> AccountStatements { get; set; }
@@ -135,6 +136,29 @@ namespace ReserbizAPP.LIB.DbContexts
                 .WithMany(fk => fk.DeactivatedSpaceTypes)
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_SpaceTypes_DeactivatedById_Accounts_AccountId");
+            });
+
+            modelBuilder.Entity<Space>(a =>
+            {
+                a.HasOne(field => field.CreatedBy)
+                .WithMany(fk => fk.CreatedSpaces)
+                .HasForeignKey(fk => fk.CreatedById)
+                .HasConstraintName("FK_Spaces_CreatedById_Accounts_AccountId");
+
+                a.HasOne(field => field.DeletedBy)
+                .WithMany(fk => fk.DeletedSpaces)
+                .HasForeignKey(fk => fk.DeletedById)
+                .HasConstraintName("FK_Spaces_DeletedById_Accounts_AccountId");
+
+                a.HasOne(field => field.UpdatedBy)
+                .WithMany(fk => fk.UpdatedSpaces)
+                .HasForeignKey(fk => fk.UpdatedById)
+                .HasConstraintName("FK_Spaces_UpdatedById_Accounts_AccountId");
+
+                a.HasOne(field => field.DeactivatedBy)
+                .WithMany(fk => fk.DeactivatedSpaces)
+                .HasForeignKey(fk => fk.DeactivatedById)
+                .HasConstraintName("FK_Spaces_DeactivatedById_Accounts_AccountId");
             });
 
             modelBuilder.Entity<Term>(a =>

@@ -60,7 +60,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesBasedOnNameAsync(spaceTypeName);
 
-            return Ok(spaceTypesFromRepo);
+            var spaceTypesToReturn = _mapper.Map<IEnumerable<SpaceTypeDetailDto>>(spaceTypesFromRepo);
+
+            return Ok(spaceTypesToReturn);
         }
 
         [HttpGet("getSpaceTypeAsOptions")]
@@ -112,7 +114,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost("deleteMultipleSpaceTypes")]
-        public async Task<IActionResult> DeleteMultipleTenants(List<int> spaceTypeIds)
+        public async Task<IActionResult> DeleteMultipleSpaceTypes(List<int> spaceTypeIds)
         {
             if (spaceTypeIds.Count == 0)
                 return BadRequest("Empty space type id list.");
@@ -123,28 +125,6 @@ namespace ReserbizAPP.API.Controllers
                 return NoContent();
 
             throw new Exception($"Error when deleting space types!");
-        }
-
-        [HttpGet("checkSpaceTypeAvailability/{spaceTypeId}")]
-        public async Task<IActionResult> CheckSpaceTypeAvailability(int spaceTypeId)
-        {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(spaceTypeId).ToObjectAsync();
-
-            if (spaceTypeFromRepo == null)
-                return BadRequest("Space Type does not exists");
-
-            return Ok(await _spaceTypeRepo.CheckSpaceTypeAvailability(spaceTypeId));
-        }
-
-        [HttpGet("validateSpaceTypeProposedNewAvailableSlot/{spaceTypeId}/{proposedNewSlot}")]
-        public async Task<IActionResult> ValidateSpaceTypeProposedNewAvailableSlot(int spaceTypeId, int proposedNewSlot)
-        {
-            var spaceTypeFromRepo = await _spaceTypeRepo.GetEntity(spaceTypeId).ToObjectAsync();
-
-            if (spaceTypeFromRepo == null)
-                return BadRequest("Space Type does not exists");
-
-            return Ok(await _spaceTypeRepo.ValidateSpaceTypeProposedNewAvailableSlot(spaceTypeId, proposedNewSlot));
         }
     }
 }

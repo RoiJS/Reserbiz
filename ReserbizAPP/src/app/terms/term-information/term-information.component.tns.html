@@ -1,9 +1,13 @@
-<ns-action-bar [title]="'Term Information'" [hasMenu]="false">
+<ns-action-bar
+  [title]="'TERM_DETAILS_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
   <ActionItem
-    id="deleteTenantActionItem"
+    id="deleteTermActionItem"
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenant()"
+    *ngIf="!currentTerm?.isChildCopy"
   ></ActionItem>
 </ns-action-bar>
 

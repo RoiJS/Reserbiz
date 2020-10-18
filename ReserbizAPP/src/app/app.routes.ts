@@ -45,6 +45,12 @@ export const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
+    path: 'spaces',
+    loadChildren: () =>
+      import('./spaces/spaces.module').then((m) => m.SpacesModule),
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'profile',
     loadChildren: () =>
       import('./profile/profile.module.tns').then((m) => m.ProfileModule),

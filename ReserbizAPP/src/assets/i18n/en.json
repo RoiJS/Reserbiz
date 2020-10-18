@@ -4,6 +4,7 @@
     "TENANTS": "Tenants",
     "CONTRACTS": "Contracts",
     "TERMS": "Terms",
+    "SPACES": "Spaces",
     "SPACE_TYPES": "Space Types",
     "PROFILE": "Profile",
     "SETTINGS": "Settings"
@@ -56,7 +57,17 @@
     "INVALID_ITEM_SELECTION_DIALOG_TEXTS": {
       "TITLE": "Invalid Item Selection",
       "MESSAGE": "This item cannot be selected for deletion!"
-    }
+    },
+    "SORT_ORDER": {
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending"
+    },
+    "PAYMENT_STATUS": {
+      "ALL": "ALL",
+      "PAID": "PAID",
+      "UNPAID": "UNPAID"
+    },
+    "FILTER": "Filter"
   },
 
   "AUTH_PAGE": {
@@ -265,7 +276,7 @@
 
   "TENANTS_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Tenant Details",
-    "PANEL_HEADER_TEXT_INFORMATION": "Information",
+    "PANEL_HEADER_TEXT_INFORMATION": "INFORMATION",
     "LABEL_FULL_NAME": "First name:",
     "LABEL_EMAIL_ADDRESS": "Email address:",
     "LABEL_PERMANENT_ADDRESS": "Permanent address:",
@@ -294,7 +305,7 @@
 
   "TENANT_CONTACT_PERSON_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Contact Persons",
-    "PANEL_HEADER_TEXT_INFORMATION": "Contact Persons",
+    "PANEL_HEADER_TEXT_INFORMATION": "CONTACT PERSONS",
     "SELECTED_CONTACT_PERSONS": "Selected Contact Person",
     "REMOVE_CONTACT_PERSONS_DIALOG": {
       "TITLE": "Remove selected contact persons",
@@ -392,6 +403,29 @@
     }
   },
 
+  "SPACE_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Spaces",
+    "SEARCH_BAR_HINT": "Enter space description here...",
+    "SELECTED_SPACE_TYPES": "Selected Spaces",
+    "AVAILABILITY_STATUS": {
+      "AVAILABLE": "Available",
+      "OCCUPIED": "Occupied"
+    },
+
+    "REMOVE_SPACES_DIALOG": {
+      "TITLE": "Remove spaces",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected spaces?",
+      "SUCCESS_MESSAGE": "Selected spaces have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected spaces. Please try again later."
+    },
+    "REMOVE_SPACE_DIALOG": {
+      "TITLE": "Remove space",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
+      "SUCCESS_MESSAGE": "Selected space has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
+    }
+  },
+
   "SPACE_TYPE_ADD_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Add Space Type",
     "FORM_CONTROL": {
@@ -407,15 +441,33 @@
         "CONTROL_LABEL": "Rate:",
         "HINT_TEXT": "Please enter rate"
       },
-      "SLOT_CONTROL": {
-        "CONTROL_LABEL": "Slot:",
-        "HINT_TEXT": "Please enter slot"
-      },
       "ADD_DIALOG": {
         "TITLE": "Add Space Type",
         "CONFIRM_MESSAGE": "Are you sure to save new space type?",
         "SUCCESS_MESSAGE": "New space type has been saved!",
         "ERROR_MESSAGE": "Saving new space type failed. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Space",
+    "FORM_CONTROL": {
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description",
+        "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
+      },
+      "SPACE_TYPE_CONTROL": {
+        "CONTROL_LABEL": "Space Type:",
+        "HINT_TEXT": "Please select space type",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Space",
+        "CONFIRM_MESSAGE": "Are you sure to save new space?",
+        "SUCCESS_MESSAGE": "New space has been saved!",
+        "ERROR_MESSAGE": "Saving new space failed. Please try again later."
       }
     }
   },
@@ -435,11 +487,6 @@
         "CONTROL_LABEL": "Rate:",
         "HINT_TEXT": "Please enter rate"
       },
-      "SLOT_CONTROL": {
-        "CONTROL_LABEL": "Slot:",
-        "HINT_TEXT": "Please enter slot",
-        "INVALID_AVAILABLE_SLOT": "Available slot should not be less than the current used slot. Please enter a valid value."
-      },
       "EDIT_DIALOG": {
         "TITLE": "Edit Space Type",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
@@ -451,6 +498,33 @@
         "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
         "SUCCESS_MESSAGE": "Selected space type has been removed!",
         "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Space",
+    "FORM_CONTROL": {
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description",
+        "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
+      },
+      "SPACE_TYPE_CONTROL": {
+        "CONTROL_LABEL": "Space Type:",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Space",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving changes failed. Please try again later."
+      },
+      "REMOVE_SPACE_DIALOG": {
+        "TITLE": "Remove space",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
+        "SUCCESS_MESSAGE": "Selected space has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
       }
     }
   },
@@ -703,9 +777,9 @@
 
   "TERM_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Term Details",
-    "PANEL_HEADER_TEXT_INFORMATION": "Information",
+    "PANEL_HEADER_TEXT_INFORMATION": "INFORMATION",
     "GENERAL_CONTROL_GROUP": {
-      "LABEL": "General Information",
+      "LABEL": "GENERAL INFORMATION",
       "CODE_LABEL": "Code:",
       "NAME_LABEL": "Name:",
       "SPACE_TYPE_LABEL": "Space Type:",
@@ -714,50 +788,38 @@
     },
 
     "DURATION_CONTROL_GROUP": {
-      "LABEL": "Duration Details",
+      "LABEL": "DURATION DETAILS",
       "DURATION_LABEL": "Duration:",
       "ADVANCED_PAYMENT_DURATION_LABEL": "Advanced Payment:",
       "DEPOSIT_PAYMENT_DURATION_LABEL": "Deposit Payment:"
     },
 
     "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-      "LABEL": "Electric & Water Bill Details",
+      "LABEL": "ELECTRIC & WATER BILL DETAILS",
       "EXCLUDE_ELECTRIC_BILL_LABEL": "Electric bill not included",
       "INCLUDE_ELECTRIC_BILL_LABEL": "Electric bill included: ",
-      "EXCLUDE_WATER_BILL_LABEL": "Water bill not included: ",
+      "EXCLUDE_WATER_BILL_LABEL": "Water bill not included",
       "INCLUDE_WATER_BILL_LABEL": "Water bill included: ",
       "BILL_AMOUNT_LABEL": "Amount:"
     },
 
     "PENALTY_DETAILS_GROUP": {
-      "LABEL": "Penalty Details",
+      "LABEL": "PENALTY DETAILS",
       "PENALTY_AMOUNT_PER_DURATION_LABEL": "Penalty Amount Per {0}: {1} {2}",
       "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
     },
 
-    "REMOVE_TENANT_DIALOG": {
-      "TITLE": "Remove tenant",
-      "CONFIRM_MESSAGE": "Are you sure to remove this tenant?",
-      "SUCCESS_MESSAGE": "Current tenant has been deleted!",
-      "ERROR_MESSAGE": "Failed to delete this tenant. Please try again later."
-    },
-    "ACTIVATE_TENANT_DIALOG": {
-      "TITLE": "Activate tenant",
-      "CONFIRM_MESSAGE": "Are you sure to activate this tenant?",
-      "SUCCESS_MESSAGE": "Current tenant has been activated!",
-      "ERROR_MESSAGE": "Failed to activate this tenant. Please try again later."
-    },
-    "DEACTIVATE_TENANT_DIALOG": {
-      "TITLE": "Deactivate tenant",
-      "CONFIRM_MESSAGE": "Are you sure to deactivate this tenant?",
-      "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
-      "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
+    "REMOVE_TERM_DIALOG": {
+      "TITLE": "Remove term",
+      "CONFIRM_MESSAGE": "Are you sure to remove this term?",
+      "SUCCESS_MESSAGE": "Current term has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete this term. Please try again later."
     }
   },
 
   "TERM_MISCELLANEOUS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Miscellaneous",
-    "PANEL_HEADER_TEXT_INFORMATION": "Miscellaneous",
+    "PANEL_HEADER_TEXT_INFORMATION": "MISCELLANEOUS",
     "SELECTED_TERM_MISCELLANEOUS": "Selected Term Miscellaneous",
     "REMOVE_TERM_MISCELLANEOUS_DIALOG": {
       "TITLE": "Remove selected miscellaneous",
@@ -862,7 +924,8 @@
       "ACTIVE_TO_LABEL": "Active To:",
       "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
       "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
-      "OPEN_CONTRACT_LABEL": "Open Contract:"
+      "OPEN_CONTRACT_LABEL": "Open Contract:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   },
 
@@ -916,23 +979,28 @@
       "EXPIRED": "Expired",
       "INACTIVE": "Inactive"
     },
-    "ARCHIVE_CONTRACTS_DIALOG": {
-      "TITLE": "Archive selected contracts",
-      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
-      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
-      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    "DEARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contracts from archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contracts from archive. Please try again later."
     },
-    "ARCHIVE_CONTRACT_DIALOG": {
-      "TITLE": "Archive selected contract",
-      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
-      "SUCCESS_MESSAGE": "Selected contract has been archived!",
-      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    "DEARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contract from archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contract from archive. Please try again later."
+    },
+    "ARCHIVED_FAILED_DIALOG": {
+      "TITLE": "Remove from archive",
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
     }
   },
 
-  "CONTRACT_ADD_DETAILS_PAGE": {
+  "CONTRACT_MANAGE_DETAILS_PAGE": {
     "ACTION_BAR_SECTION": {
-      "TITLE": "Add Contract Details",
+      "ADD_TITLE": "Add Contract Details",
+      "EDIT_TITLE": "Edit Contract Details",
       "OPTIONS": {
         "MANAGE_TERM_DETAILS": "Manage Term Details"
       }
@@ -952,7 +1020,16 @@
       "TERM_CONTROL": {
         "CONTROL_LABEL": "Term:",
         "EMPTY_ERROR_MESSAGE": "Please select term",
-        "TERM_SPACE_TYPE_NOT_AVAILABLE": "The space type attached on this term has no available slot anymore. Please select different space type."
+        "NO_ASSIGNED_SPACES": "There are no spaces assigned to the current selected space type",
+        "NO_AVAILABLE_SPACES": "There are no more available spaces with the current selected space type"
+      },
+      "SPACE_TYPE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Space Type:"
+      },
+      "SPACE_CONTROL": {
+        "CONTROL_LABEL": "Space:",
+        "EMPTY_ERROR_MESSAGE": "Please select space",
+        "NOT_AVAILABLE_ERROR_MESSAGE": "This space is already occupied. Please select other space."
       },
       "EFFECTIVE_DATE_CONTROL": {
         "CONTROL_LABEL": "Effective Date:",
@@ -963,11 +1040,13 @@
       },
       "DURATION_UNIT_CONTROL": {
         "CONTROL_LABEL": "Duration Unit:",
-        "EMPTY_ERROR_MESSAGE": "Please select duration unit"
+        "EMPTY_ERROR_MESSAGE": "Please select duration unit",
+        "INVALID_ERROR_MESSAGE": "This is not valid"
       },
       "DURATION_VALUE_CONTROL": {
         "CONTROL_LABEL": "Duration Value:",
-        "EMPTY_ERROR_MESSAGE": "Please provide duration value"
+        "EMPTY_ERROR_MESSAGE": "Please provide duration value",
+        "INVALID_ERROR_MESSAGE": "This is not valid"
       },
       "EXPIRATION_DATE_CONTROL": {
         "CONTROL_LABEL": "Expiration Date:"
@@ -978,10 +1057,102 @@
         "SUCCESS_MESSAGE": "New contract has been saved!",
         "ERROR_MESSAGE": "Saving new contract failed. Please try again later."
       },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Contract",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving new changes failed. Please try again later."
+      },
+      "INVALID_EXPIRATION_DATE_DIALOG": {
+        "TITLE": "Invalid Expiration Date",
+        "MESSAGE": "Expiration date cannot be less than the next due date. Please pick a different expiration date."
+      },
       "NO_SELECTED_TERM_DIALOG": {
         "TITLE": "No Selected Term",
         "WARNING_MESSAGE": "Please select term from the list."
       }
+    }
+  },
+
+  "CONTRACT_DETAILS_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contract Details",
+      "OPTIONS": {
+        "MANAGE_TERM_DETAILS": "Manage Term Details"
+      }
+    },
+    "DETAILS_SECTION": {
+      "CODE_LABEL": "Code:",
+      "TENANT_LABEL": "Tenant:",
+      "SPACE_TYPE_LABEL": "Space Type:",
+      "SPACE_NAME_LABEL": "Space:",
+      "EFFECTIVE_DATE_LABEL": "Effective Date:",
+      "EXPIRATION_DATE_LABEL": "Expiration Date:",
+      "OPEN_CONTRACT_LABEL": "Open Contract",
+      "NEXT_DUE_DATE_LABEL": "Next Due Date:",
+      "ARCHIVED_LABEL": "Archived"
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    },
+    "DEARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contract from archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contract from archive. Please try again later."
+    },
+    "ARCHIVED_FAILED_DIALOG": {
+      "TITLE": "Remove from archive",
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
+    }
+  },
+
+  "ACCOUNT_STATEMENT_LIST": {
+    "STATUS": {
+      "PAID": "PAID",
+      "UNPAID": "UNPAID"
+    },
+    "HEADER_LABEL": "STATEMENT OF ACCOUNTS"
+  },
+
+  "ACCOUNT_STATEMENT_DETAILS": {
+    "ACTION_BAR_TITLE": "Statement of Account",
+    "GENERAL_CONTROL_GROUP": {
+      "LABEL": "INFORMATION",
+      "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
+      "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
+      "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
+      "ELECTRICITY_BILL_AMOUNT_LABEL": "Electric Bill Amount:",
+      "RENT_INCOME_LABEL": "Rent Income:",
+      "RENT_AMOUNT_LABEL": "Rent Amount:",
+      "PENALTIES_LABEL": "Penalties Amount:",
+      "TOTAL_LABEL": "TOTAL AMOUNT:"
+    },
+    "UPDATE_DIALOG": {
+      "TITLE": "Update Details",
+      "CONFIRM_MESSAGE": "Are you sure to save your changes?",
+      "SUCCESS_MESSAGE": "Your changes have been saved!",
+      "ERROR_MESSAGE": "Failed to save your changes. Please try again later!"
+    }
+  },
+
+  "ACCOUNT_STATEMENT_FOOTER": {
+    "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+    "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount"
+  },
+
+  "ACCOUNT_STATEMENT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Account Statement Filter"
+    },
+    "BODY_SECTION": {
+      "DATE_FROM_LABEL": "From:",
+      "DATE_TO_LABEL": "To:",
+      "PAYMENT_STATUS_LABEL": "Payment Status:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   }
 }

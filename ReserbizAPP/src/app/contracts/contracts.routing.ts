@@ -33,4 +33,18 @@ export const routes: Routes = [
         (m) => m.ContractAddModule
       ),
   },
+  {
+    path: 'manage-term',
+    loadChildren: () =>
+      import('./contract-manage-term/contract-manage-term.module').then(
+        (m) => m.ContractManageTermModule
+      ),
+  },
+  {
+    path: ':contractId',
+    loadChildren: () =>
+      import('./contract-information/contract-information.module').then(
+        (m) => m.ContractInformationModule
+      ),
+  },
 ];

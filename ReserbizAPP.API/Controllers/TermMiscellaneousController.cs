@@ -30,7 +30,7 @@ namespace ReserbizAPP.API.Controllers
 
         [HttpPost("create")]
         public async Task<ActionResult<TermMiscellaneousDetailDto>> CreateTermMiscellaneous(int termId,
-            TermMiscellaneousForCreationDto termMiscellaneousForCreationDto)
+            TermMiscellaneousManageDto termMiscellaneousForCreationDto)
         {
             var termFromRepo = await _termRepository.GetTermAsync(termId);
 

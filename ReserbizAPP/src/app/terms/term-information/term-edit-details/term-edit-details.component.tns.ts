@@ -6,6 +6,8 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
+import { finalize } from 'rxjs/operators';
+
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
 import { DialogService } from '@src/app/_services/dialog.service';
@@ -30,7 +32,6 @@ import { ITermFormValueProvider } from '@src/app/_interfaces/iterm-form-value-pr
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-term-edit-details',
@@ -167,7 +168,7 @@ export class TermEditDetailsComponent
      */
     if (args.propertyName === 'excludeElectricBill') {
       if (
-        this._entityFormSource.excludeElectricBill &&
+        !this._entityFormSource.excludeElectricBill &&
         this._entityFormSource.electricBillAmount > 0
       ) {
         this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
@@ -182,7 +183,7 @@ export class TermEditDetailsComponent
      */
     if (args.propertyName === 'excludeWaterBill') {
       if (
-        this._entityFormSource.excludeWaterBill &&
+        !this._entityFormSource.excludeWaterBill &&
         this._entityFormSource.waterBillAmount > 0
       ) {
         this._entityFormSource = this.reloadFormSource(this._entityFormSource, {

@@ -1,4 +1,5 @@
 import { BaseForm } from './base-form.model';
+import { SortOrderEnum } from '../_enum/sort-order.enum';
 
 export class ContractFilterFormSource extends BaseForm<
   ContractFilterFormSource
@@ -9,7 +10,8 @@ export class ContractFilterFormSource extends BaseForm<
     public activeTo: Date,
     public nextDueDateFrom: Date,
     public nextDueDateTo: Date,
-    public openContract: boolean
+    public openContract: boolean,
+    public sortOrder: SortOrderEnum
   ) {
     super();
   }
@@ -21,7 +23,8 @@ export class ContractFilterFormSource extends BaseForm<
       this.activeTo,
       this.nextDueDateFrom,
       this.nextDueDateTo,
-      this.openContract
+      this.openContract,
+      this.sortOrder,
     );
   }
 }

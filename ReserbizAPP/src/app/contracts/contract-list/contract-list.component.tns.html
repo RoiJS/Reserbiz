@@ -136,7 +136,7 @@
         pullToRefresh="true"
         loadOnDemandMode="Auto"
         loadOnDemandBufferSize="2"
-        (itemSelected)="selectItem($event.index, '/tenants/:id')"
+        (itemSelected)="selectItem($event.index, '/contracts/:id')"
         (itemDeselected)="deselectedItem($event)"
         (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
         (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
@@ -225,6 +225,13 @@
                 ></label>
 
                 <label
+                  *ngIf="!contract.isNextDueDateYearCurrentYear"
+                  class="next-due-date-label__year"
+                  horizontalAlignment="center"
+                  [text]="contract.nextDueDateYear"
+                ></label>
+
+                <label
                   class="next-due-date-label__day-name"
                   horizontalAlignment="center"
                   [text]="contract.nextDueDateDayName"
@@ -250,8 +257,7 @@
             >
               <label
                 text="&#xf007;"
-                verticalAlignment="middle"
-                class="fa m-r-5"
+                class="fa m-r-5 m-t-5"
               ></label>
               <label [text]="contract.tenantName"></label>
             </StackLayout>

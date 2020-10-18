@@ -6,8 +6,7 @@ export class SpaceTypeFormSource extends BaseForm<SpaceTypeFormSource>
   constructor(
     public name: string,
     public description: string,
-    public rate: number,
-    public availableSlot: number
+    public rate: number
   ) {
     super();
   }
@@ -16,8 +15,7 @@ export class SpaceTypeFormSource extends BaseForm<SpaceTypeFormSource>
     return new SpaceTypeFormSource(
       this.name,
       this.description,
-      this.rate,
-      this.availableSlot
+      this.rate
     );
   }
 }

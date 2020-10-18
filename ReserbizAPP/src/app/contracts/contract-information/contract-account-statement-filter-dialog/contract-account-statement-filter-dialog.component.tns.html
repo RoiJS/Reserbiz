@@ -1,0 +1,160 @@
+<StackLayout class="dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="70%" orientation="horizontal">
+        <label
+          text="&#xf0b0;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'ACCOUNT_STATEMENT_FILTER_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <RadDataForm [source]="contractFilterFormSource">
+      <!-- #Start Dates Filter Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Dates"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKDataFormGridLayout tkPropertyGroupLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="fromDate"
+            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.DATE_FROM_LABEL' | translate"
+            index="0"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="toDate"
+            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.DATE_TO_LABEL' | translate"
+            index="0"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="nextDueDateFrom"
+            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_FROM_LABEL' | translate"
+            index="2"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="nextDueDateTo"
+            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_TO_LABEL' | translate"
+            index="2"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKDataFormGridLayout>
+      </TKPropertyGroup>
+      <!-- #End -->
+
+      <!-- #Start Payment Status Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Payment_Status"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="paymentStatus"
+          [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.PAYMENT_STATUS_LABEL' | translate"
+          [valuesProvider]="paymentStatusOptions"
+          index="1"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+
+      <!-- #Start Sort Order Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Sort_Order"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="sortOrder"
+          [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate"
+          [valuesProvider]="sortOrderOptions"
+          index="2"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+    </RadDataForm>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="filter-dialog-buttons">
+      <button
+        [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
+        class="btn-confirm-filter btn btn-primary btn-rounded-lg"
+        (tap)="onConfirm()"
+      ></button>
+      <button
+        [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
+        class="btn-reset-filter btn btn-rounded-lg"
+        (tap)="onReset()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

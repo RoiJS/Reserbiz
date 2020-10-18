@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  isIOS,
-  isAndroid,
-  Page,
-  ViewBase,
-} from 'tns-core-modules/ui/page/page';
+import { isAndroid, Page } from 'tns-core-modules/ui/page/page';
 
 @Injectable({
   providedIn: 'root',
