@@ -26,6 +26,7 @@ import { IContractFormValueProvider } from '@src/app/_interfaces/icontract-form-
 
 import { TermOption } from '@src/app/_models/term-option.model';
 import { TenantOption } from '@src/app/_models/tenant-option.model';
+import { SpaceOption } from '@src/app/_models/space-option.model';
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
@@ -34,7 +35,6 @@ import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider
 import { TermValueProvider } from '@src/app/_helpers/term-value-provider.helper';
 import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
 import { SpaceValueProvider } from '@src/app/_helpers/space-value-provider.helper';
-import { SpaceOption } from '@src/app/_models/space-option.model';
 
 @Component({
   selector: 'ns-contract-add',
@@ -190,6 +190,14 @@ export class ContractAddComponent
           });
         }
       })();
+    }
+  }
+
+  onEditorUpdate(args: DataFormEventData) {
+    if (args.propertyName === 'effectiveDate') {
+      if (typeof args.editor.setDateFormat !== 'undefined') {
+        this.changeDateFormatting(args.editor);
+      }
     }
   }
 

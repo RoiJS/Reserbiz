@@ -22,6 +22,7 @@
         [source]="entityFormSource"
         [isReadOnly]="isBusy"
         (propertyCommitted)="onPropertyCommitted($event)"
+        (editorUpdate)="onEditorUpdate($event)"
       >
         <TKPropertyGroup
           tkDataFormGroups

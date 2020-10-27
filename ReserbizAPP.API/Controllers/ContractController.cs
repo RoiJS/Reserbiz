@@ -178,7 +178,7 @@ namespace ReserbizAPP.API.Controllers
 
             if (contractFromRepo == null)
                 return NotFound("Contract not exists.");
-            
+
             _contractRepository.SetCurrentUserId(CurrentUserId);
 
             _mapper.Map(contractManageDto, contractFromRepo);
@@ -321,7 +321,9 @@ namespace ReserbizAPP.API.Controllers
                 return NotFound("Contract does not exists!");
             }
 
-            return Ok(_contractRepository.ValidateExpirationDate(contractFromRepo, effectiveDate, durationUnit, durationValue));
+            var result = _contractRepository.ValidateExpirationDate(contractFromRepo, effectiveDate, durationUnit, durationValue);
+
+            return Ok(result);
         }
 
         [HttpGet("calculateExpirationDate/{effectiveDate}/{durationUnit}/{durationValue}")]

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 
 import { RouterExtensions } from 'nativescript-angular/router';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { ios } from 'tns-core-modules/application';
 
 import { finalize } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,14 +18,19 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 
+declare var NSDateFormatter: any;
+declare var java: any;
+
 @Component({
   template: ``,
 })
 export class BaseFormComponent<
-  TEntity extends IEntity,
-  TFormSource extends IBaseFormSource<TFormSource>,
-  TDtoEntity extends IBaseDto
-> extends BaseFormHelper<TFormSource> implements OnInit {
+    TEntity extends IEntity,
+    TFormSource extends IBaseFormSource<TFormSource>,
+    TDtoEntity extends IBaseDto
+  >
+  extends BaseFormHelper<TFormSource>
+  implements OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
@@ -155,6 +161,22 @@ export class BaseFormComponent<
               );
           }
         });
+    }
+  }
+
+  // Unfortunately, date control offerred by RadDataForm does not support
+  // Date Formatting so this is a native way to format date.
+  protected changeDateFormatting(editor) {
+    if (ios) {
+      const dateFormatter = NSDateFormatter.alloc().init();
+      dateFormatter.dateFormat = 'MM/dd/yyyy';
+      editor.dateFormatter = dateFormatter;
+    } else {
+      const simpleDateFormat = new java.text.SimpleDateFormat(
+        'MM/dd/yyyy',
+        java.util.Locale.US
+      );
+      editor.setDateFormat(simpleDateFormat);
     }
   }
 

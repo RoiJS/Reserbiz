@@ -718,6 +718,67 @@ namespace ReserbizAPP.Tests
             CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
         }
 
+        [TestCase(DurationEnum.Month, 6)]
+        [TestCase(DurationEnum.Week, 12)]
+        [TestCase(DurationEnum.Day, 90)]
+        public void Should_ValidateExpirationDateReturnTrue_WhenThereAreNoContractStatementAccounts(DurationEnum durationEnum, int durationValue)
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contract = GetContractList()[2];
+
+            // Act
+            var actualResult = contractRepository.ValidateExpirationDate(contract, contract.EffectiveDate, durationEnum, durationValue);
+
+            // Assert
+            Assert.IsTrue(actualResult);
+        }
+
+        [TestCase(DurationEnum.Week, 5)]
+        [TestCase(DurationEnum.Day, 50)]
+        [TestCase(DurationEnum.Quarter, 4)]
+        public void Should_ValidateExpirationDateReturnTrue_WhenThereAreContractStatementAccounts_AndExpirationDateIsGreaterThanTheNextDueDate(DurationEnum durationEnum, int durationValue)
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contract = GetContractList()[1];
+
+            // Act
+            var actualResult = contractRepository.ValidateExpirationDate(contract, contract.EffectiveDate, durationEnum, durationValue);
+
+            // Assert
+            Assert.IsTrue(actualResult);
+        }
+        
+        [Test]
+        public void Should_ValidateExpirationDateReturnTrue_WhenThereAreContractStatementAccounts_AndExpirationDateIsEqualToNextDueDate()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contract = GetContractList()[1];
+
+            // Act
+            var actualResult = contractRepository.ValidateExpirationDate(contract, contract.EffectiveDate, DurationEnum.Week, 4);
+
+            // Assert
+            Assert.IsTrue(actualResult);
+        }
+        
+        [TestCase(DurationEnum.Week, 3)]
+        [TestCase(DurationEnum.Day, 15)]
+        public void Should_ValidateExpirationDateReturnTrue_WhenThereAreContractStatementAccounts_AndNextDueDateIsGreaterThanExpirationDate(DurationEnum durationEnum, int durationValue)
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contract = GetContractList()[1];
+
+            // Act
+            var actualResult = contractRepository.ValidateExpirationDate(contract, contract.EffectiveDate, durationEnum, durationValue);
+
+            // Assert
+            Assert.IsFalse(actualResult);
+        }
+
         private List<Contract> GetContractList()
         {
             var contracts = new List<Contract>();

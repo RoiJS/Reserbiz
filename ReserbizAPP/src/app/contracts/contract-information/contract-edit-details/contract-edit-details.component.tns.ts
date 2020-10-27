@@ -28,6 +28,7 @@ import { Contract } from '@src/app/_models/contract.model';
 import { TenantOption } from '@src/app/_models/tenant-option.model';
 import { TermOption } from '@src/app/_models/term-option.model';
 import { SpaceOption } from '@src/app/_models/space-option.model';
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
@@ -38,7 +39,6 @@ import { LocalManageTermService } from '@src/app/_services/local-manage-term.ser
 import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
 import { SpaceService } from '@src/app/_services/space.service';
-import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
   selector: 'app-contract-edit-details',
@@ -180,6 +180,14 @@ export class ContractEditDetailsComponent
         'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE'
       ),
     };
+  }
+
+  onEditorUpdate(args: DataFormEventData) {
+    if (args.propertyName === 'effectiveDate') {
+      if (typeof args.editor.setDateFormat !== 'undefined') {
+        this.changeDateFormatting(args.editor);
+      }
+    }
   }
 
   onPropertyCommitted(args: DataFormEventData) {
@@ -347,6 +355,41 @@ export class ContractEditDetailsComponent
         );
         isDurationValueValid = false;
       } else {
+        isDurationValueValid = true;
+      }
+
+      // Needs to validate if the proposed new expiration date is valid.
+      // A valid expiration date must not be less than the contract's
+      // next due date.
+      const validateNewExpirationDate = await this.contractService.validateExpirationDate(
+        this.currentEntity.id,
+        DateFormatter.format(this._entityFormSource.effectiveDate),
+        this._entityFormSource.durationUnit,
+        this._entityFormSource.durationValue
+      );
+
+      if (!validateNewExpirationDate) {
+        durationUnitProperty.errorMessage = this.translateService.instant(
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.DURATION_UNIT_CONTROL.INVALID_ERROR_MESSAGE'
+        );
+
+        durationValueProperty.errorMessage = this.translateService.instant(
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.DURATION_VALUE_CONTROL.INVALID_ERROR_MESSAGE'
+        );
+
+        this.dialogService.alert(
+          this.translateService.instant(
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.INVALID_EXPIRATION_DATE_DIALOG.TITLE'
+          ),
+          this.translateService.instant(
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.INVALID_EXPIRATION_DATE_DIALOG.MESSAGE'
+          )
+        );
+
+        isDurationUnitValid = false;
+        isDurationValueValid = false;
+      } else {
+        isDurationUnitValid = true;
         isDurationValueValid = true;
       }
     } else {
