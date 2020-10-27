@@ -7,7 +7,7 @@
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenant()"
-    *ngIf="!currentTerm?.isChildCopy"
+    *ngIf="!currentTerm?.isChildCopy && isValidForDeletion"
   ></ActionItem>
 </ns-action-bar>
 

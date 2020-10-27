@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { TenantService } from '@src/app/_services/tenant.service';
-import { ActionItemService } from '@src/app/_services/action-item.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { Tenant } from '@src/app/_models/tenant.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
@@ -27,7 +26,6 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
   private _updateTenantListFlag: Subscription;
 
   constructor(
-    private actionItemService: ActionItemService,
     private dialogService: DialogService,
     private page: Page,
     private pageRoute: PageRoute,
@@ -62,11 +60,6 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
       .subscribe((tenant: Tenant) => {
         this._isBusy = false;
         this._currentTenant = tenant;
-
-        this.actionItemService
-          .setPage(this.page)
-          .setActionItem('deleteTenantActionItem')
-          .enable(this._currentTenant.isDeletable);
       });
   }
 

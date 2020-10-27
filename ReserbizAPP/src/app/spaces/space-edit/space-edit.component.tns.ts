@@ -18,7 +18,6 @@ import { SpaceFormSource } from '@src/app/_models/space-form.model';
 import { Space } from '@src/app/_models/space.model';
 import { SpaceTypeOption } from '@src/app/_models/space-type-option.model';
 
-import { ActionItemService } from '@src/app/_services/action-item.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { SpaceService } from '@src/app/_services/space.service';

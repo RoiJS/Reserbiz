@@ -13,7 +13,6 @@ import { SpaceTypeDto } from '@src/app/_dtos/space-type.dto';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
-import { ActionItemService } from '@src/app/_services/action-item.service';
 import { SpaceTypeMapper } from '@src/app/_helpers/space-type-mapper.helper';
 
 import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
@@ -29,7 +28,6 @@ export class SpaceTypeEditComponent
   extends BaseFormComponent<SpaceType, SpaceTypeFormSource, SpaceTypeDto>
   implements IBaseFormComponent, OnInit {
   constructor(
-    public actionItemService: ActionItemService,
     public dialogService: DialogService,
     public ngZone: NgZone,
     public page: Page,
@@ -60,11 +58,6 @@ export class SpaceTypeEditComponent
             );
 
             this._entityFormSourceOriginal = this._entityFormSource.clone();
-
-            this.actionItemService
-              .setPage(this.page)
-              .setActionItem('deleteSpaceTypeActionItem')
-              .enable(this._currentEntity.isDeletable);
           });
       });
     });

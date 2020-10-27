@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Term } from '@src/app/_models/term.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
-import { ActionItemService } from '@src/app/_services/action-item.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TermService } from '@src/app/_services/term.service';
 
@@ -29,8 +28,9 @@ export class TermInformationComponent implements OnInit, OnDestroy {
   private _updateTermListFlag: Subscription;
   private _durationValueProvider: DurationValueProvider;
 
+  private _isValidForDeletion = true;
+
   constructor(
-    private actionItemService: ActionItemService,
     private dialogService: DialogService,
     private page: Page,
     private pageRoute: PageRoute,
@@ -107,11 +107,7 @@ export class TermInformationComponent implements OnInit, OnDestroy {
       this._currentTerm.penaltyAmountText = penaltyAmountText;
       this._currentTerm.penaltyEffectiveText = penaltyEffectiveText;
 
-      const isValidForDeletion = await this.termService.validateEntityForDeletion();
-      this.actionItemService
-        .setPage(this.page)
-        .setActionItem('deleteTermActionItem')
-        .enable(isValidForDeletion);
+      this._isValidForDeletion = await this.termService.validateEntityForDeletion();
     })();
   }
 
@@ -160,6 +156,10 @@ export class TermInformationComponent implements OnInit, OnDestroy {
             );
         }
       });
+  }
+
+  get isValidForDeletion(): boolean {
+    return this._isValidForDeletion;
   }
 
   get currentTerm(): Term {

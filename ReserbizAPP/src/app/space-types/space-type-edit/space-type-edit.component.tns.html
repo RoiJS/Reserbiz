@@ -1,6 +1,6 @@
 <ns-action-bar [title]="currentEntity?.name" [hasMenu]="false">
   <ActionItem
-    id="deleteSpaceTypeActionItem"
+    *ngIf="currentEntity?.isDeletable"
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
     (tap)="deleteSelectedSpaceType()"

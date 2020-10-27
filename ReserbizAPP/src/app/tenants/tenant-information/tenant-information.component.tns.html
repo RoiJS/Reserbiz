@@ -1,6 +1,6 @@
 <ns-action-bar [title]="currentTenant?.fullName" [hasMenu]="false">
   <ActionItem
-    id="deleteTenantActionItem"
+    *ngIf="currentEntity?.isDeletable"
     icon="font://&#xf2ed;"
     class="fa fa-solid action-item-button"
     (tap)="deleteSelectedTenant()"
