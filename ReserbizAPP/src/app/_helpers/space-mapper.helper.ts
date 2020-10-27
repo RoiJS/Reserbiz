@@ -17,6 +17,7 @@ export class SpaceMapper
     space.spaceTypeName = s.spaceTypeName;
     space.spaceTypeRate = s.spaceTypeRate;
     space.isNotOccupied = s.isNotOccupied;
+    space.isDeletable = s.isDeletable;
 
     return space;
   }

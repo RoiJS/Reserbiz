@@ -35,7 +35,6 @@ export class SpaceEditComponent
   private _spaceTypeOptions;
 
   constructor(
-    public actionItemService: ActionItemService,
     public dialogService: DialogService,
     public ngZone: NgZone,
     public page: Page,
@@ -79,11 +78,6 @@ export class SpaceEditComponent
               this._currentEntity.spaceTypeId
             );
             this._spaceTypeOptions = this._spaceTypeValueProvider.spaceTypeOptions;
-
-            this.actionItemService
-              .setPage(this.page)
-              .setActionItem('deleteSpaceActionItem')
-              .enable(this._currentEntity.isDeletable);
           });
       });
     });
