@@ -28,8 +28,6 @@ export class TermInformationComponent implements OnInit, OnDestroy {
   private _updateTermListFlag: Subscription;
   private _durationValueProvider: DurationValueProvider;
 
-  private _isValidForDeletion = true;
-
   constructor(
     private dialogService: DialogService,
     private page: Page,
@@ -106,8 +104,6 @@ export class TermInformationComponent implements OnInit, OnDestroy {
 
       this._currentTerm.penaltyAmountText = penaltyAmountText;
       this._currentTerm.penaltyEffectiveText = penaltyEffectiveText;
-
-      this._isValidForDeletion = await this.termService.validateEntityForDeletion();
     })();
   }
 
@@ -156,10 +152,6 @@ export class TermInformationComponent implements OnInit, OnDestroy {
             );
         }
       });
-  }
-
-  get isValidForDeletion(): boolean {
-    return this._isValidForDeletion;
   }
 
   get currentTerm(): Term {

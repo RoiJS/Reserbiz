@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Term } from '../_models/term.model';
@@ -15,7 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { TermOption } from '../_models/term-option.model';
 
 @Injectable({ providedIn: 'root' })
-export class TermService extends BaseService<Term>
+export class TermService
+  extends BaseService<Term>
   implements IBaseService<Term> {
   private _loadTermListFlag = new BehaviorSubject<void>(null);
 
@@ -116,6 +117,7 @@ export class TermService extends BaseService<Term>
         const termMiscellaneous = new TermMiscellaneous();
         termMiscellaneous.name = tm.name;
         termMiscellaneous.description = tm.description;
+        termMiscellaneous.amount = tm.amount;
         return termMiscellaneous;
       }
     );

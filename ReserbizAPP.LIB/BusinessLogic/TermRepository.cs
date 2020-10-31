@@ -29,6 +29,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var term = await _reserbizRepository.ClientDbContext.Terms
                 .Include(t => t.TermMiscellaneous)
                 .Include(t => t.SpaceType)
+                .Include(t => t.TermChildren)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             return term;
@@ -38,8 +39,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var termsFromRepo = _reserbizRepository.ClientDbContext.Terms
                                     .AsQueryable()
-                                    .Includes(t => t.Contracts)
-                                    .Where(t => t.IsDelete == false && t.TermParentId == 0);
+                                    .Includes(
+                                        t => t.Contracts,
+                                        t => t.TermChildren
+                                    )
+                                    .Where(t => t.IsDelete == false && t.TermParentId == null);
 
             if (!string.IsNullOrEmpty(termKeywords))
             {
@@ -52,7 +56,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<IEnumerable<Term>> GetTermsAsOptions()
         {
             return await _reserbizRepository.ClientDbContext.Terms
-                                    .Where(t => t.TermParentId == 0)
+                                    .Where(t => t.TermParentId == null)
                                     .OrderBy(s => s.Name)
                                     .ToListAsync();
         }

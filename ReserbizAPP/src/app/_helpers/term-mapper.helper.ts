@@ -54,6 +54,7 @@ export class TermMapper
     term.penaltyEffectiveAfterDurationUnitText =
       t.penaltyEffectiveAfterDurationUnitText;
     term.isActive = t.isActive;
+    term.isDeletable = t.isDeletable;
 
     if (t.termMiscellaneous && t.termMiscellaneous.length > 0) {
       term.termMiscellaneous = t.termMiscellaneous.map(

@@ -14,6 +14,8 @@ namespace ReserbizAPP.LIB.Dtos
 
         public int SpaceTypeId { get; set; }
 
+        public bool IsDeletable { get; set; }
+
         public SpaceTypeTermDetailDto SpaceType { get; set; }
 
         // Rate value for the selected Space type.

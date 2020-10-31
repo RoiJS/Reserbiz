@@ -15,7 +15,7 @@ namespace ReserbizAPP.LIB.Models
         public string Name { get; set; }
 
         public int? TermParentId { get; set; }
-        
+
         public virtual Term TermParent { get; set; }
 
         public List<Term> TermChildren { get; set; }
@@ -72,11 +72,13 @@ namespace ReserbizAPP.LIB.Models
 
         public List<Contract> Contracts { get; set; }
 
+        // Term is tagged as deletable if it has 
+        // no any children copy
         public bool IsDeletable
         {
             get
             {
-                return (this.Contracts.Count == 0);
+                return (this.TermChildren.Count == 0);
             }
         }
 
