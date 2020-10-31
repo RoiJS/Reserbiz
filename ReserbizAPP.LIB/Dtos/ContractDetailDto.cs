@@ -16,7 +16,7 @@ namespace ReserbizAPP.LIB.Dtos
         public string TenantName { get; set; }
 
         public int TermId { get; set; }
-        public int TermParentId { get; set; }
+        public int? TermParentId { get; set; }
 
         public int SpaceId { get; set; }
         public string SpaceName { get; set; }

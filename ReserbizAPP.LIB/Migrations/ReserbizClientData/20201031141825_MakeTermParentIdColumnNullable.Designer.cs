@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20201031141825_MakeTermParentIdColumnNullable")]
+    partial class MakeTermParentIdColumnNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -933,8 +935,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.HasIndex("SpaceTypeId");
 
-                    b.HasIndex("TermParentId");
-
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Terms");
@@ -1317,10 +1317,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("SpaceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ReserbizAPP.LIB.Models.Term", "TermParent")
-                        .WithMany("TermChildren")
-                        .HasForeignKey("TermParentId");
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedTerms")

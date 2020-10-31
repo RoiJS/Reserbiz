@@ -182,6 +182,11 @@ namespace ReserbizAPP.LIB.DbContexts
                 .WithMany(fk => fk.DeactivatedTerms)
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_Terms_DeactivatedById_Accounts_AccountId");
+
+                a.HasOne(field => field.TermParent)
+                .WithMany(fk => fk.TermChildren)
+                .HasForeignKey(fk => fk.TermParentId)
+                .HasConstraintName("FK_Terms_Terms_TermParentId");
             });
 
             modelBuilder.Entity<TermMiscellaneous>(a =>
