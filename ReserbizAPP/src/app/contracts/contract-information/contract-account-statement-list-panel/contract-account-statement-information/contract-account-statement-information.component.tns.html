@@ -122,6 +122,7 @@
                 [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.RENT_INCOME_LABEL' | translate"
               ></label>
             </StackLayout>
+
             <StackLayout
               *ngIf="currentAccountStatement?.penaltyTotalAmount === 0"
               class="bill-category-value"
@@ -153,7 +154,7 @@
                 [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
                 class="m-r-5"
               ></label>
-              <label [text]="currentAccountStatement?.rateFormatted"></label>
+              <label [text]="currentAccountStatement?.rentIncomeFormatted"></label>
             </StackLayout>
           </StackLayout>
 

@@ -8,6 +8,8 @@ export class AccountStatement extends Entity {
   public contractId: number;
   public dueDate: Date;
   public rate: number;
+  public advancedPaymentDurationValue: number;
+  public depositPaymentDurationValue: number;
   public electricBill: number;
   public waterBill: number;
   public penaltyNextDueDate: Date;
@@ -17,6 +19,7 @@ export class AccountStatement extends Entity {
   public currentAmountPaid: number;
   public currentBalance: number;
   public isFullyPaid: boolean;
+  public isFirstAccountStatement: boolean;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
 
   constructor() {
@@ -37,6 +40,19 @@ export class AccountStatement extends Entity {
 
   get dueDateFormatted(): string {
     return DateFormatter.format(this.dueDate, 'MMM DD YYYY');
+  }
+
+  get rentIncome(): number {
+    let rentIncome = this.rate;
+
+    // Check if the account statement is the first then calculate the rent incode based on the
+    // advanced payment duration and deposit payment duration values
+    if (this.isFirstAccountStatement) {
+      rentIncome = this.rate * this.advancedPaymentDurationValue;
+      rentIncome += this.rate * this.depositPaymentDurationValue;
+    }
+
+    return rentIncome;
   }
 
   get accountStatementTotalAmountFormatted(): string {
@@ -64,8 +80,7 @@ export class AccountStatement extends Entity {
   }
 
   get rentIncomeFormatted(): string {
-    const rentIncome = this.rate + this.penaltyTotalAmount;
-    return NumberFormatter.formatCurrency(rentIncome);
+    return NumberFormatter.formatCurrency(this.rentIncome);
   }
 
   get rateFormatted(): string {

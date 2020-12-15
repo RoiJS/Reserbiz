@@ -19,6 +19,8 @@ export class AccountStatementMapper
     accountStatement.id = as.id;
     accountStatement.dueDate = as.dueDate;
     accountStatement.rate = as.rate;
+    accountStatement.depositPaymentDurationValue = as.depositPaymentDurationValue;
+    accountStatement.advancedPaymentDurationValue = as.advancedPaymentDurationValue;
     accountStatement.electricBill = as.electricBill;
     accountStatement.waterBill = as.waterBill;
     accountStatement.penaltyNextDueDate = as.penaltyNextDueDate;
@@ -29,6 +31,7 @@ export class AccountStatementMapper
     accountStatement.miscellaneousTotalAmount = as.miscellaneousTotalAmount;
     accountStatement.currentBalance = as.currentBalance;
     accountStatement.isFullyPaid = as.isFullyPaid;
+    accountStatement.isFirstAccountStatement = as.isFirstAccountStatement;
 
     if (
       as.accountStatementMiscellaneous &&

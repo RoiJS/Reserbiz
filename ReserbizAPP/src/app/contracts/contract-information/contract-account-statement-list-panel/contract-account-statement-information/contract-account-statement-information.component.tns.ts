@@ -184,11 +184,11 @@ export class ContractAccountStatementInformationComponent
 
       const miscellaneousTotalAmount = this._currentAccountStatement
         .miscellaneousTotalAmount;
-      const rate = this._currentAccountStatement.rate;
+      const rentIncome = this._currentAccountStatement.rentIncome;
       const penaltiesTotalAmount = this._currentAccountStatement
         .penaltyTotalAmount;
 
-      grandTotal = miscellaneousTotalAmount + rate + penaltiesTotalAmount;
+      grandTotal = miscellaneousTotalAmount + rentIncome + penaltiesTotalAmount;
 
       if (electricBillAmount) {
         grandTotal += parseFloat(electricBillAmount);
