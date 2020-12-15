@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { PageRoute, RouterExtensions } from 'nativescript-angular';
+import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
 import { Subscription } from 'rxjs';
 
+import { TranslateService } from '@ngx-translate/core';
+
 import { AccountStatement } from '@src/app/_models/account-statement.model';
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
-import { TranslateService } from '@ngx-translate/core';
-import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
   selector: 'app-contract-account-statement-information',
@@ -32,6 +34,7 @@ export class ContractAccountStatementInformationComponent
   private electricBillAmountOriginal: number;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private accountStatementService: AccountStatementService,
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
@@ -199,5 +202,24 @@ export class ContractAccountStatementInformationComponent
     }
 
     return NumberFormatter.formatCurrency(grandTotal);
+  }
+
+  navigateToOtherPage(mainUrl: string) {
+    setTimeout(() => {
+      mainUrl = mainUrl.replace(
+        ':id',
+        this._currentAccountStatementId.toString()
+      );
+
+      const routeConfig: ExtendedNavigationExtras = {
+        transition: {
+          name: 'slideLeft',
+        },
+      };
+
+      routeConfig.relativeTo = this.activatedRoute;
+
+      this.router.navigate([mainUrl], routeConfig);
+    }, 100);
   }
 }

@@ -1119,7 +1119,13 @@
   },
 
   "ACCOUNT_STATEMENT_DETAILS": {
-    "ACTION_BAR_TITLE": "Statement of Account",
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Statement of Account",
+      "OPTIONS": {
+        "PAYMENTS": "Payments",
+        "PENALTIES": "Penalties"
+      }
+    },
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
@@ -1153,6 +1159,18 @@
       "DATE_TO_LABEL": "To:",
       "PAYMENT_STATUS_LABEL": "Payment Status:",
       "SORT_ORDER_LABEL": "Sort Order:"
+    }
+  },
+
+  "PAYMENTS": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Payments"
+    }
+  },
+
+  "PENALTIES": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Penalties"
     }
   }
 }

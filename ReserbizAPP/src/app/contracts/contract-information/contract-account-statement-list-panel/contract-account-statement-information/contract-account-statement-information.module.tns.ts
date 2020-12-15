@@ -17,6 +17,16 @@ import { SharedModule } from '../../../../shared/shared.module';
         path: '',
         component: ContractAccountStatementInformationComponent,
       },
+      {
+        path: 'payments/:accountStatementId',
+        loadChildren: () =>
+          import('./payments/payments.module').then((m) => m.PaymentsModule),
+      },
+      {
+        path: 'penalties/:accountStatementId',
+        loadChildren: () =>
+          import('./penalties/penalties.module').then((m) => m.PenaltiesModule),
+      },
     ]),
     ReactiveFormsModule,
     SharedModule,
