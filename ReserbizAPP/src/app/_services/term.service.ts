@@ -139,14 +139,6 @@ export class TermService
       .toPromise();
   }
 
-  async checkSpaceTypeAvailability(termId: number): Promise<boolean> {
-    return this.http
-      .get<boolean>(
-        `${this._apiBaseUrl}/term/checkTermSpaceTypeAvailability/${termId}`
-      )
-      .toPromise();
-  }
-
   reloadListFlag() {
     this._loadTermListFlag.next();
   }

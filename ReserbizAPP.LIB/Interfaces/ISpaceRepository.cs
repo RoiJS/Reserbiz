@@ -13,5 +13,6 @@ namespace ReserbizAPP.LIB.Interfaces
         List<Space> GetFilteredSpaces(IList<Space> unfilteredspaces, ISpaceFilter spaceFilter);
         Task<IEnumerable<Space>> GetSpacesAsOptions();
         Task<bool> DeleteMultipleSpacesAsync(List<int> spaceIds);
+        // Task<bool> CheckSpaceAvailability(int spaceId);
     }
 }

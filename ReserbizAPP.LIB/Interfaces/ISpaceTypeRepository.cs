@@ -11,7 +11,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<IEnumerable<SpaceType>> GetSpaceTypesBasedOnNameAsync(string spaceTypeName);
         Task<IEnumerable<SpaceType>> GetSpaceTypesAsOptions();
         Task<SpaceType> GetSpaceTypeAsync(int spaceTypeId);
-        Task<bool> CheckSpaceTypeAvailability(int spaceTypeId);
         Task<bool> DeleteMultipleSpaceTypesAsync(List<int> spaceTypeIds);
     }
 }

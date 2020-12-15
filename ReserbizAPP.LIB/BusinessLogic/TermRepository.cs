@@ -96,12 +96,5 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             return termWithTheSameCode > 0;
         }
-
-        public async Task<bool> CheckTermSpaceTypeAvailability(int termId)
-        {
-            var termFromRepo = await GetEntity(termId).ToObjectAsync();
-            return await _spaceTypeRepository.CheckSpaceTypeAvailability(termFromRepo.SpaceTypeId);
-        }
-
     }
 }

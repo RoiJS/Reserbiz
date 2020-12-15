@@ -28,6 +28,7 @@ namespace ReserbizAPP.API.Controllers
         public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForManageDto termForCreationDto)
         {
             var termToCreate = _mapper.Map<Term>(termForCreationDto);
+            termToCreate.TermParentId = null;
 
             await _termRepo
                 .SetCurrentUserId(CurrentUserId)
@@ -138,17 +139,6 @@ namespace ReserbizAPP.API.Controllers
             var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
 
             return Ok(_termRepo.CheckTermCodeIfExists(termsFromRepo, termId, termCode));
-        }
-
-        [HttpGet("checkTermSpaceTypeAvailability/{termId}")]
-        public async Task<IActionResult> CheckTermSpaceTypeAvailability(int termId)
-        {
-            var termFromRepo = await _termRepo.GetEntity(termId).ToObjectAsync();
-
-            if (termFromRepo == null)
-                return BadRequest("Term does not exists!");
-
-            return Ok(await _termRepo.CheckTermSpaceTypeAvailability(termId));
         }
     }
 }
