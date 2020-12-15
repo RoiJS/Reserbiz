@@ -42,7 +42,7 @@ namespace ReserbizAPP.LIB.Models
 
         public Contract()
         {
-
+            AccountStatements = new List<AccountStatement>();
         }
 
         private DateTime CurrentDateTime = DateTime.Now;

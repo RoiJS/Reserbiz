@@ -111,6 +111,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<PaymentBreakdown, PaymentBreakdownForDetailsDto>()
                 .ForMember(dest => dest.ReceivedBy,
                     opt => opt.MapFrom(src => src.ReceivedBy.PersonFullName));
+            CreateMap<Space, SpaceDetailDto>();
 
             CreateMap<PersonalInformationForUpdateDto, Account>();
             CreateMap<TenantForCreationDto, Tenant>();

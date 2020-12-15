@@ -7,6 +7,7 @@ export class Space extends Entity {
   public spaceTypeName: string;
   public spaceTypeRate: number;
   public isNotOccupied: boolean;
+  public occupiedByContractId: number;
 
   constructor() {
     super();

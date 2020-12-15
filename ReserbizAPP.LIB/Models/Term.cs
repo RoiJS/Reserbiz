@@ -102,6 +102,7 @@ namespace ReserbizAPP.LIB.Models
         public Term()
         {
             Contracts = new List<Contract>();
+            TermChildren = new List<Term>();
         }
 
         public int? DeletedById { get; set; }

@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
@@ -31,17 +32,19 @@ namespace ReserbizAPP.LIB.Models
             {
                 // We can determine if space is available 
                 // if it is not used, or in other words,
-                // it is not attached to any contract yet
-                return (Contracts.Count == 0);
+                // it is not attached to any ACTIVE contract yet
+                return (ActiveContracts.Count == 0);
             }
         }
 
         public int OccupiedByContractId
         {
-
+            // If the ACTIVE contract where space is attached to is not yet archived, 
+            // we return the correct contract id, otherwise we return 0 indicating
+            // that the space is not currently occupied.
             get
             {
-                return Contracts.Count > 0 ? Contracts[0].Id : 0;
+                return ActiveContracts.Count > 0 ? ActiveContracts[0].Id : 0;
             }
         }
 
@@ -58,5 +61,12 @@ namespace ReserbizAPP.LIB.Models
         public Account CreatedBy { get; set; }
         public int? DeactivatedById { get; set; }
         public Account DeactivatedBy { get; set; }
+
+        private List<Contract> ActiveContracts 
+        {
+            get {
+                return Contracts.Where(c => c.IsArchived == false).ToList();
+            }
+        }
     }
 }

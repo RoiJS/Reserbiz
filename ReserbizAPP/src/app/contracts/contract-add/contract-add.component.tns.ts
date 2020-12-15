@@ -269,7 +269,7 @@ export class ContractAddComponent
 
       const hasSpaces = this._spaceValueProvider.spaceOptions;
       const hasAvailableSpaces = this._spaceValueProvider.spaceOptions.items.find(
-        (s) => s.isNotOccupied
+        (s) => s.isNotOccupied || (!s.isNotOccupied && s.occupiedByContractId === 0)
       );
 
       if (!hasSpaces) {
@@ -300,7 +300,7 @@ export class ContractAddComponent
         this._entityFormSource.spaceId
       );
 
-      if (!space.isNotOccupied) {
+      if (!space.isNotOccupied && space.occupiedByContractId !== 0) {
         spaceIdProperty.errorMessage = this.translateService.instant(
           'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
         );

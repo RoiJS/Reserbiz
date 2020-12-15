@@ -21,7 +21,7 @@ import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.in
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { TermService } from '@src/app/_services/term.service';
+import { SpaceService } from '@src/app/_services/space.service';
 
 import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
@@ -47,7 +47,7 @@ export class ContractArchivedListComponent
     protected ngZone: NgZone,
     protected translateService: TranslateService,
     protected router: RouterExtensions,
-    private termService: TermService
+    private spaceService: SpaceService
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = contractService;
@@ -132,12 +132,16 @@ export class ContractArchivedListComponent
 
   activateSelectedItem() {
     (async () => {
-      const isTermSpaceTypeAvailable = await this.termService.checkSpaceTypeAvailability(
-        this._currentItem.termId
-      );
+      const space = await this.spaceService
+        .getSpace(this._currentItem.spaceId)
+        .toPromise();
 
-      // Check the availability of space type attached to the term of the contract
-      if (!isTermSpaceTypeAvailable) {
+      const isSpaceStillAvailable =
+        space.isNotOccupied &&
+        space.occupiedByContractId !== this._currentItem.id;
+
+      // Check the availability of space attached to the contract
+      if (!isSpaceStillAvailable) {
         this.dialogService.alert(
           this.translateService.instant(
             'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'

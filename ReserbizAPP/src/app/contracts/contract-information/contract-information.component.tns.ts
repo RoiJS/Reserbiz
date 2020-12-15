@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { TermService } from '@src/app/_services/term.service';
+import { SpaceService } from '@src/app/_services/space.service';
 
 import { Contract } from '@src/app/_models/contract.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
@@ -31,7 +31,7 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
-    private termService: TermService,
+    private spaceService: SpaceService,
     private translateService: TranslateService
   ) {}
 
@@ -113,12 +113,12 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
 
   activateContract() {
     (async () => {
-      const isTermSpaceTypeAvailable = await this.termService.checkSpaceTypeAvailability(
-        this.currentContract.termId
-      );
+      const space = await this.spaceService
+        .getSpace(this.currentContract.spaceId)
+        .toPromise();
 
-      // Check the availability of space type attached to the term of the contract
-      if (!isTermSpaceTypeAvailable) {
+      // Check the availability of space attached to the contract
+      if (!space.isNotOccupied) {
         this.dialogService.alert(
           this.translateService.instant(
             'CONTRACT_DETAILS_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'

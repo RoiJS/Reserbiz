@@ -326,10 +326,9 @@ export class ContractEditDetailsComponent
 
       // Check if the current selected space is
       // not occupied by other contract
-      if (
-        !space.isNotOccupied &&
-        space.occupiedByContractId !== this._currentEntity.id
-      ) {
+      if (!space.isNotOccupied
+        && space.occupiedByContractId !== this._currentEntity.id
+        && space.occupiedByContractId !== 0) {
         spaceIdProperty.errorMessage = this.translateService.instant(
           'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
         );
