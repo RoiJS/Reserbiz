@@ -8,7 +8,7 @@ namespace ReserbizAPP.Tests
     public class TermTests
     {
         [Test]
-        public void Should_ReturnIsDeletableTrue_WhenNoContractsAttached()
+        public void Should_ReturnIsDeletableTrue_WhenNoChildrenCopyAttached()
         {
             // Arrange
             var term = new Term();
@@ -21,11 +21,11 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_ReturnIsDeletableFalse_WhenHaveContractsAttached()
+        public void Should_ReturnIsDeletableFalse_WhenHaveChildrenCopyAttached()
         {
             // Arrange
             var term = new Term();
-            term.Contracts.Add(new Contract());
+            term.TermChildren.Add(new Term());
 
             // Act
             var result = term.IsDeletable;
