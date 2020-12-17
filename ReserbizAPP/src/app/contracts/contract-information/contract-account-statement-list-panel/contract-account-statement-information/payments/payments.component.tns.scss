@@ -1,0 +1,15 @@
+@import '../../../../../../app-variables';
+
+.payment-amount-section {
+  font-weight: bold;
+  font-size: 15;
+}
+
+.payment-icon-placeholder {
+  background-color: $primary;
+
+  Label {
+    font-size: 30;
+    color: white;
+  }
+}

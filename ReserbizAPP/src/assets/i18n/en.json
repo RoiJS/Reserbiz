@@ -1165,6 +1165,9 @@
   "PAYMENTS": {
     "ACTION_BAR_SECTION": {
       "TITLE": "Payments"
+    },
+    "PAYMENT_DETAILS": {
+      "RECEIVED_BY": "Received By:"
     }
   },
 

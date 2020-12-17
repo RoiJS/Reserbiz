@@ -1,8 +1,9 @@
 using System;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class PaymentBreakdownForDetailsDto
+    public class PaymentBreakdownForDetailsDto : IEntityDto
     {
         public int Id { get; set; }
         public float Amount { get; set; }
