@@ -11,9 +11,13 @@ export const environment = {
   whitelistedDomains: ['10.0.2.2:9152'],
   reserbizAPIEndPoint: 'http://10.0.2.2:9152/api',
 
-  // FOR DEPLOYED VERSION
+  // (1) FOR DEPLOYED VERSION
   // whitelistedDomains: ['192.168.254.101:3000'],
   // reserbizAPIEndPoint: 'http://192.168.254.101:3000/api',
+
+  // (2) FOR DEPLOYED VERSION
+  // whitelistedDomains: ['172.17.219.97:3000'],
+  // reserbizAPIEndPoint: 'http://172.17.219.97:3000/api',
 
   // This is customer's database hashed string
   appSecretToken: '3be4fbf7c0a93771b0b0a8c327f7dc7a7aa66ac4',
