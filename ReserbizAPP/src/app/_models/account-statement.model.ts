@@ -39,13 +39,13 @@ export class AccountStatement extends Entity {
   }
 
   get dueDateFormatted(): string {
-    return DateFormatter.format(this.dueDate, 'MMM DD YYYY');
+    return DateFormatter.format(this.dueDate, 'MMM DD, YYYY');
   }
 
   get rentIncome(): number {
     let rentIncome = this.rate;
 
-    // Check if the account statement is the first then calculate the rent incode based on the
+    // Check if the account statement is the first then calculate the rent income based on the
     // advanced payment duration and deposit payment duration values
     if (this.isFirstAccountStatement) {
       rentIncome = this.rate * this.advancedPaymentDurationValue;
