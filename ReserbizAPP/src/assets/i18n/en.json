@@ -1155,7 +1155,7 @@
 
   "ACCOUNT_STATEMENT_FILTER_DIALOG": {
     "HEADER_SECTION": {
-      "TITLE": "Account Statement Filter"
+      "TITLE": "Filter"
     },
     "BODY_SECTION": {
       "DATE_FROM_LABEL": "From:",
