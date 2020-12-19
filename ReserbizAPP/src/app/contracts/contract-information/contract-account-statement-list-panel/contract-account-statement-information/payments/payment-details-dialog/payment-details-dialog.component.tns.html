@@ -1,0 +1,169 @@
+<StackLayout class="payment-details-dialog dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="70%" orientation="horizontal">
+        <label
+          text="&#xf53d;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label [text]="dialogTitle" verticalAlignment="middle"></label>
+      </StackLayout>
+      <StackLayout>
+        <label text="&#xf00d;" class="fa fa-solid" (tap)="onClose()"></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <RadDataForm
+      [source]="paymentDetailsFormSource"
+      [isReadOnly]="!isForAddNewPayment"
+      (editorUpdate)="onEditorUpdate($event)"
+    >
+      <!-- #Start - Amount field -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Amount"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKDataFormGridLayout tkPropertyGroupLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="amount"
+            [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.LABEL' | translate"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Number">
+              <TKNonEmptyValidator
+                tkEntityPropertyValidators
+                [errorMessage]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.HINT_TEXT' | translate"
+              ></TKNonEmptyValidator>
+
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKDataFormGridLayout>
+      </TKPropertyGroup>
+      <!-- #End -->
+
+      <!-- # Start - Date and Time Received fields  -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_DateTimeReceived"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKDataFormGridLayout tkPropertyGroupLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="dateReceived"
+            [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.DATE_LABEL' | translate"
+            index="1"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="timeReceived"
+            [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.TIME_LABEL' | translate"
+            index="1"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="TimePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKDataFormGridLayout>
+      </TKPropertyGroup>
+      <!-- # End -->
+
+      <!-- # Start - Received by label  -->
+      <!-- Only show "Received by" if dialog is use for viewing payment details -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_ReceivedBy"
+        [titleHidden]="true"
+        [hidden]="isForAddNewPayment"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="receivedBy"
+          [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.RECEIVED_BY_LABEL' | translate"
+          index="2"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="Label">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- # End -->
+
+      <!-- # Start - Notes Field -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Notes"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="notes"
+          [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.NOTES_LABEL' | translate"
+          index="3"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="MultilineText">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- # End -->
+    </RadDataForm>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout
+      class="payment-view-dialog-buttons"
+      *ngIf="!isForAddNewPayment"
+    >
+      <button
+        [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
+        class="btn-close btn btn-rounded-lg"
+        (tap)="onClose()"
+      ></button>
+    </FlexboxLayout>
+    <FlexboxLayout
+      class="payment-add-dialog-buttons"
+      *ngIf="isForAddNewPayment"
+    >
+      <button
+        [text]="'GENERAL_TEXTS.BUTTONS.SAVE' | translate"
+        class="btn-save btn btn-primary btn-rounded-lg"
+        (tap)="onSave()"
+      ></button>
+      <button
+        [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
+        class="btn-close btn btn-rounded-lg"
+        (tap)="onClose()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

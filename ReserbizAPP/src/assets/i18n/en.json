@@ -13,6 +13,9 @@
   "GENERAL_TEXTS": {
     "AND": "and",
     "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "CLOSE": "Close",
       "CONFIRM": "Confirm",
       "RESET": "Reset"
     },
@@ -1168,6 +1171,31 @@
     },
     "PAYMENT_DETAILS": {
       "RECEIVED_BY": "Received By:"
+    }
+  },
+
+  "PAYMENT_DETAILS_DIALOG": {
+    "HEADER_SECTION": {
+      "ADD_DIALOG_TITLE": "Add Payment Details",
+      "VIEW_DIALOG_TITLE": "Payment Details"
+    },
+    "BODY_SECTION": {
+      "FORM_CONTROL": {
+        "DATE_LABEL": "Date:",
+        "TIME_LABEL": "Time:",
+        "AMOUNT_CONTROL": {
+          "LABEL": "Amount:",
+          "HINT_TEXT": "Please enter amount"
+        },
+        "RECEIVED_BY_LABEL": "Received By:",
+        "NOTES_LABEL": "Notes:"
+      }
+    },
+    "ADD_DIALOG": {
+      "TITLE": "Add Payment",
+      "CONFIRM_MESSAGE": "Are you sure to save new payment?",
+      "SUCCESS_MESSAGE": "New payment has been saved!",
+      "ERROR_MESSAGE": "Failed to save new payment. Please try again later!"
     }
   },
 

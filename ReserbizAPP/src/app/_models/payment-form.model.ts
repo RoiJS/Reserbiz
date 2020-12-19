@@ -5,7 +5,8 @@ export class PaymentFormSource
   extends BaseForm<PaymentFormSource>
   implements IBaseFormSource<PaymentFormSource> {
   constructor(
-    public dateTimeReceived: Date,
+    public dateReceived: Date,
+    public timeReceived: Date,
     public amount: number,
     public notes: string,
     public receivedBy: string
@@ -15,7 +16,8 @@ export class PaymentFormSource
 
   clone() {
     return new PaymentFormSource(
-      this.dateTimeReceived,
+      this.dateReceived,
+      this.timeReceived,
       this.amount,
       this.notes,
       this.receivedBy

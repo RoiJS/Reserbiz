@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { NativeScriptRouterModule } from 'nativescript-angular';
 
 import { PaymentsComponent } from './payments.component';
+import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
 
 import { SharedModule } from '../../../../../shared/shared.module';
 
@@ -16,6 +17,7 @@ import { SharedModule } from '../../../../../shared/shared.module';
     ]),
     SharedModule,
   ],
-  declarations: [PaymentsComponent],
+  declarations: [PaymentsComponent, PaymentDetailsDialogComponent],
+  entryComponents: [PaymentDetailsDialogComponent],
 })
 export class PaymentsModule {}

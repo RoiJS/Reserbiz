@@ -14,7 +14,7 @@ export class PaymentMapper
     const payment = new Payment();
 
     payment.accountStatementId = p.accountStatementId;
-    payment.dateTimeReceived = p.dateTimeReceived;
+    payment.dateTimeReceived = new Date(p.dateTimeReceived);
     payment.amount = p.amount;
     payment.receivedBy = p.receivedBy;
     payment.notes = p.notes;
@@ -22,22 +22,36 @@ export class PaymentMapper
   }
 
   initFormSource(): PaymentFormSource {
-    const paymentFormSource = new PaymentFormSource(new Date(), 0, '', '');
+    const paymentFormSource = new PaymentFormSource(
+      new Date(),
+      new Date(),
+      0,
+      '',
+      ''
+    );
     return paymentFormSource;
   }
 
   mapFormSourceToDto(paymentFormSource: PaymentFormSource): PaymentDto {
+    // Set time recieved (HH:mm)
+    paymentFormSource.dateReceived.setHours(
+      paymentFormSource.timeReceived.getHours(),
+      paymentFormSource.timeReceived.getMinutes()
+    );
+
     const paymentDto = new PaymentDto(
-      paymentFormSource.dateTimeReceived,
+      paymentFormSource.dateReceived,
       paymentFormSource.amount,
       paymentFormSource.notes
     );
+
     return paymentDto;
   }
 
   mapEntityToFormSource(payment: Payment): PaymentFormSource {
     const paymentFormSource = new PaymentFormSource(
       payment.dateTimeReceived,
+      payment.timeReceived,
       payment.amount,
       payment.notes,
       payment.receivedBy
@@ -48,7 +62,13 @@ export class PaymentMapper
   mapFormSourceToEntity(paymentFormSource: PaymentFormSource): Payment {
     const payment = new Payment();
 
-    payment.dateTimeReceived = paymentFormSource.dateTimeReceived;
+    // Set time recieved (HH:mm)
+    paymentFormSource.dateReceived.setHours(
+      paymentFormSource.timeReceived.getHours(),
+      paymentFormSource.timeReceived.getMinutes()
+    );
+
+    payment.dateTimeReceived = paymentFormSource.dateReceived;
     payment.amount = paymentFormSource.amount;
     payment.receivedBy = paymentFormSource.receivedBy;
     payment.notes = paymentFormSource.notes;

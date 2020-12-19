@@ -1,0 +1,20 @@
+.payment-details-dialog {
+  width: 350;
+
+  .payment-view-dialog-buttons {
+    width: 100%;
+
+    .btn-close {
+      width: 100%;
+    }
+  }
+
+  .payment-add-dialog-buttons {
+    width: 100%;
+
+    .btn-close,
+    .btn-save {
+      width: 50%;
+    }
+  }
+}

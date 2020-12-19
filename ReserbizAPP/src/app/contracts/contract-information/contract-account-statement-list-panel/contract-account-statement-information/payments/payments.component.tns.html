@@ -25,11 +25,16 @@
 </ns-action-bar>
 <StackLayout>
   <ns-loader-layout [busy]="IsBusy">
-    <StackLayout width="100%" height="100%">
+    <FlexBoxLayout flexDirection="column" width="100%" height="100%">
       <!-- # Start - Payment list container -->
-      <StackLayout height="90%">
-        <StackLayout class="page-container payments-list-container">
+      <StackLayout>
+        <FlexBoxLayout
+          flexDirection="column"
+          justifyContent="space-around"
+          class="page-container payments-list-container"
+        >
           <RadListView
+            *ngIf="items?.length > 0"
             width="100%"
             height="100%"
             #appListView
@@ -136,13 +141,49 @@
               </GridLayout>
             </ng-template>
           </RadListView>
-        </StackLayout>
+
+          <label
+            alignSelf="center"
+            *ngIf="items?.length === 0"
+            style="font-size: 16"
+            text="No payments available"
+          ></label>
+        </FlexBoxLayout>
       </StackLayout>
       <!-- #End -->
 
       <!-- #Start - Payment list footer container -->
-      <StackLayout height="10%"> </StackLayout>
+      <StackLayout class="payment-list-footer">
+        <!-- #Start Total Expected Amount Section -->
+        <StackLayout
+          verticalAlignment="middle"
+          horizontalAlignment="center"
+          row="0"
+          column="2"
+          class="payment-list-footer__total-amount-section"
+        >
+          <label
+            class="payment-list-footer__total-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 payment-list-footer__total-amount-section-icon"
+            ></label>
+            <label
+              class="payment-list-footer__total-amount-section-detail"
+              [text]="totalPaidAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+      </StackLayout>
       <!-- #End -->
-    </StackLayout>
+    </FlexBoxLayout>
   </ns-loader-layout>
 </StackLayout>

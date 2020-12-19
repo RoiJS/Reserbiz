@@ -1,5 +1,6 @@
 import { DateFormatter } from '../_helpers/date-formatter.helper';
 import { NumberFormatter } from '../_helpers/number-formatter.helper';
+
 import { Entity } from './entity.model';
 
 export class Payment extends Entity {
@@ -11,6 +12,15 @@ export class Payment extends Entity {
 
   constructor() {
     super();
+    this.accountStatementId = 0;
+    this.dateTimeReceived = new Date();
+    this.amount = 0;
+    this.receivedBy = '';
+    this.notes = '';
+  }
+
+  get timeReceived(): Date {
+    return this.dateTimeReceived;
   }
 
   get dateTimeReceivedFormatted(): string {

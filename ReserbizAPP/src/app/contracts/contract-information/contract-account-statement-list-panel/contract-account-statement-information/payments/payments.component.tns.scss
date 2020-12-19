@@ -13,3 +13,26 @@
     color: white;
   }
 }
+
+.payment-list-footer {
+  height: 100;
+  background-color: $primary;
+  padding: 7;
+
+  &__total-amount-section {
+    color: white;
+  }
+
+  &__total-amount-section-label {
+    font-size: 13;
+  }
+
+  &__total-amount-section-icon {
+    font-size: 16;
+  }
+
+  &__total-amount-section-detail {
+    font-size: 15;
+    font-weight: bold;
+  }
+}
