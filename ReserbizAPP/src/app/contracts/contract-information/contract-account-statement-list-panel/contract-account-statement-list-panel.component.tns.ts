@@ -82,14 +82,13 @@ export class ContractAccountStatementListPanelComponent
             if (reset) {
               this._totalExpectedAmount = e.totalExpectedAmount;
               this._totalPaidAmount = e.totalPaidAmount;
-              this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
-              this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
             } else {
               this._totalExpectedAmount += e.totalExpectedAmount;
               this._totalPaidAmount += e.totalPaidAmount;
-              this._totalExpectedDepositAmount += e.totalExpectedDepositAmount;
-              this._totalPaidAmountFromDeposit += e.totalPaidAmountFromDeposit;
             }
+
+            this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
+            this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
           });
         }
       );
