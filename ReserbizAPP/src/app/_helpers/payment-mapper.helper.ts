@@ -18,6 +18,7 @@ export class PaymentMapper
     payment.amount = p.amount;
     payment.receivedBy = p.receivedBy;
     payment.notes = p.notes;
+    payment.isAmountFromDeposit = p.isAmountFromDeposit;
     return payment;
   }
 
@@ -27,6 +28,7 @@ export class PaymentMapper
       new Date(),
       0,
       '',
+      false,
       ''
     );
     return paymentFormSource;
@@ -42,7 +44,8 @@ export class PaymentMapper
     const paymentDto = new PaymentDto(
       paymentFormSource.dateReceived,
       paymentFormSource.amount,
-      paymentFormSource.notes
+      paymentFormSource.notes,
+      paymentFormSource.isAmountFromDeposit
     );
 
     return paymentDto;
@@ -54,6 +57,7 @@ export class PaymentMapper
       payment.timeReceived,
       payment.amount,
       payment.notes,
+      payment.isAmountFromDeposit,
       payment.receivedBy
     );
     return paymentFormSource;
@@ -72,6 +76,7 @@ export class PaymentMapper
     payment.amount = paymentFormSource.amount;
     payment.receivedBy = paymentFormSource.receivedBy;
     payment.notes = paymentFormSource.notes;
+    payment.isAmountFromDeposit = paymentFormSource.isAmountFromDeposit;
 
     return payment;
   }

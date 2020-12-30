@@ -23,10 +23,12 @@ namespace ReserbizAPP.API.Controllers
         private readonly IPaymentBreakdownRepository<PaymentBreakdown> _paymentBreakdownRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IMapper _mapper;
+        private readonly IContractRepository<Contract> _contractRepository;
 
         public PaymentBreakdownController(IPaymentBreakdownRepository<PaymentBreakdown> paymentBreakdownRepository,
-        IAccountStatementRepository<AccountStatement> accountStatementRepository, IMapper mapper, IPaginationService paginationService)
+        IAccountStatementRepository<AccountStatement> accountStatementRepository, IContractRepository<Contract> contractRepository, IMapper mapper, IPaginationService paginationService)
         {
+            _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
             _paymentBreakdownRepository = paymentBreakdownRepository;
             _mapper = mapper;
@@ -48,7 +50,8 @@ namespace ReserbizAPP.API.Controllers
                 ReceivedById = CurrentUserId,
                 Amount = paymentForCreationDto.Amount,
                 DateTimeReceived = paymentForCreationDto.DateTimeReceived,
-                Notes = paymentForCreationDto.Notes
+                Notes = paymentForCreationDto.Notes,
+                IsAmountFromDeposit = paymentForCreationDto.IsAmountFromDeposit,
             };
 
             _accountStatementRepository.SetCurrentUserId(CurrentUserId);
@@ -89,18 +92,30 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getPaymentsPerAccountStatement")]
-        public async Task<ActionResult<IEnumerable<PaymentBreakdownForDetailsDto>>> GetPaymentsPerAccountStatement(int accountStatementId, int page, SortOrderEnum sortOrder)
+        public async Task<ActionResult<IEnumerable<PaymentBreakdownForDetailsDto>>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
         {
             var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsAsync(accountStatementId, sortOrder);
 
             var mappedPaymentDetails = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(paymentBreakdownsFromRepo);
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<PaymentPaginationListDto>(mappedPaymentDetails, page);
-            entityPaginationListDto.TotalAmount = mappedPaymentDetails
-                                                        .Select(m => m.Amount)
-                                                        .Sum();
+
+            await CalculatePaginationTotalAmounts(contractId, entityPaginationListDto, paymentBreakdownsFromRepo);
 
             return Ok(entityPaginationListDto);
+        }
+
+        private async Task CalculatePaginationTotalAmounts(int contractId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        {
+            var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
+
+            entityPaginationListDto.TotalAmount = _accountStatementRepository.CalculateTotalAmountPaid(paymentBreakdowns);
+
+            entityPaginationListDto.TotalAmountFromDeposit = _accountStatementRepository.CalculateTotalAmountPaidUsingDeposit(paymentBreakdowns);
+
+            entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
+
+            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(firstAccountStatement, entityPaginationListDto.DepositedAmountBalance);
         }
     }
 }

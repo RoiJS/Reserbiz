@@ -619,14 +619,14 @@ export class BaseListComponent<TEntity extends IEntity>
   onPullToRefreshInitiated(args: ListViewEventData) {
     this._listViewDateEvent = args;
     this._multipleSelectionActive = false;
-    this.entityService.reloadListFlag();
+    this.entityService.reloadListFlag(true);
   }
 
   onPullToRefreshInitiatedForPaginatedList(args: ListViewEventData) {
     this._listViewDateEvent = args;
     this._entityFilter.page = 1;
     this._multipleSelectionActive = false;
-    this.entityService.reloadListFlag();
+    this.entityService.reloadListFlag(true);
   }
 
   searchBarLoaded(args: any) {

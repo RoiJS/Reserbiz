@@ -7,6 +7,8 @@ namespace ReserbizAPP.LIB.Models
     {
         public float TotalExpectedAmount { get; set; }
         public float TotalPaidAmount { get; set; }
+        public float TotalPaidAmountFromDeposit { get; set; }
+        public float TotalExpectedDepositAmount { get; set; }
         public int TotalItems { get; set; }
         public int Page { get; set; }
         public int NumberOfItemsPerPage { get; set; }

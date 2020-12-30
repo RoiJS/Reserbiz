@@ -6,8 +6,10 @@ import { ModalDialogParams } from 'nativescript-angular';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
-import { PaymentMapper } from '@src/app/_helpers/payment-mapper.helper';
+import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { PaymentMapper } from '@src/app/_helpers/payment-mapper.helper';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 
@@ -16,6 +18,7 @@ import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFormSource } from '@src/app/_models/payment-form.model';
+
 
 @Component({
   selector: 'ns-payment-details-dialog',
@@ -31,6 +34,12 @@ export class PaymentDetailsDialogComponent
   private _dialogTitle = '';
   private _dialogIntent: DialogIntentEnum;
 
+  private _suggestedAmountForPayment = 0;
+  private _depositedAmountBalance = 0;
+  private _currentAccountStatementId = 0;
+
+  private _firstAccountStatement = new AccountStatement();
+
   private _paymentDetailsFormSource: PaymentFormSource;
 
   constructor(
@@ -43,14 +52,18 @@ export class PaymentDetailsDialogComponent
     this.initFormDetails(params.context.paymentDetails);
 
     this._dialogIntent = params.context.dialogIntent;
+    this._currentAccountStatementId = params.context.currentAccountStatementId;
+    this._firstAccountStatement = params.context.firstAccountStatement;
+    this._suggestedAmountForPayment = params.context.suggestedAmountForPayment;
+    this._depositedAmountBalance = params.context.depositedAmountBalance;
   }
 
   ngOnInit() {}
 
   onSave() {
-    const isFormInvalid = this.formSource.dataForm.hasValidationErrors();
+    const isFormValid = this.validateForm();
 
-    if (!isFormInvalid) {
+    if (isFormValid) {
       this.dialogService
         .confirm(
           this.translateService.instant(
@@ -81,6 +94,63 @@ export class PaymentDetailsDialogComponent
         this.changeDateFormatting(args.editor);
       }
     }
+  }
+
+  onPropertyCommitted(args: DataFormEventData) {
+    /**
+     * If Amount From Deposit, pre-fill the amount field
+     */
+    if (args.propertyName === 'isAmountFromDeposit') {
+      if (
+        this._paymentDetailsFormSource.isAmountFromDeposit &&
+        this._paymentDetailsFormSource.amount === 0
+      ) {
+        this._paymentDetailsFormSource = this.reloadFormSource(
+          this._paymentDetailsFormSource,
+          {
+            amount: this._suggestedAmountForPayment,
+          }
+        );
+      }
+    }
+  }
+
+  validateForm(): boolean {
+    let isAmountValid = true;
+
+    const dataForm = this.formSource.dataForm;
+    const amountProperty = dataForm.getPropertyByName('amount');
+
+    // Check and validate amount field
+    if (!this._paymentDetailsFormSource.amount) {
+      amountProperty.errorMessage = this.translateService.instant(
+        'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EMPTY_ERROR_MESSAGE'
+      );
+      isAmountValid = false;
+    } else {
+      if (
+        this._paymentDetailsFormSource.isAmountFromDeposit &&
+        this._paymentDetailsFormSource.amount > this._depositedAmountBalance
+      ) {
+        let errorMessage = this.translateService.instant(
+          'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_FROM_DEPOSIT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE'
+        );
+        errorMessage = errorMessage.replace(
+          '{0}',
+          NumberFormatter.formatCurrency(this._depositedAmountBalance)
+        );
+
+        amountProperty.errorMessage = errorMessage;
+
+        isAmountValid = false;
+      } else {
+        isAmountValid = true;
+      }
+    }
+
+    dataForm.notifyValidated('amount', isAmountValid);
+
+    return isAmountValid;
   }
 
   private setDialogTitle(dialogIntent: DialogIntentEnum) {
@@ -119,5 +189,16 @@ export class PaymentDetailsDialogComponent
 
   get isForAddNewPayment(): boolean {
     return this._dialogIntent === 1;
+  }
+
+  /**
+   * @description Identify if "Amount From Deposit" switch should be shown/hidden. Current dialog intent should be for Adding new payment details, Current account statement is not the first, fully paid and there should still be available deposited amount.
+   */
+  get shouldAmountFromDepositAvailable(): boolean {
+    return (
+      this._dialogIntent === DialogIntentEnum.View ||
+      (this._firstAccountStatement.id !== this._currentAccountStatementId &&
+        this._firstAccountStatement.isFullyPaid)
+    );
   }
 }

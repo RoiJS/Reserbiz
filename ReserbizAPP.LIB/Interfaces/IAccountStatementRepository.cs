@@ -14,5 +14,11 @@ namespace ReserbizAPP.LIB.Interfaces
         List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
         Task GenerateContractAccountStatements(int contractId);
         Task GenerateAccountStatementPenalties(int tenantId);
+        Task<AccountStatement> GetFirstAccountStatement(int contractId);
+        float CalculateTotalAmountPaid(IEnumerable<PaymentBreakdown> paymentBreakdowns);
+        float CalculateTotalAmountPaidUsingDeposit(IEnumerable<PaymentBreakdown> paymentBreakdowns);
+        Task<double> CalculatedDepositedAmountBalance(int contractId, AccountStatement firstAccountStatement);
+        double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance);
+        Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId);
     }
 }

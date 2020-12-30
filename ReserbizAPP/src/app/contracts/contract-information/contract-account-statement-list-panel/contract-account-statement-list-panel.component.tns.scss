@@ -49,12 +49,14 @@
 }
 
 .contract-account-statement-list-footer {
-  height: 100;
+  height: 200;
   background-color: $primary;
   padding: 7;
 
   &__total-paid-amount-section,
-  &__total-expected-amount-section {
+  &__total-expected-amount-section,
+  &__total-paid-amount-from-deposit-section,
+  &__total-expected-deposit-amount-section {
     color: white;
   }
 
@@ -63,14 +65,32 @@
     font-size: 13;
   }
 
+  &__total-paid-amount-from-deposit-section-label,
+  &__total-expected-deposit-amount-section-label {
+    font-size: 11;
+  }
+
   &__total-paid-amount-section-icon,
   &__total-expected-amount-section-icon {
     font-size: 16;
   }
 
+  &__total-paid-amount-from-deposit-section-icon,
+  &__total-expected-deposit-amount-section-icon,
+  &__total-expected-deposit-amount-section-detail,
+  &__total-paid-amount-from-deposit-section-detail {
+    font-size: 13;
+  }
+
   &__total-paid-amount-section-detail,
   &__total-expected-amount-section-detail {
     font-size: 15;
+    font-weight: bold;
+  }
+
+  &__total-paid-amount-from-deposit-section-detail,
+  &__total-expected-deposit-amount-section-detail {
+    font-size: 13;
     font-weight: bold;
   }
 

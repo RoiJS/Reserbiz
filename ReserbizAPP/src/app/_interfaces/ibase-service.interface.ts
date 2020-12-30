@@ -16,5 +16,5 @@ export interface IBaseService<IEntity> {
   saveNewEntity?(dtoEntityProcess: IDtoProcess): Observable<void>;
   updateEntity?(dtoEntityProcess: IDtoProcess): Observable<void>;
   validateEntityForDeletion?(entityId: number): Promise<boolean>;
-  reloadListFlag(): void;
+  reloadListFlag(reset?: boolean): void;
 }

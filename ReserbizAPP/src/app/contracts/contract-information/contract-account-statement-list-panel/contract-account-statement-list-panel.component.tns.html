@@ -134,10 +134,9 @@
 
     <!-- #Start Contract Account Statement Footer Details Section -->
     <StackLayout class="contract-account-statement-list-footer">
-      <GridLayout rows="*" columns="*, 5, *">
+      <GridLayout rows="*, *" columns="*, 5, *">
         <!-- #Start Total Amount Paid Section -->
         <StackLayout
-          verticalAlignment="middle"
           horizontalAlignment="center"
           row="0"
           column="0"
@@ -164,10 +163,39 @@
         </StackLayout>
         <!-- #End -->
 
+        <!-- #Start Total Amount Paid From Deposit Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="1"
+          column="0"
+          class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_PAID_AMOUNT_FROM_DEPOSIT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-paid-amount-from-deposit-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-detail"
+              [text]="totalPaidAmountFromDeposit"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
         <!-- #Start Border Separator Section -->
         <StackLayout
           row="0"
           column="1"
+          rowSpan="2"
           class="contract-account-statement-list-footer__separator"
         >
         </StackLayout>
@@ -175,7 +203,6 @@
 
         <!-- #Start Total Expected Amount Section -->
         <StackLayout
-          verticalAlignment="middle"
           horizontalAlignment="center"
           row="0"
           column="2"
@@ -197,6 +224,34 @@
             <label
               class="contract-account-statement-list-footer__total-expected-amount-section-detail"
               [text]="totalExpectedAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Total Expected Deposit Amount Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="1"
+          column="2"
+          class="contract-account-statement-list-footer__total-expected-deposit-amount-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-expected-deposit-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_DEPOSIT_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-expected-deposit-amount-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-expected-deposit-amount-section-detail"
+              [text]="totalExpectedDepositAmount"
             ></label>
           </StackLayout>
         </StackLayout>

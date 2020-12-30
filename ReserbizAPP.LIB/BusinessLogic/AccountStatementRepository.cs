@@ -16,11 +16,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private readonly IContractRepository<Contract> _contractRepository;
 
         private readonly IClientSettingsRepository<ClientSettings> _clientSettingsRepository;
+        private readonly IPaymentBreakdownRepository<PaymentBreakdown> _paymentBreakdownRepository;
 
         public AccountStatementRepository(IReserbizRepository<AccountStatement> reserbizRepository,
-            IContractRepository<Contract> contractRepository, IClientSettingsRepository<ClientSettings> clientSettingsRepository)
-                : base(reserbizRepository, reserbizRepository.ClientDbContext)
+            IContractRepository<Contract> contractRepository, IPaymentBreakdownRepository<PaymentBreakdown> paymentBreakdownRepository, IClientSettingsRepository<ClientSettings> clientSettingsRepository) : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
+            _paymentBreakdownRepository = paymentBreakdownRepository;
             _contractRepository = contractRepository;
             _clientSettingsRepository = clientSettingsRepository;
         }
@@ -86,14 +87,14 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<AccountStatement> GetAccountStatementAsync(int id)
         {
             var accountStatementFromRepo = await GetEntity(id)
-                                                .Includes(
-                                                    c => c.Contract,
-                                                    c => c.Contract.AccountStatements,
-                                                    c => c.AccountStatementMiscellaneous,
-                                                    c => c.PaymentBreakdowns,
-                                                    c => c.PenaltyBreakdowns
-                                                )
-                                                .ToObjectAsync();
+                .Includes(
+                    c => c.Contract,
+                    c => c.Contract.AccountStatements,
+                    c => c.AccountStatementMiscellaneous,
+                    c => c.PaymentBreakdowns,
+                    c => c.PenaltyBreakdowns
+                )
+                .ToObjectAsync();
 
             return accountStatementFromRepo;
         }
@@ -101,20 +102,20 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId)
         {
             var activeAccountStatementsPerContractFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
-                                                            .AsQueryable()
-                                                            .Includes(
-                                                                c => c.Contract,
-                                                                c => c.Contract.AccountStatements,
-                                                                c => c.AccountStatementMiscellaneous,
-                                                                c => c.PaymentBreakdowns,
-                                                                c => c.PenaltyBreakdowns
-                                                            )
-                                                            .Where(c =>
-                                                                c.IsActive
-                                                                && c.ContractId == contractId
-                                                            )
-                                                            .OrderBy(c => c.DueDate)
-                                                            .ToListAsync();
+                .AsQueryable()
+                .Includes(
+                    c => c.Contract,
+                    c => c.Contract.AccountStatements,
+                    c => c.AccountStatementMiscellaneous,
+                    c => c.PaymentBreakdowns,
+                    c => c.PenaltyBreakdowns
+                )
+                .Where(c =>
+                   c.IsActive &&
+                   c.ContractId == contractId
+                )
+                .OrderBy(c => c.DueDate)
+                .ToListAsync();
 
             return activeAccountStatementsPerContractFromRepo;
         }
@@ -122,25 +123,24 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task<IEnumerable<AccountStatement>> GetActiveDueAccountStatementsPerContractAsync(int contractId)
         {
             var activeAccountStatementsPerContractFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
-                                                .AsQueryable()
-                                                .Includes(
-                                                    c => c.Contract,
-                                                    c => c.Contract.AccountStatements,
-                                                    c => c.AccountStatementMiscellaneous,
-                                                    c => c.PaymentBreakdowns,
-                                                    c => c.PenaltyBreakdowns
-                                                )
-                                                .Where(c =>
-                                                    c.IsActive
-                                                    && c.ContractId == contractId
-                                                )
-                                                .ToListAsync();
+                .AsQueryable()
+                .Includes(
+                    c => c.Contract,
+                    c => c.Contract.AccountStatements,
+                    c => c.AccountStatementMiscellaneous,
+                    c => c.PaymentBreakdowns,
+                    c => c.PenaltyBreakdowns
+                )
+                .Where(c =>
+                   c.IsActive &&
+                   c.ContractId == contractId
+                )
+                .ToListAsync();
 
             var activeDueAccountStatements = activeAccountStatementsPerContractFromRepo.Where(a => a.IsDueToGeneratePenalty).ToList();
 
             return activeDueAccountStatements;
         }
-
 
         public List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter)
         {
@@ -187,13 +187,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var contract = await _contractRepository
-                                    .GetEntity(contractId)
-                                    .Includes(
-                                        c => c.Term,
-                                        c => c.Term.TermMiscellaneous,
-                                        c => c.AccountStatements
-                                    )
-                                    .ToObjectAsync();
+                .GetEntity(contractId)
+                .Includes(
+                    c => c.Term,
+                    c => c.Term.TermMiscellaneous,
+                    c => c.AccountStatements
+                )
+                .ToObjectAsync();
 
             while (contract.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue))
             {
@@ -234,6 +234,77 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     throw new Exception($"Registering new penalty details for statement of account with id={accountStatement.Id} failed on save. Error messsage: {ex.Message}.", ex);
                 }
             }
+        }
+
+        public async Task<AccountStatement> GetFirstAccountStatement(int contractId)
+        {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId)
+                .Includes(c => c.AccountStatements)
+                .ToObjectAsync();
+
+            var accountStatements = contractFromRepo.AccountStatements
+                .OrderBy(a => a.DueDate)
+                .ToList();
+            var accountStatementToReturn = accountStatements.Count > 0 ? accountStatements[0] : null;
+
+            if (accountStatementToReturn != null)
+            {
+                accountStatementToReturn = await GetEntity(accountStatementToReturn.Id)
+                    .Includes(
+                        a => a.PaymentBreakdowns,
+                        a => a.AccountStatementMiscellaneous,
+                        a => a.PenaltyBreakdowns
+                    )
+                    .ToObjectAsync();
+            }
+
+            return accountStatementToReturn;
+        }
+
+        public float CalculateTotalAmountPaid(IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        {
+            return paymentBreakdowns.Where(m => m.IsAmountFromDeposit == false)
+                .Select(m => m.Amount)
+                .Sum();
+        }
+
+        public float CalculateTotalAmountPaidUsingDeposit(IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        {
+            return paymentBreakdowns.Where(m => m.IsAmountFromDeposit)
+                .Select(m => m.Amount)
+                .Sum();
+        }
+
+        public async Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId)
+        {
+            var accountStatementJoinedPayments = await (from accountStatement in _reserbizRepository.ClientDbContext.AccountStatements
+                                                        join paymentBreakdown in _reserbizRepository.ClientDbContext.PaymentBreakdowns
+                                                        on accountStatement.Id equals paymentBreakdown.AccountStatementId
+
+                                                        where accountStatement.ContractId == contractId
+                                                            && paymentBreakdown.IsAmountFromDeposit == true
+
+                                                        select new
+                                                        {
+                                                            paymentBreakdown
+                                                        }).ToListAsync();
+
+
+            var overAllPaymentsUsedFromDepositedAmount = accountStatementJoinedPayments.Sum(a => a.paymentBreakdown.Amount);
+
+            return overAllPaymentsUsedFromDepositedAmount;
+        }
+
+        public async Task<double> CalculatedDepositedAmountBalance(int contractId, AccountStatement firstAccountStatement)
+        {
+            var overAllPaymentsUsedFromDepositedAmount = await CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
+
+            return firstAccountStatement.CalculatedDepositAmount - overAllPaymentsUsedFromDepositedAmount;
+        }
+
+        public double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance)
+        {
+            return firstAccountStatement.Rate <= depositedAmountBalance ? firstAccountStatement.Rate : depositedAmountBalance;
         }
     }
 }

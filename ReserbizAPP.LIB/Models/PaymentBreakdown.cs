@@ -12,6 +12,7 @@ namespace ReserbizAPP.LIB.Models
         public int ReceivedById { get; set; }
         public Account ReceivedBy { get; set; }
         public string Notes { get; set; }
+        public bool IsAmountFromDeposit  { get; set; }
 
         public int? DeletedById { get; set; }
         public Account DeletedBy { get; set; }

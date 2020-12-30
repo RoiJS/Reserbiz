@@ -4,5 +4,7 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         float TotalExpectedAmount { get; set; }
         float TotalPaidAmount { get; set; }
+        float TotalPaidAmountFromDeposit { get; set; }
+        float TotalExpectedDepositAmount { get; set; }
     }
 }

@@ -53,6 +53,7 @@ namespace ReserbizAPP.API.Controllers
         public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, SortOrderEnum sortOrder, int page)
         {
             var accountStatementsFromRepo = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contractId);
+            var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
 
             var accountStatementFilter = new AccountStatementFilter
             {
@@ -70,6 +71,8 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.TotalExpectedAmount = entityPaginationListDto.Items.Sum(a => ((AccountStatementForListDto)a).AccountStatementTotalAmount);
             entityPaginationListDto.TotalPaidAmount = entityPaginationListDto.Items.Sum(a => ((AccountStatementForListDto)a).CurrentAmountPaid);
+            entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement.CalculatedDepositAmount;
+            entityPaginationListDto.TotalPaidAmountFromDeposit = await _accountStatementRepository.CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
 
             return Ok(entityPaginationListDto);
         }
@@ -94,6 +97,25 @@ namespace ReserbizAPP.API.Controllers
 
             throw new Exception($"Updating water and electric bill amount for account statement with an id of {accountStatementFromRepo.Id} failed on save.");
         }
+
+
+        [HttpGet("getFirstAccountStatement/{contractId}")]
+        public async Task<ActionResult<AccountStatementDetailsDto>> GetFirstAccountStatement(int contractId)
+        {
+            var contractFromRepo = await _contractRepository
+                                            .GetEntity(contractId)
+                                            .ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return BadRequest("Contract does not exists!");
+
+            var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
+
+            var accountStatementToReturn = firstAccountStatement != null ? _mapper.Map<AccountStatementDetailsDto>(firstAccountStatement) : null;
+
+            return Ok(accountStatementToReturn);
+        }
+
 
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]

@@ -5,6 +5,8 @@ export class AccountStatementPaginationList
   implements IAccountStatementPaginationList {
   public totalExpectedAmount: number;
   public totalPaidAmount: number;
+  public totalExpectedDepositAmount: number;
+  public totalPaidAmountFromDeposit: number;
   public totalItems: number;
   public page: number;
   public numberOfItemsPerPage: number;

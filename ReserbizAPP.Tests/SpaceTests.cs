@@ -27,7 +27,17 @@ namespace ReserbizAPP.Tests
         {
             // Arrange
             var space = new Space();
-            space.Contracts.Add(new Contract());
+            var contract = new Contract
+            {
+                Id = 1,
+                EffectiveDate = new DateTime(2020, 10, 06),
+                DurationUnit = DurationEnum.Month,
+                DurationValue = 12,
+                IsActive = true
+            };
+            contract.SetCurrentDateTime(new DateTime());
+
+            space.Contracts.Add(contract);
 
             // Act
             var result = space.IsNotOccupied;

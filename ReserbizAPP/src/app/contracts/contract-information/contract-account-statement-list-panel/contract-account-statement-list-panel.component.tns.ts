@@ -42,6 +42,8 @@ export class ContractAccountStatementListPanelComponent
 
   private _totalExpectedAmount = 0;
   private _totalPaidAmount = 0;
+  private _totalExpectedDepositAmount = 0;
+  private _totalPaidAmountFromDeposit = 0;
 
   private ACCOUNT_STATMENT_FILTER_FROM_DATE = 'AccountStatementFilter_fromDate';
   private ACCOUNT_STATMENT_FILTER_TO_DATE = 'AccountStatementFilter_toDate';
@@ -74,11 +76,20 @@ export class ContractAccountStatementListPanelComponent
     if (args.currentContractId.currentValue) {
       this._entityFilter.parentId = +args.currentContractId.currentValue;
       this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag.subscribe(
-        () => {
+        (reset: boolean) => {
           this.initFilterOptions();
           this.getPaginatedEntities((e: AccountStatementPaginationList) => {
-            this._totalExpectedAmount = e.totalExpectedAmount;
-            this._totalPaidAmount = e.totalPaidAmount;
+            if (reset) {
+              this._totalExpectedAmount = e.totalExpectedAmount;
+              this._totalPaidAmount = e.totalPaidAmount;
+              this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
+              this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
+            } else {
+              this._totalExpectedAmount += e.totalExpectedAmount;
+              this._totalPaidAmount += e.totalPaidAmount;
+              this._totalExpectedDepositAmount += e.totalExpectedDepositAmount;
+              this._totalPaidAmountFromDeposit += e.totalPaidAmountFromDeposit;
+            }
           });
         }
       );
@@ -226,5 +237,13 @@ export class ContractAccountStatementListPanelComponent
 
   get totalExpectedAmount(): string {
     return NumberFormatter.formatCurrency(this._totalExpectedAmount);
+  }
+
+  get totalPaidAmountFromDeposit(): string {
+    return NumberFormatter.formatCurrency(this._totalPaidAmountFromDeposit);
+  }
+
+  get totalExpectedDepositAmount(): string {
+    return NumberFormatter.formatCurrency(this._totalExpectedDepositAmount);
   }
 }

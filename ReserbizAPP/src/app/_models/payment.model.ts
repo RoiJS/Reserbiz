@@ -9,6 +9,7 @@ export class Payment extends Entity {
   public amount: number;
   public receivedBy: string;
   public notes: string;
+  public isAmountFromDeposit: boolean;
 
   constructor() {
     super();
@@ -17,6 +18,7 @@ export class Payment extends Entity {
     this.amount = 0;
     this.receivedBy = '';
     this.notes = '';
+    this.isAmountFromDeposit = false;
   }
 
   get timeReceived(): Date {

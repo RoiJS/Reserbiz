@@ -138,6 +138,19 @@
                   <label text="&#xf075;" class="fa fa-solid"></label>
                 </StackLayout>
                 <!-- #End -->
+                
+                <!-- #Start Amount From Deposit Indicator Section -->
+                <StackLayout
+                  *ngIf="payment?.isAmountFromDeposit"
+                  row="1"
+                  column="2"
+                  orientation="horizontal"
+                  verticalAlignment="middle"
+                  horizontalAlignment="right"
+                >
+                  <label text="&#xf14d;" class="fa fa-solid"></label>
+                </StackLayout>
+                <!-- #End -->
               </GridLayout>
             </ng-template>
           </RadListView>
@@ -154,34 +167,76 @@
 
       <!-- #Start - Payment list footer container -->
       <StackLayout class="payment-list-footer">
-        <!-- #Start Total Expected Amount Section -->
-        <StackLayout
-          verticalAlignment="middle"
-          horizontalAlignment="center"
-          row="0"
-          column="2"
-          class="payment-list-footer__total-amount-section"
-        >
-          <label
-            class="payment-list-footer__total-amount-section-label"
-            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_AMOUNT'| translate"
-          ></label>
+        <FlexBoxLayout justifyContent="space-around">
+          <!-- #Start Total Amount Paid Section -->
           <StackLayout
-            orientation="horizontal"
             verticalAlignment="middle"
             horizontalAlignment="center"
+            row="0"
+            column="2"
+            class="payment-list-footer__total-amount-section"
           >
             <label
-              text="&#xf53d;"
-              class="fa fa-solid m-r-5 payment-list-footer__total-amount-section-icon"
+              class="payment-list-footer__total-amount-section-label"
+              [text]="'PAYMENT_DETAILS_DIALOG.FOOTER_SECTION.TOTAL_PAID_AMOUNT'| translate"
             ></label>
-            <label
-              class="payment-list-footer__total-amount-section-detail"
-              [text]="totalPaidAmount"
-            ></label>
+            <StackLayout
+              orientation="horizontal"
+              verticalAlignment="middle"
+              horizontalAlignment="center"
+            >
+              <label
+                text="&#xf53d;"
+                class="fa fa-solid m-r-5 payment-list-footer__total-amount-section-icon"
+              ></label>
+              <label
+                class="payment-list-footer__total-amount-section-detail"
+                [text]="totalPaidAmount"
+              ></label>
+            </StackLayout>
           </StackLayout>
-        </StackLayout>
-        <!-- #End -->
+          <!-- #End -->
+
+          <!-- #Start Border Separator Section -->
+          <StackLayout
+            *ngIf="hasTotalAmountFromDeposit"
+            row="0"
+            column="1"
+            class="payment-list-footer__separator"
+          >
+          </StackLayout>
+          <!-- #End -->
+
+          <!-- #Start Total Amount Paid From Deposit Section -->
+          <StackLayout
+            *ngIf="hasTotalAmountFromDeposit"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+            row="0"
+            column="2"
+            class="payment-list-footer__total-amount-from-deposit-section"
+          >
+            <label
+              class="payment-list-footer__total-amount-from-deposit-section-label"
+              [text]="'PAYMENT_DETAILS_DIALOG.FOOTER_SECTION.TOTAL_PAID_AMOUNT_FROM_DEPOSIT' | translate"
+            ></label>
+            <StackLayout
+              orientation="horizontal"
+              verticalAlignment="middle"
+              horizontalAlignment="center"
+            >
+              <label
+                text="&#xf53d;"
+                class="fa fa-solid m-r-5 payment-list-footer__total-amount-from-deposit-section-icon"
+              ></label>
+              <label
+                class="payment-list-footer__total-amount-from-deposit-section-detail"
+                [text]="totalAmountFromDeposit"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+          <!-- #End -->
+        </FlexBoxLayout>
       </StackLayout>
       <!-- #End -->
     </FlexBoxLayout>

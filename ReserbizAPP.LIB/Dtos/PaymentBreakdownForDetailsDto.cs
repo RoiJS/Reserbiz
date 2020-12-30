@@ -10,5 +10,6 @@ namespace ReserbizAPP.LIB.Dtos
         public DateTime DateTimeReceived { get; set; }
         public string ReceivedBy { get; set; }
         public string Notes { get; set; }
+        public bool IsAmountFromDeposit { get; set; }
     }
 }

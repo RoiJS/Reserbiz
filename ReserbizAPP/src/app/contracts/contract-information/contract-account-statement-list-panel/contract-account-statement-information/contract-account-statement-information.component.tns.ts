@@ -128,7 +128,7 @@ export class ContractAccountStatementInformationComponent
                     'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.SUCCESS_MESSAGE'
                   ),
                   () => {
-                    this.accountStatementService.reloadListFlag();
+                    this.accountStatementService.reloadListFlag(true);
                     this.router.back();
                   }
                 );

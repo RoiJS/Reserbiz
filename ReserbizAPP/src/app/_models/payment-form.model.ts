@@ -9,6 +9,7 @@ export class PaymentFormSource
     public timeReceived: Date,
     public amount: number,
     public notes: string,
+    public isAmountFromDeposit: boolean,
     public receivedBy: string
   ) {
     super();
@@ -20,6 +21,7 @@ export class PaymentFormSource
       this.timeReceived,
       this.amount,
       this.notes,
+      this.isAmountFromDeposit,
       this.receivedBy
     );
   }

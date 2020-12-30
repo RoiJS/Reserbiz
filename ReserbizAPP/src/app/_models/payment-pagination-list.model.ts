@@ -3,6 +3,9 @@ import { IPaymentPaginationList } from '../_interfaces/ipayment-pagination-list.
 
 export class PaymentPaginationList implements IPaymentPaginationList {
   public totalAmount: number;
+  public suggestedAmountForPayment: number;
+  public depositedAmountBalance: number;
+  public totalAmountFromDeposit: number;
   public totalItems: number;
   public page: number;
   public numberOfItemsPerPage: number;

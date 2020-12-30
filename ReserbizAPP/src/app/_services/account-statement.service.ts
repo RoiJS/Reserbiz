@@ -18,7 +18,7 @@ import { AccountStatementMapper } from '../_helpers/account-statement-mapper.hel
 export class AccountStatementService
   extends BaseService<AccountStatement>
   implements IBaseService<AccountStatement> {
-  private _loadAccountStatementListFlag = new BehaviorSubject<void>(null);
+  private _loadAccountStatementListFlag = new BehaviorSubject<boolean>(false);
   constructor(public http: HttpClient) {
     super(new AccountStatementMapper(), http);
   }
@@ -44,6 +44,14 @@ export class AccountStatementService
     ).toPromise();
   }
 
+  async getFirstAccountStatement(
+    contractId: number
+  ): Promise<AccountStatement> {
+    return await this.getEntityFromServer(
+      `${this._apiBaseUrl}/accountstatement/getFirstAccountStatement/${contractId}`
+    ).toPromise();
+  }
+
   async updateWaterAndElectricBillAmount(
     id: number,
     waterBillAmount: number,
@@ -61,8 +69,8 @@ export class AccountStatementService
       .toPromise();
   }
 
-  reloadListFlag() {
-    this._loadAccountStatementListFlag.next();
+  reloadListFlag(reset: boolean) {
+    this._loadAccountStatementListFlag.next(reset);
   }
 
   mapPaginatedEntityData(
@@ -74,6 +82,8 @@ export class AccountStatementService
     accountStatementPaginationList.totalExpectedAmount =
       data.totalExpectedAmount;
     accountStatementPaginationList.totalPaidAmount = data.totalPaidAmount;
+    accountStatementPaginationList.totalExpectedDepositAmount = data.totalExpectedDepositAmount;
+    accountStatementPaginationList.totalPaidAmountFromDeposit = data.totalPaidAmountFromDeposit;
 
     accountStatementPaginationList.page = data.page;
     accountStatementPaginationList.numberOfItemsPerPage =
@@ -87,7 +97,7 @@ export class AccountStatementService
     return accountStatementPaginationList;
   }
 
-  get loadAccountStatementListFlag(): BehaviorSubject<void> {
+  get loadAccountStatementListFlag(): BehaviorSubject<boolean> {
     return this._loadAccountStatementListFlag;
   }
 }

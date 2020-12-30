@@ -5,6 +5,7 @@ import { IPaymentFilter } from '../_interfaces/ipayment-filter.interface';
 import { EntityFilter } from './entity-filter.model';
 
 export class PaymentFilter extends EntityFilter implements IPaymentFilter {
+  public contractId: number;
   constructor() {
     super();
     this.sortOrder = SortOrderEnum.Descending;
@@ -18,6 +19,7 @@ export class PaymentFilter extends EntityFilter implements IPaymentFilter {
     return {
       page: this.page,
       accountStatementId: this.parentId,
+      contractId: this.contractId,
       sortOrder: this.sortOrder,
     };
   }

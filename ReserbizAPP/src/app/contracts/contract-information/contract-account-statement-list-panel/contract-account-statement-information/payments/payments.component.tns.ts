@@ -26,6 +26,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 import { PaymentsService } from '@src/app/_services/payments.service';
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 
+import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFilter } from '@src/app/_models/payment-filter.model';
 import { PaymentPaginationList } from '@src/app/_models/payment-pagination-list.model';
@@ -44,6 +45,11 @@ export class PaymentsComponent
   extends BaseListComponent<Payment>
   implements OnInit, OnDestroy {
   private _totalPaidAmount = 0;
+  private _suggestedAmountForPayment = 0;
+  private _depositedAmountBalance = 0;
+  private _totalAmountFromDeposit = 0;
+
+  private _firstAccountStatement: AccountStatement;
 
   constructor(
     protected paymentService: PaymentsService,
@@ -74,17 +80,40 @@ export class PaymentsComponent
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentItemParentId = +paramMap.get('accountStatementId');
+        const contractId = +paramMap.get('contractId');
 
-        this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
-          () => {
-            this._entityFilter.parentId = this._currentItemParentId;
-            this.getPaginatedEntities(
-              (paymentPaginationList: PaymentPaginationList) => {
-                this._totalPaidAmount = paymentPaginationList.totalAmount;
-              }
-            );
-          }
-        );
+        (async () => {
+          this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
+            contractId
+          );
+
+          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
+            (reset: boolean) => {
+              (<PaymentFilter>this._entityFilter).contractId = contractId;
+              (<PaymentFilter>(
+                this._entityFilter
+              )).parentId = this._currentItemParentId;
+              this.getPaginatedEntities(
+                (paymentPaginationList: PaymentPaginationList) => {
+                  if (reset) {
+                    this._totalPaidAmount = paymentPaginationList.totalAmount;
+                    this._totalAmountFromDeposit =
+                      paymentPaginationList.totalAmountFromDeposit;
+                  } else {
+                    this._totalPaidAmount += paymentPaginationList.totalAmount;
+                    this._totalAmountFromDeposit +=
+                      paymentPaginationList.totalAmountFromDeposit;
+                  }
+
+                  this._suggestedAmountForPayment =
+                    paymentPaginationList.suggestedAmountForPayment;
+                  this._depositedAmountBalance =
+                    paymentPaginationList.depositedAmountBalance;
+                }
+              );
+            }
+          );
+        })();
       });
     });
 
@@ -126,7 +155,7 @@ export class PaymentsComponent
                   ),
                   () => {
                     this.entityService.reloadListFlag();
-                    this.accountStatementService.reloadListFlag();
+                    this.accountStatementService.reloadListFlag(true);
                   }
                 );
               },
@@ -159,7 +188,7 @@ export class PaymentsComponent
 
   setSortOrder(sortOrder: SortOrderEnum) {
     this._entityFilter.sortOrder = <SortOrderEnum>sortOrder;
-    this.paymentService.loadPaymentListFlag.next();
+    this.paymentService.loadPaymentListFlag.next(true);
   }
 
   private initFilterDialog(
@@ -171,6 +200,10 @@ export class PaymentsComponent
       context: {
         paymentDetails,
         dialogIntent,
+        currentAccountStatementId: this._currentItemParentId,
+        firstAccountStatement: this._firstAccountStatement,
+        depositedAmountBalance: this._depositedAmountBalance,
+        suggestedAmountForPayment: this._suggestedAmountForPayment,
       },
       fullscreen: false,
       animated: true,
@@ -188,5 +221,13 @@ export class PaymentsComponent
 
   get totalPaidAmount(): string {
     return NumberFormatter.formatCurrency(this._totalPaidAmount);
+  }
+
+  get totalAmountFromDeposit(): string {
+    return NumberFormatter.formatCurrency(this._totalAmountFromDeposit);
+  }
+
+  get hasTotalAmountFromDeposit(): boolean {
+    return this._totalAmountFromDeposit > 0;
   }
 }

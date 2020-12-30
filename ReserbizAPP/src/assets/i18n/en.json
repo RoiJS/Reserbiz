@@ -1150,7 +1150,9 @@
 
   "ACCOUNT_STATEMENT_FOOTER": {
     "TOTAL_PAID_AMOUNT": "Total Paid Amount",
-    "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount"
+    "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount",
+    "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit",
+    "TOTAL_EXPECTED_DEPOSIT_AMOUNT": "Expected Deposit Amount"
   },
 
   "ACCOUNT_STATEMENT_FILTER_DIALOG": {
@@ -1185,11 +1187,19 @@
         "TIME_LABEL": "Time:",
         "AMOUNT_CONTROL": {
           "LABEL": "Amount:",
-          "HINT_TEXT": "Please enter amount"
+          "EMPTY_ERROR_MESSAGE": "Please enter amount"
+        },
+        "AMOUNT_FROM_DEPOSIT_CONTROL": {
+          "LABEL": "Amount From Deposit:",
+          "EXCEEDED_VALUE_ERROR_MESSAGE": "Amount entered exceeded the available remaining deposited amount which is {0}."
         },
         "RECEIVED_BY_LABEL": "Received By:",
         "NOTES_LABEL": "Notes:"
       }
+    },
+    "FOOTER_SECTION": {
+      "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+      "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
     },
     "ADD_DIALOG": {
       "TITLE": "Add Payment",

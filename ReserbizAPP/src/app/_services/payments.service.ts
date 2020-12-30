@@ -22,7 +22,7 @@ import { BaseService } from './base.service';
 export class PaymentsService
   extends BaseService<Payment>
   implements IBaseService<Payment> {
-  private _loadPaymentListFlag = new BehaviorSubject<void>(null);
+  private _loadPaymentListFlag = new BehaviorSubject<boolean>(false);
 
   constructor(public http: HttpClient) {
     super(new PaymentMapper(), http);
@@ -54,17 +54,17 @@ export class PaymentsService
     );
   }
 
-  mapPaginatedEntityData(
-    data: PaymentPaginationList
-  ): EntityPaginationList {
+  mapPaginatedEntityData(data: PaymentPaginationList): EntityPaginationList {
     const paymentPaginationList = new PaymentPaginationList();
 
     paymentPaginationList.totalItems = data.totalItems;
-    paymentPaginationList.totalAmount =
-      data.totalAmount;
+    paymentPaginationList.totalAmount = data.totalAmount;
+    paymentPaginationList.suggestedAmountForPayment =
+      data.suggestedAmountForPayment;
+    paymentPaginationList.depositedAmountBalance = data.depositedAmountBalance;
+    paymentPaginationList.totalAmountFromDeposit = data.totalAmountFromDeposit;
     paymentPaginationList.page = data.page;
-    paymentPaginationList.numberOfItemsPerPage =
-      data.numberOfItemsPerPage;
+    paymentPaginationList.numberOfItemsPerPage = data.numberOfItemsPerPage;
     const items = data.items.map((p: Payment) => {
       return this.mapper.mapEntity(p);
     });
@@ -74,11 +74,11 @@ export class PaymentsService
     return paymentPaginationList;
   }
 
-  reloadListFlag() {
-    this._loadPaymentListFlag.next();
+  reloadListFlag(reset: boolean) {
+    this._loadPaymentListFlag.next(reset);
   }
 
-  get loadPaymentListFlag(): BehaviorSubject<void> {
+  get loadPaymentListFlag(): BehaviorSubject<boolean> {
     return this._loadPaymentListFlag;
   }
 }
