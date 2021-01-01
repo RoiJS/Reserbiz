@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
-using ReserbizAPP.LIB.Helpers;
 using System.Collections.Generic;
-using System.Security.Claims;
 using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.API.Controllers
@@ -26,7 +24,7 @@ namespace ReserbizAPP.API.Controllers
         private readonly IPaginationService _paginationService;
 
         public AccountStatementController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
-            ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository, IClientSettingsRepository<ClientSettings> clientSettingsRepository,
+            ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository,
             IMapper mapper, IPaginationService paginationService)
         {
             _mapper = mapper;
