@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { NativeScriptRouterModule } from 'nativescript-angular';
 
+import { SharedModule } from '../../../../../shared/shared.module';
+
 import { PenaltiesComponent } from './penalties.component';
 
 @NgModule({
@@ -11,6 +13,7 @@ import { PenaltiesComponent } from './penalties.component';
         component: PenaltiesComponent,
       },
     ]),
+    SharedModule,
   ],
   declarations: [PenaltiesComponent],
 })
