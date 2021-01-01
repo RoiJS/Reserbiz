@@ -92,7 +92,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getPaymentsPerAccountStatement")]
-        public async Task<ActionResult<IEnumerable<PaymentBreakdownForDetailsDto>>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
+        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum? sortOrder = SortOrderEnum.Descending)
         {
             var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsAsync(accountStatementId, sortOrder);
 
