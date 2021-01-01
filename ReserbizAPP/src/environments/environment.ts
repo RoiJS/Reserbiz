@@ -8,14 +8,18 @@ export const environment = {
   // reserbizAPIEndPoint: 'http://localhost:5000/api',
 
   // FOR TESTING USING EMULATOR
-  whitelistedDomains: ['10.0.2.2:9152'],
-  reserbizAPIEndPoint: 'http://10.0.2.2:9152/api',
+  // whitelistedDomains: ['10.0.2.2:9152'],
+  // reserbizAPIEndPoint: 'http://10.0.2.2:9152/api',
 
-  // (1) FOR DEPLOYED VERSION
+  // (1) FOR DEPLOYED VERSION - HOTSPOT VINSANITY
+  whitelistedDomains: ['192.168.43.250:3000'],
+  reserbizAPIEndPoint: 'http://192.168.43.250:3000/api',
+
+  // (2) FOR DEPLOYED VERSION
   // whitelistedDomains: ['192.168.254.101:3000'],
   // reserbizAPIEndPoint: 'http://192.168.254.101:3000/api',
 
-  // (2) FOR DEPLOYED VERSION
+  // (3) FOR DEPLOYED VERSION
   // whitelistedDomains: ['172.17.219.97:3000'],
   // reserbizAPIEndPoint: 'http://172.17.219.97:3000/api',
 
