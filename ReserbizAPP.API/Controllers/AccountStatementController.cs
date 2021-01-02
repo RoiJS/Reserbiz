@@ -61,14 +61,14 @@ namespace ReserbizAPP.API.Controllers
                 SortOrder = sortOrder
             };
 
-            accountStatementsFromRepo = _accountStatementRepository.GetFilteredAccountStatements(accountStatementsFromRepo.ToList(), accountStatementFilter);
+            var filteredAccountStatementsFromRepo = _accountStatementRepository.GetFilteredAccountStatements(accountStatementsFromRepo.ToList(), accountStatementFilter);
 
-            var mappedAccountStatements = _mapper.Map<IEnumerable<AccountStatementForListDto>>(accountStatementsFromRepo);
+            var mappedAccountStatements = _mapper.Map<IEnumerable<AccountStatementForListDto>>(filteredAccountStatementsFromRepo);
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<AccountStatementPaginationListDto>(mappedAccountStatements, page);
 
-            entityPaginationListDto.TotalExpectedAmount = entityPaginationListDto.Items.Sum(a => ((AccountStatementForListDto)a).AccountStatementTotalAmount);
-            entityPaginationListDto.TotalPaidAmount = entityPaginationListDto.Items.Sum(a => ((AccountStatementForListDto)a).CurrentAmountPaid);
+            entityPaginationListDto.TotalExpectedAmount = accountStatementsFromRepo.Sum(a => a.AccountStatementTotalAmount);
+            entityPaginationListDto.TotalPaidAmount = accountStatementsFromRepo.Sum(a => a.CurrentAmountPaid);
             entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement.CalculatedDepositAmount;
             entityPaginationListDto.TotalPaidAmountFromDeposit = await _accountStatementRepository.CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
 

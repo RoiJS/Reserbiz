@@ -79,13 +79,8 @@ export class ContractAccountStatementListPanelComponent
         (reset: boolean) => {
           this.initFilterOptions();
           this.getPaginatedEntities((e: AccountStatementPaginationList) => {
-            if (reset) {
-              this._totalExpectedAmount = e.totalExpectedAmount;
-              this._totalPaidAmount = e.totalPaidAmount;
-            } else {
-              this._totalExpectedAmount += e.totalExpectedAmount;
-              this._totalPaidAmount += e.totalPaidAmount;
-            }
+            this._totalExpectedAmount = e.totalExpectedAmount;
+            this._totalPaidAmount = e.totalPaidAmount;
 
             this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
             this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
