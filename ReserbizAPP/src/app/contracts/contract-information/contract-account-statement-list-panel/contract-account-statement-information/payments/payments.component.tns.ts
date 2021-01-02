@@ -95,15 +95,9 @@ export class PaymentsComponent
               )).parentId = this._currentItemParentId;
               this.getPaginatedEntities(
                 (paymentPaginationList: PaymentPaginationList) => {
-                  if (reset) {
-                    this._totalPaidAmount = paymentPaginationList.totalAmount;
-                    this._totalAmountFromDeposit =
-                      paymentPaginationList.totalAmountFromDeposit;
-                  } else {
-                    this._totalPaidAmount += paymentPaginationList.totalAmount;
-                    this._totalAmountFromDeposit +=
-                      paymentPaginationList.totalAmountFromDeposit;
-                  }
+                  this._totalPaidAmount = paymentPaginationList.totalAmount;
+                  this._totalAmountFromDeposit =
+                    paymentPaginationList.totalAmountFromDeposit;
 
                   this._suggestedAmountForPayment =
                     paymentPaginationList.suggestedAmountForPayment;
