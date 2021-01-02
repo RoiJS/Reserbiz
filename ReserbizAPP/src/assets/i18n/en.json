@@ -1173,6 +1173,10 @@
     },
     "PAYMENT_DETAILS": {
       "RECEIVED_BY": "Received By:"
+    },
+    "FOOTER_SECTION": {
+      "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+      "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
     }
   },
 
@@ -1197,10 +1201,6 @@
         "NOTES_LABEL": "Notes:"
       }
     },
-    "FOOTER_SECTION": {
-      "TOTAL_PAID_AMOUNT": "Total Paid Amount",
-      "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
-    },
     "ADD_DIALOG": {
       "TITLE": "Add Payment",
       "CONFIRM_MESSAGE": "Are you sure to save new payment?",
@@ -1212,6 +1212,9 @@
   "PENALTIES": {
     "ACTION_BAR_SECTION": {
       "TITLE": "Penalties"
+    },
+    "FOOTER_SECTION": {
+      "TOTAL_AMOUNT": "Total Amount"
     }
   }
 }

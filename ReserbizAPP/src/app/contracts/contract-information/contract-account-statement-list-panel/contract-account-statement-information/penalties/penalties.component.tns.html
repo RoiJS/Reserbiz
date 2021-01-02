@@ -2,11 +2,152 @@
   [title]="'PENALTIES.ACTION_BAR_SECTION.TITLE' | translate"
   [hasMenu]="false"
 >
+  <!-- # Ascending icon -->
   <ActionItem
-    icon="font://&#xf0c7;"
-    class="fa action-item-button"
+    *ngIf="currentSortOrder && currentSortOrder === 2"
+    icon="font://&#xf885;"
+    class="fa fa-solid action-item-button"
+    (tap)="setSortOrder(1)"
+  ></ActionItem>
+  <!-- # Descending icon -->
+  <ActionItem
+    *ngIf="currentSortOrder && currentSortOrder === 1"
+    icon="font://&#xf160;"
+    class="fa fa-solid action-item-button"
+    (tap)="setSortOrder(2)"
   ></ActionItem>
 </ns-action-bar>
 <StackLayout>
-  <Label text="Penalties Page"></Label>
+  <ns-loader-layout [busy]="IsBusy">
+    <FlexBoxLayout flexDirection="column" width="100%" height="100%">
+      <!-- # Start - Penalty list container -->
+      <StackLayout>
+        <FlexBoxLayout
+          flexDirection="column"
+          justifyContent="space-around"
+          class="page-container penalties-list-container"
+        >
+          <RadListView
+            *ngIf="items?.length > 0"
+            width="100%"
+            height="100%"
+            #appListView
+            class="app-list-container"
+            [items]="items"
+            selectionBehavior="Press"
+            multipleSelection="true"
+            pullToRefresh="true"
+            loadOnDemandMode="Auto"
+            loadOnDemandBufferSize="2"
+            (itemSelected)="openPenaltyDetailsDialog($event.index)"
+            (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+            (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+          >
+            <ng-template tkListItemTemplate let-penalty="item">
+              <GridLayout
+                class="app-list-item-template penalties-item-template"
+                rows="*, *"
+                columns="70, 200, *"
+              >
+                <!-- #Start Penalty main icon section -->
+                <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+                  <StackLayout
+                    class="penalties-icon-placeholder app-list-item-template__image-container"
+                    verticalAlignment="middle"
+                  >
+                    <label
+                      class="fa fa-solid"
+                      horizontalAlignment="center"
+                      text="&#xf53d;"
+                    ></label>
+                  </StackLayout>
+                </StackLayout>
+                <!-- #End -->
+
+                <!-- #Start Total Amount Section -->
+                <StackLayout
+                  row="0"
+                  column="1"
+                  orientation="horizontal"
+                  verticalAlignment="middle"
+                  class="penalties-amount-section"
+                >
+                  <label
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <label
+                    class="penalties-item-template__detail"
+                    [text]="penalty?.amountFormatted"
+                  ></label>
+                </StackLayout>
+                <!-- #End -->
+
+                <!-- #Start Penalty Due Date section -->
+                <StackLayout
+                  row="1"
+                  column="1"
+                  orientation="horizontal"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    text="&#xf073;"
+                    class="fa fa-solid m-r-5 penalties-item-template__icon"
+                  ></label>
+                  <label
+                    class="penalties-item-template__detail"
+                    [text]="penalty?.dueDateReceivedFormatted"
+                  ></label>
+                </StackLayout>
+                <!-- #End -->
+              </GridLayout>
+            </ng-template>
+          </RadListView>
+
+          <label
+            alignSelf="center"
+            *ngIf="items?.length === 0"
+            style="font-size: 16"
+            text="No penalties available"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
+      <!-- #End -->
+
+      <!-- #Start - Penalty list footer container -->
+      <StackLayout class="penalties-list-footer">
+        <FlexBoxLayout justifyContent="space-around">
+          <!-- #Start Total Amount Section -->
+          <StackLayout
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+            row="0"
+            column="2"
+            class="penalties-list-footer__total-amount-from-deposit-section"
+          >
+            <label
+              class="penalties-list-footer__total-amount-from-deposit-section-label"
+              [text]="'PENALTIES.FOOTER_SECTION.TOTAL_AMOUNT' | translate"
+            ></label>
+            <StackLayout
+              orientation="horizontal"
+              verticalAlignment="middle"
+              horizontalAlignment="center"
+            >
+              <label
+                text="&#xf53d;"
+                class="fa fa-solid m-r-5 penalties-list-footer__total-amount-from-deposit-section-icon"
+              ></label>
+              <label
+                class="penalties-list-footer__total-amount-from-deposit-section-detail"
+                [text]="totalAmount"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+          <!-- #End -->
+        </FlexBoxLayout>
+      </StackLayout>
+      <!-- #End -->
+    </FlexBoxLayout>
+  </ns-loader-layout>
 </StackLayout>
