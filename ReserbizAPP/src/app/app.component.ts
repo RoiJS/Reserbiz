@@ -27,6 +27,7 @@ import { SideDrawerService } from './_services/side-drawer.service';
 import { UIService } from './_services/ui.service';
 
 import { MainMenu } from './_models/main-menu.model';
+import { SettingsService } from './_services/settings.service';
 
 @Component({
   selector: 'ns-app',
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private router: Router,
     private routerExtensions: RouterExtensions,
+    private settingsService: SettingsService,
     private sideDrawerService: SideDrawerService,
     private uiService: UIService,
     private vcRef: ViewContainerRef,
@@ -64,34 +66,39 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentFullnameSub = this.authService.currentFullname.subscribe(
-      (currentFullname: string) => {
-        this._currentFullname = currentFullname;
-      }
-    );
-
-    this.currentUsernameSub = this.authService.currentUsername.subscribe(
-      (currentUsername: string) => {
-        this._currentUsername = currentUsername;
-      }
-    );
-
-    this.drawerSub = this.uiService.drawerState.subscribe(() => {
-      if (this.drawer) {
-        this.drawer.toggleDrawerState();
-      }
-    });
-    this.uiService.setRootVCRef(this.vcRef);
-
-    this.activatedUrl = '/dashboard';
-    this.mainMenuList = this.sideDrawerService.mainMenu;
-    this.sideDrawerTransition = new SlideInOnTopTransition();
-
-    this.router.events
-      .pipe(filter((event: any) => event instanceof NavigationEnd))
-      .subscribe(
-        (event: NavigationEnd) => (this.activatedUrl = event.urlAfterRedirects)
+    (async () => {
+      this.currentFullnameSub = this.authService.currentFullname.subscribe(
+        (currentFullname: string) => {
+          this._currentFullname = currentFullname;
+        }
       );
+
+      this.currentUsernameSub = this.authService.currentUsername.subscribe(
+        (currentUsername: string) => {
+          this._currentUsername = currentUsername;
+        }
+      );
+
+      this.drawerSub = this.uiService.drawerState.subscribe(() => {
+        if (this.drawer) {
+          this.drawer.toggleDrawerState();
+        }
+      });
+      this.uiService.setRootVCRef(this.vcRef);
+
+      this.activatedUrl = '/dashboard';
+      this.mainMenuList = this.sideDrawerService.mainMenu;
+      this.sideDrawerTransition = new SlideInOnTopTransition();
+
+      this.router.events
+        .pipe(filter((event: any) => event instanceof NavigationEnd))
+        .subscribe(
+          (event: NavigationEnd) =>
+            (this.activatedUrl = event.urlAfterRedirects)
+        );
+
+      await this.settingsService.getSettingsDetails();
+    })();
   }
 
   ngOnDestroy() {

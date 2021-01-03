@@ -112,6 +112,7 @@ namespace ReserbizAPP.API.Helpers
                 .ForMember(dest => dest.ReceivedBy,
                     opt => opt.MapFrom(src => src.ReceivedBy.PersonFullName));
             CreateMap<Space, SpaceDetailDto>();
+            CreateMap<ClientSettings, ClientSettingsDetailsDto>();
 
             CreateMap<PersonalInformationForUpdateDto, Account>();
             CreateMap<TenantForCreationDto, Tenant>();

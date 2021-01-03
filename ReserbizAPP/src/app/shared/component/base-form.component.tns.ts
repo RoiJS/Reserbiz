@@ -111,7 +111,7 @@ export class BaseFormComponent<
     }
   }
 
-  updateInformation() {
+  updateInformation(onSuccessCallback?: () => void) {
     const isFormInvalid = this.formSource.dataForm.hasValidationErrors();
     const isFormHasChanged = !this._entityFormSource.isSame(
       this._entityFormSourceOriginal
@@ -143,8 +143,12 @@ export class BaseFormComponent<
                     this._updateDialogTexts.title,
                     this._updateDialogTexts.successMessage,
                     () => {
-                      this._entityService.reloadListFlag();
-                      this.router.back();
+                      if (onSuccessCallback) {
+                        onSuccessCallback();
+                      } else {
+                        this._entityService.reloadListFlag();
+                        this.router.back();
+                      }
                     }
                   );
                 },

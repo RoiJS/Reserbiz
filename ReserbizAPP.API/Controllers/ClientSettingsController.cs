@@ -86,6 +86,22 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception("Updating settings failed on save!");
         }
 
+        [HttpGet("getSettings")]
+        public async Task<ActionResult<ClientSettingsDetailsDto>> GetSettings()
+        {
+            try
+            {
+                var settingsFromRepo = await _clientSettingsRepository.GetClientSettings();
+                var settingsToReturn = _mapper.Map<ClientSettingsDetailsDto>(settingsFromRepo);
+
+                return Ok(settingsToReturn);
+            }
+            catch
+            {
+                throw new Exception("Error on getting settings!");
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost("systemResetData")]
         public async Task<IActionResult> SystemResetData()

@@ -1216,5 +1216,27 @@
     "FOOTER_SECTION": {
       "TOTAL_AMOUNT": "Total Amount"
     }
+  },
+
+  "SETTINGS": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Settings"
+    },
+    "FORM_CONTROL": {
+      "ACCOUNT_STATEMENT_SETTINGS_GROUP": {
+        "TITLE": "Account Statement",
+        "CONTROLS": {
+          "GENERATE_ACCOUNTSTATEMENT_DAYS": {
+            "LABEL": "Generate account statement before days:"
+          }
+        }
+      }
+    },
+    "SAVE_DIALOG": {
+      "TITLE": "Save Changes",
+      "CONFIRM_MESSAGE": "Are you sure to save new changes?",
+      "SUCCESS_MESSAGE": "New changes have been saved!",
+      "ERROR_MESSAGE": "Failed to save new changes. Please try again later!"
+    }
   }
 }
