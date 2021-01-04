@@ -138,5 +138,17 @@ namespace ReserbizAPP.API.Controllers
             return Ok(spaceOptions);
         }
 
+        [HttpGet("getAvailableSpacesCount")]
+        public async Task<ActionResult<int>> GetAvailableSpacesCount()
+        {
+            var spacesFromRepo = await _spaceRepository.GetAllEntities()
+                                                       .Includes(s => s.Contracts)
+                                                       .ToListObjectAsync();
+
+            var availableSpacesCount = spacesFromRepo.Where(s => s.IsNotOccupied)
+                                                     .Count();
+            return Ok(availableSpacesCount);
+        }
+
     }
 }
