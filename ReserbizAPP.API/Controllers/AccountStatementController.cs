@@ -75,6 +75,18 @@ namespace ReserbizAPP.API.Controllers
             return Ok(entityPaginationListDto);
         }
 
+        [HttpGet("getUnpaidAccountStatements")]
+        public async Task<ActionResult<AccountStatement>> GetUnpaidAccountStatementsAsync()
+        {
+            var accountStatementsFromRepo = await _accountStatementRepository.GetUnpaidAccountStatementsAsync();
+
+            var mappedAccountStatements = _mapper.Map<IEnumerable<AccountStatementForListDto>>(accountStatementsFromRepo);
+
+            var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<AccountStatementPaginationListDto>(mappedAccountStatements, 0);
+
+            return Ok(entityPaginationListDto);
+        }
+
         [HttpPost("updateWaterAndElectricBillAmount")]
         public async Task<IActionResult> UpdateWaterAndElectricBillAmount(AccountStatementWaterAndElectricBillUpdateDto accountStatementWaterAndElectricBillUpdateDto)
         {

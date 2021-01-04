@@ -11,6 +11,7 @@ namespace ReserbizAPP.LIB.Interfaces
         PenaltyBreakdown RegisterNewPenaltyItem(AccountStatement accountStatement);
         Task<AccountStatement> GetAccountStatementAsync(int id);
         Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId);
+        Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync();
         List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
         Task GenerateContractAccountStatements(int contractId);
         Task GenerateAccountStatementPenalties(int tenantId);

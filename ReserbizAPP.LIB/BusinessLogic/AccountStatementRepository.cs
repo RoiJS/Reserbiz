@@ -120,6 +120,29 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return activeAccountStatementsPerContractFromRepo;
         }
 
+        public async Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync()
+        {
+            var unpaidAccountStatements = await _reserbizRepository.ClientDbContext.AccountStatements
+                .AsQueryable()
+                .Includes(
+                    c => c.Contract,
+                    c => c.Contract.AccountStatements,
+                    c => c.AccountStatementMiscellaneous,
+                    c => c.PaymentBreakdowns,
+                    c => c.PenaltyBreakdowns
+                )
+                .OrderByDescending(c => c.DueDate)
+                .ToListAsync();
+
+            unpaidAccountStatements = unpaidAccountStatements
+                .Where(c =>
+                   c.IsActive
+                   && c.IsFullyPaid == false
+                ).ToList();
+
+            return unpaidAccountStatements;
+        }
+
         public async Task<IEnumerable<AccountStatement>> GetActiveDueAccountStatementsPerContractAsync(int contractId)
         {
             var activeAccountStatementsPerContractFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
