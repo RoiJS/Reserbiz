@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -147,6 +148,19 @@ namespace ReserbizAPP.API.Controllers
                 return NoContent();
 
             throw new Exception($"Error when deleting tenant with id of ${tenantId}!");
+        }
+
+        [HttpGet("getActiveTenantsCount")]
+        public async Task<ActionResult<int>> GetActiveTenantsCount()
+        {
+            var activeTenantsFromRepo = await _tenantRepository.GetAllEntities()
+                                                               .ToListObjectAsync();
+
+            var activeTenantsFromRepoCount = activeTenantsFromRepo
+                                                .Where(a => a.IsActive)
+                                                .Count();
+
+            return Ok(activeTenantsFromRepoCount);
         }
     }
 }
