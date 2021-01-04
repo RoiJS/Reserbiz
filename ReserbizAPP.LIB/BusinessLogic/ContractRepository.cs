@@ -56,6 +56,31 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .ToList();
         }
 
+        public async Task<IEnumerable<Contract>> GetAllUpcomingDueDateContractsPerMonthAsync(int month)
+        {
+            var allActiveContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts
+                                            .AsQueryable()
+                                            .Includes(
+                                                c => c.Term,
+                                                c => c.Tenant,
+                                                c => c.AccountStatements
+                                            )
+                                            .ToListAsync();
+
+            allActiveContractsFromRepo = allActiveContractsFromRepo
+                .Where(
+                    c => c.IsArchived == false &&
+                    c.IsDelete == false &&
+                    c.NextDueDate.Month == month &&
+                    c.NextDueDate.Year == DateTime.Now.Year &&
+                    c.NextDueDate > DateTime.Now
+                )
+                .OrderByDescending(c => c.NextDueDate)
+                .ToList();
+
+            return allActiveContractsFromRepo;
+        }
+
         public async Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId)
         {
             var contractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts

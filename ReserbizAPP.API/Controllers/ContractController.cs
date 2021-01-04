@@ -142,23 +142,6 @@ namespace ReserbizAPP.API.Controllers
 
             contractsFromRepo = _contractRepository.GetFilteredContracts(contractsFromRepo.ToList(), contractFilter);
 
-            // var sampleLargeList = contractsFromRepo
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo)
-            //     .Concat(contractsFromRepo);
-
             var mappedContracts = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<ContractPaginationListDto>(mappedContracts, page);
@@ -332,6 +315,26 @@ namespace ReserbizAPP.API.Controllers
             var durationDays = effectiveDate.CalculateDaysBasedOnDuration(durationValue, durationUnit);
             var expirationDate = effectiveDate.AddDays(durationDays);
             return Ok(expirationDate);
+        }
+
+
+        [HttpGet("getActiveContractsCount")]
+        public async Task<ActionResult<int>> GetActiveContractsCount()
+        {
+            var allActiveContractsFromRepoCount = await _contractRepository.GetAllContractsAsync(false);
+            return Ok(allActiveContractsFromRepoCount.Count());
+        }
+
+        [HttpGet("getAllUpcomingDueDateContractsPerMonth")]
+        public async Task<ActionResult<ContractPaginationListDto>> GetAllUpcomingDueDateContractsPerMonth(int month)
+        {
+            var contractsFromRepo = await _contractRepository.GetAllUpcomingDueDateContractsPerMonthAsync(month);
+
+            var mappedContracts = _mapper.Map<IEnumerable<ContractListDto>>(contractsFromRepo);
+
+            var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<ContractPaginationListDto>(mappedContracts, 0);
+
+            return Ok(entityPaginationListDto);
         }
     }
 }
