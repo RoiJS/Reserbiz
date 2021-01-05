@@ -1238,5 +1238,22 @@
       "SUCCESS_MESSAGE": "New changes have been saved!",
       "ERROR_MESSAGE": "Failed to save new changes. Please try again later!"
     }
+  },
+
+  "DASHBOARD": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Dashboard"
+    },
+    "BODY_SECTION": {
+      "ACTIVE_TENANTS_WIDGET": {
+        "MAIN_LABEL": "Active Tenants"
+      },
+      "AVAILABLE_SPACES_WIDGET": {
+        "MAIN_LABEL": "Available Spaces"
+      },
+      "ACTIVE_CONTRACTS_WIDGET": {
+        "MAIN_LABEL": "Active Contracts"
+      }
+    }
   }
 }

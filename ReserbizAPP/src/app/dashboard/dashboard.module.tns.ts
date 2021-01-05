@@ -1,12 +1,21 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { DashboardComponent } from './dashboard/dashboard.component.tns';
+import { DashboardComponent } from '@src/app/dashboard/dashboard.component';
 
 import { SharedModule } from '../shared/shared.module';
-import { DashboardRoutingModule } from './dashboard-routing.module.tns';
+import { DashboardRoutingModule } from '@src/app/dashboard/dashboard-routing.module';
+
+import { ActiveTenantsCountWidgetComponent } from './active-tenants-count-widget/active-tenants-count-widget.component';
+import { AvailableSpacesWidgetComponent } from './available-spaces-widget/available-spaces-widget.component';
+import { ActiveContractsWidgetComponent } from './active-contracts-widget/active-contracts-widget.component';
 
 @NgModule({
   imports: [SharedModule, DashboardRoutingModule],
-  declarations: [DashboardComponent],
-  schemas: [NO_ERRORS_SCHEMA]
+  declarations: [
+    DashboardComponent,
+    ActiveTenantsCountWidgetComponent,
+    AvailableSpacesWidgetComponent,
+    ActiveContractsWidgetComponent,
+  ],
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class DashboardModule {}

@@ -9,7 +9,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dialogService: DialogService) { }
+  constructor() { }
 
   ngOnInit() {
   }
