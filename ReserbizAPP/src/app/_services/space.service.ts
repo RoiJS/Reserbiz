@@ -96,6 +96,12 @@ export class SpaceService
     );
   }
 
+  async getAvailableSpacesCount(): Promise<number> {
+    return this.http
+      .get<number>(`${this._apiBaseUrl}/space/getAvailableSpacesCount`)
+      .toPromise();
+  }
+
   reloadListFlag() {
     this._loadSpacesFlag.next();
   }

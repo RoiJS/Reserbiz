@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { BaseService } from './base.service';
 
 import { AccountStatement } from '../_models/account-statement.model';
+import { AccountStatementsAmountSummary } from '../_models/account-statement-amount-summary.model';
 import { EntityPaginationList } from '../_models/entity-pagination-list.model';
 import { AccountStatementPaginationList } from '../_models/account-statement-pagination-list.model';
 
@@ -34,6 +35,20 @@ export class AccountStatementService
       `${this._apiBaseUrl}/accountstatement/getAccountStatementsPerContract`,
       params
     );
+  }
+
+  getUnpaidAccountStatements(): Observable<EntityPaginationList> {
+    return this.getPaginatedEntitiesFromServer(
+      `${this._apiBaseUrl}/accountstatement/getUnpaidAccountStatements`
+    );
+  }
+
+  async getAccountStatementsAmountSummary(): Promise<AccountStatementsAmountSummary> {
+    return this.http
+      .get<AccountStatementsAmountSummary>(
+        `${this._apiBaseUrl}/accountstatement/getAccountStatementsAmountSummary`
+      )
+      .toPromise();
   }
 
   async getAccountStatement(
@@ -82,8 +97,10 @@ export class AccountStatementService
     accountStatementPaginationList.totalExpectedAmount =
       data.totalExpectedAmount;
     accountStatementPaginationList.totalPaidAmount = data.totalPaidAmount;
-    accountStatementPaginationList.totalExpectedDepositAmount = data.totalExpectedDepositAmount;
-    accountStatementPaginationList.totalPaidAmountFromDeposit = data.totalPaidAmountFromDeposit;
+    accountStatementPaginationList.totalExpectedDepositAmount =
+      data.totalExpectedDepositAmount;
+    accountStatementPaginationList.totalPaidAmountFromDeposit =
+      data.totalPaidAmountFromDeposit;
 
     accountStatementPaginationList.page = data.page;
     accountStatementPaginationList.numberOfItemsPerPage =

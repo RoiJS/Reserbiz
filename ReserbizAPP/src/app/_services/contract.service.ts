@@ -243,6 +243,29 @@ export class ContractService
       .toPromise();
   }
 
+  async getActiveContractsCount(): Promise<number> {
+    return this.http
+      .get<number>(`${this._apiBaseUrl}/contract/getActiveContractsCount`)
+      .toPromise();
+  }
+
+  async getAccountStatementsAmountSummary(): Promise<number> {
+    return this.http
+      .get<number>(`${this._apiBaseUrl}/contract/getActiveContractsCount`)
+      .toPromise();
+  }
+
+  getAllUpcomingDueDateContractsPerMonth(
+    month: number
+  ): Observable<EntityPaginationList> {
+    const params = { month };
+
+    return this.getPaginatedEntitiesFromServer(
+      `${this._apiBaseUrl}/contract/getAllUpcomingDueDateContractsPerMonth`,
+      params
+    );
+  }
+
   get loadContractListFlag(): BehaviorSubject<void> {
     return this._loadContractListFlag;
   }

@@ -126,6 +126,13 @@ namespace ReserbizAPP.API.Controllers
             return Ok(accountStatementToReturn);
         }
 
+        [HttpGet("getAccountStatementsAmountSummary")]
+        public async Task<ActionResult<AccountStatementsAmountSummary>> GetAccountStatementsAmountSummary()
+        {
+            var accountStatementsAmountSummary = await _accountStatementRepository.GetAccountStatementsAmountSummary();
+            return Ok(accountStatementsAmountSummary);
+        }
+
 
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]

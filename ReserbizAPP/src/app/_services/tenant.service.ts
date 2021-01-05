@@ -23,7 +23,8 @@ import { IDtoProcess } from '../_interfaces/idto-process.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class TenantService extends BaseService<Tenant>
+export class TenantService
+  extends BaseService<Tenant>
   implements IBaseService<Tenant> {
   private _loadTenantListFlag = new BehaviorSubject<void>(null);
 
@@ -121,6 +122,12 @@ export class TenantService extends BaseService<Tenant>
       `${this._apiBaseUrl}/tenant/create`,
       tenantCreateDto
     );
+  }
+
+  async getActiveTenantsCount(): Promise<number> {
+    return this.http
+      .get<number>(`${this._apiBaseUrl}/tenant/getActiveTenantsCount`)
+      .toPromise();
   }
 
   reloadListFlag() {

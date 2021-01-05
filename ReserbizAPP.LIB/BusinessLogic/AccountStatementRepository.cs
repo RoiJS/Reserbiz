@@ -122,7 +122,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync()
         {
-            var unpaidAccountStatements = await _reserbizRepository.ClientDbContext.AccountStatements
+            var accountStatements = await _reserbizRepository.ClientDbContext.AccountStatements
                 .AsQueryable()
                 .Includes(
                     c => c.Contract,
@@ -134,7 +134,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .OrderByDescending(c => c.DueDate)
                 .ToListAsync();
 
-            unpaidAccountStatements = unpaidAccountStatements
+            var unpaidAccountStatements = accountStatements
                 .Where(c =>
                    c.IsActive
                    && c.IsFullyPaid == false
@@ -268,6 +268,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var accountStatements = contractFromRepo.AccountStatements
                 .OrderBy(a => a.DueDate)
                 .ToList();
+                
             var accountStatementToReturn = accountStatements.Count > 0 ? accountStatements[0] : null;
 
             if (accountStatementToReturn != null)
@@ -328,6 +329,44 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance)
         {
             return firstAccountStatement.Rate <= depositedAmountBalance ? firstAccountStatement.Rate : depositedAmountBalance;
+        }
+
+        public async Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary()
+        {
+            // Get all account statements
+            var accountStatements = await _reserbizRepository.ClientDbContext.AccountStatements
+                .AsQueryable()
+                .Includes(
+                    c => c.Contract,
+                    c => c.Contract.AccountStatements,
+                    c => c.AccountStatementMiscellaneous,
+                    c => c.PaymentBreakdowns,
+                    c => c.PenaltyBreakdowns
+                )
+                .OrderByDescending(c => c.DueDate)
+                .ToListAsync();
+
+            // Total Unpaid Amount 
+            var unpaidAccountStatementsTotalAmount = accountStatements
+                .Where(c =>
+                   c.IsActive
+                   && c.IsFullyPaid == false
+                ).Sum(a => a.AccountStatementTotalAmount);
+
+            // Total Paid Amount 
+            var paidAccountStatementsTotalAmount = accountStatements
+                .Where(c =>
+                c.IsActive
+                && c.IsFullyPaid == true
+                ).Sum(a => a.AccountStatementTotalAmount);
+
+            var amountSummary = new AccountStatementsAmountSummary
+            {
+                TotalAmountPaid = paidAccountStatementsTotalAmount,
+                TotalExpectedAmount = unpaidAccountStatementsTotalAmount
+            };
+
+            return amountSummary;
         }
     }
 }

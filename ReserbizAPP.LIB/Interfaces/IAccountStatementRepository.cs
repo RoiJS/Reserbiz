@@ -21,5 +21,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<double> CalculatedDepositedAmountBalance(int contractId, AccountStatement firstAccountStatement);
         double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance);
         Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId);
+        Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary();
     }
 }
