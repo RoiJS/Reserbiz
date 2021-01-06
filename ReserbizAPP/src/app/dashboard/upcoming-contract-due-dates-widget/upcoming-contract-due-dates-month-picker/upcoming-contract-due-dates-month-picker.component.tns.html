@@ -1,0 +1,25 @@
+<StackLayout width="100%">
+  <StackLayout>
+    <RadDataForm
+      width="100%"
+      [source]="formSource"
+      (propertyCommitted)="onPropertyCommitted($event)"
+    >
+      <TKEntityProperty
+        tkDataFormProperty
+        name="month"
+        [displayName]="'Month:'"
+        [valuesProvider]="monthOptions"
+      >
+        <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+          <TKPropertyEditorStyle
+            tkPropertyEditorStyle
+            labelTextSize="14"
+            labelPosition="Left"
+            labelWidth="60"
+          ></TKPropertyEditorStyle>
+        </TKPropertyEditor>
+      </TKEntityProperty>
+    </RadDataForm>
+  </StackLayout>
+</StackLayout>

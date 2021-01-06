@@ -1,0 +1,37 @@
+<StackLayout width="100%" class="upcoming-contract-due-date-list-container">
+  <RadListView
+    width="100%"
+    height="100%"
+    #appListView
+    [items]="items"
+    selectionBehavior="Press"
+    (itemSelected)="selectItem($event.index, '/contracts/:id')"
+  >
+    <ng-template tkListItemTemplate let-contract="item">
+      <GridLayout
+        class="upcoming-contract-due-date-list-container__upcoming-due-date-item-template"
+        rows="*"
+        columns="*, 90, 10"
+      >
+        <StackLayout orientation="horizontal" row="0" col="0">
+          <label [text]="contract.tenantName"></label>
+        </StackLayout>
+        <StackLayout orientation="horizontal" row="0" col="1">
+          <label [text]="contract.nextDueDateFormatted"></label>
+        </StackLayout>
+        <StackLayout
+          orientation="horizontal"
+          row="0"
+          col="2"
+          class="upcoming-contract-due-date-list-container__upcoming-due-date-item-arrow-icon"
+        >
+          <label
+            text="&#xf054;"
+            class="fa fa-solid"
+            verticalAlignment="middle"
+          ></label>
+        </StackLayout>
+      </GridLayout>
+    </ng-template>
+  </RadListView>
+</StackLayout>

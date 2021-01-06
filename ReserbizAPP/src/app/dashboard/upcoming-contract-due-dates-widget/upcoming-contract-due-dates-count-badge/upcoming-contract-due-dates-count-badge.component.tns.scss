@@ -1,0 +1,22 @@
+@import '../../../../app-variables';
+
+.upcoming-contract-due-dates-count-badge-container {
+  &__outer-circle {
+    width: 80;
+    height: 80;
+    background-color: $primary;
+    border-radius: 50%;
+  }
+
+  &__inner-circle {
+    width: 60;
+    height: 60;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  &__counter-label {
+    font-size: 30;
+    font-weight: bold;
+  }
+}

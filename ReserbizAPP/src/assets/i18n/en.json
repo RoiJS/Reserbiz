@@ -70,7 +70,21 @@
       "PAID": "PAID",
       "UNPAID": "UNPAID"
     },
-    "FILTER": "Filter"
+    "FILTER": "Filter",
+    "MONTH": {
+      "JANUARY": "January",
+      "FEBRUARY": "February",
+      "MARCH": "March",
+      "APRIL": "April",
+      "MAY": "May",
+      "JUNE": "June",
+      "JULY": "July",
+      "AUGUST": "August",
+      "SEPTEMBER": "September",
+      "OCTOBER": "October",
+      "NOVEMBER": "November",
+      "DECEMBER": "Decemeber"
+    }
   },
 
   "AUTH_PAGE": {
@@ -1253,6 +1267,9 @@
       },
       "ACTIVE_CONTRACTS_WIDGET": {
         "MAIN_LABEL": "Active Contracts"
+      },
+      "UPCOMING_CONTRACT_DUE_DATES_WIDGET": {
+        "MAIN_LABEL": "UPCOMING DUE DATES"
       }
     }
   }

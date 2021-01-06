@@ -1,0 +1,18 @@
+.upcoming-contract-due-date-list-container {
+  padding: 5;
+
+  &__upcoming-due-date-item-template {
+    background-color: #eb5a2e;
+    border-radius: 5;
+    font-size: 14;
+    margin-bottom: 5;
+    padding: 5;
+    color: white;
+    font-weight: bold;
+  }
+
+  &__upcoming-due-date-item-arrow-icon {
+    text-align: right;
+    font-weight: bold;
+  }
+}

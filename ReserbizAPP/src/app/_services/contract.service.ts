@@ -251,7 +251,7 @@ export class ContractService
 
   async getAccountStatementsAmountSummary(): Promise<number> {
     return this.http
-      .get<number>(`${this._apiBaseUrl}/contract/getActiveContractsCount`)
+      .get<number>(`${this._apiBaseUrl}/contract/getAccountStatementsAmountSummary`)
       .toPromise();
   }
 

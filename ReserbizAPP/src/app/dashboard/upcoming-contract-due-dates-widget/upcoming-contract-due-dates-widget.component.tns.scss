@@ -1,0 +1,24 @@
+.upcoming-contract-due-dates-widget-container {
+  height: 230;
+  margin: 5;
+  width: 100%;
+  border-radius: 10;
+  background-color: white;
+
+  &__header {
+    height: 40;
+    font-size: 15;
+    font-weight: bold;
+    border-top-left-radius: 5;
+    border-top-right-radius: 5;
+  }
+
+  &__counter-badge-section {
+    width: 80;
+    margin-right: 10;
+  }
+
+  &__month-picker-section {
+    margin-bottom: 5;
+  }
+}
