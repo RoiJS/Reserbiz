@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { BaseWidgetComponent } from '@src/app/shared/component/base-widget.component';
 import { UpcomingContractDueDatesWidgetService } from '@src/app/_services/upcoming-contract-due-dates-widget.service';
@@ -21,11 +22,11 @@ export class UpcomingContractDueDatesWidgetComponent
   }
 
   ngOnInit() {
-    this._isBusySub = this.upcomingContractsDueDateService.isBusy.subscribe(
-      (isBusy: boolean) => {
+    this._isBusySub = this.upcomingContractsDueDateService.isBusy
+      .pipe(delay(500))
+      .subscribe((isBusy: boolean) => {
         this._isBusy = isBusy;
-      }
-    );
+      });
   }
 
   ngOnDestroy() {
