@@ -1,0 +1,62 @@
+@import '../../../app-variables';
+
+.widget-panel {
+  height: 230;
+  margin: 5;
+  width: 100%;
+  border-radius: 10;
+  background-color: white;
+
+  &__header {
+    height: 40;
+    font-size: 15;
+    font-weight: bold;
+    border-top-left-radius: 5;
+    border-top-right-radius: 5;
+  }
+
+  &__counter-badge-section {
+    width: 80;
+    margin-right: 10;
+  }
+}
+
+.widget-count-badge-container {
+  &__outer-circle {
+    width: 80;
+    height: 80;
+    background-color: $primary;
+    border-radius: 50%;
+  }
+
+  &__inner-circle {
+    width: 60;
+    height: 60;
+    background-color: white;
+    border-radius: 50%;
+  }
+
+  &__counter-label {
+    font-size: 30;
+    font-weight: bold;
+  }
+}
+
+.list-based-widget-container {
+  padding: 5;
+
+  &__item-template {
+    background-color: #eb5a2e;
+    border-radius: 5;
+    font-size: 14;
+    margin-bottom: 5;
+    padding: 5;
+    color: white;
+    font-weight: bold;
+  }
+
+  &__item-arrow-icon {
+    text-align: right;
+    font-weight: bold;
+  }
+}

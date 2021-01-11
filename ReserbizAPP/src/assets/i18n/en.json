@@ -84,7 +84,8 @@
       "OCTOBER": "October",
       "NOVEMBER": "November",
       "DECEMBER": "Decemeber"
-    }
+    },
+    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items"
   },
 
   "AUTH_PAGE": {
@@ -1270,6 +1271,9 @@
       },
       "UPCOMING_CONTRACT_DUE_DATES_WIDGET": {
         "MAIN_LABEL": "UPCOMING DUE DATES"
+      },
+      "UNPAID_ACCOUNT_STATEMENTS_WIDGET": {
+        "MAIN_LABEL": "UNPAID ACCOUNT STATEMENTS"
       }
     }
   }

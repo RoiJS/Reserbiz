@@ -24,7 +24,10 @@ import { UpcomingContractDueDatesWidgetService } from '@src/app/_services/upcomi
 @Component({
   selector: 'ns-upcoming-contract-due-dates-list',
   templateUrl: './upcoming-contract-due-dates-list.component.html',
-  styleUrls: ['./upcoming-contract-due-dates-list.component.scss'],
+  styleUrls: [
+    './upcoming-contract-due-dates-list.component.scss',
+    '../../../shared/styles/base-widget.scss',
+  ],
 })
 export class UpcomingContractDueDatesListComponent
   extends BaseListComponent<Contract>
@@ -50,7 +53,7 @@ export class UpcomingContractDueDatesListComponent
         this.contractService
           .getAllUpcomingDueDateContractsPerMonth(month)
           .subscribe((contractPaginationList: ContractPaginationList) => {
-            this.upcomingContractsDueDateService.listMonthCount.next(
+            this.upcomingContractsDueDateService.listItemCount.next(
               contractPaginationList.totalItems
             );
             this.upcomingContractsDueDateService.isBusy.next(false);

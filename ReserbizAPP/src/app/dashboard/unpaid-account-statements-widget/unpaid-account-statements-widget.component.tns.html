@@ -1,15 +1,13 @@
-<StackLayout
-  class="upcoming-contract-due-dates-widget-container widget-panel dialog-container"
->
+<StackLayout class="widget-panel dialog-container">
   <StackLayout class="widget-panel__header dialog-header">
     <StackLayout width="100%" orientation="horizontal">
       <label
-        text="&#xf073;"
+        text="&#xf15c;"
         class="fa fa-solid m-r-10"
         verticalAlignment="middle"
       ></label>
       <label
-        [text]="'DASHBOARD.BODY_SECTION.UPCOMING_CONTRACT_DUE_DATES_WIDGET.MAIN_LABEL' | translate"
+        [text]="'DASHBOARD.BODY_SECTION.UNPAID_ACCOUNT_STATEMENTS_WIDGET.MAIN_LABEL' | translate"
         verticalAlignment="middle"
       ></label>
     </StackLayout>
@@ -25,18 +23,11 @@
         class="widget-panel__counter-badge-section"
         verticalAlignment="middle"
       >
-        <ns-upcoming-contract-due-dates-count-badge></ns-upcoming-contract-due-dates-count-badge>
+        <ns-unpaid-account-statements-count-badge></ns-unpaid-account-statements-count-badge>
       </StackLayout>
 
       <StackLayout>
-        <StackLayout
-          class="upcoming-contract-due-dates-widget-container__month-picker-section"
-        >
-          <ns-upcoming-contract-due-dates-month-picker></ns-upcoming-contract-due-dates-month-picker>
-        </StackLayout>
-        <StackLayout>
-          <ns-upcoming-contract-due-dates-list></ns-upcoming-contract-due-dates-list>
-        </StackLayout>
+        <ns-unpaid-account-statements-list></ns-unpaid-account-statements-list>
       </StackLayout>
     </StackLayout>
   </ns-loader-layout>

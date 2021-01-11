@@ -174,14 +174,14 @@ export class Contract extends Entity {
   }
 
   get effectiveDateFormatted(): string {
-    return DateFormatter.format(this.effectiveDate, 'MMM DD YYYY');
+    return DateFormatter.format(this.effectiveDate, 'MMM DD, YYYY');
   }
 
   get nextDueDateFormatted(): string {
-    return DateFormatter.format(this.nextDueDate, 'MMM DD YYYY');
+    return DateFormatter.format(this.nextDueDate, 'MMM DD, YYYY');
   }
 
   get expirationDateFormatted(): string {
-    return DateFormatter.format(this.expirationDate, 'MMM DD YYYY');
+    return DateFormatter.format(this.expirationDate, 'MMM DD, YYYY');
   }
 }

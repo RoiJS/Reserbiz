@@ -127,6 +127,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .Includes(
                     c => c.Contract,
                     c => c.Contract.AccountStatements,
+                    c => c.Contract.Tenant,
                     c => c.AccountStatementMiscellaneous,
                     c => c.PaymentBreakdowns,
                     c => c.PenaltyBreakdowns
@@ -268,7 +269,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var accountStatements = contractFromRepo.AccountStatements
                 .OrderBy(a => a.DueDate)
                 .ToList();
-                
+
             var accountStatementToReturn = accountStatements.Count > 0 ? accountStatements[0] : null;
 
             if (accountStatementToReturn != null)

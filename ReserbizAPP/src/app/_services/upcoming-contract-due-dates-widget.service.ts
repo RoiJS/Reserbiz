@@ -2,25 +2,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { MonthOptions } from '../_enum/month-options.enum';
+import { BaseWidgetService } from './base-widget.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UpcomingContractDueDatesWidgetService {
+export class UpcomingContractDueDatesWidgetService extends BaseWidgetService {
   private _selectedMonth = new BehaviorSubject<MonthOptions>(
     new Date().getMonth() + 1
   );
-  private _listItemCount = new BehaviorSubject<number>(0);
-  private _isBusy = new BehaviorSubject<boolean>(false);
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   get selectedMonth(): BehaviorSubject<MonthOptions> {
     return this._selectedMonth;
-  }
-  get listMonthCount(): BehaviorSubject<number> {
-    return this._listItemCount;
-  }
-  get isBusy(): BehaviorSubject<boolean> {
-    return this._isBusy;
   }
 }

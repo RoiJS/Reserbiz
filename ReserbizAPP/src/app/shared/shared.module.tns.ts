@@ -5,7 +5,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ActionBarComponent } from './ui/action-bar/action-bar.component';
 import { LoaderLayoutComponent } from './ui/loader-layout/loader-layout.component';
+import { ListLayoutComponent } from './ui/list-layout/list-layout.component';
 import { FloatingButtonComponent } from './ui/floating-button/floating-button.component';
+
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular/dataform-directives';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular/listview-directives';
 
@@ -20,11 +22,13 @@ import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular/l
   declarations: [
     ActionBarComponent,
     LoaderLayoutComponent,
+    ListLayoutComponent,
     FloatingButtonComponent,
   ],
   exports: [
     ActionBarComponent,
     LoaderLayoutComponent,
+    ListLayoutComponent,
     FloatingButtonComponent,
     NativeScriptCommonModule,
     NativeScriptUIDataFormModule,

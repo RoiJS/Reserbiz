@@ -76,7 +76,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getUnpaidAccountStatements")]
-        public async Task<ActionResult<AccountStatement>> GetUnpaidAccountStatementsAsync()
+        public async Task<ActionResult<AccountStatementPaginationListDto>> GetUnpaidAccountStatementsAsync()
         {
             var accountStatementsFromRepo = await _accountStatementRepository.GetUnpaidAccountStatementsAsync();
 

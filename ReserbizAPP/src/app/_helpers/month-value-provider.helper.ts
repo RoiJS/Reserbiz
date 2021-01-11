@@ -10,7 +10,7 @@ export class MonthValueProvider implements IMonthValueProvider {
   constructor(private translateService: TranslateService) {}
 
   get monthOptions(): Array<MonthOption> {
-    return [
+    const monthOptions = [
       {
         key: MonthOptions.January,
         label: this.translateService.instant('GENERAL_TEXTS.MONTH.JANUARY'),
@@ -60,5 +60,9 @@ export class MonthValueProvider implements IMonthValueProvider {
         label: this.translateService.instant('GENERAL_TEXTS.MONTH.DECEMBER'),
       },
     ];
+
+    const currentMonth = new Date().getMonth() + 1;
+
+    return monthOptions.filter((m: MonthOption) => m.key >= currentMonth);
   }
 }

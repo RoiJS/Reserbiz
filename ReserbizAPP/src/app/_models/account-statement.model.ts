@@ -20,6 +20,7 @@ export class AccountStatement extends Entity {
   public currentBalance: number;
   public isFullyPaid: boolean;
   public isFirstAccountStatement: boolean;
+  public tenantName: string;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
 
   constructor() {

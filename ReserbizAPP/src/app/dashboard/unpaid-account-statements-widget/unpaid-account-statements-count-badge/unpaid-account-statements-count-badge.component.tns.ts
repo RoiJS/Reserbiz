@@ -1,31 +1,29 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { BaseWidgetComponent } from '@src/app/shared/component/base-widget.component';
 
+import { BaseWidgetService } from '@src/app/_services/base-widget.service';
 import { Subscription } from 'rxjs';
 
-import { UpcomingContractDueDatesWidgetService } from '@src/app/_services/upcoming-contract-due-dates-widget.service';
-
 @Component({
-  selector: 'ns-upcoming-contract-due-dates-count-badge',
-  templateUrl: './upcoming-contract-due-dates-count-badge.component.html',
+  selector: 'ns-unpaid-account-statements-count-badge',
+  templateUrl: './unpaid-account-statements-count-badge.component.html',
   styleUrls: [
-    './upcoming-contract-due-dates-count-badge.component.scss',
+    './unpaid-account-statements-count-badge.component.scss',
     '../../../shared/styles/base-widget.scss',
   ],
 })
-export class UpcomingContractDueDatesCountBadgeComponent
+export class UnpaidAccountStatementsCountBadgeComponent
   extends BaseWidgetComponent
   implements OnInit, OnDestroy {
   private _listItemCountSub: Subscription;
 
-  constructor(
-    private upcomingContractDueDateService: UpcomingContractDueDatesWidgetService
-  ) {
+  constructor(private baseWidgetService: BaseWidgetService) {
     super();
   }
 
   ngOnInit() {
-    this._listItemCountSub = this.upcomingContractDueDateService.listItemCount.subscribe(
+    this._listItemCountSub = this.baseWidgetService.listItemCount.subscribe(
       (currentCount: number) => {
         this._entityCount = currentCount;
       }
