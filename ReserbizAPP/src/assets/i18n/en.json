@@ -1274,6 +1274,13 @@
       },
       "UNPAID_ACCOUNT_STATEMENTS_WIDGET": {
         "MAIN_LABEL": "UNPAID ACCOUNT STATEMENTS"
+      },
+      "ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET": {
+        "MAIN_LABEL": "ACCOUNT STATEMENTS AMOUNT SUMMARY",
+        "CHART_LEGENDS": {
+          "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+          "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount"
+        }
       }
     }
   }

@@ -7,6 +7,7 @@ import { DashboardRoutingModule } from '@src/app/dashboard/dashboard-routing.mod
 import { ActiveTenantsCountWidgetComponent } from './active-tenants-count-widget/active-tenants-count-widget.component';
 import { AvailableSpacesWidgetComponent } from './available-spaces-widget/available-spaces-widget.component';
 import { ActiveContractsWidgetComponent } from './active-contracts-widget/active-contracts-widget.component';
+import { AccountStatementsAmountSummaryComponent } from './account-statements-amount-summary/account-statements-amount-summary.component';
 import { UpcomingContractDueDatesWidgetComponent } from './upcoming-contract-due-dates-widget/upcoming-contract-due-dates-widget.component';
 import { UpcomingContractDueDatesMonthPickerComponent } from './upcoming-contract-due-dates-widget/upcoming-contract-due-dates-month-picker/upcoming-contract-due-dates-month-picker.component';
 import { UpcomingContractDueDatesListComponent } from './upcoming-contract-due-dates-widget/upcoming-contract-due-dates-list/upcoming-contract-due-dates-list.component';
@@ -29,6 +30,7 @@ import { UnpaidAccountStatementsListComponent } from './unpaid-account-statement
     UnpaidAccountStatementsWidgetComponent,
     UnpaidAccountStatementsCountBadgeComponent,
     UnpaidAccountStatementsListComponent,
+    AccountStatementsAmountSummaryComponent,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

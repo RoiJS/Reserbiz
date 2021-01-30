@@ -2,18 +2,23 @@
   [title]="'DASHBOARD.ACTION_BAR_SECTION.TITLE' | translate"
   [showBackButton]="false"
 ></ns-action-bar>
-<StackLayout class="page-container">
-  <StackLayout class="dashboard-container">
-    <FlexBoxLayout>
-      <ns-active-tenants-count-widget></ns-active-tenants-count-widget>
-      <ns-available-spaces-widget></ns-available-spaces-widget>
-      <ns-active-contracts-widget></ns-active-contracts-widget>
-    </FlexBoxLayout>
-    <FlexBoxLayout>
-      <ns-upcoming-contract-due-dates-widget></ns-upcoming-contract-due-dates-widget>
-    </FlexBoxLayout>
-    <FlexBoxLayout>
-      <ns-unpaid-account-statements-widget></ns-unpaid-account-statements-widget>
-    </FlexBoxLayout>
-  </StackLayout>
+<StackLayout class="page-container" orientation="vertical">
+  <ScrollView orientation="vertical">
+    <StackLayout class="dashboard-container">
+      <FlexBoxLayout>
+        <ns-active-tenants-count-widget></ns-active-tenants-count-widget>
+        <ns-available-spaces-widget></ns-available-spaces-widget>
+        <ns-active-contracts-widget></ns-active-contracts-widget>
+      </FlexBoxLayout>
+      <FlexBoxLayout>
+        <ns-upcoming-contract-due-dates-widget></ns-upcoming-contract-due-dates-widget>
+      </FlexBoxLayout>
+      <FlexBoxLayout>
+        <ns-unpaid-account-statements-widget></ns-unpaid-account-statements-widget>
+      </FlexBoxLayout>
+      <FlexBoxLayout>
+        <ns-account-statements-amount-summary></ns-account-statements-amount-summary>
+      </FlexBoxLayout>
+    </StackLayout>
+  </ScrollView>
 </StackLayout>
