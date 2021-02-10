@@ -1,0 +1,51 @@
+@import '../../../../../../app-variables';
+
+.payment-amount-section {
+  font-weight: bold;
+  font-size: 15;
+}
+
+.payment-icon-placeholder {
+  background-color: $primary;
+
+  Label {
+    font-size: 30;
+    color: white;
+  }
+}
+
+.payment-list-footer {
+  height: 100;
+  background-color: $primary;
+  padding: 7;
+
+  &__total-amount-section,
+  &__total-amount-from-deposit-section {
+    color: white;
+    width: 45%;
+    text-align: center;
+  }
+
+  &__total-amount-section-label,
+  &__total-amount-from-deposit-section-label {
+    font-size: 13;
+  }
+
+  &__total-amount-section-icon, 
+  &__total-amount-from-deposit-section-icon {
+    font-size: 16;
+  }
+
+  &__total-amount-section-detail,
+  &__total-amount-from-deposit-section-detail {
+    font-size: 15;
+    font-weight: bold;
+  }
+
+  &__separator {
+    border-right-width: 1;
+    border-right-color: white;
+    border-right-style: solid;
+    height: 100%;
+  }
+}

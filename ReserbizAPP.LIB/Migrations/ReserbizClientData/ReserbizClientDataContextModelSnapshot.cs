@@ -15,7 +15,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,43 +23,62 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MiddleName");
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordHash");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<byte[]>("PasswordSalt");
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("PhotoUrl");
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -78,53 +97,77 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdvancedPaymentDurationValue");
+                    b.Property<int>("AdvancedPaymentDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<int>("ContractId");
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<int>("DepositPaymentDurationValue");
+                    b.Property<int>("DepositPaymentDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DueDate");
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("DurationUnit");
+                    b.Property<int>("DurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<float>("ElectricBill");
+                    b.Property<float>("ElectricBill")
+                        .HasColumnType("real");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("PenaltyAmountPerDurationUnit");
+                    b.Property<int>("PenaltyAmountPerDurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PenaltyEffectiveAfterDurationUnit");
+                    b.Property<int>("PenaltyEffectiveAfterDurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PenaltyEffectiveAfterDurationValue");
+                    b.Property<int>("PenaltyEffectiveAfterDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<float>("PenaltyValue");
+                    b.Property<float>("PenaltyValue")
+                        .HasColumnType("real");
 
-                    b.Property<int>("PenaltyValueType");
+                    b.Property<int>("PenaltyValueType")
+                        .HasColumnType("int");
 
-                    b.Property<float>("Rate");
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
-                    b.Property<float>("WaterBill");
+                    b.Property<float>("WaterBill")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -145,27 +188,38 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountStatementId");
+                    b.Property<int>("AccountStatementId")
+                        .HasColumnType("int");
 
-                    b.Property<float>("Amount");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -178,29 +232,41 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<int>("GenerateAccountStatementDaysBeforeValue");
+                    b.Property<int>("GenerateAccountStatementDaysBeforeValue")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -219,41 +285,59 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContactNumber");
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MiddleName");
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl");
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TenantId");
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -274,41 +358,62 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<int>("DurationUnit");
+                    b.Property<int>("DurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<int>("DurationValue");
+                    b.Property<int>("DurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("EffectiveDate");
+                    b.Property<DateTime>("EffectiveDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsOpenContract");
+                    b.Property<bool>("IsOpenContract")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("TenantId");
+                    b.Property<int?>("SpaceId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("TermId");
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int>("TermId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -317,6 +422,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("DeactivatedById");
 
                     b.HasIndex("DeletedById");
+
+                    b.HasIndex("SpaceId");
 
                     b.HasIndex("TenantId");
 
@@ -331,27 +438,38 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Message");
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Source");
+                    b.Property<string>("Source")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Stacktrace");
+                    b.Property<string>("Stacktrace")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -364,35 +482,56 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountStatementId");
+                    b.Property<int>("AccountStatementId")
+                        .HasColumnType("int");
 
-                    b.Property<float>("Amount");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateTimeReceived");
+                    b.Property<DateTime>("DateTimeReceived")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsAmountFromDeposit")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("ReceivedById");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReceivedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -415,25 +554,35 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountStatementId");
+                    b.Property<int>("AccountStatementId")
+                        .HasColumnType("int");
 
-                    b.Property<float>("Amount");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DueDate");
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -446,25 +595,35 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId");
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExpirationDate");
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Token");
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -473,39 +632,112 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SpaceTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeactivatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("SpaceTypeId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Spaces");
+                });
+
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AvailableSlot");
+                    b.Property<int>("AvailableSlot")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Rate");
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -524,49 +756,71 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ContactNumber");
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("EmailAddress");
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MiddleName");
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordHash");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<byte[]>("PasswordSalt");
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("PhotoUrl");
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -585,61 +839,92 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdvancedPaymentDurationValue");
+                    b.Property<int>("AdvancedPaymentDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<int>("DepositPaymentDurationValue");
+                    b.Property<int>("DepositPaymentDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<int>("DurationUnit");
+                    b.Property<int>("DurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<float>("ElectricBillAmount");
+                    b.Property<float>("ElectricBillAmount")
+                        .HasColumnType("real");
 
-                    b.Property<bool>("ExcludeElectricBill");
+                    b.Property<bool>("ExcludeElectricBill")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("ExcludeWaterBill");
+                    b.Property<bool>("ExcludeWaterBill")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("MaximumNumberOfOccupants");
+                    b.Property<int>("MaximumNumberOfOccupants")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PenaltyAmountPerDurationUnit");
+                    b.Property<int>("PenaltyAmountPerDurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PenaltyEffectiveAfterDurationUnit");
+                    b.Property<int>("PenaltyEffectiveAfterDurationUnit")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PenaltyEffectiveAfterDurationValue");
+                    b.Property<int>("PenaltyEffectiveAfterDurationValue")
+                        .HasColumnType("int");
 
-                    b.Property<float>("PenaltyValue");
+                    b.Property<float>("PenaltyValue")
+                        .HasColumnType("real");
 
-                    b.Property<int>("PenaltyValueType");
+                    b.Property<int>("PenaltyValueType")
+                        .HasColumnType("int");
 
-                    b.Property<float>("Rate");
+                    b.Property<float>("Rate")
+                        .HasColumnType("real");
 
-                    b.Property<int>("SpaceTypeId");
+                    b.Property<int>("SpaceTypeId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("TermParentId")
+                        .HasColumnType("int");
 
-                    b.Property<float>("WaterBillAmount");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
+
+                    b.Property<float>("WaterBillAmount")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -651,6 +936,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.HasIndex("SpaceTypeId");
 
+                    b.HasIndex("TermParentId");
+
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Terms");
@@ -660,35 +947,50 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("Amount");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
-                    b.Property<int?>("CreatedById");
+                    b.Property<int?>("CreatedById")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeactivatedById");
+                    b.Property<int?>("DeactivatedById")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DeletedById");
+                    b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TermId");
+                    b.Property<int>("TermId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("UpdatedById");
+                    b.Property<int?>("UpdatedById")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -733,7 +1035,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.Contract", "Contract")
                         .WithMany("AccountStatements")
                         .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
                         .WithMany("CreatedAccountStatements")
@@ -761,7 +1064,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
                         .WithMany("AccountStatementMiscellaneous")
                         .HasForeignKey("AccountStatementId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ClientSettings", b =>
@@ -807,7 +1111,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
                         .WithMany("ContactPersons")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedContactPersons")
@@ -832,15 +1137,21 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("DeletedById")
                         .HasConstraintName("FK_Contracts_DeletedById_Accounts_AccountId");
 
+                    b.HasOne("ReserbizAPP.LIB.Models.Space", "Space")
+                        .WithMany("Contracts")
+                        .HasForeignKey("SpaceId");
+
                     b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
                         .WithMany("Contracts")
                         .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Term", "Term")
-                        .WithMany()
+                        .WithMany("Contracts")
                         .HasForeignKey("TermId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedContracts")
@@ -854,7 +1165,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("ErrorLogs")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_ErrorLogs_Accounts_UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentBreakdown", b =>
@@ -862,7 +1174,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
                         .WithMany("PaymentBreakdowns")
                         .HasForeignKey("AccountStatementId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
                         .WithMany("CreatedPaymentBreakdowns")
@@ -882,7 +1195,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "ReceivedBy")
                         .WithMany()
                         .HasForeignKey("ReceivedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedPaymentBreakdowns")
@@ -895,7 +1209,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
                         .WithMany("PenaltyBreakdowns")
                         .HasForeignKey("AccountStatementId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.RefreshToken", b =>
@@ -904,7 +1219,37 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("RefreshTokens")
                         .HasForeignKey("AccountId")
                         .HasConstraintName("FK_RefreshToken_Accounts_AccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
+                        .WithMany("CreatedSpaces")
+                        .HasForeignKey("CreatedById")
+                        .HasConstraintName("FK_Spaces_CreatedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeactivatedBy")
+                        .WithMany("DeactivatedSpaces")
+                        .HasForeignKey("DeactivatedById")
+                        .HasConstraintName("FK_Spaces_DeactivatedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "DeletedBy")
+                        .WithMany("DeletedSpaces")
+                        .HasForeignKey("DeletedById")
+                        .HasConstraintName("FK_Spaces_DeletedById_Accounts_AccountId");
+
+                    b.HasOne("ReserbizAPP.LIB.Models.SpaceType", "SpaceType")
+                        .WithMany("Spaces")
+                        .HasForeignKey("SpaceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
+                        .WithMany("UpdatedSpaces")
+                        .HasForeignKey("UpdatedById")
+                        .HasConstraintName("FK_Spaces_UpdatedById_Accounts_AccountId");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
@@ -971,9 +1316,15 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasConstraintName("FK_Terms_DeletedById_Accounts_AccountId");
 
                     b.HasOne("ReserbizAPP.LIB.Models.SpaceType", "SpaceType")
-                        .WithMany()
+                        .WithMany("Terms")
                         .HasForeignKey("SpaceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Term", "TermParent")
+                        .WithMany("TermChildren")
+                        .HasForeignKey("TermParentId")
+                        .HasConstraintName("FK_Terms_Terms_TermParentId");
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedTerms")
@@ -1001,7 +1352,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasOne("ReserbizAPP.LIB.Models.Term", "Term")
                         .WithMany("TermMiscellaneous")
                         .HasForeignKey("TermId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "UpdatedBy")
                         .WithMany("UpdatedTermMiscellaneous")

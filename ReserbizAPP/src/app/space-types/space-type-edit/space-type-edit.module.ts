@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { NativeScriptRouterModule } from 'nativescript-angular/router';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@src/app/shared/shared.module';
 import { SpaceTypeEditComponent } from './space-type-edit.component';
 
 @NgModule({

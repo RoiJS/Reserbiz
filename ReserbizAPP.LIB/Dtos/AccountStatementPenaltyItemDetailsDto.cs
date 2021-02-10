@@ -1,8 +1,9 @@
 using System;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class AccountStatementPenaltyItemDetailsDto
+    public class AccountStatementPenaltyItemDetailsDto : IEntityDto
     {
         public int Id { get; set; }
         public DateTime DueDate { get; set; }

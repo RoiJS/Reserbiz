@@ -1,16 +1,17 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component.tns';
+import { DashboardComponent } from '@src/app/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
-  }
+    component: DashboardComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class DashboardRoutingModule {}

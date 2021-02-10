@@ -14,9 +14,12 @@ namespace ReserbizAPP.LIB.Interfaces
         
         void SetDbContext(DbContext dbContext);
         Task AddEntity(TEntity entity);
+        T DetachEntity<T>(T entity) where T : class;
+        List<T> DetachEntities<T>(List<T> entities) where T : class;
         void DeleteEntity(TEntity entity, bool forceDelete);
         void DeleteMultipleEntities(List<TEntity> entities, bool forceDelete);
         void SetEntityStatus(TEntity entity, bool status);
+        void SetMultipleEntitiesStatus(List<TEntity> entities, bool status);
         void SetCurrentUser(int currentUserId);
         Task Reset();
         IReserbizRepository<TEntity> GetEntity(int id);

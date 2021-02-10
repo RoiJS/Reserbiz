@@ -1,12 +1,15 @@
 import { DurationEnum } from '../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../_enum/value-type.enum';
+
 import { Entity } from './entity.model';
 import { TermMiscellaneous } from './term-miscellaneous.model';
 import { SpaceType } from './space-type.model';
+
 import { NumberFormatter } from '../_helpers/number-formatter.helper';
 
 export class Term extends Entity {
   public code: string;
+  public termParentId: number;
   public name: string;
   public spaceTypeId: number;
   public spaceType: SpaceType;
@@ -64,12 +67,13 @@ export class Term extends Entity {
     return NumberFormatter.formatCurrency(this.penaltyAmount);
   }
 
+  get isChildCopy(): boolean {
+    return this.termParentId > 0;
+  }
+
   hasContent() {
-    const hasContent = !!(
-      this.code ||
-      this.name ||
-      this.spaceTypeId ||
-      this.rate
+    const hasContent = Boolean(
+      this.code || this.name || this.spaceTypeId || this.rate
     );
 
     return hasContent;

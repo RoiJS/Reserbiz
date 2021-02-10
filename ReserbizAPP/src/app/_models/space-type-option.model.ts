@@ -1,15 +1,5 @@
-export class SpaceTypeOption {
-  public id: number;
-  public name: string;
-  public rate: number;
-  public isDelete: boolean;
-  public isActive: boolean;
-  public canBeSelected: boolean;
-  public inactiveText: string;
+import { EntityOption } from './entity-option.model';
 
-  get displayName(): string {
-    return this.canBeSelected
-      ? this.name
-      : `${this.name} - (${this.inactiveText})`;
-  }
+export class SpaceTypeOption extends EntityOption {
+  public rate: number;
 }

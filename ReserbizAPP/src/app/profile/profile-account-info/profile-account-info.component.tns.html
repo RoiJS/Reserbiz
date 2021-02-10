@@ -22,7 +22,6 @@
         >
           <TKPropertyGroup
             tkDataFormGroups
-            collapsible="true"
             [name]="'GENERAL_TEXTS.DETAILS' | translate"
             hidden="false"
           >
@@ -38,26 +37,39 @@
               tkPropertyGroupProperties
               name="username"
               [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.HINT_TEXT' | translate"
-            ></TKEntityProperty>
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Text">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
             <TKEntityProperty
               tkPropertyGroupProperties
               name="password"
               [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
             >
-              <TKPropertyEditor
-                tkEntityPropertyEditor
-                type="Password"
-              ></TKPropertyEditor>
+              <TKPropertyEditor tkEntityPropertyEditor type="Password">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
             </TKEntityProperty>
+
             <TKEntityProperty
               tkPropertyGroupProperties
               name="confirmPassword"
               [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.HINT_TEXT' | translate"
             >
-              <TKPropertyEditor
-                tkEntityPropertyEditor
-                type="Password"
-              ></TKPropertyEditor>
+              <TKPropertyEditor tkEntityPropertyEditor type="Password">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
             </TKEntityProperty>
           </TKPropertyGroup>
         </RadDataForm>

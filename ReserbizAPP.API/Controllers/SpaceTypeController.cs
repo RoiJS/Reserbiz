@@ -60,7 +60,9 @@ namespace ReserbizAPP.API.Controllers
         {
             var spaceTypesFromRepo = await _spaceTypeRepo.GetSpaceTypesBasedOnNameAsync(spaceTypeName);
 
-            return Ok(spaceTypesFromRepo);
+            var spaceTypesToReturn = _mapper.Map<IEnumerable<SpaceTypeDetailDto>>(spaceTypesFromRepo);
+
+            return Ok(spaceTypesToReturn);
         }
 
         [HttpGet("getSpaceTypeAsOptions")]
@@ -112,7 +114,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost("deleteMultipleSpaceTypes")]
-        public async Task<IActionResult> DeleteMultipleTenants(List<int> spaceTypeIds)
+        public async Task<IActionResult> DeleteMultipleSpaceTypes(List<int> spaceTypeIds)
         {
             if (spaceTypeIds.Count == 0)
                 return BadRequest("Empty space type id list.");

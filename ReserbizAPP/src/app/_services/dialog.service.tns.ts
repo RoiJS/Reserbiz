@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { alert } from 'tns-core-modules/ui/dialogs';
 
 import {
   CFAlertDialog,

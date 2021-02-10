@@ -1,7 +1,7 @@
 import { GenderEnum } from '../_enum/gender.enum';
-import { IBaseDTO } from '../_interfaces/ibase-dto.interface';
+import { IBaseDto } from '../_interfaces/ibase-dto.interface';
 
-export class ContactPersonDto implements IBaseDTO {
+export class ContactPersonDto implements IBaseDto {
   constructor(
     public firstName: string,
     public middleName: string,

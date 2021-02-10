@@ -1,0 +1,18 @@
+{
+	"name": "migration",
+	"paths": [
+		"hooks",
+		"webpack.config.js",
+		"package.json",
+		"package-lock.json",
+		"tsconfig.tns.json",
+		"karma.conf.js",
+		"nsconfig.json",
+		"src\\package.json",
+		"package.json",
+		"tsconfig.tns.json",
+		"karma.conf.js",
+		"nsconfig.json",
+		"src\\package.json"
+	]
+}

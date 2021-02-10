@@ -1,20 +1,22 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "module": "esNext",
+    "module": "commonjs",
     "types": [
       "jasmine",
       "node"
     ]
   },
   "files": [
-    "test.ts",
-    "polyfills.ts"
+    "src/test.ts",
+    "src/polyfills.ts",
+    "src/tests/test.tns.ts",
   ],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.test.ts",
   ],
   "exclude": [
     "**/*.tns.ts",

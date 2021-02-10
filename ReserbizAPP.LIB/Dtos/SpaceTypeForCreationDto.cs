@@ -9,7 +9,5 @@ namespace ReserbizAPP.LIB.Dtos
         public string Description { get; set; }
         [Required]
         public float Rate { get; set; }
-        [Required]
-        public int AvailableSlot { get; set; }
     }
 }

@@ -21,6 +21,7 @@ export class TermMapper
     term.id = t.id;
     term.code = t.code;
     term.name = t.name;
+    term.termParentId = t.termParentId;
     term.spaceTypeId = t.spaceTypeId;
 
     if (t.spaceType) {

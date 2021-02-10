@@ -8,6 +8,6 @@ namespace ReserbizAPP.LIB.Dtos
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
-        public int AvailableSlot { get; set; }
+        public float Rate { get; set; }
     }
 }

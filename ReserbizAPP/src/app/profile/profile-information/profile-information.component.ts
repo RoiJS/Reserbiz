@@ -1,45 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-
-import { AuthService } from '@src/app/_services/auth.service';
-import { DialogService } from '@src/app/_services/dialog.service';
-import { User } from '@src/app/_models/user.model';
-import { GenderEnum } from '@src/app/_enum/gender.enum';
-
 @Component({
   selector: 'ns-profile-information',
   templateUrl: './profile-information.component.html',
   styleUrls: ['./profile-information.component.scss'],
 })
 export class ProfileInformationComponent implements OnInit, OnDestroy {
-  private _currentUser: User;
-  private _currentUserSub: Subscription;
+  constructor() {}
 
-  private _isBusy = false;
+  ngOnInit() {}
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this._currentUserSub = this.authService.user.subscribe(
-      (currentUser: User) => {
-        this._currentUser = currentUser;
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this._currentUserSub) {
-      this._currentUserSub.unsubscribe();
-    }
-  }
-
-  get IsBusy(): boolean {
-    return this._isBusy;
-  }
-
-  get currentUser(): User {
-    return this._currentUser;
-  }
+  ngOnDestroy(): void {}
 }

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page } from '@nativescript/core';
 
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';

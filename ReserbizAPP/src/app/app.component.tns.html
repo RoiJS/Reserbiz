@@ -3,20 +3,20 @@ RadSideDrawer is a UI component part of the Progress NativeScript UI set of comp
 Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
 https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawer/getting-started
 -->
-<RadSideDrawer [drawerTransition]="sideDrawerTransition">
+<RadSideDrawer class="nt-drawer" [drawerTransition]="sideDrawerTransition">
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
-    <StackLayout row="0" class="sidedrawer-header">
+    <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
       <label class="sidedrawer-header-image fa" text="&#xf2bd;"></label>
       <label class="sidedrawer-header-brand" [text]="currentUsername"></label>
       <label class="footnote" [text]="currentUserFullname"></label>
     </StackLayout>
 
-    <ScrollView row="1" class="sidedrawer-content">
+    <ScrollView row="1" class="nt-drawer__content sidedrawer-content">
       <StackLayout>
         <GridLayout
           *ngFor="let menu of mainMenuList"
           columns="auto, *"
-          class="sidedrawer-list-item"
+          class="nt-drawer__list-item sidedrawer-list-item"
           [class.menu-separator]="menu.hasSeparator"
           [class.selected]="isComponentSelected(menu.url)"
           (tap)="onNavItemTap(menu.url)"
@@ -30,7 +30,7 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
         </GridLayout>
         <GridLayout
           columns="auto, *"
-          class="sidedrawer-list-item"
+          class="nt-drawer__list-item sidedrawer-list-item"
           (tap)="onSignout()"
         >
           <label col="0" text="&#xf2f5;" class="fa fa-solid fa-regular"></label>

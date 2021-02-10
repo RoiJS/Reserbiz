@@ -1,0 +1,39 @@
+<ns-action-bar
+  [title]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf1c6;"
+    class="fa fa-solid action-item-button"
+    (tap)="deactivateContract()"
+    *ngIf="!currentContract?.isExpired && currentContract?.isActive"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf1c6;"
+    class="fa action-item-button"
+    (tap)="activateContract()"
+    *ngIf="!currentContract?.isExpired && !currentContract?.isActive"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf044;"
+    class="fa fa-solid action-item-button"
+    (tap)="navigateToEditContract()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%">
+    <!-- #Start Contract Details Header -->
+    <ns-contract-details-panel
+      [currentContract]="currentContract"
+    ></ns-contract-details-panel>
+    <!-- #End -->
+
+    <!-- #Start Account Statement List -->
+    <ns-contract-account-statement-list-panel
+      [currentContractId]="currentContract?.id"
+    >
+    </ns-contract-account-statement-list-panel>
+    <!-- #End -->
+  </StackLayout>
+</ns-loader-layout>

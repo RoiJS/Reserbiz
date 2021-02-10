@@ -1,0 +1,28 @@
+<StackLayout class="widget-panel dialog-container">
+  <StackLayout class="widget-panel__header dialog-header">
+    <StackLayout width="100%" orientation="horizontal">
+      <label
+        text="&#xf15c;"
+        class="fa fa-solid m-r-10"
+        verticalAlignment="middle"
+      ></label>
+      <label
+        [text]="
+          'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.MAIN_LABEL'
+            | translate
+        "
+        verticalAlignment="middle"
+      ></label>
+    </StackLayout>
+  </StackLayout>
+  <ns-loader-layout [busy]="isBusy">
+    <StackLayout
+      class="dialog-body"
+      orientation="horizontal"
+      width="100%"
+      height="100%"
+    >
+      
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

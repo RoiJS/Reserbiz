@@ -25,9 +25,10 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForCreationDto termForCreationDto)
+        public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForManageDto termForCreationDto)
         {
             var termToCreate = _mapper.Map<Term>(termForCreationDto);
+            termToCreate.TermParentId = null;
 
             await _termRepo
                 .SetCurrentUserId(CurrentUserId)
@@ -64,6 +65,16 @@ namespace ReserbizAPP.API.Controllers
             var termToReturn = _mapper.Map<IEnumerable<TermListDto>>(termsFromRepo);
 
             return Ok(termToReturn);
+        }
+
+        [HttpGet("getTermsAsOptions")]
+        public async Task<ActionResult<IEnumerable<TermOptionDto>>> GetTermsAsOptions()
+        {
+            var termsFromRepo = await _termRepo.GetTermsAsOptions();
+
+            var termOptions = _mapper.Map<IEnumerable<TermOptionDto>>(termsFromRepo);
+
+            return Ok(termOptions);
         }
 
         [HttpPut("{id}")]

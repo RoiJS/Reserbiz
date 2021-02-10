@@ -1,5 +1,6 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
+@import './app-variables';
 
 /*#region FONT ICON CLASSES*/
 .fa {
@@ -16,16 +17,32 @@
 /*#endregion*/
 
 /*#region ACTION BAR CLASSES*/
-.action-bar {
+.nt-action-bar {
   .action-item-button {
     font-size: 7;
+  }
+
+  .custom-action-item-button {
+    color: white;
+    background-color: $primary;
+    border-radius: 50%;
+    font-size: 23;
+    height: 40;
+    padding: 8;
+    text-align: center;
+    width: 40;
+  }
+
+  .custom-action-item-button--active {
+    color: $primary;
+    background-color: white;
   }
 }
 /*#endregion*/
 
 /*#region SIDE DRAWER CLASSES*/
-$sidedrawer-header-image-size: 60;
-$sidedrawer-header-image-offset-top: 20;
+$sidedrawer-header-image-size: 100;
+$sidedrawer-header-image-offset-top: 10;
 $sidedrawer-header-image-offset-bottom: 5;
 $sidedrawer-list-item-offset-left: 15;
 $sidedrawer-list-icon-offset: 10;
@@ -109,7 +126,7 @@ $sidedrawer-list-icon-size: 20;
     margin-top: 10;
     margin-bottom: 10;
     Label {
-      font-size: 18;
+      font-size: 17;
       color: $primary;
       font-weight: bold;
     }
@@ -121,6 +138,7 @@ $sidedrawer-list-icon-size: 20;
 
   &__page-command {
     width: 100;
+    margin-right: 0;
   }
 
   .panel {
@@ -155,7 +173,11 @@ $sidedrawer-list-icon-size: 20;
     &__details-section {
       margin-top: 13;
       border-bottom-width: 0.5;
-      padding-bottom: 7;
+      padding-bottom: 5;
+
+      .details-wrapper {
+        width: 50%;
+      }
 
       .details-label {
         border-bottom-color: #cccccc;
@@ -228,6 +250,7 @@ $sidedrawer-list-icon-size: 20;
     }
 
     &__item-secondary-label {
+      font-size: 13;
       font-weight: bold;
     }
 
@@ -247,14 +270,86 @@ $sidedrawer-list-icon-size: 20;
     }
 
     &__option {
-      width: 50;
-      height: 50;
+      width: 60;
+      height: 60;
       margin-right: 5;
       margin-left: 5;
-      border-radius: 50%;
+      border-radius: 100%;
       font-size: 20;
       background-color: white;
     }
   }
+}
+/*#endregion*/
+
+/*#region DIALOG CONTAINER CLASSES*/
+.dialog-container {
+  .dialog-header {
+    font-size: 20;
+    padding: 10;
+    background-color: $primary;
+    color: white;
+    height: 50;
+  }
+  .dialog-body {
+    padding: 10;
+  }
+  .dialog-footer {
+    padding: 10;
+  }
+}
+/*#endregion*/
+
+/*#region DASHBOARD GLOBAL CLASSES*/
+.dashboard-container {
+  &__widget-panel {
+    height: 120;
+    width: 100%;
+    margin: 5;
+    border-radius: 10;
+    background-color: white;
+  }
+
+  &__widget-content-section {
+    justify-content: space-around;
+    flex-direction: column;
+    height: 100%;
+    padding: 5;
+  }
+
+  &__widget-icon-with-badge {
+    align-self: center;
+    height: 70;
+    margin-bottom: 5;
+
+    .widget-badge-container {
+      height: 32;
+      width: 32;
+      font-size: 15;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      opacity: 1;
+    }
+
+    .widget-icon {
+      font-size: 55;
+    }
+  }
+
+  &__widget-main-label {
+    font-weight: bold;
+    font-size: 15;
+    text-align: center;
+  }
+}
+/*#endregion*/
+
+/*#region DATAFORM GLOBAL CLASSES*/
+DataFormEditorLabel {
+  font-size: 16;
+  font-weight: bold;
+  color: black;
 }
 /*#endregion*/

@@ -26,7 +26,15 @@ export class TermMiscellaneousService extends BaseService<TermMiscellaneous>
     );
   }
 
-  getTermMiscellneous(
+  async getTermMiscellaneousList(
+    termId: number
+  ): Promise<TermMiscellaneous[]> {
+    return this.getEntitiesFromServer(
+      `${this._apiBaseUrl}/termMiscellaneous/getAllTermMiscellaneousPerTerm/${termId}`
+    ).toPromise();
+  }
+
+  getTermMiscellaneous(
     termMiscellaneousId: number
   ): Observable<TermMiscellaneous> {
     return this.getEntityFromServer(

@@ -1,29 +1,33 @@
 using System;
-using ReserbizAPP.LIB.Enums;
+using System.Collections.Generic;
+using ReserbizAPP.LIB.Interfaces;
+using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class ContractListDto
+    public class ContractListDto : IEntityDto
     {
         public int Id { get; set; }
 
+        public int TermId { get; set; }
+        
+        public int SpaceId { get; set; }
+
         public string Code { get; set; }
 
-        public int TenantId { get; set; }
+        public DateTime NextDueDate { get; set; }
 
-        public int TermId { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
-        public DateTime EffectiveDate { get; set; }
+        public string TenantName { get; set; }
 
         public bool IsOpenContract { get; set; }
 
-        public int DurationValue { get; set; }
+        public List<IContractDurationBeforeContractEnds> ContractDurationBeforeContractEnds { get; set; }
 
-        public DurationEnum DurationUnit { get; set; }
+        public bool IsDeletable { get; set; }
 
-        public bool Status { get; set; }
-        
-        public DateTime ExpirationDate { get; set; }
+        public bool IsActive { get; set; }
 
         public bool IsExpired { get; set; }
     }

@@ -11,6 +11,16 @@ namespace ReserbizAPP.LIB.Interfaces
         PenaltyBreakdown RegisterNewPenaltyItem(AccountStatement accountStatement);
         Task<AccountStatement> GetAccountStatementAsync(int id);
         Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId);
-        Task<IEnumerable<AccountStatement>> GetActiveDueAccountStatementsPerContractAsync(int contractId);
+        Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync();
+        List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
+        Task GenerateContractAccountStatements(int contractId);
+        Task GenerateAccountStatementPenalties(int tenantId);
+        Task<AccountStatement> GetFirstAccountStatement(int contractId);
+        float CalculateTotalAmountPaid(IEnumerable<PaymentBreakdown> paymentBreakdowns);
+        float CalculateTotalAmountPaidUsingDeposit(IEnumerable<PaymentBreakdown> paymentBreakdowns);
+        Task<double> CalculatedDepositedAmountBalance(int contractId, AccountStatement firstAccountStatement);
+        double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance);
+        Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId);
+        Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary();
     }
 }

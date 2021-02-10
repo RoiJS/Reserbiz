@@ -14,9 +14,13 @@ import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({ providedIn: 'root' })
-export class SpaceTypeService extends BaseService<SpaceType>
+export class SpaceTypeService
+  extends BaseService<SpaceType>
   implements IBaseService<SpaceType> {
   private _loadSpaceTypesFlag = new BehaviorSubject<void>(null);
+  private _currentSpaceType = new BehaviorSubject<{ id: number; name: string }>(
+    { id: 0, name: '' }
+  );
   constructor(public http: HttpClient) {
     super(new SpaceTypeMapper(), http);
   }
@@ -27,7 +31,9 @@ export class SpaceTypeService extends BaseService<SpaceType>
     );
   }
 
-  getSpaceTypesAsOptions(translateService: TranslateService): Observable<SpaceTypeOption[]> {
+  getSpaceTypesAsOptions(
+    translateService: TranslateService
+  ): Observable<SpaceTypeOption[]> {
     return this.http
       .get<SpaceTypeOption[]>(
         `${this._apiBaseUrl}/spaceType/getSpaceTypeAsOptions`
@@ -42,7 +48,9 @@ export class SpaceTypeService extends BaseService<SpaceType>
             spaceTypeOption.isDelete = st.isDelete;
             spaceTypeOption.isActive = st.isActive;
             spaceTypeOption.canBeSelected = st.canBeSelected;
-            spaceTypeOption.inactiveText = translateService.instant('GENERAL_TEXTS.INACTIVE');
+            spaceTypeOption.inactiveText = translateService.instant(
+              'GENERAL_TEXTS.INACTIVE'
+            );
             return spaceTypeOption;
           });
         })
@@ -50,7 +58,7 @@ export class SpaceTypeService extends BaseService<SpaceType>
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<SpaceType[]> {
-    const searchKeyword = entityFilter ? entityFilter.searchKeyword : '';
+    const searchKeyword = entityFilter.searchKeyword || '';
     return this.getEntitiesFromServer(
       `${this._apiBaseUrl}/spaceType?spaceTypeName=${searchKeyword}`
     );
@@ -89,5 +97,9 @@ export class SpaceTypeService extends BaseService<SpaceType>
 
   get loadSpaceTypesFlag(): BehaviorSubject<void> {
     return this._loadSpaceTypesFlag;
+  }
+
+  get currentSpaceType(): BehaviorSubject<{ id: number; name: string }> {
+    return this._currentSpaceType;
   }
 }

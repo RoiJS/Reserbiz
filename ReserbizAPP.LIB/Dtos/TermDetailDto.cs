@@ -10,7 +10,11 @@ namespace ReserbizAPP.LIB.Dtos
         public string Code { get; set; }
         public string Name { get; set; }
 
+        public int TermParentId { get; set; }
+
         public int SpaceTypeId { get; set; }
+
+        public bool IsDeletable { get; set; }
 
         public SpaceTypeTermDetailDto SpaceType { get; set; }
 
@@ -67,6 +71,5 @@ namespace ReserbizAPP.LIB.Dtos
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
 
         public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }
-
     }
 }

@@ -328,7 +328,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Name = "Room (Studio Type)",
                     Description = "Id labore deserunt non mollit enim sit excepteur fugiat sit reprehenderit exercitation anim cupidatat elit.",
-                    AvailableSlot = 5,
                 }
             );
 
@@ -337,7 +336,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Name = "Bed Space",
                     Description = "Dolor consectetur dolor nisi eu proident.",
-                    AvailableSlot = 2,
                 }
             );
 
@@ -346,7 +344,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Name = "Condo",
                     Description = "Aliqua do excepteur cillum occaecat.",
-                    AvailableSlot = 3,
                 }
             );
 
@@ -355,7 +352,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Name = "Room (Non-Studio Type)",
                     Description = "Minim veniam sint sunt laboris ex aute ea esse in id cupidatat nisi duis.",
-                    AvailableSlot = 5,
                 }
             );
 

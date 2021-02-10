@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
@@ -10,7 +11,8 @@ namespace ReserbizAPP.LIB.Models
         public float Rate { get; set; }
         public int AvailableSlot { get; set; }
 
-        public Term Term { get; set; }
+        public List<Term> Terms { get; set; }
+        public List<Space> Spaces { get; set; }
 
         public bool IsDeletable
         {
@@ -18,8 +20,9 @@ namespace ReserbizAPP.LIB.Models
             {
                 // We can determine if space type can be 
                 // removed if it is not used, or in other words,
-                // it is not attached to any term yet
-                return (Term == null);
+                // it is not attached to any term or
+                // not even used on space  yet.
+                return (Terms.Count == 0 && Spaces.Count == 0);
             }
         }
 

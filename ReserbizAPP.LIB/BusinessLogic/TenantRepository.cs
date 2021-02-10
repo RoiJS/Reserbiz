@@ -66,5 +66,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             return await activeTenantsFromRepo.ToListAsync();
         }
+
+        public async Task<IEnumerable<Tenant>> GetTenantAsOptions()
+        {
+            return await _reserbizRepository.ClientDbContext.Tenants
+                                    .OrderBy(s => s.LastName)
+                                    .ToListAsync();
+        }
     }
 }

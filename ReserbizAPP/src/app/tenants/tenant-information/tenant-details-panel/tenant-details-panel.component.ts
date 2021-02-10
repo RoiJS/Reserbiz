@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { Tenant } from '@src/app/_models/tenant.model';
 
@@ -10,16 +10,7 @@ import { Tenant } from '@src/app/_models/tenant.model';
   styleUrls: ['./tenant-details-panel.component.scss'],
 })
 export class TenantDetailsPanelComponent implements OnInit {
-  @Input() currentTenant: Tenant;
-  constructor(private router: RouterExtensions) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  onNavigateToEditPage() {
-    this.router.navigate([`/tenants/${this.currentTenant.id}/edit`], {
-      transition: {
-        name: 'slideLeft',
-      },
-    });
-  }
 }

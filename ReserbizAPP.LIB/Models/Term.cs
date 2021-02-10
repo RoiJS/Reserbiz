@@ -14,6 +14,13 @@ namespace ReserbizAPP.LIB.Models
         // Name of the term.
         public string Name { get; set; }
 
+        public int? TermParentId { get; set; }
+
+        public virtual Term TermParent { get; set; }
+
+        public List<Term> TermChildren { get; set; }
+
+
         public int SpaceTypeId { get; set; }
 
         public SpaceType SpaceType { get; set; }
@@ -65,11 +72,13 @@ namespace ReserbizAPP.LIB.Models
 
         public List<Contract> Contracts { get; set; }
 
+        // Term is tagged as deletable if it has 
+        // no any children copy
         public bool IsDeletable
         {
             get
             {
-                return (this.Contracts.Count == 0);
+                return (this.TermChildren.Count == 0);
             }
         }
 
@@ -93,6 +102,7 @@ namespace ReserbizAPP.LIB.Models
         public Term()
         {
             Contracts = new List<Contract>();
+            TermChildren = new List<Term>();
         }
 
         public int? DeletedById { get; set; }

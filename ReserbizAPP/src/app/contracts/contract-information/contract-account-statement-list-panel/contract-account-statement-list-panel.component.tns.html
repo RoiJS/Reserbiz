@@ -1,0 +1,263 @@
+<ns-loader-layout [busy]="IsBusy">
+  <FlexBoxLayout flexDirection="column" width="100%" height="100%">
+    <!-- #Start Contract Account Statement List Setion -->
+    <StackLayout>
+      <StackLayout class="page-container contract-account-list-container">
+        <!-- #Start Account Statement Header Container -->
+        <FlexBoxLayout
+          class="page-container__page-divider contract-account-list-container__page-divider"
+          justifyContent="space-between"
+        >
+          <StackLayout
+            alignSelf="center"
+            orientation="horizontal"
+            verticalAlignment="middle"
+          >
+            <label
+              class="fa fa-solid m-r-10 contract-account-list-container__icon"
+              text="&#xf03a;"
+            ></label>
+            <label
+              alignSelf="center"
+              [text]="'ACCOUNT_STATEMENT_LIST.HEADER_LABEL' | translate"
+            ></label>
+          </StackLayout>
+
+          <button
+            alignSelf="center"
+            class="fa fa-solid page-container__page-command contract-account-list-container__button btn btn-primary btn-rounded-lg"
+            [ngClass]="{'contract-account-list-container__button--active': isFilterActive}"
+            (tap)="openFilterDialog()"
+            text="&#xf0b0;"
+          ></button>
+        </FlexBoxLayout>
+        <!-- #End -->
+
+        <RadListView
+          width="100%"
+          height="100%"
+          #appListView
+          class="app-list-container"
+          [items]="items"
+          selectionBehavior="Press"
+          multipleSelection="true"
+          pullToRefresh="true"
+          loadOnDemandMode="Auto"
+          loadOnDemandBufferSize="2"
+          (itemSelected)="selectItem($event.index, '/account-statement/:id')"
+          (itemDeselected)="deselectedItem($event)"
+          (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+          (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+        >
+          <ng-template tkListItemTemplate let-accountStatement="item">
+            <GridLayout
+              class="app-list-item-template contract-account-statement-item-template"
+              rows="*"
+              columns="100, *, *"
+            >
+              <!-- #Start Payment status section -->
+              <StackLayout
+                row="0"
+                column="0"
+                class="contract-account-statement-item-template__payment-status"
+                [ngClass]="{ 'contract-account-statement-item-template__payment-status--paid': accountStatement?.isFullyPaid, 'contract-account-statement-item-template__payment-status--unpaid': !accountStatement?.isFullyPaid  }"
+              >
+                <StackLayout
+                  orientation="horizontal"
+                  verticalAlignment="middle"
+                  horizontalAlignment="center"
+                  *ngIf="accountStatement?.isFullyPaid"
+                >
+                  <label text="&#xf00c;" class="fa fa-solid m-r-5"></label>
+                  <label
+                    [text]="'ACCOUNT_STATEMENT_LIST.STATUS.PAID' | translate"
+                  ></label>
+                </StackLayout>
+
+                <StackLayout
+                  orientation="horizontal"
+                  verticalAlignment="middle"
+                  horizontalAlignment="center"
+                  *ngIf="!accountStatement?.isFullyPaid"
+                >
+                  <label text="&#xf05e;" class="fa fa-solid m-r-5"></label>
+                  <label
+                    [text]="'ACCOUNT_STATEMENT_LIST.STATUS.UNPAID' | translate"
+                  ></label>
+                </StackLayout>
+              </StackLayout>
+              <!-- #End -->
+
+              <!-- #Start Date Detail Section -->
+              <StackLayout
+                row="0"
+                column="1"
+                orientation="horizontal"
+                verticalAlignment="middle"
+                horizontalAlignment="center"
+              >
+                <label
+                  text="&#xf073;"
+                  class="fa fa-solid m-r-5 contract-account-statement-item-template__icon"
+                ></label>
+                <label
+                  class="contract-account-statement-item-template__detail"
+                  [text]="accountStatement?.dueDateFormatted"
+                ></label>
+              </StackLayout>
+              <!-- #End -->
+
+              <!-- #Start Total Amount Section -->
+              <StackLayout
+                row="0"
+                column="2"
+                orientation="horizontal"
+                verticalAlignment="middle"
+                horizontalAlignment="center"
+              >
+                <label
+                  text="&#xf53d;"
+                  class="fa fa-solid m-r-5 contract-account-statement-item-template__icon"
+                ></label>
+                <label
+                  class="contract-account-statement-item-template__detail"
+                  [text]="accountStatement?.accountStatementTotalAmountFormatted"
+                ></label>
+              </StackLayout>
+              <!-- #End -->
+            </GridLayout>
+          </ng-template>
+        </RadListView>
+      </StackLayout>
+    </StackLayout>
+    <!-- #End -->
+
+    <!-- #Start Contract Account Statement Footer Details Section -->
+    <StackLayout class="contract-account-statement-list-footer">
+      <GridLayout rows="*, *" columns="*, 5, *">
+        <!-- #Start Total Amount Paid Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="0"
+          column="0"
+          class="contract-account-statement-list-footer__total-paid-amount-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-paid-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_PAID_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-paid-amount-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-paid-amount-section-detail"
+              [text]="totalPaidAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Total Amount Paid From Deposit Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="1"
+          column="0"
+          class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_PAID_AMOUNT_FROM_DEPOSIT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-paid-amount-from-deposit-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-detail"
+              [text]="totalPaidAmountFromDeposit"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Border Separator Section -->
+        <StackLayout
+          row="0"
+          column="1"
+          rowSpan="2"
+          class="contract-account-statement-list-footer__separator"
+        >
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Total Expected Amount Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="0"
+          column="2"
+          class="contract-account-statement-list-footer__total-expected-amount-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-expected-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-expected-amount-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-expected-amount-section-detail"
+              [text]="totalExpectedAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Total Expected Deposit Amount Section -->
+        <StackLayout
+          horizontalAlignment="center"
+          row="1"
+          column="2"
+          class="contract-account-statement-list-footer__total-expected-deposit-amount-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__total-expected-deposit-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_DEPOSIT_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-expected-deposit-amount-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__total-expected-deposit-amount-section-detail"
+              [text]="totalExpectedDepositAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+      </GridLayout>
+    </StackLayout>
+    <!-- #End -->
+  </FlexBoxLayout>
+</ns-loader-layout>

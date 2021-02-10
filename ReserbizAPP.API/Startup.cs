@@ -45,6 +45,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
             services.AddScoped(typeof(ISpaceTypeRepository<SpaceType>), typeof(SpaceTypeRepository));
+            services.AddScoped(typeof(ISpaceRepository<Space>), typeof(SpaceRepository));
             services.AddScoped(typeof(ITermRepository<Term>), typeof(TermRepository));
             services.AddScoped(typeof(ITermMiscellaneousRepository<TermMiscellaneous>), typeof(TermMiscellaneousRepository));
             services.AddScoped(typeof(IContractRepository<Contract>), typeof(ContractRepository));
@@ -56,6 +57,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
             services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
+            services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
 
             // Register IOptions pattern for AppSettings section
             services.Configure<IApplicationSettings>(Configuration.GetSection("AppSettings"));

@@ -1,0 +1,42 @@
+<ns-action-bar
+  [title]="'SETTINGS.ACTION_BAR_SECTION.TITLE' | translate"
+  [showBackButton]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa action-item-button"
+    (tap)="updateInformation()"
+  ></ActionItem>
+</ns-action-bar>
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%">
+    <StackLayout>
+      <RadDataForm
+        width="100%"
+        [source]="entityFormSource"
+        [isReadOnly]="isBusy"
+      >
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="'SETTINGS.FORM_CONTROL.ACCOUNT_STATEMENT_SETTINGS_GROUP.TITLE' | translate"
+          hidden="false"
+        >
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="generateAccountStatementDaysBeforeValue"
+            [displayName]="'SETTINGS.FORM_CONTROL.ACCOUNT_STATEMENT_SETTINGS_GROUP.CONTROLS.GENERATE_ACCOUNTSTATEMENT_DAYS.LABEL' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Numeric">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+                labelPosition="Left"
+                labelWidth="300"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+      </RadDataForm>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

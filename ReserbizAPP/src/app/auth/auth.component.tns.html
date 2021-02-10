@@ -6,15 +6,14 @@
   <StackLayout class="app-logo-container">
     <Label text="Reserbiz"></Label>
   </StackLayout>
-  <StackLayout class="login-form form" [formGroup]="form">
-    <StackLayout class="input-field">
+  <StackLayout class="login-form nt-form" [formGroup]="form">
+    <StackLayout class="nt-input input-field">
       <Label
         class="label"
         [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
-        [ngClass]="{ invalid: !emailControlIsValid }"
       ></Label>
       <TextField
-        class="input"
+        class="nt-input"
         returnKey="next"
         [autocorrection]="false"
         autocapitalizationType="none"
@@ -26,14 +25,14 @@
         *ngIf="!usernameControlIsValid"
       ></Label>
     </StackLayout>
-    <StackLayout class="input-field">
+    <StackLayout class="nt-input input-field">
       <label
         class="label"
         [text]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
         [ngClass]="{ invalid: !passwordControlIsValid }"
       ></label>
       <TextField
-        class="input"
+        class="nt-input"
         returnKey="done"
         [autocorrection]="false"
         autocapitalizationType="none"
@@ -48,13 +47,14 @@
         *ngIf="!passwordControlIsValid"
       ></label>
     </StackLayout>
-    <button
+    <Button
+      style="height: 45;"
       [text]="'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL' | translate"
-      class="btn btn-primary btn-rounded-lg"
+      class="nt-button -primary -rounded-lg"
       (tap)="onSubmit()"
       [isEnabled]="form.valid"
       *ngIf="!isLoading"
-    ></button>
+    ></Button>
     <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
   </StackLayout>
 </FlexBoxLayout>

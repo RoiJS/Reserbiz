@@ -44,7 +44,7 @@
       width="100%"
       height="100%"
       #appListView
-      class="app-list-container"
+      class="app-list-container nt-list-view"
       [items]="items"
       swipeActions="true"
       selectionBehavior="Press"
@@ -58,8 +58,8 @@
       <ng-template tkListItemTemplate let-tenant="item">
         <GridLayout
           class="tenant-detail app-list-item-template"
-          rows="*, *"
           columns="70, *"
+          rows="*, *"
         >
           <!-- Template for not selected tenant Item -->
           <StackLayout
@@ -67,7 +67,7 @@
             row="0"
             col="0"
             rowSpan="2"
-            class="m-r-10"
+            padding="0"
           >
             <StackLayout
               class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
@@ -82,7 +82,7 @@
             row="0"
             col="0"
             rowSpan="2"
-            class="m-r-10"
+            padding="0"
           >
             <StackLayout
               class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
@@ -102,12 +102,13 @@
             row="0"
             col="0"
             rowSpan="2"
-            class="m-r-10"
+            padding="0"
           >
             <StackLayout
               class="app-list-item-template__image-container"
               verticalAlignment="middle"
               [backgroundColor]="tenant.photoBackgroundColor"
+              padding="0"
             >
               <label
                 class="image"
@@ -123,6 +124,7 @@
             orientation="horizontal"
             row="0"
             col="1"
+            padding="0"
           >
             <StackLayout
               *ngIf="!tenant.isActive"
@@ -131,7 +133,12 @@
             <label class="fullname" [text]="tenant.fullName"></label>
           </StackLayout>
 
-          <StackLayout row="1" col="1">
+          <StackLayout
+            class="app-list-item-template__item-secondary-label"
+            row="1"
+            col="1"
+            padding="0"
+          >
             <label class="username" [text]="tenant.emailAddress"></label>
           </StackLayout>
         </GridLayout>
@@ -148,6 +155,7 @@
           id="itemSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
+          padding="0"
         >
           <button
             alignSelf="center"
@@ -155,6 +163,7 @@
             text="&#xf2ed;"
             [isEnabled]="isCurrentItemDeletable"
             (tap)="deleteSelectedItem()"
+            padding="0"
           ></button>
           <button
             alignSelf="center"
@@ -162,6 +171,7 @@
             text="&#xf00c;"
             (tap)="activateSelectedItem()"
             *ngIf="!isCurrentItemActive"
+            padding="0"
           ></button>
           <button
             alignSelf="center"
@@ -169,6 +179,7 @@
             text="&#xf05e;"
             (tap)="deactivateSelectedItem()"
             *ngIf="isCurrentItemActive"
+            padding="0"
           ></button>
         </FlexBoxLayout>
       </GridLayout>

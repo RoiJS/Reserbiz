@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TextField } from 'tns-core-modules/ui/text-field/text-field';
+import { TextField } from '@nativescript/core';
 
 @Injectable({
   providedIn: 'root'

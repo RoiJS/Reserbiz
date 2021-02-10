@@ -18,7 +18,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Day };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Day };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -33,7 +33,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Day };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Day };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -51,7 +51,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Week };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Week };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -66,7 +66,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Week };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Week };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -83,7 +83,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Month };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Month };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -98,7 +98,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Month };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Month };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -115,7 +115,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Quarter };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Quarter };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -130,7 +130,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Quarter };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Quarter };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -145,7 +145,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Year };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Year };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));
@@ -160,7 +160,7 @@ namespace ReserbizAPP.Tests
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");
-            var termObj = new TermForCreationDto { DurationUnit = DurationEnum.Year };
+            var termObj = new TermForManageDto { DurationUnit = DurationEnum.Year };
 
             // Act
             var result = durationRangeValueAttribute.GetValidationResult(value, new ValidationContext(termObj));

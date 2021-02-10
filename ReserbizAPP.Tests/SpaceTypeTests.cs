@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using ReserbizAPP.LIB.Models;
 
@@ -7,11 +8,12 @@ namespace ReserbizAPP.Tests
     public class SpaceTypeTests
     {
         [Test]
-        public void Should_ReturnIsDeleteableTrue_WhenSpaceTypeIsNotAttachedToAnyTerm()
+        public void Should_ReturnIsDeleteableTrue_WhenSpaceTypeIsNotAttachedToAnyTermAndSpace()
         {
             // Arrange
             var spaceTypeObject = new SpaceType();
-            spaceTypeObject.Term = null;
+            spaceTypeObject.Terms = new List<Term>();
+            spaceTypeObject.Spaces = new List<Space>();
 
             // Actions
             var result = spaceTypeObject.IsDeletable;
@@ -25,7 +27,31 @@ namespace ReserbizAPP.Tests
         {
             // Arrange
             var spaceTypeObject = new SpaceType();
-            spaceTypeObject.Term = new Term();
+            spaceTypeObject.Spaces = new List<Space>();
+            spaceTypeObject.Terms = new List<Term>()
+            {
+                new Term(),
+                new Term()
+            };
+
+            // Actions
+            var result = spaceTypeObject.IsDeletable;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_ReturnIsDeleteableFalse_WhenSpaceTypeIsAttachedToAnySpace()
+        {
+            // Arrange
+            var spaceTypeObject = new SpaceType();
+            spaceTypeObject.Terms = new List<Term>();
+            spaceTypeObject.Spaces = new List<Space>()
+            {
+                new Space(),
+                new Space()
+            };
 
             // Actions
             var result = spaceTypeObject.IsDeletable;

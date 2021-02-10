@@ -9,6 +9,8 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         Task<Term> GetTermAsync(int id);
         Task<IEnumerable<Term>> GetTermsAsync(string termKeywords);
+        Task<IEnumerable<Term>> GetTermsAsOptions();
+        Task<Term> DuplicateTerm(int termId);
         Task<bool> DeleteMultipleTermsAsync(List<int> termIds);
         bool CheckTermCodeIfExists(IList<Term> termList, int termId, string termCode);
     }

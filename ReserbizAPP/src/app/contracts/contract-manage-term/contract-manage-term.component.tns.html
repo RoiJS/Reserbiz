@@ -1,0 +1,47 @@
+<ns-action-bar
+  [title]="currentActionBarTitle"
+  [hasMenu]="false"
+  [overrideBackAction]="true"
+  (onNavigationBack)="navigateBack()"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa action-item-button"
+    (tap)="saveInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <Tabs
+    width="100%"
+    height="100%"
+    selectedIndex="0"
+    tabsPosition="bottom"
+    (selectedIndexChanged)="tabsIndexChanged($event)"
+  >
+    <TabStrip>
+      <TabStripItem>
+        <image src="font://&#xf570;" class="fa fa-solid"></image>
+        <label
+          [text]="'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.TERM_DETAILS' | translate"
+        ></label>
+      </TabStripItem>
+      <TabStripItem>
+        <image src="font://&#xf0ca;" class="fa fa-solid"></image>
+        <label
+          [text]="'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.ADD_MISCELLANEOUS' | translate"
+        ></label>
+      </TabStripItem>
+    </TabStrip>
+
+    <TabContentItem>
+      <ns-contract-manage-term-form
+        (onTermDetailsSaved)="onTermsDetailsSaved($event)"
+        (onCancelTermDetailsSaved)="onCancelTermDetailsSaved($event)"
+      ></ns-contract-manage-term-form>
+    </TabContentItem>
+    <TabContentItem>
+      <ns-contract-manage-term-miscellaneous></ns-contract-manage-term-miscellaneous>
+    </TabContentItem>
+  </Tabs>
+</ns-loader-layout>

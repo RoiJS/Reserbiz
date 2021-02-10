@@ -7,7 +7,7 @@ using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Models
 {
-    public class AccountStatement 
+    public class AccountStatement
         : Entity, IUserActionTracker
     {
         public int ContractId { get; set; }
@@ -36,7 +36,6 @@ namespace ReserbizAPP.LIB.Models
         public Account CreatedBy { get; set; }
         public int? DeactivatedById { get; set; }
         public Account DeactivatedBy { get; set; }
-
 
         private DateTime CurrentDateTime = DateTime.Now;
 
@@ -160,11 +159,27 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        
+        public float CalculatedDepositAmount
+        {
+            get
+            {
+                return CalculateDepositPaymentAmount();
+            }
+        }
+
+        public float CalculatedAdvancedPaymentAmount
+        {
+            get
+            {
+                return CalculateAdvancedPaymentAmount();
+            }
+        }
+
         public AccountStatement()
         {
             AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
             PaymentBreakdowns = new List<PaymentBreakdown>();
+            PenaltyBreakdowns = new List<PenaltyBreakdown>();
         }
 
         private DateTime GetPenaltyNextDueDate()
@@ -221,10 +236,10 @@ namespace ReserbizAPP.LIB.Models
             if (IsFirstAccountStatement)
             {
                 // Calculate the Advance Payment amount and add it to the total amount
-                totalAmount += Rate * AdvancedPaymentDurationValue;
+                totalAmount += CalculatedAdvancedPaymentAmount;
 
                 // Calculate the Deposit Payment amount and add it to the total amount
-                totalAmount += Rate * DepositPaymentDurationValue;
+                totalAmount += CalculatedDepositAmount;
             }
             else
             {
@@ -242,7 +257,10 @@ namespace ReserbizAPP.LIB.Models
 
         private bool IsFirstAccountStatementItem()
         {
-            var activeAccountStatements = Contract.AccountStatements.Where(a => a.IsActive).OrderBy(a => a.Id).ToList();
+            var activeAccountStatements = Contract.AccountStatements
+                                                .Where(a => a.IsActive)
+                                                .OrderBy(a => a.DueDate)
+                                                .ToList();
 
             return activeAccountStatements.Count == 1
                     || (activeAccountStatements.Count > 0 && activeAccountStatements[0].Id == Id);
@@ -252,6 +270,16 @@ namespace ReserbizAPP.LIB.Models
         {
             var totalAmount = PaymentBreakdowns.Sum(p => p.Amount);
             return totalAmount;
+        }
+
+        private float CalculateDepositPaymentAmount()
+        {
+            return Rate * DepositPaymentDurationValue;
+        }
+
+        private float CalculateAdvancedPaymentAmount()
+        {
+            return Rate * AdvancedPaymentDurationValue;
         }
     }
 }

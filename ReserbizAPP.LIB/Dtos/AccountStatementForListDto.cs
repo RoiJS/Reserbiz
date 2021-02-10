@@ -1,8 +1,9 @@
 using System;
+using ReserbizAPP.LIB.Interfaces;
 
 namespace ReserbizAPP.LIB.Dtos
 {
-    public class AccountStatementForListDto
+    public class AccountStatementForListDto : EntityPaginationListDto, IEntityDto
     {
         public int Id { get; set; }
         public int ContractId { get; set; }
@@ -17,5 +18,6 @@ namespace ReserbizAPP.LIB.Dtos
         public float CurrentAmountPaid { get; set; }
         public float CurrentBalance { get; set; }
         public bool IsFullyPaid { get; set; }
+        public string TenantName { get; set; }
     }
 }

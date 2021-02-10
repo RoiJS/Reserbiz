@@ -1,16 +1,23 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "esNext",
+    "module": "ESNext",
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
     "paths": {
       "@src/*": [
-        "src/*.tns.ts",
         "src/*.ts"
       ]
     }
   },
   "files": [
-    "src/main.tns.ts"
+    "src/main.tns.ts",
+    "src/tests/test.tns.ts"
+  ],
+  "include": [
+    "src/tests/*.test.tns.ts",
+    "src/tests/*.test.ts"
   ]
 }

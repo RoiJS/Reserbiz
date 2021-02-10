@@ -9,6 +9,8 @@ using System.Security.Claims;
 using System;
 using AutoMapper;
 using System.Collections.Generic;
+using ReserbizAPP.LIB.Enums;
+using System.Linq;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -17,16 +19,20 @@ namespace ReserbizAPP.API.Controllers
     [Route("api/[controller]")]
     public class PaymentBreakdownController : ReserbizBaseController
     {
+        private readonly IPaginationService _paginationService;
         private readonly IPaymentBreakdownRepository<PaymentBreakdown> _paymentBreakdownRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IMapper _mapper;
+        private readonly IContractRepository<Contract> _contractRepository;
 
         public PaymentBreakdownController(IPaymentBreakdownRepository<PaymentBreakdown> paymentBreakdownRepository,
-        IAccountStatementRepository<AccountStatement> accountStatementRepository, IMapper mapper)
+        IAccountStatementRepository<AccountStatement> accountStatementRepository, IContractRepository<Contract> contractRepository, IMapper mapper, IPaginationService paginationService)
         {
+            _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
             _paymentBreakdownRepository = paymentBreakdownRepository;
             _mapper = mapper;
+            _paginationService = paginationService;
         }
 
         [HttpPost("addPayment")]
@@ -43,17 +49,23 @@ namespace ReserbizAPP.API.Controllers
             {
                 ReceivedById = CurrentUserId,
                 Amount = paymentForCreationDto.Amount,
-                DateTimeReceived = paymentForCreationDto.DateTimeReceived
+                DateTimeReceived = paymentForCreationDto.DateTimeReceived,
+                Notes = paymentForCreationDto.Notes,
+                IsAmountFromDeposit = paymentForCreationDto.IsAmountFromDeposit,
             };
 
             _accountStatementRepository.SetCurrentUserId(CurrentUserId);
-            
+
             accountStatementFromRepo.PaymentBreakdowns.Add(newPaymentDetails);
 
             if (!await _accountStatementRepository.SaveChanges())
                 throw new Exception($"Saving payment details failed on save!");
 
-            var paymentFromRepo = await _paymentBreakdownRepository.GetEntity(newPaymentDetails.Id).Includes(p => p.ReceivedBy).ToObjectAsync();
+            var paymentFromRepo = await _paymentBreakdownRepository
+                                        .GetEntity(newPaymentDetails.Id)
+                                        .Includes(p => p.ReceivedBy)
+                                        .ToObjectAsync();
+
             var paymentDetailsToReturn = _mapper.Map<PaymentBreakdownForDetailsDto>(paymentFromRepo);
 
             return CreatedAtRoute(
@@ -66,7 +78,10 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("{id}", Name = "GetPaymentDetails")]
         public async Task<ActionResult<PaymentBreakdownForDetailsDto>> GetPaymentDetails(int id)
         {
-            var paymentFromRepo = await _paymentBreakdownRepository.GetEntity(id).Includes(p => p.ReceivedBy).ToObjectAsync();
+            var paymentFromRepo = await _paymentBreakdownRepository
+                                        .GetEntity(id)
+                                        .Includes(p => p.ReceivedBy)
+                                        .ToObjectAsync();
 
             if (paymentFromRepo == null)
                 return NotFound("Payment details not found.");
@@ -76,18 +91,31 @@ namespace ReserbizAPP.API.Controllers
             return Ok(paymentDetailsToReturn);
         }
 
-        [HttpGet("getPaymentsPerAccountStatement/{accountStatementId}")]
-        public async Task<ActionResult<IEnumerable<PaymentBreakdownForDetailsDto>>> GetPaymentsPerAccountStatement(int accountStatementId)
+        [HttpGet("getPaymentsPerAccountStatement")]
+        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
         {
-            var accountStatementFromRepo = await _accountStatementRepository.GetEntity(accountStatementId)
-                                                                            .Includes(a => a.PaymentBreakdowns)
-                                                                            .ToObjectAsync();
-            if (accountStatementFromRepo == null)
-                return NotFound("Account Statement not found.");
+            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsAsync(accountStatementId, sortOrder);
 
-            var paymentDetailsListToReturn = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(accountStatementFromRepo.PaymentBreakdowns);
+            var mappedPaymentDetails = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(paymentBreakdownsFromRepo);
 
-            return Ok(paymentDetailsListToReturn);
+            var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<PaymentPaginationListDto>(mappedPaymentDetails, page);
+
+            await CalculatePaginationTotalAmounts(contractId, entityPaginationListDto, paymentBreakdownsFromRepo);
+
+            return Ok(entityPaginationListDto);
+        }
+
+        private async Task CalculatePaginationTotalAmounts(int contractId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        {
+            var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
+
+            entityPaginationListDto.TotalAmount = _accountStatementRepository.CalculateTotalAmountPaid(paymentBreakdowns);
+
+            entityPaginationListDto.TotalAmountFromDeposit = _accountStatementRepository.CalculateTotalAmountPaidUsingDeposit(paymentBreakdowns);
+
+            entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
+
+            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(firstAccountStatement, entityPaginationListDto.DepositedAmountBalance);
         }
     }
 }

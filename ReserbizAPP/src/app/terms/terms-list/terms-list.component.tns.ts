@@ -1,14 +1,17 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
+import { TranslateService } from '@ngx-translate/core';
+import { RouterExtensions } from '@nativescript/angular';
+
 import { TermService } from '@src/app/_services/term.service';
+import { DialogService } from '@src/app/_services/dialog.service';
+
 import { Term } from '@src/app/_models/term.model';
 
 import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
-import { DialogService } from '@src/app/_services/dialog.service';
-import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'ns-terms-list',

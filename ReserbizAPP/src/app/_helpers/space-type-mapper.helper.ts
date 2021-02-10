@@ -1,9 +1,10 @@
 import { IBaseEntityMapper } from '../_interfaces/ibase-entity-mapper.interface';
 import { IBaseDtoEntityMapper } from '../_interfaces/ibase-dto-entity-mapper.interface';
+
 import { SpaceType } from '../_models/space-type.model';
 import { SpaceTypeFormSource } from '../_models/space-type-form.model';
+
 import { SpaceTypeDto } from '../_dtos/space-type.dto';
-import { SpaceTypeOption } from '../_models/space-type-option.model';
 
 export class SpaceTypeMapper
   implements
@@ -22,7 +23,7 @@ export class SpaceTypeMapper
   }
 
   initFormSource(): SpaceTypeFormSource {
-    const spaceTypFormSource = new SpaceTypeFormSource('', '', 0, 0);
+    const spaceTypFormSource = new SpaceTypeFormSource('', '', 0);
     return spaceTypFormSource;
   }
 
@@ -30,8 +31,7 @@ export class SpaceTypeMapper
     const spaceTypeForCreate = new SpaceTypeDto(
       std.name,
       std.description,
-      std.rate,
-      std.availableSlot
+      std.rate
     );
     return spaceTypeForCreate;
   }
@@ -40,8 +40,7 @@ export class SpaceTypeMapper
     const spaceTypeFormSource = new SpaceTypeFormSource(
       spaceType.name,
       spaceType.description,
-      spaceType.rate,
-      spaceType.availableSlot
+      spaceType.rate
     );
 
     return spaceTypeFormSource;

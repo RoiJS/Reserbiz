@@ -215,7 +215,7 @@
               [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
               index="0"
               columnIndex="1"
-              [readOnly]="termDetailsForm.excludeElectricBill"
+              [readOnly]="!termDetailsForm.excludeElectricBill"
             >
               <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
                 <TKPropertyEditorStyle
@@ -246,7 +246,7 @@
               [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
               index="1"
               columnIndex="1"
-              [readOnly]="termDetailsForm.excludeWaterBill"
+              [readOnly]="!termDetailsForm.excludeWaterBill"
             >
               <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
                 <TKPropertyEditorStyle

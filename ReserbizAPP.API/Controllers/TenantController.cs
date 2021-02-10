@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -53,6 +54,16 @@ namespace ReserbizAPP.API.Controllers
             var tenantToReturn = _mapper.Map<TenantDetailsDto>(tenantInfo);
 
             return Ok(tenantToReturn);
+        }
+
+        [HttpGet("getTenantAsOptions")]
+        public async Task<ActionResult<IEnumerable<TenantOptionDto>>> GetSpaceTypesAsOptions()
+        {
+            var tenantsFromRepo = await _tenantRepository.GetTenantAsOptions();
+
+            var tenantsOptions = _mapper.Map<IEnumerable<TenantOptionDto>>(tenantsFromRepo);
+
+            return Ok(tenantsOptions);
         }
 
         [HttpGet]
@@ -129,12 +140,27 @@ namespace ReserbizAPP.API.Controllers
             if (tenantFromRepo == null)
                 return NotFound("Tenant does not exists!");
 
-            _tenantRepository.DeleteEntity(tenantFromRepo);
+            _tenantRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(tenantFromRepo);
 
             if (await _tenantRepository.SaveChanges())
                 return NoContent();
 
             throw new Exception($"Error when deleting tenant with id of ${tenantId}!");
+        }
+
+        [HttpGet("getActiveTenantsCount")]
+        public async Task<ActionResult<int>> GetActiveTenantsCount()
+        {
+            var activeTenantsFromRepo = await _tenantRepository.GetAllEntities()
+                                                               .ToListObjectAsync();
+
+            var activeTenantsFromRepoCount = activeTenantsFromRepo
+                                                .Where(a => a.IsActive)
+                                                .Count();
+
+            return Ok(activeTenantsFromRepoCount);
         }
     }
 }
