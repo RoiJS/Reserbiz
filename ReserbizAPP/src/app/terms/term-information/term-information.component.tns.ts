@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
-import { Page } from 'tns-core-modules/ui/page';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { Page } from '@nativescript/core';
 
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';

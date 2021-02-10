@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { Tenant } from '@src/app/_models/tenant.model';
 import { ContactPerson } from '@src/app/_models/contact-person.model';

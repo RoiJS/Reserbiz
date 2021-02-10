@@ -1,13 +1,19 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { DialogService } from '@src/app/_services/dialog.service';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 import { TranslateService } from '@ngx-translate/core';
+
+import { DialogService } from '@src/app/_services/dialog.service';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
+
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
+
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
+
 import { TermMiscellaneousDto } from '@src/app/_dtos/term-miscellaneous.dto';
+
 import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+
 import { TermMiscellaneousMapper } from '@src/app/_helpers/term-miscellaneous-mapper.helper';
 import { take, finalize } from 'rxjs/operators';
 

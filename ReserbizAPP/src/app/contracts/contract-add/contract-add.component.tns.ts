@@ -1,10 +1,10 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
+import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { DataFormEventData } from 'nativescript-ui-dataform';
-import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 import { ContractDetailsFormSource } from '@src/app/_models/contract-details-form.model';
 import { Contract } from '@src/app/_models/contract.model';

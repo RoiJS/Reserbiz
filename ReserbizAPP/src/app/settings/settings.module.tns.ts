@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -8,6 +8,7 @@ import { SettingsComponent } from './settings.component';
 
 @NgModule({
   imports: [SharedModule, SettingsRoutingModule],
-  declarations: [SettingsComponent]
+  declarations: [SettingsComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class SettingsModule {}

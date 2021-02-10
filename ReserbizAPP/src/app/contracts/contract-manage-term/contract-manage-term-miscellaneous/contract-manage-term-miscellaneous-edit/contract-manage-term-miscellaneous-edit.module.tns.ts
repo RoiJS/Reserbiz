@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { NativeScriptRouterModule } from 'nativescript-angular/router';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
 import { ContractManageTermMiscellaneousEditComponent } from './contract-manage-term-miscellaneous-edit.component';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '@src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,5 +15,6 @@ import { SharedModule } from '../../../../shared/shared.module';
     SharedModule,
   ],
   declarations: [ContractManageTermMiscellaneousEditComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class ContractManageTermMiscellaneousEditModule {}

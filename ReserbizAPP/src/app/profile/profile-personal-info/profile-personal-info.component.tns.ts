@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { AuthService } from '@src/app/_services/auth.service';
 import { DialogService } from '@src/app/_services/dialog.service';
@@ -16,7 +16,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
 import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 @Component({
   selector: 'ns-profile',

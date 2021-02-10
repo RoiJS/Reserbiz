@@ -8,15 +8,15 @@
       <TKEntityProperty
         tkDataFormProperty
         name="month"
-        [displayName]="'Month:'"
+        [displayName]="'DASHBOARD.BODY_SECTION.UPCOMING_CONTRACT_DUE_DATES_WIDGET.MONTH' | translate"
         [valuesProvider]="monthOptions"
       >
         <TKPropertyEditor tkEntityPropertyEditor type="Picker">
           <TKPropertyEditorStyle
             tkPropertyEditorStyle
-            labelTextSize="14"
             labelPosition="Left"
             labelWidth="60"
+            labelVerticalOffset="25"
           ></TKPropertyEditorStyle>
         </TKPropertyEditor>
       </TKEntityProperty>

@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular';
-import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';

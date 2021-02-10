@@ -3,8 +3,8 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, take } from 'rxjs/operators';
 
-import { Page } from 'tns-core-modules/ui/page';
-import { PageRoute, RouterExtensions } from 'nativescript-angular';
+import { Page } from '@nativescript/core';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
@@ -102,13 +102,11 @@ export class SpaceEditComponent
   }
 
   updateInformation() {
-    (async () => {
-      const isFormValid = await this.validateForm();
-
+    this.validateForm().then((isFormValid: boolean) => {
       if (isFormValid) {
         super.updateInformation();
       }
-    })();
+    });
   }
 
   async validateForm(): Promise<boolean> {

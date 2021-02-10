@@ -9,7 +9,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { AddTenantService } from '@src/app/_services/add-tenant.service';
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';

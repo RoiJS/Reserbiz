@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { NativeScriptRouterModule } from 'nativescript-angular';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SpaceAddComponent } from './space-add.component';
@@ -12,5 +12,6 @@ import { SpaceAddComponent } from './space-add.component';
     SharedModule,
   ],
   declarations: [SpaceAddComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class SpaceAddModule {}

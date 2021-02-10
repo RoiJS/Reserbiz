@@ -11,8 +11,6 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 import { Injector } from '@angular/core';
 
-import { NS_COMPILER_PROVIDERS } from 'nativescript-angular/platform';
-
 import { Observable, of } from 'rxjs';
 
 import { Contract } from '@src/app/_models/contract.model';
@@ -35,7 +33,7 @@ describe('Contract Model Test Suite', () => {
 
     TestBed.initTestEnvironment(
       BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(NS_COMPILER_PROVIDERS)
+      platformBrowserDynamicTesting()
     );
 
     TestBed.configureTestingModule({

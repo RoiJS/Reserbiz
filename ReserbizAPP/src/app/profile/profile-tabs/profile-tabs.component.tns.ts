@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page } from '@nativescript/core';
 
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 @Component({
   selector: 'ns-profile-tabs',

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { ModalDialogParams } from 'nativescript-angular';
+import { ModalDialogParams } from '@nativescript/angular';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 

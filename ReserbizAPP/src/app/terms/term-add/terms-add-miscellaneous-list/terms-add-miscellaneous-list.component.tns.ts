@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 import { ActivatedRoute } from '@angular/router';
 
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
+import { ObservableArray } from '@nativescript/core';
+import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 import { Subscription } from 'rxjs';
 
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';

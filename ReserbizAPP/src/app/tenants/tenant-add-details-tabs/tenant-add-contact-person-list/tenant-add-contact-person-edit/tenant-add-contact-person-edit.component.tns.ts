@@ -1,16 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 import { TranslateService } from '@ngx-translate/core';
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';
+
 import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
+
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
+
 import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+
 import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
 
 @Component({

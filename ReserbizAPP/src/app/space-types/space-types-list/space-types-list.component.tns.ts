@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 

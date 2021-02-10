@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { Contract } from '@src/app/_models/contract.model';
@@ -18,14 +18,15 @@ import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.in
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { ObservableArray } from 'tns-core-modules/data/observable-array';
+import { ObservableArray } from '@nativescript/core';
 
 @Component({
   selector: 'ns-contract-event-list-panel',
   templateUrl: './contract-event-list-panel.component.html',
   styleUrls: ['./contract-event-list-panel.component.scss'],
 })
-export class ContractEventListPanelComponent extends BaseListComponent<Contract>
+export class ContractEventListPanelComponent
+  extends BaseListComponent<Contract>
   implements IBaseListComponent, OnInit, OnDestroy, OnChanges {
   @Input() contractEventListItems: Contract[];
 

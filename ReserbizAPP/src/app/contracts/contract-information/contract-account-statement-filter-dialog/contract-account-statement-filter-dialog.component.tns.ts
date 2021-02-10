@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { ModalDialogParams } from 'nativescript-angular';
+import { ModalDialogParams } from '@nativescript/angular';
 
 import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
 

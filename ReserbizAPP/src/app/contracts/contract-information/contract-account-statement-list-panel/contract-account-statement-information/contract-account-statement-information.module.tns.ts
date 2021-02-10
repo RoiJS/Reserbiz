@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   NativeScriptFormsModule,
   NativeScriptRouterModule,
-} from 'nativescript-angular';
+} from '@nativescript/angular';
 
 import { ContractAccountStatementInformationComponent } from './contract-account-statement-information.component';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '@src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -32,5 +32,6 @@ import { SharedModule } from '../../../../shared/shared.module';
     SharedModule,
   ],
   declarations: [ContractAccountStatementInformationComponent],
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class ContractAccountStatementInformationModule {}

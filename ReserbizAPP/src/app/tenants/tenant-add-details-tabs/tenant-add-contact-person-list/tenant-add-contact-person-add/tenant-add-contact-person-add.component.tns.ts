@@ -1,18 +1,22 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';
+
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
+
 import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.helper';
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
 import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+
+import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
 
 @Component({
   selector: 'ns-tenant-add-contact-person-add',

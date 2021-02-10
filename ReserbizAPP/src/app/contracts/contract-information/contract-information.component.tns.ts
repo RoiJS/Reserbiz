@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 

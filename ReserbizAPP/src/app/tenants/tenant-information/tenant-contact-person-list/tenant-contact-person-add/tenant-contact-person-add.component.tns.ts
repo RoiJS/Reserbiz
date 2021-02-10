@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 

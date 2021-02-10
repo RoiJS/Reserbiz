@@ -3,12 +3,13 @@ import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
+import { ObservableArray } from '@nativescript/core';
+
 import { ListViewEventData } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 
 import { Subscription } from 'rxjs';
-import { ObservableArray } from 'tns-core-modules/data/observable-array';
 
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';

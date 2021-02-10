@@ -4,12 +4,9 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
 } from '@angular/core';
-import { isAndroid } from 'tns-core-modules/platform';
-import { Page } from 'tns-core-modules/ui/page/page';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { isAndroid, Page } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { UIService } from '../../../_services/ui.service';
 

@@ -15,7 +15,7 @@ import {
   ModalDialogService,
   PageRoute,
   RouterExtensions,
-} from 'nativescript-angular';
+} from '@nativescript/angular';
 
 import { finalize } from 'rxjs/operators';
 

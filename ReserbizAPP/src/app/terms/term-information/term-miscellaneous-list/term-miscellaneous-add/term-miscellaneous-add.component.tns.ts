@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 
-import { RouterExtensions, PageRoute } from 'nativescript-angular/router';
+import { RouterExtensions, PageRoute } from '@nativescript/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 

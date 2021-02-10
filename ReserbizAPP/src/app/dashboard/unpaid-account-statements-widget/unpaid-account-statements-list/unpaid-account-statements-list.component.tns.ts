@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular';
+import { RouterExtensions } from '@nativescript/angular';
 
-import { ObservableArray } from 'tns-core-modules/data/observable-array';
+import { ObservableArray } from '@nativescript/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';

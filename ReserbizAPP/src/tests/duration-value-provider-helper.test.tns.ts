@@ -12,7 +12,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { NS_COMPILER_PROVIDERS } from 'nativescript-angular/platform';
 
 import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
 
@@ -31,7 +30,7 @@ describe('Duration Value Provider Helper Test Suite', () => {
 
     TestBed.initTestEnvironment(
       BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(NS_COMPILER_PROVIDERS)
+      platformBrowserDynamicTesting()
     );
 
     TestBed.configureTestingModule({

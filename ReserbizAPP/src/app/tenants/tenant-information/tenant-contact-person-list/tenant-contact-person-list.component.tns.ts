@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 

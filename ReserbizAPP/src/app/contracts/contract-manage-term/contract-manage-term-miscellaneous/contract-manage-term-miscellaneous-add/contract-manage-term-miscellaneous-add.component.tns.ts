@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';

@@ -1,11 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Routes } from '@angular/router';
 
-import { NativeScriptRouterModule } from 'nativescript-angular/router';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
-import { ProfileTabsComponent } from './profile-tabs/profile-tabs.component';
-import { ProfileAccountInfoComponent } from './profile-account-info/profile-account-info.component';
-import { ProfilePersonalInfoComponent } from './profile-personal-info/profile-personal-info.component';
 import { ProfileInformationComponent } from './profile-information/profile-information.component';
 
 const routes: Routes = [
@@ -32,5 +29,6 @@ const routes: Routes = [
 @NgModule({
   imports: [NativeScriptRouterModule.forChild(routes)],
   exports: [NativeScriptRouterModule],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class ProfileRoutingModule {}

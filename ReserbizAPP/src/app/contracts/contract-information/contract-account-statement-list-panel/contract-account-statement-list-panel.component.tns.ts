@@ -11,8 +11,7 @@ import {
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
-import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular';
+import { RouterExtensions, ModalDialogOptions, ModalDialogService } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { ContractAccountStatementFilterDialogComponent } from '../contract-account-statement-filter-dialog/contract-account-statement-filter-dialog.component';

@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { Page } from '@nativescript/core';
 
 import { finalize, take } from 'rxjs/operators';
 

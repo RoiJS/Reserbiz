@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
+import { RouterExtensions } from '@nativescript/angular';
+
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
 import { AuthService } from '@src/app/_services/auth.service';
@@ -12,7 +14,6 @@ import { User } from '@src/app/_models/user.model';
 import { UserAccountInfoFormSource } from '@src/app/_models/user-account-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
-import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'ns-profile-account-info',

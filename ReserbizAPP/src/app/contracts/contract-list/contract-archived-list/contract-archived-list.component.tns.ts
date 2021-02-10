@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 import {
   ListViewEventData,
@@ -26,6 +26,7 @@ import { SpaceService } from '@src/app/_services/space.service';
 import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
 import { Contract } from '@src/app/_models/contract.model';
+import { Space } from '@src/app/_models/space.model';
 
 @Component({
   selector: 'ns-contract-archived-list',
@@ -131,30 +132,28 @@ export class ContractArchivedListComponent
   }
 
   activateSelectedItem() {
-    (async () => {
-      const space = await this.spaceService
-        .getSpace(this._currentItem.spaceId)
-        .toPromise();
+    this.spaceService
+      .getSpace(this._currentItem.spaceId)
+      .subscribe((space: Space) => {
+        const isSpaceStillAvailable =
+          space.isNotOccupied &&
+          space.occupiedByContractId !== this._currentItem.id;
 
-      const isSpaceStillAvailable =
-        space.isNotOccupied &&
-        space.occupiedByContractId !== this._currentItem.id;
+        // Check the availability of space attached to the contract
+        if (!isSpaceStillAvailable) {
+          this.dialogService.alert(
+            this.translateService.instant(
+              'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'
+            ),
+            this.translateService.instant(
+              'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.ERROR_MESSAGE'
+            )
+          );
+          return;
+        }
 
-      // Check the availability of space attached to the contract
-      if (!isSpaceStillAvailable) {
-        this.dialogService.alert(
-          this.translateService.instant(
-            'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'
-          ),
-          this.translateService.instant(
-            'CONTRACT_ARCHIVED_LIST_PAGE.ARCHIVED_FAILED_DIALOG.ERROR_MESSAGE'
-          )
-        );
-        return;
-      }
-
-      super.activateSelectedItem();
-    })();
+        super.activateSelectedItem();
+      });
   }
 
   get expiredContractsCount(): number {

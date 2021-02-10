@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { TenantService } from '@src/app/_services/tenant.service';
 import { DialogService } from '@src/app/_services/dialog.service';

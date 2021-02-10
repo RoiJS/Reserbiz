@@ -1,5 +1,11 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  NgZone,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -8,13 +14,15 @@ import { ListViewEventData } from 'nativescript-ui-listview';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { ObservableArray } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
+import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';
 import { DialogService } from '@src/app/_services/dialog.service';
+
 import { ContactPerson } from '@src/app/_models/contact-person.model';
+
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 @Component({
@@ -53,15 +61,19 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
 
   getContactPersonList() {
     this._isBusy = true;
+
     setTimeout(() => {
-      this._contactPersonListSub = this.addContactPersonsService.entityList
-        .asObservable()
-        .subscribe((contactPersons: ContactPerson[]) => {
+      this._contactPersonListSub = this.addContactPersonsService.entityList.subscribe(
+        (contactPersons: ContactPerson[]) => {
           this._isBusy = false;
           this._contactPersons = new ObservableArray<ContactPerson>(
             contactPersons
           );
-        });
+          setTimeout(() => {
+            this.contactPersonView.listView.refresh();
+          }, 1000);
+        }
+      );
     }, 500);
   }
 

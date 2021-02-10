@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
@@ -69,13 +69,11 @@ export class SpaceAddComponent
   }
 
   saveNewInformation() {
-    (async () => {
-      const isFormValid = await this.validateForm();
-
+    this.validateForm().then((isFormValid: boolean) => {
       if (isFormValid) {
         super.saveNewInformation();
       }
-    })();
+    });
   }
 
   async validateForm(): Promise<boolean> {

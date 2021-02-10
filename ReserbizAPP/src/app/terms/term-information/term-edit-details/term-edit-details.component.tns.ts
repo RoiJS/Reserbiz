@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { PageRoute, RouterExtensions } from 'nativescript-angular/router';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { DataFormEventData } from 'nativescript-ui-dataform';

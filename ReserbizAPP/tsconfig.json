@@ -2,23 +2,21 @@
     "compileOnSave": false,
     "compilerOptions": {
         "outDir": "./dist/out-tsc",
-        "declaration": false,
-        "module": "esNext",
+        "module": "ESNext",
+        "target": "es2015",
         "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
+        "sourceMap": true,
+        "declaration": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "downlevelIteration": true,
-        "target": "es5",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
+        "noEmitHelpers": true,
+        "noEmitOnError": true,
+        "skipLibCheck": true,
         "lib": [
             "es2017",
             "dom",
-            "es6",
-            "es2015.iterable"
+            "es6"
         ],
         "baseUrl": ".",
         "paths": {
@@ -32,6 +30,7 @@
             "~/*": [
                 "src/*"
             ]
-        }
+        },
+        "removeComments": false
     }
 }

@@ -11,7 +11,7 @@
   ></ActionItem>
 </ns-action-bar>
 
-<ns-loader-layout [busy]="IsBusy">
+<ns-loader-layout [busy]="isBusy">
   <StackLayout width="100%" class="page-container">
     <StackLayout class="panel">
       <RadDataForm
@@ -19,7 +19,7 @@
         height="100%"
         #termForm
         [source]="entityFormSource"
-        [isReadOnly]="IsBusy"
+        [isReadOnly]="isBusy"
         (propertyCommitted)="onPropertyCommitted($event)"
       >
         <TKPropertyGroup

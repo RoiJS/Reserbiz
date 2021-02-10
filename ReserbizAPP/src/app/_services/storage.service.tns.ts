@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
-import * as appSettings from 'tns-core-modules/application-settings';
+import { ApplicationSettings } from '@nativescript/core';
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
   constructor() {}
 
   storeString(key: string, value: string) {
-    appSettings.setString(key, value);
+    ApplicationSettings.setString(key, value);
   }
 
   hasKey(key: string) {
-    return appSettings.hasKey(key);
+    return ApplicationSettings.hasKey(key);
   }
 
   getString(key: string) {
-    return appSettings.getString(key);
+    return ApplicationSettings.getString(key);
   }
 
   remove(key: string) {
-    appSettings.remove(key);
+    ApplicationSettings.remove(key);
   }
 }

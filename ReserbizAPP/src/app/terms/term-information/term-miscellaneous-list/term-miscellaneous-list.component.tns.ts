@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RouterExtensions, PageRoute } from 'nativescript-angular/router';
+import { RouterExtensions, PageRoute } from '@nativescript/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { DialogService } from '@src/app/_services/dialog.service';

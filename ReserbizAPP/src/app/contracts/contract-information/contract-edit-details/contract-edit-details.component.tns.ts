@@ -4,8 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { skip } from 'rxjs/operators';
 
-import { PageRoute, RouterExtensions } from 'nativescript-angular';
-import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
+import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';

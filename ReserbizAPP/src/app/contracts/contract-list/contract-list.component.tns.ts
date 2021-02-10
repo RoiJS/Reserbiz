@@ -9,11 +9,7 @@ import {
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from 'nativescript-angular/router';
-import {
-  ModalDialogService,
-  ModalDialogOptions,
-} from 'nativescript-angular/modal-dialog';
+import { RouterExtensions, ModalDialogService, ModalDialogOptions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 

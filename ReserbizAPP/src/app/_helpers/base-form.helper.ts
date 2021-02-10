@@ -1,6 +1,6 @@
 import { BaseForm } from '../_models/base-form.model';
 
-import { ios } from 'tns-core-modules/application';
+import { isIOS } from '@nativescript/core';
 
 declare var NSDateFormatter: any;
 declare var java: any;
@@ -25,7 +25,7 @@ export abstract class BaseFormHelper<
   // Unfortunately, date control offerred by RadDataForm does not support
   // Date Formatting so this is a native way to format date.
   protected changeDateFormatting(editor: any) {
-    if (ios) {
+    if (isIOS) {
       const dateFormatter = NSDateFormatter.alloc().init();
       dateFormatter.dateFormat = 'MM/dd/yyyy';
       editor.dateFormatter = dateFormatter;

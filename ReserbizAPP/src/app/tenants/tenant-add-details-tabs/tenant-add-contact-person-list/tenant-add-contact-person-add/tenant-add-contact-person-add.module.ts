@@ -1,8 +1,9 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { TenantAddContactPersonAddComponent } from './tenant-add-contact-person-add.component';
-import { NativeScriptRouterModule } from 'nativescript-angular/router';
+import { NativeScriptRouterModule } from '@nativescript/angular';
 
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '@src/app/shared/shared.module';
+
+import { TenantAddContactPersonAddComponent } from './tenant-add-contact-person-add.component';
 
 @NgModule({
   imports: [

@@ -3,8 +3,10 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { RouterExtensions } from '@nativescript/angular';
+
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
-import { RouterExtensions } from 'nativescript-angular/router';
+
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 import { EntityFilter } from '@src/app/_models/entity-filter.model';
 

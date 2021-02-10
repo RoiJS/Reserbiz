@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { Term } from '@src/app/_models/term.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ns-term-details-panel',

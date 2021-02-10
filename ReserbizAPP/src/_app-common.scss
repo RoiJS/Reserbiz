@@ -17,7 +17,7 @@
 /*#endregion*/
 
 /*#region ACTION BAR CLASSES*/
-.action-bar {
+.nt-action-bar {
   .action-item-button {
     font-size: 7;
   }
@@ -41,8 +41,8 @@
 /*#endregion*/
 
 /*#region SIDE DRAWER CLASSES*/
-$sidedrawer-header-image-size: 60;
-$sidedrawer-header-image-offset-top: 20;
+$sidedrawer-header-image-size: 100;
+$sidedrawer-header-image-offset-top: 10;
 $sidedrawer-header-image-offset-bottom: 5;
 $sidedrawer-list-item-offset-left: 15;
 $sidedrawer-list-icon-offset: 10;
@@ -250,6 +250,7 @@ $sidedrawer-list-icon-size: 20;
     }
 
     &__item-secondary-label {
+      font-size: 13;
       font-weight: bold;
     }
 
@@ -269,11 +270,11 @@ $sidedrawer-list-icon-size: 20;
     }
 
     &__option {
-      width: 50;
-      height: 50;
+      width: 60;
+      height: 60;
       margin-right: 5;
       margin-left: 5;
-      border-radius: 50%;
+      border-radius: 100%;
       font-size: 20;
       background-color: white;
     }
@@ -342,5 +343,13 @@ $sidedrawer-list-icon-size: 20;
     font-size: 15;
     text-align: center;
   }
+}
+/*#endregion*/
+
+/*#region DATAFORM GLOBAL CLASSES*/
+DataFormEditorLabel {
+  font-size: 16;
+  font-weight: bold;
+  color: black;
 }
 /*#endregion*/

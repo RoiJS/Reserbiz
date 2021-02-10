@@ -9,14 +9,14 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { RouterExtensions } from 'nativescript-angular/router';
-import { RadSideDrawerComponent } from 'nativescript-ui-sidedrawer/angular/side-drawer-directives';
+import { RouterExtensions } from '@nativescript/angular';
+import { RadSideDrawerComponent } from 'nativescript-ui-sidedrawer/angular';
 import {
   RadSideDrawer,
   DrawerTransitionBase,
   SlideInOnTopTransition,
 } from 'nativescript-ui-sidedrawer';
-import * as app from 'tns-core-modules/application';
+import { Application } from '@nativescript/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { filter } from 'rxjs/operators';
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private _currentUsername: string;
 
   private activatedUrl: string;
-  private sideDrawerTransition: DrawerTransitionBase;
+  private _sideDrawerTransition: DrawerTransitionBase;
 
   constructor(
     private authService: AuthService,
@@ -88,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.activatedUrl = '/dashboard';
       this.mainMenuList = this.sideDrawerService.mainMenu;
-      this.sideDrawerTransition = new SlideInOnTopTransition();
+      this._sideDrawerTransition = new SlideInOnTopTransition();
 
       this.router.events
         .pipe(filter((event: any) => event instanceof NavigationEnd))
@@ -136,7 +136,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     });
 
-    const sideDrawer = <RadSideDrawer>app.getRootView();
+    const sideDrawer = <RadSideDrawer>(<any>Application.getRootView());
     sideDrawer.closeDrawer();
   }
 
@@ -146,5 +146,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get currentUsername(): string {
     return this._currentUsername;
+  }
+
+  get sideDrawerTransition(): DrawerTransitionBase {
+    return this._sideDrawerTransition;
   }
 }

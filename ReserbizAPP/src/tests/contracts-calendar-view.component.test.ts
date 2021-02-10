@@ -3,10 +3,10 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { NS_COMPILER_PROVIDERS } from 'nativescript-angular/platform';
+
+import { nsTestBedRender } from '@nativescript/angular/testing';
 
 import { ContractsCalendarViewModule } from '@src/app/contracts/contract-list/contracts-calendar-view/contracts-calendar-view.module';
-import { nsTestBedRender } from 'nativescript-angular/testing';
 import { ContractsCalendarViewComponent } from '@src/app/contracts/contract-list/contracts-calendar-view/contracts-calendar-view.component';
 
 describe('Contracts Calendar View Component Test Suite', () => {
@@ -15,7 +15,7 @@ describe('Contracts Calendar View Component Test Suite', () => {
 
     TestBed.initTestEnvironment(
       BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(NS_COMPILER_PROVIDERS)
+      platformBrowserDynamicTesting()
     );
 
     TestBed.configureTestingModule({

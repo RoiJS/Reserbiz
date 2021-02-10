@@ -6,8 +6,8 @@ import {
   EventEmitter,
   OnDestroy,
 } from '@angular/core';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular/dataform-directives';
-import { registerElement } from 'nativescript-angular/element-registry';
+import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { registerElement } from '@nativescript/angular';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 import { TranslateService } from '@ngx-translate/core';
 

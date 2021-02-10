@@ -12,18 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { RouterExtensions } from 'nativescript-angular/router';
-import { ExtendedNavigationExtras } from 'nativescript-angular/router/router-extensions';
+import { RouterExtensions,  } from '@nativescript/angular';
+import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
+import { View, isAndroid, ObservableArray } from '@nativescript/core';
 
-import { View, isAndroid } from 'tns-core-modules/ui/page/page';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
+import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 import {
   ListViewEventData,
   SwipeActionsEventData,
   LoadOnDemandListViewEventData,
   RadListView,
 } from 'nativescript-ui-listview';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 
 import { Subscription } from 'rxjs';
 import { take, finalize } from 'rxjs/operators';
@@ -600,7 +599,7 @@ export class BaseListComponent<TEntity extends IEntity>
     this._isCurrentItemActive = this._currentItem.isActive;
     this._isCurrentItemDeletable = this._currentItem.isDeletable;
     const swipeLimits = args.data.swipeLimits;
-    const swipeView = args['object'];
+    const swipeView = args.object;
     const itemSwipeActions = swipeView.getViewById<View>('itemSwipeActions');
 
     if (itemSwipeActions) {

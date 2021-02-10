@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { ModalDialogParams } from '@nativescript/angular';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { TenantService } from '@src/app/_services/tenant.service';

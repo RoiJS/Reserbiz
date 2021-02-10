@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { DataFormEventData } from 'nativescript-ui-dataform';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { RouterExtensions } from '@nativescript/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs';

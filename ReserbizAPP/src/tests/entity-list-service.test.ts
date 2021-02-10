@@ -3,7 +3,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { NS_COMPILER_PROVIDERS } from 'nativescript-angular/platform';
 import { EntityListService } from '@src/app/_services/entity-list.service';
 import { Entity } from '@src/app/_models/entity.model';
 import { Injector } from '@angular/core';
@@ -24,7 +23,7 @@ describe('Entity List Service Test Suite', () => {
 
     TestBed.initTestEnvironment(
       BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting(NS_COMPILER_PROVIDERS)
+      platformBrowserDynamicTesting()
     );
 
     TestBed.configureTestingModule({

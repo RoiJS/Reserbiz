@@ -1,7 +1,7 @@
 import { CalendarEvent } from 'nativescript-ui-calendar';
 import { Contract } from './contract.model';
 
-import { Color } from 'tns-core-modules/color';
+import { Color } from '@nativescript/core';
 
 export class ContractCalendarEvent extends CalendarEvent {
   constructor(public contract: Contract) {
