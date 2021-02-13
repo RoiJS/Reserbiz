@@ -12,6 +12,7 @@ import { FloatingButtonComponent } from '@src/app/shared/ui/floating-button/floa
 
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
+import { NativeScriptUIChartModule } from 'nativescript-ui-chart/angular';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
     NativeScriptRouterModule,
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
+    NativeScriptUIChartModule,
     TranslateModule.forChild(),
   ],
   declarations: [
@@ -35,8 +37,9 @@ import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
     NativeScriptCommonModule,
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
+    NativeScriptUIChartModule,
     TranslateModule,
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class SharedModule {}

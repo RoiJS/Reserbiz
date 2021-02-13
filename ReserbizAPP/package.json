@@ -34,6 +34,7 @@
     "moment": "^2.29.1",
     "nativescript-cfalert-dialog": "^1.0.15",
     "nativescript-ui-calendar": "^7.0.2",
+    "nativescript-ui-chart": "^8.0.2",
     "nativescript-ui-dataform": "^7.0.4",
     "nativescript-ui-listview": "^9.1.0",
     "nativescript-ui-sidedrawer": "^9.0.3",
