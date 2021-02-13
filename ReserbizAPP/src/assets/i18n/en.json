@@ -1280,7 +1280,7 @@
         "MAIN_LABEL": "ACCOUNT STATEMENTS AMOUNT SUMMARY",
         "CHART_LEGENDS": {
           "TOTAL_PAID_AMOUNT": "Total Paid Amount",
-          "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount"
+          "TOTAL_UNPAID_AMOUNT": "Total Unpaid Amount"
         }
       }
     }

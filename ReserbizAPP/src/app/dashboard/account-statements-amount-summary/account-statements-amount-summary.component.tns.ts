@@ -38,7 +38,7 @@ export class AccountStatementsAmountSummaryComponent
       const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
         accountStatementAmountSummary
       );
-      const totalExpectedAmountSummaryChartValue = this.getTotalExpectedAmountPaidChartValue(
+      const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
         accountStatementAmountSummary
       );
 
@@ -71,14 +71,14 @@ export class AccountStatementsAmountSummaryComponent
     return totalAmountPaidSummary;
   }
 
-  private getTotalExpectedAmountPaidChartValue(
+  private getTotalUnpaidAmountPaidChartValue(
     accountStatementAmountSummary: AccountStatementsAmountSummary
   ): AccountStatementSummaryChart {
     const totalExpectedAmountSummary = new AccountStatementSummaryChart();
     totalExpectedAmountSummary.value =
-      accountStatementAmountSummary.totalExpectedAmount;
+      accountStatementAmountSummary.totalExpectedAmount - accountStatementAmountSummary.totalAmountPaid;
     const totalExpectedAmountLegendLabel = `${this.translateService.instant(
-      'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_EXPECTED_AMOUNT'
+      'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
     )} - ${this.translateService.instant(
       'GENERAL_TEXTS.CURRENCY.PHP'
     )} ${totalExpectedAmountSummary.formattedValue()}`;
