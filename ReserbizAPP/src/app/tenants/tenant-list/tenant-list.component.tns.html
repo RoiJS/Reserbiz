@@ -67,7 +67,6 @@
             row="0"
             col="0"
             rowSpan="2"
-            padding="0"
           >
             <StackLayout
               class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
@@ -82,7 +81,6 @@
             row="0"
             col="0"
             rowSpan="2"
-            padding="0"
           >
             <StackLayout
               class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
@@ -102,13 +100,11 @@
             row="0"
             col="0"
             rowSpan="2"
-            padding="0"
           >
             <StackLayout
               class="app-list-item-template__image-container"
               verticalAlignment="middle"
               [backgroundColor]="tenant.photoBackgroundColor"
-              padding="0"
             >
               <label
                 class="image"
@@ -124,7 +120,6 @@
             orientation="horizontal"
             row="0"
             col="1"
-            padding="0"
           >
             <StackLayout
               *ngIf="!tenant.isActive"
@@ -137,7 +132,6 @@
             class="app-list-item-template__item-secondary-label"
             row="1"
             col="1"
-            padding="0"
           >
             <label class="username" [text]="tenant.emailAddress"></label>
           </StackLayout>
@@ -155,7 +149,6 @@
           id="itemSwipeActions"
           justifyContent="space-around"
           *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
-          padding="0"
         >
           <button
             alignSelf="center"
@@ -163,7 +156,6 @@
             text="&#xf2ed;"
             [isEnabled]="isCurrentItemDeletable"
             (tap)="deleteSelectedItem()"
-            padding="0"
           ></button>
           <button
             alignSelf="center"
@@ -171,7 +163,6 @@
             text="&#xf00c;"
             (tap)="activateSelectedItem()"
             *ngIf="!isCurrentItemActive"
-            padding="0"
           ></button>
           <button
             alignSelf="center"
@@ -179,7 +170,6 @@
             text="&#xf05e;"
             (tap)="deactivateSelectedItem()"
             *ngIf="isCurrentItemActive"
-            padding="0"
           ></button>
         </FlexBoxLayout>
       </GridLayout>

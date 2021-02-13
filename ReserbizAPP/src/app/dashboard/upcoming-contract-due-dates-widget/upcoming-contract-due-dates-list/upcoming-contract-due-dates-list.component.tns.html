@@ -13,20 +13,18 @@
           class="list-based-widget-container__item-template"
           rows="*"
           columns="*, 120, 20"
-          padding="0"
         >
           <StackLayout orientation="horizontal" row="0" col="0">
-            <label padding="0" [text]="contract.tenantName"></label>
+            <label [text]="contract.tenantName"></label>
           </StackLayout>
           <StackLayout orientation="horizontal" row="0" col="1">
-            <label padding="0" [text]="contract.nextDueDateFormatted"></label>
+            <label [text]="contract.nextDueDateFormatted"></label>
           </StackLayout>
           <StackLayout
             orientation="horizontal"
             row="0"
             col="2"
             class="list-based-widget-container__item-arrow-icon"
-            padding="0"
           >
             <label
               text="&#xf054;"

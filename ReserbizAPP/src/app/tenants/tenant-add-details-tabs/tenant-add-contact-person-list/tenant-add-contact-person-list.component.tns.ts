@@ -1,11 +1,5 @@
 import { Location } from '@angular/common';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  NgZone,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
