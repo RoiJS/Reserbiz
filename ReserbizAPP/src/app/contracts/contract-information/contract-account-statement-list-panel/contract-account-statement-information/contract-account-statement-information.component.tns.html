@@ -76,20 +76,20 @@
 
           <!-- Water Bill Amount -->
           <StackLayout class="panel__details-section" orientation="horizontal">
-            <StackLayout class="bill-category-name" verticalAlignment="middle">
+            <StackLayout class="bill-category-name">
               <label
                 class="details-label"
                 [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
               ></label>
             </StackLayout>
             <StackLayout class="bill-category-value" orientation="horizontal">
-              <FlexboxLayout alignItems="center">
+              <FlexboxLayout>
                 <label
                   [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
                   class="m-r-5"
                 ></label>
                 <TextField
-                  class="input txt-water-bill-amount"
+                  class="txt-water-bill-amount"
                   [autocorrection]="false"
                   keyboardType="number"
                   formControlName="waterBillAmount"
@@ -100,20 +100,20 @@
 
           <!-- Electric Bill Amount -->
           <StackLayout class="panel__details-section" orientation="horizontal">
-            <StackLayout class="bill-category-name" verticalAlignment="middle">
+            <StackLayout class="bill-category-name">
               <label
                 class="details-label"
                 [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
               ></label>
             </StackLayout>
             <StackLayout class="bill-category-value" orientation="horizontal">
-              <FlexboxLayout alignItems="center">
+              <FlexboxLayout>
                 <label
                   [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
                   class="m-r-5"
                 ></label>
                 <TextField
-                  class="input txt-electric-bill-amount"
+                  class="txt-electric-bill-amount"
                   [autocorrection]="false"
                   keyboardType="number"
                   formControlName="electricBillAmount"
@@ -164,7 +164,9 @@
                 [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
                 class="m-r-5"
               ></label>
-              <label [text]="currentAccountStatement?.rentIncomeFormatted"></label>
+              <label
+                [text]="currentAccountStatement?.rentIncomeFormatted"
+              ></label>
             </StackLayout>
           </StackLayout>
 
