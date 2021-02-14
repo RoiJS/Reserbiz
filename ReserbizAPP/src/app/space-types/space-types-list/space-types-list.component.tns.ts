@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from '@nativescript/angular';
 
@@ -18,7 +20,8 @@ import { SpaceType } from '@src/app/_models/space-type.model';
   templateUrl: './space-types-list.component.html',
   styleUrls: ['./space-types-list.component.scss'],
 })
-export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
+export class SpaceTypesListComponent
+  extends BaseListComponent<SpaceType>
   implements IBaseListComponent, OnInit, OnDestroy {
   constructor(
     private spaceTypeService: SpaceTypeService,
@@ -33,11 +36,11 @@ export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getEntities();
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

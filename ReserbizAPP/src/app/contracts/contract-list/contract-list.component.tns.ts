@@ -9,7 +9,13 @@ import {
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions, ModalDialogService, ModalDialogOptions } from '@nativescript/angular';
+import {
+  RouterExtensions,
+  ModalDialogService,
+  ModalDialogOptions,
+} from '@nativescript/angular';
+
+import { delay } from 'rxjs/operators';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
@@ -68,8 +74,9 @@ export class ContractListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.contractService.loadContractListFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.contractService.loadContractListFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.initFilterOptions();
         this.getPaginatedEntities(
           (contractPaginationList: ContractPaginationList) => {
@@ -82,8 +89,7 @@ export class ContractListComponent
             });
           }
         );
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

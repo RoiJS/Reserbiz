@@ -17,7 +17,7 @@ import {
   RouterExtensions,
 } from '@nativescript/angular';
 
-import { finalize } from 'rxjs/operators';
+import { delay, finalize } from 'rxjs/operators';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
@@ -87,8 +87,9 @@ export class PaymentsComponent
             contractId
           );
 
-          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
-            (reset: boolean) => {
+          this._loadListFlagSub = this.paymentService.loadPaymentListFlag
+            .pipe(delay(1000))
+            .subscribe((reset: boolean) => {
               (<PaymentFilter>this._entityFilter).contractId = contractId;
               (<PaymentFilter>(
                 this._entityFilter
@@ -105,8 +106,7 @@ export class PaymentsComponent
                     paymentPaginationList.depositedAmountBalance;
                 }
               );
-            }
-          );
+            });
         })();
       });
     });

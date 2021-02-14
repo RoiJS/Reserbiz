@@ -9,13 +9,15 @@ import { BaseListComponent } from '@src/app/shared/component/base-list.component
 import { TenantService } from '@src/app/_services/tenant.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { Tenant } from '@src/app/_models/tenant.model';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-tenant-list',
   templateUrl: './tenant-list.component.html',
   styleUrls: ['./tenant-list.component.scss'],
 })
-export class TenantListComponent extends BaseListComponent<Tenant>
+export class TenantListComponent
+  extends BaseListComponent<Tenant>
   implements IBaseListComponent, OnInit, OnDestroy {
   constructor(
     protected tenantService: TenantService,
@@ -30,11 +32,11 @@ export class TenantListComponent extends BaseListComponent<Tenant>
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.tenantService.loadTenantListFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.tenantService.loadTenantListFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getEntities();
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

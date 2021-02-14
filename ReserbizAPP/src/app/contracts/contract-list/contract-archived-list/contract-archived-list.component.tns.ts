@@ -27,6 +27,7 @@ import { ContractPaginationList } from '@src/app/_models/contract-pagination-lis
 import { ContractFilter } from '@src/app/_models/contract-filter.model';
 import { Contract } from '@src/app/_models/contract.model';
 import { Space } from '@src/app/_models/space.model';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-contract-archived-list',
@@ -65,8 +66,9 @@ export class ContractArchivedListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.contractService.loadContractListFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.contractService.loadContractListFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getPaginatedEntities(
           (contractPaginationList: ContractPaginationList) => {
             this._expiredContractsCount =
@@ -81,8 +83,7 @@ export class ContractArchivedListComponent
             });
           }
         );
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

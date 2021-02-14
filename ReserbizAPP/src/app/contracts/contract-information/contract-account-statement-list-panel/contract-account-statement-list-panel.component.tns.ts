@@ -10,8 +10,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions, ModalDialogOptions, ModalDialogService } from '@nativescript/angular';
+import {
+  RouterExtensions,
+  ModalDialogOptions,
+  ModalDialogService,
+} from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { ContractAccountStatementFilterDialogComponent } from '../contract-account-statement-filter-dialog/contract-account-statement-filter-dialog.component';
@@ -74,8 +80,9 @@ export class ContractAccountStatementListPanelComponent
   ngOnChanges(args: SimpleChanges) {
     if (args.currentContractId.currentValue) {
       this._entityFilter.parentId = +args.currentContractId.currentValue;
-      this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag.subscribe(
-        (reset: boolean) => {
+      this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag
+        .pipe(delay(1000))
+        .subscribe((reset: boolean) => {
           this.initFilterOptions();
           this.getPaginatedEntities((e: AccountStatementPaginationList) => {
             this._totalExpectedAmount = e.totalExpectedAmount;
@@ -84,8 +91,7 @@ export class ContractAccountStatementListPanelComponent
             this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
             this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
           });
-        }
-      );
+        });
     }
   }
 

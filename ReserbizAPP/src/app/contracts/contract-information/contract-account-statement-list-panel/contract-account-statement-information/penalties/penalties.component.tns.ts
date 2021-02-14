@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { delay } from 'rxjs/operators';
 
 import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
@@ -60,8 +61,9 @@ export class PenaltiesComponent
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentItemParentId = +paramMap.get('accountStatementId');
 
-        this._loadListFlagSub = this.penaltyService.loadPenaltyListFlag.subscribe(
-          (reset: boolean) => {
+        this._loadListFlagSub = this.penaltyService.loadPenaltyListFlag
+          .pipe(delay(1000))
+          .subscribe((reset: boolean) => {
             (<PenaltyFilter>(
               this._entityFilter
             )).parentId = this._currentItemParentId;
@@ -70,8 +72,7 @@ export class PenaltiesComponent
                 this._totalAmount = penaltyPaginationList.totalAmount;
               }
             );
-          }
-        );
+          });
       });
     });
 
@@ -92,7 +93,6 @@ export class PenaltiesComponent
       // Override default behavior when selecting item from the list
       this.appListView.listView.deselectItemAt(paymentItemIndex);
     }, 100);
-
   }
 
   get currentSortOrder(): SortOrderEnum {

@@ -14,6 +14,7 @@ import { SpaceFilter } from '@src/app/_models/space-filter.model';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-space-list',
@@ -39,11 +40,11 @@ export class SpaceListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceService.loadSpacesFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.spaceService.loadSpacesFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getPaginatedEntities();
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();
