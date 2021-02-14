@@ -91,7 +91,7 @@ $sidedrawer-list-icon-size: 20;
       margin-bottom: $sidedrawer-list-item-offset-bottom;
       label {
         vertical-align: center;
-        color: $blue-dark;
+        color: black;
       }
       .fa {
         font-size: $sidedrawer-list-icon-size;
@@ -350,6 +350,7 @@ $sidedrawer-list-icon-size: 20;
 DataFormEditorLabel {
   font-size: 16;
   font-weight: bold;
-  color: black;
+  color: gray;
+  margin-left: 10;
 }
 /*#endregion*/
