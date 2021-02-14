@@ -72,8 +72,13 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._contactPersonListSub.unsubscribe();
-    this._navigateBackSub.unsubscribe();
+    if (this._contactPersonListSub) {
+      this._contactPersonListSub.unsubscribe();
+    }
+
+    if (this._navigateBackSub) {
+      this._navigateBackSub.unsubscribe();
+    }
   }
 
   goToEditDetailsFromMainItem(args: ListViewEventData) {
