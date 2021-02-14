@@ -173,6 +173,7 @@
     "ACTION_BAR_TITLE": "Tenants",
     "SEARCH_BAR_HINT": "Enter tenant name here...",
     "SELECTED_TENANTS": "Selected Tenants",
+    "EMPTY_TENANT_LIST": "No Available Tenants",
     "REMOVE_TENANTS_DIALOG": {
       "TITLE": "Remove selected tenants",
       "CONFIRM_MESSAGE": "Are you sure to remove selected tenants?",
@@ -323,6 +324,7 @@
 
   "TENANT_CONTACT_PERSON_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Contact Persons",
+    "EMPTY_CONTACT_PERSONS": "No Available Contact Persons",
     "PANEL_HEADER_TEXT_INFORMATION": "CONTACT PERSONS",
     "SELECTED_CONTACT_PERSONS": "Selected Contact Person",
     "REMOVE_CONTACT_PERSONS_DIALOG": {
@@ -403,6 +405,7 @@
 
   "SPACE_TYPE_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Space Types",
+    "EMPTY_SPACE_TYPE_LIST": "No Available Space Types",
     "SEARCH_BAR_HINT": "Enter space type name here...",
     "SELECTED_SPACE_TYPES": "Selected Space Types",
     "AVAILABLE_SLOT": "Available Slot",
@@ -423,6 +426,7 @@
 
   "SPACE_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Spaces",
+    "EMPTY_SPACE_LIST": "No Available Spaces",
     "SEARCH_BAR_HINT": "Enter space description here...",
     "SELECTED_SPACE_TYPES": "Selected Spaces",
     "AVAILABILITY_STATUS": {
@@ -549,6 +553,7 @@
 
   "TERMS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Terms",
+    "EMPTY_TERM_LIST": "No Available Terms",
     "SEARCH_BAR_HINT": "Enter terms name here...",
     "SELECTED_TERMS": "Selected Terms",
     "REMOVE_TERMS_DIALOG": {
@@ -579,6 +584,7 @@
 
   "TERM_ADD_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Add New Term",
+    "EMPTY_TERM_MISCELLNEOUS_LIST": "No Available Term Miscellaneous",
     "FORM_CONTROL": {
       "GENERAL_CONTROL_GROUP": {
         "LABEL": "General Information",
@@ -837,6 +843,7 @@
 
   "TERM_MISCELLANEOUS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Miscellaneous",
+    "EMPTY_TERM_MISCELLANEOUS_LIST": "No Available Term Miscellaneous",
     "PANEL_HEADER_TEXT_INFORMATION": "MISCELLANEOUS",
     "SELECTED_TERM_MISCELLANEOUS": "Selected Term Miscellaneous",
     "REMOVE_TERM_MISCELLANEOUS_DIALOG": {
@@ -909,6 +916,7 @@
         "CALENDAR_VIEW": "Calendar View"
       }
     },
+    "EMPTY_CONTRACT_LIST": "No Available Contracts",
     "HEADER_SECTION": {
       "TOTAL_CONTRACTS": "Total Contracts",
       "OPEN_CONTRACTS": "Open Contracts"
@@ -986,6 +994,7 @@
         "CALENDAR_VIEW": "Calendar View"
       }
     },
+    "EMPTY_ARCHIVED_CONTRACT_LIST": "No Available Archived Contracts",
     "HEADER_SECTION": {
       "TOTAL_CONTRACTS": "Total Archived Contracts",
       "EXPIRED_CONTRACTS": "Expired Contracts",
@@ -1129,6 +1138,7 @@
   },
 
   "ACCOUNT_STATEMENT_LIST": {
+    "EMPTY_ACCOUNT_STATEMENT_LIST": "No Available Account Statements",
     "STATUS": {
       "PAID": "PAID",
       "UNPAID": "UNPAID"
@@ -1186,6 +1196,7 @@
     "ACTION_BAR_SECTION": {
       "TITLE": "Payments"
     },
+    "EMPTY_PAYMENT_LIST": "No Available Payments",
     "PAYMENT_DETAILS": {
       "RECEIVED_BY": "Received By:"
     },
@@ -1228,6 +1239,7 @@
     "ACTION_BAR_SECTION": {
       "TITLE": "Penalties"
     },
+    "EMPTY_PENALTY_LIST": "No Available Penalties",
     "FOOTER_SECTION": {
       "TOTAL_AMOUNT": "Total Amount"
     }

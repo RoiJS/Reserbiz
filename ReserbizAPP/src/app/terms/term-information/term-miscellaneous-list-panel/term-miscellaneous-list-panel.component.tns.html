@@ -7,48 +7,54 @@
     [text]="'TERM_MISCELLANEOUS_LIST_PAGE.PANEL_HEADER_TEXT_INFORMATION' | translate"
   ></label>
   <button
+    padding="0"
     alignSelf="center"
-    class="page-container__page-command btn btn-primary btn-rounded-lg"
+    class="page-container__page-command -rounded-lg"
     [text]="'GENERAL_TEXTS.MANAGE' | translate"
     (tap)="onNavigateToManageTermMiscellaneousList()"
   ></button>
 </FlexBoxLayout>
 <StackLayout class="app-list-container">
-  <GridLayout
-    class="app-list-item-template"
-    rows="*, *"
-    columns="70, *, 60"
-    *ngFor="let termMiscellaneous of termMiscellaneousList"
+  <ns-list-layout
+    [hasItems]="termMiscellaneousList?.length > 0"
+    [emptyTextIdentifier]="'TERM_MISCELLANEOUS_LIST_PAGE.EMPTY_TERM_MISCELLANEOUS_LIST'"
   >
-    <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
-      <StackLayout
-        class="app-list-item-template__image-container"
-        verticalAlignment="middle"
-        [backgroundColor]="termMiscellaneous?.photoBackgroundColor"
-      >
-        <label
-          class="image"
-          horizontalAlignment="center"
-          [text]="termMiscellaneous?.nameInitials"
-        ></label>
-      </StackLayout>
-    </StackLayout>
-
-    <StackLayout
-      class="app-list-item-template__item-main-label"
-      verticalAlignment="middle"
-      row="0"
-      col="1"
+    <GridLayout
+      class="app-list-item-template"
+      rows="*, *"
+      columns="70, *, 60"
+      *ngFor="let termMiscellaneous of termMiscellaneousList"
     >
-      <label [text]="termMiscellaneous?.name"></label>
-    </StackLayout>
+      <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+        <StackLayout
+          class="app-list-item-template__image-container"
+          verticalAlignment="middle"
+          [backgroundColor]="termMiscellaneous?.photoBackgroundColor"
+        >
+          <label
+            class="image"
+            horizontalAlignment="center"
+            [text]="termMiscellaneous?.nameInitials"
+          ></label>
+        </StackLayout>
+      </StackLayout>
 
-    <StackLayout row="1" col="1" orientation="horizontal">
-      <label
-        [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
-        class="m-r-5"
-      ></label>
-      <label [text]="termMiscellaneous?.formattedAmount"></label>
-    </StackLayout>
-  </GridLayout>
+      <StackLayout
+        class="app-list-item-template__item-main-label"
+        verticalAlignment="middle"
+        row="0"
+        col="1"
+      >
+        <label [text]="termMiscellaneous?.name"></label>
+      </StackLayout>
+
+      <StackLayout row="1" col="1" orientation="horizontal">
+        <label
+          [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+          class="m-r-5"
+        ></label>
+        <label [text]="termMiscellaneous?.formattedAmount"></label>
+      </StackLayout>
+    </GridLayout>
+  </ns-list-layout>
 </StackLayout>
