@@ -69,7 +69,7 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.TotalExpectedAmount = accountStatementsFromRepo.Sum(a => a.AccountStatementTotalAmount);
             entityPaginationListDto.TotalPaidAmount = accountStatementsFromRepo.Sum(a => a.CurrentAmountPaid);
-            entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement.CalculatedDepositAmount;
+            entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement != null ? firstAccountStatement.CalculatedDepositAmount : 0;
             entityPaginationListDto.TotalPaidAmountFromDeposit = await _accountStatementRepository.CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
 
             return Ok(entityPaginationListDto);

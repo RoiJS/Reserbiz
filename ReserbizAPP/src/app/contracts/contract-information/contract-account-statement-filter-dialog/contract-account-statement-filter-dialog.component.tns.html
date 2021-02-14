@@ -60,36 +60,6 @@
               ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>
-
-          <TKEntityProperty
-            tkPropertyGroupProperties
-            name="nextDueDateFrom"
-            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_FROM_LABEL' | translate"
-            index="2"
-            columnIndex="0"
-          >
-            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
-              <TKPropertyEditorStyle
-                tkPropertyEditorStyle
-                labelTextSize="14"
-              ></TKPropertyEditorStyle>
-            </TKPropertyEditor>
-          </TKEntityProperty>
-
-          <TKEntityProperty
-            tkPropertyGroupProperties
-            name="nextDueDateTo"
-            [displayName]="'ACCOUNT_STATEMENT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_TO_LABEL' | translate"
-            index="2"
-            columnIndex="1"
-          >
-            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
-              <TKPropertyEditorStyle
-                tkPropertyEditorStyle
-                labelTextSize="14"
-              ></TKPropertyEditorStyle>
-            </TKPropertyEditor>
-          </TKEntityProperty>
         </TKDataFormGridLayout>
       </TKPropertyGroup>
       <!-- #End -->
@@ -146,13 +116,15 @@
   <StackLayout class="dialog-footer">
     <FlexboxLayout class="filter-dialog-buttons">
       <button
+        padding="0"
         [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
-        class="btn-confirm-filter btn btn-primary btn-rounded-lg"
+        class="btn-confirm-filter -rounded-lg"
         (tap)="onConfirm()"
       ></button>
       <button
+        padding="0"
         [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
-        class="btn-reset-filter btn btn-rounded-lg"
+        class="btn-reset-filter -rounded-lg"
         (tap)="onReset()"
       ></button>
     </FlexboxLayout>

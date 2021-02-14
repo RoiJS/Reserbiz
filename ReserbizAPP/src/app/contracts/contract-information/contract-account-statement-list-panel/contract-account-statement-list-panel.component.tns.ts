@@ -100,17 +100,19 @@ export class ContractAccountStatementListPanelComponent
   }
 
   initFilterOptions() {
+    const contractId = this._entityFilter.parentId;
+
     const fromDate = this.storageService.getString(
-      this.ACCOUNT_STATMENT_FILTER_FROM_DATE
+      `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`
     );
     const toDate = this.storageService.getString(
-      this.ACCOUNT_STATMENT_FILTER_TO_DATE
+      `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`
     );
     const paymentStatus = this.storageService.getString(
-      this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS
+      `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`
     );
     const sortOrder = this.storageService.getString(
-      this.ACCOUNT_STATMENT_FILTER_SORT_ORDER
+      `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`
     );
 
     if (fromDate) {
@@ -141,41 +143,52 @@ export class ContractAccountStatementListPanelComponent
     const toDate = accountStatementFilter.toDate;
     const paymentStatus = accountStatementFilter.paymentStatus;
     const sortOrder = accountStatementFilter.sortOrder;
+    const contractId = this._entityFilter.parentId;
 
     if (fromDate) {
       this.storageService.storeString(
-        this.ACCOUNT_STATMENT_FILTER_FROM_DATE,
+        `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`,
         fromDate.toString()
       );
     }
 
     if (toDate) {
       this.storageService.storeString(
-        this.ACCOUNT_STATMENT_FILTER_TO_DATE,
+        `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`,
         toDate.toString()
       );
     }
 
     if (paymentStatus) {
       this.storageService.storeString(
-        this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS,
+        `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`,
         paymentStatus.toString()
       );
     }
 
     if (sortOrder) {
       this.storageService.storeString(
-        this.ACCOUNT_STATMENT_FILTER_SORT_ORDER,
+        `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`,
         sortOrder.toString()
       );
     }
   }
 
   resetFilterOptions() {
-    this.storageService.remove(this.ACCOUNT_STATMENT_FILTER_FROM_DATE);
-    this.storageService.remove(this.ACCOUNT_STATMENT_FILTER_TO_DATE);
-    this.storageService.remove(this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS);
-    this.storageService.remove(this.ACCOUNT_STATMENT_FILTER_SORT_ORDER);
+    const contractId = this._entityFilter.parentId;
+
+    this.storageService.remove(
+      `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`
+    );
+    this.storageService.remove(
+      `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`
+    );
+    this.storageService.remove(
+      `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`
+    );
+    this.storageService.remove(
+      `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`
+    );
   }
 
   initFilterDialog(): Promise<any> {

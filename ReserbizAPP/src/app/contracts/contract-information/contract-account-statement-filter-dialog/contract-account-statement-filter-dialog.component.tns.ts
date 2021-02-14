@@ -113,7 +113,7 @@ export class ContractAccountStatementFilterDialogComponent
         fromDate: null,
         toDate: null,
         paymentStatus: PaymentStatusEnum.All,
-        sortOrder: SortOrderEnum.Ascending,
+        sortOrder: SortOrderEnum.Descending,
       }
     );
   }
