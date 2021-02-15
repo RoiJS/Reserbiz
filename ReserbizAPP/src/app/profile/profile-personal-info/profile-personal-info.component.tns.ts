@@ -11,11 +11,11 @@ import { DialogService } from '@src/app/_services/dialog.service';
 
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { User } from '@src/app/_models/user.model';
-import { UserPersonalInfoFormSource } from '@src/app/_models/user-personal-form.model';
+import { UserPersonalInfoFormSource } from '@src/app/_models/form/user-personal-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
 import { RouterExtensions } from '@nativescript/angular';
 
 @Component({

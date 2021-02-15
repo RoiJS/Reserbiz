@@ -17,20 +17,20 @@ import { LocalManageTermService } from '@src/app/_services/local-manage-term.ser
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
 import { Term } from '@src/app/_models/term.model';
-import { SpaceTypeOption } from '@src/app/_models/space-type-option.model';
-import { TermDetailsFormSource } from '@src/app/_models/term-details-form.model';
+import { SpaceTypeOption } from '@src/app/_models/options/space-type-option.model';
+import { TermDetailsFormSource } from '@src/app/_models/form/term-details-form.model';
 import { TermDto } from '@src/app/_dtos/term.dto';
 import { SpaceType } from '@src/app/_models/space-type.model';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 
-import { ITermFormValueProvider } from '@src/app/_interfaces/iterm-form-value-provider.interface';
-import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
+import { ITermFormValueProvider } from '@src/app/_interfaces/value_providers/iterm-form-value-provider.interface';
+import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
 
-import { DurationRangeValueProvider } from '@src/app/_helpers/duration-range-value-provider.helper';
-import { ValueTypeValueProvider } from '@src/app/_helpers/value-type-provide.helper';
-import { SpaceTypeValueProvider } from '@src/app/_helpers/space-type-value-provider.helper';
-import { TermMapper } from '@src/app/_helpers/term-mapper.helper';
+import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
+import { ValueTypeValueProvider } from '@src/app/_helpers/value_providers/value-type-provider.helper';
+import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
+import { TermMapper } from '@src/app/_helpers/mappers/term-mapper.helper';
 
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';

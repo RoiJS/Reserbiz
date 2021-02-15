@@ -10,7 +10,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 @Component({
   selector: 'ns-tenant-contact-list',

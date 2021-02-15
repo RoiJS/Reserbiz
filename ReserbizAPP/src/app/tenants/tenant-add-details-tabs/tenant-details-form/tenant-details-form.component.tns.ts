@@ -13,12 +13,12 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { AddTenantService } from '@src/app/_services/add-tenant.service';
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';
-import { TenantDetailsFormSource } from '@src/app/_models/tenant-details-form.model';
+import { TenantDetailsFormSource } from '@src/app/_models/form/tenant-details-form.model';
 import { Tenant } from '@src/app/_models/tenant.model';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
-import { TenantMapper } from '@src/app/_helpers/tenant-mapper.helper';
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { TenantMapper } from '@src/app/_helpers/mappers/tenant-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-details-form',

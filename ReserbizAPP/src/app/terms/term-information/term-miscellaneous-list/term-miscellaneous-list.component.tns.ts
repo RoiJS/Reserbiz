@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 

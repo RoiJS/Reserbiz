@@ -1,4 +1,4 @@
-import { DurationRangeValueProvider } from '@src/app/_helpers/duration-range-value-provider.helper';
+import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 
 describe('Duration Range Value Provider Test Suite', () => {

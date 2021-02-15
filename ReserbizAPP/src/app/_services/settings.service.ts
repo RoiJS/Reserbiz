@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { SettingsMapper } from '../_helpers/settings-mapper.helper';
+import { SettingsMapper } from '../_helpers/mappers/settings-mapper.helper';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 import { Settings } from '../_models/settings.model';

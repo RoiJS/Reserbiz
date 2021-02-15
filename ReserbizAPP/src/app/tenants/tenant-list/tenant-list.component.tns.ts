@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from '@nativescript/angular';
 
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { TenantService } from '@src/app/_services/tenant.service';

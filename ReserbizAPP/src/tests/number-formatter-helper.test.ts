@@ -1,4 +1,4 @@
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 describe('Number formatter Helper Test Suite', () => {
   it('should return 5.00 if test value is 5.00', () => {

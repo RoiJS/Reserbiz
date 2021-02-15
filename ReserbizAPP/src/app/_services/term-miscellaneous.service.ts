@@ -4,10 +4,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { BaseService } from './base.service';
 import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
-import { TermMiscellaneousMapper } from '../_helpers/term-miscellaneous-mapper.helper';
+import { TermMiscellaneousMapper } from '../_helpers/mappers/term-miscellaneous-mapper.helper';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({

@@ -21,9 +21,9 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { skip } from 'rxjs/operators';
 
 import { ContractService } from '@src/app/_services/contract.service';
-import { ContractFilter } from '@src/app/_models/contract-filter.model';
+import { ContractFilter } from '@src/app/_models/filters/contract-filter.model';
 import { ContractCalendarEvent } from '@src/app/_models/contract-calendar-event.model';
-import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
+import { ContractPaginationList } from '@src/app/_models/pagination_list/contract-pagination-list.model';
 import { Contract } from '@src/app/_models/contract.model';
 
 @Component({

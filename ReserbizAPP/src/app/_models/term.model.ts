@@ -5,7 +5,7 @@ import { Entity } from './entity.model';
 import { TermMiscellaneous } from './term-miscellaneous.model';
 import { SpaceType } from './space-type.model';
 
-import { NumberFormatter } from '../_helpers/number-formatter.helper';
+import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 
 export class Term extends Entity {
   public code: string;

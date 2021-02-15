@@ -6,13 +6,13 @@ import { map } from 'rxjs/operators';
 
 import { Term } from '../_models/term.model';
 import { BaseService } from './base.service';
-import { TermMapper } from '../_helpers/term-mapper.helper';
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { TermMapper } from '../_helpers/mappers/term-mapper.helper';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
 import { TranslateService } from '@ngx-translate/core';
-import { TermOption } from '../_models/term-option.model';
+import { TermOption } from '../_models/options/term-option.model';
 
 @Injectable({ providedIn: 'root' })
 export class TermService

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { Entity } from '../_models/entity.model';
-import { IEntityListService } from '../_interfaces/ientity-list-service.interface';
+import { IEntityListService } from '../_interfaces/services/ientity-list-service.interface';
 
 @Injectable({ providedIn: 'root' })
 export class EntityListService<TEntity extends Entity>

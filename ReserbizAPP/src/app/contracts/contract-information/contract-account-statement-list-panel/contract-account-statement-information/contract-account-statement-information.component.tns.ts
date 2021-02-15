@@ -14,7 +14,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'app-contract-account-statement-information',

@@ -5,17 +5,17 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { take, finalize } from 'rxjs/operators';
 
-import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
+import { ContactPersonDetailsFormSource } from '@src/app/_models/form/contact-person-details-form.model';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { ContactPersonDto } from '@src/app/_dtos/contact-person.dto';
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
-import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.helper';
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
+import { ContactPersonMapper } from '@src/app/_helpers/mappers/contact-person-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-contact-person-edit',

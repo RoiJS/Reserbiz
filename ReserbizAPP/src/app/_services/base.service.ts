@@ -6,10 +6,10 @@ import { map } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
 
 import { IEntity } from '../_interfaces/ientity.interface';
-import { IBaseEntityMapper } from '../_interfaces/ibase-entity-mapper.interface';
+import { IBaseEntityMapper } from '../_interfaces/mappers/ibase-entity-mapper.interface';
 import { IBaseDto } from '../_interfaces/ibase-dto.interface';
-import { IEntityPaginationList } from '../_interfaces/ientity-pagination-list.interface';
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
+import { IEntityPaginationList } from '../_interfaces/pagination_list/ientity-pagination-list.interface';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
 
 Injectable({ providedIn: 'root' });
 export class BaseService<TEntity extends IEntity> {

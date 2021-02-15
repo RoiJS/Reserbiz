@@ -7,13 +7,13 @@ import { BaseService } from './base.service';
 
 import { AccountStatement } from '../_models/account-statement.model';
 import { AccountStatementsAmountSummary } from '../_models/account-statement-amount-summary.model';
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
-import { AccountStatementPaginationList } from '../_models/account-statement-pagination-list.model';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
+import { AccountStatementPaginationList } from '../_models/pagination_list/account-statement-pagination-list.model';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IAccountStatementFilter } from '../_interfaces/iaccount-statement-filter.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IAccountStatementFilter } from '../_interfaces/filters/iaccount-statement-filter.interface';
 
-import { AccountStatementMapper } from '../_helpers/account-statement-mapper.helper';
+import { AccountStatementMapper } from '../_helpers/mappers/account-statement-mapper.helper';
 
 @Injectable({ providedIn: 'root' })
 export class AccountStatementService

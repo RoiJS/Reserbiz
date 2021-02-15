@@ -23,14 +23,14 @@ import { BaseListComponent } from '@src/app/shared/component/base-list.component
 import { ContractAccountStatementFilterDialogComponent } from '../contract-account-statement-filter-dialog/contract-account-statement-filter-dialog.component';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
-import { AccountStatementFilter } from '@src/app/_models/account-statement-filter.model';
-import { AccountStatementPaginationList } from '@src/app/_models/account-statement-pagination-list.model';
+import { AccountStatementFilter } from '@src/app/_models/filters/account-statement-filter.model';
+import { AccountStatementPaginationList } from '@src/app/_models/pagination_list/account-statement-pagination-list.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { StorageService } from '@src/app/_services/storage.service';
 
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';

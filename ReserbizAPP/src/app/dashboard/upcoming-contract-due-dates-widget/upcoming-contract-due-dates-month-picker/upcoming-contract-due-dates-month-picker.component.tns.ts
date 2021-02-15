@@ -6,14 +6,14 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
-import { UpcomingContractDueDatesMonthPickerFormSource } from '@src/app/_models/upcoming-contract-due-dates-month-picker-form.model';
+import { UpcomingContractDueDatesMonthPickerFormSource } from '@src/app/_models/form/upcoming-contract-due-dates-month-picker-form.model';
 
 import { UpcomingContractDueDatesWidgetService } from '@src/app/_services/upcoming-contract-due-dates-widget.service';
 
 import { MonthOptions } from '@src/app/_enum/month-options.enum';
 
-import { MonthValueProvider } from '@src/app/_helpers/month-value-provider.helper';
-import { MonthOption } from '@src/app/_models/month-option.model';
+import { MonthValueProvider } from '@src/app/_helpers/value_providers/month-value-provider.helper';
+import { MonthOption } from '@src/app/_models/options/month-option.model';
 
 @Component({
   selector: 'ns-upcoming-contract-due-dates-month-picker',

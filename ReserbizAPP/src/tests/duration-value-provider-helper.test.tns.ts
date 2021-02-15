@@ -13,7 +13,7 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
+import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
 
 class JsonTranslationLoader implements TranslateLoader {
   getTranslation(codes: string): Observable<any> {

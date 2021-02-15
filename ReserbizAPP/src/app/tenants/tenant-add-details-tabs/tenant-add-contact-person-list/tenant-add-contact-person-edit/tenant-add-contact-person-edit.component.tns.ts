@@ -7,15 +7,15 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { AddContactPersonsService } from '@src/app/_services/add-contact-persons.service';
 
-import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
+import { ContactPersonDetailsFormSource } from '@src/app/_models/form/contact-person-details-form.model';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
 
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-add-contact-person-edit',

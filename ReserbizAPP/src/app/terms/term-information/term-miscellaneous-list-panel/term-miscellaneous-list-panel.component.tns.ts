@@ -8,7 +8,7 @@ import { RouterExtensions } from '@nativescript/angular';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
 
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
-import { EntityFilter } from '@src/app/_models/entity-filter.model';
+import { EntityFilter } from '@src/app/_models/filters/entity-filter.model';
 
 @Component({
   selector: 'ns-term-miscellaneous-list-panel',

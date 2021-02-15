@@ -1,4 +1,4 @@
-import { NumberFormatter } from '../_helpers/number-formatter.helper';
+import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 import { Entity } from './entity.model';
 
 export class Space extends Entity {

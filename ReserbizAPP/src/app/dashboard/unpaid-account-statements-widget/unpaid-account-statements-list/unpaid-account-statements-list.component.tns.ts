@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
-import { AccountStatementPaginationList } from '@src/app/_models/account-statement-pagination-list.model';
+import { AccountStatementPaginationList } from '@src/app/_models/pagination_list/account-statement-pagination-list.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';

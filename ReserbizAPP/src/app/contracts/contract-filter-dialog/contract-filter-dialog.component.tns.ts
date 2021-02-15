@@ -7,14 +7,14 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 
 import { TenantService } from '@src/app/_services/tenant.service';
 
-import { TenantOption } from '@src/app/_models/tenant-option.model';
-import { ContractFilter } from '@src/app/_models/contract-filter.model';
-import { ContractFilterFormSource } from '@src/app/_models/contract-filter-form.model';
+import { TenantOption } from '@src/app/_models/options/tenant-option.model';
+import { ContractFilter } from '@src/app/_models/filters/contract-filter.model';
+import { ContractFilterFormSource } from '@src/app/_models/form/contract-filter-form.model';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
-import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
-import { SortOrderValueProvider } from '@src/app/_helpers/sort-order-value-provider.helper';
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { TenantValueProvider } from '@src/app/_helpers/value_providers/tenant-value-provider.helper';
+import { SortOrderValueProvider } from '@src/app/_helpers/value_providers/sort-order-value-provider.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
 
 @Component({
   selector: 'ns-contract-filter-dialog',

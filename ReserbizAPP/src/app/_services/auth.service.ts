@@ -11,10 +11,10 @@ import { DialogService } from './dialog.service';
 import { StorageService } from './storage.service';
 
 import { User } from '../_models/user.model';
-import { UserPersonalInfoFormSource } from '../_models/user-personal-form.model';
+import { UserPersonalInfoFormSource } from '../_models/form/user-personal-form.model';
 import { GenderEnum } from '../_enum/gender.enum';
 import { AuthToken } from '../_models/auth-token.model';
-import { UserAccountInfoFormSource } from '../_models/user-account-form.model';
+import { UserAccountInfoFormSource } from '../_models/form/user-account-form.model';
 
 interface IAuthResponseData {
   accessToken: string;

@@ -13,21 +13,21 @@ import { BaseFormComponent } from '@src/app/shared/component/base-form.component
 import { ContractDto } from '@src/app/_dtos/contract-dto';
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 
-import { ContractMapper } from '@src/app/_helpers/contract-mapper.helper';
-import { DateFormatter } from '@src/app/_helpers/date-formatter.helper';
-import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
-import { TenantValueProvider } from '@src/app/_helpers/tenant-value-provider.helper';
-import { TermValueProvider } from '@src/app/_helpers/term-value-provider.helper';
-import { SpaceValueProvider } from '@src/app/_helpers/space-value-provider.helper';
+import { ContractMapper } from '@src/app/_helpers/mappers/contract-mapper.helper';
+import { DateFormatter } from '@src/app/_helpers/formatters/date-formatter.helper';
+import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
+import { TenantValueProvider } from '@src/app/_helpers/value_providers/tenant-value-provider.helper';
+import { TermValueProvider } from '@src/app/_helpers/value_providers/term-value-provider.helper';
+import { SpaceValueProvider } from '@src/app/_helpers/value_providers/space-value-provider.helper';
 
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
-import { IContractFormValueProvider } from '@src/app/_interfaces/icontract-form-value-provider.interface';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
+import { IContractFormValueProvider } from '@src/app/_interfaces/value_providers/icontract-form-value-provider.interface';
 
-import { ContractDetailsFormSource } from '@src/app/_models/contract-details-form.model';
+import { ContractDetailsFormSource } from '@src/app/_models/form/contract-details-form.model';
 import { Contract } from '@src/app/_models/contract.model';
-import { TenantOption } from '@src/app/_models/tenant-option.model';
-import { TermOption } from '@src/app/_models/term-option.model';
-import { SpaceOption } from '@src/app/_models/space-option.model';
+import { TenantOption } from '@src/app/_models/options/tenant-option.model';
+import { TermOption } from '@src/app/_models/options/term-option.model';
+import { SpaceOption } from '@src/app/_models/options/space-option.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 import { ContractService } from '@src/app/_services/contract.service';

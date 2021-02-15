@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { PaymentMapper } from '../_helpers/payment-mapper.helper';
+import { PaymentMapper } from '../_helpers/mappers/payment-mapper.helper';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
-import { IPaymentFilter } from '../_interfaces/ipayment-filter.interface';
+import { IPaymentFilter } from '../_interfaces/filters/ipayment-filter.interface';
 
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
-import { PaymentPaginationList } from '../_models/payment-pagination-list.model';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
+import { PaymentPaginationList } from '../_models/pagination_list/payment-pagination-list.model';
 
 import { Payment } from '../_models/payment.model';
 

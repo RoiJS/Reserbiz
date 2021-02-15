@@ -29,12 +29,12 @@ import { take, finalize } from 'rxjs/operators';
 
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
-import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
-import { IEntityPaginationList } from '@src/app/_interfaces/ientity-pagination-list.interface';
+import { IBaseService } from '@src/app/_interfaces/services/ibase-service.interface';
+import { IEntityPaginationList } from '@src/app/_interfaces/pagination_list/ientity-pagination-list.interface';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { EntityFilter } from '@src/app/_models/entity-filter.model';
+import { EntityFilter } from '@src/app/_models/filters/entity-filter.model';
 
 @Component({
   template: ``,

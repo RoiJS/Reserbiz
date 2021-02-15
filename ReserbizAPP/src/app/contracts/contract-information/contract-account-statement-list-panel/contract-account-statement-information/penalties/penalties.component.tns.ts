@@ -13,16 +13,16 @@ import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { PenaltyFilter } from '@src/app/_models/penalty-filter.model';
+import { PenaltyFilter } from '@src/app/_models/filters/penalty-filter.model';
 import { Penalty } from '@src/app/_models/penalty.model';
-import { PenaltyPaginationList } from '@src/app/_models/penalty-pagination-list.model';
+import { PenaltyPaginationList } from '@src/app/_models/pagination_list/penalty-pagination-list.model';
 
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { PenaltyService } from '@src/app/_services/penalty.service';
 
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'app-penalties',

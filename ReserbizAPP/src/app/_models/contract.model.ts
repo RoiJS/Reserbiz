@@ -4,7 +4,7 @@ import { Entity } from './entity.model';
 import { ContractDurationBeforeContractEnds } from './contract-duration-before-contract-ends.model';
 
 import { DurationEnum } from '../_enum/duration-unit.enum';
-import { DateFormatter } from '../_helpers/date-formatter.helper';
+import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
 
 export class Contract extends Entity {
   public code: string;

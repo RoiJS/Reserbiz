@@ -28,13 +28,13 @@ import { AccountStatementService } from '@src/app/_services/account-statement.se
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Payment } from '@src/app/_models/payment.model';
-import { PaymentFilter } from '@src/app/_models/payment-filter.model';
-import { PaymentPaginationList } from '@src/app/_models/payment-pagination-list.model';
+import { PaymentFilter } from '@src/app/_models/filters/payment-filter.model';
+import { PaymentPaginationList } from '@src/app/_models/pagination_list/payment-pagination-list.model';
 
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 import { PaymentDto } from '@src/app/_dtos/payment-dto';
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'ns-payments',
