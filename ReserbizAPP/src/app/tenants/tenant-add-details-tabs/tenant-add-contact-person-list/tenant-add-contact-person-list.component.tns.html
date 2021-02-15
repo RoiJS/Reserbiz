@@ -1,6 +1,11 @@
 <ns-loader-layout [busy]="isBusy">
   <StackLayout width="100%" height="100%" class="page-container">
-    <RadListView
+
+    <ns-list-layout
+      [hasItems]="items?.length > 0"
+      [emptyTextIdentifier]="'TENANT_CONTACT_PERSON_LIST_PAGE.EMPTY_CONTACT_PERSONS'"
+    >
+<RadListView
       #contactPersonView
       width="100%"
       height="100%"
@@ -56,6 +61,8 @@
         </GridLayout>
       </ng-template>
     </RadListView>
+    </ns-list-layout>
+    
   </StackLayout>
 
   <ns-floating-button
