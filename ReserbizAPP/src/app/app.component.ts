@@ -17,6 +17,9 @@ import {
   SlideInOnTopTransition,
 } from 'nativescript-ui-sidedrawer';
 import { Application } from '@nativescript/core';
+import { ios } from '@nativescript/core/application';
+import { ad } from '@nativescript/core/utils/utils';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { filter } from 'rxjs/operators';
@@ -82,6 +85,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.drawerSub = this.uiService.drawerState.subscribe(() => {
         if (this.drawer) {
           this.drawer.toggleDrawerState();
+          this.hideKeyboard();
         }
       });
       this.uiService.setRootVCRef(this.vcRef);
@@ -138,6 +142,19 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const sideDrawer = <RadSideDrawer>(<any>Application.getRootView());
     sideDrawer.closeDrawer();
+  }
+
+  hideKeyboard = () => {
+    if (ios) {
+      ios.nativeApp.sendActionToFromForEvent(
+        'resignFirstResponder',
+        null,
+        null,
+        null
+      );
+    } else {
+      ad.dismissSoftInput();
+    }
   }
 
   get currentUserFullname(): string {
