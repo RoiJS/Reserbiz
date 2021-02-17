@@ -68,7 +68,7 @@ $sidedrawer-list-icon-size: 20;
   }
 
   .sidedrawer-header {
-    background-color: $ab-background;
+    background: $primary-gradient;
 
     .sidedrawer-header-brand {
       color: $ab-color;
@@ -287,7 +287,7 @@ $sidedrawer-list-icon-size: 20;
   .dialog-header {
     font-size: 20;
     padding: 10;
-    background-color: $primary;
+    background: $primary-gradient;
     color: white;
     height: 50;
   }
