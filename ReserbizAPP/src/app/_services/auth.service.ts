@@ -35,7 +35,6 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private routingService: RoutingService,
-    private dialogService: DialogService,
     private storageService: StorageService
   ) {}
 
@@ -87,16 +86,11 @@ export class AuthService {
         `${environment.reserbizAPIEndPoint}/auth/login`,
         {
           username: username,
-          password: password
+          password: password,
         }
       )
       .pipe(
-        catchError(errorRes => {
-          this.handleError(errorRes.error.error.message);
-          return throwError(errorRes);
-        }),
-
-        tap(resData => {
+        tap((resData) => {
           if (resData && resData.accessToken) {
             this.handleLogin(
               resData.accessToken,
@@ -128,16 +122,11 @@ export class AuthService {
         `${environment.reserbizAPIEndPoint}/auth/refresh`,
         {
           accessToken: authToken.token,
-          refreshToken: authToken.refreshToken
+          refreshToken: authToken.refreshToken,
         }
       )
       .pipe(
-        catchError(errorRes => {
-          this.handleError(errorRes.error.error.message);
-          return throwError(errorRes);
-        }),
-
-        tap(resData => {
+        tap((resData) => {
           if (resData && resData.accessToken) {
             this.handleLogin(
               resData.accessToken,
@@ -182,7 +171,11 @@ export class AuthService {
 
   validateUsernameExists(username: string): Observable<boolean> {
     return this.http
-      .get(`${environment.reserbizAPIEndPoint}/auth/validateUsernameExists/${this.userId()}/${username}`)
+      .get(
+        `${
+          environment.reserbizAPIEndPoint
+        }/auth/validateUsernameExists/${this.userId()}/${username}`
+      )
       .pipe(
         tap((res: boolean) => {
           return of(res);
@@ -274,29 +267,6 @@ export class AuthService {
 
     this._currentUserFullname.next(user.fullname);
     this._currentUsername.next(user.username);
-  }
-
-  private handleError(errorMessage: string) {
-    switch (errorMessage) {
-      case 'EMAIL_EXISTS':
-        this.dialogService.alert(
-          'Authentication Failed',
-          'This email address exists already.'
-        );
-        break;
-      case 'INVALID_PASSWORD':
-        this.dialogService.alert(
-          'Authentication Failed',
-          'Your password is invalid.'
-        );
-        break;
-      default:
-        this.dialogService.alert(
-          'Authentication Failed',
-          'Please check your credentials.'
-        );
-    }
-    console.error(errorMessage);
   }
 
   private userId(): number {

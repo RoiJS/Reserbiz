@@ -1,60 +1,50 @@
-<FlexBoxLayout
-  flexDirection="column"
-  justifyContent="space-around"
-  class="login-main-container"
->
-  <StackLayout class="app-logo-container">
-    <Label text="Reserbiz"></Label>
-  </StackLayout>
-  <StackLayout class="login-form nt-form" [formGroup]="form">
-    <StackLayout class="nt-input input-field">
-      <Label
-        class="label"
-        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
-      ></Label>
-      <TextField
-        class="nt-input"
-        returnKey="next"
-        [autocorrection]="false"
-        autocapitalizationType="none"
-        formControlName="username"
-        #usernameEl
-      ></TextField>
-      <Label
-        [text]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
-        *ngIf="!usernameControlIsValid"
-      ></Label>
+<ns-loader-layout [busy]="isLoading">
+  <FlexBoxLayout
+    flexDirection="column"
+    justifyContent="space-around"
+    class="login-main-container"
+  >
+    <StackLayout class="app-logo-container">
+      <StackLayout class="main-logo">
+        <image src="res://mainlogo"></image>
+      </StackLayout>
     </StackLayout>
-    <StackLayout class="nt-input input-field">
-      <label
-        class="label"
-        [text]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
-        [ngClass]="{ invalid: !passwordControlIsValid }"
-      ></label>
-      <TextField
-        class="nt-input"
-        returnKey="done"
-        [autocorrection]="false"
-        autocapitalizationType="none"
-        [secure]="true"
-        [hint]="'AUTH_PAGE.PASSWORD_CONTROL.PLACE_HOLDER' | translate"
-        formControlName="password"
-        #passwordEl
-        (returnPress)="onDone()"
-      ></TextField>
-      <label
-        [text]="'AUTH_PAGE.PASSWORD_CONTROL.ERROR_LABEL' | translate"
-        *ngIf="!passwordControlIsValid"
-      ></label>
+
+    <StackLayout class="login-form-container">
+      <StackLayout class="lock-icon" verticalAlignment="center">
+        <label class="fa fa-solid" text="&#xf023;"></label>
+      </StackLayout>
+      <FlexBoxLayout class="login-form" [formGroup]="form">
+        <StackLayout class="input-field">
+          <TextField
+            [hint]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
+            returnKey="next"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            formControlName="username"
+            #usernameEl
+          ></TextField>
+        </StackLayout>
+        <StackLayout class="input-field">
+          <TextField
+            returnKey="done"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            [secure]="true"
+            [hint]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
+            formControlName="password"
+            #passwordEl
+            (returnPress)="onDone()"
+          ></TextField>
+        </StackLayout>
+        <button
+          padding="0"
+          [text]="'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL' | translate"
+          class="nt-button btn-login"
+          (tap)="onSubmit()"
+          [isEnabled]="form.valid"
+        ></button>
+      </FlexBoxLayout>
     </StackLayout>
-    <Button
-      style="height: 45;"
-      [text]="'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL' | translate"
-      class="nt-button -primary -rounded-lg"
-      (tap)="onSubmit()"
-      [isEnabled]="form.valid"
-      *ngIf="!isLoading"
-    ></Button>
-    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-  </StackLayout>
-</FlexBoxLayout>
+  </FlexBoxLayout>
+</ns-loader-layout>

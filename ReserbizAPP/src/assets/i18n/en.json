@@ -91,16 +91,18 @@
   "AUTH_PAGE": {
     "USERNAME_CONTROL": {
       "LABEL": "Username",
+      "HINT": "Enter Username...",
       "ERROR_LABEL": "Please enter username."
     },
     "PASSWORD_CONTROL": {
       "LABEL": "Password",
-      "PLACE_HOLDER": "Min 6 characters",
+      "HINT": "Enter Password...",
       "ERROR_LABEL": "Please enter valid password."
     },
     "LOGIN_BUTTON_CONTROL": {
-      "LABEL": "Login"
-    }
+      "LABEL": "Log in"
+    },
+    "LOGIN_FAILED": "Login Failed"
   },
 
   "PROFILE_INFORMATION_PAGE": {

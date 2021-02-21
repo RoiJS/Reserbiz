@@ -1,17 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Page } from '@nativescript/core';
+import { RouterExtensions } from '@nativescript/angular';
 
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
+import { DialogService } from '../_services/dialog.service';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
   form: FormGroup;
@@ -23,23 +24,24 @@ export class AuthComponent implements OnInit {
   @ViewChild('passwordEl', { static: false }) passwordEl: ElementRef<any>;
 
   constructor(
-    private router: Router,
     private authService: AuthService,
+    private dialogService: DialogService,
     private formService: FormService,
     private page: Page,
-    private translate: TranslateService
+    private router: RouterExtensions,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
       username: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       password: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required, Validators.minLength(6)]
-      })
+        validators: [Validators.required],
+      }),
     });
 
     this.controlStatusListener();
@@ -53,7 +55,7 @@ export class AuthComponent implements OnInit {
   onSubmit() {
     this.formService.dismiss([
       this.usernameEl.nativeElement,
-      this.passwordEl.nativeElement
+      this.passwordEl.nativeElement,
     ]);
 
     if (!this.form.valid) {
@@ -62,27 +64,37 @@ export class AuthComponent implements OnInit {
 
     const username = this.form.get('username').value;
     const password = this.form.get('password').value;
-    this.form.reset();
     this.usernameControlIsValid = true;
     this.passwordControlIsValid = true;
     this.isLoading = true;
+
     this.authService.login(username, password).subscribe(
-      resData => {
-        this.isLoading = false;
-        this.router.navigate(['/dashboard']);
+      (resData) => {
+        this.router.navigate(['/dashboard'], {
+          transition: {
+            name: 'slideLeft',
+          },
+        });
       },
-      err => {
+      (error: any) => {
+        this.dialogService.alert(
+          this.translateService.instant('AUTH_PAGE.LOGIN_FAILED'),
+          error
+        );
         this.isLoading = false;
+      },
+      () => {
+        this.form.reset();
       }
     );
   }
 
   controlStatusListener() {
-    this.form.get('username').statusChanges.subscribe(status => {
+    this.form.get('username').statusChanges.subscribe((status) => {
       this.usernameControlIsValid = status === 'VALID';
     });
 
-    this.form.get('password').statusChanges.subscribe(status => {
+    this.form.get('password').statusChanges.subscribe((status) => {
       this.passwordControlIsValid = status === 'VALID';
     });
   }
@@ -90,7 +102,7 @@ export class AuthComponent implements OnInit {
   onDone() {
     this.formService.dismiss([
       this.usernameEl.nativeElement,
-      this.passwordEl.nativeElement
+      this.passwordEl.nativeElement,
     ]);
   }
 }

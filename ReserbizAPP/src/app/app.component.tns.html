@@ -6,7 +6,9 @@ https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawe
 <RadSideDrawer class="nt-drawer" [drawerTransition]="sideDrawerTransition">
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
-      <label class="sidedrawer-header-image fa" text="&#xf2bd;"></label>
+      <StackLayout class="main-logo">
+        <image width="130" height="130" src="res://mainlogo"></image>
+      </StackLayout>
       <label class="sidedrawer-header-brand" [text]="currentUsername"></label>
       <label class="footnote" [text]="currentUserFullname"></label>
     </StackLayout>
