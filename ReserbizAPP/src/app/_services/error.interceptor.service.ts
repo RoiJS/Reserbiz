@@ -27,7 +27,10 @@ export class ErrorInterceptorService implements HttpInterceptor {
         // Header request contains Token-Expired,
         // we will send request to refresh the token
         // attempt to resend the request.
-        if (exception.status === 401 && exception.headers.has('Token-Expired')) {
+        if (
+          exception.status === 401 &&
+          exception.headers.has('Token-Expired')
+        ) {
           return this.authService.refresh().pipe(
             switchMap(() => {
               return this.updateHeader(req);
@@ -46,7 +49,11 @@ export class ErrorInterceptorService implements HttpInterceptor {
             return throwError(applicationError);
           } else {
             serverError = (<any>exception).error;
-            if (serverError.errors && typeof serverError.errors === 'object') {
+            if (
+              serverError &&
+              serverError.errors &&
+              typeof serverError.errors === 'object'
+            ) {
               for (const key in serverError.errors) {
                 if (serverError.errors[key]) {
                   modelStateErrors += serverError.errors[key] + '\n';
