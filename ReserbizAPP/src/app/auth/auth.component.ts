@@ -5,9 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { Page } from '@nativescript/core';
 import { RouterExtensions } from '@nativescript/angular';
 
+import { Client } from '../_models/client.model';
+
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
 import { DialogService } from '../_services/dialog.service';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,12 +19,11 @@ import { DialogService } from '../_services/dialog.service';
 })
 export class AuthComponent implements OnInit {
   form: FormGroup;
-  usernameControlIsValid = true;
-  passwordControlIsValid = true;
   isLoading = false;
 
   @ViewChild('usernameEl', { static: false }) usernameEl: ElementRef<any>;
   @ViewChild('passwordEl', { static: false }) passwordEl: ElementRef<any>;
+  @ViewChild('companyEl', { static: false }) companyEl: ElementRef<any>;
 
   constructor(
     private authService: AuthService,
@@ -29,7 +31,8 @@ export class AuthComponent implements OnInit {
     private formService: FormService,
     private page: Page,
     private router: RouterExtensions,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -42,9 +45,13 @@ export class AuthComponent implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
+      company: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
     });
 
-    this.controlStatusListener();
+    this.initializeCompanyField();
     this.hideActionBar();
   }
 
@@ -56,6 +63,7 @@ export class AuthComponent implements OnInit {
     this.formService.dismiss([
       this.usernameEl.nativeElement,
       this.passwordEl.nativeElement,
+      this.companyEl.nativeElement,
     ]);
 
     if (!this.form.valid) {
@@ -64,17 +72,34 @@ export class AuthComponent implements OnInit {
 
     const username = this.form.get('username').value;
     const password = this.form.get('password').value;
-    this.usernameControlIsValid = true;
-    this.passwordControlIsValid = true;
+    const company = this.form.get('company').value;
+
     this.isLoading = true;
 
-    this.authService.login(username, password).subscribe(
-      (resData) => {
-        this.router.navigate(['/dashboard'], {
-          transition: {
-            name: 'slideLeft',
+    this.authService.checkCompany(company).subscribe(
+      (client: Client) => {
+        this.storageService.storeString('company', client.name);
+        this.storageService.storeString('app-secret-token', client.dbHashName);
+
+        this.authService.login(username, password).subscribe(
+          () => {
+            this.router.navigate(['/dashboard'], {
+              transition: {
+                name: 'slideLeft',
+              },
+            });
           },
-        });
+          (error: any) => {
+            this.dialogService.alert(
+              this.translateService.instant('AUTH_PAGE.LOGIN_FAILED'),
+              error
+            );
+            this.isLoading = false;
+          },
+          () => {
+            this.form.reset();
+          }
+        );
       },
       (error: any) => {
         this.dialogService.alert(
@@ -82,21 +107,9 @@ export class AuthComponent implements OnInit {
           error
         );
         this.isLoading = false;
-      },
-      () => {
         this.form.reset();
       }
     );
-  }
-
-  controlStatusListener() {
-    this.form.get('username').statusChanges.subscribe((status) => {
-      this.usernameControlIsValid = status === 'VALID';
-    });
-
-    this.form.get('password').statusChanges.subscribe((status) => {
-      this.passwordControlIsValid = status === 'VALID';
-    });
   }
 
   onDone() {
@@ -104,5 +117,15 @@ export class AuthComponent implements OnInit {
       this.usernameEl.nativeElement,
       this.passwordEl.nativeElement,
     ]);
+  }
+
+  private initializeCompanyField() {
+    let company = '';
+
+    if (this.storageService.hasKey('company')) {
+      company = this.storageService.getString('company');
+    }
+
+    this.form.get('company').setValue(company);
   }
 }

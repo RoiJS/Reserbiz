@@ -17,6 +17,16 @@
       <FlexBoxLayout class="login-form" [formGroup]="form">
         <StackLayout class="input-field">
           <TextField
+            [hint]="'AUTH_PAGE.COMPANY_CONTROL.LABEL' | translate"
+            returnKey="next"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            formControlName="company"
+            #companyEl
+          ></TextField>
+        </StackLayout>
+        <StackLayout class="input-field">
+          <TextField
             [hint]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
             returnKey="next"
             [autocorrection]="false"

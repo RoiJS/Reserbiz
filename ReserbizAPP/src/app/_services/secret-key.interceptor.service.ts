@@ -4,18 +4,16 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { environment } from '@src/environments/environment';
 
 import { StorageService } from './storage.service';
 
 import { AuthToken } from '../_models/auth-token.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SecretKeyInterceptorService implements HttpInterceptor {
   constructor(private storageService: StorageService) {}
@@ -24,12 +22,17 @@ export class SecretKeyInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    let appSecretToken = '';
+
+    if (this.storageService.hasKey('app-secret-token')) {
+      appSecretToken = this.storageService.getString('app-secret-token');
+    }
 
     const authReq = req.clone({
       setHeaders: {
-        'App-Secret-Token': environment.appSecretToken,
-        'Authorization': `Bearer ${this.tokenGetter()}`
-      }
+        'App-Secret-Token': appSecretToken,
+        Authorization: `Bearer ${this.tokenGetter()}`,
+      },
     });
 
     return next.handle(authReq);
@@ -61,6 +64,5 @@ export class SecretKeyInterceptorService implements HttpInterceptor {
 export const SecretKeyInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   useClass: SecretKeyInterceptorService,
-  multi: true
+  multi: true,
 };
-

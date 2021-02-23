@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject, of, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { RoutingService } from './routing.service';
-import { DialogService } from './dialog.service';
 import { StorageService } from './storage.service';
 
 import { User } from '../_models/user.model';
+import { Client } from '../_models/client.model';
 import { UserPersonalInfoFormSource } from '../_models/form/user-personal-form.model';
 import { GenderEnum } from '../_enum/gender.enum';
 import { AuthToken } from '../_models/auth-token.model';
@@ -102,6 +102,12 @@ export class AuthService {
       );
   }
 
+  checkCompany(company: string) {
+    return this.http.get<Client>(
+      `${environment.reserbizAPIEndPoint}/clients/${company}`
+    );
+  }
+
   refresh(): Observable<IAuthResponseData> {
     const storedTokenInfo = this.storageService.getString('authToken');
 
@@ -144,6 +150,7 @@ export class AuthService {
 
     this.storageService.remove('userData');
     this.storageService.remove('authToken');
+    this.storageService.remove('app-secret-token');
 
     if (this._tokenExpirationTimer) {
       clearTimeout(this._tokenExpirationTimer);

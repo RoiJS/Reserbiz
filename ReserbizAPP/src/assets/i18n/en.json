@@ -89,6 +89,11 @@
   },
 
   "AUTH_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company...",
+      "ERROR_LABEL": "Please enter company."
+    },
     "USERNAME_CONTROL": {
       "LABEL": "Username",
       "HINT": "Enter Username...",
