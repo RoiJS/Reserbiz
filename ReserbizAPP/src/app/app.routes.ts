@@ -62,4 +62,9 @@ export const routes: Routes = [
       import('./settings/settings.module').then((m) => m.SettingsModule),
     canLoad: [AuthGuard],
   },
+  {
+    path: 'no-connection',
+    loadChildren: () =>
+      import('./no-connection/no-connection.module').then((m) => m.NoConnectionModule),
+  },
 ];

@@ -6,8 +6,16 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   ViewContainerRef,
+  NgZone,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+
+import {
+  connectionType,
+  getConnectionType,
+  startMonitoring,
+  stopMonitoring,
+} from '@nativescript/core/connectivity';
 
 import { RouterExtensions } from '@nativescript/angular';
 import { RadSideDrawerComponent } from 'nativescript-ui-sidedrawer/angular';
@@ -26,6 +34,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './_services/auth.service';
+import { CheckConnectionService } from './_services/check-connection.service';
 import { SideDrawerService } from './_services/side-drawer.service';
 import { UIService } from './_services/ui.service';
 
@@ -47,6 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private drawerSub: Subscription;
   private currentFullnameSub: Subscription;
   private currentUsernameSub: Subscription;
+  private checkConnectionSub: Subscription;
 
   private _currentFullname: string;
   private _currentUsername: string;
@@ -56,7 +66,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private checkConnectionService: CheckConnectionService,
     private changeDetectionRef: ChangeDetectorRef,
+    private ngZone: NgZone,
     private router: Router,
     private routerExtensions: RouterExtensions,
     private settingsService: SettingsService,
@@ -88,6 +100,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hideKeyboard();
         }
       });
+
       this.uiService.setRootVCRef(this.vcRef);
 
       this.activatedUrl = '/dashboard';
@@ -103,6 +116,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
       await this.settingsService.getSettingsDetails();
     })();
+
+    this.monitorInternetConnectivity();
+    this.initMonitorConnectivityRedirection();
   }
 
   ngOnDestroy() {
@@ -117,6 +133,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentUsernameSub) {
       this.currentUsernameSub.unsubscribe();
     }
+
+    if (this.checkConnectionSub) {
+      this.checkConnectionSub.unsubscribe();
+    }
+
+    stopMonitoring();
   }
 
   ngAfterViewInit() {
@@ -144,7 +166,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     sideDrawer.closeDrawer();
   }
 
-  hideKeyboard = () => {
+  private hideKeyboard(): void {
     if (ios) {
       ios.nativeApp.sendActionToFromForEvent(
         'resignFirstResponder',
@@ -155,6 +177,39 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       ad.dismissSoftInput();
     }
+  }
+
+  private monitorInternetConnectivity() {
+    const currentConnectionType = getConnectionType();
+
+    this.checkConnectionService.currentConnectionType.next(
+      currentConnectionType
+    );
+
+    startMonitoring((type) => {
+      this.checkConnectionService.currentConnectionType.next(type);
+    });
+  }
+
+  private initMonitorConnectivityRedirection() {
+    this.checkConnectionSub = this.checkConnectionService.currentConnectionType.subscribe(
+      (currentConnection: connectionType) => {
+        this.ngZone.run(() => {
+          let route = '';
+          if (currentConnection === connectionType.none) {
+            route = '/no-connection';
+          } else {
+            if (this.authService.user.value) {
+              route = '/dashboard';
+            } else {
+              route = '/auth';
+            }
+          }
+
+          this.routerExtensions.navigate([route]);
+        });
+      }
+    );
   }
 
   get currentUserFullname(): string {

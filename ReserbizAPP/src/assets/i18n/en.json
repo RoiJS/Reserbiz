@@ -110,6 +110,12 @@
     "LOGIN_FAILED": "Login Failed"
   },
 
+  "NO_CONNECTION_PAGE": {
+    "MAIN_TEXT": "Oops! You're offline.",
+    "SECONDARY_TEXT": "Please make sure that you have connection.",
+    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+  },
+
   "PROFILE_INFORMATION_PAGE": {
     "ACTION_BAR_TITLE": "Profile",
     "GENERAL_CONTROL_GROUP": {

@@ -3,12 +3,15 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Page } from '@nativescript/core';
+import { getConnectionType } from '@nativescript/core/connectivity';
+
 import { RouterExtensions } from '@nativescript/angular';
 
 import { Client } from '../_models/client.model';
 
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
+import { CheckConnectionService } from '../_services/check-connection.service';
 import { DialogService } from '../_services/dialog.service';
 import { StorageService } from '../_services/storage.service';
 
@@ -27,6 +30,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private checkConnectionService: CheckConnectionService,
     private dialogService: DialogService,
     private formService: FormService,
     private page: Page,
@@ -53,6 +57,7 @@ export class AuthComponent implements OnInit {
 
     this.initializeCompanyField();
     this.hideActionBar();
+    this.setCurrentConnection();
   }
 
   hideActionBar() {
@@ -127,5 +132,12 @@ export class AuthComponent implements OnInit {
     }
 
     this.form.get('company').setValue(company);
+  }
+
+  private setCurrentConnection() {
+    const currentConnectionType = getConnectionType();
+    this.checkConnectionService.currentConnectionType.next(
+      currentConnectionType
+    );
   }
 }
