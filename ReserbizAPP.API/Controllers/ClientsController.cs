@@ -93,7 +93,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientForListDto>>> GetAllClients()
         {
-            var clientsFromRepo = await _clientRepository.GetAllEntities().ToObjectAsync();
+            var clientsFromRepo = await _clientRepository.GetAllEntities().ToListObjectAsync();
             var clietsToReturn = _mapper.Map<IEnumerable<ClientForListDto>>(clientsFromRepo);
             return Ok(clietsToReturn);
         }
