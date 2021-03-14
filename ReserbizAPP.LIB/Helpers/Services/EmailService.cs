@@ -1,8 +1,6 @@
 using System;
 using System.Net;
 using System.Net.Mail;
-using Microsoft.Extensions.Options;
-using ReserbizAPP.LIB.Helpers.Class;
 
 namespace ReserbizAPP.LIB.Helpers.Services
 {
