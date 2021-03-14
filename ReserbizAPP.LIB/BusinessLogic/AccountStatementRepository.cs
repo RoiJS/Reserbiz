@@ -221,8 +221,22 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             while (contract.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue))
             {
-                var newContractAccountStatement = RegisterNewAccountStament(contract);
-                contract.AccountStatements.Add(newContractAccountStatement);
+                var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
+                                .Where(
+                                    a => a.ContractId == contract.Id 
+                                    && a.DueDate == contract.NextDueDate
+                                    && a.IsDelete == false
+                                    && a.IsActive 
+                                )
+                                .FirstOrDefaultAsync() != null);
+
+                // Its important to check if statement of account date already
+                // exists on list of statement of accounts
+                if (isAccountStatementExists == false)
+                {
+                    var newContractAccountStatement = RegisterNewAccountStament(contract);
+                    contract.AccountStatements.Add(newContractAccountStatement);
+                }
             }
 
             try
