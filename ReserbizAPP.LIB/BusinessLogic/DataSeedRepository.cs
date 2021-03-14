@@ -17,8 +17,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
     {
         public ReserbizClientDataContext _context;
         private readonly IConfiguration _configuration;
-        private readonly IOptions<IApplicationSettings> _appSettings;
-        public DataSeedRepository(IReserbizRepository<IEntity> reserbizRepository, IConfiguration configuration, IOptions<IApplicationSettings> appSettings)
+        private readonly IOptions<ApplicationSettings> _appSettings;
+        public DataSeedRepository(IReserbizRepository<IEntity> reserbizRepository, IConfiguration configuration, IOptions<ApplicationSettings> appSettings)
         : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
             _appSettings = appSettings;

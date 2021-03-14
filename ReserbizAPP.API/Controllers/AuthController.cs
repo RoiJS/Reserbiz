@@ -25,14 +25,14 @@ namespace ReserbizAPP.API.Controllers
         private readonly IRefreshTokenRepository<RefreshToken> _refreshTokenRepository;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        private readonly IOptions<IApplicationSettings> _appSettings;
+        private readonly IOptions<ApplicationSettings> _appSettings;
 
         public AuthController(
             IAuthRepository<Account> authRepo,
             IRefreshTokenRepository<RefreshToken> refreshTokenRepository,
             IConfiguration config,
             IMapper mapper,
-            IOptions<IApplicationSettings> appSettings
+            IOptions<ApplicationSettings> appSettings
         )
         {
             _appSettings = appSettings;

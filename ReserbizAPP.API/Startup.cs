@@ -20,7 +20,7 @@ using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using ReserbizAPP.LIB.Helpers.Class;
 
 namespace ReserbizAPP.API
 {
@@ -60,7 +60,10 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
 
             // Register IOptions pattern for AppSettings section
-            services.Configure<IApplicationSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+
+            // Register IOptions pattern for SMSAPISettings
+            services.Configure<SMSAPISettings>(Configuration.GetSection("SMSAPISettings"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
