@@ -20,7 +20,8 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
     public penaltyValueType: ValueTypeEnum,
     public penaltyAmountPerDurationUnit: DurationEnum,
     public penaltyEffectiveAfterDurationValue: number,
-    public penaltyEffectiveAfterDurationUnit: DurationEnum
+    public penaltyEffectiveAfterDurationUnit: DurationEnum,
+    public generateAccountStatementDaysBeforeValue: number
   ) {
     super();
   }
@@ -43,7 +44,8 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
       this.penaltyValueType,
       this.penaltyAmountPerDurationUnit,
       this.penaltyEffectiveAfterDurationValue,
-      this.penaltyEffectiveAfterDurationUnit
+      this.penaltyEffectiveAfterDurationUnit,
+      this.generateAccountStatementDaysBeforeValue
     );
   }
 }

@@ -70,6 +70,8 @@ namespace ReserbizAPP.LIB.Models
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
+        public int GenerateAccountStatementDaysBeforeValue  { get; set; }
+
         public List<Contract> Contracts { get; set; }
 
         // Term is tagged as deletable if it has 

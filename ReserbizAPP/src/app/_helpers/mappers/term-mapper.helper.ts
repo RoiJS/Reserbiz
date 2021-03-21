@@ -1,12 +1,15 @@
 import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
 
 import { TermMiscellaneousMapper } from './term-miscellaneous-mapper.helper';
+import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
+
 import { Term } from '../../_models/term.model';
 import { TermMiscellaneous } from '../../_models/term-miscellaneous.model';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
 import { TermDetailsFormSource } from '../../_models/form/term-details-form.model';
 import { SpaceType } from '../../_models/space-type.model';
+
 import { TermDto } from '../../_dtos/term.dto';
+
 import { DurationEnum } from '../../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../../_enum/value-type.enum';
 
@@ -46,6 +49,8 @@ export class TermMapper
     term.penaltyAmount = t.penaltyAmount;
     term.penaltyValueType = t.penaltyValueType;
     term.penaltyAmountPerDurationUnit = t.penaltyAmountPerDurationUnit;
+    term.generateAccountStatementDaysBeforeValue =
+      t.generateAccountStatementDaysBeforeValue;
     term.penaltyAmountPerDurationUnitText = t.penaltyAmountPerDurationUnitText;
     term.penaltyEffectiveAfterDurationValue =
       t.penaltyEffectiveAfterDurationValue;
@@ -75,8 +80,8 @@ export class TermMapper
       0.0,
       0,
       DurationEnum.Month,
-      0,
-      0,
+      1,
+      2,
       true,
       0.0,
       true,
@@ -85,7 +90,8 @@ export class TermMapper
       ValueTypeEnum.Fixed,
       DurationEnum.Day,
       0,
-      DurationEnum.Day
+      DurationEnum.Day,
+      5
     );
 
     return termFormSource;
@@ -109,7 +115,8 @@ export class TermMapper
       termFormSource.penaltyValueType,
       termFormSource.penaltyAmountPerDurationUnit,
       termFormSource.penaltyEffectiveAfterDurationValue,
-      termFormSource.penaltyEffectiveAfterDurationUnit
+      termFormSource.penaltyEffectiveAfterDurationUnit,
+      termFormSource.generateAccountStatementDaysBeforeValue
     );
     return term;
   }
@@ -132,7 +139,8 @@ export class TermMapper
       term.penaltyValueType,
       term.penaltyAmountPerDurationUnit,
       term.penaltyEffectiveAfterDurationValue,
-      term.penaltyEffectiveAfterDurationUnit
+      term.penaltyEffectiveAfterDurationUnit,
+      term.generateAccountStatementDaysBeforeValue
     );
 
     return termFormSource;
@@ -159,6 +167,8 @@ export class TermMapper
       formSource.penaltyEffectiveAfterDurationValue;
     term.penaltyEffectiveAfterDurationUnit =
       formSource.penaltyEffectiveAfterDurationUnit;
+    term.generateAccountStatementDaysBeforeValue =
+      formSource.generateAccountStatementDaysBeforeValue;
 
     return term;
   }

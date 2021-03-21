@@ -158,6 +158,8 @@ export class ContractService
       termDetails.penaltyEffectiveAfterDurationValue;
     contractManageDto.term.penaltyEffectiveAfterDurationUnit =
       termDetails.penaltyEffectiveAfterDurationUnit;
+    contractManageDto.term.generateAccountStatementDaysBeforeValue =
+      termDetails.generateAccountStatementDaysBeforeValue;
 
     contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {

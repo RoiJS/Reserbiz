@@ -50,7 +50,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         // Penalty amount value
         public float PenaltyValue { get; set; }
-        
+
         // Computed penalty amount
         public float PenaltyAmount { get; set; }
 
@@ -69,6 +69,8 @@ namespace ReserbizAPP.LIB.Dtos
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
+        
+        public int GenerateAccountStatementDaysBeforeValue { get; set; }
 
         public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }
     }

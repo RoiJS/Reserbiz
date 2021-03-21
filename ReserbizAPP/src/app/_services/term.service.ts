@@ -111,6 +111,8 @@ export class TermService
       newTerm.penaltyEffectiveAfterDurationValue;
     termCreateDto.penaltyEffectiveAfterDurationUnit =
       newTerm.penaltyEffectiveAfterDurationUnit;
+    termCreateDto.generateAccountStatementDaysBeforeValue =
+      newTerm.generateAccountStatementDaysBeforeValue;
 
     termCreateDto.termMiscellaneous = newTermMiscellaneous.map(
       (tm: TermMiscellaneous) => {

@@ -365,6 +365,7 @@ export class TermsDetailsFormComponent
     this._newTermDetails.penaltyAmountPerDurationUnit = this._termDetailsForm.penaltyAmountPerDurationUnit;
     this._newTermDetails.penaltyEffectiveAfterDurationValue = this._termDetailsForm.penaltyEffectiveAfterDurationValue;
     this._newTermDetails.penaltyEffectiveAfterDurationUnit = this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
+    this._newTermDetails.generateAccountStatementDaysBeforeValue = this._termDetailsForm.generateAccountStatementDaysBeforeValue;
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {

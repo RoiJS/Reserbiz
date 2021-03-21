@@ -12,7 +12,7 @@ namespace ReserbizAPP.LIB.Dtos
         [Required]
         [MaxLength(20, ErrorMessage = "{0} must not exceed to {1}.")]
         public string Code { get; set; }
-        
+
         public int TermParentId { get; set; }
 
         [Required]
@@ -88,6 +88,9 @@ namespace ReserbizAPP.LIB.Dtos
         [Required]
         [EnumDataType(typeof(DurationEnum))]
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
+
+        [Required]
+        public int GenerateAccountStatementDaysBeforeValue { get; set; }
 
         public List<TermMiscellaneousManageDto> TermMiscellaneous { get; set; }
     }

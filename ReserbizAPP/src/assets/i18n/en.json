@@ -685,6 +685,12 @@
           "HINT_TEXT": "Please enter penalty effective after duration unit"
         }
       },
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        }
+      },
       "ADD_DIALOG": {
         "TITLE": "Save Term Information",
         "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
@@ -699,7 +705,7 @@
     },
 
     "TABS_OPTIONS": {
-      "NEW_TERM": "New Term",
+      "DETAILS": "Details",
       "TERM_DETAILS": "Term Details",
       "ADD_MISCELLANEOUS": "Miscellaneous"
     }
@@ -793,6 +799,14 @@
           "HINT_TEXT": "Please enter penalty effective after duration unit"
         }
       },
+
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        }
+      },
+
       "UPDATE_DIALOG": {
         "TITLE": "Update Term Information",
         "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
@@ -844,6 +858,11 @@
       "LABEL": "PENALTY DETAILS",
       "PENALTY_AMOUNT_PER_DURATION_LABEL": "Penalty Amount Per {0}: {1} {2}",
       "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
+    },
+
+    "AUTOMATION_SETTINGS_DETAILS_GROUP": {
+      "LABEL": "AUTOMATION SETTINGS",
+      "GENERATE_ACCOUNT_STATEMENTS_DAYS_BEFORE_DUE_DATE": "Generate account statement days before due date:"
     },
 
     "REMOVE_TERM_DIALOG": {
@@ -1183,6 +1202,12 @@
       "CONFIRM_MESSAGE": "Are you sure to save your changes?",
       "SUCCESS_MESSAGE": "Your changes have been saved!",
       "ERROR_MESSAGE": "Failed to save your changes. Please try again later!"
+    },
+    "SEND_DETAILS_DIALOG": {
+      "TITLE": "Send Statement of Account Details",
+      "CONFIRM_MESSAGE": "This will send the statement of account details to the tenant. Are you sure to proceed?",
+      "SUCCESS_MESSAGE": "Statement of account details has been successfully sent.",
+      "ERROR_MESSAGE": "Failed to send the statement of account details. Please try again later."
     }
   },
 
@@ -1263,11 +1288,11 @@
       "TITLE": "Settings"
     },
     "FORM_CONTROL": {
-      "ACCOUNT_STATEMENT_SETTINGS_GROUP": {
-        "TITLE": "Account Statement",
+      "GENERAL_SETTINGS_GROUP": {
+        "TITLE": "General Settings",
         "CONTROLS": {
-          "GENERATE_ACCOUNTSTATEMENT_DAYS": {
-            "LABEL": "Generate account statement before days:"
+          "BUSINESS_NAME": {
+            "LABEL": "Business Name:"
           }
         }
       }
