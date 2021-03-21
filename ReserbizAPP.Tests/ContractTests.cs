@@ -471,7 +471,6 @@ namespace ReserbizAPP.Tests
         public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenNextDueDateIsLessThanOrEqualToExpirationDate_And_EffectiveDateIsEqualToNextDueDate(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
-            var daysBeforeGeneratingAccountStatement = 3;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -480,7 +479,7 @@ namespace ReserbizAPP.Tests
             contractObject.AccountStatements = new List<AccountStatement>();
 
             // Act
-            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
+            var result = contractObject.IsDueForGeneratingAccountStatement;
 
             // Assert 
             Assert.IsTrue(result);
@@ -494,7 +493,6 @@ namespace ReserbizAPP.Tests
         public void Should_ContractIsDueForGeneratingAccountStatementReturnTrue_WhenNextDueDateIsLessThanOrEqualToExpirationDate_And_NextDueDateMinusCurrentDateIsLessThanOrEqualToTheNumberOfDaysBeforeGeneratingAccountStatementSettings(DateTime currentDateTime)
         {
             var contractObject = GetTestContractObject();
-            var daysBeforeGeneratingAccountStatement = 3;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -541,7 +539,7 @@ namespace ReserbizAPP.Tests
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
 
             // Act
-            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
+            var result = contractObject.IsDueForGeneratingAccountStatement;
 
             // Assert 
             Assert.IsTrue(result);
@@ -556,7 +554,7 @@ namespace ReserbizAPP.Tests
 
             // Initialize number of days before considering
             // generating new account statement
-            var daysBeforeGeneratingAccountStatement = 4;
+            contractObject.Term.GenerateAccountStatementDaysBeforeValue = 4;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -605,7 +603,7 @@ namespace ReserbizAPP.Tests
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
 
             // Act
-            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
+            var result = contractObject.IsDueForGeneratingAccountStatement;
 
             // Assert 
             Assert.IsFalse(result);
@@ -619,7 +617,7 @@ namespace ReserbizAPP.Tests
 
             // Initialize number of days before considering
             // generating new account statement
-            var daysBeforeGeneratingAccountStatement = 4;
+            contractObject.Term.GenerateAccountStatementDaysBeforeValue = 4;
 
             // Arrange - Set duration unit and value
             contractObject.DurationValue = 1;
@@ -668,7 +666,7 @@ namespace ReserbizAPP.Tests
             contractObject.AccountStatements.AddRange(listOfAccountStatements);
 
             // Act
-            var result = contractObject.IsDueForGeneratingAccountStatement(daysBeforeGeneratingAccountStatement);
+            var result = contractObject.IsDueForGeneratingAccountStatement;
 
             // Assert 
             Assert.IsFalse(result);
@@ -864,7 +862,8 @@ namespace ReserbizAPP.Tests
 
             contract.Term = new Term
             {
-                DurationUnit = DurationEnum.Month
+                DurationUnit = DurationEnum.Month,
+                GenerateAccountStatementDaysBeforeValue = 3
             };
 
             return contract;

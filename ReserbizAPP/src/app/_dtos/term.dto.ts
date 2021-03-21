@@ -20,6 +20,7 @@ export class TermDto implements IBaseDto {
     public penaltyValueType: ValueTypeEnum,
     public penaltyAmountPerDurationUnit: DurationEnum,
     public penaltyEffectiveAfterDurationValue: number,
-    public penaltyEffectiveAfterDurationUnit: DurationEnum
+    public penaltyEffectiveAfterDurationUnit: DurationEnum,
+    public generateAccountStatementDaysBeforeValue: DurationEnum
   ) {}
 }

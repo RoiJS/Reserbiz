@@ -1,3 +1,3 @@
 export class SettingsDto {
-  constructor(public generateAccountStatementDaysBeforeValue: number) {}
+  constructor(public businessName: string) {}
 }

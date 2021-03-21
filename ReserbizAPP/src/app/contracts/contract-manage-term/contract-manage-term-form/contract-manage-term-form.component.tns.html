@@ -123,62 +123,62 @@
             labelTextColor="White"
           ></TKGroupTitleStyle>
 
-          <TKDataFormGridLayout tkPropertyGroupLayout>
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="durationUnit"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
-              [valuesProvider]="durationOptions"
-              index="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <!-- <TKDataFormGridLayout tkPropertyGroupLayout> -->
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="durationUnit"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="durationOptions"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="advancedPaymentDurationValue"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
-              index="1"
-              columnIndex="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
-                <TKPropertyEditorParams
-                  tKEditorParams
-                  [minimum]="durationDetailsRangeValueProvider?.minimum"
-                  [maximum]="durationDetailsRangeValueProvider?.maximum"
-                ></TKPropertyEditorParams>
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="advancedPaymentDurationValue"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+              <TKPropertyEditorParams
+                tKEditorParams
+                [minimum]="durationDetailsRangeValueProvider?.minimum"
+                [maximum]="durationDetailsRangeValueProvider?.maximum"
+              ></TKPropertyEditorParams>
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="depositPaymentDurationValue"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
-              index="1"
-              columnIndex="1"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
-                <TKPropertyEditorParams
-                  tKEditorParams
-                  [minimum]="durationDetailsRangeValueProvider?.minimum"
-                  [maximum]="durationDetailsRangeValueProvider?.maximum"
-                ></TKPropertyEditorParams>
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
-          </TKDataFormGridLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="depositPaymentDurationValue"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+              <TKPropertyEditorParams
+                tKEditorParams
+                [minimum]="durationDetailsRangeValueProvider?.minimum"
+                [maximum]="durationDetailsRangeValueProvider?.maximum"
+              ></TKPropertyEditorParams>
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+          <!-- </TKDataFormGridLayout> -->
         </TKPropertyGroup>
 
         <TKPropertyGroup
@@ -274,86 +274,111 @@
             labelTextColor="White"
           ></TKGroupTitleStyle>
 
-          <TKDataFormStackLayout tkPropertyGroupLayout>
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="penaltyValueType"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_TYPE_CONTROL.CONTROL_LABEL' | translate"
-              [valuesProvider]="valueTypeOptions"
-              index="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
-          </TKDataFormStackLayout>
+          <!-- <TKDataFormStackLayout tkPropertyGroupLayout> -->
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="penaltyValueType"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="valueTypeOptions"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+          <!-- </TKDataFormStackLayout> -->
 
-          <TKDataFormGridLayout tkPropertyGroupLayout>
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="penaltyValue"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_CONTROL.CONTROL_LABEL' | translate"
-              index="1"
-              columnIndex="1"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <!-- <TKDataFormGridLayout tkPropertyGroupLayout> -->
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="penaltyValue"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="penaltyAmountPerDurationUnit"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
-              [valuesProvider]="durationOptions"
-              index="1"
-              columnIndex="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="penaltyAmountPerDurationUnit"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="durationOptions"
+            index="1"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="penaltyEffectiveAfterDurationUnit"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
-              [valuesProvider]="durationOptions"
-              index="2"
-              columnIndex="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="penaltyEffectiveAfterDurationUnit"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="durationOptions"
+            index="2"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="penaltyEffectiveAfterDurationValue"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
-              index="2"
-              columnIndex="1"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
-          </TKDataFormGridLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="penaltyEffectiveAfterDurationValue"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            index="2"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+          <!-- </TKDataFormGridLayout> -->
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="generateAccountStatementDaysBeforeValue"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL.CONTROL_LABEL' | translate"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Number">
+            </TKPropertyEditor>
+          </TKEntityProperty>
         </TKPropertyGroup>
       </RadDataForm>
     </StackLayout>

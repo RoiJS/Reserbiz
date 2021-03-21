@@ -3,10 +3,16 @@
   [hasMenu]="false"
 >
   <ActionItem
+    icon="font://&#xf0e0;"
+    class="fa fa-solid action-item-button"
+    (tap)="sendAccountStatementDetails()"
+  ></ActionItem>
+  <ActionItem
     icon="font://&#xf0c7;"
     class="fa action-item-button"
     (tap)="updateInformation()"
   ></ActionItem>
+
   <ActionItem
     [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.OPTIONS.PAYMENTS' | translate"
     (tap)="navigateToOtherPage('payments/:id')"

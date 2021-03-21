@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210316170707_IntroducedGenerateAccountStatementDaysBeforeValueColumnOnTableTerm")]
+    partial class IntroducedGenerateAccountStatementDaysBeforeValueColumnOnTableTerm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +165,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<float>("Rate")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("SMSNotificationLastDateSent")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
 
@@ -238,9 +237,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("BusinessName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
@@ -260,6 +256,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int");
 
                     b.Property<int?>("DeletedById")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenerateAccountStatementDaysBeforeValue")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")

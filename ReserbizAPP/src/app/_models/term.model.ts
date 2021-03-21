@@ -41,6 +41,7 @@ export class Term extends Entity {
   public penaltyEffectiveText: string;
   public penaltyEffectiveAfterDurationUnit: DurationEnum;
   public penaltyEffectiveAfterDurationUnitText: string;
+  public generateAccountStatementDaysBeforeValue: number;
 
   constructor() {
     super();

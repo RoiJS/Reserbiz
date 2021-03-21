@@ -23,12 +23,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             // Reset settings
             await base.Reset();
-
-            // Create new settings
-            await AddEntity(new ClientSettings
-            {
-                GenerateAccountStatementDaysBeforeValue = 3
-            });
         }
     }
 }

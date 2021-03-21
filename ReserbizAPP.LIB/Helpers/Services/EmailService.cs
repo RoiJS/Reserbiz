@@ -17,7 +17,7 @@ namespace ReserbizAPP.LIB.Helpers.Services
             _smtp = smtp;
         }
 
-        public void Send(string senderEmail, string receiverEmail, string subject, string htmlBody)
+        public void Send(string senderEmail, string receiverEmail, string subject, string htmlBody, string bcc = "")
         {
             try
             {
@@ -28,6 +28,12 @@ namespace ReserbizAPP.LIB.Helpers.Services
                 mail.To.Add(receiverEmail);
                 mail.Subject = subject;
                 mail.Body = htmlBody;
+
+                if (!String.IsNullOrEmpty(bcc))
+                {
+                    mail.Bcc.Add(bcc);
+                }
+
                 SmtpClient smtpClient = new SmtpClient(_smtp);
                 smtpClient.Port = 587;
                 smtpClient.EnableSsl = true;

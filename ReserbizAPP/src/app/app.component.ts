@@ -198,15 +198,20 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           let route = '';
           if (currentConnection === connectionType.none) {
             route = '/no-connection';
+            this.routerExtensions.navigate([route]);
           } else {
-            if (this.authService.user.value) {
-              route = '/dashboard';
-            } else {
-              route = '/auth';
-            }
+            this.authService
+              .autoLogin()
+              .toPromise()
+              .then((result: boolean) => {
+                if (result) {
+                  route = '/dashboard';
+                } else {
+                  route = '/auth';
+                }
+                this.routerExtensions.navigate([route]);
+              });
           }
-
-          this.routerExtensions.navigate([route]);
         });
       }
     );

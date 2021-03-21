@@ -127,15 +127,19 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
+        public bool IsDueForGeneratingAccountStatement
         {
-            // Generating new account statement is based on these criteria below:
-            // (1) NextDuedate should be before or on the exact date of expiration date.
-            // (2) EffectiveDate should be before or today.
-            // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
-            return ((NextDueDate <= ExpirationDate)
-                    && (EffectiveDate <= CurrentDateTime)
-                    && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
+            get
+            {
+                // Generating new account statement is based on these criteria below:
+                // (1) NextDuedate should be before or on the exact date of expiration date.
+                // (2) EffectiveDate should be before or today.
+                // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
+                return ((NextDueDate <= ExpirationDate)
+                        && (EffectiveDate <= CurrentDateTime)
+                        && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= Term.GenerateAccountStatementDaysBeforeValue));
+            }
+
         }
 
         private DateTime CalculateExpirationDate()

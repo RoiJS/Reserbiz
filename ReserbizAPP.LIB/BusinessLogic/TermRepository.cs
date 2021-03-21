@@ -91,7 +91,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public bool CheckTermCodeIfExists(IList<Term> termList, int termId, string termCode)
         {
             var termWithTheSameCode = termList
-                                .Where(t => (termId != 0 && (t.Id != termId && t.Code == termCode)) || (termId == 0 && t.Code == termCode))
+                                .Where(t => (t.TermParentId == null && termId != 0 && (t.Id != termId && t.Code == termCode)) || (termId == 0 && t.Code == termCode))
                                 .Count();
 
             return termWithTheSameCode > 0;

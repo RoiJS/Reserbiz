@@ -5,7 +5,7 @@ namespace ReserbizAPP.LIB.Models
     public class ClientSettings
         : Entity, IUserActionTracker
     {
-        public int GenerateAccountStatementDaysBeforeValue { get; set; }
+        public string BusinessName { get; set; }
 
         public int? DeletedById { get; set; }
         public Account DeletedBy { get; set; }
