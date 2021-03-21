@@ -5,11 +5,11 @@ import { BaseForm } from './base-form.model';
 export class SettingsFormSource
   extends BaseForm<SettingsFormSource>
   implements IBaseFormSource<SettingsFormSource> {
-  constructor(public generateAccountStatementDaysBeforeValue: number) {
+  constructor(public businessName: string) {
     super();
   }
 
   clone() {
-    return new SettingsFormSource(this.generateAccountStatementDaysBeforeValue);
+    return new SettingsFormSource(this.businessName);
   }
 }

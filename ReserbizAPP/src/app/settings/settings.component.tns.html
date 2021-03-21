@@ -18,20 +18,20 @@
       >
         <TKPropertyGroup
           tkDataFormGroups
-          [name]="'SETTINGS.FORM_CONTROL.ACCOUNT_STATEMENT_SETTINGS_GROUP.TITLE' | translate"
+          [name]="'SETTINGS.FORM_CONTROL.GENERAL_SETTINGS_GROUP.TITLE' | translate"
           hidden="false"
         >
           <TKEntityProperty
             tkPropertyGroupProperties
-            name="generateAccountStatementDaysBeforeValue"
-            [displayName]="'SETTINGS.FORM_CONTROL.ACCOUNT_STATEMENT_SETTINGS_GROUP.CONTROLS.GENERATE_ACCOUNTSTATEMENT_DAYS.LABEL' | translate"
+            name="businessName"
+            [displayName]="'SETTINGS.FORM_CONTROL.GENERAL_SETTINGS_GROUP.CONTROLS.BUSINESS_NAME.LABEL' | translate"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Numeric">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"
                 labelPosition="Left"
-                labelWidth="300"
+                labelWidth="150"
               ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>

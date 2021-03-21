@@ -13,8 +13,8 @@ export class SettingsMapper
   mapEntity(settingsFromServer: Settings): Settings {
     const mappedSettings = new Settings();
 
-    mappedSettings.generateAccountStatementDaysBeforeValue =
-      settingsFromServer.generateAccountStatementDaysBeforeValue;
+    mappedSettings.businessName =
+      settingsFromServer.businessName;
     return mappedSettings;
   }
 
@@ -24,20 +24,20 @@ export class SettingsMapper
 
   mapFormSourceToDto(settingsFormSource: SettingsFormSource): SettingsDto {
     return new SettingsDto(
-      settingsFormSource.generateAccountStatementDaysBeforeValue
+      settingsFormSource.businessName
     );
   }
 
   mapEntityToFormSource(settings: Settings): SettingsFormSource {
     return new SettingsFormSource(
-      settings.generateAccountStatementDaysBeforeValue
+      settings.businessName
     );
   }
 
   mapFormSourceToEntity(settingsFormSource: SettingsFormSource): Settings {
     const settings = new Settings();
-    settings.generateAccountStatementDaysBeforeValue =
-      settingsFormSource.generateAccountStatementDaysBeforeValue;
+    settings.businessName =
+      settingsFormSource.businessName;
     return settings;
   }
 }
