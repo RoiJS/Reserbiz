@@ -1,7 +1,6 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Helpers
 {
