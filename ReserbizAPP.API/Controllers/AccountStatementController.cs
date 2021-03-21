@@ -133,6 +133,12 @@ namespace ReserbizAPP.API.Controllers
             return Ok(accountStatementsAmountSummary);
         }
 
+        [HttpGet("sendAccountStatement/{id}")]
+        public async Task<ActionResult> SendAccountStatement(int id)
+        {
+            await _accountStatementRepository.SendAccountStatement(id);
+            return Ok();
+        }
 
         [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]

@@ -1,3 +1,5 @@
+using ReserbizAPP.LIB.Helpers.Class;
+
 namespace ReserbizAPP.LIB.Interfaces
 {
     public class ApplicationSettings
@@ -5,5 +7,6 @@ namespace ReserbizAPP.LIB.Interfaces
         public string Token { get; set; }
         public bool ActivateEFMigration { get; set; }
         public bool ActivateDataSeed { get; set; }
+        public AccountStatementNotificationSettings AccountStatementNotificationSettings { get; set; }
     }
 }

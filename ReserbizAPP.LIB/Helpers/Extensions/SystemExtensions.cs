@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -93,6 +94,14 @@ namespace ReserbizAPP.LIB.Helpers
                 return null;
 
             return claim.Value;
+        }
+
+        public static string ToCurrencyFormat(this float number)
+        {
+            NumberFormatInfo nfi = new CultureInfo("fil-PH", false).NumberFormat;
+            nfi.CurrencySymbol = "Php ";
+            var amountFormatted = string.Format(nfi, "{0:C}", number);
+            return amountFormatted;
         }
 
     }

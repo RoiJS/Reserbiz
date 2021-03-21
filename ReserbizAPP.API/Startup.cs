@@ -65,6 +65,9 @@ namespace ReserbizAPP.API
             // Register IOptions pattern for SMSAPISettings
             services.Configure<SMSAPISettings>(Configuration.GetSection("SMSAPISettings"));
 
+            // Register IOptions pattern for EmailServerSettings section
+            services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
+
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
 

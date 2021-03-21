@@ -163,6 +163,50 @@ export class ContractAccountStatementInformationComponent
     return result;
   }
 
+  sendAccountStatementDetails() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((result: boolean) => {
+        if (result) {
+          this._isBusy = true;
+          (async () => {
+            try {
+              await this.accountStatementService.sendAccountStatementDetails(
+                this._currentAccountStatementId
+              );
+
+              this.dialogService.alert(
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                ),
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.SUCCESS_MESSAGE'
+                )
+              );
+
+              this._isBusy = false;
+            } catch {
+              this.dialogService.alert(
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                ),
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.ERROR_MESSAGE'
+                )
+              );
+            }
+          })();
+        }
+      });
+  }
+
   get currentAccountStatement(): AccountStatement {
     return this._currentAccountStatement;
   }

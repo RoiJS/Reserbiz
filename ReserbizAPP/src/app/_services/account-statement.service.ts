@@ -84,6 +84,14 @@ export class AccountStatementService
       .toPromise();
   }
 
+  async sendAccountStatementDetails(id: number) {
+    return await this.http
+      .get<void>(
+        `${this._apiBaseUrl}/accountstatement/sendAccountStatement/${id}`
+      )
+      .toPromise();
+  }
+
   reloadListFlag(reset: boolean) {
     this._loadAccountStatementListFlag.next(reset);
   }

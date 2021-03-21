@@ -92,7 +92,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<IEnumerable<Contract>> GetActiveDueContractsPerTenantAsync(int tenantId)
         {
-            var clientSettingsFromRepo = await _clientSettingsRepository.GetClientSettings();
             var activeContractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.Contracts
                                                 .AsQueryable()
                                                 .Includes(
@@ -110,7 +109,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             //  activeContractsPerTenantFromRepo = await _reserbizRepository.ClientDbContext.AccountStatements
             //     .Include(a => a.PaymentBreakdowns).ThenInclude(p => p.ReceivedBy).ThenInclude(p => p.PersonFullName).Include(c => c.)
 
-            var activeDueContracts = activeContractsPerTenantFromRepo.Where(c => c.IsDueForGeneratingAccountStatement(clientSettingsFromRepo.GenerateAccountStatementDaysBeforeValue));
+            var activeDueContracts = activeContractsPerTenantFromRepo.Where(c => c.IsDueForGeneratingAccountStatement);
 
             return activeContractsPerTenantFromRepo;
         }
