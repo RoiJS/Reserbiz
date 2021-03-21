@@ -47,9 +47,8 @@ export class AccountStatement extends Entity {
     let rentIncome = this.rate;
 
     // Check if the account statement is the first then calculate the rent income based on the
-    // advanced payment duration and deposit payment duration values
+    // rate and deposit payment duration values
     if (this.isFirstAccountStatement) {
-      rentIncome = this.rate * this.advancedPaymentDurationValue;
       rentIncome += this.rate * this.depositPaymentDurationValue;
     }
 
