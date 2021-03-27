@@ -41,6 +41,7 @@ namespace ReserbizAPP.API
             services.AddScoped<IDataContextHelper, DataContextHelper>();
             services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
             services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
+            services.AddScoped(typeof(IGeneralInformationRepository<GeneralInformation>), typeof(GeneralInformationRepository));
             services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));

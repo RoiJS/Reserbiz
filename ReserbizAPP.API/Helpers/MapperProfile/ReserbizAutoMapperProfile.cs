@@ -115,6 +115,7 @@ namespace ReserbizAPP.API.Helpers
                     opt => opt.MapFrom(src => src.ReceivedBy.PersonFullName));
             CreateMap<Space, SpaceDetailDto>();
             CreateMap<ClientSettings, ClientSettingsDetailsDto>();
+            CreateMap<GeneralInformation, GeneralInformationDto>();
 
             CreateMap<PersonalInformationForUpdateDto, Account>();
             CreateMap<TenantForCreationDto, Tenant>();

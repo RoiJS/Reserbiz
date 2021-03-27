@@ -24,6 +24,7 @@ namespace ReserbizAPP.LIB.DbContexts
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<GlobalErrorLog> GlobalErrorLogs { get; set; }
+        public DbSet<GeneralInformation> GeneralInformations { get; set; }
 
         #region "Override functions"
 
