@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
