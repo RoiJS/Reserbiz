@@ -107,7 +107,11 @@
     "LOGIN_BUTTON_CONTROL": {
       "LABEL": "Log in"
     },
-    "LOGIN_FAILED": "Login Failed"
+    "LOGIN_FAILED": "Login Failed",
+    "END_SESSION_DIALOG": {
+      "TITLE": "End Session",
+      "MESSAGE": "You have been signed out. End of session."
+    }
   },
 
   "NO_CONNECTION_PAGE": {

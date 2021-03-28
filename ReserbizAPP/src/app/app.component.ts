@@ -37,10 +37,11 @@ import { Subscription } from 'rxjs';
 
 import { AuthService } from './_services/auth.service';
 import { CheckConnectionService } from './_services/check-connection.service';
-import { SideDrawerService } from './_services/side-drawer.service';
-import { UIService } from './_services/ui.service';
-import { SettingsService } from './_services/settings.service';
+import { DialogService } from './_services/dialog.service';
 import { GeneralInformationService } from './_services/general-information.service';
+import { SideDrawerService } from './_services/side-drawer.service';
+import { SettingsService } from './_services/settings.service';
+import { UIService } from './_services/ui.service';
 
 import { MainMenu } from './_models/main-menu.model';
 
@@ -79,6 +80,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private checkConnectionService: CheckConnectionService,
     private changeDetectionRef: ChangeDetectorRef,
+    private dialogService: DialogService,
     private generalInformationService: GeneralInformationService,
     private ngZone: NgZone,
     private router: Router,
@@ -161,12 +163,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private connectToSignalRServer() {
     this.signalrCore
-      .start(`${environment.reserbizAPIEndPoint}/systemUpdateHub`)
+      .start(`${environment.reserbizAPIEndPoint}/reserbizMainHub`)
       .then((isConnected: boolean) => {
         console.log('SignalR Connection Status: ', isConnected);
         if (isConnected) {
           this.initBroadCastSystemUpdateStatus();
+          this.initBroadCastValidateLoginAccount();
         }
+      }, () => {
+        console.error('Error on connecting to ReserbizMainHub.');
       });
   }
 
@@ -178,6 +183,37 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         currentConnectionType
       );
     });
+  }
+
+  private initBroadCastValidateLoginAccount() {
+    this.signalrCore.on(
+      'BroadCastValidateLogin',
+      (data: { arguments: any }) => {
+        const loggedInUserIdFromOtherDevice = parseInt(data.arguments[0]);
+        const loggedInUserNameFromOtherDevice = data.arguments[1];
+        const currentLoggedInUser = this.authService.user.getValue();
+        let currentLoggedInUserId = 0;
+
+        if (currentLoggedInUser) {
+          currentLoggedInUserId = this.authService.userId;
+        }
+
+        // Check if account is also currently logged in
+        // on different device, if so, auto logout the account
+        // from the other device.
+        if (
+          currentLoggedInUser &&
+          currentLoggedInUserId === loggedInUserIdFromOtherDevice &&
+          currentLoggedInUser.username === loggedInUserNameFromOtherDevice
+        ) {
+          this.dialogService.alert(
+            this.translate.instant('AUTH_PAGE.END_SESSION_DIALOG.TITLE'),
+            this.translate.instant('AUTH_PAGE.END_SESSION_DIALOG.MESSAGE')
+          );
+          this.authService.logout();
+        }
+      }
+    );
   }
 
   private initUserInfoSubscriptions() {

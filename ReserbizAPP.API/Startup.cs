@@ -21,6 +21,7 @@ using ReserbizAPP.LIB.Helpers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ReserbizAPP.LIB.Helpers.Class;
+using ReserbizAPP.API.Hubs;
 
 namespace ReserbizAPP.API
 {
@@ -207,7 +208,7 @@ namespace ReserbizAPP.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<SystemUpdateHub>("api/systemUpdateHub");
+                endpoints.MapHub<ReserbizMainHub>("api/reserbizMainHub");
             });
         }
     }

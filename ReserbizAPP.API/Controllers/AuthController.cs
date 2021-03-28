@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ReserbizAPP.API.Helpers.Interfaces;
+using ReserbizAPP.API.Hubs;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
@@ -26,10 +29,12 @@ namespace ReserbizAPP.API.Controllers
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
         private readonly IOptions<ApplicationSettings> _appSettings;
+        private readonly IHubContext<ReserbizMainHub, IReserbizMainHubClient> _hubContext;
 
         public AuthController(
             IAuthRepository<Account> authRepo,
             IRefreshTokenRepository<RefreshToken> refreshTokenRepository,
+            IHubContext<ReserbizMainHub, IReserbizMainHubClient> hubContext,
             IConfiguration config,
             IMapper mapper,
             IOptions<ApplicationSettings> appSettings
@@ -37,6 +42,7 @@ namespace ReserbizAPP.API.Controllers
         {
             _appSettings = appSettings;
             _mapper = mapper;
+            _hubContext = hubContext;
             _authRepo = authRepo;
             _refreshTokenRepository = refreshTokenRepository;
             _config = config;
@@ -83,6 +89,9 @@ namespace ReserbizAPP.API.Controllers
             await _authRepo.RemoveExpiredRefreshTokens();
 
             await _authRepo.SaveChanges();
+
+            // Broadcast Validate Login to make sure user account is only logged in on single device
+            await this._hubContext.Clients.All.BroadCastValidateLogin(userFromRepo.Id, userFromRepo.Username);
 
             return Ok(new AuthenticationTokenInfoDto
             {

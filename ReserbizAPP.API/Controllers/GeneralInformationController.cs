@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using ReserbizAPP.API.Helpers.Interfaces;
+using ReserbizAPP.API.Hubs;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -17,10 +18,10 @@ namespace ReserbizAPP.API.Controllers
 
         private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
         private readonly IMapper _mapper;
-        private readonly IHubContext<SystemUpdateHub, ISystemUpdateHub> _hubContext;
+        private readonly IHubContext<ReserbizMainHub, IReserbizMainHubClient> _hubContext;
 
         public GeneralInformationController(IGeneralInformationRepository<GeneralInformation> generalInformationRepository,
-            IHubContext<SystemUpdateHub, ISystemUpdateHub> hubContext, IMapper mapper)
+            IHubContext<ReserbizMainHub, IReserbizMainHubClient> hubContext, IMapper mapper)
         {
             _hubContext = hubContext;
             _mapper = mapper;

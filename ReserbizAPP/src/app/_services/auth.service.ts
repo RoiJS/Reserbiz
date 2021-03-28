@@ -162,7 +162,7 @@ export class AuthService {
     return this.http.put(
       `${
         environment.reserbizAPIEndPoint
-      }/auth/updatePersonalInformation/${this.userId()}`,
+      }/auth/updatePersonalInformation/${this.userId}`,
       user
     );
   }
@@ -171,7 +171,7 @@ export class AuthService {
     return this.http.put(
       `${
         environment.reserbizAPIEndPoint
-      }/auth/updateAccountInformation/${this.userId()}`,
+      }/auth/updateAccountInformation/${this.userId}`,
       user
     );
   }
@@ -181,7 +181,7 @@ export class AuthService {
       .get(
         `${
           environment.reserbizAPIEndPoint
-        }/auth/validateUsernameExists/${this.userId()}/${username}`
+        }/auth/validateUsernameExists/${this.userId}/${username}`
       )
       .pipe(
         tap((res: boolean) => {
@@ -260,7 +260,6 @@ export class AuthService {
       currentUser.middleName,
       currentUser.lastName,
       currentUser.username,
-      // tslint:disable-next-line: radix
       parseInt(currentUser.gender)
     );
 
@@ -276,11 +275,11 @@ export class AuthService {
     this._currentUsername.next(user.username);
   }
 
-  private userId(): number {
+  get userId(): number {
     const tokenDecrypted = this._jwtHelper.decodeToken(
       this._tokenInfo.value.token
     );
 
-    return tokenDecrypted.nameid;
+    return parseInt(tokenDecrypted.nameid);
   }
 }
