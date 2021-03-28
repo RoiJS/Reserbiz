@@ -133,6 +133,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<TermMiscellaneousForUpdateDto, TermMiscellaneous>();
             CreateMap<ContractManageDto, Contract>();
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
+            CreateMap<GeneralInformationDto, GeneralInformation>();
         }
     }
 }

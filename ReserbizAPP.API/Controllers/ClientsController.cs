@@ -15,9 +15,12 @@ namespace ReserbizAPP.API.Controllers
     {
         private readonly IClientRepository<Client> _clientRepository;
         private readonly IMapper _mapper;
+        private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
 
-        public ClientsController(IClientRepository<Client> clientRepository, IMapper mapper)
+        public ClientsController(IClientRepository<Client> clientRepository
+            , IGeneralInformationRepository<GeneralInformation> generalInformationRepository, IMapper mapper)
         {
+            _generalInformationRepository = generalInformationRepository;
             _mapper = mapper;
             _clientRepository = clientRepository;
         }
@@ -64,6 +67,11 @@ namespace ReserbizAPP.API.Controllers
 
             if (clientInfo == null)
                 return BadRequest("Company does not exists.");
+
+            var generalInformation = await _generalInformationRepository.GetGeneralInformation();
+
+            if (generalInformation.SystemUpdateStatus)
+                return BadRequest("System is locked and currently undergoing maintenance. Please comeback later.");
 
             var clientInfoToReturn = _mapper.Map<ClientDetailsDto>(clientInfo);
 

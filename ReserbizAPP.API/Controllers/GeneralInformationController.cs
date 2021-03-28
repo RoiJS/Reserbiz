@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,22 @@ namespace ReserbizAPP.API.Controllers
             var generalInformationFromRepo = await _generalInformationRepository.GetGeneralInformation();
             var generalInformationToReturn = _mapper.Map<GeneralInformationDto>(generalInformationFromRepo);
             return Ok(generalInformationToReturn);
+        }
+
+        [HttpPut("setSystemUpdateStatus")]
+        public async Task<IActionResult> UpdateSettings(GeneralInformationDto generalInformationUpdateDto)
+        {
+            var generalInformationFromRepo = await _generalInformationRepository.GetGeneralInformation();
+
+            _mapper.Map(generalInformationUpdateDto, generalInformationFromRepo);
+
+            if (!_generalInformationRepository.HasChanged())
+                return BadRequest("Nothing was changed.");
+
+            if (await _generalInformationRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception("Updating system update status failed on save!");
         }
     }
 }

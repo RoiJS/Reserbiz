@@ -67,4 +67,9 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./no-connection/no-connection.module').then((m) => m.NoConnectionModule),
   },
+  {
+    path: 'system-update',
+    loadChildren: () =>
+      import('./system-update/system-update.module').then((m) => m.SystemUpdateModule),
+  },
 ];

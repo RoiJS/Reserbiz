@@ -116,6 +116,12 @@
     "TRY_AGAIN_BUTTON_LABEL": "Try Again"
   },
 
+  "SYSTEM_UPDATE_PAGE": {
+    "MAIN_TEXT": "System Update",
+    "SECONDARY_TEXT": "The System is currently undergoing a planned maintenance. Please comeback later.",
+    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+  },
+
   "PROFILE_INFORMATION_PAGE": {
     "ACTION_BAR_TITLE": "Profile",
     "GENERAL_CONTROL_GROUP": {

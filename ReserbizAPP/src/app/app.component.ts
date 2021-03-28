@@ -37,9 +37,10 @@ import { AuthService } from './_services/auth.service';
 import { CheckConnectionService } from './_services/check-connection.service';
 import { SideDrawerService } from './_services/side-drawer.service';
 import { UIService } from './_services/ui.service';
+import { SettingsService } from './_services/settings.service';
+import { GeneralInformationService } from './_services/general-information.service';
 
 import { MainMenu } from './_models/main-menu.model';
-import { SettingsService } from './_services/settings.service';
 
 @Component({
   selector: 'ns-app',
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private checkConnectionService: CheckConnectionService,
     private changeDetectionRef: ChangeDetectorRef,
+    private generalInformationService: GeneralInformationService,
     private ngZone: NgZone,
     private router: Router,
     private routerExtensions: RouterExtensions,
@@ -82,24 +84,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     (async () => {
-      this.currentFullnameSub = this.authService.currentFullname.subscribe(
-        (currentFullname: string) => {
-          this._currentFullname = currentFullname;
-        }
-      );
-
-      this.currentUsernameSub = this.authService.currentUsername.subscribe(
-        (currentUsername: string) => {
-          this._currentUsername = currentUsername;
-        }
-      );
-
-      this.drawerSub = this.uiService.drawerState.subscribe(() => {
-        if (this.drawer) {
-          this.drawer.toggleDrawerState();
-          this.hideKeyboard();
-        }
-      });
+      this.initUserInfoSubscriptions();
+      this.initRadDrawerSubscription();
 
       this.uiService.setRootVCRef(this.vcRef);
 
@@ -107,13 +93,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mainMenuList = this.sideDrawerService.mainMenu;
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
-      this.router.events
-        .pipe(filter((event: any) => event instanceof NavigationEnd))
-        .subscribe(
-          (event: NavigationEnd) =>
-            (this.activatedUrl = event.urlAfterRedirects)
-        );
-
+      this.initRouterEvents();
       await this.settingsService.getSettingsDetails();
     })();
 
@@ -166,6 +146,37 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     sideDrawer.closeDrawer();
   }
 
+  private initUserInfoSubscriptions() {
+    this.currentFullnameSub = this.authService.currentFullname.subscribe(
+      (currentFullname: string) => {
+        this._currentFullname = currentFullname;
+      }
+    );
+
+    this.currentUsernameSub = this.authService.currentUsername.subscribe(
+      (currentUsername: string) => {
+        this._currentUsername = currentUsername;
+      }
+    );
+  }
+
+  private initRadDrawerSubscription() {
+    this.drawerSub = this.uiService.drawerState.subscribe(() => {
+      if (this.drawer) {
+        this.drawer.toggleDrawerState();
+        this.hideKeyboard();
+      }
+    });
+  }
+
+  private initRouterEvents() {
+    this.router.events
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe(
+        (event: NavigationEnd) => (this.activatedUrl = event.urlAfterRedirects)
+      );
+  }
+
   private hideKeyboard(): void {
     if (ios) {
       ios.nativeApp.sendActionToFromForEvent(
@@ -203,12 +214,23 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.authService
               .autoLogin()
               .toPromise()
-              .then((result: boolean) => {
+              .then(async (result: boolean) => {
                 if (result) {
                   route = '/dashboard';
                 } else {
                   route = '/auth';
                 }
+
+                const generalInformation = await this.generalInformationService.getGeneralInformation();
+
+                // Check if the system is currently under system update
+                if (generalInformation.systemUpdateStatus) {
+                  route = '/system-update';
+
+                  // Auto-logout the user during system update.
+                  this.authService.logout();
+                }
+
                 this.routerExtensions.navigate([route]);
               });
           }
