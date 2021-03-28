@@ -30,6 +30,8 @@ import { ad } from '@nativescript/core/utils/utils';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { SignalrCore } from 'nativescript-signalr-core';
+
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -41,6 +43,12 @@ import { SettingsService } from './_services/settings.service';
 import { GeneralInformationService } from './_services/general-information.service';
 
 import { MainMenu } from './_models/main-menu.model';
+
+import { environment } from '@src/environments/environment';
+
+// Import Websocket to be able to use SignalR
+declare var require;
+const WebSocket = require('nativescript-websockets');
 
 @Component({
   selector: 'ns-app',
@@ -65,6 +73,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private activatedUrl: string;
   private _sideDrawerTransition: DrawerTransitionBase;
 
+  private signalrCore: SignalrCore;
+
   constructor(
     private authService: AuthService,
     private checkConnectionService: CheckConnectionService,
@@ -79,6 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private vcRef: ViewContainerRef,
     private translate: TranslateService
   ) {
+    this.signalrCore = new SignalrCore();
     this.translate.setDefaultLang('en');
   }
 
@@ -99,6 +110,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.monitorInternetConnectivity();
     this.initMonitorConnectivityRedirection();
+
+    this.connectToSignalRServer();
   }
 
   ngOnDestroy() {
@@ -144,6 +157,27 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const sideDrawer = <RadSideDrawer>(<any>Application.getRootView());
     sideDrawer.closeDrawer();
+  }
+
+  private connectToSignalRServer() {
+    this.signalrCore
+      .start(`${environment.reserbizAPIEndPoint}/systemUpdateHub`)
+      .then((isConnected: boolean) => {
+        console.log('SignalR Connection Status: ', isConnected);
+        if (isConnected) {
+          this.initBroadCastSystemUpdateStatus();
+        }
+      });
+  }
+
+  private initBroadCastSystemUpdateStatus() {
+    this.signalrCore.on('BroadCastSystemUpdateStatus', () => {
+      const currentConnectionType = getConnectionType();
+
+      this.checkConnectionService.currentConnectionType.next(
+        currentConnectionType
+      );
+    });
   }
 
   private initUserInfoSubscriptions() {

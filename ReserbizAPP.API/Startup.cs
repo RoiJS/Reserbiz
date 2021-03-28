@@ -36,7 +36,6 @@ namespace ReserbizAPP.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             // Register application repository classes for dependency injection
             services.AddScoped<IDataContextHelper, DataContextHelper>();
             services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
@@ -148,6 +147,8 @@ namespace ReserbizAPP.API
                         }
                     };
                 });
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -203,7 +204,11 @@ namespace ReserbizAPP.API
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<SystemUpdateHub>("api/systemUpdateHub");
+            });
         }
     }
 }

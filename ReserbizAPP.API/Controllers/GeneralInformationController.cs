@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using ReserbizAPP.API.Helpers.Interfaces;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -15,9 +17,12 @@ namespace ReserbizAPP.API.Controllers
 
         private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<SystemUpdateHub, ISystemUpdateHub> _hubContext;
 
-        public GeneralInformationController(IGeneralInformationRepository<GeneralInformation> generalInformationRepository, IMapper mapper)
+        public GeneralInformationController(IGeneralInformationRepository<GeneralInformation> generalInformationRepository,
+            IHubContext<SystemUpdateHub, ISystemUpdateHub> hubContext, IMapper mapper)
         {
+            _hubContext = hubContext;
             _mapper = mapper;
             _generalInformationRepository = generalInformationRepository;
         }
@@ -41,7 +46,11 @@ namespace ReserbizAPP.API.Controllers
                 return BadRequest("Nothing was changed.");
 
             if (await _generalInformationRepository.SaveChanges())
+            {
+                // Broadcast to all connected clients the current status of system update
+                await _hubContext.Clients.All.BroadCastSystemUpdateStatus(generalInformationUpdateDto.SystemUpdateStatus);
                 return NoContent();
+            }
 
             throw new Exception("Updating system update status failed on save!");
         }
