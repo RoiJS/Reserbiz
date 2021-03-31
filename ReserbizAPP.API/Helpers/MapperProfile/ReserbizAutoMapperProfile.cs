@@ -108,6 +108,8 @@ namespace ReserbizAPP.API.Helpers
                     opt => opt.MapFrom(src => src.CurrentBalance))
                 .ForMember(dest => dest.IsFullyPaid,
                     opt => opt.MapFrom(src => src.IsFullyPaid))
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable))
                 .ForMember(dest => dest.TenantName,
                     opt => opt.MapFrom(src => src.Contract.Tenant.PersonFullName));
             CreateMap<PaymentBreakdown, PaymentBreakdownForDetailsDto>()

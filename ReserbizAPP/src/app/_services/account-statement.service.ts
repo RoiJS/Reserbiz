@@ -92,6 +92,30 @@ export class AccountStatementService
       .toPromise();
   }
 
+  async getSuggestedNewAccountStatement(
+    contractId: number
+  ): Promise<AccountStatement> {
+    return await this.getEntityFromServer(
+      `${this._apiBaseUrl}/accountstatement/suggestedAccountStatement/${contractId}`
+    ).toPromise();
+  }
+
+  createNewAccountStatement(
+    contractId: number,
+    markAsPaid: boolean
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${this._apiBaseUrl}/accountstatement/createNewAccountStatement/${contractId}/${markAsPaid}`,
+      {}
+    );
+  }
+
+  deleteItem(accountStatementId: number): Observable<void> {
+    return this.deleteItemOnServer(
+      `${this._apiBaseUrl}/accountstatement/deleteAccountStatement/${accountStatementId}`
+    );
+  }
+
   reloadListFlag(reset: boolean) {
     this._loadAccountStatementListFlag.next(reset);
   }

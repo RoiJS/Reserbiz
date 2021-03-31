@@ -35,6 +35,7 @@ export class AccountStatementMapper
     accountStatement.isFullyPaid = as.isFullyPaid;
     accountStatement.tenantName = as.tenantName;
     accountStatement.isFirstAccountStatement = as.isFirstAccountStatement;
+    accountStatement.isDeletable = as.isDeletable;
 
     if (
       as.accountStatementMiscellaneous &&

@@ -81,6 +81,24 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return newAccountStatement;
         }
 
+        public async Task<AccountStatement> GetSuggestedNewAccountStatement(int contractId)
+        {
+            var contract = await _contractRepository
+                            .GetEntity(contractId)
+                            .Includes(
+                                c => c.Term,
+                                c => c.Term.TermMiscellaneous,
+                                c => c.AccountStatements
+                            )
+                            .ToObjectAsync();
+
+            var proposedAccountStatement = RegisterNewAccountStament(contract);
+
+            proposedAccountStatement.Contract = contract;
+            proposedAccountStatement.Contract.AccountStatements = contract.AccountStatements.Where(a => a.IsDelete == false).ToList();
+
+            return proposedAccountStatement;
+        }
         private List<AccountStatementMiscellaneous> GenerateAccountStatementMiscellaneous(List<TermMiscellaneous> termMiscellaneous)
         {
             var accountTermMiscellaneous = new List<AccountStatementMiscellaneous>();
@@ -133,6 +151,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 )
                 .Where(c =>
                    c.IsActive &&
+                   c.IsDelete == false &&
                    c.ContractId == contractId
                 )
                 .OrderBy(c => c.DueDate)
@@ -159,6 +178,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var unpaidAccountStatements = accountStatements
                 .Where(c =>
                    c.IsActive &&
+                   c.IsDelete == false &&
                    c.IsFullyPaid == false
                 ).ToList();
 
@@ -239,6 +259,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 )
                 .ToObjectAsync();
 
+            if (contract == null) return;
+
             while (contract.IsDueForGeneratingAccountStatement)
             {
                 var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
@@ -278,6 +300,50 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             try
             {
+                await _contractRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Registering new statement of accounts for contract with id={contract.Id} failed on save. Error message: {ex.Message}.", ex);
+            }
+        }
+
+        public async Task GenerateContractAccountStatement(int contractId, bool markAsPaid, int currentUserId)
+        {
+            var contract = await _contractRepository
+                    .GetEntity(contractId)
+                    .Includes(
+                        c => c.Term,
+                        c => c.Term.TermMiscellaneous,
+                        c => c.AccountStatements
+                    )
+                    .ToObjectAsync();
+
+            if (contract == null) return;
+
+            try
+            {
+                var newContractAccountStatement = RegisterNewAccountStament(contract);
+
+                // Mark as Paid, Add entry on payment breakdown 
+                // with the same amount of statement of account
+                // total amount
+                if (markAsPaid)
+                {
+                    newContractAccountStatement.Contract = contract;
+                    var paymentBreakdown = new PaymentBreakdown()
+                    {
+                        Amount = newContractAccountStatement.AccountStatementTotalAmount,
+                        ReceivedById = currentUserId,
+                        DateTimeReceived = DateTime.Now,
+                        Notes = String.Empty,
+                        IsAmountFromDeposit = false,
+                    };
+                    newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+                }
+
+                contract.AccountStatements.Add(newContractAccountStatement);
+
                 await _contractRepository.SaveChanges();
             }
             catch (Exception ex)
@@ -402,6 +468,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var unpaidAccountStatementsTotalAmount = accountStatements
                 .Where(c =>
                    c.IsActive &&
+                   c.IsDelete == false &&
                    c.IsFullyPaid == false
                 ).Sum(a => a.AccountStatementTotalAmount);
 

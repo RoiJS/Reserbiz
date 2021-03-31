@@ -155,21 +155,26 @@ namespace ReserbizAPP.LIB.Models
         private DateTime GetNextDueDate()
         {
             var nextDueDate = new DateTime();
+            var activeAccountStatements = AccountStatements
+                    .Where(a => a.IsDelete == false)
+                    .ToList();
 
             // If the there are no account statements yet,
             // We will consider the effective date as the
             // next due date, If not, we will
             // calculate the next due date based 
             // on the duration unit
-            if (AccountStatements.Count == 0)
+            if (activeAccountStatements.Count == 0)
             {
                 nextDueDate = EffectiveDate;
             }
             else
             {
-                // Make sure that statement of accounts are ordered by due date ascending
-                var accountStatementsOrderByDueDateAscending = AccountStatements.OrderBy(a => a.DueDate).ToList();
-                var lastAccountStatement = accountStatementsOrderByDueDateAscending[AccountStatements.Count - 1];
+                // Make sure that active statement of accounts are ordered by due date ascending
+                var accountStatementsOrderByDueDateAscending = activeAccountStatements
+                                                                    .OrderBy(a => a.DueDate)
+                                                                    .ToList();
+                var lastAccountStatement = accountStatementsOrderByDueDateAscending[activeAccountStatements.Count - 1];
                 var currentDueDate = lastAccountStatement.DueDate;
                 var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, Term.DurationUnit);
                 nextDueDate = currentDueDate.AddDays(daysBeforeNextDueDate);

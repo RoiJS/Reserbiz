@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { delay } from 'rxjs/operators';
+import { delay, finalize } from 'rxjs/operators';
 
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -19,6 +19,7 @@ import {
   ModalDialogService,
 } from '@nativescript/angular';
 
+import { AddContractAccountStatementDialogComponent } from '../add-contract-account-statement-dialog/add-contract-account-statement-dialog.component';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { ContractAccountStatementFilterDialogComponent } from '../contract-account-statement-filter-dialog/contract-account-statement-filter-dialog.component';
 
@@ -27,6 +28,7 @@ import { AccountStatementFilter } from '@src/app/_models/filters/account-stateme
 import { AccountStatementPaginationList } from '@src/app/_models/pagination_list/account-statement-pagination-list.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
+import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { StorageService } from '@src/app/_services/storage.service';
 
@@ -34,6 +36,9 @@ import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.h
 
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
+import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 @Component({
   selector: 'ns-contract-account-statement-list-panel',
@@ -42,7 +47,7 @@ import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 })
 export class ContractAccountStatementListPanelComponent
   extends BaseListComponent<AccountStatement>
-  implements OnInit, OnChanges {
+  implements IBaseListComponent, OnInit, OnChanges {
   @Input() currentContractId: number;
 
   private _totalExpectedAmount = 0;
@@ -59,6 +64,7 @@ export class ContractAccountStatementListPanelComponent
 
   constructor(
     protected accountStatementService: AccountStatementService,
+    protected contractService: ContractService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected dialogService: DialogService,
     protected location: Location,
@@ -96,7 +102,25 @@ export class ContractAccountStatementListPanelComponent
   }
 
   ngOnInit() {
+    this.initDialogTexts();
     super.ngOnInit();
+  }
+
+  initDialogTexts() {
+    this._deleteItemDialogTexts = {
+      title: this.translateService.instant(
+        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+      ),
+      confirmMessage: this.translateService.instant(
+        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.CONFIRM_MESSAGE'
+      ),
+      successMessage: this.translateService.instant(
+        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.SUCCESS_MESSAGE'
+      ),
+      errorMessage: this.translateService.instant(
+        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.ERROR_MESSAGE'
+      ),
+    };
   }
 
   initFilterOptions() {
@@ -207,6 +231,24 @@ export class ContractAccountStatementListPanelComponent
     );
   }
 
+  initAddAccountStatementDialog(
+    suggestedAccountStatement: AccountStatement
+  ): Promise<any> {
+    const dialogOptions: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: {
+        suggestedAccountStatement: suggestedAccountStatement,
+      },
+      fullscreen: false,
+      animated: true,
+    };
+
+    return this.modalDialogService.showModal(
+      AddContractAccountStatementDialogComponent,
+      dialogOptions
+    );
+  }
+
   openFilterDialog() {
     this.initFilterDialog().then(
       (data: { filterHasChanged: boolean; filter: AccountStatementFilter }) => {
@@ -233,14 +275,97 @@ export class ContractAccountStatementListPanelComponent
     );
   }
 
+  openAddAccountStatementDialog() {
+    (async () => {
+      const suggestedAccountStatement = await this.accountStatementService.getSuggestedNewAccountStatement(
+        this._entityFilter.parentId
+      );
+      this.initAddAccountStatementDialog(suggestedAccountStatement).then(
+        (data: { confirm: boolean; markAsPaid: boolean }) => {
+          if (!data) {
+            return;
+          }
+
+          if (data.confirm) {
+            this.dialogService
+              .confirm(
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+                ),
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.CONFIRM_MESSAGE'
+                )
+              )
+              .then((res: ButtonOptions) => {
+                if (res === ButtonOptions.YES) {
+                  this._isBusy = true;
+
+                  this.accountStatementService
+                    .createNewAccountStatement(
+                      this._entityFilter.parentId,
+                      data.markAsPaid
+                    )
+                    .pipe(finalize(() => (this._isBusy = false)))
+                    .subscribe(
+                      () => {
+                        this.dialogService.alert(
+                          this.translateService.instant(
+                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+                          ),
+                          this.translateService.instant(
+                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.SUCCESS_MESSAGE'
+                          ),
+                          () => {
+                            // Needs to reset the page number to get
+                            // the correct data
+                            this._entityFilter.page = 1;
+                            this.entityService.reloadListFlag();
+                            this.contractService.reloadListFlag();
+                          }
+                        );
+                      },
+                      (error: Error) => {
+                        this.dialogService.alert(
+                          this.translateService.instant(
+                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+                          ),
+                          this.translateService.instant(
+                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.ERROR_MESSAGE'
+                          )
+                        );
+                      }
+                    );
+                } else {
+                  this.openAddAccountStatementDialog();
+                }
+              });
+          }
+        }
+      );
+    })();
+  }
+
   selectItem(currentIndex: number, url: string) {
     const selectedItem = <AccountStatement>(
       this._listItems.getItem(currentIndex)
     );
 
+    this._isNotNavigateToOtherPage = false;
+
     this.navigateToOtherPage(
       `contracts/${this.currentContractId}/account-statement/${selectedItem.id}`
     );
+  }
+
+  /**
+   * Override deleteSelectedItem function from Base Class
+   */
+  deleteSelectedItem() {
+    // Refresh contract details after deleting statement of account
+    super.deleteSelectedItem(() => {
+      this.contractService.reloadListFlag();
+      this.accountStatementService.reloadListFlag(true);
+    });
   }
 
   get totalPaidAmount(): string {

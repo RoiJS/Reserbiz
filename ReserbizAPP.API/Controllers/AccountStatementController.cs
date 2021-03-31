@@ -108,7 +108,6 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating water and electric bill amount for account statement with an id of {accountStatementFromRepo.Id} failed on save.");
         }
 
-
         [HttpGet("getFirstAccountStatement/{contractId}")]
         public async Task<ActionResult<AccountStatementDetailsDto>> GetFirstAccountStatement(int contractId)
         {
@@ -138,6 +137,56 @@ namespace ReserbizAPP.API.Controllers
         {
             await _accountStatementRepository.SendAccountStatement(id);
             return Ok();
+        }
+
+        [HttpGet("suggestedAccountStatement/{contractId}")]
+        public async Task<ActionResult<AccountStatementDetailsDto>> GetSuggestedNewAccountStatement(int contractId)
+        {
+            var suggestedAccountStatementFromRepo = await _accountStatementRepository.GetSuggestedNewAccountStatement(contractId);
+
+            if (suggestedAccountStatementFromRepo == null)
+                return NotFound("Account Statement not found.");
+
+            var suggestedAccountStatementToReturn = _mapper.Map<AccountStatementDetailsDto>(suggestedAccountStatementFromRepo);
+
+            return Ok(suggestedAccountStatementToReturn);
+        }
+
+        [HttpPost("createNewAccountStatement/{contractId}/{marksAsPaid}")]
+        public async Task<ActionResult<AccountStatementDetailsDto>> CreateNewAccountStatement(int contractId, bool marksAsPaid)
+        {
+            try
+            {
+                // Generate single statement of accounts
+                await _accountStatementRepository.GenerateContractAccountStatement(contractId, marksAsPaid, CurrentUserId);
+
+                // Generate penalties
+                await _accountStatementRepository.GenerateAccountStatementPenalties(contractId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("deleteAccountStatement/{accountStatementId}")]
+        public async Task<IActionResult> DeleteAccountStatement(int accountStatementId)
+        {
+            var accountStatementFromRepo = await _accountStatementRepository.GetEntity(accountStatementId).ToObjectAsync();
+
+            if (accountStatementFromRepo == null)
+                return NotFound("Account Statement does not exists!");
+
+            _accountStatementRepository
+                .SetCurrentUserId(CurrentUserId)
+                .DeleteEntity(accountStatementFromRepo);
+
+            if (await _accountStatementRepository.SaveChanges())
+                return NoContent();
+
+            throw new Exception($"Error when deleting account statement with id of ${accountStatementId}!");
         }
 
         [AllowAnonymous]

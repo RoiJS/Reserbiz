@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { RouterExtensions,  } from '@nativescript/angular';
+import { RouterExtensions } from '@nativescript/angular';
 import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { View, isAndroid, ObservableArray } from '@nativescript/core';
 
@@ -397,7 +397,7 @@ export class BaseListComponent<TEntity extends IEntity>
   /**
    * @description Delete single selected item
    */
-  deleteSelectedItem(event: any) {
+  deleteSelectedItem(onDeleteCallback?: () => void) {
     const selectedItemIndex = (<any>this.appListView.listView).getIndexOf(
       this._currentItem
     );
@@ -421,6 +421,10 @@ export class BaseListComponent<TEntity extends IEntity>
                   this._deleteItemDialogTexts.successMessage,
                   () => {
                     (<any>this._listItems).splice(selectedItemIndex, 1);
+
+                    if (onDeleteCallback) {
+                      onDeleteCallback();
+                    }
                   }
                 );
               },

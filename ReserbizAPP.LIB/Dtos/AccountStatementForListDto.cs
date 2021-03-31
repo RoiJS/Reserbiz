@@ -18,6 +18,7 @@ namespace ReserbizAPP.LIB.Dtos
         public float CurrentAmountPaid { get; set; }
         public float CurrentBalance { get; set; }
         public bool IsFullyPaid { get; set; }
+        public bool IsDeletable { get; set; }
         public string TenantName { get; set; }
     }
 }

@@ -175,7 +175,7 @@ namespace ReserbizAPP.LIB.Models
             {
                 // Generating of penalty item will based on these 3 criteria:
                 // (1) Account statement should be due for generating penalty.
-                // (2) Account statement rental fees should be not yet fully paid.
+                // (2) Account statement rental fees has not been full paid yet.
                 // (3) Account statement should not be the first account statement from the list.
                 return (IsDueToGeneratePenalty && !IsRentalFeeFullyPaid && !IsFirstAccountStatement);
             }
@@ -195,6 +195,14 @@ namespace ReserbizAPP.LIB.Models
             get
             {
                 return (SMSNotificationLastDateSent != null && CurrentDateTime.Date >= SMSNotificationLastDateSent);
+            }
+        }
+
+        public bool IsDeletable
+        {
+            get
+            {
+                return IsAccountStatementDeletable();
             }
         }
 
@@ -301,12 +309,23 @@ namespace ReserbizAPP.LIB.Models
         private bool IsFirstAccountStatementItem()
         {
             var activeAccountStatements = Contract.AccountStatements
-                                                .Where(a => a.IsActive)
+                                                .Where(a => a.IsActive && a.IsDelete == false)
                                                 .OrderBy(a => a.DueDate)
                                                 .ToList();
 
             return activeAccountStatements.Count == 1
                     || (activeAccountStatements.Count > 0 && activeAccountStatements[0].Id == Id);
+        }
+
+        private bool IsAccountStatementDeletable()
+        {
+            var lastAccountStatement = Contract.AccountStatements
+                                                .Where(a => a.IsActive && a.IsDelete == false)
+                                                .OrderByDescending(a => a.DueDate)
+                                                .FirstOrDefault();
+
+            // Last account statement is deletable
+            return (lastAccountStatement != null && lastAccountStatement.Id == Id);
         }
 
         private float CalculateCurrentAmountPaid()

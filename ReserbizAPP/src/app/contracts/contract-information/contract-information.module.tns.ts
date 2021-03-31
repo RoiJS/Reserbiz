@@ -4,6 +4,7 @@ import { NativeScriptRouterModule } from '@nativescript/angular';
 
 import { SharedModule } from '../../shared/shared.module';
 
+import { AddContractAccountStatementDialogComponent } from './add-contract-account-statement-dialog/add-contract-account-statement-dialog.component';
 import { ContractInformationComponent } from './contract-information.component';
 import { ContractDetailsPanelComponent } from './contract-details-panel/contract-details-panel.component';
 import { ContractAccountStatementListPanelComponent } from './contract-account-statement-list-panel/contract-account-statement-list-panel.component';
@@ -39,7 +40,8 @@ import { ContractAccountStatementFilterDialogComponent } from './contract-accoun
     ContractDetailsPanelComponent,
     ContractAccountStatementListPanelComponent,
     ContractAccountStatementFilterDialogComponent,
+    AddContractAccountStatementDialogComponent,
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class ContractInformationModule {}
