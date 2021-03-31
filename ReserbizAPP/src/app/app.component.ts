@@ -44,6 +44,7 @@ import { SettingsService } from './_services/settings.service';
 import { UIService } from './_services/ui.service';
 
 import { MainMenu } from './_models/main-menu.model';
+import { Settings } from './_models/settings.model';
 
 import { environment } from '@src/environments/environment';
 
@@ -65,11 +66,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private drawer: RadSideDrawer;
   private drawerSub: Subscription;
   private currentFullnameSub: Subscription;
-  private currentUsernameSub: Subscription;
+  private currentBusinessNameSub: Subscription;
   private checkConnectionSub: Subscription;
 
   private _currentFullname: string;
-  private _currentUsername: string;
+  private _currentBusinessName: string;
 
   private activatedUrl: string;
   private _sideDrawerTransition: DrawerTransitionBase;
@@ -97,6 +98,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     (async () => {
+      await this.settingsService.getSettingsDetails();
       this.initUserInfoSubscriptions();
       this.initRadDrawerSubscription();
 
@@ -107,7 +109,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
       this.initRouterEvents();
-      await this.settingsService.getSettingsDetails();
     })();
 
     this.monitorInternetConnectivity();
@@ -125,8 +126,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentFullnameSub.unsubscribe();
     }
 
-    if (this.currentUsernameSub) {
-      this.currentUsernameSub.unsubscribe();
+    if (this.currentBusinessNameSub) {
+      this.currentBusinessNameSub.unsubscribe();
     }
 
     if (this.checkConnectionSub) {
@@ -164,15 +165,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private connectToSignalRServer() {
     this.signalrCore
       .start(`${environment.reserbizAPIEndPoint}/reserbizMainHub`)
-      .then((isConnected: boolean) => {
-        console.log('SignalR Connection Status: ', isConnected);
-        if (isConnected) {
-          this.initBroadCastSystemUpdateStatus();
-          this.initBroadCastValidateLoginAccount();
+      .then(
+        (isConnected: boolean) => {
+          console.log('SignalR Connection Status: ', isConnected);
+          if (isConnected) {
+            this.initBroadCastSystemUpdateStatus();
+            this.initBroadCastValidateLoginAccount();
+          }
+        },
+        () => {
+          console.error('Error on connecting to ReserbizMainHub.');
         }
-      }, () => {
-        console.error('Error on connecting to ReserbizMainHub.');
-      });
+      );
   }
 
   private initBroadCastSystemUpdateStatus() {
@@ -207,10 +211,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           currentLoggedInUser.username === loggedInUserNameFromOtherDevice
         ) {
           this.dialogService.alert(
-            this.translate.instant('AUTH_PAGE.END_SESSION_DIALOG.TITLE'),
-            this.translate.instant('AUTH_PAGE.END_SESSION_DIALOG.MESSAGE')
+            this.translate.instant('AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.TITLE'),
+            this.translate.instant(
+              'AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.MESSAGE'
+            )
           );
           this.authService.logout();
+          this.drawer.closeDrawer();
         }
       }
     );
@@ -223,9 +230,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
-    this.currentUsernameSub = this.authService.currentUsername.subscribe(
-      (currentUsername: string) => {
-        this._currentUsername = currentUsername;
+    this.currentBusinessNameSub = this.settingsService.settings.subscribe(
+      (settings: Settings) => {
+        this._currentBusinessName = settings.businessName;
       }
     );
   }
@@ -234,7 +241,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.drawerSub = this.uiService.drawerState.subscribe(() => {
       if (this.drawer) {
         this.drawer.toggleDrawerState();
-        this.hideKeyboard();
+        this.uiService.hideKeyboard();
       }
     });
   }
@@ -245,19 +252,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         (event: NavigationEnd) => (this.activatedUrl = event.urlAfterRedirects)
       );
-  }
-
-  private hideKeyboard(): void {
-    if (ios) {
-      ios.nativeApp.sendActionToFromForEvent(
-        'resignFirstResponder',
-        null,
-        null,
-        null
-      );
-    } else {
-      ad.dismissSoftInput();
-    }
   }
 
   private monitorInternetConnectivity() {
@@ -313,8 +307,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._currentFullname;
   }
 
-  get currentUsername(): string {
-    return this._currentUsername;
+  get currentBusinessName(): string {
+    return this._currentBusinessName;
   }
 
   get sideDrawerTransition(): DrawerTransitionBase {

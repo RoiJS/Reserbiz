@@ -73,6 +73,10 @@ $sidedrawer-list-icon-size: 20;
     .sidedrawer-header-brand {
       color: $ab-color;
     }
+
+    .footnote {
+      font-size: 13;
+    }
   }
 
   .sidedrawer-content {
@@ -350,7 +354,7 @@ $sidedrawer-list-icon-size: 20;
 DataFormEditorLabel {
   font-size: 16;
   font-weight: bold;
-  color: gray;
+  color: black;
   margin-left: 10;
 }
 /*#endregion*/
