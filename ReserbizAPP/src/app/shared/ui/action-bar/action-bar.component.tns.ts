@@ -2,9 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { isAndroid, Page } from '@nativescript/core';
 import { RouterExtensions } from '@nativescript/angular';
 
-import { ios } from '@nativescript/core/application';
-import { ad } from '@nativescript/core/utils/utils';
-
 import { UIService } from '../../../_services/ui.service';
 
 declare var android: any;
@@ -41,12 +38,12 @@ export class ActionBarComponent implements OnInit {
   onGoBack() {
     if (!this.overrideBackAction) {
       if (this.router.canGoBack()) {
-        this.hideKeyboard();
+        this.uiService.hideKeyboard();
         this.router.back();
       }
     } else {
       this.onNavigationBack.emit();
-      this.hideKeyboard();
+      this.uiService.hideKeyboard();
     }
   }
 
@@ -71,18 +68,5 @@ export class ActionBarComponent implements OnInit {
 
   onToggleMenu() {
     this.uiService.toggleDrawer();
-  }
-
-  private hideKeyboard(): void {
-    if (ios) {
-      ios.nativeApp.sendActionToFromForEvent(
-        'resignFirstResponder',
-        null,
-        null,
-        null
-      );
-    } else {
-      ad.dismissSoftInput();
-    }
   }
 }
