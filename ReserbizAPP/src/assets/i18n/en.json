@@ -4,8 +4,8 @@
     "TENANTS": "Tenants",
     "CONTRACTS": "Contracts",
     "TERMS": "Terms",
-    "SPACES": "Spaces",
-    "SPACE_TYPES": "Space Types",
+    "SPACES": "Units",
+    "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
     "SETTINGS": "Settings"
   },
@@ -428,52 +428,52 @@
   },
 
   "SPACE_TYPE_LIST_PAGE": {
-    "ACTION_BAR_TITLE": "Space Types",
-    "EMPTY_SPACE_TYPE_LIST": "No Available Space Types",
-    "SEARCH_BAR_HINT": "Enter space type name here...",
-    "SELECTED_SPACE_TYPES": "Selected Space Types",
+    "ACTION_BAR_TITLE": "Unit Types",
+    "EMPTY_SPACE_TYPE_LIST": "No Available Unit Types",
+    "SEARCH_BAR_HINT": "Enter unit type name here...",
+    "SELECTED_SPACE_TYPES": "Selected Unit Types",
     "AVAILABLE_SLOT": "Available Slot",
 
     "REMOVE_SPACE_TYPES_DIALOG": {
-      "TITLE": "Remove space types",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space types?",
-      "SUCCESS_MESSAGE": "Selected space types have been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space types. Please try again later."
+      "TITLE": "Remove unit types",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit types?",
+      "SUCCESS_MESSAGE": "Selected unit types have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit types. Please try again later."
     },
     "REMOVE_SPACE_TYPE_DIALOG": {
-      "TITLE": "Remove space type",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
-      "SUCCESS_MESSAGE": "Selected space type has been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+      "TITLE": "Remove unit type",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+      "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
     }
   },
 
   "SPACE_LIST_PAGE": {
-    "ACTION_BAR_TITLE": "Spaces",
-    "EMPTY_SPACE_LIST": "No Available Spaces",
-    "SEARCH_BAR_HINT": "Enter space description here...",
-    "SELECTED_SPACE_TYPES": "Selected Spaces",
+    "ACTION_BAR_TITLE": "Units",
+    "EMPTY_SPACE_LIST": "No Available Units",
+    "SEARCH_BAR_HINT": "Enter unit description here...",
+    "SELECTED_SPACE_TYPES": "Selected Units",
     "AVAILABILITY_STATUS": {
       "AVAILABLE": "Available",
       "OCCUPIED": "Occupied"
     },
 
     "REMOVE_SPACES_DIALOG": {
-      "TITLE": "Remove spaces",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected spaces?",
-      "SUCCESS_MESSAGE": "Selected spaces have been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected spaces. Please try again later."
+      "TITLE": "Remove units",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected units?",
+      "SUCCESS_MESSAGE": "Selected units have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected units. Please try again later."
     },
     "REMOVE_SPACE_DIALOG": {
-      "TITLE": "Remove space",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
-      "SUCCESS_MESSAGE": "Selected space has been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
+      "TITLE": "Remove unit",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+      "SUCCESS_MESSAGE": "Selected unit has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
     }
   },
 
   "SPACE_TYPE_ADD_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Space Type",
+    "ACTION_BAR_TITLE": "Add unit Type",
     "FORM_CONTROL": {
       "NAME_CONTROL": {
         "CONTROL_LABEL": "Name:",
@@ -488,16 +488,16 @@
         "HINT_TEXT": "Please enter rate"
       },
       "ADD_DIALOG": {
-        "TITLE": "Add Space Type",
-        "CONFIRM_MESSAGE": "Are you sure to save new space type?",
-        "SUCCESS_MESSAGE": "New space type has been saved!",
-        "ERROR_MESSAGE": "Saving new space type failed. Please try again later."
+        "TITLE": "Add Unit Type",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit type?",
+        "SUCCESS_MESSAGE": "New unit type has been saved!",
+        "ERROR_MESSAGE": "Saving new unit type failed. Please try again later."
       }
     }
   },
 
   "SPACE_ADD_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Space",
+    "ACTION_BAR_TITLE": "Add Unit",
     "FORM_CONTROL": {
       "DESCRIPTION_CONTROL": {
         "CONTROL_LABEL": "Description:",
@@ -505,21 +505,21 @@
         "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
       },
       "SPACE_TYPE_CONTROL": {
-        "CONTROL_LABEL": "Space Type:",
-        "HINT_TEXT": "Please select space type",
-        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+        "CONTROL_LABEL": "Unit Type:",
+        "HINT_TEXT": "Please select unit type",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
       },
       "ADD_DIALOG": {
-        "TITLE": "Add Space",
-        "CONFIRM_MESSAGE": "Are you sure to save new space?",
-        "SUCCESS_MESSAGE": "New space has been saved!",
-        "ERROR_MESSAGE": "Saving new space failed. Please try again later."
+        "TITLE": "Add Unit",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit?",
+        "SUCCESS_MESSAGE": "New unit has been saved!",
+        "ERROR_MESSAGE": "Saving new unit failed. Please try again later."
       }
     }
   },
 
   "SPACE_TYPE_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Edit Space Type",
+    "ACTION_BAR_TITLE": "Edit unit Type",
     "FORM_CONTROL": {
       "NAME_CONTROL": {
         "CONTROL_LABEL": "Name:",
@@ -534,22 +534,22 @@
         "HINT_TEXT": "Please enter rate"
       },
       "EDIT_DIALOG": {
-        "TITLE": "Edit Space Type",
+        "TITLE": "Edit Unit Type",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
         "SUCCESS_MESSAGE": "New changes have been saved!",
         "ERROR_MESSAGE": "Saving changes failed. Please try again later."
       },
       "REMOVE_SPACE_TYPE_DIALOG": {
-        "TITLE": "Remove space type",
-        "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
-        "SUCCESS_MESSAGE": "Selected space type has been removed!",
-        "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+        "TITLE": "Remove unit type",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+        "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
       }
     }
   },
 
   "SPACE_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Edit Space",
+    "ACTION_BAR_TITLE": "Edit Unit",
     "FORM_CONTROL": {
       "DESCRIPTION_CONTROL": {
         "CONTROL_LABEL": "Description:",
@@ -557,20 +557,20 @@
         "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
       },
       "SPACE_TYPE_CONTROL": {
-        "CONTROL_LABEL": "Space Type:",
-        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+        "CONTROL_LABEL": "Unit Type:",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
       },
       "EDIT_DIALOG": {
-        "TITLE": "Edit Space",
+        "TITLE": "Edit Unit",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
         "SUCCESS_MESSAGE": "New changes have been saved!",
         "ERROR_MESSAGE": "Saving changes failed. Please try again later."
       },
       "REMOVE_SPACE_DIALOG": {
-        "TITLE": "Remove space",
-        "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
-        "SUCCESS_MESSAGE": "Selected space has been removed!",
-        "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
+        "TITLE": "Remove unit",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+        "SUCCESS_MESSAGE": "Selected unit has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
       }
     }
   },
@@ -626,8 +626,8 @@
           "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
         },
         "SPACE_TYPE_CONTROL": {
-          "CONTROL_LABEL": "Space Type:",
-          "EMPTY_ERROR_MESSAGE": "Please select space type"
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
         },
         "RATE_CONTROL": {
           "CONTROL_LABEL": "Rate:",
@@ -740,8 +740,8 @@
           "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
         },
         "SPACE_TYPE_CONTROL": {
-          "CONTROL_LABEL": "Space Type:",
-          "EMPTY_ERROR_MESSAGE": "Please select space type"
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
         },
         "RATE_CONTROL": {
           "CONTROL_LABEL": "Rate:",
@@ -844,7 +844,7 @@
       "LABEL": "GENERAL INFORMATION",
       "CODE_LABEL": "Code:",
       "NAME_LABEL": "Name:",
-      "SPACE_TYPE_LABEL": "Space Type:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
       "RATE_LABEL": "Rate:",
       "MAXIMUM_NUMBER_OF_OCCUPANTS_LABEL": "Max no. of occupants:"
     },
@@ -1063,7 +1063,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
     }
   },
 
@@ -1090,16 +1090,16 @@
       "TERM_CONTROL": {
         "CONTROL_LABEL": "Term:",
         "EMPTY_ERROR_MESSAGE": "Please select term",
-        "NO_ASSIGNED_SPACES": "There are no spaces assigned to the current selected space type",
-        "NO_AVAILABLE_SPACES": "There are no more available spaces with the current selected space type"
+        "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
+        "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
       },
       "SPACE_TYPE_NAME_CONTROL": {
-        "CONTROL_LABEL": "Space Type:"
+        "CONTROL_LABEL": "Unit Type:"
       },
       "SPACE_CONTROL": {
-        "CONTROL_LABEL": "Space:",
-        "EMPTY_ERROR_MESSAGE": "Please select space",
-        "NOT_AVAILABLE_ERROR_MESSAGE": "This space is already occupied. Please select other space."
+        "CONTROL_LABEL": "Unit:",
+        "EMPTY_ERROR_MESSAGE": "Please select unit",
+        "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
       },
       "EFFECTIVE_DATE_CONTROL": {
         "CONTROL_LABEL": "Effective Date:",
@@ -1154,8 +1154,8 @@
     "DETAILS_SECTION": {
       "CODE_LABEL": "Code:",
       "TENANT_LABEL": "Tenant:",
-      "SPACE_TYPE_LABEL": "Space Type:",
-      "SPACE_NAME_LABEL": "Space:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
+      "SPACE_NAME_LABEL": "Unit:",
       "EFFECTIVE_DATE_LABEL": "Effective Date:",
       "EXPIRATION_DATE_LABEL": "Expiration Date:",
       "OPEN_CONTRACT_LABEL": "Open Contract",
@@ -1176,7 +1176,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
     }
   },
 
@@ -1344,7 +1344,7 @@
         "MAIN_LABEL": "Active Tenants"
       },
       "AVAILABLE_SPACES_WIDGET": {
-        "MAIN_LABEL": "Available Spaces"
+        "MAIN_LABEL": "Available Units"
       },
       "ACTIVE_CONTRACTS_WIDGET": {
         "MAIN_LABEL": "Active Contracts"
