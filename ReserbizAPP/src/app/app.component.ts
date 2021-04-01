@@ -99,16 +99,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     (async () => {
       await this.settingsService.getSettingsDetails();
-      this.initUserInfoSubscriptions();
-      this.initRadDrawerSubscription();
-
       this.uiService.setRootVCRef(this.vcRef);
+      this.initRadDrawerSubscription();
 
       this.activatedUrl = '/dashboard';
       this.mainMenuList = this.sideDrawerService.mainMenu;
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
       this.initRouterEvents();
+      this.initUserInfoSubscriptions();
     })();
 
     this.monitorInternetConnectivity();
