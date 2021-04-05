@@ -1,8 +1,8 @@
 .filter-dialog-buttons {
   width: 100%;
 
-  .btn-confirm-filter,
-  .btn-reset-filter {
+  Button {
     width: 50%;
+    margin: 5;
   }
 }
