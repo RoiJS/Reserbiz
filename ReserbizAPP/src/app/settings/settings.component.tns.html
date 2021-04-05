@@ -9,8 +9,8 @@
   ></ActionItem>
 </ns-action-bar>
 <ns-loader-layout [busy]="isBusy">
-  <StackLayout width="100%" height="100%">
-    <StackLayout>
+  <StackLayout class="page-container" width="100%" height="100%">
+    <StackLayout class="panel">
       <RadDataForm
         width="100%"
         [source]="entityFormSource"
@@ -21,6 +21,14 @@
           [name]="'SETTINGS.FORM_CONTROL.GENERAL_SETTINGS_GROUP.TITLE' | translate"
           hidden="false"
         >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
           <TKEntityProperty
             tkPropertyGroupProperties
             name="businessName"
@@ -31,7 +39,7 @@
                 tkPropertyEditorStyle
                 labelTextSize="14"
                 labelPosition="Left"
-                labelWidth="150"
+                labelWidth="110"
               ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>
