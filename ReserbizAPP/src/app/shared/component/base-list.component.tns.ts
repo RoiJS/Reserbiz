@@ -9,6 +9,8 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ios } from '@nativescript/core/application';
+import { ad } from '@nativescript/core/utils';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -227,6 +229,9 @@ export class BaseListComponent<TEntity extends IEntity>
       // Set this variable to false which indicates that the user is
       // about to navigate to other page.
       this._isNotNavigateToOtherPage = false;
+
+      // Make sure to hide keyboard when navigating to other page
+      this.hideKeyboard();
 
       // Performs navigation to other page.
       // Setting delay is necessary to be able to make
@@ -650,6 +655,19 @@ export class BaseListComponent<TEntity extends IEntity>
   onSubmitSearchText(args: any) {
     this._entityFilter.searchKeyword = args.object.text;
     this.entityService.reloadListFlag();
+  }
+
+  hideKeyboard(): void {
+    if (ios) {
+      ios.nativeApp.sendActionToFromForEvent(
+        'resignFirstResponder',
+        null,
+        null,
+        null
+      );
+    } else {
+      ad.dismissSoftInput();
+    }
   }
 
   get items(): ObservableArray<TEntity> {
