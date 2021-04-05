@@ -1,5 +1,5 @@
-import { DateFormatter } from '../_helpers/date-formatter.helper';
-import { NumberFormatter } from '../_helpers/number-formatter.helper';
+import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
+import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 
 import { AccountStatementMiscellaneous } from './account-statement-miscellaneous.model';
 import { Entity } from './entity.model';
@@ -47,9 +47,8 @@ export class AccountStatement extends Entity {
     let rentIncome = this.rate;
 
     // Check if the account statement is the first then calculate the rent income based on the
-    // advanced payment duration and deposit payment duration values
+    // rate and deposit payment duration values
     if (this.isFirstAccountStatement) {
-      rentIncome = this.rate * this.advancedPaymentDurationValue;
       rentIncome += this.rate * this.depositPaymentDurationValue;
     }
 

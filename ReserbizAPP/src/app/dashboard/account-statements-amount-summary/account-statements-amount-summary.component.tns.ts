@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ObservableArray } from '@nativescript/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseWidgetComponent } from '@src/app/shared/component/base-widget.component';
-import { AccountStatementSummaryChart } from '@src/app/_models/account-statemet-summary-chart.model';
+import { AccountStatementsAmountSummary } from '@src/app/_models/account-statement-amount-summary.model';
+import { AccountStatementSummaryChart } from '@src/app/_models/account-statement-summary-chart.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 
@@ -18,7 +20,7 @@ import { AccountStatementService } from '@src/app/_services/account-statement.se
 export class AccountStatementsAmountSummaryComponent
   extends BaseWidgetComponent
   implements OnInit {
-  private _accountStatementAmountSummary: AccountStatementSummaryChart[] = [];
+  private _accountStatementAmountSummary: ObservableArray<AccountStatementSummaryChart>;
 
   constructor(
     private accountStatementService: AccountStatementService,
@@ -28,28 +30,69 @@ export class AccountStatementsAmountSummaryComponent
   }
 
   ngOnInit() {
-    (async () => {
-      this._isBusy = true;
-      const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
+    this._isBusy = true;
+    setTimeout(() => {
+      (async () => {
+        const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
+        const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
 
-      this._accountStatementAmountSummary.push({
-        name: this.translateService.instant(
-          'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_PAID_AMOUNT'
-        ),
-        value: accountStatementAmountSummary.totalAmountPaid,
-      });
-      this._accountStatementAmountSummary.push({
-        name: this.translateService.instant(
-          'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_EXPECTED_AMOUNT'
-        ),
-        value: accountStatementAmountSummary.totalExpectedAmount,
-      });
+        const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
+          accountStatementAmountSummary
+        );
+        const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
+          accountStatementAmountSummary
+        );
 
-      this._isBusy = false;
-    })();
+        accountStatementAmountSummaryArray.push(
+          totalAmountPaidSummaryChartValue
+        );
+        accountStatementAmountSummaryArray.push(
+          totalExpectedAmountSummaryChartValue
+        );
+
+        this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
+          accountStatementAmountSummaryArray
+        );
+
+        this._isBusy = false;
+      })();
+    }, 2000);
   }
 
-  get accountStatementAmountSummary(): AccountStatementSummaryChart[] {
+  private getTotalAmountPaidChartValue(
+    accountStatementAmountSummary: AccountStatementsAmountSummary
+  ): AccountStatementSummaryChart {
+    const totalAmountPaidSummary = new AccountStatementSummaryChart();
+    totalAmountPaidSummary.value =
+      accountStatementAmountSummary.totalAmountPaid;
+    const totalAmountPaidLegendLabel = `${this.translateService.instant(
+      'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_PAID_AMOUNT'
+    )} - ${this.translateService.instant(
+      'GENERAL_TEXTS.CURRENCY.PHP'
+    )} ${totalAmountPaidSummary.formattedValue()}`;
+    totalAmountPaidSummary.name = totalAmountPaidLegendLabel;
+
+    return totalAmountPaidSummary;
+  }
+
+  private getTotalUnpaidAmountPaidChartValue(
+    accountStatementAmountSummary: AccountStatementsAmountSummary
+  ): AccountStatementSummaryChart {
+    const totalExpectedAmountSummary = new AccountStatementSummaryChart();
+    totalExpectedAmountSummary.value =
+      accountStatementAmountSummary.totalExpectedAmount -
+      accountStatementAmountSummary.totalAmountPaid;
+    const totalExpectedAmountLegendLabel = `${this.translateService.instant(
+      'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
+    )} - ${this.translateService.instant(
+      'GENERAL_TEXTS.CURRENCY.PHP'
+    )} ${totalExpectedAmountSummary.formattedValue()}`;
+    totalExpectedAmountSummary.name = totalExpectedAmountLegendLabel;
+
+    return totalExpectedAmountSummary;
+  }
+
+  get accountStatementAmountSummary(): ObservableArray<AccountStatementSummaryChart> {
     return this._accountStatementAmountSummary;
   }
 }

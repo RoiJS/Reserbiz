@@ -4,16 +4,16 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ModalDialogParams } from '@nativescript/angular';
 
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
 
-import { AccountStatementFilterFormSource } from '@src/app/_models/account-statement-filter-form.model';
-import { AccountStatementFilter } from '@src/app/_models/account-statement-filter.model';
+import { AccountStatementFilterFormSource } from '@src/app/_models/form/account-statement-filter-form.model';
+import { AccountStatementFilter } from '@src/app/_models/filters/account-statement-filter.model';
 
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
-import { SortOrderValueProvider } from '@src/app/_helpers/sort-order-value-provider.helper';
-import { PaymentStatusValueProvider } from '@src/app/_helpers/payment-status-value-provider.helper';
+import { SortOrderValueProvider } from '@src/app/_helpers/value_providers/sort-order-value-provider.helper';
+import { PaymentStatusValueProvider } from '@src/app/_helpers/value_providers/payment-status-value-provider.helper';
 
 @Component({
   selector: 'ns-contract-account-statement-filter-dialog',
@@ -113,7 +113,7 @@ export class ContractAccountStatementFilterDialogComponent
         fromDate: null,
         toDate: null,
         paymentStatus: PaymentStatusEnum.All,
-        sortOrder: SortOrderEnum.Ascending,
+        sortOrder: SortOrderEnum.Descending,
       }
     );
   }

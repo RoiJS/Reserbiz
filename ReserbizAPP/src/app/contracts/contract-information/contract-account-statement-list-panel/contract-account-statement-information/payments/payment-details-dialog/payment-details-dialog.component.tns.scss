@@ -1,6 +1,4 @@
 .payment-details-dialog {
-  width: 350;
-
   .payment-view-dialog-buttons {
     width: 100%;
 
@@ -12,9 +10,9 @@
   .payment-add-dialog-buttons {
     width: 100%;
 
-    .btn-close,
-    .btn-save {
+    Button {
       width: 50%;
+      margin: 5;
     }
   }
 }

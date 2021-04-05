@@ -1,0 +1,58 @@
+@import '../../../../app-variables';
+
+.add-account-statement-dialog {
+  // width: 350;
+
+  .dialog-body {
+    height: 0;
+    padding: 0;
+  }
+
+  .panel {
+    padding-bottom: 0;
+
+    &__border {
+      border-width: 5;
+      width: 100%;
+      margin-top: 10;
+      border-color: $primary;
+    }
+
+    &__details-group-panel {
+      margin-bottom: 0;
+    }
+
+    &__details-section {
+      padding: 0;
+      font-size: 14;
+      border-bottom-width: 0;
+
+      .bill-category-name {
+        width: 50%;
+
+        .details-label {
+          color: $primary;
+        }
+      }
+
+      .bill-category-value {
+        width: 50%;
+      }
+
+      Switch {
+        color: $primary;
+        background-color: $primary;
+        off-background-color: gray;
+      }
+    }
+  }
+
+  .dialog-buttons {
+    width: 100%;
+
+    Button {
+      width: 50%;
+      margin: 5;
+    }
+  }
+}

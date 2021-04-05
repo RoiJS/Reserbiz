@@ -2,7 +2,15 @@
   [title]="'DASHBOARD.ACTION_BAR_SECTION.TITLE' | translate"
   [showBackButton]="false"
 ></ns-action-bar>
-<StackLayout class="page-container" orientation="vertical">
+<ns-loader-layout
+  [ngClass]="{'hidden': !isBusy}"
+  [busy]="isBusy"
+></ns-loader-layout>
+<StackLayout
+  [ngClass]="{'hidden': isBusy}"
+  class="page-container"
+  orientation="vertical"
+>
   <ScrollView orientation="vertical">
     <StackLayout class="dashboard-container">
       <FlexBoxLayout>
@@ -14,10 +22,10 @@
         <ns-upcoming-contract-due-dates-widget></ns-upcoming-contract-due-dates-widget>
       </FlexBoxLayout>
       <FlexBoxLayout>
-        <ns-unpaid-account-statements-widget></ns-unpaid-account-statements-widget>
+        <ns-account-statements-amount-summary></ns-account-statements-amount-summary>
       </FlexBoxLayout>
       <FlexBoxLayout>
-        <ns-account-statements-amount-summary></ns-account-statements-amount-summary>
+        <ns-unpaid-account-statements-widget></ns-unpaid-account-statements-widget>
       </FlexBoxLayout>
     </StackLayout>
   </ScrollView>

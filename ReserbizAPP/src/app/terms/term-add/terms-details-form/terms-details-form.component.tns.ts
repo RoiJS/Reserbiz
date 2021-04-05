@@ -14,9 +14,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { Term } from '@src/app/_models/term.model';
-import { TermDetailsFormSource } from '@src/app/_models/term-details-form.model';
-import { SpaceTypeOption } from '@src/app/_models/space-type-option.model';
-import { ITermFormValueProvider } from '@src/app/_interfaces/iterm-form-value-provider.interface';
+import { TermDetailsFormSource } from '@src/app/_models/form/term-details-form.model';
+import { SpaceTypeOption } from '@src/app/_models/options/space-type-option.model';
+import { ITermFormValueProvider } from '@src/app/_interfaces/value_providers/iterm-form-value-provider.interface';
 
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
@@ -26,13 +26,13 @@ import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-ma
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { TermService } from '@src/app/_services/term.service';
 
-import { TermMapper } from '@src/app/_helpers/term-mapper.helper';
-import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
-import { ValueTypeValueProvider } from '@src/app/_helpers/value-type-provide.helper';
-import { SpaceTypeValueProvider } from '@src/app/_helpers/space-type-value-provider.helper';
-import { PickerEditorValidator } from '@src/app/_helpers/picker-editor-validator.helper';
-import { DurationRangeValueProvider } from '@src/app/_helpers/duration-range-value-provider.helper';
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { TermMapper } from '@src/app/_helpers/mappers/term-mapper.helper';
+import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
+import { ValueTypeValueProvider } from '@src/app/_helpers/value_providers/value-type-provider.helper';
+import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
+import { PickerEditorValidator } from '@src/app/_helpers/validators/picker-editor-validator.helper';
+import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
 
 registerElement('PickerEditorValidator', () => <any>PickerEditorValidator);
 
@@ -365,6 +365,7 @@ export class TermsDetailsFormComponent
     this._newTermDetails.penaltyAmountPerDurationUnit = this._termDetailsForm.penaltyAmountPerDurationUnit;
     this._newTermDetails.penaltyEffectiveAfterDurationValue = this._termDetailsForm.penaltyEffectiveAfterDurationValue;
     this._newTermDetails.penaltyEffectiveAfterDurationUnit = this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
+    this._newTermDetails.generateAccountStatementDaysBeforeValue = this._termDetailsForm.generateAccountStatementDaysBeforeValue;
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {

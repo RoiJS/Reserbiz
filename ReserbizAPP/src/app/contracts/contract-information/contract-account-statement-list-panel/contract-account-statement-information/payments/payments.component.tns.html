@@ -27,141 +27,140 @@
   <ns-loader-layout [busy]="IsBusy">
     <FlexBoxLayout flexDirection="column" width="100%" height="100%">
       <!-- # Start - Payment list container -->
-      <StackLayout>
-        <FlexBoxLayout
-          flexDirection="column"
-          justifyContent="space-around"
-          class="page-container payments-list-container"
+      <StackLayout width="100%" height="100%">
+        <ns-list-layout
+          [hasItems]="items?.length > 0"
+          [emptyTextIdentifier]="'PAYMENTS.EMPTY_PAYMENT_LIST'"
         >
-          <RadListView
-            *ngIf="items?.length > 0"
-            width="100%"
-            height="100%"
-            #appListView
-            class="app-list-container"
-            [items]="items"
-            selectionBehavior="Press"
-            multipleSelection="true"
-            pullToRefresh="true"
-            loadOnDemandMode="Auto"
-            loadOnDemandBufferSize="2"
-            (itemSelected)="openPaymentDetailsDialog($event.index)"
-            (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
-            (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+          <FlexBoxLayout
+            flexDirection="column"
+            justifyContent="space-around"
+            class="page-container payments-list-container"
           >
-            <ng-template tkListItemTemplate let-payment="item">
-              <GridLayout
-                class="app-list-item-template payment-item-template"
-                rows="*, *, *"
-                columns="70, 200, *"
-              >
-                <!-- #Start Payment main icon section -->
-                <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+            <RadListView
+              width="100%"
+              height="100%"
+              #appListView
+              class="app-list-container"
+              [items]="items"
+              selectionBehavior="Press"
+              multipleSelection="true"
+              pullToRefresh="true"
+              loadOnDemandMode="Auto"
+              loadOnDemandBufferSize="2"
+              (itemSelected)="openPaymentDetailsDialog($event.index)"
+              (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+              (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+            >
+              <ng-template tkListItemTemplate let-payment="item">
+                <GridLayout
+                  class="app-list-item-template payment-item-template"
+                  rows="*, *, *"
+                  columns="70, 200, *"
+                >
+                  <!-- #Start Payment main icon section -->
+                  <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+                    <StackLayout
+                      class="payment-icon-placeholder app-list-item-template__image-container"
+                      verticalAlignment="middle"
+                    >
+                      <label
+                        class="fa fa-solid"
+                        horizontalAlignment="center"
+                        text="&#xf53d;"
+                      ></label>
+                    </StackLayout>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Total Amount Section -->
                   <StackLayout
-                    class="payment-icon-placeholder app-list-item-template__image-container"
+                    row="0"
+                    column="1"
+                    orientation="horizontal"
                     verticalAlignment="middle"
+                    class="payment-amount-section"
                   >
                     <label
-                      class="fa fa-solid"
-                      horizontalAlignment="center"
-                      text="&#xf53d;"
+                      [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.amountFormatted"
                     ></label>
                   </StackLayout>
-                </StackLayout>
-                <!-- #End -->
+                  <!-- #End -->
 
-                <!-- #Start Total Amount Section -->
-                <StackLayout
-                  row="0"
-                  column="1"
-                  orientation="horizontal"
-                  verticalAlignment="middle"
-                  class="payment-amount-section"
-                >
-                  <label
-                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
-                    class="m-r-5"
-                  ></label>
-                  <label
-                    class="payment-item-template__detail"
-                    [text]="payment?.amountFormatted"
-                  ></label>
-                </StackLayout>
-                <!-- #End -->
+                  <!-- #Start Payment Date Time Received section -->
+                  <StackLayout
+                    row="1"
+                    column="1"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-datetime-received"
+                  >
+                    <label
+                      text="&#xf073;"
+                      class="fa fa-solid m-r-5 payment-item-template__icon"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.dateTimeReceivedFormatted"
+                    ></label>
+                  </StackLayout>
+                  <!-- #End -->
 
-                <!-- #Start Payment Date Time Received section -->
-                <StackLayout
-                  row="1"
-                  column="1"
-                  orientation="horizontal"
-                  verticalAlignment="middle"
-                >
-                  <label
-                    text="&#xf073;"
-                    class="fa fa-solid m-r-5 payment-item-template__icon"
-                  ></label>
-                  <label
-                    class="payment-item-template__detail"
-                    [text]="payment?.dateTimeReceivedFormatted"
-                  ></label>
-                </StackLayout>
-                <!-- #End -->
+                  <!-- #Start Payment Received By section -->
+                  <StackLayout
+                    row="2"
+                    column="1"
+                    columSpan="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-received-by"
+                  >
+                    <label
+                      [text]="'PAYMENTS.PAYMENT_DETAILS.RECEIVED_BY' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.receivedBy"
+                    ></label>
+                  </StackLayout>
+                  <!-- #End -->
 
-                <!-- #Start Payment Received By section -->
-                <StackLayout
-                  row="2"
-                  column="1"
-                  columSpan="2"
-                  orientation="horizontal"
-                  verticalAlignment="middle"
-                >
-                  <label
-                    [text]="'PAYMENTS.PAYMENT_DETAILS.RECEIVED_BY' | translate"
-                    class="m-r-5"
-                  ></label>
-                  <label
-                    class="payment-item-template__detail"
-                    [text]="payment?.receivedBy"
-                  ></label>
-                </StackLayout>
-                <!-- #End -->
+                  <!-- #Start Notes Indicator Section -->
+                  <StackLayout
+                    *ngIf="payment?.hasNotes"
+                    row="0"
+                    column="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    horizontalAlignment="right"
+                  >
+                    <label text="&#xf075;" class="fa fa-solid"></label>
+                  </StackLayout>
+                  <!-- #End -->
 
-                <!-- #Start Notes Indicator Section -->
-                <StackLayout
-                  *ngIf="payment?.hasNotes"
-                  row="0"
-                  column="2"
-                  orientation="horizontal"
-                  verticalAlignment="middle"
-                  horizontalAlignment="right"
-                >
-                  <label text="&#xf075;" class="fa fa-solid"></label>
-                </StackLayout>
-                <!-- #End -->
-                
-                <!-- #Start Amount From Deposit Indicator Section -->
-                <StackLayout
-                  *ngIf="payment?.isAmountFromDeposit"
-                  row="1"
-                  column="2"
-                  orientation="horizontal"
-                  verticalAlignment="middle"
-                  horizontalAlignment="right"
-                >
-                  <label text="&#xf14d;" class="fa fa-solid"></label>
-                </StackLayout>
-                <!-- #End -->
-              </GridLayout>
-            </ng-template>
-          </RadListView>
-
-          <label
-            alignSelf="center"
-            *ngIf="items?.length === 0"
-            style="font-size: 16"
-            text="No payments available"
-          ></label>
-        </FlexBoxLayout>
+                  <!-- #Start Amount From Deposit Indicator Section -->
+                  <StackLayout
+                    *ngIf="payment?.isAmountFromDeposit"
+                    row="1"
+                    column="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    horizontalAlignment="right"
+                  >
+                    <label text="&#xf14d;" class="fa fa-solid"></label>
+                  </StackLayout>
+                  <!-- #End -->
+                </GridLayout>
+              </ng-template>
+            </RadListView>
+          </FlexBoxLayout>
+        </ns-list-layout>
       </StackLayout>
       <!-- #End -->
 

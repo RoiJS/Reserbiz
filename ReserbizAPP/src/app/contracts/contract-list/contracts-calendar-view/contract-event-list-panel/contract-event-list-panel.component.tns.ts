@@ -14,7 +14,7 @@ import { RouterExtensions } from '@nativescript/angular';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { Contract } from '@src/app/_models/contract.model';
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';

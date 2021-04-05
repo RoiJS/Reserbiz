@@ -9,11 +9,11 @@ import { BaseFormComponent } from '@src/app/shared/component/base-form.component
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TermMiscellaneousService } from '@src/app/_services/term-miscellaneous.service';
 
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
-import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
+import { TermMiscellaneousFormSource } from '@src/app/_models/form/term-miscellaneous-form.model';
 import { TermMiscellaneousDto } from '@src/app/_dtos/term-miscellaneous.dto';
-import { TermMiscellaneousMapper } from '@src/app/_helpers/term-miscellaneous-mapper.helper';
+import { TermMiscellaneousMapper } from '@src/app/_helpers/mappers/term-miscellaneous-mapper.helper';
 
 @Component({
   selector: 'ns-term-miscellaneous-add',

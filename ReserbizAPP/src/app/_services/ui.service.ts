@@ -1,5 +1,7 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
+import { ios } from '@nativescript/core/application';
 import { BehaviorSubject } from 'rxjs';
+import { ad } from '@nativescript/core/utils/utils';
 
 @Injectable({ providedIn: 'root' })
 export class UIService {
@@ -20,5 +22,18 @@ export class UIService {
 
   getRootVCRef() {
     return this._rootVCRef;
+  }
+
+  hideKeyboard(): void {
+    if (ios) {
+      ios.nativeApp.sendActionToFromForEvent(
+        'resignFirstResponder',
+        null,
+        null,
+        null
+      );
+    } else {
+      ad.dismissSoftInput();
+    }
   }
 }

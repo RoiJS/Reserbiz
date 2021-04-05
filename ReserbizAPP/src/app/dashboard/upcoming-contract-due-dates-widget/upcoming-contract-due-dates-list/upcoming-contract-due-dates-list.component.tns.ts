@@ -14,7 +14,7 @@ import { ObservableArray } from '@nativescript/core';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
+import { ContractPaginationList } from '@src/app/_models/pagination_list/contract-pagination-list.model';
 import { Contract } from '@src/app/_models/contract.model';
 
 import { ContractService } from '@src/app/_services/contract.service';
@@ -50,17 +50,19 @@ export class UpcomingContractDueDatesListComponent
     this._loadListFlagSub = this.upcomingContractsDueDateService.selectedMonth.subscribe(
       (month: number) => {
         this.upcomingContractsDueDateService.isBusy.next(true);
-        this.contractService
-          .getAllUpcomingDueDateContractsPerMonth(month)
-          .subscribe((contractPaginationList: ContractPaginationList) => {
-            this.upcomingContractsDueDateService.listItemCount.next(
-              contractPaginationList.totalItems
-            );
-            this.upcomingContractsDueDateService.isBusy.next(false);
-            this._listItems = new ObservableArray<Contract>(
-              <Contract[]>contractPaginationList.items
-            );
-          });
+        setTimeout(() => {
+          this.contractService
+            .getAllUpcomingDueDateContractsPerMonth(month)
+            .subscribe((contractPaginationList: ContractPaginationList) => {
+              this.upcomingContractsDueDateService.listItemCount.next(
+                contractPaginationList.totalItems
+              );
+              this.upcomingContractsDueDateService.isBusy.next(false);
+              this._listItems = new ObservableArray<Contract>(
+                <Contract[]>contractPaginationList.items
+              );
+            });
+        }, 2000);
       }
     );
   }

@@ -12,13 +12,22 @@
   }
 
   &__button {
-    width: 40;
+    width: 20;
     font-size: 15;
+    padding: 0;
   }
 
   &__button--active {
     color: $primary;
     background-color: white;
+  }
+
+  .app-list-item-swipe-template {
+    &__option {
+      width: 20;
+      height: 45;
+      font-size: 17;
+    }
   }
 
   .contract-account-statement-item-template {

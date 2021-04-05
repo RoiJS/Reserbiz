@@ -3,7 +3,7 @@
 .txt-water-bill-amount,
 .txt-electric-bill-amount {
   width: 100%;
-  font-size: 15;
+  font-size: 16;
 }
 
 .panel {
@@ -15,7 +15,13 @@
   }
 
   &__details-section {
+    padding: 0;
+    font-size: 14;
     border-bottom-width: 0;
+
+    TextField {
+      padding: 0;
+    }
 
     .bill-category-name {
       width: 50%;

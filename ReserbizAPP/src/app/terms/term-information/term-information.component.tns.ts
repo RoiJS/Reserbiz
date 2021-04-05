@@ -13,7 +13,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { TermService } from '@src/app/_services/term.service';
 
-import { DurationValueProvider } from '@src/app/_helpers/duration-value-provider.helper';
+import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
 
 @Component({
   selector: 'ns-term-information',

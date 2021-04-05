@@ -15,7 +15,7 @@
       <StackLayout>
         <label
           text="&#xf00d;"
-          class="fa fa-solid"
+          class="fa fa-solid icon-close"
           (tap)="closeDialog()"
         ></label>
       </StackLayout>
@@ -161,13 +161,15 @@
   <StackLayout class="dialog-footer">
     <FlexboxLayout class="filter-dialog-buttons">
       <button
+        padding="0"
         [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
-        class="btn-confirm-filter btn btn-primary btn-rounded-lg"
+        class="btn-confirm-filter btn-primary -rounded-lg"
         (tap)="onConfirm()"
       ></button>
       <button
+        padding="0"
         [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
-        class="btn-reset-filter btn btn-rounded-lg"
+        class="btn-reset-filter -rounded-lg"
         (tap)="onReset()"
       ></button>
     </FlexboxLayout>

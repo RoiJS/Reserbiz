@@ -1,61 +1,66 @@
 <ns-loader-layout [busy]="isBusy">
   <StackLayout width="100%" height="100%" class="page-container">
-    <RadListView
-      #contactPersonView
-      width="100%"
-      height="100%"
-      class="app-list-container"
-      [items]="contactPersons"
-      selectionBehavior="Press"
-      (itemSelected)="goToEditDetailsFromMainItem($event)"
+    <ns-list-layout
+      [hasItems]="contactPersons?.length > 0"
+      [emptyTextIdentifier]="'TENANT_CONTACT_PERSON_LIST_PAGE.EMPTY_CONTACT_PERSONS'"
     >
-      <ng-template tkListItemTemplate let-contactPerson="item">
-        <GridLayout
-          class="app-list-item-template"
-          rows="*, *"
-          columns="70, *, 60"
-        >
-          <!-- Template tenant item photo placeholder -->
-          <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+      <RadListView
+        #contactPersonView
+        width="100%"
+        height="100%"
+        class="app-list-container"
+        [items]="contactPersons"
+        selectionBehavior="Press"
+        (itemSelected)="goToEditDetailsFromMainItem($event)"
+      >
+        <ng-template tkListItemTemplate let-contactPerson="item">
+          <GridLayout
+            class="app-list-item-template"
+            rows="*, *"
+            columns="70, *, 60"
+          >
+            <!-- Template tenant item photo placeholder -->
+            <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+              <StackLayout
+                class="app-list-item-template__image-container"
+                verticalAlignment="middle"
+                [backgroundColor]="contactPerson.photoBackgroundColor"
+              >
+                <label
+                  class="image"
+                  horizontalAlignment="center"
+                  [text]="contactPerson.nameInitials"
+                ></label>
+              </StackLayout>
+            </StackLayout>
+
             <StackLayout
-              class="app-list-item-template__image-container"
+              class="app-list-item-template__item-main-label"
               verticalAlignment="middle"
-              [backgroundColor]="contactPerson.photoBackgroundColor"
+              row="0"
+              col="1"
             >
+              <label class="fullname" [text]="contactPerson.fullName"></label>
+            </StackLayout>
+
+            <StackLayout row="1" col="1">
               <label
-                class="image"
-                horizontalAlignment="center"
-                [text]="contactPerson.nameInitials"
+                class="username"
+                [text]="contactPerson.contactNumber"
               ></label>
             </StackLayout>
-          </StackLayout>
 
-          <StackLayout
-            class="app-list-item-template__item-main-label"
-            verticalAlignment="middle"
-            row="0"
-            col="1"
-          >
-            <label class="fullname" [text]="contactPerson.fullName"></label>
-          </StackLayout>
-
-          <StackLayout row="1" col="1">
-            <label
-              class="username"
-              [text]="contactPerson.contactNumber"
-            ></label>
-          </StackLayout>
-
-          <StackLayout row="0" col="2" rowSpan="2">
-            <button
-              class="fa fa-solid app-list-item-template__option"
-              text="&#xf2ed;"
-              (tap)="deleteSelectedContactPerson(contactPerson.id)"
-            ></button>
-          </StackLayout>
-        </GridLayout>
-      </ng-template>
-    </RadListView>
+            <StackLayout row="0" col="2" rowSpan="2">
+              <button
+                class="fa fa-solid app-list-item-template__option"
+                text="&#xf2ed;"
+                (tap)="deleteSelectedContactPerson(contactPerson.id)"
+              ></button>
+            </StackLayout>
+          </GridLayout>
+        </ng-template>
+      </RadListView>
+    </ns-list-layout>
   </StackLayout>
 
   <ns-floating-button

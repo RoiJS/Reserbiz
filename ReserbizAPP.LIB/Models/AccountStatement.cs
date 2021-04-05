@@ -26,6 +26,12 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum PenaltyAmountPerDurationUnit { get; set; }
         public int PenaltyEffectiveAfterDurationValue { get; set; }
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
+
+        // This will record the last date when the sms notification has been sent.
+        // We will only allow to send one sms notification once per day
+        // this is because there is a charge sending sms using the SMS
+        // API Service that the application is using.
+        public DateTime SMSNotificationLastDateSent { get; set; }
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
 
         public int? DeletedById { get; set; }
@@ -123,6 +129,14 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public float AccountStatementTotalRentalFeeAmount
+        {
+            get
+            {
+                return CalculateRentalFee();
+            }
+        }
+
         public float CurrentAmountPaid
         {
             get
@@ -147,15 +161,23 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public bool IsRentalFeeFullyPaid
+        {
+            get
+            {
+                return (CurrentAmountPaid >= AccountStatementTotalRentalFeeAmount);
+            }
+        }
+
         public bool IsValidForGeneratingPenalty
         {
             get
             {
                 // Generating of penalty item will based on these 3 criteria:
                 // (1) Account statement should be due for generating penalty.
-                // (2) Account statement should be not yet fully paid.
+                // (2) Account statement rental fees has not been full paid yet.
                 // (3) Account statement should not be the first account statement from the list.
-                return (IsDueToGeneratePenalty && !IsFullyPaid && !IsFirstAccountStatement);
+                return (IsDueToGeneratePenalty && !IsRentalFeeFullyPaid && !IsFirstAccountStatement);
             }
         }
 
@@ -167,11 +189,20 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public float CalculatedAdvancedPaymentAmount
+
+        public bool AllowSentSMSNotificationForTheDay
         {
             get
             {
-                return CalculateAdvancedPaymentAmount();
+                return (SMSNotificationLastDateSent != null && CurrentDateTime.Date >= SMSNotificationLastDateSent);
+            }
+        }
+
+        public bool IsDeletable
+        {
+            get
+            {
+                return IsAccountStatementDeletable();
             }
         }
 
@@ -227,6 +258,27 @@ namespace ReserbizAPP.LIB.Models
             return totalAmount;
         }
 
+        private float CalculateRentalFee()
+        {
+            var totalAmount = 0.0f;
+
+            // Calculate Advance and Deposit amount and add it
+            //  to the total amount if the account statement is first in the list.
+            if (IsFirstAccountStatement)
+            {
+                totalAmount += Rate;
+
+                // Calculate the Deposit Payment amount and add it to the total amount
+                totalAmount += CalculatedDepositAmount;
+            }
+            else
+            {
+                totalAmount += Rate;
+            }
+
+            return totalAmount;
+        }
+
         private float CalculateAccountStatementTotalAmount()
         {
             var totalAmount = ElectricBill + WaterBill + MiscellaneousTotalAmount + PenaltyTotalAmount;
@@ -235,8 +287,7 @@ namespace ReserbizAPP.LIB.Models
             //  to the total amount if the account statement is first in the list.
             if (IsFirstAccountStatement)
             {
-                // Calculate the Advance Payment amount and add it to the total amount
-                totalAmount += CalculatedAdvancedPaymentAmount;
+                totalAmount += Rate;
 
                 // Calculate the Deposit Payment amount and add it to the total amount
                 totalAmount += CalculatedDepositAmount;
@@ -258,12 +309,23 @@ namespace ReserbizAPP.LIB.Models
         private bool IsFirstAccountStatementItem()
         {
             var activeAccountStatements = Contract.AccountStatements
-                                                .Where(a => a.IsActive)
+                                                .Where(a => a.IsActive && a.IsDelete == false)
                                                 .OrderBy(a => a.DueDate)
                                                 .ToList();
 
             return activeAccountStatements.Count == 1
                     || (activeAccountStatements.Count > 0 && activeAccountStatements[0].Id == Id);
+        }
+
+        private bool IsAccountStatementDeletable()
+        {
+            var lastAccountStatement = Contract.AccountStatements
+                                                .Where(a => a.IsActive && a.IsDelete == false)
+                                                .OrderByDescending(a => a.DueDate)
+                                                .FirstOrDefault();
+
+            // Last account statement is deletable
+            return (lastAccountStatement != null && lastAccountStatement.Id == Id);
         }
 
         private float CalculateCurrentAmountPaid()
@@ -275,11 +337,6 @@ namespace ReserbizAPP.LIB.Models
         private float CalculateDepositPaymentAmount()
         {
             return Rate * DepositPaymentDurationValue;
-        }
-
-        private float CalculateAdvancedPaymentAmount()
-        {
-            return Rate * AdvancedPaymentDurationValue;
         }
     }
 }

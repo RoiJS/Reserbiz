@@ -9,11 +9,11 @@ import { BaseFormComponent } from '@src/app/shared/component/base-form.component
 
 import { SettingsDto } from '@src/app/_dtos/settings-dto';
 
-import { SettingsMapper } from '@src/app/_helpers/settings-mapper.helper';
+import { SettingsMapper } from '@src/app/_helpers/mappers/settings-mapper.helper';
 
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
 
-import { SettingsFormSource } from '@src/app/_models/settings-form.model';
+import { SettingsFormSource } from '@src/app/_models/form/settings-form.model';
 import { Settings } from '@src/app/_models/settings.model';
 
 import { DialogService } from '@src/app/_services/dialog.service';

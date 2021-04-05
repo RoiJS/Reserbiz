@@ -6,11 +6,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { SpaceTypeFormSource } from '@src/app/_models/space-type-form.model';
+import { SpaceTypeFormSource } from '@src/app/_models/form/space-type-form.model';
 import { SpaceType } from '@src/app/_models/space-type.model';
 import { SpaceTypeDto } from '@src/app/_dtos/space-type.dto';
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
-import { SpaceTypeMapper } from '@src/app/_helpers/space-type-mapper.helper';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
+import { SpaceTypeMapper } from '@src/app/_helpers/mappers/space-type-mapper.helper';
 
 @Component({
   selector: 'ns-space-type-add',

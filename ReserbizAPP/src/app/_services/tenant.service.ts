@@ -11,13 +11,13 @@ import { Tenant } from '../_models/tenant.model';
 import { BaseService } from './base.service';
 
 import { ContactPerson } from '../_models/contact-person.model';
-import { TenantOption } from '../_models/tenant-option.model';
+import { TenantOption } from '../_models/options/tenant-option.model';
 import { TenantDto } from '../_dtos/tenant-create.dto';
 import { ContactPersonDto } from '../_dtos/contact-person.dto';
 
-import { TenantMapper } from '../_helpers/tenant-mapper.helper';
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { TenantMapper } from '../_helpers/mappers/tenant-mapper.helper';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({

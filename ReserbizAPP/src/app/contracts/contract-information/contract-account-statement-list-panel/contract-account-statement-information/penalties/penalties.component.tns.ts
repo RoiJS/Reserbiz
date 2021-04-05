@@ -7,21 +7,22 @@ import {
   OnInit,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { delay } from 'rxjs/operators';
 
 import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { PenaltyFilter } from '@src/app/_models/penalty-filter.model';
+import { PenaltyFilter } from '@src/app/_models/filters/penalty-filter.model';
 import { Penalty } from '@src/app/_models/penalty.model';
-import { PenaltyPaginationList } from '@src/app/_models/penalty-pagination-list.model';
+import { PenaltyPaginationList } from '@src/app/_models/pagination_list/penalty-pagination-list.model';
 
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { PenaltyService } from '@src/app/_services/penalty.service';
 
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'app-penalties',
@@ -60,8 +61,9 @@ export class PenaltiesComponent
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentItemParentId = +paramMap.get('accountStatementId');
 
-        this._loadListFlagSub = this.penaltyService.loadPenaltyListFlag.subscribe(
-          (reset: boolean) => {
+        this._loadListFlagSub = this.penaltyService.loadPenaltyListFlag
+          .pipe(delay(1000))
+          .subscribe((reset: boolean) => {
             (<PenaltyFilter>(
               this._entityFilter
             )).parentId = this._currentItemParentId;
@@ -70,8 +72,7 @@ export class PenaltiesComponent
                 this._totalAmount = penaltyPaginationList.totalAmount;
               }
             );
-          }
-        );
+          });
       });
     });
 
@@ -92,7 +93,6 @@ export class PenaltiesComponent
       // Override default behavior when selecting item from the list
       this.appListView.listView.deselectItemAt(paymentItemIndex);
     }, 100);
-
   }
 
   get currentSortOrder(): SortOrderEnum {

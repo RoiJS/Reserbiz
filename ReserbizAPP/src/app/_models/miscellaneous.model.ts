@@ -1,5 +1,5 @@
 import { Entity } from './entity.model';
-import { NumberFormatter } from '../_helpers/number-formatter.helper';
+import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 
 export abstract class Miscellaneous extends Entity {
   public name: string;

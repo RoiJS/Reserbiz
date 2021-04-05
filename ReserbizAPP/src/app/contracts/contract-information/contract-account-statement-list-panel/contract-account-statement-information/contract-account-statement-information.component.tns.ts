@@ -14,7 +14,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'app-contract-account-statement-information',
@@ -161,6 +161,50 @@ export class ContractAccountStatementInformationComponent
       electricBillAmount !== this.electricBillAmountOriginal ||
       waterBillAmount !== this.waterBillAmountOriginal;
     return result;
+  }
+
+  sendAccountStatementDetails() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((result: boolean) => {
+        if (result) {
+          this._isBusy = true;
+          (async () => {
+            try {
+              await this.accountStatementService.sendAccountStatementDetails(
+                this._currentAccountStatementId
+              );
+
+              this.dialogService.alert(
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                ),
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.SUCCESS_MESSAGE'
+                )
+              );
+
+              this._isBusy = false;
+            } catch {
+              this.dialogService.alert(
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                ),
+                this.translateService.instant(
+                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.ERROR_MESSAGE'
+                )
+              );
+            }
+          })();
+        }
+      });
   }
 
   get currentAccountStatement(): AccountStatement {

@@ -1,12 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
 import { DialogService } from '@src/app/_services/dialog.service';
@@ -18,7 +20,8 @@ import { SpaceType } from '@src/app/_models/space-type.model';
   templateUrl: './space-types-list.component.html',
   styleUrls: ['./space-types-list.component.scss'],
 })
-export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
+export class SpaceTypesListComponent
+  extends BaseListComponent<SpaceType>
   implements IBaseListComponent, OnInit, OnDestroy {
   constructor(
     private spaceTypeService: SpaceTypeService,
@@ -33,11 +36,11 @@ export class SpaceTypesListComponent extends BaseListComponent<SpaceType>
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getEntities();
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

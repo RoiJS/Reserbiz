@@ -4,10 +4,10 @@
   horizontalAlignment="center"
   class="list-layout-container"
 >
-  <StackLayout *ngIf="!hasItems">
+  <StackLayout [ngClass]="{'hidden': hasItems}">
     <label [text]="emptyListText" textWrap="true"></label>
   </StackLayout>
-  <StackLayout *ngIf="hasItems">
+  <StackLayout [ngClass]="{'hidden': !hasItems}">
     <ng-content></ng-content>
   </StackLayout>
 </StackLayout>

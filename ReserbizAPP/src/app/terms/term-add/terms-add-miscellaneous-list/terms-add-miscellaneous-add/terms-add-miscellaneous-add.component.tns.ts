@@ -7,9 +7,9 @@ import { RouterExtensions } from '@nativescript/angular';
 import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
-import { TermMiscellaneousMapper } from '@src/app/_helpers/term-miscellaneous-mapper.helper';
+import { TermMiscellaneousMapper } from '@src/app/_helpers/mappers/term-miscellaneous-mapper.helper';
 
-import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
+import { TermMiscellaneousFormSource } from '@src/app/_models/form/term-miscellaneous-form.model';
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';

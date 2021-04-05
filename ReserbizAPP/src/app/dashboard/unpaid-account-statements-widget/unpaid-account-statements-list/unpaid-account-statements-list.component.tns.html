@@ -12,24 +12,19 @@
         <GridLayout
           class="list-based-widget-container__item-template"
           rows="*"
-          columns="*, 120, 20"
-          padding="0"
+          columns="*, *, 20"
         >
           <StackLayout orientation="horizontal" row="0" col="0">
-            <label padding="0" [text]="accountStatement.tenantName"></label>
+            <label [text]="accountStatement.tenantName"></label>
           </StackLayout>
           <StackLayout orientation="horizontal" row="0" col="1">
-            <label
-              padding="0"
-              [text]="accountStatement.dueDateFormatted"
-            ></label>
+            <label [text]="accountStatement.dueDateFormatted"></label>
           </StackLayout>
           <StackLayout
             orientation="horizontal"
             row="0"
             col="2"
             class="list-based-widget-container__item-arrow-icon"
-            padding="0"
           >
             <label
               text="&#xf054;"

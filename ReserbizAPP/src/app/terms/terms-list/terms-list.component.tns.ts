@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
+import { delay } from 'rxjs/operators';
+
 import { TranslateService } from '@ngx-translate/core';
 import { RouterExtensions } from '@nativescript/angular';
 
@@ -9,7 +11,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 
 import { Term } from '@src/app/_models/term.model';
 
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
@@ -18,7 +20,8 @@ import { BaseListComponent } from '@src/app/shared/component/base-list.component
   templateUrl: './terms-list.component.html',
   styleUrls: ['./terms-list.component.scss'],
 })
-export class TermsListComponent extends BaseListComponent<Term>
+export class TermsListComponent
+  extends BaseListComponent<Term>
   implements IBaseListComponent, OnInit, OnDestroy {
   constructor(
     protected dialogService: DialogService,
@@ -33,9 +36,11 @@ export class TermsListComponent extends BaseListComponent<Term>
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.termService.loadTermListFlag.subscribe(() => {
-      this.getEntities();
-    });
+    this._loadListFlagSub = this.termService.loadTermListFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
+        this.getEntities();
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

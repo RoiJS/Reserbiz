@@ -7,15 +7,15 @@ import { map } from 'rxjs/internal/operators/map';
 import { BaseService } from './base.service';
 
 import { Contract } from '../_models/contract.model';
-import { ContractPaginationList } from '../_models/contract-pagination-list.model';
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
+import { ContractPaginationList } from '../_models/pagination_list/contract-pagination-list.model';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
 import { Term } from '../_models/term.model';
 import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
 
-import { ContractMapper } from '../_helpers/contract-mapper.helper';
+import { ContractMapper } from '../_helpers/mappers/contract-mapper.helper';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IContractFilter } from '../_interfaces/icontract-filter.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IContractFilter } from '../_interfaces/filters/icontract-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 import { DurationEnum } from '../_enum/duration-unit.enum';
@@ -158,6 +158,8 @@ export class ContractService
       termDetails.penaltyEffectiveAfterDurationValue;
     contractManageDto.term.penaltyEffectiveAfterDurationUnit =
       termDetails.penaltyEffectiveAfterDurationUnit;
+    contractManageDto.term.generateAccountStatementDaysBeforeValue =
+      termDetails.generateAccountStatementDaysBeforeValue;
 
     contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {

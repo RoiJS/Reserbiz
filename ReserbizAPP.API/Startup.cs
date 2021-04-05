@@ -20,7 +20,8 @@ using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using ReserbizAPP.LIB.Helpers.Class;
+using ReserbizAPP.API.Hubs;
 
 namespace ReserbizAPP.API
 {
@@ -36,11 +37,11 @@ namespace ReserbizAPP.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             // Register application repository classes for dependency injection
             services.AddScoped<IDataContextHelper, DataContextHelper>();
             services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
             services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
+            services.AddScoped(typeof(IGeneralInformationRepository<GeneralInformation>), typeof(GeneralInformationRepository));
             services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
@@ -60,7 +61,13 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
 
             // Register IOptions pattern for AppSettings section
-            services.Configure<IApplicationSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+
+            // Register IOptions pattern for SMSAPISettings
+            services.Configure<SMSAPISettings>(Configuration.GetSection("SMSAPISettings"));
+
+            // Register IOptions pattern for EmailServerSettings section
+            services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -141,6 +148,8 @@ namespace ReserbizAPP.API
                         }
                     };
                 });
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -196,7 +205,11 @@ namespace ReserbizAPP.API
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<ReserbizMainHub>("websocket/reserbizMainHub");
+            });
         }
     }
 }

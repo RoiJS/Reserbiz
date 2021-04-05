@@ -7,14 +7,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SpaceMapper } from '../_helpers/space-mapper.helper';
+import { SpaceMapper } from '../_helpers/mappers/space-mapper.helper';
 
-import { IBaseService } from '../_interfaces/ibase-service.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
-import { ISpaceFilter } from '../_interfaces/ispace-filter.interface';
+import { ISpaceFilter } from '../_interfaces/filters/ispace-filter.interface';
 
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
-import { SpaceOption } from '../_models/space-option.model';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
+import { SpaceOption } from '../_models/options/space-option.model';
 import { Space } from '../_models/space.model';
 
 import { BaseService } from './base.service';

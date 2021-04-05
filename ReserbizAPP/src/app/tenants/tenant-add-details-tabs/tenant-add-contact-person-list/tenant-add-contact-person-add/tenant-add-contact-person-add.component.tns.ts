@@ -11,12 +11,12 @@ import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 import { ContactPerson } from '@src/app/_models/contact-person.model';
-import { ContactPersonDetailsFormSource } from '@src/app/_models/contact-person-details-form.model';
+import { ContactPersonDetailsFormSource } from '@src/app/_models/form/contact-person-details-form.model';
 
-import { ContactPersonMapper } from '@src/app/_helpers/contact-person-mapper.helper';
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { ContactPersonMapper } from '@src/app/_helpers/mappers/contact-person-mapper.helper';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
 
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
 
 @Component({
   selector: 'ns-tenant-add-contact-person-add',

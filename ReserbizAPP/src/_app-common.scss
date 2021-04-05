@@ -68,10 +68,14 @@ $sidedrawer-list-icon-size: 20;
   }
 
   .sidedrawer-header {
-    background-color: $ab-background;
+    background: $primary-gradient;
 
     .sidedrawer-header-brand {
       color: $ab-color;
+    }
+
+    .footnote {
+      font-size: 13;
     }
   }
 
@@ -91,7 +95,7 @@ $sidedrawer-list-icon-size: 20;
       margin-bottom: $sidedrawer-list-item-offset-bottom;
       label {
         vertical-align: center;
-        color: $blue-dark;
+        color: black;
       }
       .fa {
         font-size: $sidedrawer-list-icon-size;
@@ -116,7 +120,7 @@ $sidedrawer-list-icon-size: 20;
 
 /*#region PAGE CONTAINER CLASSES*/
 .page-container {
-  background-color: $background-dark;
+  background: $background-gradient;
   width: 100%;
   height: 100%;
   padding: 10;
@@ -147,9 +151,9 @@ $sidedrawer-list-icon-size: 20;
     background-color: #ffffff;
     border-radius: 10;
     padding-top: 5;
+    padding-left: 10;
+    padding-right: 10;
     padding-bottom: 25;
-    padding-left: 5;
-    padding-right: 5;
     box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
 
     &__details-group-panel {
@@ -287,9 +291,13 @@ $sidedrawer-list-icon-size: 20;
   .dialog-header {
     font-size: 20;
     padding: 10;
-    background-color: $primary;
+    background: $primary-gradient;
     color: white;
     height: 50;
+
+    .icon-close {
+      font-size: 25;
+    }
   }
   .dialog-body {
     padding: 10;
@@ -314,6 +322,7 @@ $sidedrawer-list-icon-size: 20;
     justify-content: space-around;
     flex-direction: column;
     height: 100%;
+    width: 100%;
     padding: 5;
   }
 
@@ -346,10 +355,62 @@ $sidedrawer-list-icon-size: 20;
 }
 /*#endregion*/
 
+/*#region TABS GLOBAL CSS*/
+TabStrip {
+  selected-item-color: $primary;
+  highlight-color: $primary;
+}
+/*#endregion*/
+
 /*#region DATAFORM GLOBAL CLASSES*/
+
 DataFormEditorLabel {
   font-size: 16;
   font-weight: bold;
   color: black;
+}
+
+DataFormEditorCore {
+  margin: 5;
+}
+
+PropertyEditor[type='Switch'] DataFormEditorCore,
+PropertyEditor[type='Stepper'] DataFormEditorCore {
+  border-width: 0;
+}
+
+PropertyEditor[type='Text'] DataFormEditorCore,
+PropertyEditor[type='Phone'] DataFormEditorCore,
+PropertyEditor[type='Decimal'] DataFormEditorCore,
+PropertyEditor[type='Picker'] DataFormEditorCore,
+PropertyEditor[type='Label'] DataFormEditorCore,
+PropertyEditor[type='DatePicker'] DataFormEditorCore,
+PropertyEditor[type='TimePicker'] DataFormEditorCore,
+PropertyEditor[type='MultilineText'] DataFormEditorCore,
+PropertyEditor[type='Number'] DataFormEditorCore {
+  border-width: 2;
+  border-radius: 50%;
+  padding: 8;
+}
+
+PropertyEditor:focus DataFormEditorCore {
+  border-color: $primary;
+}
+
+/*#endregion*/
+
+/*#region GLOBAL UTILITY CLASSES*/
+.hidden {
+  display: none;
+}
+
+Button {
+  margin: 0;
+}
+
+Button.btn-primary {
+  background: $primary-gradient;
+  color: white;
+  font-weight: bold;
 }
 /*#endregion*/

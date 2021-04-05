@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 
 import { ContactPersonService } from '@src/app/_services/contact-person.service';
 import { ContactPerson } from '@src/app/_models/contact-person.model';
-import { EntityFilter } from '@src/app/_models/entity-filter.model';
+import { EntityFilter } from '@src/app/_models/filters/entity-filter.model';
 
 @Component({
   selector: 'ns-tenant-contact-person-list-panel',

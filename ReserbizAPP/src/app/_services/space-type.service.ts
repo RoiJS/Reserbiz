@@ -6,11 +6,11 @@ import { map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseService } from './base.service';
-import { SpaceTypeMapper } from '../_helpers/space-type-mapper.helper';
+import { SpaceTypeMapper } from '../_helpers/mappers/space-type-mapper.helper';
 import { SpaceType } from '../_models/space-type.model';
-import { SpaceTypeOption } from '../_models/space-type-option.model';
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { SpaceTypeOption } from '../_models/options/space-type-option.model';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({ providedIn: 'root' })

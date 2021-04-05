@@ -62,4 +62,14 @@ export const routes: Routes = [
       import('./settings/settings.module').then((m) => m.SettingsModule),
     canLoad: [AuthGuard],
   },
+  {
+    path: 'no-connection',
+    loadChildren: () =>
+      import('./no-connection/no-connection.module').then((m) => m.NoConnectionModule),
+  },
+  {
+    path: 'system-update',
+    loadChildren: () =>
+      import('./system-update/system-update.module').then((m) => m.SystemUpdateModule),
+  },
 ];

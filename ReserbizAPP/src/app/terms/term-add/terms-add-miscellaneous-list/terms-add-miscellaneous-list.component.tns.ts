@@ -21,7 +21,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 })
 export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
   @ViewChild('termMiscellaneousListView', { static: false })
-  contactPersonView: RadListViewComponent;
+  termMiscelleneousList: RadListViewComponent;
 
   private _isBusy = false;
   private _termMiscellaneousListSub: Subscription;
@@ -49,8 +49,13 @@ export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._termMiscellaneousListSub.unsubscribe();
-    this._navigateBackSub.unsubscribe();
+    if (this._termMiscellaneousListSub) {
+      this._termMiscellaneousListSub.unsubscribe();
+    }
+
+    if (this._navigateBackSub) {
+      this._navigateBackSub.unsubscribe();
+    }
   }
 
   getTermMiscellaneousList() {
@@ -63,6 +68,10 @@ export class TermsAddMiscellaneousComponent implements OnInit, OnDestroy {
           this._termMiscellaneous = new ObservableArray<TermMiscellaneous>(
             termMiscellaneous
           );
+
+          setTimeout(() => {
+            this.termMiscelleneousList.listView.refresh();
+          }, 1000);
         });
     }, 500);
   }

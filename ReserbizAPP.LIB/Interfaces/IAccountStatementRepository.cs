@@ -9,11 +9,13 @@ namespace ReserbizAPP.LIB.Interfaces
     {
         AccountStatement RegisterNewAccountStament(Contract contract);
         PenaltyBreakdown RegisterNewPenaltyItem(AccountStatement accountStatement);
+        Task<AccountStatement> GetSuggestedNewAccountStatement(int contractId);
         Task<AccountStatement> GetAccountStatementAsync(int id);
         Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId);
         Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync();
         List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
         Task GenerateContractAccountStatements(int contractId);
+        Task GenerateContractAccountStatement(int contractId, bool markAsPaid, int currentUserId);
         Task GenerateAccountStatementPenalties(int tenantId);
         Task<AccountStatement> GetFirstAccountStatement(int contractId);
         float CalculateTotalAmountPaid(IEnumerable<PaymentBreakdown> paymentBreakdowns);
@@ -22,5 +24,6 @@ namespace ReserbizAPP.LIB.Interfaces
         double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance);
         Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId);
         Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary();
+        Task SendAccountStatement(int id);
     }
 }

@@ -7,8 +7,9 @@
     [text]="'TERM_DETAILS_PAGE.PANEL_HEADER_TEXT_INFORMATION' | translate"
   ></label>
   <button
+    padding="0"
     alignSelf="center"
-    class="page-container__page-command btn btn-primary btn-rounded-lg"
+    class="page-container__page-command btn-primary -rounded-lg"
     [text]="'GENERAL_TEXTS.MANAGE' | translate"
     (tap)="onNavigateToEditPage()"
   ></button>
@@ -25,10 +26,7 @@
     </StackLayout>
     <!-- Group body -->
     <StackLayout class="panel__body-section">
-      <StackLayout
-        class="panel__details-section"
-        orientation="horizontal"
-      >
+      <StackLayout class="panel__details-section" orientation="horizontal">
         <!-- Code -->
         <StackLayout class="details-wrapper details-code">
           <label
@@ -52,10 +50,7 @@
         </StackLayout>
       </StackLayout>
 
-      <StackLayout
-        class="panel__details-section"
-        orientation="horizontal"
-      >
+      <StackLayout class="panel__details-section" orientation="horizontal">
         <!-- Space Type -->
         <StackLayout class="details-wrapper details-space-type">
           <label
@@ -83,10 +78,7 @@
         </StackLayout>
       </StackLayout>
 
-      <StackLayout
-        class="panel__details-section"
-        orientation="horizontal"
-      >
+      <StackLayout class="panel__details-section" orientation="horizontal">
         <!-- Maximum number of occupants  -->
         <StackLayout
           class="details-wrapper details-maximum-number-of-occupants"
@@ -113,10 +105,7 @@
     </StackLayout>
     <!-- Group body -->
     <StackLayout class="panel__body-section">
-      <StackLayout
-        class="panel__details-section"
-        orientation="horizontal"
-      >
+      <StackLayout class="panel__details-section" orientation="horizontal">
         <!-- Duration -->
         <StackLayout class="details-wrapper details-duration">
           <label
@@ -129,10 +118,7 @@
         </StackLayout>
       </StackLayout>
 
-      <StackLayout
-        class="panel__details-section"
-        orientation="horizontal"
-      >
+      <StackLayout class="panel__details-section" orientation="horizontal">
         <!-- Advanced Payment Duration Amount -->
         <StackLayout class="details-wrapper details-advanced-payment-duration">
           <label
@@ -202,10 +188,7 @@
         </FlexBoxLayout>
       </StackLayout>
 
-      <StackLayout
-        class="panel__details-section"
-        orientation="vertical"
-      >
+      <StackLayout class="panel__details-section" orientation="vertical">
         <!-- Exclude Water Bill -->
         <FlexBoxLayout
           class="details-exclude-water-bill"
@@ -275,6 +258,34 @@
             [text]="currentTerm?.penaltyEffectiveText"
           ></label>
         </FlexBoxLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+
+  <!-- Automation Settings Details Group -->
+  <StackLayout class="panel__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="panel__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.AUTOMATION_SETTINGS_DETAILS_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="panel__body-section">
+      <StackLayout class="panel__details-section" orientation="horizontal">
+        <!-- Generate Account Statement Days Before Due Date -->
+        <StackLayout>
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.AUTOMATION_SETTINGS_DETAILS_GROUP.GENERATE_ACCOUNT_STATEMENTS_DAYS_BEFORE_DUE_DATE' | translate"
+            textWrap="true"
+          ></label>
+          <StackLayout orientation="horizontal">
+            <label
+              [text]="currentTerm?.generateAccountStatementDaysBeforeValue"
+            ></label>
+          </StackLayout>
+        </StackLayout>
       </StackLayout>
     </StackLayout>
   </StackLayout>

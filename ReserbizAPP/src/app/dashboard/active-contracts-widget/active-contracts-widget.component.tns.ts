@@ -17,10 +17,12 @@ export class ActiveContractsWidgetComponent
   }
 
   ngOnInit() {
-    (async () => {
-      this._isBusy = true;
-      this._entityCount = await this.contractService.getActiveContractsCount();
-      this._isBusy = false;
-    })();
+    this._isBusy = true;
+    setTimeout(() => {
+      (async () => {
+        this._entityCount = await this.contractService.getActiveContractsCount();
+        this._isBusy = false;
+      })();
+    }, 2000);
   }
 }

@@ -1,0 +1,204 @@
+<StackLayout class="add-account-statement-dialog dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="90%" orientation="horizontal">
+        <label
+          text="&#xf573;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'ADD_ACCOUNT_STATEMENT_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body page-container" orientation="vertical">
+    <StackLayout class="panel">
+      <!-- General Information Group -->
+      <StackLayout class="panel__details-group-panel">
+        <!-- Group Header -->
+        <StackLayout class="panel__header-section">
+          <label
+            [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.LABEL' | translate"
+          ></label>
+        </StackLayout>
+
+        <!-- Group body -->
+        <StackLayout class="panel__body-section">
+          <!-- Miscellaneous -->
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.accountStatementMiscellaneous.length > 0"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
+            <StackLayout class="bill-category-name">
+              <label
+                class="details-label"
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+
+          <!-- Account Statement Miscellaneous -->
+          <StackLayout
+            *ngFor="let accountMiscellaneous of suggestedAccountStatement?.accountStatementMiscellaneous"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
+            <StackLayout class="bill-category-name">
+              <label [text]="accountMiscellaneous.name"></label>
+            </StackLayout>
+            <StackLayout class="bill-category-value" orientation="horizontal">
+              <label
+                [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                class="m-r-5"
+              ></label>
+              <label [text]="accountMiscellaneous.formattedAmount"></label>
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.accountStatementMiscellaneous.length > 0"
+            class="panel__border"
+          ></StackLayout>
+
+          <!-- Water Bill Amount -->
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.waterBillFormatted > 0"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
+            <StackLayout class="bill-category-name">
+              <label
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
+              ></label>
+            </StackLayout>
+            <StackLayout class="bill-category-value" orientation="horizontal">
+              <FlexboxLayout>
+                <label
+                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                  class="m-r-5"
+                ></label>
+                <label
+                  [text]="suggestedAccountStatement?.waterBillFormatted"
+                ></label>
+              </FlexboxLayout>
+            </StackLayout>
+          </StackLayout>
+
+          <!-- Electric Bill Amount -->
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.electricBillFormatted > 0"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
+            <StackLayout class="bill-category-name">
+              <label
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
+              ></label>
+            </StackLayout>
+            <StackLayout class="bill-category-value" orientation="horizontal">
+              <FlexboxLayout>
+                <label
+                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                  class="m-r-5"
+                ></label>
+                <label
+                  [text]="suggestedAccountStatement?.electricBillFormatted"
+                ></label>
+              </FlexboxLayout>
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.electricBillFormatted > 0 || suggestedAccountStatement?.waterBillFormatted > 0"
+            class="panel__border"
+          ></StackLayout>
+
+          <!-- Rate Amount -->
+          <StackLayout class="panel__details-section" orientation="horizontal">
+            <StackLayout class="bill-category-name">
+              <label
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.RENT_AMOUNT_LABEL' | translate"
+              ></label>
+            </StackLayout>
+            <StackLayout class="bill-category-value" orientation="horizontal">
+              <label
+                [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                class="m-r-5"
+              ></label>
+              <label
+                [text]="suggestedAccountStatement?.rentIncomeFormatted"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+
+          <StackLayout class="panel__border"></StackLayout>
+
+          <!-- Total Amount -->
+          <StackLayout class="panel__details-section" orientation="horizontal">
+            <StackLayout class="bill-category-name">
+              <label
+                class="details-label"
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.TOTAL_LABEL' | translate"
+              ></label>
+            </StackLayout>
+            <StackLayout
+              class="bill-category-value details-label"
+              orientation="horizontal"
+            >
+              <label
+                [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                class="m-r-5"
+              ></label>
+              <label
+                [text]="suggestedAccountStatement?.accountStatementTotalAmountFormatted"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+
+          <!-- Paid Control -->
+          <StackLayout class="panel__details-section" orientation="horizontal">
+            <StackLayout class="bill-category-name" verticalAlignment="middle">
+              <label
+                [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MARK_AS_PAID_LABEL' | translate"
+              ></label>
+            </StackLayout>
+            <StackLayout
+              class="bill-category-value"
+              horizontalAlignment="right"
+            >
+              <Switch (checkedChange)="onCheckedChange($event)"></Switch>
+            </StackLayout>
+          </StackLayout>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="dialog-buttons">
+      <button
+        padding="0"
+        color="white"
+        [text]="'GENERAL_TEXTS.BUTTONS.CREATE' | translate"
+        class="btn-create btn-primary -rounded-lg"
+        (tap)="onCreate()"
+      ></button>
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
+        class="btn-close -rounded-lg"
+        (tap)="closeDialog()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

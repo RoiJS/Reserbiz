@@ -4,8 +4,8 @@
     "TENANTS": "Tenants",
     "CONTRACTS": "Contracts",
     "TERMS": "Terms",
-    "SPACES": "Spaces",
-    "SPACE_TYPES": "Space Types",
+    "SPACES": "Units",
+    "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
     "SETTINGS": "Settings"
   },
@@ -15,6 +15,7 @@
     "BUTTONS": {
       "SAVE": "Save",
       "CANCEL": "Cancel",
+      "CREATE": "Create",
       "CLOSE": "Close",
       "CONFIRM": "Confirm",
       "RESET": "Reset"
@@ -89,18 +90,41 @@
   },
 
   "AUTH_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company...",
+      "ERROR_LABEL": "Please enter company."
+    },
     "USERNAME_CONTROL": {
       "LABEL": "Username",
+      "HINT": "Enter Username...",
       "ERROR_LABEL": "Please enter username."
     },
     "PASSWORD_CONTROL": {
       "LABEL": "Password",
-      "PLACE_HOLDER": "Min 6 characters",
+      "HINT": "Enter Password...",
       "ERROR_LABEL": "Please enter valid password."
     },
     "LOGIN_BUTTON_CONTROL": {
-      "LABEL": "Login"
+      "LABEL": "Log in"
+    },
+    "LOGIN_FAILED": "Login Failed",
+    "SIMULTANEOUS_LOGIN_DIALOG": {
+      "TITLE": "End of Session",
+      "MESSAGE": "Simultaneous login is not permitted."
     }
+  },
+
+  "NO_CONNECTION_PAGE": {
+    "MAIN_TEXT": "Oops! You're offline.",
+    "SECONDARY_TEXT": "Please make sure that you have connection.",
+    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+  },
+
+  "SYSTEM_UPDATE_PAGE": {
+    "MAIN_TEXT": "System Update",
+    "SECONDARY_TEXT": "The System is currently undergoing a planned maintenance. Please comeback later.",
+    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
   },
 
   "PROFILE_INFORMATION_PAGE": {
@@ -173,6 +197,7 @@
     "ACTION_BAR_TITLE": "Tenants",
     "SEARCH_BAR_HINT": "Enter tenant name here...",
     "SELECTED_TENANTS": "Selected Tenants",
+    "EMPTY_TENANT_LIST": "No Available Tenants",
     "REMOVE_TENANTS_DIALOG": {
       "TITLE": "Remove selected tenants",
       "CONFIRM_MESSAGE": "Are you sure to remove selected tenants?",
@@ -246,7 +271,7 @@
     },
 
     "TABS_OPTIONS": {
-      "NEW_TENANT": "New Tenant",
+      "INFORMATION": "Information",
       "ADD_CONTACT_PERSONS": "Contact Persons"
     }
   },
@@ -323,6 +348,7 @@
 
   "TENANT_CONTACT_PERSON_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Contact Persons",
+    "EMPTY_CONTACT_PERSONS": "No Available Contact Persons",
     "PANEL_HEADER_TEXT_INFORMATION": "CONTACT PERSONS",
     "SELECTED_CONTACT_PERSONS": "Selected Contact Person",
     "REMOVE_CONTACT_PERSONS_DIALOG": {
@@ -402,50 +428,52 @@
   },
 
   "SPACE_TYPE_LIST_PAGE": {
-    "ACTION_BAR_TITLE": "Space Types",
-    "SEARCH_BAR_HINT": "Enter space type name here...",
-    "SELECTED_SPACE_TYPES": "Selected Space Types",
+    "ACTION_BAR_TITLE": "Unit Types",
+    "EMPTY_SPACE_TYPE_LIST": "No Available Unit Types",
+    "SEARCH_BAR_HINT": "Enter unit type name here...",
+    "SELECTED_SPACE_TYPES": "Selected Unit Types",
     "AVAILABLE_SLOT": "Available Slot",
 
     "REMOVE_SPACE_TYPES_DIALOG": {
-      "TITLE": "Remove space types",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space types?",
-      "SUCCESS_MESSAGE": "Selected space types have been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space types. Please try again later."
+      "TITLE": "Remove unit types",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit types?",
+      "SUCCESS_MESSAGE": "Selected unit types have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit types. Please try again later."
     },
     "REMOVE_SPACE_TYPE_DIALOG": {
-      "TITLE": "Remove space type",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
-      "SUCCESS_MESSAGE": "Selected space type has been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+      "TITLE": "Remove unit type",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+      "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
     }
   },
 
   "SPACE_LIST_PAGE": {
-    "ACTION_BAR_TITLE": "Spaces",
-    "SEARCH_BAR_HINT": "Enter space description here...",
-    "SELECTED_SPACE_TYPES": "Selected Spaces",
+    "ACTION_BAR_TITLE": "Units",
+    "EMPTY_SPACE_LIST": "No Available Units",
+    "SEARCH_BAR_HINT": "Enter unit description here...",
+    "SELECTED_SPACE_TYPES": "Selected Units",
     "AVAILABILITY_STATUS": {
       "AVAILABLE": "Available",
       "OCCUPIED": "Occupied"
     },
 
     "REMOVE_SPACES_DIALOG": {
-      "TITLE": "Remove spaces",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected spaces?",
-      "SUCCESS_MESSAGE": "Selected spaces have been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected spaces. Please try again later."
+      "TITLE": "Remove units",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected units?",
+      "SUCCESS_MESSAGE": "Selected units have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected units. Please try again later."
     },
     "REMOVE_SPACE_DIALOG": {
-      "TITLE": "Remove space",
-      "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
-      "SUCCESS_MESSAGE": "Selected space has been removed!",
-      "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
+      "TITLE": "Remove unit",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+      "SUCCESS_MESSAGE": "Selected unit has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
     }
   },
 
   "SPACE_TYPE_ADD_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Space Type",
+    "ACTION_BAR_TITLE": "Add unit Type",
     "FORM_CONTROL": {
       "NAME_CONTROL": {
         "CONTROL_LABEL": "Name:",
@@ -460,16 +488,16 @@
         "HINT_TEXT": "Please enter rate"
       },
       "ADD_DIALOG": {
-        "TITLE": "Add Space Type",
-        "CONFIRM_MESSAGE": "Are you sure to save new space type?",
-        "SUCCESS_MESSAGE": "New space type has been saved!",
-        "ERROR_MESSAGE": "Saving new space type failed. Please try again later."
+        "TITLE": "Add Unit Type",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit type?",
+        "SUCCESS_MESSAGE": "New unit type has been saved!",
+        "ERROR_MESSAGE": "Saving new unit type failed. Please try again later."
       }
     }
   },
 
   "SPACE_ADD_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Add Space",
+    "ACTION_BAR_TITLE": "Add Unit",
     "FORM_CONTROL": {
       "DESCRIPTION_CONTROL": {
         "CONTROL_LABEL": "Description:",
@@ -477,21 +505,21 @@
         "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
       },
       "SPACE_TYPE_CONTROL": {
-        "CONTROL_LABEL": "Space Type:",
-        "HINT_TEXT": "Please select space type",
-        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+        "CONTROL_LABEL": "Unit Type:",
+        "HINT_TEXT": "Please select unit type",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
       },
       "ADD_DIALOG": {
-        "TITLE": "Add Space",
-        "CONFIRM_MESSAGE": "Are you sure to save new space?",
-        "SUCCESS_MESSAGE": "New space has been saved!",
-        "ERROR_MESSAGE": "Saving new space failed. Please try again later."
+        "TITLE": "Add Unit",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit?",
+        "SUCCESS_MESSAGE": "New unit has been saved!",
+        "ERROR_MESSAGE": "Saving new unit failed. Please try again later."
       }
     }
   },
 
   "SPACE_TYPE_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Edit Space Type",
+    "ACTION_BAR_TITLE": "Edit unit Type",
     "FORM_CONTROL": {
       "NAME_CONTROL": {
         "CONTROL_LABEL": "Name:",
@@ -506,22 +534,22 @@
         "HINT_TEXT": "Please enter rate"
       },
       "EDIT_DIALOG": {
-        "TITLE": "Edit Space Type",
+        "TITLE": "Edit Unit Type",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
         "SUCCESS_MESSAGE": "New changes have been saved!",
         "ERROR_MESSAGE": "Saving changes failed. Please try again later."
       },
       "REMOVE_SPACE_TYPE_DIALOG": {
-        "TITLE": "Remove space type",
-        "CONFIRM_MESSAGE": "Are you sure to remove selected space type?",
-        "SUCCESS_MESSAGE": "Selected space type has been removed!",
-        "ERROR_MESSAGE": "Failed to delete selected space type. Please try again later."
+        "TITLE": "Remove unit type",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+        "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
       }
     }
   },
 
   "SPACE_EDIT_DETAILS_PAGE": {
-    "ACTION_BAR_TITLE": "Edit Space",
+    "ACTION_BAR_TITLE": "Edit Unit",
     "FORM_CONTROL": {
       "DESCRIPTION_CONTROL": {
         "CONTROL_LABEL": "Description:",
@@ -529,26 +557,27 @@
         "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
       },
       "SPACE_TYPE_CONTROL": {
-        "CONTROL_LABEL": "Space Type:",
-        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select space type from the list"
+        "CONTROL_LABEL": "Unit Type:",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
       },
       "EDIT_DIALOG": {
-        "TITLE": "Edit Space",
+        "TITLE": "Edit Unit",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
         "SUCCESS_MESSAGE": "New changes have been saved!",
         "ERROR_MESSAGE": "Saving changes failed. Please try again later."
       },
       "REMOVE_SPACE_DIALOG": {
-        "TITLE": "Remove space",
-        "CONFIRM_MESSAGE": "Are you sure to remove selected space?",
-        "SUCCESS_MESSAGE": "Selected space has been removed!",
-        "ERROR_MESSAGE": "Failed to delete selected space. Please try again later."
+        "TITLE": "Remove unit",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+        "SUCCESS_MESSAGE": "Selected unit has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
       }
     }
   },
 
   "TERMS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Terms",
+    "EMPTY_TERM_LIST": "No Available Terms",
     "SEARCH_BAR_HINT": "Enter terms name here...",
     "SELECTED_TERMS": "Selected Terms",
     "REMOVE_TERMS_DIALOG": {
@@ -579,6 +608,7 @@
 
   "TERM_ADD_DETAILS_PAGE": {
     "ACTION_BAR_TITLE": "Add New Term",
+    "EMPTY_TERM_MISCELLNEOUS_LIST": "No Available Term Miscellaneous",
     "FORM_CONTROL": {
       "GENERAL_CONTROL_GROUP": {
         "LABEL": "General Information",
@@ -596,8 +626,8 @@
           "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
         },
         "SPACE_TYPE_CONTROL": {
-          "CONTROL_LABEL": "Space Type:",
-          "EMPTY_ERROR_MESSAGE": "Please select space type"
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
         },
         "RATE_CONTROL": {
           "CONTROL_LABEL": "Rate:",
@@ -666,6 +696,12 @@
           "HINT_TEXT": "Please enter penalty effective after duration unit"
         }
       },
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        }
+      },
       "ADD_DIALOG": {
         "TITLE": "Save Term Information",
         "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
@@ -680,7 +716,7 @@
     },
 
     "TABS_OPTIONS": {
-      "NEW_TERM": "New Term",
+      "DETAILS": "Details",
       "TERM_DETAILS": "Term Details",
       "ADD_MISCELLANEOUS": "Miscellaneous"
     }
@@ -704,8 +740,8 @@
           "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
         },
         "SPACE_TYPE_CONTROL": {
-          "CONTROL_LABEL": "Space Type:",
-          "EMPTY_ERROR_MESSAGE": "Please select space type"
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
         },
         "RATE_CONTROL": {
           "CONTROL_LABEL": "Rate:",
@@ -774,6 +810,14 @@
           "HINT_TEXT": "Please enter penalty effective after duration unit"
         }
       },
+
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        }
+      },
+
       "UPDATE_DIALOG": {
         "TITLE": "Update Term Information",
         "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
@@ -800,7 +844,7 @@
       "LABEL": "GENERAL INFORMATION",
       "CODE_LABEL": "Code:",
       "NAME_LABEL": "Name:",
-      "SPACE_TYPE_LABEL": "Space Type:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
       "RATE_LABEL": "Rate:",
       "MAXIMUM_NUMBER_OF_OCCUPANTS_LABEL": "Max no. of occupants:"
     },
@@ -827,6 +871,11 @@
       "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
     },
 
+    "AUTOMATION_SETTINGS_DETAILS_GROUP": {
+      "LABEL": "AUTOMATION SETTINGS",
+      "GENERATE_ACCOUNT_STATEMENTS_DAYS_BEFORE_DUE_DATE": "Generate account statement days before due date:"
+    },
+
     "REMOVE_TERM_DIALOG": {
       "TITLE": "Remove term",
       "CONFIRM_MESSAGE": "Are you sure to remove this term?",
@@ -837,6 +886,7 @@
 
   "TERM_MISCELLANEOUS_LIST_PAGE": {
     "ACTION_BAR_TITLE": "Miscellaneous",
+    "EMPTY_TERM_MISCELLANEOUS_LIST": "No Available Term Miscellaneous",
     "PANEL_HEADER_TEXT_INFORMATION": "MISCELLANEOUS",
     "SELECTED_TERM_MISCELLANEOUS": "Selected Term Miscellaneous",
     "REMOVE_TERM_MISCELLANEOUS_DIALOG": {
@@ -909,6 +959,7 @@
         "CALENDAR_VIEW": "Calendar View"
       }
     },
+    "EMPTY_CONTRACT_LIST": "No Available Contracts",
     "HEADER_SECTION": {
       "TOTAL_CONTRACTS": "Total Contracts",
       "OPEN_CONTRACTS": "Open Contracts"
@@ -986,6 +1037,7 @@
         "CALENDAR_VIEW": "Calendar View"
       }
     },
+    "EMPTY_ARCHIVED_CONTRACT_LIST": "No Available Archived Contracts",
     "HEADER_SECTION": {
       "TOTAL_CONTRACTS": "Total Archived Contracts",
       "EXPIRED_CONTRACTS": "Expired Contracts",
@@ -1011,7 +1063,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
     }
   },
 
@@ -1038,16 +1090,16 @@
       "TERM_CONTROL": {
         "CONTROL_LABEL": "Term:",
         "EMPTY_ERROR_MESSAGE": "Please select term",
-        "NO_ASSIGNED_SPACES": "There are no spaces assigned to the current selected space type",
-        "NO_AVAILABLE_SPACES": "There are no more available spaces with the current selected space type"
+        "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
+        "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
       },
       "SPACE_TYPE_NAME_CONTROL": {
-        "CONTROL_LABEL": "Space Type:"
+        "CONTROL_LABEL": "Unit Type:"
       },
       "SPACE_CONTROL": {
-        "CONTROL_LABEL": "Space:",
-        "EMPTY_ERROR_MESSAGE": "Please select space",
-        "NOT_AVAILABLE_ERROR_MESSAGE": "This space is already occupied. Please select other space."
+        "CONTROL_LABEL": "Unit:",
+        "EMPTY_ERROR_MESSAGE": "Please select unit",
+        "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
       },
       "EFFECTIVE_DATE_CONTROL": {
         "CONTROL_LABEL": "Effective Date:",
@@ -1102,8 +1154,8 @@
     "DETAILS_SECTION": {
       "CODE_LABEL": "Code:",
       "TENANT_LABEL": "Tenant:",
-      "SPACE_TYPE_LABEL": "Space Type:",
-      "SPACE_NAME_LABEL": "Space:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
+      "SPACE_NAME_LABEL": "Unit:",
       "EFFECTIVE_DATE_LABEL": "Effective Date:",
       "EXPIRATION_DATE_LABEL": "Expiration Date:",
       "OPEN_CONTRACT_LABEL": "Open Contract",
@@ -1124,11 +1176,12 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the space type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
     }
   },
 
   "ACCOUNT_STATEMENT_LIST": {
+    "EMPTY_ACCOUNT_STATEMENT_LIST": "No Available Account Statements",
     "STATUS": {
       "PAID": "PAID",
       "UNPAID": "UNPAID"
@@ -1153,13 +1206,32 @@
       "RENT_INCOME_LABEL": "Rent Income:",
       "RENT_AMOUNT_LABEL": "Rent Amount:",
       "PENALTIES_LABEL": "Penalties Amount:",
-      "TOTAL_LABEL": "TOTAL AMOUNT:"
+      "TOTAL_LABEL": "TOTAL AMOUNT:",
+      "MARK_AS_PAID_LABEL": "Mark as Paid:"
     },
     "UPDATE_DIALOG": {
       "TITLE": "Update Details",
       "CONFIRM_MESSAGE": "Are you sure to save your changes?",
       "SUCCESS_MESSAGE": "Your changes have been saved!",
       "ERROR_MESSAGE": "Failed to save your changes. Please try again later!"
+    },
+    "SEND_DETAILS_DIALOG": {
+      "TITLE": "Send Statement of Account Details",
+      "CONFIRM_MESSAGE": "This will send the statement of account details to the tenant. Are you sure to proceed?",
+      "SUCCESS_MESSAGE": "Statement of account details has been successfully sent.",
+      "ERROR_MESSAGE": "Failed to send the statement of account details. Please try again later."
+    },
+    "CREATE_NEW_DIALOG": {
+      "TITLE": "Create new statement of account",
+      "CONFIRM_MESSAGE": "Are you sure you want to create new statement of account?",
+      "SUCCESS_MESSAGE": "New statement of account has been successfully created.",
+      "ERROR_MESSAGE": "Failed to create new statement of account. Please try again later."
+    },
+    "DELETE_ACCOUNT_STATEMENT_DIALOG": {
+      "TITLE": "Delete Statement of account",
+      "CONFIRM_MESSAGE": "Are you sure you  want to delete selected statement of account?",
+      "SUCCESS_MESSAGE": "Selected statement of account has been deleted.",
+      "ERROR_MESSAGE": "Failed to deleted selected statement of account. Please try again later."
     }
   },
 
@@ -1182,10 +1254,17 @@
     }
   },
 
+  "ADD_ACCOUNT_STATEMENT_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Add Statement of Account"
+    }
+  },
+
   "PAYMENTS": {
     "ACTION_BAR_SECTION": {
       "TITLE": "Payments"
     },
+    "EMPTY_PAYMENT_LIST": "No Available Payments",
     "PAYMENT_DETAILS": {
       "RECEIVED_BY": "Received By:"
     },
@@ -1228,6 +1307,7 @@
     "ACTION_BAR_SECTION": {
       "TITLE": "Penalties"
     },
+    "EMPTY_PENALTY_LIST": "No Available Penalties",
     "FOOTER_SECTION": {
       "TOTAL_AMOUNT": "Total Amount"
     }
@@ -1238,11 +1318,11 @@
       "TITLE": "Settings"
     },
     "FORM_CONTROL": {
-      "ACCOUNT_STATEMENT_SETTINGS_GROUP": {
-        "TITLE": "Account Statement",
+      "GENERAL_SETTINGS_GROUP": {
+        "TITLE": "General Settings",
         "CONTROLS": {
-          "GENERATE_ACCOUNTSTATEMENT_DAYS": {
-            "LABEL": "Generate account statement before days:"
+          "BUSINESS_NAME": {
+            "LABEL": "Business Name:"
           }
         }
       }
@@ -1264,7 +1344,7 @@
         "MAIN_LABEL": "Active Tenants"
       },
       "AVAILABLE_SPACES_WIDGET": {
-        "MAIN_LABEL": "Available Spaces"
+        "MAIN_LABEL": "Available Units"
       },
       "ACTIVE_CONTRACTS_WIDGET": {
         "MAIN_LABEL": "Active Contracts"
@@ -1280,7 +1360,7 @@
         "MAIN_LABEL": "ACCOUNT STATEMENTS AMOUNT SUMMARY",
         "CHART_LEGENDS": {
           "TOTAL_PAID_AMOUNT": "Total Paid Amount",
-          "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount"
+          "TOTAL_UNPAID_AMOUNT": "Total Unpaid Amount"
         }
       }
     }

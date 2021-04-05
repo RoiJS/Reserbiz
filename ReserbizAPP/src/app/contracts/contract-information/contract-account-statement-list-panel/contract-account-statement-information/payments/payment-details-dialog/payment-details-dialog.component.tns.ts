@@ -7,9 +7,9 @@ import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { DataFormEventData } from 'nativescript-ui-dataform';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
-import { PaymentMapper } from '@src/app/_helpers/payment-mapper.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
+import { PaymentMapper } from '@src/app/_helpers/mappers/payment-mapper.helper';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 
@@ -17,7 +17,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 
 import { Payment } from '@src/app/_models/payment.model';
-import { PaymentFormSource } from '@src/app/_models/payment-form.model';
+import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
 
 
 @Component({

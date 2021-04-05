@@ -15,45 +15,129 @@ namespace ReserbizAPP.LIB.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
-                    b.Property<string>("ContactNumber");
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DBHashName");
+                    b.Property<string>("DBHashName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DBName");
+                    b.Property<string>("DBName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeactivated");
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateDeleted");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnded");
+                    b.Property<DateTime>("DateEnded")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateJoined");
+                    b.Property<DateTime>("DateJoined")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated");
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsDelete");
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.GeneralInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("SystemUpdateStatus")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralInformations");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.GlobalErrorLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Stacktrace")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("GlobalErrorLogs");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.GlobalErrorLog", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 #pragma warning restore 612, 618
         }

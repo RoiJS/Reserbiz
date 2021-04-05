@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ReserbizAPP.API.Helpers.Interfaces;
+using ReserbizAPP.API.Hubs;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
@@ -25,18 +28,21 @@ namespace ReserbizAPP.API.Controllers
         private readonly IRefreshTokenRepository<RefreshToken> _refreshTokenRepository;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        private readonly IOptions<IApplicationSettings> _appSettings;
+        private readonly IOptions<ApplicationSettings> _appSettings;
+        private readonly IHubContext<ReserbizMainHub, IReserbizMainHubClient> _hubContext;
 
         public AuthController(
             IAuthRepository<Account> authRepo,
             IRefreshTokenRepository<RefreshToken> refreshTokenRepository,
+            IHubContext<ReserbizMainHub, IReserbizMainHubClient> hubContext,
             IConfiguration config,
             IMapper mapper,
-            IOptions<IApplicationSettings> appSettings
+            IOptions<ApplicationSettings> appSettings
         )
         {
             _appSettings = appSettings;
             _mapper = mapper;
+            _hubContext = hubContext;
             _authRepo = authRepo;
             _refreshTokenRepository = refreshTokenRepository;
             _config = config;
@@ -84,6 +90,9 @@ namespace ReserbizAPP.API.Controllers
 
             await _authRepo.SaveChanges();
 
+            // Broadcast Validate Login to make sure user account is only logged in on single device
+            await this._hubContext.Clients.All.BroadCastValidateLogin(userFromRepo.Id, userFromRepo.Username);
+
             return Ok(new AuthenticationTokenInfoDto
             {
                 AccessToken = accessToken,
@@ -117,8 +126,10 @@ namespace ReserbizAPP.API.Controllers
             var userRefreshTokenFromRepo = await _refreshTokenRepository.GetRefreshToken(request.RefreshToken);
             var newRefreshToken = _authRepo.GenerateNewRefreshToken();
 
-            userRefreshTokenFromRepo.Token = newRefreshToken.Token;
-            userRefreshTokenFromRepo.ExpirationDate = newRefreshToken.ExpirationDate;
+            // Removed expired refresh tokens
+            await _authRepo.RemoveExpiredRefreshTokens();
+
+            userFromRepo.RefreshTokens.Add(newRefreshToken);
 
             if (!await _authRepo.SaveChanges())
             {

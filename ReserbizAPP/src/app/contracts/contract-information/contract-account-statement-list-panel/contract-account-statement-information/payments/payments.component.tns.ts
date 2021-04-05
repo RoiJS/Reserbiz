@@ -17,7 +17,7 @@ import {
   RouterExtensions,
 } from '@nativescript/angular';
 
-import { finalize } from 'rxjs/operators';
+import { delay, finalize } from 'rxjs/operators';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
@@ -28,13 +28,13 @@ import { AccountStatementService } from '@src/app/_services/account-statement.se
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Payment } from '@src/app/_models/payment.model';
-import { PaymentFilter } from '@src/app/_models/payment-filter.model';
-import { PaymentPaginationList } from '@src/app/_models/payment-pagination-list.model';
+import { PaymentFilter } from '@src/app/_models/filters/payment-filter.model';
+import { PaymentPaginationList } from '@src/app/_models/pagination_list/payment-pagination-list.model';
 
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 import { PaymentDto } from '@src/app/_dtos/payment-dto';
-import { NumberFormatter } from '@src/app/_helpers/number-formatter.helper';
+import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
   selector: 'ns-payments',
@@ -87,8 +87,9 @@ export class PaymentsComponent
             contractId
           );
 
-          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
-            (reset: boolean) => {
+          this._loadListFlagSub = this.paymentService.loadPaymentListFlag
+            .pipe(delay(1000))
+            .subscribe((reset: boolean) => {
               (<PaymentFilter>this._entityFilter).contractId = contractId;
               (<PaymentFilter>(
                 this._entityFilter
@@ -105,8 +106,7 @@ export class PaymentsComponent
                     paymentPaginationList.depositedAmountBalance;
                 }
               );
-            }
-          );
+            });
         })();
       });
     });

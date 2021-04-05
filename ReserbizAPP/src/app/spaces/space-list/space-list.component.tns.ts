@@ -7,13 +7,14 @@ import { RouterExtensions } from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { Space } from '@src/app/_models/space.model';
-import { SpaceFilter } from '@src/app/_models/space-filter.model';
+import { SpaceFilter } from '@src/app/_models/filters/space-filter.model';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-space-list',
@@ -39,11 +40,11 @@ export class SpaceListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceService.loadSpacesFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.spaceService.loadSpacesFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getPaginatedEntities();
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

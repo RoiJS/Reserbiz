@@ -17,16 +17,17 @@ import {
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
-import { IBaseListComponent } from '@src/app/_interfaces/ibase-list-component.interface';
+import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
 
-import { ContractPaginationList } from '@src/app/_models/contract-pagination-list.model';
-import { ContractFilter } from '@src/app/_models/contract-filter.model';
+import { ContractPaginationList } from '@src/app/_models/pagination_list/contract-pagination-list.model';
+import { ContractFilter } from '@src/app/_models/filters/contract-filter.model';
 import { Contract } from '@src/app/_models/contract.model';
 import { Space } from '@src/app/_models/space.model';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-contract-archived-list',
@@ -65,8 +66,9 @@ export class ContractArchivedListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.contractService.loadContractListFlag.subscribe(
-      () => {
+    this._loadListFlagSub = this.contractService.loadContractListFlag
+      .pipe(delay(1000))
+      .subscribe(() => {
         this.getPaginatedEntities(
           (contractPaginationList: ContractPaginationList) => {
             this._expiredContractsCount =
@@ -81,8 +83,7 @@ export class ContractArchivedListComponent
             });
           }
         );
-      }
-    );
+      });
 
     this.initDialogTexts();
     super.ngOnInit();

@@ -7,15 +7,15 @@ import { TenantService } from '@src/app/_services/tenant.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { Tenant } from '@src/app/_models/tenant.model';
-import { TenantDetailsFormSource } from '@src/app/_models/tenant-details-form.model';
+import { TenantDetailsFormSource } from '@src/app/_models/form/tenant-details-form.model';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 import { GenderEnum } from '@src/app/_enum/gender.enum';
 import { TenantDto } from '@src/app/_dtos/tenant-create.dto';
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
-import { TenantMapper } from '@src/app/_helpers/tenant-mapper.helper';
-import { IGenderValueProvider } from '@src/app/_interfaces/igender-value-provider.interface';
-import { GenderValueProvider } from '@src/app/_helpers/gender-value-provider.helper';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
+import { TenantMapper } from '@src/app/_helpers/mappers/tenant-mapper.helper';
+import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igender-value-provider.interface';
+import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-value-provider.helper';
 
 @Component({
   selector: 'ns-tenant-edit-details',

@@ -127,15 +127,19 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public bool IsDueForGeneratingAccountStatement(int daysBeforeGeneratingAccountStatement)
+        public bool IsDueForGeneratingAccountStatement
         {
-            // Generating new account statement is based on these criteria below:
-            // (1) NextDuedate should be before or on the exact date of expiration date.
-            // (2) EffectiveDate should be before or today.
-            // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
-            return ((NextDueDate <= ExpirationDate)
-                    && (EffectiveDate <= CurrentDateTime)
-                    && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= daysBeforeGeneratingAccountStatement));
+            get
+            {
+                // Generating new account statement is based on these criteria below:
+                // (1) NextDuedate should be before or on the exact date of expiration date.
+                // (2) EffectiveDate should be before or today.
+                // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
+                return ((NextDueDate <= ExpirationDate)
+                        && (EffectiveDate <= CurrentDateTime)
+                        && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= Term.GenerateAccountStatementDaysBeforeValue));
+            }
+
         }
 
         private DateTime CalculateExpirationDate()
@@ -151,21 +155,26 @@ namespace ReserbizAPP.LIB.Models
         private DateTime GetNextDueDate()
         {
             var nextDueDate = new DateTime();
+            var activeAccountStatements = AccountStatements
+                    .Where(a => a.IsDelete == false)
+                    .ToList();
 
             // If the there are no account statements yet,
             // We will consider the effective date as the
             // next due date, If not, we will
             // calculate the next due date based 
             // on the duration unit
-            if (AccountStatements.Count == 0)
+            if (activeAccountStatements.Count == 0)
             {
                 nextDueDate = EffectiveDate;
             }
             else
             {
-                // Make sure that statement of accounts are ordered by due date ascending
-                var accountStatementsOrderByDueDateAscending = AccountStatements.OrderBy(a => a.DueDate).ToList();
-                var lastAccountStatement = accountStatementsOrderByDueDateAscending[AccountStatements.Count - 1];
+                // Make sure that active statement of accounts are ordered by due date ascending
+                var accountStatementsOrderByDueDateAscending = activeAccountStatements
+                                                                    .OrderBy(a => a.DueDate)
+                                                                    .ToList();
+                var lastAccountStatement = accountStatementsOrderByDueDateAscending[activeAccountStatements.Count - 1];
                 var currentDueDate = lastAccountStatement.DueDate;
                 var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, Term.DurationUnit);
                 nextDueDate = currentDueDate.AddDays(daysBeforeNextDueDate);

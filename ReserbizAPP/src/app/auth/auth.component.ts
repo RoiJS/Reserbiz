@@ -1,49 +1,63 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Page } from '@nativescript/core';
+import { getConnectionType } from '@nativescript/core/connectivity';
+
+import { RouterExtensions } from '@nativescript/angular';
+
+import { Client } from '../_models/client.model';
 
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
+import { CheckConnectionService } from '../_services/check-connection.service';
+import { DialogService } from '../_services/dialog.service';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
   form: FormGroup;
-  usernameControlIsValid = true;
-  passwordControlIsValid = true;
   isLoading = false;
 
   @ViewChild('usernameEl', { static: false }) usernameEl: ElementRef<any>;
   @ViewChild('passwordEl', { static: false }) passwordEl: ElementRef<any>;
+  @ViewChild('companyEl', { static: false }) companyEl: ElementRef<any>;
 
   constructor(
-    private router: Router,
     private authService: AuthService,
+    private checkConnectionService: CheckConnectionService,
+    private dialogService: DialogService,
     private formService: FormService,
     private page: Page,
-    private translate: TranslateService
+    private router: RouterExtensions,
+    private translateService: TranslateService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
     this.form = new FormGroup({
       username: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       password: new FormControl(null, {
         updateOn: 'blur',
-        validators: [Validators.required, Validators.minLength(6)]
-      })
+        validators: [Validators.required],
+      }),
+      company: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
     });
 
-    this.controlStatusListener();
+    this.initializeCompanyField();
     this.hideActionBar();
+    this.setCurrentConnection();
   }
 
   hideActionBar() {
@@ -53,7 +67,8 @@ export class AuthComponent implements OnInit {
   onSubmit() {
     this.formService.dismiss([
       this.usernameEl.nativeElement,
-      this.passwordEl.nativeElement
+      this.passwordEl.nativeElement,
+      this.companyEl.nativeElement,
     ]);
 
     if (!this.form.valid) {
@@ -62,35 +77,68 @@ export class AuthComponent implements OnInit {
 
     const username = this.form.get('username').value;
     const password = this.form.get('password').value;
-    this.form.reset();
-    this.usernameControlIsValid = true;
-    this.passwordControlIsValid = true;
+    const company = this.form.get('company').value;
+
     this.isLoading = true;
-    this.authService.login(username, password).subscribe(
-      resData => {
-        this.isLoading = false;
-        this.router.navigate(['/dashboard']);
+
+    this.authService.checkCompany(company).subscribe(
+      (client: Client) => {
+        this.storageService.storeString('company', client.name);
+        this.storageService.storeString('app-secret-token', client.dbHashName);
+
+        this.authService.login(username, password).subscribe(
+          () => {
+            this.router.navigate(['/dashboard'], {
+              transition: {
+                name: 'slideLeft',
+              },
+              clearHistory: true,
+            });
+          },
+          (error: any) => {
+            this.dialogService.alert(
+              this.translateService.instant('AUTH_PAGE.LOGIN_FAILED'),
+              error
+            );
+            this.isLoading = false;
+          },
+          () => {
+            this.form.reset();
+          }
+        );
       },
-      err => {
+      (error: any) => {
+        this.dialogService.alert(
+          this.translateService.instant('AUTH_PAGE.LOGIN_FAILED'),
+          error
+        );
         this.isLoading = false;
+        this.form.reset();
       }
     );
-  }
-
-  controlStatusListener() {
-    this.form.get('username').statusChanges.subscribe(status => {
-      this.usernameControlIsValid = status === 'VALID';
-    });
-
-    this.form.get('password').statusChanges.subscribe(status => {
-      this.passwordControlIsValid = status === 'VALID';
-    });
   }
 
   onDone() {
     this.formService.dismiss([
       this.usernameEl.nativeElement,
-      this.passwordEl.nativeElement
+      this.passwordEl.nativeElement,
     ]);
+  }
+
+  private initializeCompanyField() {
+    let company = '';
+
+    if (this.storageService.hasKey('company')) {
+      company = this.storageService.getString('company');
+    }
+
+    this.form.get('company').setValue(company);
+  }
+
+  private setCurrentConnection() {
+    const currentConnectionType = getConnectionType();
+    this.checkConnectionService.currentConnectionType.next(
+      currentConnectionType
+    );
   }
 }

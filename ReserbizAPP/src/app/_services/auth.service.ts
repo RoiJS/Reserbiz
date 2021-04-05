@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject, of, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { RoutingService } from './routing.service';
-import { DialogService } from './dialog.service';
 import { StorageService } from './storage.service';
 
 import { User } from '../_models/user.model';
-import { UserPersonalInfoFormSource } from '../_models/user-personal-form.model';
+import { Client } from '../_models/client.model';
+import { UserPersonalInfoFormSource } from '../_models/form/user-personal-form.model';
 import { GenderEnum } from '../_enum/gender.enum';
 import { AuthToken } from '../_models/auth-token.model';
-import { UserAccountInfoFormSource } from '../_models/user-account-form.model';
+import { UserAccountInfoFormSource } from '../_models/form/user-account-form.model';
 
 interface IAuthResponseData {
   accessToken: string;
@@ -35,7 +35,6 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private routingService: RoutingService,
-    private dialogService: DialogService,
     private storageService: StorageService
   ) {}
 
@@ -87,16 +86,11 @@ export class AuthService {
         `${environment.reserbizAPIEndPoint}/auth/login`,
         {
           username: username,
-          password: password
+          password: password,
         }
       )
       .pipe(
-        catchError(errorRes => {
-          this.handleError(errorRes.error.error.message);
-          return throwError(errorRes);
-        }),
-
-        tap(resData => {
+        tap((resData) => {
           if (resData && resData.accessToken) {
             this.handleLogin(
               resData.accessToken,
@@ -106,6 +100,12 @@ export class AuthService {
           }
         })
       );
+  }
+
+  checkCompany(company: string) {
+    return this.http.get<Client>(
+      `${environment.reserbizAPIEndPoint}/clients/${company}`
+    );
   }
 
   refresh(): Observable<IAuthResponseData> {
@@ -128,16 +128,11 @@ export class AuthService {
         `${environment.reserbizAPIEndPoint}/auth/refresh`,
         {
           accessToken: authToken.token,
-          refreshToken: authToken.refreshToken
+          refreshToken: authToken.refreshToken,
         }
       )
       .pipe(
-        catchError(errorRes => {
-          this.handleError(errorRes.error.error.message);
-          return throwError(errorRes);
-        }),
-
-        tap(resData => {
+        tap((resData) => {
           if (resData && resData.accessToken) {
             this.handleLogin(
               resData.accessToken,
@@ -155,6 +150,7 @@ export class AuthService {
 
     this.storageService.remove('userData');
     this.storageService.remove('authToken');
+    this.storageService.remove('app-secret-token');
 
     if (this._tokenExpirationTimer) {
       clearTimeout(this._tokenExpirationTimer);
@@ -166,7 +162,7 @@ export class AuthService {
     return this.http.put(
       `${
         environment.reserbizAPIEndPoint
-      }/auth/updatePersonalInformation/${this.userId()}`,
+      }/auth/updatePersonalInformation/${this.userId}`,
       user
     );
   }
@@ -175,14 +171,18 @@ export class AuthService {
     return this.http.put(
       `${
         environment.reserbizAPIEndPoint
-      }/auth/updateAccountInformation/${this.userId()}`,
+      }/auth/updateAccountInformation/${this.userId}`,
       user
     );
   }
 
   validateUsernameExists(username: string): Observable<boolean> {
     return this.http
-      .get(`${environment.reserbizAPIEndPoint}/auth/validateUsernameExists/${this.userId()}/${username}`)
+      .get(
+        `${
+          environment.reserbizAPIEndPoint
+        }/auth/validateUsernameExists/${this.userId}/${username}`
+      )
       .pipe(
         tap((res: boolean) => {
           return of(res);
@@ -260,7 +260,6 @@ export class AuthService {
       currentUser.middleName,
       currentUser.lastName,
       currentUser.username,
-      // tslint:disable-next-line: radix
       parseInt(currentUser.gender)
     );
 
@@ -276,34 +275,11 @@ export class AuthService {
     this._currentUsername.next(user.username);
   }
 
-  private handleError(errorMessage: string) {
-    switch (errorMessage) {
-      case 'EMAIL_EXISTS':
-        this.dialogService.alert(
-          'Authentication Failed',
-          'This email address exists already.'
-        );
-        break;
-      case 'INVALID_PASSWORD':
-        this.dialogService.alert(
-          'Authentication Failed',
-          'Your password is invalid.'
-        );
-        break;
-      default:
-        this.dialogService.alert(
-          'Authentication Failed',
-          'Please check your credentials.'
-        );
-    }
-    console.error(errorMessage);
-  }
-
-  private userId(): number {
+  get userId(): number {
     const tokenDecrypted = this._jwtHelper.decodeToken(
       this._tokenInfo.value.token
     );
 
-    return tokenDecrypted.nameid;
+    return parseInt(tokenDecrypted.nameid);
   }
 }

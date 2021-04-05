@@ -11,7 +11,7 @@ import { AuthService } from '@src/app/_services/auth.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { User } from '@src/app/_models/user.model';
-import { UserAccountInfoFormSource } from '@src/app/_models/user-account-form.model';
+import { UserAccountInfoFormSource } from '@src/app/_models/form/user-account-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { finalize } from 'rxjs/operators';
 

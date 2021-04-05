@@ -8,14 +8,14 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { IBaseFormSource } from '@src/app/_interfaces/ibase-form-source.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
-import { IBaseDtoEntityMapper } from '@src/app/_interfaces/ibase-dto-entity-mapper.interface';
-import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
+import { IBaseDtoEntityMapper } from '@src/app/_interfaces/mappers/ibase-dto-entity-mapper.interface';
+import { IBaseService } from '@src/app/_interfaces/services/ibase-service.interface';
 import { IBaseDto } from '@src/app/_interfaces/ibase-dto.interface';
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogService } from '@src/app/_services/dialog.service';
-import { BaseFormHelper } from '@src/app/_helpers/base-form.helper';
+import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
 
 @Component({
   template: ``,

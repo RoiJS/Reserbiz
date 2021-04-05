@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
-import { AccountStatementPaginationList } from '@src/app/_models/account-statement-pagination-list.model';
+import { AccountStatementPaginationList } from '@src/app/_models/pagination_list/account-statement-pagination-list.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
@@ -41,19 +41,21 @@ export class UnpaidAccountStatementsListComponent
 
   ngOnInit() {
     this.baseWidgetService.isBusy.next(true);
-    this.accountStatementService
-      .getUnpaidAccountStatements()
-      .subscribe(
-        (accountStatementPaginationList: AccountStatementPaginationList) => {
-          this.baseWidgetService.listItemCount.next(
-            accountStatementPaginationList.totalItems
-          );
-          this.baseWidgetService.isBusy.next(false);
-          this._listItems = new ObservableArray<AccountStatement>(
-            <AccountStatement[]>accountStatementPaginationList.items
-          );
-        }
-      );
+    setTimeout(() => {
+      this.accountStatementService
+        .getUnpaidAccountStatements()
+        .subscribe(
+          (accountStatementPaginationList: AccountStatementPaginationList) => {
+            this.baseWidgetService.listItemCount.next(
+              accountStatementPaginationList.totalItems
+            );
+            this.baseWidgetService.isBusy.next(false);
+            this._listItems = new ObservableArray<AccountStatement>(
+              <AccountStatement[]>accountStatementPaginationList.items
+            );
+          }
+        );
+    }, 2000);
   }
 
   selectItem(currentIndex: number, url: string) {

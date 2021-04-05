@@ -17,7 +17,14 @@ namespace ReserbizAPP.LIB.DbContexts
             _dcHelper = dcHelper;
         }
 
+        public ReserbizDataContext()
+        {
+
+        }
+
         public DbSet<Client> Clients { get; set; }
+        public DbSet<GlobalErrorLog> GlobalErrorLogs { get; set; }
+        public DbSet<GeneralInformation> GeneralInformations { get; set; }
 
         #region "Override functions"
 
@@ -28,7 +35,6 @@ namespace ReserbizAPP.LIB.DbContexts
         /// <returns></returns>
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-
             var entries = ChangeTracker.Entries().ToList();
 
             _dcHelper.GenerateEntityCreatedDateAndCreatedById(entries);

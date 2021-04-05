@@ -7,15 +7,15 @@ import { Page } from '@nativescript/core';
 import { finalize, take } from 'rxjs/operators';
 
 import { SpaceType } from '@src/app/_models/space-type.model';
-import { SpaceTypeFormSource } from '@src/app/_models/space-type-form.model';
+import { SpaceTypeFormSource } from '@src/app/_models/form/space-type-form.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { SpaceTypeDto } from '@src/app/_dtos/space-type.dto';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';
-import { SpaceTypeMapper } from '@src/app/_helpers/space-type-mapper.helper';
+import { SpaceTypeMapper } from '@src/app/_helpers/mappers/space-type-mapper.helper';
 
-import { IBaseFormComponent } from '@src/app/_interfaces/ibase-form.component.interface';
+import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 

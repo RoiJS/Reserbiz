@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { BaseService } from './base.service';
-import { ContactPersonMapper } from '../_helpers/contact-person-mapper.helper';
+import { ContactPersonMapper } from '../_helpers/mappers/contact-person-mapper.helper';
 import { ContactPerson } from '../_models/contact-person.model';
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/ientity-filter.interface';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
 import { IDtoProcess } from '../_interfaces/idto-process.interface';
 
 @Injectable({

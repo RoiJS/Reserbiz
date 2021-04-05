@@ -15,16 +15,16 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -98,7 +98,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
@@ -163,6 +163,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<float>("Rate")
                         .HasColumnType("real");
 
+                    b.Property<DateTime>("SMSNotificationLastDateSent")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
 
@@ -189,7 +192,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AccountStatementId")
                         .HasColumnType("int");
@@ -233,7 +236,10 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
+
+                    b.Property<string>("BusinessName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -254,9 +260,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int");
 
                     b.Property<int?>("DeletedById")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenerateAccountStatementDaysBeforeValue")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -286,7 +289,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ContactNumber")
                         .HasColumnType("nvarchar(max)");
@@ -359,7 +362,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -439,7 +442,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -483,7 +486,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AccountStatementId")
                         .HasColumnType("int");
@@ -555,7 +558,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AccountStatementId")
                         .HasColumnType("int");
@@ -596,7 +599,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
@@ -637,7 +640,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
@@ -695,7 +698,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AvailableSlot")
                         .HasColumnType("int");
@@ -757,7 +760,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -840,7 +843,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
@@ -883,6 +886,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<bool>("ExcludeWaterBill")
                         .HasColumnType("bit");
+
+                    b.Property<int>("GenerateAccountStatementDaysBeforeValue")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -948,7 +954,7 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<float>("Amount")
                         .HasColumnType("real");
@@ -1028,6 +1034,14 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedAccounts")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_Accounts_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.AccountStatement", b =>
@@ -1057,6 +1071,16 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedAccountStatements")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_AccountStatements_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("Contract");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.AccountStatementMiscellaneous", b =>
@@ -1066,6 +1090,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AccountStatement");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ClientSettings", b =>
@@ -1089,6 +1115,14 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedClientSettings")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_ClientSettings_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ContactPerson", b =>
@@ -1118,6 +1152,16 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedContactPersons")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_ContactPersons_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("Tenant");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Contract", b =>
@@ -1157,6 +1201,20 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedContracts")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_Contracts_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("Space");
+
+                    b.Navigation("Tenant");
+
+                    b.Navigation("Term");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.ErrorLog", b =>
@@ -1167,6 +1225,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasConstraintName("FK_ErrorLogs_Accounts_UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentBreakdown", b =>
@@ -1202,6 +1262,18 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedPaymentBreakdowns")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_PaymentBreakdowns_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("AccountStatement");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("ReceivedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
@@ -1211,6 +1283,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("AccountStatementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AccountStatement");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.RefreshToken", b =>
@@ -1221,6 +1295,8 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasConstraintName("FK_RefreshToken_Accounts_AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
@@ -1250,6 +1326,16 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedSpaces")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_Spaces_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("SpaceType");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
@@ -1273,6 +1359,14 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedSpaceTypes")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_SpaceTypes_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Tenant", b =>
@@ -1296,6 +1390,14 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedTenants")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_Tenants_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Term", b =>
@@ -1330,6 +1432,18 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedTerms")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_Terms_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("SpaceType");
+
+                    b.Navigation("TermParent");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.TermMiscellaneous", b =>
@@ -1359,6 +1473,153 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .WithMany("UpdatedTermMiscellaneous")
                         .HasForeignKey("UpdatedById")
                         .HasConstraintName("FK_TermMiscellaneous_UpdatedById_Accounts_AccountId");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeactivatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("Term");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>
+                {
+                    b.Navigation("CreatedAccounts");
+
+                    b.Navigation("CreatedAccountStatements");
+
+                    b.Navigation("CreatedClientSettings");
+
+                    b.Navigation("CreatedContactPersons");
+
+                    b.Navigation("CreatedContracts");
+
+                    b.Navigation("CreatedPaymentBreakdowns");
+
+                    b.Navigation("CreatedSpaces");
+
+                    b.Navigation("CreatedSpaceTypes");
+
+                    b.Navigation("CreatedTenants");
+
+                    b.Navigation("CreatedTermMiscellaneous");
+
+                    b.Navigation("CreatedTerms");
+
+                    b.Navigation("DeactivatedAccounts");
+
+                    b.Navigation("DeactivatedAccountStatements");
+
+                    b.Navigation("DeactivatedClientSettings");
+
+                    b.Navigation("DeactivatedContactPersons");
+
+                    b.Navigation("DeactivatedContracts");
+
+                    b.Navigation("DeactivatedPaymentBreakdowns");
+
+                    b.Navigation("DeactivatedSpaces");
+
+                    b.Navigation("DeactivatedSpaceTypes");
+
+                    b.Navigation("DeactivatedTenants");
+
+                    b.Navigation("DeactivatedTermMiscellaneous");
+
+                    b.Navigation("DeactivatedTerms");
+
+                    b.Navigation("DeletedAccounts");
+
+                    b.Navigation("DeletedAccountStatements");
+
+                    b.Navigation("DeletedClientSettings");
+
+                    b.Navigation("DeletedContactPersons");
+
+                    b.Navigation("DeletedContracts");
+
+                    b.Navigation("DeletedPaymentBreakdowns");
+
+                    b.Navigation("DeletedSpaces");
+
+                    b.Navigation("DeletedSpaceTypes");
+
+                    b.Navigation("DeletedTenants");
+
+                    b.Navigation("DeletedTermMiscellaneous");
+
+                    b.Navigation("DeletedTerms");
+
+                    b.Navigation("ErrorLogs");
+
+                    b.Navigation("RefreshTokens");
+
+                    b.Navigation("UpdatedAccounts");
+
+                    b.Navigation("UpdatedAccountStatements");
+
+                    b.Navigation("UpdatedClientSettings");
+
+                    b.Navigation("UpdatedContactPersons");
+
+                    b.Navigation("UpdatedContracts");
+
+                    b.Navigation("UpdatedPaymentBreakdowns");
+
+                    b.Navigation("UpdatedSpaces");
+
+                    b.Navigation("UpdatedSpaceTypes");
+
+                    b.Navigation("UpdatedTenants");
+
+                    b.Navigation("UpdatedTermMiscellaneous");
+
+                    b.Navigation("UpdatedTerms");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.AccountStatement", b =>
+                {
+                    b.Navigation("AccountStatementMiscellaneous");
+
+                    b.Navigation("PaymentBreakdowns");
+
+                    b.Navigation("PenaltyBreakdowns");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Contract", b =>
+                {
+                    b.Navigation("AccountStatements");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Space", b =>
+                {
+                    b.Navigation("Contracts");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.SpaceType", b =>
+                {
+                    b.Navigation("Spaces");
+
+                    b.Navigation("Terms");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Tenant", b =>
+                {
+                    b.Navigation("ContactPersons");
+
+                    b.Navigation("Contracts");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Term", b =>
+                {
+                    b.Navigation("Contracts");
+
+                    b.Navigation("TermChildren");
+
+                    b.Navigation("TermMiscellaneous");
                 });
 #pragma warning restore 612, 618
         }

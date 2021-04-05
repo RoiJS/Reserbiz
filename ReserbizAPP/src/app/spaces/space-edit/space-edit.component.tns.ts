@@ -8,15 +8,15 @@ import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { BaseFormComponent } from '@src/app/shared/component/base-form.component';
 
-import { SpaceMapper } from '@src/app/_helpers/space-mapper.helper';
-import { SpaceTypeValueProvider } from '@src/app/_helpers/space-type-value-provider.helper';
+import { SpaceMapper } from '@src/app/_helpers/mappers/space-mapper.helper';
+import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
 
 import { SpaceDto } from '@src/app/_dtos/space-dto';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
-import { SpaceFormSource } from '@src/app/_models/space-form.model';
+import { SpaceFormSource } from '@src/app/_models/form/space-form.model';
 import { Space } from '@src/app/_models/space.model';
-import { SpaceTypeOption } from '@src/app/_models/space-type-option.model';
+import { SpaceTypeOption } from '@src/app/_models/options/space-type-option.model';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceTypeService } from '@src/app/_services/space-type.service';

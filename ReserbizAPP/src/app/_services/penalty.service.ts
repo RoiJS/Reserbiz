@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PenaltyMapper } from '../_helpers/penalty-mapper.helper';
-import { IBaseService } from '../_interfaces/ibase-service.interface';
-import { IPenaltyFilter } from '../_interfaces/ipenalty-filter.interface';
-import { EntityPaginationList } from '../_models/entity-pagination-list.model';
-import { PenaltyPaginationList } from '../_models/penalty-pagination-list.model';
+import { PenaltyMapper } from '../_helpers/mappers/penalty-mapper.helper';
+import { IBaseService } from '../_interfaces/services/ibase-service.interface';
+import { IPenaltyFilter } from '../_interfaces/filters/ipenalty-filter.interface';
+import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
+import { PenaltyPaginationList } from '../_models/pagination_list/penalty-pagination-list.model';
 import { Penalty } from '../_models/penalty.model';
 import { BaseService } from './base.service';
 

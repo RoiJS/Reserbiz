@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { isAndroid, Page } from '@nativescript/core';
 import { RouterExtensions } from '@nativescript/angular';
 
@@ -44,10 +38,12 @@ export class ActionBarComponent implements OnInit {
   onGoBack() {
     if (!this.overrideBackAction) {
       if (this.router.canGoBack()) {
+        this.uiService.hideKeyboard();
         this.router.back();
       }
     } else {
       this.onNavigationBack.emit();
+      this.uiService.hideKeyboard();
     }
   }
 

@@ -9,10 +9,12 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ios } from '@nativescript/core/application';
+import { ad } from '@nativescript/core/utils';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { RouterExtensions,  } from '@nativescript/angular';
+import { RouterExtensions } from '@nativescript/angular';
 import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { View, isAndroid, ObservableArray } from '@nativescript/core';
 
@@ -29,12 +31,12 @@ import { take, finalize } from 'rxjs/operators';
 
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
-import { IBaseService } from '@src/app/_interfaces/ibase-service.interface';
-import { IEntityPaginationList } from '@src/app/_interfaces/ientity-pagination-list.interface';
+import { IBaseService } from '@src/app/_interfaces/services/ibase-service.interface';
+import { IEntityPaginationList } from '@src/app/_interfaces/pagination_list/ientity-pagination-list.interface';
 
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { EntityFilter } from '@src/app/_models/entity-filter.model';
+import { EntityFilter } from '@src/app/_models/filters/entity-filter.model';
 
 @Component({
   template: ``,
@@ -228,6 +230,9 @@ export class BaseListComponent<TEntity extends IEntity>
       // about to navigate to other page.
       this._isNotNavigateToOtherPage = false;
 
+      // Make sure to hide keyboard when navigating to other page
+      this.hideKeyboard();
+
       // Performs navigation to other page.
       // Setting delay is necessary to be able to make
       // the swipe options on the component template to prevent showing
@@ -397,7 +402,7 @@ export class BaseListComponent<TEntity extends IEntity>
   /**
    * @description Delete single selected item
    */
-  deleteSelectedItem(event: any) {
+  deleteSelectedItem(onDeleteCallback?: () => void) {
     const selectedItemIndex = (<any>this.appListView.listView).getIndexOf(
       this._currentItem
     );
@@ -421,6 +426,10 @@ export class BaseListComponent<TEntity extends IEntity>
                   this._deleteItemDialogTexts.successMessage,
                   () => {
                     (<any>this._listItems).splice(selectedItemIndex, 1);
+
+                    if (onDeleteCallback) {
+                      onDeleteCallback();
+                    }
                   }
                 );
               },
@@ -646,6 +655,19 @@ export class BaseListComponent<TEntity extends IEntity>
   onSubmitSearchText(args: any) {
     this._entityFilter.searchKeyword = args.object.text;
     this.entityService.reloadListFlag();
+  }
+
+  hideKeyboard(): void {
+    if (ios) {
+      ios.nativeApp.sendActionToFromForEvent(
+        'resignFirstResponder',
+        null,
+        null,
+        null
+      );
+    } else {
+      ad.dismissSoftInput();
+    }
   }
 
   get items(): ObservableArray<TEntity> {

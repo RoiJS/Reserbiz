@@ -9,7 +9,7 @@ import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-ma
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
-import { TermMiscellaneousFormSource } from '@src/app/_models/term-miscellaneous-form.model';
+import { TermMiscellaneousFormSource } from '@src/app/_models/form/term-miscellaneous-form.model';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 

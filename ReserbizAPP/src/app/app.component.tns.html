@@ -1,13 +1,13 @@
-<!--
-RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
-Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
-https://docs.nativescript.org/angular/ui/professional-ui-components/ng-SideDrawer/getting-started
--->
 <RadSideDrawer class="nt-drawer" [drawerTransition]="sideDrawerTransition">
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
-      <label class="sidedrawer-header-image fa" text="&#xf2bd;"></label>
-      <label class="sidedrawer-header-brand" [text]="currentUsername"></label>
+      <StackLayout class="main-logo">
+        <image width="140" height="140" src="res://mainlogo"></image>
+      </StackLayout>
+      <label
+        class="sidedrawer-header-brand"
+        [text]="currentBusinessName"
+      ></label>
       <label class="footnote" [text]="currentUserFullname"></label>
     </StackLayout>
 
