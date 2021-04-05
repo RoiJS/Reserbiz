@@ -1,7 +1,7 @@
 <StackLayout class="payment-details-dialog dialog-container">
   <StackLayout class="dialog-header">
     <FlexboxLayout width="100%" justifyContent="space-between">
-      <StackLayout width="70%" orientation="horizontal">
+      <StackLayout width="90%" orientation="horizontal">
         <label
           text="&#xf53d;"
           class="fa fa-solid m-r-10"
@@ -10,7 +10,11 @@
         <label [text]="dialogTitle" verticalAlignment="middle"></label>
       </StackLayout>
       <StackLayout>
-        <label text="&#xf00d;" class="fa fa-solid" (tap)="onClose()"></label>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="onClose()"
+        ></label>
       </StackLayout>
     </FlexboxLayout>
   </StackLayout>
@@ -26,14 +30,13 @@
         tkDataFormGroups
         name="Group_AmountFromDeposit"
         [titleHidden]="true"
-        hidden="false"
+        [hidden]="!shouldAmountFromDepositAvailable"
       >
         <TKDataFormGridLayout tkPropertyGroupLayout>
           <TKEntityProperty
             tkPropertyGroupProperties
             name="isAmountFromDeposit"
             [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_FROM_DEPOSIT_CONTROL.LABEL' | translate"
-            [hidden]="!shouldAmountFromDepositAvailable"
             index="0"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Switch">
@@ -172,7 +175,7 @@
     >
       <button
         [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
-        class="btn-close btn btn-rounded-lg"
+        class="btn-close -rounded-lg"
         (tap)="onClose()"
       ></button>
     </FlexboxLayout>
@@ -182,12 +185,12 @@
     >
       <button
         [text]="'GENERAL_TEXTS.BUTTONS.SAVE' | translate"
-        class="btn-save btn btn-primary btn-rounded-lg"
+        class="btn-save btn-primary -rounded-lg"
         (tap)="onSave()"
       ></button>
       <button
         [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
-        class="btn-close btn btn-rounded-lg"
+        class="btn-close -rounded-lg"
         (tap)="onClose()"
       ></button>
     </FlexboxLayout>
