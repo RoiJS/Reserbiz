@@ -30,29 +30,33 @@ export class AccountStatementsAmountSummaryComponent
   }
 
   ngOnInit() {
-    (async () => {
-      this._isBusy = true;
-      const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
-      const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
+    this._isBusy = true;
+    setTimeout(() => {
+      (async () => {
+        const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
+        const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
 
-      const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
-        accountStatementAmountSummary
-      );
-      const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
-        accountStatementAmountSummary
-      );
+        const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
+          accountStatementAmountSummary
+        );
+        const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
+          accountStatementAmountSummary
+        );
 
-      accountStatementAmountSummaryArray.push(totalAmountPaidSummaryChartValue);
-      accountStatementAmountSummaryArray.push(
-        totalExpectedAmountSummaryChartValue
-      );
+        accountStatementAmountSummaryArray.push(
+          totalAmountPaidSummaryChartValue
+        );
+        accountStatementAmountSummaryArray.push(
+          totalExpectedAmountSummaryChartValue
+        );
 
-      this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
-        accountStatementAmountSummaryArray
-      );
+        this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
+          accountStatementAmountSummaryArray
+        );
 
-      this._isBusy = false;
-    })();
+        this._isBusy = false;
+      })();
+    }, 2000);
   }
 
   private getTotalAmountPaidChartValue(
@@ -76,7 +80,8 @@ export class AccountStatementsAmountSummaryComponent
   ): AccountStatementSummaryChart {
     const totalExpectedAmountSummary = new AccountStatementSummaryChart();
     totalExpectedAmountSummary.value =
-      accountStatementAmountSummary.totalExpectedAmount - accountStatementAmountSummary.totalAmountPaid;
+      accountStatementAmountSummary.totalExpectedAmount -
+      accountStatementAmountSummary.totalAmountPaid;
     const totalExpectedAmountLegendLabel = `${this.translateService.instant(
       'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
     )} - ${this.translateService.instant(

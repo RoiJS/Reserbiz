@@ -50,17 +50,19 @@ export class UpcomingContractDueDatesListComponent
     this._loadListFlagSub = this.upcomingContractsDueDateService.selectedMonth.subscribe(
       (month: number) => {
         this.upcomingContractsDueDateService.isBusy.next(true);
-        this.contractService
-          .getAllUpcomingDueDateContractsPerMonth(month)
-          .subscribe((contractPaginationList: ContractPaginationList) => {
-            this.upcomingContractsDueDateService.listItemCount.next(
-              contractPaginationList.totalItems
-            );
-            this.upcomingContractsDueDateService.isBusy.next(false);
-            this._listItems = new ObservableArray<Contract>(
-              <Contract[]>contractPaginationList.items
-            );
-          });
+        setTimeout(() => {
+          this.contractService
+            .getAllUpcomingDueDateContractsPerMonth(month)
+            .subscribe((contractPaginationList: ContractPaginationList) => {
+              this.upcomingContractsDueDateService.listItemCount.next(
+                contractPaginationList.totalItems
+              );
+              this.upcomingContractsDueDateService.isBusy.next(false);
+              this._listItems = new ObservableArray<Contract>(
+                <Contract[]>contractPaginationList.items
+              );
+            });
+        }, 2000);
       }
     );
   }

@@ -41,19 +41,21 @@ export class UnpaidAccountStatementsListComponent
 
   ngOnInit() {
     this.baseWidgetService.isBusy.next(true);
-    this.accountStatementService
-      .getUnpaidAccountStatements()
-      .subscribe(
-        (accountStatementPaginationList: AccountStatementPaginationList) => {
-          this.baseWidgetService.listItemCount.next(
-            accountStatementPaginationList.totalItems
-          );
-          this.baseWidgetService.isBusy.next(false);
-          this._listItems = new ObservableArray<AccountStatement>(
-            <AccountStatement[]>accountStatementPaginationList.items
-          );
-        }
-      );
+    setTimeout(() => {
+      this.accountStatementService
+        .getUnpaidAccountStatements()
+        .subscribe(
+          (accountStatementPaginationList: AccountStatementPaginationList) => {
+            this.baseWidgetService.listItemCount.next(
+              accountStatementPaginationList.totalItems
+            );
+            this.baseWidgetService.isBusy.next(false);
+            this._listItems = new ObservableArray<AccountStatement>(
+              <AccountStatement[]>accountStatementPaginationList.items
+            );
+          }
+        );
+    }, 2000);
   }
 
   selectItem(currentIndex: number, url: string) {

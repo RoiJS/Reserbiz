@@ -1,30 +1,29 @@
 <StackLayout class="dashboard-container__widget-panel">
-  <FlexBoxLayout class="dashboard-container__widget-content-section">
-    <AbsoluteLayout class="dashboard-container__widget-icon-with-badge">
-      <StackLayout
-        left="50"
-        verticalAlignment="middle"
-        class="widget-badge-container"
-      >
+  <ns-loader-layout [busy]="isBusy">
+    <FlexBoxLayout class="dashboard-container__widget-content-section">
+      <AbsoluteLayout class="dashboard-container__widget-icon-with-badge">
+        <StackLayout
+          left="50"
+          verticalAlignment="middle"
+          class="widget-badge-container"
+        >
+          <label horizontalAlignment="center" [text]="entityCount"></label>
+        </StackLayout>
+        <label
+          top="10"
+          left="10"
+          class="fa fa-solid widget-icon"
+          horizontalAlignment="center"
+          text="&#xf009;"
+        ></label>
+      </AbsoluteLayout>
+      <StackLayout class="dashboard-container__widget-main-label">
         <label
           horizontalAlignment="center"
-          [text]="entityCount"
+          [text]="'DASHBOARD.BODY_SECTION.AVAILABLE_SPACES_WIDGET.MAIN_LABEL' | translate"
+          textWrap="true"
         ></label>
       </StackLayout>
-      <label
-        top="10"
-        left="10"
-        class="fa fa-solid widget-icon"
-        horizontalAlignment="center"
-        text="&#xf009;"
-      ></label>
-    </AbsoluteLayout>
-    <StackLayout class="dashboard-container__widget-main-label">
-      <label
-        horizontalAlignment="center"
-        [text]="'DASHBOARD.BODY_SECTION.AVAILABLE_SPACES_WIDGET.MAIN_LABEL' | translate"
-        textWrap="true"
-      ></label>
-    </StackLayout>
-  </FlexBoxLayout>
+    </FlexBoxLayout>
+  </ns-loader-layout>
 </StackLayout>
