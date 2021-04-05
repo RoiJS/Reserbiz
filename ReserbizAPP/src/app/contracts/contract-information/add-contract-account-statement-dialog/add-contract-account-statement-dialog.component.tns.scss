@@ -50,9 +50,9 @@
   .dialog-buttons {
     width: 100%;
 
-    .btn-close,
-    .btn-create {
+    Button {
       width: 50%;
+      margin: 5;
     }
   }
 }

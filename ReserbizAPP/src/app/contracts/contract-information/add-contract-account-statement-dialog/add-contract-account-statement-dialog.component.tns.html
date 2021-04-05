@@ -15,7 +15,7 @@
       <StackLayout>
         <label
           text="&#xf00d;"
-          class="fa fa-solid"
+          class="fa fa-solid icon-close"
           (tap)="closeDialog()"
         ></label>
       </StackLayout>
@@ -66,10 +66,17 @@
             </StackLayout>
           </StackLayout>
 
-          <StackLayout class="panel__border"></StackLayout>
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.accountStatementMiscellaneous.length > 0"
+            class="panel__border"
+          ></StackLayout>
 
           <!-- Water Bill Amount -->
-          <StackLayout class="panel__details-section" orientation="horizontal">
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.waterBillFormatted > 0"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
             <StackLayout class="bill-category-name">
               <label
                 [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
@@ -89,7 +96,11 @@
           </StackLayout>
 
           <!-- Electric Bill Amount -->
-          <StackLayout class="panel__details-section" orientation="horizontal">
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.electricBillFormatted > 0"
+            class="panel__details-section"
+            orientation="horizontal"
+          >
             <StackLayout class="bill-category-name">
               <label
                 [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
@@ -108,7 +119,10 @@
             </StackLayout>
           </StackLayout>
 
-          <StackLayout class="panel__border"></StackLayout>
+          <StackLayout
+            *ngIf="suggestedAccountStatement?.electricBillFormatted > 0 || suggestedAccountStatement?.waterBillFormatted > 0"
+            class="panel__border"
+          ></StackLayout>
 
           <!-- Rate Amount -->
           <StackLayout class="panel__details-section" orientation="horizontal">
@@ -174,8 +188,9 @@
     <FlexboxLayout class="dialog-buttons">
       <button
         padding="0"
+        color="white"
         [text]="'GENERAL_TEXTS.BUTTONS.CREATE' | translate"
-        class="btn-create -rounded-lg"
+        class="btn-create btn-primary -rounded-lg"
         (tap)="onCreate()"
       ></button>
       <button
