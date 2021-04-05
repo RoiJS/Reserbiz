@@ -208,7 +208,7 @@ namespace ReserbizAPP.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ReserbizMainHub>("api/reserbizMainHub");
+                endpoints.MapHub<ReserbizMainHub>("websocket/reserbizMainHub");
             });
         }
     }
