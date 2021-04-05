@@ -92,6 +92,7 @@ export class AuthComponent implements OnInit {
               transition: {
                 name: 'slideLeft',
               },
+              clearHistory: true,
             });
           },
           (error: any) => {
