@@ -2,9 +2,12 @@
   <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
     <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
       <StackLayout class="main-logo">
-        <image width="130" height="130" src="res://mainlogo"></image>
+        <image width="140" height="140" src="res://mainlogo"></image>
       </StackLayout>
-      <label class="sidedrawer-header-brand" [text]="currentBusinessName"></label>
+      <label
+        class="sidedrawer-header-brand"
+        [text]="currentBusinessName"
+      ></label>
       <label class="footnote" [text]="currentUserFullname"></label>
     </StackLayout>
 

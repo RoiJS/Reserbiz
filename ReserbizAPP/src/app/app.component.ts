@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private dialogService: DialogService,
     private generalInformationService: GeneralInformationService,
-    private ngZone: NgZone,
+    private zone: NgZone,
     private router: Router,
     private routerExtensions: RouterExtensions,
     private settingsService: SettingsService,
@@ -98,14 +98,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     (async () => {
-      await this.settingsService.getSettingsDetails();
-      this.uiService.setRootVCRef(this.vcRef);
-      this.initRadDrawerSubscription();
-
       this.activatedUrl = '/dashboard';
       this.mainMenuList = this.sideDrawerService.mainMenu;
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
+      this.uiService.setRootVCRef(this.vcRef);
+      this.initRadDrawerSubscription();
+
+      await this.settingsService.getSettingsDetails();
       this.initRouterEvents();
       this.initUserInfoSubscriptions();
     })();
@@ -162,15 +162,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private connectToSignalRServer() {
+    this.initBroadCastSystemUpdateStatus();
+    this.initBroadCastValidateLoginAccount();
     this.signalrCore
-      .start(`${environment.reserbizAPIEndPoint}/reserbizMainHub`)
+      .start(`${environment.reserbizAPIEndPointWebsocket}/reserbizMainHub`)
       .then(
         (isConnected: boolean) => {
           console.log('SignalR Connection Status: ', isConnected);
-          if (isConnected) {
-            this.initBroadCastSystemUpdateStatus();
-            this.initBroadCastValidateLoginAccount();
-          }
         },
         () => {
           console.error('Error on connecting to ReserbizMainHub.');
@@ -180,11 +178,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initBroadCastSystemUpdateStatus() {
     this.signalrCore.on('BroadCastSystemUpdateStatus', () => {
-      const currentConnectionType = getConnectionType();
+      this.zone.run(() => {
+        const currentConnectionType = getConnectionType();
 
-      this.checkConnectionService.currentConnectionType.next(
-        currentConnectionType
-      );
+        this.checkConnectionService.currentConnectionType.next(
+          currentConnectionType
+        );
+      });
     });
   }
 
@@ -192,32 +192,36 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.signalrCore.on(
       'BroadCastValidateLogin',
       (data: { arguments: any }) => {
-        const loggedInUserIdFromOtherDevice = parseInt(data.arguments[0]);
-        const loggedInUserNameFromOtherDevice = data.arguments[1];
-        const currentLoggedInUser = this.authService.user.getValue();
-        let currentLoggedInUserId = 0;
+        this.zone.run(() => {
+          const loggedInUserIdFromOtherDevice = parseInt(data.arguments[0]);
+          const loggedInUserNameFromOtherDevice = data.arguments[1];
+          const currentLoggedInUser = this.authService.user.getValue();
+          let currentLoggedInUserId = 0;
 
-        if (currentLoggedInUser) {
-          currentLoggedInUserId = this.authService.userId;
-        }
+          if (currentLoggedInUser) {
+            currentLoggedInUserId = this.authService.userId;
+          }
 
-        // Check if account is also currently logged in
-        // on different device, if so, auto logout the account
-        // from the other device.
-        if (
-          currentLoggedInUser &&
-          currentLoggedInUserId === loggedInUserIdFromOtherDevice &&
-          currentLoggedInUser.username === loggedInUserNameFromOtherDevice
-        ) {
-          this.dialogService.alert(
-            this.translate.instant('AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.TITLE'),
-            this.translate.instant(
-              'AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.MESSAGE'
-            )
-          );
-          this.authService.logout();
-          this.drawer.closeDrawer();
-        }
+          // Check if account is also currently logged in
+          // on different device, if so, auto logout the account
+          // from the other device.
+          if (
+            currentLoggedInUser &&
+            currentLoggedInUserId === loggedInUserIdFromOtherDevice &&
+            currentLoggedInUser.username === loggedInUserNameFromOtherDevice
+          ) {
+            this.dialogService.alert(
+              this.translate.instant(
+                'AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.TITLE'
+              ),
+              this.translate.instant(
+                'AUTH_PAGE.SIMULTANEOUS_LOGIN_DIALOG.MESSAGE'
+              )
+            );
+            this.authService.logout();
+            this.drawer.closeDrawer();
+          }
+        });
       }
     );
   }
@@ -268,11 +272,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private initMonitorConnectivityRedirection() {
     this.checkConnectionSub = this.checkConnectionService.currentConnectionType.subscribe(
       (currentConnection: connectionType) => {
-        this.ngZone.run(() => {
+        this.zone.run(() => {
           let route = '';
           if (currentConnection === connectionType.none) {
             route = '/no-connection';
-            this.routerExtensions.navigate([route]);
+
+            // Auto-logout the user during system update.
+            this.authService.logout();
+
+            this.routerExtensions.navigate([route], { clearHistory: true });
           } else {
             this.authService
               .autoLogin()
@@ -294,7 +302,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.authService.logout();
                 }
 
-                this.routerExtensions.navigate([route]);
+                this.routerExtensions.navigate([route], {
+                  clearHistory: true,
+                });
               });
           }
         });
