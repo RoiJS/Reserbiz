@@ -193,69 +193,67 @@
             labelTextColor="White"
           ></TKGroupTitleStyle>
 
-          <TKDataFormGridLayout tkPropertyGroupLayout>
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="excludeElectricBill"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_CONTROL.CONTROL_LABEL' | translate"
-              index="0"
-              columnIndex="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Switch">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="excludeElectricBill"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_CONTROL.CONTROL_LABEL' | translate"
+            index="0"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="electricBillAmount"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
-              index="0"
-              columnIndex="1"
-              [readOnly]="!termDetailsForm.excludeElectricBill"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="electricBillAmount"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
+            index="0"
+            columnIndex="1"
+            [readOnly]="!termDetailsForm.excludeElectricBill"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="excludeWaterBill"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_CONTROL.CONTROL_LABEL' | translate"
-              index="1"
-              columnIndex="0"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Switch">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="excludeWaterBill"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
 
-            <TKEntityProperty
-              tkPropertyGroupProperties
-              name="waterBillAmount"
-              [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
-              index="1"
-              columnIndex="1"
-              [readOnly]="!termDetailsForm.excludeWaterBill"
-            >
-              <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
-                <TKPropertyEditorStyle
-                  tkPropertyEditorStyle
-                  labelTextSize="14"
-                ></TKPropertyEditorStyle>
-              </TKPropertyEditor>
-            </TKEntityProperty>
-          </TKDataFormGridLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="waterBillAmount"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="1"
+            [readOnly]="!termDetailsForm.excludeWaterBill"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
         </TKPropertyGroup>
 
         <TKPropertyGroup
