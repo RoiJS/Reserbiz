@@ -2,7 +2,12 @@
 
 .payment-amount-section {
   font-weight: bold;
-  font-size: 15;
+  font-size: 17;
+}
+
+.payment-datetime-received,
+.payment-received-by {
+  font-size: 14;
 }
 
 .payment-icon-placeholder {
@@ -15,7 +20,7 @@
 }
 
 .payment-list-footer {
-  height: 100;
+  height: 120;
   background-color: $primary;
   padding: 0;
 
@@ -31,7 +36,7 @@
     font-size: 13;
   }
 
-  &__total-amount-section-icon, 
+  &__total-amount-section-icon,
   &__total-amount-from-deposit-section-icon {
     font-size: 16;
   }
