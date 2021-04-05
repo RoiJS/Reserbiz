@@ -64,22 +64,25 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         private void SendRequestToGenerateAccountStatement(Client client)
         {
             // Send request to auto-generate account statements
-            SendRequest(client, _appSettings.Value.AutoGenerateAccountStatementsURL);
+            SendRequest(client, _appSettings.Value.AutoGenerateAccountStatementsURL, (Client c) =>
+            {
+                // Send email notification that the generating of account statements is successfull
+                SendEmailNotificationAfterAccountStatementsGenerated(c);
+            });
 
-            // Send email notification that the generating of account statements is successfull
-            SendEmailNotificationAfterAccountStatementsGenerated(client);
         }
 
         private void SendRequestToGeneratePenalties(Client client)
         {
             // Send request to auto-generate penalties
-            SendRequest(client, _appSettings.Value.AutoGeneratePenaltiesURL);
-
-            // Send email notification that the generating of account statements is successfull
-            SendEmailNotificationAfterPenaltiesGenerated(client);
+            SendRequest(client, _appSettings.Value.AutoGeneratePenaltiesURL, (Client c) =>
+            {
+                // Send email notification that the generating of account statements is successfull
+                SendEmailNotificationAfterPenaltiesGenerated(c);
+            });
         }
 
-        private void SendRequest(Client client, string url)
+        private void SendRequest(Client client, string url, Action<Client> sendEmailNotification)
         {
             try
             {
@@ -89,6 +92,11 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
                 httpRequest.AddHeader("Content-Type", "application/json");
                 IRestResponse response = httpClient.Execute(httpRequest);
+
+                // Only send email if the response is Ok (200)
+                if (response.StatusCode != System.Net.HttpStatusCode.OK) return;
+
+                sendEmailNotification(client);
             }
             catch (Exception exception)
             {
