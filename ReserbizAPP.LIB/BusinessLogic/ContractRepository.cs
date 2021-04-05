@@ -75,7 +75,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     c.NextDueDate.Year == DateTime.Now.Year &&
                     c.NextDueDate > DateTime.Now
                 )
-                .OrderByDescending(c => c.NextDueDate)
+                .OrderBy(c => c.NextDueDate)
                 .ToList();
 
             return allActiveContractsFromRepo;

@@ -172,7 +172,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     c => c.PaymentBreakdowns,
                     c => c.PenaltyBreakdowns
                 )
-                .OrderByDescending(c => c.DueDate)
+                .OrderBy(c => c.DueDate)
                 .ToListAsync();
 
             var unpaidAccountStatements = accountStatements
