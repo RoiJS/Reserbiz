@@ -19,7 +19,7 @@ This application was built using the Angular + Nativescript Framework. https://n
 
 For the backend, ASP.NET .Net Core 5.0 Web API has been used along with Entity Framework Core for managing database entities.
 
-Hangfire.IO has been used for background scheduled process. https://nativescript.org/
+Hangfire.IO has been used for background scheduled processes. https://nativescript.org/
 
 Vonage SMS API has been used for sending SMS notification. https://www.vonage.com.ph/communications-apis/
 
