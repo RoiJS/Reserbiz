@@ -6,7 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  private _isBusy: boolean;
+  constructor() {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._isBusy = true;
+    setTimeout(() => {
+      this._isBusy = false;
+    }, 1000);
+  }
+
+  get isBusy(): boolean {
+    return this._isBusy;
+  }
 }
