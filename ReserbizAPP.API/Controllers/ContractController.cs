@@ -148,7 +148,7 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.TotalNumberOfOpenContracts = mappedContracts.Where((m) => m.IsOpenContract).Count();
             entityPaginationListDto.TotalNumberOfExpiredContracts = mappedContracts.Where((m) => m.IsExpired).Count();
-            entityPaginationListDto.TotalNumberOfInactiveContracts = mappedContracts.Where((m) => m.IsActive == false).Count();
+            entityPaginationListDto.TotalNumberOfInactiveContracts = mappedContracts.Where((m) => m.IsExpired == false && m.IsActive == false).Count();
 
             return Ok(entityPaginationListDto);
         }
