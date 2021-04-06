@@ -20,6 +20,10 @@ android {
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
   }  
+
+  lintOptions {
+      checkReleaseBuilds false
+  }
 } 
 
 def settingsGradlePath
