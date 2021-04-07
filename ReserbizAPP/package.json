@@ -32,6 +32,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "core-js": "^3.8.0",
     "moment": "^2.29.1",
+    "nativescript-appversion": "^1.4.4",
     "nativescript-cfalert-dialog": "^1.0.15",
     "nativescript-signalr-core": "^2.0.0",
     "nativescript-ui-calendar": "^7.0.2",
