@@ -1,5 +1,9 @@
 <RadSideDrawer class="nt-drawer" [drawerTransition]="sideDrawerTransition">
-  <GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
+  <GridLayout
+    tkDrawerContent
+    rows="auto, *, auto"
+    class="sidedrawer sidedrawer-left"
+  >
     <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
       <StackLayout class="main-logo">
         <image width="140" height="140" src="res://mainlogo"></image>
@@ -38,6 +42,10 @@
         </GridLayout>
       </StackLayout>
     </ScrollView>
+    <StackLayout class="sidedrawer-footer" row="2">
+      <label [text]="appVersion" textWrap="true"></label>
+      <label class="fa" [text]="copyRightText"></label>
+    </StackLayout>
   </GridLayout>
 
   <page-router-outlet tkMainContent></page-router-outlet>

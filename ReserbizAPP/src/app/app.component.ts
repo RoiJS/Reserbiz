@@ -25,8 +25,6 @@ import {
   SlideInOnTopTransition,
 } from 'nativescript-ui-sidedrawer';
 import { Application } from '@nativescript/core';
-import { ios } from '@nativescript/core/application';
-import { ad } from '@nativescript/core/utils/utils';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -36,6 +34,7 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './_services/auth.service';
+import { AppVersionService } from './_services/app-version.service';
 import { CheckConnectionService } from './_services/check-connection.service';
 import { DialogService } from './_services/dialog.service';
 import { GeneralInformationService } from './_services/general-information.service';
@@ -77,8 +76,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private signalrCore: SignalrCore;
 
+  private _appVersion: string;
+
   constructor(
     private authService: AuthService,
+    private appVersionService: AppVersionService,
     private checkConnectionService: CheckConnectionService,
     private changeDetectionRef: ChangeDetectorRef,
     private dialogService: DialogService,
@@ -98,14 +100,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     (async () => {
+      this.uiService.setRootVCRef(this.vcRef);
+      this.initRadDrawerSubscription();
+
       this.activatedUrl = '/dashboard';
       this.mainMenuList = this.sideDrawerService.mainMenu;
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
-      this.uiService.setRootVCRef(this.vcRef);
-      this.initRadDrawerSubscription();
-
       await this.settingsService.getSettingsDetails();
+
       this.initRouterEvents();
       this.initUserInfoSubscriptions();
     })();
@@ -322,5 +325,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get sideDrawerTransition(): DrawerTransitionBase {
     return this._sideDrawerTransition;
+  }
+
+  get copyRightText(): string {
+    return this.appVersionService.copyRightText;
+  }
+
+  get appVersion(): string {
+    return this.appVersionService.appVersion;
   }
 }
