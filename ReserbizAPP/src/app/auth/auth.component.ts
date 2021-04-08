@@ -9,6 +9,7 @@ import { RouterExtensions } from '@nativescript/angular';
 
 import { Client } from '../_models/client.model';
 
+import { AppVersionService } from '../_services/app-version.service';
 import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
 import { CheckConnectionService } from '../_services/check-connection.service';
@@ -30,6 +31,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private appVersionService: AppVersionService,
     private checkConnectionService: CheckConnectionService,
     private dialogService: DialogService,
     private formService: FormService,
@@ -140,5 +142,13 @@ export class AuthComponent implements OnInit {
     this.checkConnectionService.currentConnectionType.next(
       currentConnectionType
     );
+  }
+
+  get copyRightText(): string {
+    return this.appVersionService.copyRightText;
+  }
+
+  get appVersion(): string {
+    return this.appVersionService.appVersion;
   }
 }

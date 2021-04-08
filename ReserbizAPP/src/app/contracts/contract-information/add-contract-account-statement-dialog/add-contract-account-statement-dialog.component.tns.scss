@@ -39,10 +39,14 @@
         width: 50%;
       }
 
-      Switch {
+      Switch[checked='true'] {
         color: $primary;
-        background-color: $primary;
-        off-background-color: gray;
+        background-color: rgb(194, 193, 193);
+      }
+
+      Switch[checked='false'] {
+        color: rgb(194, 193, 193);
+        background-color: gray;
       }
     }
   }
