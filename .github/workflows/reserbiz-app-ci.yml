@@ -1,0 +1,25 @@
+name: Continuous integration for Reserbiz Application
+
+on:
+  push:
+    branches: [ master, development ]
+  pull_request:
+    branches: [ master, developement ]
+
+jobs:
+  name: Build Android on windows-latest
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+    - uses: ./
+      with:
+        nativescript-version: '7.0.10'
+    - name: Install dependencies
+      run: npm install
+      working-directory: ReserbizAPP
+    - name: Build NativeScript Demo App
+      run: ns build android
+      working-directory: ReserbizAPP
