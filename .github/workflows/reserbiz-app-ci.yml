@@ -18,10 +18,11 @@ jobs:
     - uses: hrueger/setup-nativescript@v1.1.0
       with:
         nativescript-version: '7.0.10'
+        
     - name: Install dependencies
       run: npm install
       working-directory: ./ReserbizAPP
       
-    - name: Build NativeScript Demo App
+    - name: Build Reserbiz Application
       run: ns build android
       working-directory: ./ReserbizAPP
