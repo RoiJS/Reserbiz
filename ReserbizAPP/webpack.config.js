@@ -387,6 +387,7 @@ module.exports = env => {
         'global.TNS_WEBPACK': 'true',
         'global.isAndroid': platform === 'android',
         'global.isIOS': platform === 'ios',
+        env: JSON.stringify(env),
         process: 'global.process'
       }),
       // Remove all files from the out dir.
