@@ -1,10 +1,10 @@
-name: .NET
+name: Continuous integration for Reserbiz Backend
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, development ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, developement ]
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET
+    - name: Setup .NET 
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100
