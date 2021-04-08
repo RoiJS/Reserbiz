@@ -15,12 +15,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '14'
-    - uses: ./
       with:
         nativescript-version: '7.0.10'
     - name: Install dependencies
       run: npm install
-      working-directory: ReserbizAPP
+      working-directory: ./ReserbizAPP
+      
     - name: Build NativeScript Demo App
       run: ns build android
-      working-directory: ReserbizAPP
+      working-directory: ./ReserbizAPP
