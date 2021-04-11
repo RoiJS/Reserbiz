@@ -3,11 +3,11 @@ name: Continuous integration for Reserbiz Application
 on:
   push:
     branches: [master, development]
-    paths: [ReserbizAPP/**]
+    paths: [.github/workflows/**, ReserbizAPP/**]
 
   pull_request:
     branches: [master, developement]
-    paths: [ReserbizAPP/**]
+    paths: [.github/workflows/**, ReserbizAPP/**]
 
 jobs:
   build:
