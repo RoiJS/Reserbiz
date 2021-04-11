@@ -3,11 +3,11 @@ name: Continuous integration for Reserbiz Application
 on:
   push:
     branches: [master, development]
-    paths: [ ./ReserbizApp/**]
+    paths: [ReserbizAPP/**]
 
   pull_request:
     branches: [master, developement]
-    paths: [ ./ReserbizApp/**]
+    paths: [ReserbizAPP/**]
 
 jobs:
   build:
