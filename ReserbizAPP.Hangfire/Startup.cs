@@ -36,11 +36,11 @@ namespace ReserbizAPP.Hangfire
         public void ConfigureServices(IServiceCollection services)
         {
             // Register application repository classes for dependency injection
-            services.AddTransient<IDataContextHelper, DataContextHelper>();
-            services.AddTransient(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
-            services.AddTransient(typeof(IClientRepository<Client>), typeof(ClientRepository));
-            services.AddTransient(typeof(IGlobalErrorLogRepository<GlobalErrorLog>), typeof(GlobalErrorLogRepository));
-            services.AddTransient(typeof(IReserbizRecurringJobsService), typeof(ReserbizRecurringJobsService));
+            services.AddScoped<IDataContextHelper, DataContextHelper>();
+            services.AddScoped(typeof(IReserbizRepository<>), typeof(ReserbizRepository<>));
+            services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
+            services.AddScoped(typeof(IGlobalErrorLogRepository<GlobalErrorLog>), typeof(GlobalErrorLogRepository));
+            services.AddScoped(typeof(IReserbizRecurringJobsService), typeof(ReserbizRecurringJobsService));
 
             // Register IOptions pattern for AppSettings section
             services.Configure<ReserbizHangFireApplicationSettings>(Configuration.GetSection("AppSettings"));
@@ -50,6 +50,11 @@ namespace ReserbizAPP.Hangfire
 
             // Database connection to Reserbiz System Database
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
+
+            // Database connection to any Reserbiz Client Databases
+            services.AddDbContext<ReserbizClientDataContext>(
+                                x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection"))
+                            );
 
             // Add Hangfire services.
             services.AddHangfire(configuration => configuration
@@ -136,10 +141,10 @@ namespace ReserbizAPP.Hangfire
             });
 
             //Add hangfire built-in dashboard
-             app.UseHangfireDashboard("/hangfire", new DashboardOptions
-             {
-                 Authorization = new[] { new HangfireAuthorizationFilter() }
-             });
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
 
             // Register hangfire recurring jobs here for Reserbiz
             app.RegisterReserbizRecurringJobs();
