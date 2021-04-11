@@ -3,23 +3,23 @@ name: Continuous integration for Reserbiz Backend
 on:
   push:
     branches: [ master, development ]
-    paths: [
-      .github/workflows, 
-      ReserbizAPP.API, 
-      ReserbizAPP.Hangfire, 
-      ReserbizAPP.LIB, 
-      ReserbizAPP.Tests
-    ]
+    paths: 
+      - .github/workflows/**
+      - ReserbizAPP.API/** 
+      - ReserbizAPP.Hangfire/**
+      - ReserbizAPP.LIB/**
+      - ReserbizAPP.Tests/**
+    
 
   pull_request:
     branches: [ master, developement ]
-    paths: [
-      .github/workflows, 
-      ReserbizAPP.API, 
-      ReserbizAPP.Hangfire, 
-      ReserbizAPP.LIB, 
-      ReserbizAPP.Tests
-    ]
+    paths: 
+      - .github/workflows/**
+      - ReserbizAPP.API/**
+      - ReserbizAPP.Hangfire/** 
+      - ReserbizAPP.LIB/**
+      - ReserbizAPP.Tests/**
+    
 
 jobs:
   build:
