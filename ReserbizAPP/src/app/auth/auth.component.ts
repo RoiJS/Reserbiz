@@ -135,7 +135,6 @@ export class AuthComponent implements OnInit {
     }
 
     this.form.get('company').setValue(company);
-    console.log('test update on CI File');
   }
 
   private setCurrentConnection() {
