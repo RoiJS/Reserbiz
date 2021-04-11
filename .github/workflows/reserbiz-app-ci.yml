@@ -1,0 +1,31 @@
+name: Continuous integration for Reserbiz Application
+
+on:
+  push:
+    branches: [ master, development ]
+    paths: [./.github/workflows, ./ReserbizApp]
+  
+  pull_request:
+    branches: [ master, developement ]
+    paths: [./.github/workflows, ./ReserbizApp]
+
+jobs:
+  build:
+    name: Build and test Reserbiz Application
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+    - uses: hrueger/setup-nativescript@v1.1.0
+      with:
+        nativescript-version: '7.0.10'
+        
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./ReserbizAPP
+      
+    - name: Build Reserbiz Application
+      run: ns build android
+      working-directory: ./ReserbizAPP
