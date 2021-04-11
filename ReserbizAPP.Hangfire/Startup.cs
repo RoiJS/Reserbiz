@@ -19,14 +19,21 @@ using ReserbizAPP.LIB.Helpers.Class;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using ReserbizAPP.Hangfire.Helpers.Filters;
 
 namespace ReserbizAPP.Hangfire
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                        .SetBasePath(env.ContentRootPath)
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                        .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -55,7 +62,7 @@ namespace ReserbizAPP.Hangfire
                                 x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizClientDeveloperDBConnection"))
                             );
 
-            //Add Hangfire services.
+            // Add Hangfire services.
             services.AddHangfire(configuration => configuration
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
@@ -139,8 +146,11 @@ namespace ReserbizAPP.Hangfire
                 endpoints.MapControllers();
             });
 
-            // Add hangfire built-in dashboard
-            app.UseHangfireDashboard();
+            //Add hangfire built-in dashboard
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
 
             // Register hangfire recurring jobs here for Reserbiz
             app.RegisterReserbizRecurringJobs();
