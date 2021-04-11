@@ -3,8 +3,11 @@ name: Continuous integration for Reserbiz Backend
 on:
   push:
     branches: [ master, development ]
+    paths: [./ReserbizAPP.API, ./ReserbizAPP.Hangfire, ./ReserbizAPP.LIB, ReserbizAPP.Tests]
+
   pull_request:
     branches: [ master, developement ]
+    paths: [./ReserbizAPP.API, ./ReserbizAPP.Hangfire, ./ReserbizAPP.LIB, ReserbizAPP.Tests]
 
 jobs:
   build:
