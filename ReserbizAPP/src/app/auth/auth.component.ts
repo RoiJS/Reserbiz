@@ -15,6 +15,7 @@ import { AuthService } from '../_services/auth.service';
 import { CheckConnectionService } from '../_services/check-connection.service';
 import { DialogService } from '../_services/dialog.service';
 import { StorageService } from '../_services/storage.service';
+import { SettingsService } from '../_services/settings.service';
 
 @Component({
   selector: 'app-auth',
@@ -38,6 +39,7 @@ export class AuthComponent implements OnInit {
     private page: Page,
     private router: RouterExtensions,
     private translateService: TranslateService,
+    private settingsService: SettingsService,
     private storageService: StorageService
   ) {}
 
@@ -90,12 +92,15 @@ export class AuthComponent implements OnInit {
 
         this.authService.login(username, password).subscribe(
           () => {
-            this.router.navigate(['/dashboard'], {
-              transition: {
-                name: 'slideLeft',
-              },
-              clearHistory: true,
-            });
+            (async () => {
+              await this.settingsService.getSettingsDetails();
+              this.router.navigate(['/dashboard'], {
+                transition: {
+                  name: 'slideLeft',
+                },
+                clearHistory: true,
+              });
+            })();
           },
           (error: any) => {
             this.dialogService.alert(
