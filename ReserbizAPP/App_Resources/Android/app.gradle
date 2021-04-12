@@ -8,7 +8,7 @@
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "org.nativescript.ReserbizAPP" 
+    applicationId = "org.Reserbiz.ReserbizApp" 
     
     //override supported platforms
     // ndk {
