@@ -147,4 +147,10 @@ export class AuthComponent implements OnInit {
   get formValid(): boolean {
     return this.isFormValid();
   }
+
+  get loginButtonText(): string {
+    return `${String.fromCharCode(0xf2f6)} ${this.translateService.instant(
+      'AUTH_PAGE.LOGIN_BUTTON_CONTROL.LABEL'
+    )}`;
+  }
 }
