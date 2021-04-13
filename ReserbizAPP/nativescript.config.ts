@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core';
 
 export default {
-  id: 'org.Reserbiz.ReserbizApp',
+  id: 'org.nativescript.ReserbizAPP',
   appResourcesPath: 'App_Resources',
   android: {
     v8Flags: '--expose_gc',
