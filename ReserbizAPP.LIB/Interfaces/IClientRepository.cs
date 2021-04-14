@@ -7,7 +7,9 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task<Client> RegisterClient(Client client);
-
+        Task<Client> RegisterDemo(Client client);
         Task<Client> GetCompanyInfoByName(string companyName);
+        Task CreateClientDatabase(Client client);
+        void SendEmailNotification(Client client);
     }
 }

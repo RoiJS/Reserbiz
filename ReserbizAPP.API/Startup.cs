@@ -74,6 +74,9 @@ namespace ReserbizAPP.API
             // Register IOptions pattern for EmailServerSettings section
             services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
 
+            // Register IOptions pattern for AppSettingsURL section
+            services.Configure<AppSettingsURL>(Configuration.GetSection("AppSettingsURL"));
+
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
 

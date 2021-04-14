@@ -588,7 +588,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Append any miscellaneous fees
             if (accountStatement.AccountStatementMiscellaneous.Count > 0)
             {
-                content.AppendLine("<b>Miscelleneous Fees:</b><br>");
+                content.AppendLine("<b>Miscellaneous Fees:</b><br>");
                 foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
                 {
                     content.AppendLine(String.Format("{0}: {1}<br>", item.Name, item.Amount.ToCurrencyFormat()));

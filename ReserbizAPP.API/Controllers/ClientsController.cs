@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -25,19 +26,64 @@ namespace ReserbizAPP.API.Controllers
             _clientRepository = clientRepository;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(ClientForRegisterDto clientForRegisterDto)
+        [HttpPost("registerClient")]
+        public async Task<IActionResult> RegisterClient(ClientForRegisterDto clientForRegisterDto)
         {
             var clientToCreate = new Client
             {
                 Name = clientForRegisterDto.Name,
                 DBName = clientForRegisterDto.DbName,
+                Type = ClientTypeEnum.Regular,
                 Description = clientForRegisterDto.Description,
                 ContactNumber = clientForRegisterDto.ContactNumber,
                 DateJoined = DateTime.Now
             };
 
-            var createdClient = await _clientRepository.RegisterClient(clientToCreate);
+            try
+            {
+                // Save client information
+                var createdClient = await _clientRepository.RegisterClient(clientToCreate);
+
+                // Create client database
+                await _clientRepository.CreateClientDatabase(createdClient);
+
+                // Send email notification after database has been successfully created
+                _clientRepository.SendEmailNotification(createdClient);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error on creating client database. Error message: {ex.InnerException.Message}");
+            }
+
+            return StatusCode(201);
+        }
+
+        [HttpPost("registerDemo")]
+        public async Task<IActionResult> RegisterDemo(DemoForRegisterDto demoForRegisterDto)
+        {
+            var demoToCreate = new Client
+            {
+                Name = demoForRegisterDto.Name,
+                Type = ClientTypeEnum.Demo,
+                ContactNumber = demoForRegisterDto.ContactNumber,
+                DateJoined = DateTime.Now
+            };
+
+            try
+            {
+                // Save client information
+                var createdDemoClient = await _clientRepository.RegisterDemo(demoToCreate);
+
+                // Create demo database
+                await _clientRepository.CreateClientDatabase(createdDemoClient);
+
+                // Send email notification after database has been successfully created
+                _clientRepository.SendEmailNotification(createdDemoClient);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error on creating demo database. Error message: {ex.InnerException.Message}");
+            }
 
             return StatusCode(201);
         }

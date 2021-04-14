@@ -8,5 +8,6 @@ namespace ReserbizAPP.LIB.Interfaces
         public bool ActivateEFMigration { get; set; }
         public bool ActivateDataSeed { get; set; }
         public AccountStatementNotificationSettings AccountStatementNotificationSettings { get; set; }
+        public ClientDatabaseNotificationSettings ClientDatabaseNotificationSettings { get; set; }
     }
 }

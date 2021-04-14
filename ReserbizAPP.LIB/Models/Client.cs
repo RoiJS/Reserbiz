@@ -12,5 +12,6 @@ namespace ReserbizAPP.LIB.Models
         public string ContactNumber { get; set; }
         public ClientTypeEnum Type { get; set; } = ClientTypeEnum.Regular;
         public DateTime DateJoined { get; set; }
+        public DateTime DateEnded { get; set; }
     }
 }
