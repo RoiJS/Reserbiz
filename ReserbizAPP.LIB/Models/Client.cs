@@ -1,4 +1,5 @@
 using System;
+using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Models
 {
@@ -9,7 +10,7 @@ namespace ReserbizAPP.LIB.Models
         public string DBHashName { get; set; }
         public string Description { get; set; }
         public string ContactNumber { get; set; }
+        public ClientTypeEnum Type { get; set; } = ClientTypeEnum.Regular;
         public DateTime DateJoined { get; set; }
-        public DateTime DateEnded { get; set; }
     }
 }
