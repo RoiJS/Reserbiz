@@ -80,8 +80,7 @@ export class AccountStatementsAmountSummaryComponent
   ): AccountStatementSummaryChart {
     const totalExpectedAmountSummary = new AccountStatementSummaryChart();
     totalExpectedAmountSummary.value =
-      accountStatementAmountSummary.totalExpectedAmount -
-      accountStatementAmountSummary.totalAmountPaid;
+      accountStatementAmountSummary.totalExpectedAmount;
     const totalExpectedAmountLegendLabel = `${this.translateService.instant(
       'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
     )} - ${this.translateService.instant(
