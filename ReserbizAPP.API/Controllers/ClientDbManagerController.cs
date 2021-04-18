@@ -15,12 +15,19 @@ namespace ReserbizAPP.API.Controllers
     public class ClientDbManagerController : ReserbizBaseController
     {
         private readonly ReserbizClientDataContext _context;
+        private readonly IClientDbManagerRepository<IEntity> _clientDbManagerRepository;
         private readonly IDataSeedRepository<IEntity> _dataSeedRepository;
         private readonly IMapper _mapper;
 
-        public ClientDbManagerController(ReserbizClientDataContext context, IDataSeedRepository<IEntity> dataSeedRepository, IMapper mapper)
+        public ClientDbManagerController(
+            ReserbizClientDataContext context,
+            IClientDbManagerRepository<IEntity> clientDbManagerRepository,
+            IDataSeedRepository<IEntity> dataSeedRepository,
+            IMapper mapper
+        )
         {
             _context = context;
+            _clientDbManagerRepository = clientDbManagerRepository;
             _mapper = mapper;
             _dataSeedRepository = dataSeedRepository;
         }
@@ -29,7 +36,13 @@ namespace ReserbizAPP.API.Controllers
         public async Task<IActionResult> SyncDatabase()
         {
             await _context.Database.MigrateAsync();
+            return Ok();
+        }
 
+        [HttpPost("syncAllDatabases")]
+        public async Task<IActionResult> SyncAllDatabases()
+        {
+            await _clientDbManagerRepository.SyncAllClientDatabases();
             return Ok();
         }
 
