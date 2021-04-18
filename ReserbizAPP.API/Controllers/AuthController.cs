@@ -62,7 +62,8 @@ namespace ReserbizAPP.API.Controllers
                 MiddleName = accountForRegisterDto.MiddleName,
                 LastName = accountForRegisterDto.LastName,
                 Gender = accountForRegisterDto.Gender,
-                Username = accountForRegisterDto.Username
+                Username = accountForRegisterDto.Username,
+                EmailAddress = accountForRegisterDto.EmailAddress
             };
 
             var createdUser = await _authRepo.Register(userToCreate, accountForRegisterDto.Password);

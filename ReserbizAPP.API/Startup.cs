@@ -63,6 +63,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
             services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
+            services.AddScoped(typeof(IClientDbManagerRepository<IEntity>), typeof(ClientDbManagerRepository));
             services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
 
             // Register IOptions pattern for AppSettings section
@@ -73,6 +74,9 @@ namespace ReserbizAPP.API
 
             // Register IOptions pattern for EmailServerSettings section
             services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
+
+            // Register IOptions pattern for AppSettingsURL section
+            services.Configure<AppSettingsURL>(Configuration.GetSection("AppSettingsURL"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);

@@ -118,6 +118,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<Space, SpaceDetailDto>();
             CreateMap<ClientSettings, ClientSettingsDetailsDto>();
             CreateMap<GeneralInformation, GeneralInformationDto>();
+            CreateMap<UserAccount, UserAccountDto>();
 
             CreateMap<PersonalInformationForUpdateDto, Account>();
             CreateMap<TenantForCreationDto, Tenant>();
@@ -135,7 +136,8 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<TermMiscellaneousForUpdateDto, TermMiscellaneous>();
             CreateMap<ContractManageDto, Contract>();
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
-            CreateMap<GeneralInformationDto, GeneralInformation>();
+            CreateMap<UserAccountDto, UserAccount>();
+            CreateMap<ClientDto, Client>();
         }
     }
 }

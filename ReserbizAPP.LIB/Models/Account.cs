@@ -10,6 +10,7 @@ namespace ReserbizAPP.LIB.Models
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public string EmailAddress { get; set; }
 
         public List<RefreshToken> RefreshTokens { get; set; }
         public List<ErrorLog> ErrorLogs { get; set; }

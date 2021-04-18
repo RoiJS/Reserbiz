@@ -1,9 +1,8 @@
-using System;
 using ReserbizAPP.LIB.Enums;
 
-namespace ReserbizAPP.LIB.Models
+namespace ReserbizAPP.LIB.Dtos
 {
-    public class Client : Entity
+    public class ClientDto
     {
         public string Name { get; set; }
         public string DBName { get; set; }
@@ -11,7 +10,5 @@ namespace ReserbizAPP.LIB.Models
         public string Description { get; set; }
         public string ContactNumber { get; set; }
         public ClientTypeEnum Type { get; set; } = ClientTypeEnum.Regular;
-        public DateTime DateJoined { get; set; }
-        public DateTime DateEnded { get; set; }
     }
 }
