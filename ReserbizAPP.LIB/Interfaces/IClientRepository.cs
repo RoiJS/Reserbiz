@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using ReserbizAPP.LIB.Models;
 
@@ -10,6 +11,8 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<Client> RegisterDemo(Client client);
         Task<Client> GetCompanyInfoByName(string companyName);
         Task CreateClientDatabase(Client client);
-        void SendEmailNotification(Client client);
+        Task PopulateDatabase(UserAccount userAccount, Client client, Action<UserAccount> sendEmaiNotification);
+        void SendNewClientRegisteredEmailNotification(UserAccount userAccount, Client client);
+        void SendNewDemoRegisteredEmailNotification(UserAccount userAccount, Client client);
     }
 }

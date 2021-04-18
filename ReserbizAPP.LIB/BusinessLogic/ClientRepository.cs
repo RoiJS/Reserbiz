@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Helpers.Class;
@@ -25,7 +26,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 IReserbizRepository<Client> reserbizRepository,
                 IOptions<AppSettingsURL> appSettingsUrl,
                 IOptions<ApplicationSettings> appSettings,
-                IOptions<EmailServerSettings> emailServerSettings)
+                IOptions<EmailServerSettings> emailServerSettings
+                )
             : base(reserbizRepository, reserbizRepository.SystemDbContext)
         {
             _appSettingsUrl = appSettingsUrl;
@@ -35,22 +37,16 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public async Task<Client> RegisterClient(Client client)
         {
-            string dbHashName;
+            client.DBName = GenerateClientDbName(client);
 
-            CreateHashDBName(client.DBName, out dbHashName);
-
-            client.DBHashName = dbHashName;
-
-            await AddEntity(client);
-
-            return client;
+            return await RegisterClientInformation(client);
         }
 
         public async Task<Client> RegisterDemo(Client client)
         {
             client.DBName = await GenerateDemoDbName(client);
 
-            return await RegisterClient(client);
+            return await RegisterClientInformation(client);
         }
 
         public async Task<Client> GetCompanyInfoByName(string companyName)
@@ -77,11 +73,78 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public void SendEmailNotification(Client client)
+        public async Task PopulateDatabase(UserAccount userAccount, Client client, Action<UserAccount> sendEmaiNotification)
         {
-            var emailContent = GenerateNotificationContent(client, _appSettings.Value.ClientDatabaseNotificationSettings.EmailNotificationTemplate);
-            var subject = "New Client Database";
+            try
+            {
+                var userAccountDto = new UserAccountDto
+                {
+                    FirstName = userAccount.FirstName,
+                    MiddleName = userAccount.MiddleName,
+                    LastName = userAccount.LastName,
+                    EmailAddress = userAccount.EmailAddress
+                };
 
+                var clientDto = new ClientDto
+                {
+                    Name = client.Name,
+                    DBHashName = client.DBHashName,
+                    Type = client.Type,
+                    ContactNumber = client.ContactNumber
+                };
+
+                var httpClient = new RestClient(_appSettingsUrl.Value.PopulateDatabaseURL);
+                httpClient.Timeout = -1;
+                var httpRequest = new RestRequest(Method.POST);
+                httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
+                httpRequest.AddHeader("Content-Type", "application/json");
+                httpRequest.AddJsonBody(new
+                {
+                    UserAccountDto = userAccountDto,
+                    ClientDto = clientDto
+                });
+                var response = await httpClient.ExecuteAsync<UserAccount>(httpRequest);
+
+                var responseUserAccount = response.Data;
+                userAccount.Username = responseUserAccount.Username;
+                userAccount.Password = responseUserAccount.Password;
+
+                sendEmaiNotification(response.Data);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+        public void SendNewClientRegisteredEmailNotification(UserAccount userAccount, Client client)
+        {
+            var emailContent = GenerateNewClientRegisteredNotificationContent(userAccount, client);
+            var subject = "New Client Account";
+
+            SendEmailNotification(
+                subject,
+                emailContent,
+                _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
+                userAccount.EmailAddress
+            );
+        }
+
+        public void SendNewDemoRegisteredEmailNotification(UserAccount userAccount, Client client)
+        {
+            var emailContent = GenerateNewDemoRegisteredNotificationContent(userAccount, client);
+            var subject = "New Demo Account";
+
+            SendEmailNotification(
+                subject,
+                emailContent,
+                _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
+                userAccount.EmailAddress
+            );
+        }
+
+        private void SendEmailNotification(string subject, string content, string emailSender, string emailReceiver)
+        {
             try
             {
                 var emailService = new EmailService(
@@ -91,11 +154,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
                             );
 
                 emailService.Send(
-                    _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
-                    _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
+                    emailSender,
+                    emailReceiver,
                     subject,
-                    emailContent,
-                    _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress
+                    content,
+                    emailSender
                 );
             }
             catch (Exception exception)
@@ -104,18 +167,37 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        private string GenerateNotificationContent(Client client, string templatePath)
+        private string GenerateNewClientRegisteredNotificationContent(UserAccount userAccount, Client client)
         {
             var template = "";
 
-            using (var rdFile = new StreamReader(String.Format("{0}{1}", AppDomain.CurrentDomain.BaseDirectory, templatePath)))
+            using (var rdFile = new StreamReader(String.Format("{0}{1}", AppDomain.CurrentDomain.BaseDirectory, _appSettings.Value.ClientDatabaseNotificationSettings.NewClientRegisteredEmailNotificationTemplate)))
             {
                 template = rdFile.ReadToEnd();
             }
 
-            template = template.Replace("#customername", client.Name);
-            template = template.Replace("#databasename", client.DBName);
-            template = template.Replace("#clienttype", Enum.GetName(typeof(ClientTypeEnum), client.Type));
+            template = template.Replace("#customername", userAccount.PersonFullName);
+            template = template.Replace("#companyname", client.Name);
+            template = template.Replace("#username", userAccount.Username);
+            template = template.Replace("#password", userAccount.Password);
+
+            return template;
+        }
+
+        private string GenerateNewDemoRegisteredNotificationContent(UserAccount userAccount, Client client)
+        {
+            var template = "";
+
+            using (var rdFile = new StreamReader(String.Format("{0}{1}", AppDomain.CurrentDomain.BaseDirectory, _appSettings.Value.ClientDatabaseNotificationSettings.NewDemoEmailNotificationTemplate)))
+            {
+                template = rdFile.ReadToEnd();
+            }
+
+            template = template.Replace("#customername", userAccount.PersonFullName);
+            template = template.Replace("#companyname", client.Name);
+            template = template.Replace("#username", userAccount.Username);
+            template = template.Replace("#password", userAccount.Password);
+            template = template.Replace("#expirationdate", DateTime.Now.AddMonths(3).ToString("MMM dd, yyyy"));
 
             return template;
         }
@@ -141,6 +223,27 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
 
             return String.Format(demoDbName, demoDBNameId);
+        }
+
+        private string GenerateClientDbName(Client client)
+        {
+            var clientDbName = client.Name
+                                    .Replace(" ", "")
+                                    .Replace("-", "");
+            return clientDbName;
+        }
+
+        private async Task<Client> RegisterClientInformation(Client client)
+        {
+            string dbHashName;
+
+            CreateHashDBName(client.DBName, out dbHashName);
+
+            client.DBHashName = dbHashName;
+
+            await AddEntity(client);
+
+            return client;
         }
     }
 }

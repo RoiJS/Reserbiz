@@ -7,7 +7,16 @@ namespace ReserbizAPP.LIB.Dtos
     {
         [Required]
         public string Name { get; set; }
-        public DateTime DateJoined { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string MiddleName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+        [Required]
         public string ContactNumber { get; set; }
     }
 }

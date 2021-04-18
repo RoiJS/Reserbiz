@@ -18,12 +18,15 @@ namespace ReserbizAPP.API.Controllers
         private readonly IMapper _mapper;
         private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
 
-        public ClientsController(IClientRepository<Client> clientRepository
-            , IGeneralInformationRepository<GeneralInformation> generalInformationRepository, IMapper mapper)
+        public ClientsController(
+            IClientRepository<Client> clientRepository,
+            IGeneralInformationRepository<GeneralInformation> generalInformationRepository,
+            IMapper mapper
+        )
         {
+            _clientRepository = clientRepository;
             _generalInformationRepository = generalInformationRepository;
             _mapper = mapper;
-            _clientRepository = clientRepository;
         }
 
         [HttpPost("registerClient")]
@@ -32,11 +35,18 @@ namespace ReserbizAPP.API.Controllers
             var clientToCreate = new Client
             {
                 Name = clientForRegisterDto.Name,
-                DBName = clientForRegisterDto.DbName,
                 Type = ClientTypeEnum.Regular,
                 Description = clientForRegisterDto.Description,
                 ContactNumber = clientForRegisterDto.ContactNumber,
                 DateJoined = DateTime.Now
+            };
+
+            var userAccount = new UserAccount
+            {
+                FirstName = clientForRegisterDto.FirstName,
+                MiddleName = clientForRegisterDto.MiddleName,
+                LastName = clientForRegisterDto.LastName,
+                EmailAddress = clientForRegisterDto.EmailAddress
             };
 
             try
@@ -47,8 +57,13 @@ namespace ReserbizAPP.API.Controllers
                 // Create client database
                 await _clientRepository.CreateClientDatabase(createdClient);
 
-                // Send email notification after database has been successfully created
-                _clientRepository.SendEmailNotification(createdClient);
+                // Populate default data on the client database
+                await _clientRepository.PopulateDatabase(userAccount, createdClient, (UserAccount account) =>
+                {
+                    // Send email notification after database has been successfully created
+                    _clientRepository.SendNewClientRegisteredEmailNotification(account, createdClient);
+                });
+
             }
             catch (Exception ex)
             {
@@ -69,6 +84,14 @@ namespace ReserbizAPP.API.Controllers
                 DateJoined = DateTime.Now
             };
 
+            var userAccount = new UserAccount
+            {
+                FirstName = demoForRegisterDto.FirstName,
+                MiddleName = demoForRegisterDto.MiddleName,
+                LastName = demoForRegisterDto.LastName,
+                EmailAddress = demoForRegisterDto.EmailAddress
+            };
+
             try
             {
                 // Save client information
@@ -77,8 +100,13 @@ namespace ReserbizAPP.API.Controllers
                 // Create demo database
                 await _clientRepository.CreateClientDatabase(createdDemoClient);
 
-                // Send email notification after database has been successfully created
-                _clientRepository.SendEmailNotification(createdDemoClient);
+                // Populate default data on the demo database
+                await _clientRepository.PopulateDatabase(userAccount, createdDemoClient, (UserAccount account) =>
+                {
+                    // Send email notification after database has been successfully created
+                    _clientRepository.SendNewDemoRegisteredEmailNotification(account, createdDemoClient);
+                });
+
             }
             catch (Exception ex)
             {
