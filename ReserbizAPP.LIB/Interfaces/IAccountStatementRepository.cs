@@ -15,6 +15,7 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync();
         List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
         Task GenerateContractAccountStatements(int contractId);
+        Task GenerateContractAccountStatementsForNewDatabase(int contractId, int currentUserId);
         Task GenerateContractAccountStatement(int contractId, bool markAsPaid, int currentUserId);
         Task GenerateAccountStatementPenalties(int tenantId);
         Task<AccountStatement> GetFirstAccountStatement(int contractId);

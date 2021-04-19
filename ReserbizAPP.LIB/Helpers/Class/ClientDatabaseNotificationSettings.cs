@@ -1,0 +1,9 @@
+namespace ReserbizAPP.LIB.Helpers.Class
+{
+    public class ClientDatabaseNotificationSettings
+    {
+        public string SenderEmailAddress { get; set; }
+        public string NewClientRegisteredEmailNotificationTemplate { get; set; }
+        public string NewDemoEmailNotificationTemplate { get; set; }
+    }
+}

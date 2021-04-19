@@ -76,8 +76,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private signalrCore: SignalrCore;
 
-  private _appVersion: string;
-
   constructor(
     private authService: AuthService,
     private appVersionService: AppVersionService,
@@ -107,10 +105,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mainMenuList = this.sideDrawerService.mainMenu;
       this._sideDrawerTransition = new SlideInOnTopTransition();
 
+      this.initUserInfoSubscriptions();
       await this.settingsService.getSettingsDetails();
 
       this.initRouterEvents();
-      this.initUserInfoSubscriptions();
     })();
 
     this.monitorInternetConnectivity();
@@ -232,13 +230,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private initUserInfoSubscriptions() {
     this.currentFullnameSub = this.authService.currentFullname.subscribe(
       (currentFullname: string) => {
-        this._currentFullname = currentFullname;
+        if (currentFullname) {
+          this._currentFullname = currentFullname;
+        }
       }
     );
 
     this.currentBusinessNameSub = this.settingsService.settings.subscribe(
       (settings: Settings) => {
-        this._currentBusinessName = settings.businessName;
+        if (settings) {
+          this._currentBusinessName = settings.businessName;
+        }
       }
     );
   }

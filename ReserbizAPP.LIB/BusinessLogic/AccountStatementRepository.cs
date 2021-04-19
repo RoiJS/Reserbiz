@@ -308,6 +308,97 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
+        public async Task GenerateContractAccountStatementsForNewDatabase(int contractId, int currentUserId)
+        {
+            var contract = await _contractRepository
+                .GetEntity(contractId)
+                .Includes(
+                    c => c.Term,
+                    c => c.Term.TermMiscellaneous,
+                    c => c.AccountStatements
+                )
+                .ToObjectAsync();
+
+            if (contract == null) return;
+
+            while (contract.IsDueForGeneratingAccountStatement)
+            {
+                var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
+                    .Where(
+                        a => a.ContractId == contract.Id &&
+                        a.DueDate == contract.NextDueDate &&
+                        a.IsDelete == false &&
+                        a.IsActive
+                    )
+                    .FirstOrDefaultAsync() != null);
+
+                // Its important to check if statement of account date already
+                // exists on list of statement of accounts to avoid any duplication
+                if (isAccountStatementExists == false)
+                {
+                    // (1) If the contract is about to generate its first account statement,
+                    // it should generate account statements based on the number of AdvancedPaymentDurationValue.
+                    // Eg. If the AdvancedPaymentDurationValue = 3, then we should generate 3 account statements for the contract.
+                    if (contract.AccountStatements.Count == 0)
+                    {
+                        for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
+                        {
+                            var newContractAccountStatement = RegisterNewAccountStament(contract);
+
+                            contract.AccountStatements.Add(newContractAccountStatement);
+
+                            // Add entry on payment breakdown 
+                            // with the same amount of statement of account
+                            // total amount
+                            newContractAccountStatement.Contract = contract;
+                            var paymentBreakdown = new PaymentBreakdown()
+                            {
+                                Amount = newContractAccountStatement.AccountStatementTotalAmount,
+                                ReceivedById = currentUserId,
+                                DateTimeReceived = newContractAccountStatement.DueDate,
+                                Notes = String.Empty,
+                                IsAmountFromDeposit = false,
+                            };
+                            newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+                        }
+                    }
+
+                    // (2) If the contract is about to generate account statement that is not the first, 
+                    // then generate only single account statement.
+                    else
+                    {
+                        var newContractAccountStatement = RegisterNewAccountStament(contract);
+
+                        newContractAccountStatement.Contract = contract;
+
+                        // Add entry on payment breakdown 
+                        // with the same amount of statement of account
+                        // total amount
+                        var paymentBreakdown = new PaymentBreakdown()
+                        {
+                            Amount = newContractAccountStatement.AccountStatementTotalAmount,
+                            ReceivedById = currentUserId,
+                            DateTimeReceived = newContractAccountStatement.DueDate,
+                            Notes = String.Empty,
+                            IsAmountFromDeposit = false,
+                        };
+                        newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                        contract.AccountStatements.Add(newContractAccountStatement);
+                    }
+                }
+            }
+
+            try
+            {
+                await _contractRepository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Registering new statement of accounts for contract with id={contract.Id} failed on save. Error message: {ex.Message}.", ex);
+            }
+        }
+
         public async Task GenerateContractAccountStatement(int contractId, bool markAsPaid, int currentUserId)
         {
             var contract = await _contractRepository
@@ -476,6 +567,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var paidAccountStatementsTotalAmount = accountStatements
                 .Where(c =>
                    c.IsActive &&
+                   c.IsDelete == false &&
                    c.IsFullyPaid == true
                 ).Sum(a => a.AccountStatementTotalAmount);
 
@@ -588,7 +680,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Append any miscellaneous fees
             if (accountStatement.AccountStatementMiscellaneous.Count > 0)
             {
-                content.AppendLine("<b>Miscelleneous Fees:</b><br>");
+                content.AppendLine("<b>Miscellaneous Fees:</b><br>");
                 foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
                 {
                     content.AppendLine(String.Format("{0}: {1}<br>", item.Name, item.Amount.ToCurrencyFormat()));
