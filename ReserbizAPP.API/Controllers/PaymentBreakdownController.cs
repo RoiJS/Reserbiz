@@ -16,7 +16,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class PaymentBreakdownController : ReserbizBaseController
     {
         private readonly IPaginationService _paginationService;

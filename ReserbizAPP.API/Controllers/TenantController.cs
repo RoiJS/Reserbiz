@@ -11,7 +11,7 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     [ApiController]
     public class TenantController : ReserbizBaseController

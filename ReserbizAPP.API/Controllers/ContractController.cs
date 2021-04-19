@@ -15,7 +15,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ContractController : ReserbizBaseController
     {
         private readonly IContractRepository<Contract> _contractRepository;
