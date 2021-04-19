@@ -9,7 +9,7 @@ export const environment = {
   // reserbizAPIEndPoint: 'http://192.168.254.101:3000/api',
   // reserbizAPIEndPointWebsocket: 'http://192.168.254.101:3000/websocket',
 
-  // (2) FOR DEPLOYED VERSION - RESERBIZ WEB API
-  reserbizAPIEndPoint: 'http://reserbiz-001-site1.itempurl.com/api',
-  reserbizAPIEndPointWebsocket: 'http://reserbiz-001-site1.itempurl.com/websocket',
+  // (3) FOR DEPLOYED VERSION - RESERBIZ WEB API
+  reserbizAPIEndPoint: 'http://api.reserbiz.com/api',
+  reserbizAPIEndPointWebsocket: 'http://api.reserbiz.com/websocket',
 };
