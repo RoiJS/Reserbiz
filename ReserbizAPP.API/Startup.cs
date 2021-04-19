@@ -64,6 +64,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
             services.AddScoped(typeof(IClientDbManagerRepository<IEntity>), typeof(ClientDbManagerRepository));
+            services.AddScoped(typeof(IAppGlobalSettingsRepository<AppGlobalSettings>), typeof(AppGlobalSettingsRepository));
             services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
 
             // Register IOptions pattern for AppSettings section
