@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class TermMiscellaneousController : ReserbizBaseController
     {
         private readonly ITermMiscellaneousRepository<TermMiscellaneous> _termMiscellaneousRepository;

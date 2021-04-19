@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ReserbizAPP.Hangfire.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class TestClientRequestController : ControllerBase
     {
         private readonly IClientRepository<Client> _clientRepository;

@@ -10,7 +10,7 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ClientDbManagerController : ReserbizBaseController
     {
