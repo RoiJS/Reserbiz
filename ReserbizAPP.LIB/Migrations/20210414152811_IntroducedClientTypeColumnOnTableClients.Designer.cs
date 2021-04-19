@@ -3,54 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations
 {
     [DbContext(typeof(ReserbizDataContext))]
-    partial class ReserbizDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210414152811_IntroducedClientTypeColumnOnTableClients")]
+    partial class IntroducedClientTypeColumnOnTableClients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
-
-            modelBuilder.Entity("ReserbizAPP.LIB.Models.AppGlobalSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("AppWebAPIDomain")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateDeactivated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppGlobalSettings");
-                });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Client", b =>
                 {

@@ -190,6 +190,32 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("autoGenerateContractAccountStatementsForNewDatabase/{currentUserId}")]
+        public async Task<IActionResult> AutoGenerateContractAccountStatementsForNewDatabase(int currentUserId)
+        {
+            var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
+
+            foreach (var tenant in activeTenantsFromRepo)
+            {
+                var activeTenantContracts = await _contractRepository.GetActiveContractsPerTenantAsync(tenant.Id);
+
+                foreach (var contract in activeTenantContracts)
+                {
+                    try
+                    {
+                        await _accountStatementRepository.GenerateContractAccountStatementsForNewDatabase(contract.Id, currentUserId);
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new Exception(exception.Message);
+                    }
+                }
+            }
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
         [HttpPost("autoGenerateContractAccountStatements")]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
         {

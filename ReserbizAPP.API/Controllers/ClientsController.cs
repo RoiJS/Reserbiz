@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -17,27 +18,100 @@ namespace ReserbizAPP.API.Controllers
         private readonly IMapper _mapper;
         private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
 
-        public ClientsController(IClientRepository<Client> clientRepository
-            , IGeneralInformationRepository<GeneralInformation> generalInformationRepository, IMapper mapper)
+        public ClientsController(
+            IClientRepository<Client> clientRepository,
+            IGeneralInformationRepository<GeneralInformation> generalInformationRepository,
+            IMapper mapper
+        )
         {
+            _clientRepository = clientRepository;
             _generalInformationRepository = generalInformationRepository;
             _mapper = mapper;
-            _clientRepository = clientRepository;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(ClientForRegisterDto clientForRegisterDto)
+        [HttpPost("registerClient")]
+        public async Task<IActionResult> RegisterClient(ClientForRegisterDto clientForRegisterDto)
         {
             var clientToCreate = new Client
             {
                 Name = clientForRegisterDto.Name,
-                DBName = clientForRegisterDto.DbName,
+                Type = ClientTypeEnum.Regular,
                 Description = clientForRegisterDto.Description,
                 ContactNumber = clientForRegisterDto.ContactNumber,
                 DateJoined = DateTime.Now
             };
 
-            var createdClient = await _clientRepository.RegisterClient(clientToCreate);
+            var userAccount = new UserAccount
+            {
+                FirstName = clientForRegisterDto.FirstName,
+                MiddleName = clientForRegisterDto.MiddleName,
+                LastName = clientForRegisterDto.LastName,
+                EmailAddress = clientForRegisterDto.EmailAddress
+            };
+
+            try
+            {
+                // Save client information
+                var createdClient = await _clientRepository.RegisterClient(clientToCreate);
+
+                // Create client database
+                await _clientRepository.CreateClientDatabase(createdClient);
+
+                // Populate default data on the client database
+                await _clientRepository.PopulateDatabase(userAccount, createdClient, (UserAccount account) =>
+                {
+                    // Send email notification after database has been successfully created
+                    _clientRepository.SendNewClientRegisteredEmailNotification(account, createdClient);
+                });
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error on creating client database. Error message: {ex.InnerException.Message}");
+            }
+
+            return StatusCode(201);
+        }
+
+        [HttpPost("registerDemo")]
+        public async Task<IActionResult> RegisterDemo(DemoForRegisterDto demoForRegisterDto)
+        {
+            var demoToCreate = new Client
+            {
+                Name = demoForRegisterDto.Name,
+                Type = ClientTypeEnum.Demo,
+                ContactNumber = demoForRegisterDto.ContactNumber,
+                DateJoined = DateTime.Now
+            };
+
+            var userAccount = new UserAccount
+            {
+                FirstName = demoForRegisterDto.FirstName,
+                MiddleName = demoForRegisterDto.MiddleName,
+                LastName = demoForRegisterDto.LastName,
+                EmailAddress = demoForRegisterDto.EmailAddress
+            };
+
+            try
+            {
+                // Save client information
+                var createdDemoClient = await _clientRepository.RegisterDemo(demoToCreate);
+
+                // Create demo database
+                await _clientRepository.CreateClientDatabase(createdDemoClient);
+
+                // Populate default data on the demo database
+                await _clientRepository.PopulateDatabase(userAccount, createdDemoClient, (UserAccount account) =>
+                {
+                    // Send email notification after database has been successfully created
+                    _clientRepository.SendNewDemoRegisteredEmailNotification(account, createdDemoClient);
+                });
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error on creating demo database. Error message: {ex.InnerException.Message}");
+            }
 
             return StatusCode(201);
         }
