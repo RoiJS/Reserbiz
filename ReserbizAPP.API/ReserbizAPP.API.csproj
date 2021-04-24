@@ -14,6 +14,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="RestSharp" Version="106.11.8-alpha.0.12"/>
+    <PackageReference Include="Hangfire.Core" Version="1.8.0-beta2"/>
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.0-beta2"/>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.0-beta2"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReserbizAPP.LIB\ReserbizAPP.LIB.csproj"/>

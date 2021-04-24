@@ -13,7 +13,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PenaltyBreakdownController : ReserbizBaseController
     {
         private readonly IMapper _mapper;

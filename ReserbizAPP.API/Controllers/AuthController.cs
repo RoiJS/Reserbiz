@@ -20,7 +20,7 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ReserbizBaseController
     {
@@ -248,14 +248,14 @@ namespace ReserbizAPP.API.Controllers
                 new Claim (ReserbizClaimTypes.Username, user.Username)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.Token));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.GeneralSettings.Token));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = creds
             };
 
@@ -273,7 +273,7 @@ namespace ReserbizAPP.API.Controllers
             var tokenValidationParamters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.Token)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.GeneralSettings.Token)),
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = false

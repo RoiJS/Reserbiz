@@ -12,7 +12,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SpaceTypeController : ReserbizBaseController
     {
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepo;

@@ -631,7 +631,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
                                 _emailServerSettings.Value.SmtpAddress,
-                                _emailServerSettings.Value.SmtpPassword
+                                _emailServerSettings.Value.SmtpPassword,
+                                _emailServerSettings.Value.SmtpPort
                             );
 
                 emailService.Send(
@@ -639,7 +640,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     tenant.EmailAddress,
                     subject,
                     emailContent,
-                    _appSettings.Value.AccountStatementNotificationSettings.SenderEmailAddress
+                    _appSettings.Value.AccountStatementNotificationSettings.BCCEmailAddress
                 );
             }
             catch (Exception exception)
@@ -731,37 +732,38 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
             }
 
-            content.AppendLine();
-            content.AppendLine(String.Format("Rental Fee: {0}", rentalFee.ToCurrencyFormat()));
+            content.Append(String.Format("Rental Fee: {0} \n", rentalFee.ToCurrencyFormat()));
 
             // Append any miscellaneous fees
             if (accountStatement.AccountStatementMiscellaneous.Count > 0)
             {
-                content.AppendLine("Miscelleneous Fees:");
+                content.Append("\n");
+                content.Append("Miscellaneous Fees: \n");
                 foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
                 {
-                    content.AppendLine(String.Format("{0}: {1}", item.Name, item.Amount.ToCurrencyFormat()));
+                    content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
                 }
             }
 
             // Append electric and water bill amount
             if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
             {
+                content.Append("\n");
                 if (accountStatement.ElectricBill > 0)
                 {
-                    content.AppendLine(String.Format("Electric Bill Amount: {0}", accountStatement.ElectricBill.ToCurrencyFormat()));
+                    content.Append(String.Format("Electric Bill Amount: {0} \n", accountStatement.ElectricBill.ToCurrencyFormat()));
                 }
 
                 if (accountStatement.WaterBill > 0)
                 {
-                    content.AppendLine(String.Format("Water Bill Amount: {0}", accountStatement.WaterBill.ToCurrencyFormat()));
+                    content.Append(String.Format("Water Bill Amount: {0} \n", accountStatement.WaterBill.ToCurrencyFormat()));
                 }
             }
 
             // Append Penalty amount
             if (accountStatement.PenaltyTotalAmount > 0)
             {
-                content.AppendLine(String.Format("Penalties Amount: {0}", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
+                content.Append(String.Format("Penalties Amount: {0} \n", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
             }
 
 
@@ -771,8 +773,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                          || accountStatement.PenaltyTotalAmount > 0)
             {
                 // Append Total Amount
-                content.AppendLine();
-                content.AppendLine(String.Format("Total Amount: {0}", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
+                content.Append("\r\n");
+                content.Append(String.Format("Total Amount: {0}", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
             }
 
             return content.ToString();

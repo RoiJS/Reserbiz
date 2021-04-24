@@ -9,7 +9,7 @@ using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AppGlobalSettingsController : ControllerBase
     {

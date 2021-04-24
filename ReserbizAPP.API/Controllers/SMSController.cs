@@ -7,7 +7,7 @@ using ReserbizAPP.LIB.Helpers.Services;
 namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SMSController : ReserbizBaseController
     {
         private readonly IOptions<SMSAPISettings> _smsApiSettings;

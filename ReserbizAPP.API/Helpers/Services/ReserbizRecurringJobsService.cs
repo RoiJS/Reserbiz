@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ReserbizAPP.Hangfire.Interfaces;
+using ReserbizAPP.API.Helpers.Interfaces;
 using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Helpers.Services;
+using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using RestSharp;
 
@@ -19,7 +20,8 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
 
     {
         private GlobalErrorLogRepository _globalErrorLogRepository;
-        private IOptions<ReserbizHangFireApplicationSettings> _appSettings;
+        private IOptions<ApplicationSettings> _appSettings;
+        private IOptions<AppHostInfo> _appHostInfo;
         private IOptions<EmailServerSettings> _emailServerSettings;
 
         IServiceProvider _serviceProvider;
@@ -31,7 +33,6 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         // Destructor
         ~ReserbizRecurringJobsService()
         {
-            _appSettings = null;
             _emailServerSettings = null;
         }
 
@@ -39,7 +40,8 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         {
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                _appSettings = scope.ServiceProvider.GetService<IOptions<ReserbizHangFireApplicationSettings>>();
+                _appSettings = scope.ServiceProvider.GetService<IOptions<ApplicationSettings>>();
+                _appHostInfo = scope.ServiceProvider.GetService<IOptions<AppHostInfo>>();
                 _emailServerSettings = scope.ServiceProvider.GetService<IOptions<EmailServerSettings>>();
                 _globalErrorLogRepository = scope.ServiceProvider.GetService<GlobalErrorLogRepository>();
 
@@ -64,7 +66,8 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         private void SendRequestToGenerateAccountStatement(Client client)
         {
             // Send request to auto-generate account statements
-            SendRequest(client, _appSettings.Value.AutoGenerateAccountStatementsURL, (Client c) =>
+            var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGenerateAccountStatementsURL);
+            SendRequest(client, url, (Client c) =>
             {
                 // Send email notification that the generating of account statements is successfull
                 SendEmailNotificationAfterAccountStatementsGenerated(c);
@@ -75,7 +78,8 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         private void SendRequestToGeneratePenalties(Client client)
         {
             // Send request to auto-generate penalties
-            SendRequest(client, _appSettings.Value.AutoGeneratePenaltiesURL, (Client c) =>
+            var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGeneratePenaltiesURL);
+            SendRequest(client, url, (Client c) =>
             {
                 // Send email notification that the generating of account statements is successfull
                 SendEmailNotificationAfterPenaltiesGenerated(c);
@@ -94,9 +98,11 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
                 IRestResponse response = httpClient.Execute(httpRequest);
 
                 // Only send email if the response is Ok (200)
-                if (response.StatusCode != System.Net.HttpStatusCode.OK) return;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    sendEmailNotification(client);
+                };
 
-                sendEmailNotification(client);
             }
             catch (Exception exception)
             {

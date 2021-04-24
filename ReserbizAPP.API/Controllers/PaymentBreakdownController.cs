@@ -11,23 +11,32 @@ using AutoMapper;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PaymentBreakdownController : ReserbizBaseController
     {
         private readonly IPaginationService _paginationService;
+        private readonly IOptions<ApplicationSettings> _appSettings;
         private readonly IPaymentBreakdownRepository<PaymentBreakdown> _paymentBreakdownRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IMapper _mapper;
         private readonly IContractRepository<Contract> _contractRepository;
 
-        public PaymentBreakdownController(IPaymentBreakdownRepository<PaymentBreakdown> paymentBreakdownRepository,
-        IAccountStatementRepository<AccountStatement> accountStatementRepository, IContractRepository<Contract> contractRepository, IMapper mapper, IPaginationService paginationService)
+        public PaymentBreakdownController(
+            IPaymentBreakdownRepository<PaymentBreakdown> paymentBreakdownRepository,
+            IAccountStatementRepository<AccountStatement> accountStatementRepository,
+            IContractRepository<Contract> contractRepository,
+            IMapper mapper,
+            IPaginationService paginationService,
+            IOptions<ApplicationSettings> appSettings
+            )
         {
+            _appSettings = appSettings;
             _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
             _paymentBreakdownRepository = paymentBreakdownRepository;
@@ -49,7 +58,7 @@ namespace ReserbizAPP.API.Controllers
             {
                 ReceivedById = CurrentUserId,
                 Amount = paymentForCreationDto.Amount,
-                DateTimeReceived = paymentForCreationDto.DateTimeReceived,
+                DateTimeReceived = paymentForCreationDto.DateTimeReceived.ToLocalTimeZone(),
                 Notes = paymentForCreationDto.Notes,
                 IsAmountFromDeposit = paymentForCreationDto.IsAmountFromDeposit,
             };

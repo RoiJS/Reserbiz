@@ -8,10 +8,9 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task CreateTenant(Tenant tenant);
-
         Task<Tenant> GetTenantAsync(int id);
         Task<IEnumerable<Tenant>> GetTenantAsOptions();
-        Task<IEnumerable<Tenant>> GetActiveTenantsAsync();
+        Task<IEnumerable<Tenant>> GetTenantsAsync();
         Task<IEnumerable<Tenant>> GetTenantsBasedOnNameAsync(string tenantName);
         Task<bool> DeleteMultipleTenantsAsync(List<int> tenantIds);
     }
