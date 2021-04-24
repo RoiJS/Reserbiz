@@ -321,27 +321,55 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (contract == null) return;
 
-            while (contract.IsDueForGeneratingAccountStatement)
+            try
             {
-                var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
-                    .Where(
-                        a => a.ContractId == contract.Id &&
-                        a.DueDate == contract.NextDueDate &&
-                        a.IsDelete == false &&
-                        a.IsActive
-                    )
-                    .FirstOrDefaultAsync() != null);
-
-                // Its important to check if statement of account date already
-                // exists on list of statement of accounts to avoid any duplication
-                if (isAccountStatementExists == false)
+                while (contract.IsDueForGeneratingAccountStatement)
                 {
-                    // (1) If the contract is about to generate its first account statement,
-                    // it should generate account statements based on the number of AdvancedPaymentDurationValue.
-                    // Eg. If the AdvancedPaymentDurationValue = 3, then we should generate 3 account statements for the contract.
-                    if (contract.AccountStatements.Count == 0)
+                    var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
+                        .Where(
+                            a => a.ContractId == contract.Id &&
+                            a.DueDate == contract.NextDueDate &&
+                            a.IsDelete == false &&
+                            a.IsActive
+                        )
+                        .FirstOrDefaultAsync() != null);
+
+                    // Its important to check if statement of account date already
+                    // exists on list of statement of accounts to avoid any duplication
+                    if (isAccountStatementExists == false)
                     {
-                        for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
+                        // (1) If the contract is about to generate its first account statement,
+                        // it should generate account statements based on the number of AdvancedPaymentDurationValue.
+                        // Eg. If the AdvancedPaymentDurationValue = 3, then we should generate 3 account statements for the contract.
+                        if (contract.AccountStatements.Count == 0)
+                        {
+                            for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
+                            {
+                                var newContractAccountStatement = RegisterNewAccountStament(contract);
+
+                                contract.AccountStatements.Add(newContractAccountStatement);
+
+                                // Add entry on payment breakdown 
+                                // with the same amount of statement of account
+                                // total amount
+                                newContractAccountStatement.Contract = contract;
+                                var paymentBreakdown = new PaymentBreakdown()
+                                {
+                                    Amount = newContractAccountStatement.AccountStatementTotalAmount,
+                                    ReceivedById = currentUserId,
+                                    DateTimeReceived = newContractAccountStatement.DueDate,
+                                    Notes = String.Empty,
+                                    IsAmountFromDeposit = false,
+                                };
+                                newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                                await _contractRepository.SaveChanges();
+                            }
+                        }
+
+                        // (2) If the contract is about to generate account statement that is not the first, 
+                        // then generate only single account statement.
+                        else
                         {
                             var newContractAccountStatement = RegisterNewAccountStament(contract);
 
@@ -360,38 +388,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                 IsAmountFromDeposit = false,
                             };
                             newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                            await _contractRepository.SaveChanges();
                         }
                     }
-
-                    // (2) If the contract is about to generate account statement that is not the first, 
-                    // then generate only single account statement.
-                    else
-                    {
-                        var newContractAccountStatement = RegisterNewAccountStament(contract);
-
-                        newContractAccountStatement.Contract = contract;
-
-                        // Add entry on payment breakdown 
-                        // with the same amount of statement of account
-                        // total amount
-                        var paymentBreakdown = new PaymentBreakdown()
-                        {
-                            Amount = newContractAccountStatement.AccountStatementTotalAmount,
-                            ReceivedById = currentUserId,
-                            DateTimeReceived = newContractAccountStatement.DueDate,
-                            Notes = String.Empty,
-                            IsAmountFromDeposit = false,
-                        };
-                        newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
-
-                        contract.AccountStatements.Add(newContractAccountStatement);
-                    }
                 }
-            }
-
-            try
-            {
-                await _contractRepository.SaveChanges();
             }
             catch (Exception ex)
             {
