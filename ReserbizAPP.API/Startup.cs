@@ -91,7 +91,7 @@ namespace ReserbizAPP.API
 
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
-            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:ActivateEFMigration").Value);
+            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:GeneralSettings:ActivateEFMigration").Value);
 
             if (ActivateEFMigration)
             {

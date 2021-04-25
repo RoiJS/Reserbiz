@@ -19,5 +19,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<bool> SetMultipleContractsStatus(List<int> contractIds, bool status);
         bool CheckContractCodeIfExists(IList<Contract> contractList, int contractId, string contractCode);
         bool ValidateExpirationDate(Contract contract, DateTime effectiveDate, DurationEnum durationUnit, int durationValue);
+        Task<bool> SetEncashDepositAmountStatus(Contract contract, bool status, int currentUserId);
     }
 }

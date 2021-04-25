@@ -50,6 +50,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAccountStatementsPerContract")]
         public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, SortOrderEnum sortOrder, int page)
         {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
             var accountStatementsFromRepo = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contractId);
             var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
 
@@ -71,6 +72,7 @@ namespace ReserbizAPP.API.Controllers
             entityPaginationListDto.TotalPaidAmount = accountStatementsFromRepo.Sum(a => a.CurrentAmountPaid);
             entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement != null ? firstAccountStatement.CalculatedDepositAmount : 0;
             entityPaginationListDto.TotalPaidAmountFromDeposit = await _accountStatementRepository.CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
+            entityPaginationListDto.TotalEncashedDepositedAmount = contractFromRepo.EncashDepositAmount ? (entityPaginationListDto.TotalExpectedDepositAmount - entityPaginationListDto.TotalPaidAmountFromDeposit) : 0;
 
             return Ok(entityPaginationListDto);
         }

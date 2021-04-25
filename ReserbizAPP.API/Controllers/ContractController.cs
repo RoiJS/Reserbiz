@@ -317,6 +317,19 @@ namespace ReserbizAPP.API.Controllers
             return Ok(expirationDate);
         }
 
+        [HttpPut("setEncashDepositAmountStatus/{contractId}/{status}")]
+        public async Task<IActionResult> SetEncashDepositAmountStatus(int contractId, bool status)
+        {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return NotFound("Contract not found.");
+
+            if (await _contractRepository.SetEncashDepositAmountStatus(contractFromRepo, status, CurrentUserId))
+                return NoContent();
+
+            throw new Exception($"Updating contract status with an id of {contractId} failed on save.");
+        }
 
         [HttpGet("getActiveContractsCount")]
         public async Task<ActionResult<int>> GetActiveContractsCount()

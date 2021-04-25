@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210425151258_IntroducedEncashDepositAmountOnTableContract")]
+    partial class IntroducedEncashDepositAmountOnTableContract
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -403,12 +405,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<bool>("EncashDepositAmount")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EncashedDepositAmountByAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EncashedDepositAmountDateTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -437,8 +433,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("DeactivatedById");
 
                     b.HasIndex("DeletedById");
-
-                    b.HasIndex("EncashedDepositAmountByAccountId");
 
                     b.HasIndex("SpaceId");
 
@@ -1195,10 +1189,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasForeignKey("DeletedById")
                         .HasConstraintName("FK_Contracts_DeletedById_Accounts_AccountId");
 
-                    b.HasOne("ReserbizAPP.LIB.Models.Account", "EncashedDepositAmountByAccount")
-                        .WithMany()
-                        .HasForeignKey("EncashedDepositAmountByAccountId");
-
                     b.HasOne("ReserbizAPP.LIB.Models.Space", "Space")
                         .WithMany("Contracts")
                         .HasForeignKey("SpaceId");
@@ -1225,8 +1215,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Navigation("DeactivatedBy");
 
                     b.Navigation("DeletedBy");
-
-                    b.Navigation("EncashedDepositAmountByAccount");
 
                     b.Navigation("Space");
 
