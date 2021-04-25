@@ -49,6 +49,7 @@ export class ContractAccountStatementListPanelComponent
   extends BaseListComponent<AccountStatement>
   implements IBaseListComponent, OnInit, OnChanges {
   @Input() currentContractId: number;
+  @Input() IsCurrentContractArchived: boolean;
 
   private _totalExpectedAmount = 0;
   private _totalPaidAmount = 0;

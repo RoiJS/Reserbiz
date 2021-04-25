@@ -188,6 +188,10 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
     return this._currentContract;
   }
 
+  get isContractArchived(): boolean {
+    return  Boolean(this.currentContract && (!this._currentContract?.isActive || this._currentContract?.isExpired));
+  }
+
   get IsBusy(): boolean {
     return this._isBusy;
   }
