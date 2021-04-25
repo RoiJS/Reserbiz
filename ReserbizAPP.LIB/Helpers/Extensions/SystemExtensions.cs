@@ -104,5 +104,26 @@ namespace ReserbizAPP.LIB.Helpers
             return amountFormatted;
         }
 
+        /// <summary>
+        /// Convert date and time based on the timezone id
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="timezoneId"></param>
+        /// <returns></returns>
+        public static DateTime ConvertToTimeZone(this DateTime dateTime, string timezoneId)
+        {
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(dateTime.ToUniversalTime(), timezoneId);
+        }
+        
+        /// <summary>
+        /// Convert date and time based on the local timezone id
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="timezoneId"></param>
+        /// <returns></returns>
+        public static DateTime ToLocalTimeZone(this DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(dateTime.ToUniversalTime(), TimeZoneInfo.Local.Id);
+        }
     }
 }

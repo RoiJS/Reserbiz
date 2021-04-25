@@ -14,7 +14,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountStatementController : ReserbizBaseController
     {
         private readonly IMapper _mapper;
@@ -193,7 +193,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPost("autoGenerateContractAccountStatementsForNewDatabase/{currentUserId}")]
         public async Task<IActionResult> AutoGenerateContractAccountStatementsForNewDatabase(int currentUserId)
         {
-            var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
+            var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();
 
             foreach (var tenant in activeTenantsFromRepo)
             {
@@ -219,7 +219,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPost("autoGenerateContractAccountStatements")]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
         {
-            var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
+            var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();
 
             foreach (var tenant in activeTenantsFromRepo)
             {
@@ -245,7 +245,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpPost("autoGenerateContractAccountStatementPenalties")]
         public async Task<IActionResult> AutoGenerateAccountStatementPenalties()
         {
-            var activeTenantsFromRepo = await _tenantRepository.GetActiveTenantsAsync();
+            var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();
 
             foreach (var tenant in activeTenantsFromRepo)
             {

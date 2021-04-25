@@ -21,15 +21,18 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public ReserbizClientDataContext _context;
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApplicationSettings> _appSettings;
+        private readonly IOptions<AppHostInfo> _appHostInfo;
         private readonly IOptions<AppSettingsURL> _appSettingsUrl;
 
         public DataSeedRepository(IReserbizRepository<IEntity> reserbizRepository,
             IConfiguration configuration,
             IOptions<ApplicationSettings> appSettings,
+            IOptions<AppHostInfo> appHostInfo,
             IOptions<AppSettingsURL> appSettingsUrl)
             : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
             _appSettings = appSettings;
+            _appHostInfo = appHostInfo;
             _appSettingsUrl = appSettingsUrl;
             _configuration = configuration;
             _context = reserbizRepository.ClientDbContext;
@@ -238,13 +241,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 _context.Tenants.Add(
                     new Tenant
                     {
-                        FirstName = "Fitzpatrick",
-                        MiddleName = "Gilbert",
-                        LastName = "Gamble",
+                        FirstName = "Patrick",
+                        MiddleName = "James",
+                        LastName = "Young",
                         Address = "Foster Avenue Carrsville",
-                        ContactNumber = "09875643910",
+                        ContactNumber = "09875642345",
                         Gender = GenderEnum.Male,
-                        EmailAddress = "fitzpatrickgamble@radiantix.com",
+                        EmailAddress = "patrickyoung@radiantix.com",
                         ContactPersons = new List<ContactPerson> {
                             new ContactPerson {
                                 FirstName = "Randall",
@@ -710,7 +713,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             try
             {
-                var httpClient = new RestClient($"{_appSettingsUrl.Value.AutoGenerateAccountStatementsURL}/{account.Id}");
+                 var url = String.Format("{0}{1}/{2}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGenerateAccountStatementsForNewDatabaseURL, account.Id);
+                var httpClient = new RestClient(url);
                 httpClient.Timeout = -1;
                 var httpRequest = new RestRequest(Method.POST);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);

@@ -12,7 +12,7 @@ using ReserbizAPP.LIB.Models;
 namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class GeneralInformationController : ControllerBase
     {
 

@@ -321,27 +321,55 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (contract == null) return;
 
-            while (contract.IsDueForGeneratingAccountStatement)
+            try
             {
-                var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
-                    .Where(
-                        a => a.ContractId == contract.Id &&
-                        a.DueDate == contract.NextDueDate &&
-                        a.IsDelete == false &&
-                        a.IsActive
-                    )
-                    .FirstOrDefaultAsync() != null);
-
-                // Its important to check if statement of account date already
-                // exists on list of statement of accounts to avoid any duplication
-                if (isAccountStatementExists == false)
+                while (contract.IsDueForGeneratingAccountStatement)
                 {
-                    // (1) If the contract is about to generate its first account statement,
-                    // it should generate account statements based on the number of AdvancedPaymentDurationValue.
-                    // Eg. If the AdvancedPaymentDurationValue = 3, then we should generate 3 account statements for the contract.
-                    if (contract.AccountStatements.Count == 0)
+                    var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
+                        .Where(
+                            a => a.ContractId == contract.Id &&
+                            a.DueDate == contract.NextDueDate &&
+                            a.IsDelete == false &&
+                            a.IsActive
+                        )
+                        .FirstOrDefaultAsync() != null);
+
+                    // Its important to check if statement of account date already
+                    // exists on list of statement of accounts to avoid any duplication
+                    if (isAccountStatementExists == false)
                     {
-                        for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
+                        // (1) If the contract is about to generate its first account statement,
+                        // it should generate account statements based on the number of AdvancedPaymentDurationValue.
+                        // Eg. If the AdvancedPaymentDurationValue = 3, then we should generate 3 account statements for the contract.
+                        if (contract.AccountStatements.Count == 0)
+                        {
+                            for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
+                            {
+                                var newContractAccountStatement = RegisterNewAccountStament(contract);
+
+                                contract.AccountStatements.Add(newContractAccountStatement);
+
+                                // Add entry on payment breakdown 
+                                // with the same amount of statement of account
+                                // total amount
+                                newContractAccountStatement.Contract = contract;
+                                var paymentBreakdown = new PaymentBreakdown()
+                                {
+                                    Amount = newContractAccountStatement.AccountStatementTotalAmount,
+                                    ReceivedById = currentUserId,
+                                    DateTimeReceived = newContractAccountStatement.DueDate,
+                                    Notes = String.Empty,
+                                    IsAmountFromDeposit = false,
+                                };
+                                newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                                await _contractRepository.SaveChanges();
+                            }
+                        }
+
+                        // (2) If the contract is about to generate account statement that is not the first, 
+                        // then generate only single account statement.
+                        else
                         {
                             var newContractAccountStatement = RegisterNewAccountStament(contract);
 
@@ -360,38 +388,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                 IsAmountFromDeposit = false,
                             };
                             newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                            await _contractRepository.SaveChanges();
                         }
                     }
-
-                    // (2) If the contract is about to generate account statement that is not the first, 
-                    // then generate only single account statement.
-                    else
-                    {
-                        var newContractAccountStatement = RegisterNewAccountStament(contract);
-
-                        newContractAccountStatement.Contract = contract;
-
-                        // Add entry on payment breakdown 
-                        // with the same amount of statement of account
-                        // total amount
-                        var paymentBreakdown = new PaymentBreakdown()
-                        {
-                            Amount = newContractAccountStatement.AccountStatementTotalAmount,
-                            ReceivedById = currentUserId,
-                            DateTimeReceived = newContractAccountStatement.DueDate,
-                            Notes = String.Empty,
-                            IsAmountFromDeposit = false,
-                        };
-                        newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
-
-                        contract.AccountStatements.Add(newContractAccountStatement);
-                    }
                 }
-            }
-
-            try
-            {
-                await _contractRepository.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -631,7 +632,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
                                 _emailServerSettings.Value.SmtpAddress,
-                                _emailServerSettings.Value.SmtpPassword
+                                _emailServerSettings.Value.SmtpPassword,
+                                _emailServerSettings.Value.SmtpPort
                             );
 
                 emailService.Send(
@@ -639,7 +641,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     tenant.EmailAddress,
                     subject,
                     emailContent,
-                    _appSettings.Value.AccountStatementNotificationSettings.SenderEmailAddress
+                    _appSettings.Value.AccountStatementNotificationSettings.BCCEmailAddress
                 );
             }
             catch (Exception exception)
@@ -731,37 +733,38 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
             }
 
-            content.AppendLine();
-            content.AppendLine(String.Format("Rental Fee: {0}", rentalFee.ToCurrencyFormat()));
+            content.Append(String.Format("Rental Fee: {0} \n", rentalFee.ToCurrencyFormat()));
 
             // Append any miscellaneous fees
             if (accountStatement.AccountStatementMiscellaneous.Count > 0)
             {
-                content.AppendLine("Miscelleneous Fees:");
+                content.Append("\n");
+                content.Append("Miscellaneous Fees: \n");
                 foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
                 {
-                    content.AppendLine(String.Format("{0}: {1}", item.Name, item.Amount.ToCurrencyFormat()));
+                    content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
                 }
             }
 
             // Append electric and water bill amount
             if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
             {
+                content.Append("\n");
                 if (accountStatement.ElectricBill > 0)
                 {
-                    content.AppendLine(String.Format("Electric Bill Amount: {0}", accountStatement.ElectricBill.ToCurrencyFormat()));
+                    content.Append(String.Format("Electric Bill Amount: {0} \n", accountStatement.ElectricBill.ToCurrencyFormat()));
                 }
 
                 if (accountStatement.WaterBill > 0)
                 {
-                    content.AppendLine(String.Format("Water Bill Amount: {0}", accountStatement.WaterBill.ToCurrencyFormat()));
+                    content.Append(String.Format("Water Bill Amount: {0} \n", accountStatement.WaterBill.ToCurrencyFormat()));
                 }
             }
 
             // Append Penalty amount
             if (accountStatement.PenaltyTotalAmount > 0)
             {
-                content.AppendLine(String.Format("Penalties Amount: {0}", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
+                content.Append(String.Format("Penalties Amount: {0} \n", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
             }
 
 
@@ -771,8 +774,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                          || accountStatement.PenaltyTotalAmount > 0)
             {
                 // Append Total Amount
-                content.AppendLine();
-                content.AppendLine(String.Format("Total Amount: {0}", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
+                content.Append("\r\n");
+                content.Append(String.Format("Total Amount: {0}", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
             }
 
             return content.ToString();

@@ -32,11 +32,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return tenant;
         }
 
-        public async Task<IEnumerable<Tenant>> GetActiveTenantsAsync()
+        public async Task<IEnumerable<Tenant>> GetTenantsAsync()
         {
             var activeTenantsFromRepo = await _reserbizRepository.ClientDbContext.Tenants.AsQueryable()
                 .Includes(t => t.ContactPersons)
-                .Where(t => t.IsActive)
                 .ToListAsync();
 
             return activeTenantsFromRepo;

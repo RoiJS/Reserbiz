@@ -19,18 +19,21 @@ namespace ReserbizAPP.LIB.BusinessLogic
         : BaseRepository<Client>, IClientRepository<Client>
     {
         private readonly IOptions<AppSettingsURL> _appSettingsUrl;
+        private readonly IOptions<AppHostInfo> _appHostInfo;
         private readonly IOptions<ApplicationSettings> _appSettings;
         private readonly IOptions<EmailServerSettings> _emailServerSettings;
 
         public ClientRepository(
                 IReserbizRepository<Client> reserbizRepository,
                 IOptions<AppSettingsURL> appSettingsUrl,
+                IOptions<AppHostInfo> appHostInfo,
                 IOptions<ApplicationSettings> appSettings,
                 IOptions<EmailServerSettings> emailServerSettings
                 )
             : base(reserbizRepository, reserbizRepository.SystemDbContext)
         {
             _appSettingsUrl = appSettingsUrl;
+            _appHostInfo = appHostInfo;
             _appSettings = appSettings;
             _emailServerSettings = emailServerSettings;
         }
@@ -60,7 +63,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             try
             {
-                var httpClient = new RestClient(_appSettingsUrl.Value.SyncDatabaseURL);
+                var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.SyncDatabaseURL);
+                var httpClient = new RestClient(url);
                 httpClient.Timeout = -1;
                 var httpRequest = new RestRequest(Method.POST);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
@@ -93,7 +97,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     ContactNumber = client.ContactNumber
                 };
 
-                var httpClient = new RestClient(_appSettingsUrl.Value.PopulateDatabaseURL);
+                var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.PopulateDatabaseURL);
+                var httpClient = new RestClient(url);
                 httpClient.Timeout = -1;
                 var httpRequest = new RestRequest(Method.POST);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
@@ -126,7 +131,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 subject,
                 emailContent,
                 _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
-                userAccount.EmailAddress
+                userAccount.EmailAddress,
+                _appSettings.Value.ClientDatabaseNotificationSettings.BCCEmailAddress
             );
         }
 
@@ -139,18 +145,20 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 subject,
                 emailContent,
                 _appSettings.Value.ClientDatabaseNotificationSettings.SenderEmailAddress,
-                userAccount.EmailAddress
+                userAccount.EmailAddress,
+                _appSettings.Value.ClientDatabaseNotificationSettings.BCCEmailAddress
             );
         }
 
-        private void SendEmailNotification(string subject, string content, string emailSender, string emailReceiver)
+        private void SendEmailNotification(string subject, string content, string emailSender, string emailReceiver, string bcc)
         {
             try
             {
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
                                 _emailServerSettings.Value.SmtpAddress,
-                                _emailServerSettings.Value.SmtpPassword
+                                _emailServerSettings.Value.SmtpPassword,
+                                _emailServerSettings.Value.SmtpPort
                             );
 
                 emailService.Send(
@@ -158,7 +166,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     emailReceiver,
                     subject,
                     content,
-                    emailSender
+                    bcc
                 );
             }
             catch (Exception exception)
@@ -209,20 +217,23 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         private async Task<string> GenerateDemoDbName(Client client)
         {
-            var demoDbName = "demo{0}";
+            var demoDbName = "demo";
             var demoDBNameId = 1;
             var lastDemoDatabase = await _reserbizRepository.SystemDbContext.Clients
                                         .Where(c => c.Type == ClientTypeEnum.Demo)
-                                        .OrderByDescending(c => c.DBName)
+                                        .OrderByDescending(c => c.Id)
                                         .FirstOrDefaultAsync();
 
             if (lastDemoDatabase != null)
             {
-                demoDBNameId = Convert.ToInt32(lastDemoDatabase.DBName.Substring(4));
+                // demoDBNameId = Convert.ToInt32(lastDemoDatabase.DBName.Substring(4));
+                demoDBNameId = Convert.ToInt32(lastDemoDatabase.DBName.Split("_")[2].Substring(4));
                 demoDBNameId += 1;
             }
 
-            return String.Format(demoDbName, demoDBNameId);
+            var finalDemoName = String.Format("{0}{1}{2}", _appSettings.Value.GeneralSettings.DatabasePrefix, demoDbName, demoDBNameId);
+
+            return finalDemoName;
         }
 
         private string GenerateClientDbName(Client client)
@@ -230,6 +241,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var clientDbName = client.Name
                                     .Replace(" ", "")
                                     .Replace("-", "");
+
+
+            clientDbName = clientDbName.ToLower();
+
+            clientDbName = String.Format("{0}{1}", _appSettings.Value.GeneralSettings.DatabasePrefix, clientDbName);
+
             return clientDbName;
         }
 

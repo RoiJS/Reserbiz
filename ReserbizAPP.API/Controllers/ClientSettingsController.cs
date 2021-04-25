@@ -11,7 +11,7 @@ namespace ReserbizAPP.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ClientSettingsController : ReserbizBaseController
     {
         private readonly ITermRepository<Term> _termRepository;

@@ -21,6 +21,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.API.Hubs;
+using Hangfire;
+using Hangfire.SqlServer;
+using ReserbizAPP.API.Helpers.Filters;
+using ReserbizAPP.API.Helpers.Extensions;
 
 namespace ReserbizAPP.API
 {
@@ -70,14 +74,14 @@ namespace ReserbizAPP.API
             // Register IOptions pattern for AppSettings section
             services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
 
+            // Register IOptions pattern for AppHostInfo section
+            services.Configure<AppHostInfo>(Configuration.GetSection("AppHostInfo"));
+
             // Register IOptions pattern for SMSAPISettings
             services.Configure<SMSAPISettings>(Configuration.GetSection("SMSAPISettings"));
 
             // Register IOptions pattern for EmailServerSettings section
             services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
-
-            // Register IOptions pattern for AppSettingsURL section
-            services.Configure<AppSettingsURL>(Configuration.GetSection("AppSettingsURL"));
 
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -143,7 +147,7 @@ namespace ReserbizAPP.API
                         ValidateIssuerSigningKey = true,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:GeneralSettings:Token").Value))
                     };
 
                     options.Events = new JwtBearerEvents
@@ -159,13 +163,30 @@ namespace ReserbizAPP.API
                     };
                 });
 
+            // Add Hangfire services.
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("ReserbizDBConnection"), new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
+
             services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() == false)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -220,6 +241,15 @@ namespace ReserbizAPP.API
                 endpoints.MapControllers();
                 endpoints.MapHub<ReserbizMainHub>("websocket/reserbizMainHub");
             });
+
+            //Add hangfire built-in dashboard
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[] { new HangfireAuthorizationFilter() }
+            });
+
+            // Register hangfire recurring jobs here for Reserbiz
+            app.RegisterReserbizRecurringJobs();
         }
     }
 }

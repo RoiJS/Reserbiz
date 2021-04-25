@@ -100,6 +100,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     (async () => {
       this.uiService.setRootVCRef(this.vcRef);
       this.initRadDrawerSubscription();
+      this.initRouterEvents();
 
       this.activatedUrl = '/dashboard';
       this.mainMenuList = this.sideDrawerService.mainMenu;
@@ -107,8 +108,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.initUserInfoSubscriptions();
       await this.settingsService.getSettingsDetails();
-
-      this.initRouterEvents();
     })();
 
     this.monitorInternetConnectivity();
