@@ -25,4 +25,11 @@ export class ContractDetailsPanelComponent implements OnInit, OnChanges {
       // console.log(args.currentContract.currentValue);
     }
   }
+
+  get isContractArchived(): boolean {
+    return Boolean(
+      this.currentContract &&
+        (!this.currentContract?.isActive || this.currentContract?.isExpired)
+    );
+  }
 }
