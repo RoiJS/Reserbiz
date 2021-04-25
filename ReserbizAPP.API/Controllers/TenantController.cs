@@ -16,11 +16,13 @@ namespace ReserbizAPP.API.Controllers
     [ApiController]
     public class TenantController : ReserbizBaseController
     {
+        private readonly IContractRepository<Contract> _contractRepository;
         private readonly ITenantRepository<Tenant> _tenantRepository;
         private readonly IMapper _mapper;
 
-        public TenantController(ITenantRepository<Tenant> tenantRepository, IMapper mapper)
+        public TenantController(ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository, IMapper mapper)
         {
+            _contractRepository = contractRepository;
             _tenantRepository = tenantRepository;
             _mapper = mapper;
         }
@@ -108,6 +110,14 @@ namespace ReserbizAPP.API.Controllers
             _tenantRepository
                 .SetCurrentUserId(CurrentUserId)
                 .SetEntityStatus(tenantFromRepo, status);
+
+            // If status = false, any active contracts will also be inactivated
+            if (status == false)
+            {
+                var contracts = await _contractRepository.GetActiveContractsPerTenantAsync(id);
+                _contractRepository.SetCurrentUserId(CurrentUserId);
+                _contractRepository.SetMultipleEntitiesStatus(contracts.ToList(), false);
+            }
 
             if (!_tenantRepository.HasChanged())
                 return BadRequest("Nothing was changed on the object");
