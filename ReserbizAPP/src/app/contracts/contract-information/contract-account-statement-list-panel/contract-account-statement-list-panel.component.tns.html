@@ -28,6 +28,7 @@
             class="fa fa-solid page-container__page-command contract-account-list-container__button -rounded-lg"
             [ngClass]="{'contract-account-list-container__button--active': isFilterActive}"
             (tap)="openAddAccountStatementDialog()"
+            *ngIf="!IsCurrentContractArchived"
             text="&#xf067;"
           ></button>
           <button
