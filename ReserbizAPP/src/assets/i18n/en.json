@@ -226,7 +226,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate selected tenant",
-      "CONFIRM_MESSAGE": "Are you sure to deactivate selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
       "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
     }
@@ -348,7 +348,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate tenant",
-      "CONFIRM_MESSAGE": "Are you sure to deactivate this tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
       "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
     }
