@@ -23,13 +23,13 @@
     [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.ENCASH_DEPOSIT_AMOUNT' | translate"
     android.position="popup"
     (tap)="encashDepositAmount(true)"
-    *ngIf="!currentContract?.encashDepositAmount"
+    *ngIf="!isEncashedDepositAmount && isDepositAmountFullyPaid"
   ></ActionItem>
   <ActionItem
     [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.RETURN_ENCASHED_DEPOSIT_AMOUNT' | translate"
     android.position="popup"
     (tap)="encashDepositAmount(false)"
-    *ngIf="currentContract?.encashDepositAmount"
+    *ngIf="isEncashedDepositAmount && isDepositAmountFullyPaid"
   ></ActionItem>
 </ns-action-bar>
 

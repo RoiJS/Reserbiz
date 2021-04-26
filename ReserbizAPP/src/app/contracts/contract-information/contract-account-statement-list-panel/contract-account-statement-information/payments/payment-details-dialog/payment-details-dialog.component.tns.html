@@ -30,7 +30,7 @@
         tkDataFormGroups
         name="Group_AmountFromDeposit"
         [titleHidden]="true"
-        [hidden]="!shouldAmountFromDepositAvailable"
+        [hidden]="!shouldAmountFromDepositAvailable || encashedDepositAmount"
       >
         <TKDataFormGridLayout tkPropertyGroupLayout>
           <TKEntityProperty

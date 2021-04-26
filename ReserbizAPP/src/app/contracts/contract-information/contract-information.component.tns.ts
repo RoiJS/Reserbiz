@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
 
+import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Contract } from '@src/app/_models/contract.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
@@ -26,11 +27,13 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   private _isBusy = false;
 
   private _updateContractListFlag: Subscription;
+  private _firstAccountStatement: AccountStatement;
 
   constructor(
     protected accountStatementService: AccountStatementService,
     private contractService: ContractService,
     private dialogService: DialogService,
+    private ngZone: NgZone,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
     private spaceService: SpaceService,
@@ -58,13 +61,19 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   getContractInformation() {
     this._isBusy = true;
 
-    (async () => {
-      this._currentContract = await this.contractService.getContract(
-        this._currentContractId
-      );
+    this.ngZone.run(() => {
+      (async () => {
+        this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
+          this._currentContractId
+        );
 
-      this._isBusy = false;
-    })();
+        this._currentContract = await this.contractService.getContract(
+          this._currentContractId
+        );
+
+        this._isBusy = false;
+      })();
+    });
   }
 
   deactivateContract() {
@@ -251,6 +260,14 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
       this.currentContract &&
         (!this._currentContract?.isActive || this._currentContract?.isExpired)
     );
+  }
+
+  get isEncashedDepositAmount(): boolean {
+    return this._currentContract?.encashDepositAmount;
+  }
+
+  get isDepositAmountFullyPaid(): boolean {
+    return this._firstAccountStatement?.isFullyPaid;
   }
 
   get IsBusy(): boolean {

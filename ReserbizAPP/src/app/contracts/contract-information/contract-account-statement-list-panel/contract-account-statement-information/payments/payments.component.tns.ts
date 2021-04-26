@@ -22,11 +22,13 @@ import { delay, finalize } from 'rxjs/operators';
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
 
+import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { PaymentsService } from '@src/app/_services/payments.service';
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
+import { Contract } from '@src/app/_models/contract.model';
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFilter } from '@src/app/_models/filters/payment-filter.model';
 import { PaymentPaginationList } from '@src/app/_models/pagination_list/payment-pagination-list.model';
@@ -50,6 +52,7 @@ export class PaymentsComponent
   private _totalAmountFromDeposit = 0;
 
   private _firstAccountStatement: AccountStatement;
+  private _contract: Contract;
 
   constructor(
     protected paymentService: PaymentsService,
@@ -60,6 +63,7 @@ export class PaymentsComponent
     protected translateService: TranslateService,
     protected router: RouterExtensions,
     private accountStatementService: AccountStatementService,
+    private contractService: ContractService,
     private modalDialogService: ModalDialogService,
     private vcRef: ViewContainerRef,
     private pageRoute: PageRoute
@@ -86,6 +90,8 @@ export class PaymentsComponent
           this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
             contractId
           );
+
+          this._contract = await this.contractService.getContract(contractId);
 
           this._loadListFlagSub = this.paymentService.loadPaymentListFlag
             .pipe(delay(1000))
@@ -194,6 +200,7 @@ export class PaymentsComponent
       context: {
         paymentDetails,
         dialogIntent,
+        contract: this._contract,
         currentAccountStatementId: this._currentItemParentId,
         firstAccountStatement: this._firstAccountStatement,
         depositedAmountBalance: this._depositedAmountBalance,
