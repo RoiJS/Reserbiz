@@ -133,6 +133,8 @@ export class AccountStatementService
       data.totalExpectedDepositAmount;
     accountStatementPaginationList.totalPaidAmountFromDeposit =
       data.totalPaidAmountFromDeposit;
+    accountStatementPaginationList.totalEncashedDepositedAmount =
+      data.totalEncashedDepositedAmount;
 
     accountStatementPaginationList.page = data.page;
     accountStatementPaginationList.numberOfItemsPerPage =

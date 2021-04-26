@@ -16,6 +16,7 @@ export class Contract extends Entity {
   public tenantName: string;
   public effectiveDate: Date;
   public isOpenContract: boolean;
+  public encashDepositAmount: boolean;
   public durationValue: number;
   public durationUnit: DurationEnum;
   public expirationDate: Date;
@@ -39,6 +40,7 @@ export class Contract extends Entity {
     this.spaceName = '';
     this.effectiveDate = null;
     this.isOpenContract = false;
+    this.encashDepositAmount = false;
     this.durationValue = 0;
     this.durationUnit = DurationEnum.None;
     this.expirationDate = null;

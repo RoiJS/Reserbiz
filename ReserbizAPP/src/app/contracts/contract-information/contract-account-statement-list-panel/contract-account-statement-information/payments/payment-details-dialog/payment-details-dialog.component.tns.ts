@@ -16,6 +16,7 @@ import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 
+import { Contract } from '@src/app/_models/contract.model';
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
 
@@ -34,6 +35,7 @@ export class PaymentDetailsDialogComponent
   private _dialogTitle = '';
   private _dialogIntent: DialogIntentEnum;
 
+  private _contract: Contract;
   private _suggestedAmountForPayment = 0;
   private _depositedAmountBalance = 0;
   private _currentAccountStatementId = 0;
@@ -51,6 +53,7 @@ export class PaymentDetailsDialogComponent
     this.setDialogTitle(params.context.dialogIntent);
     this.initFormDetails(params.context.paymentDetails);
 
+    this._contract = params.context.contract;
     this._dialogIntent = params.context.dialogIntent;
     this._currentAccountStatementId = params.context.currentAccountStatementId;
     this._firstAccountStatement = params.context.firstAccountStatement;
@@ -189,6 +192,10 @@ export class PaymentDetailsDialogComponent
 
   get isForAddNewPayment(): boolean {
     return this._dialogIntent === 1;
+  }
+
+  get encashedDepositAmount(): boolean {
+    return this._contract?.encashDepositAmount;
   }
 
   /**

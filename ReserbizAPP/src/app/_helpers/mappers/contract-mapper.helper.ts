@@ -27,6 +27,7 @@ export class ContractMapper
     contract.spaceName = c.spaceName;
     contract.effectiveDate = new Date(c.effectiveDate);
     contract.isOpenContract = c.isOpenContract;
+    contract.encashDepositAmount = c.encashDepositAmount;
     contract.durationValue = c.durationValue;
     contract.durationUnit = c.durationUnit;
     contract.expirationDate = new Date(c.expirationDate);
