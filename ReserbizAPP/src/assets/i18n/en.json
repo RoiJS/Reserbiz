@@ -90,7 +90,7 @@
   },
 
   "SIDE_DRAWER_SECTION": {
-    "FOOTER" : {
+    "FOOTER": {
       "VERSION": "Version",
       "COPYRIGHT": "Copyright 2021.",
       "ALL_RIGHTS_RESERVED": "All rights reserved"
@@ -1215,14 +1215,16 @@
 
   "ACCOUNT_STATEMENT_DETAILS": {
     "ACTION_BAR_SECTION": {
-      "TITLE": "Statement of Account",
+      "TITLE": "STATEMENT OF ACCOUNT",
       "OPTIONS": {
         "PAYMENTS": "Payments",
         "PENALTIES": "Penalties"
       }
     },
+    "SEND_DETAILS": "Send Details",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
+      "DUE_DATE": "Due Date",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
       "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
       "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
