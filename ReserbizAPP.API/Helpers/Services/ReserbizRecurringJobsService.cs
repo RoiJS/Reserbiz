@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using ReserbizAPP.API.Helpers.Interfaces;
 using ReserbizAPP.LIB.BusinessLogic;
 using ReserbizAPP.LIB.DbContexts;
+using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Helpers.Services;
 using ReserbizAPP.LIB.Interfaces;
@@ -139,7 +140,7 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
             }
 
             mailTemplate = mailTemplate.Replace("#customerName", dbName);
-            mailTemplate = mailTemplate.Replace("#datetime", DateTime.Now.ToString("hh:mm dd MMM yyyy"));
+            mailTemplate = mailTemplate.Replace("#datetime", DateTime.Now.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone).ToString("hh:mm dd MMM yyyy"));
 
             return mailTemplate;
         }
