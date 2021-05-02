@@ -27,6 +27,8 @@
 		android:theme="@style/AppTheme"
 		android:networkSecurityConfig="@xml/network_security_config">
 
+		<meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/ns_primary" />
+
 		<activity
 			android:name="com.tns.NativeScriptActivity"
 			android:label="@string/title_activity_kimera"
