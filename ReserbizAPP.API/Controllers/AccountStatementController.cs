@@ -9,6 +9,7 @@ using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -22,16 +23,21 @@ namespace ReserbizAPP.API.Controllers
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IPaginationService _paginationService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountStatementController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
-            ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository,
-            IMapper mapper, IPaginationService paginationService)
+        public AccountStatementController(
+            IAccountStatementRepository<AccountStatement> accountStatementRepository,
+            ITenantRepository<Tenant> tenantRepository,
+            IContractRepository<Contract> contractRepository,
+            IMapper mapper, IPaginationService paginationService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _tenantRepository = tenantRepository;
             _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
             _paginationService = paginationService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{id}")]
@@ -231,7 +237,8 @@ namespace ReserbizAPP.API.Controllers
                 {
                     try
                     {
-                        await _accountStatementRepository.GenerateContractAccountStatements(contract.Id);
+                        var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
+                        await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contract.Id);
                     }
                     catch (Exception exception)
                     {

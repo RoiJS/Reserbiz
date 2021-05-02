@@ -13,6 +13,7 @@ import { FormService } from '../_services/form.service';
 import { AuthService } from '../_services/auth.service';
 import { CheckConnectionService } from '../_services/check-connection.service';
 import { DialogService } from '../_services/dialog.service';
+import { PushNotificationService } from '../_services/push-notification.service';
 import { StorageService } from '../_services/storage.service';
 import { SettingsService } from '../_services/settings.service';
 
@@ -39,6 +40,7 @@ export class AuthComponent implements OnInit {
     private dialogService: DialogService,
     private formService: FormService,
     private page: Page,
+    private pushNotificationService: PushNotificationService,
     private router: RouterExtensions,
     private translateService: TranslateService,
     private settingsService: SettingsService,
@@ -70,6 +72,10 @@ export class AuthComponent implements OnInit {
             () => {
               (async () => {
                 await this.settingsService.getSettingsDetails();
+
+                // Subscribe to push notifications
+                this.pushNotificationService.subscribe();
+
                 this.router.navigate(['/dashboard'], {
                   transition: {
                     name: 'slideLeft',

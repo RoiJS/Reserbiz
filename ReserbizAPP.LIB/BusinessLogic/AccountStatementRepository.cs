@@ -248,11 +248,13 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public async Task GenerateContractAccountStatements(int contractId)
+        public async Task GenerateContractAccountStatements(string dbHashName, int contractId)
         {
+            var listOfNewAccountStatements = new List<AccountStatement>();
             var contract = await _contractRepository
                 .GetEntity(contractId)
                 .Includes(
+                    c => c.Tenant,
                     c => c.Term,
                     c => c.Term.TermMiscellaneous,
                     c => c.AccountStatements
@@ -285,6 +287,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         {
                             var newContractAccountStatement = RegisterNewAccountStament(contract);
                             contract.AccountStatements.Add(newContractAccountStatement);
+                            listOfNewAccountStatements.Add(newContractAccountStatement);
                         }
                     }
 
@@ -294,6 +297,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         var newContractAccountStatement = RegisterNewAccountStament(contract);
                         contract.AccountStatements.Add(newContractAccountStatement);
+                        listOfNewAccountStatements.Add(newContractAccountStatement);
                     }
                 }
             }
@@ -301,6 +305,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
             try
             {
                 await _contractRepository.SaveChanges();
+
+                // Send push notifications on the device subscribing to db hash name topic
+                await SendPushNotifications(dbHashName, contract, listOfNewAccountStatements);
             }
             catch (Exception ex)
             {
@@ -779,6 +786,27 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
 
             return content.ToString();
+        }
+
+        private async Task SendPushNotifications(string dbHashName, Contract contract, List<AccountStatement> newAccountStatements)
+        {
+
+            var notificationTitle = "New Statement of Account";
+            var fireBasePushNotificationService = new FireBasePushNotificationService(dbHashName);
+            foreach (var accountStatement in newAccountStatements)
+            {
+                try
+                {
+                    var accountStatementDate = accountStatement.DueDate.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone).ToString("MM/dd/yyyy");
+                    var notificationBody = $"New statement of account generated for customer {contract.Tenant.PersonFullName} for {accountStatementDate} ({contract.Code})";
+
+                    await fireBasePushNotificationService.Send(notificationTitle, notificationBody);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error on sending push notification for client {dbHashName}. Error Message {ex.Message}");
+                }
+            }
         }
     }
 }
