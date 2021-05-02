@@ -67,6 +67,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
             services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
+            services.AddScoped(typeof(ITestRepository<IEntity>), typeof(TestRepository));
             services.AddScoped(typeof(IClientDbManagerRepository<IEntity>), typeof(ClientDbManagerRepository));
             services.AddScoped(typeof(IAppGlobalSettingsRepository<AppGlobalSettings>), typeof(AppGlobalSettingsRepository));
             services.AddScoped(typeof(IPaginationService), typeof(PaginationService));
@@ -91,7 +92,7 @@ namespace ReserbizAPP.API
 
             // Database connection to any Reserbiz Client Databases
             // Applied dynamic approach if current ef migration is not activated based on appsettings
-            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:ActivateEFMigration").Value);
+            var ActivateEFMigration = Convert.ToBoolean(Configuration.GetSection("AppSettings:GeneralSettings:ActivateEFMigration").Value);
 
             if (ActivateEFMigration)
             {

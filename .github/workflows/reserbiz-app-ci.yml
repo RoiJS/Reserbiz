@@ -6,7 +6,7 @@ on:
     paths: [.github/workflows/**, ReserbizAPP/**]
 
   pull_request:
-    branches: [master, developement]
+    branches: [master, development]
     paths: [.github/workflows/**, ReserbizAPP/**]
 
 jobs:

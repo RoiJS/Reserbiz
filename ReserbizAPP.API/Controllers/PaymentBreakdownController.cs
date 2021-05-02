@@ -5,12 +5,10 @@ using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
-using System.Security.Claims;
 using System;
 using AutoMapper;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
-using System.Linq;
 using Microsoft.Extensions.Options;
 
 namespace ReserbizAPP.API.Controllers

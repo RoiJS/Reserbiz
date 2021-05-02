@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -7,10 +7,12 @@ import { PageRoute, RouterExtensions } from '@nativescript/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
 
+import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Contract } from '@src/app/_models/contract.model';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
@@ -25,10 +27,13 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   private _isBusy = false;
 
   private _updateContractListFlag: Subscription;
+  private _firstAccountStatement: AccountStatement;
 
   constructor(
+    protected accountStatementService: AccountStatementService,
     private contractService: ContractService,
     private dialogService: DialogService,
+    private ngZone: NgZone,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
     private spaceService: SpaceService,
@@ -56,13 +61,19 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   getContractInformation() {
     this._isBusy = true;
 
-    (async () => {
-      this._currentContract = await this.contractService.getContract(
-        this._currentContractId
-      );
+    this.ngZone.run(() => {
+      (async () => {
+        this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
+          this._currentContractId
+        );
 
-      this._isBusy = false;
-    })();
+        this._currentContract = await this.contractService.getContract(
+          this._currentContractId
+        );
+
+        this._isBusy = false;
+      })();
+    });
   }
 
   deactivateContract() {
@@ -184,8 +195,79 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
     });
   }
 
+  encashDepositAmount(status: boolean) {
+    let title = '';
+    let confirmationMessage = '';
+    let successMessage = '';
+    let errorMessage = '';
+
+    if (status) {
+      title = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.TITLE'
+      );
+      confirmationMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE'
+      );
+      successMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE'
+      );
+      errorMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE'
+      );
+    } else {
+      title = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.TITLE'
+      );
+      confirmationMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE'
+      );
+      successMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE'
+      );
+      errorMessage = this.translateService.instant(
+        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE'
+      );
+    }
+
+    this.dialogService
+      .confirm(title, confirmationMessage)
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.contractService
+            .setEncashDepositAmountStatus(this._currentContract.id, status)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(title, successMessage);
+                this.accountStatementService.reloadListFlag(true);
+              },
+              (error: Error) => {
+                this.dialogService.alert(title, errorMessage);
+              }
+            );
+        }
+      });
+  }
+
   get currentContract(): Contract {
     return this._currentContract;
+  }
+
+  get isContractArchived(): boolean {
+    return Boolean(
+      this.currentContract &&
+        (!this._currentContract?.isActive || this._currentContract?.isExpired)
+    );
+  }
+
+  get isEncashedDepositAmount(): boolean {
+    return this._currentContract?.encashDepositAmount;
+  }
+
+  get isDepositAmountFullyPaid(): boolean {
+    return this._firstAccountStatement?.isFullyPaid;
   }
 
   get IsBusy(): boolean {

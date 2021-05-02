@@ -139,6 +139,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<ClientSettingsForUpdateDto, ClientSettings>();
             CreateMap<UserAccountDto, UserAccount>();
             CreateMap<ClientDto, Client>();
+            CreateMap<GeneralInformationDto, GeneralInformation>();
         }
     }
 }

@@ -28,6 +28,7 @@
             class="fa fa-solid page-container__page-command contract-account-list-container__button -rounded-lg"
             [ngClass]="{'contract-account-list-container__button--active': isFilterActive}"
             (tap)="openAddAccountStatementDialog()"
+            *ngIf="!IsCurrentContractArchived"
             text="&#xf067;"
           ></button>
           <button
@@ -168,7 +169,7 @@
 
     <!-- #Start Contract Account Statement Footer Details Section -->
     <StackLayout class="contract-account-statement-list-footer">
-      <GridLayout rows="*, *" columns="*, 5, *">
+      <GridLayout rows="*, *, *" columns="*, 5, *">
         <!-- #Start Total Amount Paid Section -->
         <StackLayout
           horizontalAlignment="center"
@@ -286,6 +287,35 @@
             <label
               class="contract-account-statement-list-footer__total-expected-deposit-amount-section-detail"
               [text]="totalExpectedDepositAmount"
+            ></label>
+          </StackLayout>
+        </StackLayout>
+        <!-- #End -->
+
+        <!-- #Start Encashed Deposit Section -->
+        <StackLayout
+        *ngIf="true"
+          horizontalAlignment="center"
+          row="2"
+          colSpan="3"
+          class="contract-account-statement-list-footer__encashed-deposit-amount-section"
+        >
+          <label
+            class="contract-account-statement-list-footer__encashed-deposit-amount-section-label"
+            [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_ENCASHED_DEPOSIT_AMOUNT'| translate"
+          ></label>
+          <StackLayout
+            orientation="horizontal"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+          >
+            <label
+              text="&#xf53d;"
+              class="fa fa-solid m-r-5 contract-account-statement-list-footer__encashed-deposit-amount-section-icon"
+            ></label>
+            <label
+              class="contract-account-statement-list-footer__encashed-deposit-amount-section-detail"
+              [text]="totalEncashedDepositedAmount"
             ></label>
           </StackLayout>
         </StackLayout>

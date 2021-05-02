@@ -112,7 +112,7 @@
     <StackLayout
       row="2"
       column="2"
-      *ngIf="!currentContract?.isActive || currentContract?.isExpired"
+      *ngIf="isContractArchived"
     >
       <StackLayout
         orientation="horizontal"

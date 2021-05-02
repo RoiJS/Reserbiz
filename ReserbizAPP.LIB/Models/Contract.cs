@@ -25,6 +25,11 @@ namespace ReserbizAPP.LIB.Models
 
         public bool IsOpenContract { get; set; }
 
+        public bool EncashDepositAmount { get; set; }
+        public int? EncashedDepositAmountByAccountId { get; set; }
+        public Account EncashedDepositAmountByAccount { get; set; }
+        public DateTime EncashedDepositAmountDateTime { get; set; }
+
         public int DurationValue { get; set; }
 
         public DurationEnum DurationUnit { get; set; }

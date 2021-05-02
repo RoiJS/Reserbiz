@@ -49,11 +49,14 @@ export class ContractAccountStatementListPanelComponent
   extends BaseListComponent<AccountStatement>
   implements IBaseListComponent, OnInit, OnChanges {
   @Input() currentContractId: number;
+  @Input() IsCurrentContractArchived: boolean;
+  @Input() IsCurrentContractEncashedDepositAmount: boolean;
 
   private _totalExpectedAmount = 0;
   private _totalPaidAmount = 0;
   private _totalExpectedDepositAmount = 0;
   private _totalPaidAmountFromDeposit = 0;
+  private _totalEncashedDepositedAmount= 0;
 
   private ACCOUNT_STATMENT_FILTER_FROM_DATE = 'AccountStatementFilter_fromDate';
   private ACCOUNT_STATMENT_FILTER_TO_DATE = 'AccountStatementFilter_toDate';
@@ -96,6 +99,7 @@ export class ContractAccountStatementListPanelComponent
 
             this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
             this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
+            this._totalEncashedDepositedAmount = e.totalEncashedDepositedAmount;
           });
         });
     }
@@ -382,5 +386,9 @@ export class ContractAccountStatementListPanelComponent
 
   get totalExpectedDepositAmount(): string {
     return NumberFormatter.formatCurrency(this._totalExpectedDepositAmount);
+  }
+
+  get totalEncashedDepositedAmount(): string {
+    return NumberFormatter.formatCurrency(this._totalEncashedDepositedAmount);
   }
 }

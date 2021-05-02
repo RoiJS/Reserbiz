@@ -90,7 +90,7 @@
   },
 
   "SIDE_DRAWER_SECTION": {
-    "FOOTER" : {
+    "FOOTER": {
       "VERSION": "Version",
       "COPYRIGHT": "Copyright 2021.",
       "ALL_RIGHTS_RESERVED": "All rights reserved"
@@ -226,7 +226,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate selected tenant",
-      "CONFIRM_MESSAGE": "Are you sure to deactivate selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
       "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
     }
@@ -348,7 +348,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate tenant",
-      "CONFIRM_MESSAGE": "Are you sure to deactivate this tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
       "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
     }
@@ -1156,7 +1156,11 @@
     "ACTION_BAR_SECTION": {
       "TITLE": "Contract Details",
       "OPTIONS": {
-        "MANAGE_TERM_DETAILS": "Manage Term Details"
+        "MANAGE_TERM_DETAILS": "Manage Term Details",
+        "ARCHIVE": "Archive",
+        "UNARCHIVE": "Unarchive",
+        "ENCASH_DEPOSIT_AMOUNT": "Encash Deposit Amount",
+        "RETURN_ENCASHED_DEPOSIT_AMOUNT": "Return Encashed Deposit Amount"
       }
     },
     "DETAILS_SECTION": {
@@ -1185,6 +1189,18 @@
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
       "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
+    },
+    "ENCASH_DEPOSIT_AMOUNT_DIALOG": {
+      "TITLE": "Encash Deposit Amount",
+      "CONFIRM_MESSAGE": "Are you sure to encash deposit amount?",
+      "SUCCESS_MESSAGE": "Deposit Amount has been encashed",
+      "ERROR_MESSAGE": "Failed to encash deposit amount. Please try again later."
+    },
+    "RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG": {
+      "TITLE": "Return Encashed Deposit Amount",
+      "CONFIRM_MESSAGE": "Are you sure to return encashed deposit amount?",
+      "SUCCESS_MESSAGE": "Encashed deposit amount has been returned",
+      "ERROR_MESSAGE": "Failed to return encashed deposit amount. Please try again later."
     }
   },
 
@@ -1199,14 +1215,16 @@
 
   "ACCOUNT_STATEMENT_DETAILS": {
     "ACTION_BAR_SECTION": {
-      "TITLE": "Statement of Account",
+      "TITLE": "STATEMENT OF ACCOUNT",
       "OPTIONS": {
         "PAYMENTS": "Payments",
         "PENALTIES": "Penalties"
       }
     },
+    "SEND_DETAILS": "Send Details",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
+      "DUE_DATE": "Due Date",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
       "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
       "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
@@ -1247,7 +1265,8 @@
     "TOTAL_PAID_AMOUNT": "Total Paid Amount",
     "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount",
     "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit",
-    "TOTAL_EXPECTED_DEPOSIT_AMOUNT": "Expected Deposit Amount"
+    "TOTAL_EXPECTED_DEPOSIT_AMOUNT": "Expected Deposit Amount",
+    "TOTAL_ENCASHED_DEPOSIT_AMOUNT": "Encashed Deposit Amount"
   },
 
   "ACCOUNT_STATEMENT_FILTER_DIALOG": {

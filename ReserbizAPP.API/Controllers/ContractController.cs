@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
@@ -28,11 +29,14 @@ namespace ReserbizAPP.API.Controllers
 
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepository;
         private readonly ITermRepository<Term> _termRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ContractController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
             IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository,
             ISpaceTypeRepository<SpaceType> spaceTypeRepository, ITermRepository<Term> termRepository,
-             IMapper mapper, IPaginationService paginationService)
+             IMapper mapper, IPaginationService paginationService,
+             IHttpContextAccessor httpContextAccessor
+            )
         {
             _mapper = mapper;
             _accountStatementRepository = accountStatementRepository;
@@ -41,6 +45,7 @@ namespace ReserbizAPP.API.Controllers
             _paginationService = paginationService;
             _spaceTypeRepository = spaceTypeRepository;
             _termRepository = termRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("create")]
@@ -55,8 +60,9 @@ namespace ReserbizAPP.API.Controllers
 
             try
             {
-                // (2) This will auto generate statement of accounts for the contract
-                await _accountStatementRepository.GenerateContractAccountStatements(contractToCreate.Id);
+                // (2) This will auto generate statement of accounts for the contrac
+                var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
+                 await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contractToCreate.Id);
             }
             catch (Exception ex)
             {
@@ -317,6 +323,19 @@ namespace ReserbizAPP.API.Controllers
             return Ok(expirationDate);
         }
 
+        [HttpPut("setEncashDepositAmountStatus/{contractId}/{status}")]
+        public async Task<IActionResult> SetEncashDepositAmountStatus(int contractId, bool status)
+        {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
+
+            if (contractFromRepo == null)
+                return NotFound("Contract not found.");
+
+            if (await _contractRepository.SetEncashDepositAmountStatus(contractFromRepo, status, CurrentUserId))
+                return NoContent();
+
+            throw new Exception($"Updating contract status with an id of {contractId} failed on save.");
+        }
 
         [HttpGet("getActiveContractsCount")]
         public async Task<ActionResult<int>> GetActiveContractsCount()

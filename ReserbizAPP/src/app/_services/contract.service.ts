@@ -69,6 +69,15 @@ export class ContractService
     );
   }
 
+  setEncashDepositAmountStatus(
+    contractId: number,
+    status: boolean
+  ): Observable<void> {
+    return this.setEntityStatusOnServer(
+      `${this._apiBaseUrl}/contract/setEncashDepositAmountStatus/${contractId}/${status}`
+    );
+  }
+
   updateEntity(contractForUpdateDto: IDtoProcess): Observable<void> {
     return this.updateEntityToServer(
       `${this._apiBaseUrl}/contract/${contractForUpdateDto.id}`,
@@ -253,7 +262,9 @@ export class ContractService
 
   async getAccountStatementsAmountSummary(): Promise<number> {
     return this.http
-      .get<number>(`${this._apiBaseUrl}/contract/getAccountStatementsAmountSummary`)
+      .get<number>(
+        `${this._apiBaseUrl}/contract/getAccountStatementsAmountSummary`
+      )
       .toPromise();
   }
 

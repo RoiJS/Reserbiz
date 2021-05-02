@@ -9,9 +9,12 @@ import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
+import { Contract } from '@src/app/_models/contract.model';
+
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
+import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
@@ -32,10 +35,12 @@ export class ContractAccountStatementInformationComponent
 
   private waterBillAmountOriginal: number;
   private electricBillAmountOriginal: number;
+  private _contract: Contract;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private accountStatementService: AccountStatementService,
+    private contractService: ContractService,
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private pageRoute: PageRoute,
@@ -47,10 +52,11 @@ export class ContractAccountStatementInformationComponent
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
         this._currentAccountStatementId = +paramMap.get('accountStatmentId');
+        const contractId = +paramMap.get('contractId');
 
         this._updateAccountStatementListFlag = this.accountStatementService.loadAccountStatementListFlag.subscribe(
           () => {
-            this.getAccountStatmentInformation();
+            this.getAccountStatmentInformation(contractId);
           }
         );
       });
@@ -63,10 +69,12 @@ export class ContractAccountStatementInformationComponent
     this._updateAccountStatementListFlag.unsubscribe();
   }
 
-  getAccountStatmentInformation() {
+  getAccountStatmentInformation(contractId: number) {
     this._isBusy = true;
 
     (async () => {
+      this._contract = await this.contractService.getContract(contractId);
+
       this._currentAccountStatement = await this.accountStatementService.getAccountStatement(
         this._currentAccountStatementId
       );
@@ -173,8 +181,8 @@ export class ContractAccountStatementInformationComponent
           'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.CONFIRM_MESSAGE'
         )
       )
-      .then((result: boolean) => {
-        if (result) {
+      .then((result: ButtonOptions) => {
+        if (result === ButtonOptions.YES) {
           this._isBusy = true;
           (async () => {
             try {
@@ -246,6 +254,10 @@ export class ContractAccountStatementInformationComponent
     }
 
     return NumberFormatter.formatCurrency(grandTotal);
+  }
+
+  get pageTitle(): string {
+    return this._contract?.code;
   }
 
   navigateToOtherPage(mainUrl: string) {

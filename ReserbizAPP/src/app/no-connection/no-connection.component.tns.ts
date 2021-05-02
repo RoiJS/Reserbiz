@@ -32,7 +32,7 @@ export class NoConnectionComponent implements OnInit {
       this.checkConnectionService.currentConnectionType.value !==
       connectionType.none
     ) {
-      this.routerExtensions.navigate(['/dashboard']);
+      this.routerExtensions.navigate(['/auth']);
     }
   }
 }

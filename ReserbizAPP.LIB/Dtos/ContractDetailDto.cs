@@ -30,6 +30,7 @@ namespace ReserbizAPP.LIB.Dtos
         public DateTime EffectiveDate { get; set; }
 
         public bool IsOpenContract { get; set; }
+        public bool EncashDepositAmount { get; set; }
 
         public int DurationValue { get; set; }
 

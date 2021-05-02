@@ -38,6 +38,7 @@ import { AppVersionService } from './_services/app-version.service';
 import { CheckConnectionService } from './_services/check-connection.service';
 import { DialogService } from './_services/dialog.service';
 import { GeneralInformationService } from './_services/general-information.service';
+import { PushNotificationService } from './_services/push-notification.service';
 import { SideDrawerService } from './_services/side-drawer.service';
 import { SettingsService } from './_services/settings.service';
 import { UIService } from './_services/ui.service';
@@ -83,14 +84,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private dialogService: DialogService,
     private generalInformationService: GeneralInformationService,
-    private zone: NgZone,
+    private pushNotificationService: PushNotificationService,
     private router: Router,
     private routerExtensions: RouterExtensions,
     private settingsService: SettingsService,
     private sideDrawerService: SideDrawerService,
     private uiService: UIService,
     private vcRef: ViewContainerRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private zone: NgZone
   ) {
     this.signalrCore = new SignalrCore();
     this.translate.setDefaultLang('en');
@@ -114,6 +116,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initMonitorConnectivityRedirection();
 
     this.connectToSignalRServer();
+    this.initPushNotification();
   }
 
   ngOnDestroy() {
@@ -314,6 +317,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
     );
+  }
+
+  private initPushNotification() {
+    this.pushNotificationService.subscribe();
   }
 
   get currentUserFullname(): string {

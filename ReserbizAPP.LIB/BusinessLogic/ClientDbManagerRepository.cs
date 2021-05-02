@@ -13,10 +13,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
     public class ClientDbManagerRepository
         : BaseRepository<IEntity>, IClientDbManagerRepository<IEntity>
     {
-        private readonly IOptions<AppSettingsURL> _appSettingsUrl;
-        public ClientDbManagerRepository(IReserbizRepository<IEntity> reserbizRepository, IOptions<AppSettingsURL> _appSettingsUrl) : base(reserbizRepository, reserbizRepository.SystemDbContext)
+        private readonly IOptions<AppHostInfo> _appHostInfo;
+        private readonly IOptions<ApplicationSettings> _applicationSettings;
+
+        public ClientDbManagerRepository(
+            IReserbizRepository<IEntity> reserbizRepository,
+            IOptions<AppHostInfo> appHostInfo,
+            IOptions<ApplicationSettings> applicationSettings)
+            : base(reserbizRepository, reserbizRepository.SystemDbContext)
         {
-            this._appSettingsUrl = _appSettingsUrl;
+            _appHostInfo = appHostInfo;
+            _applicationSettings = applicationSettings;
         }
 
         public async Task SyncAllClientDatabases()
@@ -35,7 +42,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             try
             {
-                var httpClient = new RestClient(_appSettingsUrl.Value.SyncDatabaseURL);
+                var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _applicationSettings.Value.AppSettingsURL.SyncDatabaseURL);
+                var httpClient = new RestClient(url);
                 httpClient.Timeout = -1;
                 var httpRequest = new RestRequest(Method.POST);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);

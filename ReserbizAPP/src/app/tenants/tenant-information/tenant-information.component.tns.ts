@@ -27,7 +27,6 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialogService: DialogService,
-    private page: Page,
     private pageRoute: PageRoute,
     private router: RouterExtensions,
     private tenantService: TenantService,

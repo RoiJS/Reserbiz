@@ -1,5 +1,9 @@
 @import '../../../../../app-variables';
 
+Button {
+  color: $white;
+}
+
 .txt-water-bill-amount,
 .txt-electric-bill-amount {
   width: 100%;
@@ -20,7 +24,14 @@
     border-bottom-width: 0;
 
     TextField {
-      padding: 0;
+      padding: 5;
+      border-width: 2;
+      border-radius: 50%;
+      background-color: $white;
+      height: 30;
+      margin: 0;
+      placeholder-color: $inactivate;
+      width: 100;
     }
 
     .bill-category-name {

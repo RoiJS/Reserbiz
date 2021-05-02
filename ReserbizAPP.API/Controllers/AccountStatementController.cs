@@ -9,6 +9,7 @@ using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -22,16 +23,21 @@ namespace ReserbizAPP.API.Controllers
         private readonly IContractRepository<Contract> _contractRepository;
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IPaginationService _paginationService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AccountStatementController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
-            ITenantRepository<Tenant> tenantRepository, IContractRepository<Contract> contractRepository,
-            IMapper mapper, IPaginationService paginationService)
+        public AccountStatementController(
+            IAccountStatementRepository<AccountStatement> accountStatementRepository,
+            ITenantRepository<Tenant> tenantRepository,
+            IContractRepository<Contract> contractRepository,
+            IMapper mapper, IPaginationService paginationService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _tenantRepository = tenantRepository;
             _contractRepository = contractRepository;
             _accountStatementRepository = accountStatementRepository;
             _paginationService = paginationService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{id}")]
@@ -50,6 +56,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getAccountStatementsPerContract")]
         public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, SortOrderEnum sortOrder, int page)
         {
+            var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
             var accountStatementsFromRepo = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contractId);
             var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
 
@@ -71,6 +78,7 @@ namespace ReserbizAPP.API.Controllers
             entityPaginationListDto.TotalPaidAmount = accountStatementsFromRepo.Sum(a => a.CurrentAmountPaid);
             entityPaginationListDto.TotalExpectedDepositAmount = firstAccountStatement != null ? firstAccountStatement.CalculatedDepositAmount : 0;
             entityPaginationListDto.TotalPaidAmountFromDeposit = await _accountStatementRepository.CalculateOverAllPaymentUsedFromDepositedAmount(contractId);
+            entityPaginationListDto.TotalEncashedDepositedAmount = contractFromRepo.EncashDepositAmount ? (entityPaginationListDto.TotalExpectedDepositAmount - entityPaginationListDto.TotalPaidAmountFromDeposit) : 0;
 
             return Ok(entityPaginationListDto);
         }
@@ -229,7 +237,8 @@ namespace ReserbizAPP.API.Controllers
                 {
                     try
                     {
-                        await _accountStatementRepository.GenerateContractAccountStatements(contract.Id);
+                        var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
+                        await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contract.Id);
                     }
                     catch (Exception exception)
                     {

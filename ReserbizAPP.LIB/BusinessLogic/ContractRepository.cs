@@ -255,5 +255,14 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             return false;
         }
+
+        public async Task<bool> SetEncashDepositAmountStatus(Contract contract, bool status, int currentUserId)
+        {
+            contract.EncashDepositAmount = status;
+            contract.EncashedDepositAmountByAccountId = currentUserId;
+            contract.EncashedDepositAmountDateTime = DateTime.Now;
+
+            return await SaveChanges();
+        }
     }
 }
