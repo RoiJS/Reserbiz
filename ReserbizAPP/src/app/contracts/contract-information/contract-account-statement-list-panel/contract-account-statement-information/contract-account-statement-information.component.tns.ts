@@ -222,6 +222,7 @@ export class ContractAccountStatementInformationComponent
   get waterAndElecitricBillAmountformGroup(): FormGroup {
     return this._waterAndElecitricBillAmountformGroup;
   }
+
   get IsBusy(): boolean {
     return this._isBusy;
   }
@@ -258,6 +259,12 @@ export class ContractAccountStatementInformationComponent
 
   get pageTitle(): string {
     return this._contract?.code;
+  }
+
+  get sendDetailsButtonText(): string {
+    return `${String.fromCharCode(0xf0e0)} ${this.translateService.instant(
+      'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS'
+    )}`;
   }
 
   navigateToOtherPage(mainUrl: string) {
