@@ -30,7 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SignalrCore } from 'nativescript-signalr-core';
 
-import { filter } from 'rxjs/operators';
+import { delay, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './_services/auth.service';
@@ -277,8 +277,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initMonitorConnectivityRedirection() {
-    this.checkConnectionSub = this.checkConnectionService.currentConnectionType.subscribe(
-      (currentConnection: connectionType) => {
+    this.checkConnectionSub = this.checkConnectionService.currentConnectionType
+      .pipe(delay(5000))
+      .subscribe((currentConnection: connectionType) => {
         this.zone.run(() => {
           let route = '';
           if (currentConnection === connectionType.none) {
@@ -326,8 +327,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
               });
           }
         });
-      }
-    );
+      });
   }
 
   private initPushNotification() {

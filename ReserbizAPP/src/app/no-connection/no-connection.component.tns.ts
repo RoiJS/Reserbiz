@@ -3,7 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular';
 
 import { Page } from '@nativescript/core';
-import { connectionType } from '@nativescript/core/connectivity';
+import {
+  connectionType,
+  getConnectionType,
+} from '@nativescript/core/connectivity';
 
 import { CheckConnectionService } from '../_services/check-connection.service';
 
@@ -28,10 +31,8 @@ export class NoConnectionComponent implements OnInit {
   }
 
   tryAgain() {
-    if (
-      this.checkConnectionService.currentConnectionType.value !==
-      connectionType.none
-    ) {
+    const currentConnectionType = getConnectionType();
+    if (currentConnectionType !== connectionType.none) {
       this.routerExtensions.navigate(['/auth']);
     }
   }
