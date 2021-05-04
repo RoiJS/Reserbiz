@@ -127,9 +127,6 @@ namespace ReserbizAPP.API.Controllers
             var userRefreshTokenFromRepo = await _refreshTokenRepository.GetRefreshToken(request.RefreshToken);
             var newRefreshToken = _authRepo.GenerateNewRefreshToken();
 
-            // Removed expired refresh tokens
-            await _authRepo.RemoveExpiredRefreshTokens();
-
             userFromRepo.RefreshTokens.Add(newRefreshToken);
 
             if (!await _authRepo.SaveChanges())
@@ -140,8 +137,8 @@ namespace ReserbizAPP.API.Controllers
             return Ok(new AuthenticationTokenInfoDto
             {
                 AccessToken = newAccessToken,
-                ExpiresIn = userRefreshTokenFromRepo.ExpirationDate,
-                RefreshToken = userRefreshTokenFromRepo.Token
+                ExpiresIn = newRefreshToken.ExpirationDate,
+                RefreshToken = newRefreshToken.Token
             });
         }
 
