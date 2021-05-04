@@ -3,6 +3,7 @@ import { isAndroid, Page } from '@nativescript/core';
 import { RouterExtensions } from '@nativescript/angular';
 
 import { UIService } from '../../../_services/ui.service';
+import { PushNotificationService } from '@src/app/_services/push-notification.service';
 
 declare var android: any;
 
@@ -21,6 +22,7 @@ export class ActionBarComponent implements OnInit {
 
   constructor(
     private page: Page,
+    private pushNotificationService: PushNotificationService,
     private router: RouterExtensions,
     private uiService: UIService
   ) {}
@@ -40,6 +42,14 @@ export class ActionBarComponent implements OnInit {
       if (this.router.canGoBack()) {
         this.uiService.hideKeyboard();
         this.router.back();
+      } else {
+        // When opening a details page via the push notification,
+        // the back button is not working so I decided to add this workaround below.
+        if (this.pushNotificationService.navigateToUrl.getValue()) {
+          this.router.navigate(['dashboard'], {
+            clearHistory: true,
+          });
+        }
       }
     } else {
       this.onNavigationBack.emit();

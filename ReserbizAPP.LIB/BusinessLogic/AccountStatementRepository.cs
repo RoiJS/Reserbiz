@@ -797,14 +797,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 try
                 {
-                    var accountStatementDate = accountStatement.DueDate.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone).ToString("MM/dd/yyyy");
+                    var accountStatementDate = accountStatement.DueDate.ToString("MM/dd/yyyy");
                     var notificationBody = $"New statement of account generated for customer {contract.Tenant.PersonFullName} for {accountStatementDate} ({contract.Code})";
+                    var data = new Dictionary<string, string>();
 
-                    await fireBasePushNotificationService.Send(notificationTitle, notificationBody);
+                    data.Add("url", $"contracts/{contract.Id}/account-statement/{accountStatement.Id}");
+
+                    await fireBasePushNotificationService.Send(notificationTitle, notificationBody, data);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Error on sending push notification for client {dbHashName}. Error Message {ex.Message}");
+                    throw new Exception($"Error when sending push notification for client {dbHashName}. Error Message {ex.Message}");
                 }
             }
         }

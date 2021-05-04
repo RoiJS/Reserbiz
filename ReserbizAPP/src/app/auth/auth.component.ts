@@ -71,17 +71,21 @@ export class AuthComponent implements OnInit {
           this.authService.login(this.username, this.password).subscribe(
             () => {
               (async () => {
-                await this.settingsService.getSettingsDetails();
-
                 // Subscribe to push notifications
                 this.pushNotificationService.subscribe();
 
-                this.router.navigate(['/dashboard'], {
-                  transition: {
-                    name: 'slideLeft',
-                  },
-                  clearHistory: true,
-                });
+                const notificationNavigateToUrl = this.pushNotificationService.navigateToUrl.getValue();
+
+                await this.settingsService.getSettingsDetails();
+
+                if (!notificationNavigateToUrl) {
+                  this.router.navigate(['/dashboard'], {
+                    transition: {
+                      name: 'slideLeft',
+                    },
+                    clearHistory: true,
+                  });
+                }
               })();
             },
             (error: any) => {

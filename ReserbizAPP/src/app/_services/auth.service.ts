@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+import { PushNotificationService } from './push-notification.service';
 import { RoutingService } from './routing.service';
 import { StorageService } from './storage.service';
 
@@ -34,6 +35,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private pushNotificationService: PushNotificationService,
     private routingService: RoutingService,
     private storageService: StorageService
   ) {}
@@ -144,7 +146,7 @@ export class AuthService {
       );
   }
 
-  logout() {
+  logout(redirect: boolean = true) {
     this._user.next(null);
     this._tokenInfo.next(null);
 
@@ -155,23 +157,24 @@ export class AuthService {
     if (this._tokenExpirationTimer) {
       clearTimeout(this._tokenExpirationTimer);
     }
-    this.routingService.replace(['/auth']);
+
+    this.pushNotificationService.navigateToUrl.next(false);
+
+    if (redirect) {
+      this.routingService.replace(['/auth']);
+    }
   }
 
   updatePersonalInformation(user: UserPersonalInfoFormSource): Observable<any> {
     return this.http.put(
-      `${
-        environment.reserbizAPIEndPoint
-      }/auth/updatePersonalInformation/${this.userId}`,
+      `${environment.reserbizAPIEndPoint}/auth/updatePersonalInformation/${this.userId}`,
       user
     );
   }
 
   updateAccountInformation(user: UserAccountInfoFormSource): Observable<any> {
     return this.http.put(
-      `${
-        environment.reserbizAPIEndPoint
-      }/auth/updateAccountInformation/${this.userId}`,
+      `${environment.reserbizAPIEndPoint}/auth/updateAccountInformation/${this.userId}`,
       user
     );
   }
@@ -179,9 +182,7 @@ export class AuthService {
   validateUsernameExists(username: string): Observable<boolean> {
     return this.http
       .get(
-        `${
-          environment.reserbizAPIEndPoint
-        }/auth/validateUsernameExists/${this.userId}/${username}`
+        `${environment.reserbizAPIEndPoint}/auth/validateUsernameExists/${this.userId}/${username}`
       )
       .pipe(
         tap((res: boolean) => {
