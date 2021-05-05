@@ -46,11 +46,13 @@ export class PushNotificationService {
       });
 
       LocalNotifications.addOnMessageReceivedCallback((data) => {
-        if (!data.payload.foreground) {
-          this._navigateToUrl.next(true);
-          this._url.next(data.payload.url);
-          this.router.navigate([data.payload.url]);
-        }
+        this.zone.run(() => {
+          if (!data.payload.foreground) {
+            this._navigateToUrl.next(true);
+            this._url.next(data.payload.url);
+            this.router.navigate([data.payload.url]);
+          }
+        });
       });
     }
   }

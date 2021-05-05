@@ -71,21 +71,25 @@ export class AuthComponent implements OnInit {
           this.authService.login(this.username, this.password).subscribe(
             () => {
               (async () => {
+                await this.settingsService.getSettingsDetails();
+
                 // Subscribe to push notifications
                 this.pushNotificationService.subscribe();
 
-                const notificationNavigateToUrl = this.pushNotificationService.navigateToUrl.getValue();
-
-                await this.settingsService.getSettingsDetails();
-
-                if (!notificationNavigateToUrl) {
-                  this.router.navigate(['/dashboard'], {
-                    transition: {
-                      name: 'slideLeft',
-                    },
-                    clearHistory: true,
-                  });
+                // Check if the user opens the app via the notification.
+                // If so, redirect to the url provided by the notification,
+                // Otherwise, proceed to dashboard page
+                let route = '/dashboard';
+                if (this.pushNotificationService.navigateToUrl.getValue()) {
+                  route = this.pushNotificationService.url.getValue();
                 }
+
+                this.router.navigate([route], {
+                  transition: {
+                    name: 'slideLeft',
+                  },
+                  clearHistory: true,
+                });
               })();
             },
             (error: any) => {

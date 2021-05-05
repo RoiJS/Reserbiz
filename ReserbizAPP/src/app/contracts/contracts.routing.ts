@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '../_guards/auth.guard';
 
 import { ContractListComponent } from './contract-list/contract-list.component';
 
@@ -46,5 +47,6 @@ export const routes: Routes = [
       import('./contract-information/contract-information.module').then(
         (m) => m.ContractInformationModule
       ),
+    canLoad: [AuthGuard],
   },
 ];

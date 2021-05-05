@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -246,6 +246,23 @@ export class AuthService {
     }, expiryDuration);
   }
 
+  checkUserAcces(): Observable<boolean> | Promise<boolean> | boolean {
+    return this.authToken.pipe(
+      take(1),
+      switchMap((tokenInfo: AuthToken) => {
+        if (!tokenInfo || !tokenInfo.token) {
+          return this.autoLogin();
+        }
+
+        return of(true);
+      }),
+      tap((isAuth) => {
+        if (!isAuth) {
+          this.routingService.replace(['/auth']);
+        }
+      })
+    );
+  }
   private handleLogin(
     accessToken: string,
     refreshToken: string,

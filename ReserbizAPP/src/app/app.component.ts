@@ -285,10 +285,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           if (currentConnection === connectionType.none) {
             route = '/no-connection';
 
-            // Reset the notification navigateToUrl property to false  which indicates that
-            // the app is not opening due to a notification
-            this.pushNotificationService.navigateToUrl.next(false);
-
             // Auto-logout the user during system update.
             this.authService.logout(false);
 

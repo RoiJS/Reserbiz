@@ -23,8 +23,8 @@
   }
 
   .custom-action-item-button {
-    color: white;
-    background-color: $primary;
+    color: $white;
+    background: transparent;
     border-radius: 50%;
     font-size: 23;
     height: 40;
@@ -34,8 +34,8 @@
   }
 
   .custom-action-item-button--active {
-    color: $primary;
-    background-color: white;
+    color: $white;
+    background: $primary;
   }
 }
 /*#endregion*/

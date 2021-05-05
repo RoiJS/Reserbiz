@@ -51,7 +51,7 @@ export class ContractAccountStatementInformationComponent
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentAccountStatementId = +paramMap.get('accountStatmentId');
+        this._currentAccountStatementId = +paramMap.get('accountStatementId');
         const contractId = +paramMap.get('contractId');
 
         this._updateAccountStatementListFlag = this.accountStatementService.loadAccountStatementListFlag.subscribe(
