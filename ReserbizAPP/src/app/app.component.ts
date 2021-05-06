@@ -47,6 +47,7 @@ import { MainMenu } from './_models/main-menu.model';
 import { Settings } from './_models/settings.model';
 
 import { environment } from '@src/environments/environment';
+import { StorageService } from './_services/storage.service';
 
 // Import Websocket to be able to use SignalR
 declare var require;
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private routerExtensions: RouterExtensions,
     private settingsService: SettingsService,
     private sideDrawerService: SideDrawerService,
+    private storageService: StorageService,
     private uiService: UIService,
     private vcRef: ViewContainerRef,
     private translate: TranslateService,
@@ -199,6 +201,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           const loggedInUserIdFromOtherDevice = parseInt(data.arguments[0]);
           const loggedInUserNameFromOtherDevice = data.arguments[1];
           const currentLoggedInUser = this.authService.user.getValue();
+          const userData = this.storageService.getString('userData');
           let currentLoggedInUserId = 0;
 
           if (currentLoggedInUser) {
@@ -209,6 +212,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           // on different device, if so, auto logout the account
           // from the other device.
           if (
+            userData &&
             currentLoggedInUser &&
             currentLoggedInUserId === loggedInUserIdFromOtherDevice &&
             currentLoggedInUser.username === loggedInUserNameFromOtherDevice
