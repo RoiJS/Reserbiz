@@ -13,6 +13,7 @@ import { AccountStatementPaginationList } from '@src/app/_models/pagination_list
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { BaseWidgetService } from '@src/app/_services/base-widget.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-unpaid-account-statements-list',
@@ -41,21 +42,25 @@ export class UnpaidAccountStatementsListComponent
 
   ngOnInit() {
     this.baseWidgetService.isBusy.next(true);
-    setTimeout(() => {
-      this.accountStatementService
-        .getUnpaidAccountStatements()
-        .subscribe(
-          (accountStatementPaginationList: AccountStatementPaginationList) => {
-            this.baseWidgetService.listItemCount.next(
-              accountStatementPaginationList.totalItems
-            );
-            this.baseWidgetService.isBusy.next(false);
-            this._listItems = new ObservableArray<AccountStatement>(
-              <AccountStatement[]>accountStatementPaginationList.items
-            );
-          }
-        );
-    }, 2000);
+    this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag
+      .pipe(delay(2000))
+      .subscribe(() => {
+        this.accountStatementService
+          .getUnpaidAccountStatements()
+          .subscribe(
+            (
+              accountStatementPaginationList: AccountStatementPaginationList
+            ) => {
+              this.baseWidgetService.listItemCount.next(
+                accountStatementPaginationList.totalItems
+              );
+              this.baseWidgetService.isBusy.next(false);
+              this._listItems = new ObservableArray<AccountStatement>(
+                <AccountStatement[]>accountStatementPaginationList.items
+              );
+            }
+          );
+      });
   }
 
   selectItem(currentIndex: number, url: string) {
