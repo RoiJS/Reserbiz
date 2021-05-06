@@ -101,7 +101,7 @@ namespace ReserbizAPP.API.Controllers
         [HttpGet("getPaymentsPerAccountStatement")]
         public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
         {
-            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsAsync(accountStatementId, sortOrder);
+            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId, sortOrder);
 
             var mappedPaymentDetails = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(paymentBreakdownsFromRepo);
 

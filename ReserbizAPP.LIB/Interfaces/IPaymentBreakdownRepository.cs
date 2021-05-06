@@ -8,6 +8,6 @@ namespace ReserbizAPP.LIB.Interfaces
     public interface IPaymentBreakdownRepository<TEntity>
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
-        Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsAsync(int accountStatementId, SortOrderEnum sortOrder);
+        Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsPerAccountStatmentAsync(int accountStatementId, SortOrderEnum sortOrder);
     }
 }

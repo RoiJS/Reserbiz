@@ -96,17 +96,17 @@ export class AccountStatementsAmountSummaryComponent
   private getTotalUnpaidAmountPaidChartValue(
     accountStatementAmountSummary: AccountStatementsAmountSummary
   ): AccountStatementSummaryChart {
-    const totalExpectedAmountSummary = new AccountStatementSummaryChart();
-    totalExpectedAmountSummary.value =
-      accountStatementAmountSummary.totalExpectedAmount;
+    const totalUnpaidAmountSummary = new AccountStatementSummaryChart();
+    totalUnpaidAmountSummary.value =
+      accountStatementAmountSummary.totalUnpaidAmount;
     const totalExpectedAmountLegendLabel = `${this.translateService.instant(
       'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
     )} - ${this.translateService.instant(
       'GENERAL_TEXTS.CURRENCY.PHP'
-    )} ${totalExpectedAmountSummary.formattedValue()}`;
-    totalExpectedAmountSummary.name = totalExpectedAmountLegendLabel;
+    )} ${totalUnpaidAmountSummary.formattedValue()}`;
+    totalUnpaidAmountSummary.name = totalExpectedAmountLegendLabel;
 
-    return totalExpectedAmountSummary;
+    return totalUnpaidAmountSummary;
   }
 
   get accountStatementAmountSummary(): ObservableArray<AccountStatementSummaryChart> {

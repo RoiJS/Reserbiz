@@ -563,26 +563,26 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .OrderByDescending(c => c.DueDate)
                 .ToListAsync();
 
-            // Total Unpaid Amount 
-            var unpaidAccountStatementsTotalAmount = accountStatements
+            // Total Paid Amount 
+            var totalAmountPaid = accountStatements
                 .Where(c =>
                    c.IsActive &&
-                   c.IsDelete == false &&
-                   c.IsFullyPaid == false
+                   c.IsDelete == false
+                ).Sum(a => a.CurrentAmountPaid);
+
+            // Total Unpaid Amount 
+            var totalExpectedAmount = accountStatements
+                .Where(c =>
+                   c.IsActive &&
+                   c.IsDelete == false
                 ).Sum(a => a.AccountStatementTotalAmount);
 
-            // Total Paid Amount 
-            var paidAccountStatementsTotalAmount = accountStatements
-                .Where(c =>
-                   c.IsActive &&
-                   c.IsDelete == false &&
-                   c.IsFullyPaid == true
-                ).Sum(a => a.AccountStatementTotalAmount);
+            var totalUnpaidAmount = Math.Abs(totalAmountPaid - totalExpectedAmount);
 
             var amountSummary = new AccountStatementsAmountSummary
             {
-                TotalAmountPaid = paidAccountStatementsTotalAmount,
-                TotalExpectedAmount = unpaidAccountStatementsTotalAmount
+                TotalAmountPaid = totalAmountPaid,
+                TotalUnpaidAmount = totalUnpaidAmount
             };
 
             return amountSummary;
