@@ -5,8 +5,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageRoute, RouterExtensions } from '@nativescript/angular';
 import { ExtendedNavigationExtras } from '@nativescript/angular/router/router-extensions';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { TranslateService } from '@ngx-translate/core';
+
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Contract } from '@src/app/_models/contract.model';
@@ -159,6 +161,54 @@ export class ContractAccountStatementInformationComponent
           }
         });
     }
+  }
+
+  deleteSelectedItem() {
+    this.dialogService
+      .confirm(
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+        ),
+        this.translateService.instant(
+          'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.CONFIRM_MESSAGE'
+        )
+      )
+      .then((res: ButtonOptions) => {
+        if (res === ButtonOptions.YES) {
+          this._isBusy = true;
+
+          this.accountStatementService
+            .deleteItem(this._currentAccountStatementId)
+            .pipe(finalize(() => (this._isBusy = false)))
+            .subscribe(
+              () => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.SUCCESS_MESSAGE'
+                  ),
+                  () => {
+                    this.contractService.reloadListFlag();
+                    this.accountStatementService.reloadListFlag(true);
+                    this.router.back();
+                  }
+                );
+              },
+              (error: Error) => {
+                this.dialogService.alert(
+                  this.translateService.instant(
+                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+                  ),
+                  this.translateService.instant(
+                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.ERROR_MESSAGE'
+                  )
+                );
+              }
+            );
+        }
+      });
   }
 
   checkedInputChanged(

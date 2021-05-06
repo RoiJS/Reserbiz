@@ -1255,7 +1255,7 @@
     },
     "DELETE_ACCOUNT_STATEMENT_DIALOG": {
       "TITLE": "Delete Statement of account",
-      "CONFIRM_MESSAGE": "Are you sure you  want to delete selected statement of account?",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this statement of account?",
       "SUCCESS_MESSAGE": "Selected statement of account has been deleted.",
       "ERROR_MESSAGE": "Failed to deleted selected statement of account. Please try again later."
     }

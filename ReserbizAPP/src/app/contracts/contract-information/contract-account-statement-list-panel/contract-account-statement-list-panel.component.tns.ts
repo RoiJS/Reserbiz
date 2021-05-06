@@ -47,7 +47,7 @@ import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-c
 })
 export class ContractAccountStatementListPanelComponent
   extends BaseListComponent<AccountStatement>
-  implements IBaseListComponent, OnInit, OnChanges {
+  implements OnInit, OnChanges {
   @Input() currentContractId: number;
   @Input() IsCurrentContractArchived: boolean;
   @Input() IsCurrentContractEncashedDepositAmount: boolean;
@@ -56,7 +56,7 @@ export class ContractAccountStatementListPanelComponent
   private _totalPaidAmount = 0;
   private _totalExpectedDepositAmount = 0;
   private _totalPaidAmountFromDeposit = 0;
-  private _totalEncashedDepositedAmount= 0;
+  private _totalEncashedDepositedAmount = 0;
 
   private ACCOUNT_STATMENT_FILTER_FROM_DATE = 'AccountStatementFilter_fromDate';
   private ACCOUNT_STATMENT_FILTER_TO_DATE = 'AccountStatementFilter_toDate';
@@ -106,25 +106,7 @@ export class ContractAccountStatementListPanelComponent
   }
 
   ngOnInit() {
-    this.initDialogTexts();
     super.ngOnInit();
-  }
-
-  initDialogTexts() {
-    this._deleteItemDialogTexts = {
-      title: this.translateService.instant(
-        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
-      ),
-      confirmMessage: this.translateService.instant(
-        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.CONFIRM_MESSAGE'
-      ),
-      successMessage: this.translateService.instant(
-        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.SUCCESS_MESSAGE'
-      ),
-      errorMessage: this.translateService.instant(
-        'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.ERROR_MESSAGE'
-      ),
-    };
   }
 
   initFilterOptions() {
@@ -359,17 +341,6 @@ export class ContractAccountStatementListPanelComponent
     this.navigateToOtherPage(
       `contracts/${this.currentContractId}/account-statement/${selectedItem.id}`
     );
-  }
-
-  /**
-   * Override deleteSelectedItem function from Base Class
-   */
-  deleteSelectedItem() {
-    // Refresh contract details after deleting statement of account
-    super.deleteSelectedItem(() => {
-      this.contractService.reloadListFlag();
-      this.accountStatementService.reloadListFlag(true);
-    });
   }
 
   get totalPaidAmount(): string {
