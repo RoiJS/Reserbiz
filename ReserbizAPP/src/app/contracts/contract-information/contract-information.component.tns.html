@@ -33,19 +33,21 @@
   ></ActionItem>
 </ns-action-bar>
 
-<StackLayout width="100%" height="100%">
-  <!-- #Start Contract Details Header -->
-  <ns-contract-details-panel
-    [currentContract]="currentContract"
-  ></ns-contract-details-panel>
-  <!-- #End -->
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%">
+    <!-- #Start Contract Details Header -->
+    <ns-contract-details-panel
+      [currentContract]="currentContract"
+    ></ns-contract-details-panel>
+    <!-- #End -->
 
-  <!-- #Start Account Statement List -->
-  <ns-contract-account-statement-list-panel
-    [currentContractId]="currentContract?.id"
-    [IsCurrentContractEncashedDepositAmount]="currentContract?.encashDepositAmount"
-    [IsCurrentContractArchived]="isContractArchived"
-  >
-  </ns-contract-account-statement-list-panel>
-  <!-- #End -->
-</StackLayout>
+    <!-- #Start Account Statement List -->
+    <ns-contract-account-statement-list-panel
+      [currentContractId]="currentContract?.id"
+      [IsCurrentContractEncashedDepositAmount]="currentContract?.encashDepositAmount"
+      [IsCurrentContractArchived]="isContractArchived"
+    >
+    </ns-contract-account-statement-list-panel>
+    <!-- #End -->
+  </StackLayout>
+</ns-loader-layout>
