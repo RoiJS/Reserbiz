@@ -74,9 +74,8 @@ export class ContractListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.contractService.loadContractListFlag
-      .pipe(delay(1000))
-      .subscribe(() => {
+    this._loadListFlagSub = this.contractService.loadContractListFlag.subscribe(
+      () => {
         this.initFilterOptions();
         this.getPaginatedEntities(
           (contractPaginationList: ContractPaginationList) => {
@@ -89,7 +88,8 @@ export class ContractListComponent
             });
           }
         );
-      });
+      }
+    );
 
     this.initDialogTexts();
     super.ngOnInit();

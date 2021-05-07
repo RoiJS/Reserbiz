@@ -24,7 +24,6 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 export class ContractInformationComponent implements OnInit, OnDestroy {
   private _currentContract: Contract;
   private _currentContractId: number;
-  private _isBusy = false;
 
   private _updateContractListFlag: Subscription;
   private _firstAccountStatement: AccountStatement;
@@ -59,8 +58,6 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   }
 
   getContractInformation() {
-    this._isBusy = true;
-
     this.ngZone.run(() => {
       (async () => {
         this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
@@ -70,8 +67,6 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
         this._currentContract = await this.contractService.getContract(
           this._currentContractId
         );
-
-        this._isBusy = false;
       })();
     });
   }
@@ -268,9 +263,5 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
 
   get isDepositAmountFullyPaid(): boolean {
     return this._firstAccountStatement?.isFullyPaid;
-  }
-
-  get IsBusy(): boolean {
-    return this._isBusy;
   }
 }

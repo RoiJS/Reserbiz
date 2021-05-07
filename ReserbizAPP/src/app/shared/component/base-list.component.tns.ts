@@ -27,7 +27,7 @@ import {
 } from 'nativescript-ui-listview';
 
 import { Subscription } from 'rxjs';
-import { take, finalize } from 'rxjs/operators';
+import { take, finalize, delay } from 'rxjs/operators';
 
 import { IEntity } from '@src/app/_interfaces/ientity.interface';
 import { IBaseDialogTexts } from '@src/app/_interfaces/ibase-dialog-texts.interface';
@@ -132,33 +132,32 @@ export class BaseListComponent<TEntity extends IEntity>
 
   getEntities(onGetListFinishedCallback?: () => void) {
     this._isBusy = true;
-    setTimeout(() => {
-      this.entityService
-        .getEntities(this._entityFilter)
-        .pipe(
-          take(1),
-          finalize(() => {
-            this.ngZone.run(() => {
-              this._isBusy = false;
-            });
-          })
-        )
-        .subscribe((entities: TEntity[]) => {
-          this._listItems = new ObservableArray<TEntity>(entities);
+    this.entityService
+      .getEntities(this._entityFilter)
+      .pipe(
+        delay(1000),
+        take(1),
+        finalize(() => {
+          this.ngZone.run(() => {
+            this._isBusy = false;
+          });
+        })
+      )
+      .subscribe((entities: TEntity[]) => {
+        this._listItems = new ObservableArray<TEntity>(entities);
 
-          this._isNotNavigateToOtherPage = true;
+        this._isNotNavigateToOtherPage = true;
 
-          this._itemListHasLoaded = true;
+        this._itemListHasLoaded = true;
 
-          if (this._listViewDateEvent) {
-            this._listViewDateEvent.object.notifyPullToRefreshFinished();
-          }
+        if (this._listViewDateEvent) {
+          this._listViewDateEvent.object.notifyPullToRefreshFinished();
+        }
 
-          if (onGetListFinishedCallback) {
-            onGetListFinishedCallback();
-          }
-        });
-    }, 500);
+        if (onGetListFinishedCallback) {
+          onGetListFinishedCallback();
+        }
+      });
   }
 
   getPaginatedEntities(
@@ -170,40 +169,39 @@ export class BaseListComponent<TEntity extends IEntity>
       this._isBusy = true;
     }
 
-    setTimeout(() => {
-      this.entityService
-        .getPaginatedEntities(this._entityFilter)
-        .pipe(
-          take(1),
-          finalize(() => {
-            this.ngZone.run(() => {
-              this._isBusy = false;
-            });
-          })
-        )
-        .subscribe((entityPaginationList: IEntityPaginationList) => {
-          if (this._entityFilter.page === 1) {
-            this._listItems = new ObservableArray<TEntity>(
-              <TEntity[]>entityPaginationList.items
-            );
-            this._itemListHasLoaded = true;
-          } else {
-            this._listItems.push(...(<TEntity[]>entityPaginationList.items));
-          }
+    this.entityService
+      .getPaginatedEntities(this._entityFilter)
+      .pipe(
+        delay(1000),
+        take(1),
+        finalize(() => {
+          this.ngZone.run(() => {
+            this._isBusy = false;
+          });
+        })
+      )
+      .subscribe((entityPaginationList: IEntityPaginationList) => {
+        if (this._entityFilter.page === 1) {
+          this._listItems = new ObservableArray<TEntity>(
+            <TEntity[]>entityPaginationList.items
+          );
+          this._itemListHasLoaded = true;
+        } else {
+          this._listItems.push(...(<TEntity[]>entityPaginationList.items));
+        }
 
-          this._totalNumberOfItems = entityPaginationList.totalItems;
+        this._totalNumberOfItems = entityPaginationList.totalItems;
 
-          this._isNotNavigateToOtherPage = true;
+        this._isNotNavigateToOtherPage = true;
 
-          if (this._listViewDateEvent) {
-            this._listViewDateEvent.object.notifyPullToRefreshFinished();
-          }
+        if (this._listViewDateEvent) {
+          this._listViewDateEvent.object.notifyPullToRefreshFinished();
+        }
 
-          if (onGetListFinishedCallback) {
-            onGetListFinishedCallback(entityPaginationList);
-          }
-        });
-    }, 500);
+        if (onGetListFinishedCallback) {
+          onGetListFinishedCallback(entityPaginationList);
+        }
+      });
   }
 
   onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData) {

@@ -36,11 +36,11 @@ export class SpaceTypesListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag
-      .pipe(delay(1000))
-      .subscribe(() => {
+    this._loadListFlagSub = this.spaceTypeService.loadSpaceTypesFlag.subscribe(
+      () => {
         this.getEntities();
-      });
+      }
+    );
 
     this.initDialogTexts();
     super.ngOnInit();

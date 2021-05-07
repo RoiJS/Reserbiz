@@ -89,9 +89,8 @@ export class ContractAccountStatementListPanelComponent
   ngOnChanges(args: SimpleChanges) {
     if (args.currentContractId.currentValue) {
       this._entityFilter.parentId = +args.currentContractId.currentValue;
-      this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag
-        .pipe(delay(1000))
-        .subscribe((reset: boolean) => {
+      this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag.subscribe(
+        (reset: boolean) => {
           this.initFilterOptions();
           this.getPaginatedEntities((e: AccountStatementPaginationList) => {
             this._totalExpectedAmount = e.totalExpectedAmount;
@@ -101,7 +100,8 @@ export class ContractAccountStatementListPanelComponent
             this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
             this._totalEncashedDepositedAmount = e.totalEncashedDepositedAmount;
           });
-        });
+        }
+      );
     }
   }
 

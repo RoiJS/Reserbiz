@@ -32,11 +32,11 @@ export class TenantListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.tenantService.loadTenantListFlag
-      .pipe(delay(1000))
-      .subscribe(() => {
+    this._loadListFlagSub = this.tenantService.loadTenantListFlag.subscribe(
+      () => {
         this.getEntities();
-      });
+      }
+    );
 
     this.initDialogTexts();
     super.ngOnInit();

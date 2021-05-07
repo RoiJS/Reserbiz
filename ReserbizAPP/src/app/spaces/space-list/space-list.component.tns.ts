@@ -40,11 +40,9 @@ export class SpaceListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.spaceService.loadSpacesFlag
-      .pipe(delay(1000))
-      .subscribe(() => {
-        this.getPaginatedEntities();
-      });
+    this._loadListFlagSub = this.spaceService.loadSpacesFlag.subscribe(() => {
+      this.getPaginatedEntities();
+    });
 
     this.initDialogTexts();
     super.ngOnInit();
