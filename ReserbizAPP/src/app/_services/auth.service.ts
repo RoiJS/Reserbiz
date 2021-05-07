@@ -211,6 +211,7 @@ export class AuthService {
       lastName: string;
       username: string;
       gender: GenderEnum;
+      emailAddress: string;
     } = JSON.parse(this.storageService.getString('userData'));
 
     const tokenInfo = new AuthToken(
@@ -224,7 +225,8 @@ export class AuthService {
       user.middleName,
       user.lastName,
       user.username,
-      user.gender
+      user.gender,
+      user.emailAddress
     );
 
     if (tokenInfo.isAuth) {
@@ -263,6 +265,7 @@ export class AuthService {
       })
     );
   }
+
   private handleLogin(
     accessToken: string,
     refreshToken: string,
@@ -278,7 +281,8 @@ export class AuthService {
       currentUser.middleName,
       currentUser.lastName,
       currentUser.username,
-      parseInt(currentUser.gender)
+      parseInt(currentUser.gender),
+      currentUser.emailAddress
     );
 
     this.storageService.storeString('authToken', JSON.stringify(authToken));

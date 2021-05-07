@@ -387,6 +387,8 @@ PropertyEditor[type='Stepper'] DataFormEditorCore {
 }
 
 PropertyEditor[type='Text'] DataFormEditorCore,
+PropertyEditor[type='Password'] DataFormEditorCore,
+PropertyEditor[type='Email'] DataFormEditorCore,
 PropertyEditor[type='Phone'] DataFormEditorCore,
 PropertyEditor[type='Decimal'] DataFormEditorCore,
 PropertyEditor[type='Picker'] DataFormEditorCore,

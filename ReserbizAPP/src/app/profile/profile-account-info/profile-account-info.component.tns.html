@@ -48,6 +48,19 @@
 
             <TKEntityProperty
               tkPropertyGroupProperties
+              name="emailAddress"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Email">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
               name="password"
               [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
             >

@@ -144,6 +144,7 @@
     },
     "ACCOUNT_CONTROL_GROUP": {
       "LABEL": "Account Information",
+      "EMAIL_ADDRESS": "Email Address:",
       "USERNAME": "Username:",
       "PASSWORD": "Password:",
       "PASSWORD_FAKE_VALUE": "**********"
@@ -184,6 +185,11 @@
         "HINT_TEXT": "Please enter username",
         "USERNAME_EXISTS_ERROR_MESSAGE": "This username is already used. Please enter a different username.",
         "USERNAME_EMPTY_ERROR_MESSAGE": "Please enter valid username."
+      },
+      "EMAILADDRESS_CONTROL": {
+        "HINT_TEXT": "Please enter your email address",
+        "EMAILADDRESS_EMPTY_ERROR_MESSAGE": "Please enter valid email address.",
+        "EMAILADDRESS_INVALID_ERROR_MESSAGE": "Email address is invaid. Please enter valid email address."
       },
       "PASSWORD_CONTROL": {
         "HINT_TEXT": "Please enter new password"
