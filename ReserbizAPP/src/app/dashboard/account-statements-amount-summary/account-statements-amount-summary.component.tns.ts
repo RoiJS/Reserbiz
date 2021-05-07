@@ -37,38 +37,39 @@ export class AccountStatementsAmountSummaryComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.paymentService.loadPaymentListFlag
-      .pipe(delay(2000))
-      .subscribe(() => {
-        (async () => {
-          this.ngZone.run(async () => {
-            this._isBusy = true;
+    this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
+      () => {
+        this._isBusy = true;
+        setTimeout(() => {
+          (async () => {
+            this.ngZone.run(async () => {
+              const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
+              const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
 
-            const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
-            const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
+              const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
+                accountStatementAmountSummary
+              );
+              const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
+                accountStatementAmountSummary
+              );
 
-            const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
-              accountStatementAmountSummary
-            );
-            const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
-              accountStatementAmountSummary
-            );
+              accountStatementAmountSummaryArray.push(
+                totalAmountPaidSummaryChartValue
+              );
+              accountStatementAmountSummaryArray.push(
+                totalExpectedAmountSummaryChartValue
+              );
 
-            accountStatementAmountSummaryArray.push(
-              totalAmountPaidSummaryChartValue
-            );
-            accountStatementAmountSummaryArray.push(
-              totalExpectedAmountSummaryChartValue
-            );
+              this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
+                accountStatementAmountSummaryArray
+              );
 
-            this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
-              accountStatementAmountSummaryArray
-            );
-
-            this._isBusy = false;
-          });
-        })();
-      });
+              this._isBusy = false;
+            });
+          })();
+        }, 1000);
+      }
+    );
   }
 
   ngOnDestroy() {
