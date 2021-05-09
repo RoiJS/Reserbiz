@@ -8,5 +8,6 @@ namespace ReserbizAPP.LIB.Helpers.Class
         public string AutoGenerateAccountStatementsForNewDatabaseURL { get; set; }
         public string AutoGenerateAccountStatementsURL { get; set; }
         public string AutoGeneratePenaltiesURL { get; set; }
+        public string AutoRemoveExpiredRefreshTokensURL { get; set; }
     }
 }

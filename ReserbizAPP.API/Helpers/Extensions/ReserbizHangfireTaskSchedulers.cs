@@ -6,11 +6,11 @@ namespace ReserbizAPP.API.Helpers.Extensions
 {
     public static class ReserbizHangfireTaskSchedulers
     {
-
         public static void RegisterReserbizRecurringJobs(this IApplicationBuilder app)
         {
             // Register Recurring Job for auto generating account statement
             RecurringJob.AddOrUpdate<ReserbizRecurringJobsService>("job-auto-generate-account-statements", (r) => r.RegisterAutoGenerateAccountStatements(), Cron.Daily);
+            RecurringJob.AddOrUpdate<ReserbizRecurringJobsService>("job-auto-remove-expired-refresh-tokens", (r) => r.RegisterAutoRemoveExpiredRefreshTokens(), Cron.Weekly);
         }
     }
 }
