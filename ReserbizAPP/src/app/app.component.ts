@@ -285,46 +285,27 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(delay(5000))
       .subscribe((currentConnection: connectionType) => {
         this.zone.run(() => {
-          let route = '';
           if (currentConnection === connectionType.none) {
-            route = '/no-connection';
-
             // Auto-logout the user during system update.
             this.authService.logout(false);
 
-            this.routerExtensions.navigate([route], { clearHistory: true });
+            this.routerExtensions.navigate(['/no-connection'], {
+              clearHistory: true,
+            });
           } else {
-            this.authService
-              .autoLogin()
-              .toPromise()
-              .then(async (result: boolean) => {
-                if (result) {
-                  route = '/dashboard';
-                } else {
-                  route = '/auth';
-                }
+            (async () => {
+              const generalInformation = await this.generalInformationService.getGeneralInformation();
 
-                const generalInformation = await this.generalInformationService.getGeneralInformation();
+              // Check if the system is currently under system update
+              if (generalInformation.systemUpdateStatus) {
+                // Auto-logout the user during system update.
+                this.authService.logout(false);
 
-                // Check if the system is currently under system update
-                if (generalInformation.systemUpdateStatus) {
-                  route = '/system-update';
-
-                  // Auto-logout the user during system update.
-                  this.authService.logout(false);
-
-                  this.routerExtensions.navigate([route], {
-                    clearHistory: true,
-                  });
-                }
-
-                // Check if the app is opening because of a notification has been tapped
-                if (!this.pushNotificationService.navigateToUrl.getValue()) {
-                  this.routerExtensions.navigate([route], {
-                    clearHistory: true,
-                  });
-                }
-              });
+                this.routerExtensions.navigate(['/system-update'], {
+                  clearHistory: true,
+                });
+              }
+            })();
           }
         });
       });
