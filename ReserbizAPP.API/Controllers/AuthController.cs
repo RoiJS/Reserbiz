@@ -234,6 +234,14 @@ namespace ReserbizAPP.API.Controllers
             var accountsToReturn = _mapper.Map<IEnumerable<AccountForListDto>>(accountsFromRepo);
             return Ok(accountsToReturn);
         }
+
+        [HttpPost("removeExpiredRefreshTokens")]
+        public async Task<IActionResult> RemoveExpiredRefreshTokens()
+        {
+            await _authRepo.RemoveExpiredRefreshTokens();
+            return Ok();
+        }
+
         private string GenerateAccessToken(Account user)
         {
             var claims = new[] {
