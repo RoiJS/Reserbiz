@@ -123,6 +123,10 @@ export class AuthComponent implements OnInit {
     ]);
   }
 
+  goToForgotPassword() {
+    this.router.navigate(['forgot-password'], { replaceUrl: true });
+  }
+
   private initializeCompanyField() {
     let company = '';
 

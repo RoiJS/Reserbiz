@@ -116,10 +116,51 @@
     "LOGIN_BUTTON_CONTROL": {
       "LABEL": "Log in"
     },
+    "FORGOT_PASSWORD_LINK_LABEL": "Forgot Password",
     "LOGIN_FAILED": "Login Failed",
     "SIMULTANEOUS_LOGIN_DIALOG": {
       "TITLE": "End of Session",
       "MESSAGE": "Simultaneous login is not permitted."
+    }
+  },
+
+  "FORGOT_PASSWORD_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company",
+      "ERROR_LABEL": "Please enter company."
+    },
+    "USERNAME_OR_EMAILADDRESS_CONTROL": {
+      "LABEL": "Username or Email address",
+      "HINT": "Enter Username or email address",
+      "ERROR_LABEL": "Please enter username or email address."
+    },
+    "VERIFY_BUTTON_CONTROL": {
+      "LABEL": "Verify Account"
+    },
+    "VERIFICATION_FAILED": "Invalid username or email address."
+  },
+
+  "CHANGE_PASSWORD_PAGE": {
+    "NEW_PASSWORD_CONTROL": {
+      "LABEL": "New Password",
+      "HINT": "Enter New Password",
+      "ERROR_LABEL": "Please enter new password."
+    },
+    "CONFIRM_NEW_PASSWORD": {
+      "LABEL": "Confirm New Password",
+      "HINT": "Re-enter New Password",
+      "ERROR_LABEL": "Please re-enter new password"
+    },
+    "SAVE_NEW_PASSWORD_DIALOG": {
+      "TITLE": "Reset Password",
+      "CONFIRM": "Are you sure to save new password?",
+      "SUCCESS_MESSAGE": "Your new password has been saved.",
+      "ERROR_MESSAGE": "Saving new password failed. Please again later.",
+      "PASSWORD_NOT_MATCHED": "Password does not matched."
+    },
+    "CHANGE_PASSWORD_BUTTON_CONTROL": {
+      "LABEL": "Change Password"
     }
   },
 
