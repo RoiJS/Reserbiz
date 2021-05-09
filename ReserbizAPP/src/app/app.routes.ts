@@ -13,6 +13,13 @@ export const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path: 'forgot-password',
+    loadChildren: () =>
+      import('./forgot-password/forgot-password.module').then(
+        (m) => m.ForgotPasswordModule
+      ),
+  },
+  {
     path: 'dashboard',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
@@ -65,11 +72,15 @@ export const routes: Routes = [
   {
     path: 'no-connection',
     loadChildren: () =>
-      import('./no-connection/no-connection.module').then((m) => m.NoConnectionModule),
+      import('./no-connection/no-connection.module').then(
+        (m) => m.NoConnectionModule
+      ),
   },
   {
     path: 'system-update',
     loadChildren: () =>
-      import('./system-update/system-update.module').then((m) => m.SystemUpdateModule),
+      import('./system-update/system-update.module').then(
+        (m) => m.SystemUpdateModule
+      ),
   },
 ];
