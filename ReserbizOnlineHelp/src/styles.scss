@@ -1,0 +1,106 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+/* For use in src/lib/core/theming/_palette.scss */
+$ReserbizOnlineHelp-primary-palette: (
+    50 : #030303,
+    100 : #f9cec0,
+    200 : #f5ad97,
+    300 : #f18c6d,
+    400 : #ee734d,
+    500 : #eb5a2e,
+    600 : #e95229,
+    700 : #e54823,
+    800 : #e23f1d,
+    900 : #dd2e12,
+    A100 : #ffffff,
+    A200 : #ffdcd8,
+    A400 : #ffafa5,
+    A700 : #ff988b,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$ReserbizOnlineHelp-accent-palette: (
+    50 : #fdf1ed,
+    100 : #fbddd3,
+    200 : #f8c6b6,
+    300 : #f5af99,
+    400 : #f39d83,
+    500 : #f18c6d,
+    600 : #ef8465,
+    700 : #ed795a,
+    800 : #eb6f50,
+    900 : #e75c3e,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffd7ce,
+    A700 : #ffc1b5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$ReserbizOnlineHelp-primary: mat-palette($ReserbizOnlineHelp-primary-palette);
+$ReserbizOnlineHelp-accent: mat-palette($ReserbizOnlineHelp-accent-palette);
+
+// The warn palette is optional (defaults to red).
+$ReserbizOnlineHelp-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$ReserbizOnlineHelp-theme: mat-light-theme((
+  color: (
+    primary: $ReserbizOnlineHelp-primary,
+    accent: $ReserbizOnlineHelp-accent,
+    warn: $ReserbizOnlineHelp-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($ReserbizOnlineHelp-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
