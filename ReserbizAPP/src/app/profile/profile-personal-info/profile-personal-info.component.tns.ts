@@ -132,7 +132,8 @@ export class ProfilePersonalInfoComponent
       this._userFormSource.middleName,
       this._userFormSource.lastName,
       this._currentUser.username,
-      this._userFormSource.gender
+      this._userFormSource.gender,
+      this._currentUser.emailAddress
     );
 
     this.authService.user.next(currentUser);

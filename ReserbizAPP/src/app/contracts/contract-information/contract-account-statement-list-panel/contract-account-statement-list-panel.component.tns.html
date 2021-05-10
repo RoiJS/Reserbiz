@@ -50,7 +50,6 @@
             #appListView
             class="app-list-container"
             [items]="items"
-            swipeActions="true"
             selectionBehavior="Press"
             multipleSelection="true"
             pullToRefresh="true"
@@ -58,7 +57,6 @@
             loadOnDemandBufferSize="2"
             (itemSelected)="selectItem($event.index, '/account-statement/:id')"
             (itemDeselected)="deselectedItem($event)"
-            (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
             (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
             (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
           >
@@ -140,27 +138,6 @@
                 <!-- #End -->
               </GridLayout>
             </ng-template>
-
-            <GridLayout
-              *tkListItemSwipeTemplate
-              columns="*, auto"
-              class="app-list-item-swipe-template"
-            >
-              <FlexBoxLayout
-                col="1"
-                class="app-list-item-swipe-template__option-container"
-                id="itemSwipeActions"
-                justifyContent="space-around"
-                *ngIf="isCurrentItemDeletable && isNotNavigateToOtherPage"
-              >
-                <button
-                  alignSelf="center"
-                  class="fa fa-solid app-list-item-swipe-template__option"
-                  text="&#xf2ed;"
-                  (tap)="deleteSelectedItem()"
-                ></button>
-              </FlexBoxLayout>
-            </GridLayout>
           </RadListView>
         </ns-list-layout>
       </StackLayout>
@@ -294,7 +271,6 @@
 
         <!-- #Start Encashed Deposit Section -->
         <StackLayout
-        *ngIf="true"
           horizontalAlignment="center"
           row="2"
           colSpan="3"

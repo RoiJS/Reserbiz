@@ -6,7 +6,8 @@ export class User {
     public middleName: string,
     public lastName: string,
     public username: string,
-    public gender: GenderEnum
+    public gender: GenderEnum,
+    public emailAddress: string
   ) {}
 
   get fullname(): string {

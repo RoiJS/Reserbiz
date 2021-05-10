@@ -116,10 +116,51 @@
     "LOGIN_BUTTON_CONTROL": {
       "LABEL": "Log in"
     },
+    "FORGOT_PASSWORD_LINK_LABEL": "Forgot Password",
     "LOGIN_FAILED": "Login Failed",
     "SIMULTANEOUS_LOGIN_DIALOG": {
       "TITLE": "End of Session",
       "MESSAGE": "Simultaneous login is not permitted."
+    }
+  },
+
+  "FORGOT_PASSWORD_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company",
+      "ERROR_LABEL": "Please enter company."
+    },
+    "USERNAME_OR_EMAILADDRESS_CONTROL": {
+      "LABEL": "Username or Email address",
+      "HINT": "Enter Username or email address",
+      "ERROR_LABEL": "Please enter username or email address."
+    },
+    "VERIFY_BUTTON_CONTROL": {
+      "LABEL": "Verify Account"
+    },
+    "VERIFICATION_FAILED": "Invalid username or email address."
+  },
+
+  "CHANGE_PASSWORD_PAGE": {
+    "NEW_PASSWORD_CONTROL": {
+      "LABEL": "New Password",
+      "HINT": "Enter New Password",
+      "ERROR_LABEL": "Please enter new password."
+    },
+    "CONFIRM_NEW_PASSWORD": {
+      "LABEL": "Confirm New Password",
+      "HINT": "Re-enter New Password",
+      "ERROR_LABEL": "Please re-enter new password"
+    },
+    "SAVE_NEW_PASSWORD_DIALOG": {
+      "TITLE": "Reset Password",
+      "CONFIRM": "Are you sure to save new password?",
+      "SUCCESS_MESSAGE": "Your new password has been saved.",
+      "ERROR_MESSAGE": "Saving new password failed. Please again later.",
+      "PASSWORD_NOT_MATCHED": "Password does not matched."
+    },
+    "CHANGE_PASSWORD_BUTTON_CONTROL": {
+      "LABEL": "Change Password"
     }
   },
 
@@ -144,6 +185,7 @@
     },
     "ACCOUNT_CONTROL_GROUP": {
       "LABEL": "Account Information",
+      "EMAIL_ADDRESS": "Email Address:",
       "USERNAME": "Username:",
       "PASSWORD": "Password:",
       "PASSWORD_FAKE_VALUE": "**********"
@@ -184,6 +226,11 @@
         "HINT_TEXT": "Please enter username",
         "USERNAME_EXISTS_ERROR_MESSAGE": "This username is already used. Please enter a different username.",
         "USERNAME_EMPTY_ERROR_MESSAGE": "Please enter valid username."
+      },
+      "EMAILADDRESS_CONTROL": {
+        "HINT_TEXT": "Please enter your email address",
+        "EMAILADDRESS_EMPTY_ERROR_MESSAGE": "Please enter valid email address.",
+        "EMAILADDRESS_INVALID_ERROR_MESSAGE": "Email address is invaid. Please enter valid email address."
       },
       "PASSWORD_CONTROL": {
         "HINT_TEXT": "Please enter new password"
@@ -1255,7 +1302,7 @@
     },
     "DELETE_ACCOUNT_STATEMENT_DIALOG": {
       "TITLE": "Delete Statement of account",
-      "CONFIRM_MESSAGE": "Are you sure you  want to delete selected statement of account?",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this statement of account?",
       "SUCCESS_MESSAGE": "Selected statement of account has been deleted.",
       "ERROR_MESSAGE": "Failed to deleted selected statement of account. Please try again later."
     }

@@ -127,9 +127,6 @@ namespace ReserbizAPP.API.Controllers
             var userRefreshTokenFromRepo = await _refreshTokenRepository.GetRefreshToken(request.RefreshToken);
             var newRefreshToken = _authRepo.GenerateNewRefreshToken();
 
-            // Removed expired refresh tokens
-            await _authRepo.RemoveExpiredRefreshTokens();
-
             userFromRepo.RefreshTokens.Add(newRefreshToken);
 
             if (!await _authRepo.SaveChanges())
@@ -140,8 +137,8 @@ namespace ReserbizAPP.API.Controllers
             return Ok(new AuthenticationTokenInfoDto
             {
                 AccessToken = newAccessToken,
-                ExpiresIn = userRefreshTokenFromRepo.ExpirationDate,
-                RefreshToken = userRefreshTokenFromRepo.Token
+                ExpiresIn = newRefreshToken.ExpirationDate,
+                RefreshToken = newRefreshToken.Token
             });
         }
 
@@ -160,6 +157,7 @@ namespace ReserbizAPP.API.Controllers
             _authRepo.SetCurrentUserId(CurrentUserId);
 
             accountFromRepo.Username = accountForUpdateDto.Username;
+            accountFromRepo.EmailAddress = accountForUpdateDto.EmailAddress;
 
             // Only update password if it is not empty
             if (!String.IsNullOrWhiteSpace(accountForUpdateDto.Password))
@@ -236,6 +234,14 @@ namespace ReserbizAPP.API.Controllers
             var accountsToReturn = _mapper.Map<IEnumerable<AccountForListDto>>(accountsFromRepo);
             return Ok(accountsToReturn);
         }
+
+        [HttpPost("removeExpiredRefreshTokens")]
+        public async Task<IActionResult> RemoveExpiredRefreshTokens()
+        {
+            await _authRepo.RemoveExpiredRefreshTokens();
+            return Ok();
+        }
+
         private string GenerateAccessToken(Account user)
         {
             var claims = new[] {
@@ -245,7 +251,8 @@ namespace ReserbizAPP.API.Controllers
                 new Claim (ReserbizClaimTypes.MiddleName, user.MiddleName),
                 new Claim (ReserbizClaimTypes.LastName, user.LastName),
                 new Claim (ReserbizClaimTypes.Gender, ((int)user.Gender).ToString()),
-                new Claim (ReserbizClaimTypes.Username, user.Username)
+                new Claim (ReserbizClaimTypes.Username, user.Username),
+                new Claim (ReserbizClaimTypes.EmailAddress, user.EmailAddress)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.GeneralSettings.Token));

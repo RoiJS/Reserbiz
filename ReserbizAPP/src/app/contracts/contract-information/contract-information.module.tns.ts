@@ -9,6 +9,7 @@ import { ContractInformationComponent } from './contract-information.component';
 import { ContractDetailsPanelComponent } from './contract-details-panel/contract-details-panel.component';
 import { ContractAccountStatementListPanelComponent } from './contract-account-statement-list-panel/contract-account-statement-list-panel.component';
 import { ContractAccountStatementFilterDialogComponent } from './contract-account-statement-filter-dialog/contract-account-statement-filter-dialog.component';
+import { AuthGuard } from '@src/app/_guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -25,11 +26,12 @@ import { ContractAccountStatementFilterDialogComponent } from './contract-accoun
           ),
       },
       {
-        path: 'account-statement/:accountStatmentId',
+        path: 'account-statement/:accountStatementId',
         loadChildren: () =>
           import(
             './contract-account-statement-list-panel/contract-account-statement-information/contract-account-statement-information.module'
           ).then((m) => m.ContractAccountStatementInformationModule),
+          canActivate: [AuthGuard]
       },
     ]),
     SharedModule,

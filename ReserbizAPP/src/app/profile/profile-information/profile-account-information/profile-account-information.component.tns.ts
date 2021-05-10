@@ -8,6 +8,7 @@ import { RouterExtensions } from '@nativescript/angular';
 })
 export class ProfileAccountInformationComponent implements OnInit {
   @Input() username: string;
+  @Input() emailAddress: string;
 
   constructor(private router: RouterExtensions) {}
 

@@ -36,11 +36,9 @@ export class TermsListComponent
   }
 
   ngOnInit() {
-    this._loadListFlagSub = this.termService.loadTermListFlag
-      .pipe(delay(1000))
-      .subscribe(() => {
-        this.getEntities();
-      });
+    this._loadListFlagSub = this.termService.loadTermListFlag.subscribe(() => {
+      this.getEntities();
+    });
 
     this.initDialogTexts();
     super.ngOnInit();

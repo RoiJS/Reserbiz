@@ -7,6 +7,7 @@ namespace ReserbizAPP.LIB.Interfaces
         public GeneralSettings GeneralSettings { get; set; }
         public AccountStatementNotificationSettings AccountStatementNotificationSettings { get; set; }
         public ClientDatabaseNotificationSettings ClientDatabaseNotificationSettings { get; set; }
+        public RemoveRefreshTokensNotificationSettings RemoveRefreshTokensNotificationSettings { get; set; }
         public SchedulerEmailNotificationSettings SchedulerEmailNotificationSettings { get; set; }
         public AppSettingsURL AppSettingsURL { get; set; }
     }

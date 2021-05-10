@@ -52,6 +52,7 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IClientRepository<Client>), typeof(ClientRepository));
             services.AddScoped(typeof(IGeneralInformationRepository<GeneralInformation>), typeof(GeneralInformationRepository));
             services.AddScoped(typeof(IAuthRepository<Account>), typeof(AuthRepository));
+            services.AddScoped(typeof(IAccountRepository<Account>), typeof(AccountRepository));
             services.AddScoped(typeof(ITenantRepository<Tenant>), typeof(TenantRepository));
             services.AddScoped(typeof(IContactPersonRepository<ContactPerson>), typeof(ContactPersonRepository));
             services.AddScoped(typeof(ISpaceTypeRepository<SpaceType>), typeof(SpaceTypeRepository));
@@ -187,7 +188,7 @@ namespace ReserbizAPP.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment() == false)
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { StorageService } from './storage.service';
+import { ForgotPasswordService } from './forgot-password.service';
 
 import { AuthToken } from '../_models/auth-token.model';
 
@@ -16,13 +17,20 @@ import { AuthToken } from '../_models/auth-token.model';
   providedIn: 'root',
 })
 export class SecretKeyInterceptorService implements HttpInterceptor {
-  constructor(private storageService: StorageService) {}
+  constructor(
+    private forgotPasswordService: ForgotPasswordService,
+    private storageService: StorageService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let appSecretToken = '';
+
+    if (this.forgotPasswordService.appSecretToken.getValue()) {
+      appSecretToken = this.forgotPasswordService.appSecretToken.getValue();
+    }
 
     if (this.storageService.hasKey('app-secret-token')) {
       appSecretToken = this.storageService.getString('app-secret-token');

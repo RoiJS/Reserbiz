@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Dtos
 {
@@ -22,6 +21,7 @@ namespace ReserbizAPP.LIB.Dtos
         public float CurrentBalance { get; set; }
         public bool IsFullyPaid { get; set; }
         public bool isFirstAccountStatement { get; set; }
+        public bool IsDeletable { get; set; }
         public List<AccountStatementMiscellaneousDetailsDto> AccountStatementMiscellaneous { get; set; }
         public List<AccountStatementPaymentItemDetailsDto> PaymentBreakdowns { get; set; }
         public List<AccountStatementPenaltyItemDetailsDto> PenaltyBreakdowns { get; set; }

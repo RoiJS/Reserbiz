@@ -30,7 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SignalrCore } from 'nativescript-signalr-core';
 
-import { filter } from 'rxjs/operators';
+import { delay, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from './_services/auth.service';
@@ -47,6 +47,7 @@ import { MainMenu } from './_models/main-menu.model';
 import { Settings } from './_models/settings.model';
 
 import { environment } from '@src/environments/environment';
+import { StorageService } from './_services/storage.service';
 
 // Import Websocket to be able to use SignalR
 declare var require;
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private routerExtensions: RouterExtensions,
     private settingsService: SettingsService,
     private sideDrawerService: SideDrawerService,
+    private storageService: StorageService,
     private uiService: UIService,
     private vcRef: ViewContainerRef,
     private translate: TranslateService,
@@ -199,6 +201,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           const loggedInUserIdFromOtherDevice = parseInt(data.arguments[0]);
           const loggedInUserNameFromOtherDevice = data.arguments[1];
           const currentLoggedInUser = this.authService.user.getValue();
+          const userData = this.storageService.getString('userData');
           let currentLoggedInUserId = 0;
 
           if (currentLoggedInUser) {
@@ -209,6 +212,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           // on different device, if so, auto logout the account
           // from the other device.
           if (
+            userData &&
             currentLoggedInUser &&
             currentLoggedInUserId === loggedInUserIdFromOtherDevice &&
             currentLoggedInUser.username === loggedInUserNameFromOtherDevice
@@ -277,46 +281,34 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initMonitorConnectivityRedirection() {
-    this.checkConnectionSub = this.checkConnectionService.currentConnectionType.subscribe(
-      (currentConnection: connectionType) => {
+    this.checkConnectionSub = this.checkConnectionService.currentConnectionType
+      .pipe(delay(5000))
+      .subscribe((currentConnection: connectionType) => {
         this.zone.run(() => {
-          let route = '';
           if (currentConnection === connectionType.none) {
-            route = '/no-connection';
-
             // Auto-logout the user during system update.
-            this.authService.logout();
+            this.authService.logout(false);
 
-            this.routerExtensions.navigate([route], { clearHistory: true });
+            this.routerExtensions.navigate(['/no-connection'], {
+              clearHistory: true,
+            });
           } else {
-            this.authService
-              .autoLogin()
-              .toPromise()
-              .then(async (result: boolean) => {
-                if (result) {
-                  route = '/dashboard';
-                } else {
-                  route = '/auth';
-                }
+            (async () => {
+              const generalInformation = await this.generalInformationService.getGeneralInformation();
 
-                const generalInformation = await this.generalInformationService.getGeneralInformation();
+              // Check if the system is currently under system update
+              if (generalInformation.systemUpdateStatus) {
+                // Auto-logout the user during system update.
+                this.authService.logout(false);
 
-                // Check if the system is currently under system update
-                if (generalInformation.systemUpdateStatus) {
-                  route = '/system-update';
-
-                  // Auto-logout the user during system update.
-                  this.authService.logout();
-                }
-
-                this.routerExtensions.navigate([route], {
+                this.routerExtensions.navigate(['/system-update'], {
                   clearHistory: true,
                 });
-              });
+              }
+            })();
           }
         });
-      }
-    );
+      });
   }
 
   private initPushNotification() {

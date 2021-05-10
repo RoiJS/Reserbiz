@@ -4,6 +4,12 @@
     class="fa action-item-button"
     (tap)="updateInformation()"
   ></ActionItem>
+  <ActionItem
+    icon="font://&#xf2ed;"
+    class="fa fa-solid action-item-button"
+    (tap)="deleteSelectedItem()"
+    *ngIf="currentAccountStatement?.isDeletable"
+  ></ActionItem>
 
   <ActionItem
     [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.OPTIONS.PAYMENTS' | translate"
@@ -35,8 +41,8 @@
         padding="0"
         alignSelf="center"
         alignSelf="flex-end"
-        class="page-container__page-command btn-primary -rounded-lg"
-        [text]="'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS' | translate"
+        class="fa fa-solid page-container__page-command btn-primary -rounded-lg"
+        [text]="sendDetailsButtonText"
         (tap)="sendAccountStatementDetails()"
       ></button>
     </FlexBoxLayout>

@@ -20,7 +20,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _appSettings = appSettings;
         }
 
-        public async Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsAsync(int accountStatementId, SortOrderEnum sortOrder)
+        public async Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsPerAccountStatmentAsync(int accountStatementId, SortOrderEnum sortOrder)
         {
             var paymentBreakdowns = await (from p in _reserbizRepository.ClientDbContext.PaymentBreakdowns
                                            where p.AccountStatementId == accountStatementId
@@ -55,6 +55,5 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         .ToList();
             }
         }
-
     }
 }

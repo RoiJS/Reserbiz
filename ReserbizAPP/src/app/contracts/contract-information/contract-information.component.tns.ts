@@ -59,7 +59,6 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   }
 
   getContractInformation() {
-    this._isBusy = true;
 
     this.ngZone.run(() => {
       (async () => {
@@ -71,7 +70,6 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
           this._currentContractId
         );
 
-        this._isBusy = false;
       })();
     });
   }

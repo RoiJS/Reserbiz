@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ObservableArray } from '@nativescript/core';
 
 import { TranslateService } from '@ngx-translate/core';
+
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { BaseWidgetComponent } from '@src/app/shared/component/base-widget.component';
 import { AccountStatementsAmountSummary } from '@src/app/_models/account-statement-amount-summary.model';
 import { AccountStatementSummaryChart } from '@src/app/_models/account-statement-summary-chart.model';
 
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
+import { PaymentsService } from '@src/app/_services/payments.service';
 
 @Component({
   selector: 'ns-account-statements-amount-summary',
@@ -19,44 +23,59 @@ import { AccountStatementService } from '@src/app/_services/account-statement.se
 })
 export class AccountStatementsAmountSummaryComponent
   extends BaseWidgetComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   private _accountStatementAmountSummary: ObservableArray<AccountStatementSummaryChart>;
+  private _loadListFlagSub: Subscription;
 
   constructor(
     private accountStatementService: AccountStatementService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private paymentService: PaymentsService,
+    private ngZone: NgZone
   ) {
     super();
   }
 
   ngOnInit() {
-    this._isBusy = true;
-    setTimeout(() => {
-      (async () => {
-        const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
-        const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
+    this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
+      () => {
+        this._isBusy = true;
+        setTimeout(() => {
+          (async () => {
+            this.ngZone.run(async () => {
+              const accountStatementAmountSummary = await this.accountStatementService.getAccountStatementsAmountSummary();
+              const accountStatementAmountSummaryArray: AccountStatementSummaryChart[] = [];
 
-        const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
-          accountStatementAmountSummary
-        );
-        const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
-          accountStatementAmountSummary
-        );
+              const totalAmountPaidSummaryChartValue = this.getTotalAmountPaidChartValue(
+                accountStatementAmountSummary
+              );
+              const totalExpectedAmountSummaryChartValue = this.getTotalUnpaidAmountPaidChartValue(
+                accountStatementAmountSummary
+              );
 
-        accountStatementAmountSummaryArray.push(
-          totalAmountPaidSummaryChartValue
-        );
-        accountStatementAmountSummaryArray.push(
-          totalExpectedAmountSummaryChartValue
-        );
+              accountStatementAmountSummaryArray.push(
+                totalAmountPaidSummaryChartValue
+              );
+              accountStatementAmountSummaryArray.push(
+                totalExpectedAmountSummaryChartValue
+              );
 
-        this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
-          accountStatementAmountSummaryArray
-        );
+              this._accountStatementAmountSummary = new ObservableArray<AccountStatementSummaryChart>(
+                accountStatementAmountSummaryArray
+              );
 
-        this._isBusy = false;
-      })();
-    }, 2000);
+              this._isBusy = false;
+            });
+          })();
+        }, 1000);
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this._loadListFlagSub) {
+      this._loadListFlagSub.unsubscribe();
+    }
   }
 
   private getTotalAmountPaidChartValue(
@@ -78,17 +97,17 @@ export class AccountStatementsAmountSummaryComponent
   private getTotalUnpaidAmountPaidChartValue(
     accountStatementAmountSummary: AccountStatementsAmountSummary
   ): AccountStatementSummaryChart {
-    const totalExpectedAmountSummary = new AccountStatementSummaryChart();
-    totalExpectedAmountSummary.value =
-      accountStatementAmountSummary.totalExpectedAmount;
+    const totalUnpaidAmountSummary = new AccountStatementSummaryChart();
+    totalUnpaidAmountSummary.value =
+      accountStatementAmountSummary.totalUnpaidAmount;
     const totalExpectedAmountLegendLabel = `${this.translateService.instant(
       'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.CHART_LEGENDS.TOTAL_UNPAID_AMOUNT'
     )} - ${this.translateService.instant(
       'GENERAL_TEXTS.CURRENCY.PHP'
-    )} ${totalExpectedAmountSummary.formattedValue()}`;
-    totalExpectedAmountSummary.name = totalExpectedAmountLegendLabel;
+    )} ${totalUnpaidAmountSummary.formattedValue()}`;
+    totalUnpaidAmountSummary.name = totalExpectedAmountLegendLabel;
 
-    return totalExpectedAmountSummary;
+    return totalUnpaidAmountSummary;
   }
 
   get accountStatementAmountSummary(): ObservableArray<AccountStatementSummaryChart> {

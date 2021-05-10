@@ -76,7 +76,15 @@ export class AuthComponent implements OnInit {
                 // Subscribe to push notifications
                 this.pushNotificationService.subscribe();
 
-                this.router.navigate(['/dashboard'], {
+                // Check if the user opens the app via the notification.
+                // If so, redirect to the url provided by the notification,
+                // Otherwise, proceed to dashboard page
+                let route = '/dashboard';
+                if (this.pushNotificationService.navigateToUrl.getValue()) {
+                  route = this.pushNotificationService.url.getValue();
+                }
+
+                this.router.navigate([route], {
                   transition: {
                     name: 'slideLeft',
                   },
@@ -113,6 +121,10 @@ export class AuthComponent implements OnInit {
       this.usernameEl.nativeElement,
       this.passwordEl.nativeElement,
     ]);
+  }
+
+  goToForgotPassword() {
+    this.router.navigate(['forgot-password'], { replaceUrl: true });
   }
 
   private initializeCompanyField() {

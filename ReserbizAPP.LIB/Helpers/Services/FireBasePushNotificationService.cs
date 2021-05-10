@@ -35,13 +35,12 @@ namespace ReserbizAPP.LIB.Helpers.Services
             }
 
             var fcm = FirebaseAdmin.Messaging.FirebaseMessaging.GetMessaging(app);
+
+            data.Add("title", title);
+            data.Add("body", body);
+
             Message message = new Message()
             {
-                Notification = new Notification
-                {
-                    Title = title,
-                    Body = body
-                },
                 Topic = _topic
             };
 

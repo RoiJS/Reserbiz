@@ -4,6 +4,7 @@ import { RouterExtensions } from '@nativescript/angular';
 
 import { ObservableArray } from '@nativescript/core';
 import { TranslateService } from '@ngx-translate/core';
+import { delay } from 'rxjs/operators';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
@@ -13,6 +14,7 @@ import { AccountStatementPaginationList } from '@src/app/_models/pagination_list
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { BaseWidgetService } from '@src/app/_services/base-widget.service';
+import { PaymentsService } from '@src/app/_services/payments.service';
 
 @Component({
   selector: 'ns-unpaid-account-statements-list',
@@ -33,29 +35,36 @@ export class UnpaidAccountStatementsListComponent
     protected ngZone: NgZone,
     protected translateService: TranslateService,
     protected router: RouterExtensions,
-    private baseWidgetService: BaseWidgetService
+    private baseWidgetService: BaseWidgetService,
+    private paymentService: PaymentsService
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = accountStatementService;
   }
 
   ngOnInit() {
-    this.baseWidgetService.isBusy.next(true);
-    setTimeout(() => {
-      this.accountStatementService
-        .getUnpaidAccountStatements()
-        .subscribe(
-          (accountStatementPaginationList: AccountStatementPaginationList) => {
-            this.baseWidgetService.listItemCount.next(
-              accountStatementPaginationList.totalItems
-            );
-            this.baseWidgetService.isBusy.next(false);
-            this._listItems = new ObservableArray<AccountStatement>(
-              <AccountStatement[]>accountStatementPaginationList.items
-            );
-          }
-        );
-    }, 2000);
+    this._loadListFlagSub = this.paymentService.loadPaymentListFlag
+      .pipe(delay(2000))
+      .subscribe(() => {
+        this.baseWidgetService.isBusy.next(true);
+        this.accountStatementService
+          .getUnpaidAccountStatements()
+          .subscribe(
+            (
+              accountStatementPaginationList: AccountStatementPaginationList
+            ) => {
+              this.ngZone.run(() => {
+                this.baseWidgetService.listItemCount.next(
+                  accountStatementPaginationList.totalItems
+                );
+                this.baseWidgetService.isBusy.next(false);
+                this._listItems = new ObservableArray<AccountStatement>(
+                  <AccountStatement[]>accountStatementPaginationList.items
+                );
+              });
+            }
+          );
+      });
   }
 
   selectItem(currentIndex: number, url: string) {

@@ -563,26 +563,26 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .OrderByDescending(c => c.DueDate)
                 .ToListAsync();
 
-            // Total Unpaid Amount 
-            var unpaidAccountStatementsTotalAmount = accountStatements
+            // Total Paid Amount 
+            var totalAmountPaid = accountStatements
                 .Where(c =>
                    c.IsActive &&
-                   c.IsDelete == false &&
-                   c.IsFullyPaid == false
+                   c.IsDelete == false
+                ).Sum(a => a.CurrentAmountPaid);
+
+            // Total Unpaid Amount 
+            var totalExpectedAmount = accountStatements
+                .Where(c =>
+                   c.IsActive &&
+                   c.IsDelete == false
                 ).Sum(a => a.AccountStatementTotalAmount);
 
-            // Total Paid Amount 
-            var paidAccountStatementsTotalAmount = accountStatements
-                .Where(c =>
-                   c.IsActive &&
-                   c.IsDelete == false &&
-                   c.IsFullyPaid == true
-                ).Sum(a => a.AccountStatementTotalAmount);
+            var totalUnpaidAmount = Math.Abs(totalAmountPaid - totalExpectedAmount);
 
             var amountSummary = new AccountStatementsAmountSummary
             {
-                TotalAmountPaid = paidAccountStatementsTotalAmount,
-                TotalExpectedAmount = unpaidAccountStatementsTotalAmount
+                TotalAmountPaid = totalAmountPaid,
+                TotalUnpaidAmount = totalUnpaidAmount
             };
 
             return amountSummary;
@@ -797,14 +797,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 try
                 {
-                    var accountStatementDate = accountStatement.DueDate.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone).ToString("MM/dd/yyyy");
+                    var accountStatementDate = accountStatement.DueDate.ToString("MM/dd/yyyy");
                     var notificationBody = $"New statement of account generated for customer {contract.Tenant.PersonFullName} for {accountStatementDate} ({contract.Code})";
+                    var data = new Dictionary<string, string>();
 
-                    await fireBasePushNotificationService.Send(notificationTitle, notificationBody);
+                    data.Add("url", $"contracts/{contract.Id}/account-statement/{accountStatement.Id}");
+
+                    await fireBasePushNotificationService.Send(notificationTitle, notificationBody, data);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Error on sending push notification for client {dbHashName}. Error Message {ex.Message}");
+                    throw new Exception($"Error when sending push notification for client {dbHashName}. Error Message {ex.Message}");
                 }
             }
         }

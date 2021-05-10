@@ -1,4 +1,4 @@
 export class AccountStatementsAmountSummary {
   public totalAmountPaid: number;
-  public totalExpectedAmount: number;
+  public totalUnpaidAmount: number;
 }

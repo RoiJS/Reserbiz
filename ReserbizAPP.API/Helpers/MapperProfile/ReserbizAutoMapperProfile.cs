@@ -88,6 +88,8 @@ namespace ReserbizAPP.API.Helpers
                     opt => opt.MapFrom(src => src.CurrentAmountPaid))
                 .ForMember(dest => dest.CurrentBalance,
                     opt => opt.MapFrom(src => src.CurrentBalance))
+                .ForMember(dest => dest.IsDeletable,
+                    opt => opt.MapFrom(src => src.IsDeletable))
                 .ForMember(dest => dest.IsFullyPaid,
                     opt => opt.MapFrom(src => src.IsFullyPaid));
             CreateMap<AccountStatementMiscellaneous, AccountStatementMiscellaneousDetailsDto>();
@@ -119,6 +121,7 @@ namespace ReserbizAPP.API.Helpers
             CreateMap<ClientSettings, ClientSettingsDetailsDto>();
             CreateMap<GeneralInformation, GeneralInformationDto>();
             CreateMap<UserAccount, UserAccountDto>();
+            CreateMap<Account, UserAccountDto>();
             CreateMap<AppGlobalSettings, AppGlobalSettingsDto>();
 
             CreateMap<PersonalInformationForUpdateDto, Account>();

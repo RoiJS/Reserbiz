@@ -23,8 +23,8 @@
   }
 
   .custom-action-item-button {
-    color: white;
-    background-color: $primary;
+    color: $white;
+    background: transparent;
     border-radius: 50%;
     font-size: 23;
     height: 40;
@@ -34,8 +34,8 @@
   }
 
   .custom-action-item-button--active {
-    color: $primary;
-    background-color: white;
+    color: $white;
+    background: $primary;
   }
 }
 /*#endregion*/
@@ -169,7 +169,7 @@ $sidedrawer-list-icon-size: 20;
 
     &__header-section {
       color: white;
-      background-color: $primary;
+      background: $primary-gradient;
       border-radius: 5;
       font-size: 16;
       padding: 5;
@@ -387,6 +387,8 @@ PropertyEditor[type='Stepper'] DataFormEditorCore {
 }
 
 PropertyEditor[type='Text'] DataFormEditorCore,
+PropertyEditor[type='Password'] DataFormEditorCore,
+PropertyEditor[type='Email'] DataFormEditorCore,
 PropertyEditor[type='Phone'] DataFormEditorCore,
 PropertyEditor[type='Decimal'] DataFormEditorCore,
 PropertyEditor[type='Picker'] DataFormEditorCore,

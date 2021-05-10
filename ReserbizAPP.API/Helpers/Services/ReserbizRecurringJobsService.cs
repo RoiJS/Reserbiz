@@ -64,6 +64,41 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
             }
         }
 
+        public void RegisterAutoRemoveExpiredRefreshTokens()
+        {
+            using (IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                _appSettings = scope.ServiceProvider.GetService<IOptions<ApplicationSettings>>();
+                _appHostInfo = scope.ServiceProvider.GetService<IOptions<AppHostInfo>>();
+                _emailServerSettings = scope.ServiceProvider.GetService<IOptions<EmailServerSettings>>();
+                _globalErrorLogRepository = scope.ServiceProvider.GetService<GlobalErrorLogRepository>();
+
+                using (ReserbizDataContext dbContext = scope.ServiceProvider.GetRequiredService<ReserbizDataContext>())
+                {
+                    var activeClients = dbContext.Clients
+                                .Where(c => c.IsActive)
+                                .ToList();
+
+                    foreach (var client in activeClients)
+                    {
+                        // Auto-remove expired refresh tokens
+                        SendRequestRemoveExpiredRefreshTokens(client);
+                    }
+                }
+            }
+        }
+
+        private void SendRequestRemoveExpiredRefreshTokens(Client client)
+        {
+            // Send request to auto-remove expired refresh tokens
+            var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoRemoveExpiredRefreshTokensURL);
+            SendRequest(client, url, (Client c) =>
+            {
+                // Send email notification that the removing of expired refresh tokens is successfull
+                SendEmailNotificationAfterExpiredRefreshTokensWereRemoved(c);
+            });
+        }
+
         private void SendRequestToGenerateAccountStatement(Client client)
         {
             // Send request to auto-generate account statements
@@ -73,7 +108,6 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
                 // Send email notification that the generating of account statements is successfull
                 SendEmailNotificationAfterAccountStatementsGenerated(c);
             });
-
         }
 
         private void SendRequestToGeneratePenalties(Client client)
@@ -87,7 +121,7 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
             });
         }
 
-        private void SendRequest(Client client, string url, Action<Client> sendEmailNotification)
+        private void SendRequest(Client client, string url, Action<Client> sendEmailNotification = null)
         {
             try
             {
@@ -101,7 +135,11 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
                 // Only send email if the response is Ok (200)
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    sendEmailNotification(client);
+                    if (sendEmailNotification != null)
+                    {
+
+                        sendEmailNotification(client);
+                    }
                 };
 
             }
@@ -129,6 +167,11 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
         private void SendEmailNotificationAfterPenaltiesGenerated(Client client)
         {
             SendEmailNotification(client.Id, "Penalties Auto-generation Success", GenerateEmailTemplate(_appSettings.Value.SchedulerEmailNotificationSettings.AutoGeneratePenaltiesEmailTemplate, client.DBName));
+        }
+        
+        private void SendEmailNotificationAfterExpiredRefreshTokensWereRemoved(Client client)
+        {
+            SendEmailNotification(client.Id, "Expired Refresh Tokens Removed", GenerateEmailTemplate(_appSettings.Value.RemoveRefreshTokensNotificationSettings.RemoveExpiredRefreshTokensEmailTemplate, client.DBName));
         }
 
         private string GenerateEmailTemplate(string emailTemplatePath, string dbName)

@@ -93,9 +93,8 @@ export class PaymentsComponent
 
           this._contract = await this.contractService.getContract(contractId);
 
-          this._loadListFlagSub = this.paymentService.loadPaymentListFlag
-            .pipe(delay(1000))
-            .subscribe((reset: boolean) => {
+          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
+            (reset: boolean) => {
               (<PaymentFilter>this._entityFilter).contractId = contractId;
               (<PaymentFilter>(
                 this._entityFilter
@@ -112,7 +111,8 @@ export class PaymentsComponent
                     paymentPaginationList.depositedAmountBalance;
                 }
               );
-            });
+            }
+          );
         })();
       });
     });
