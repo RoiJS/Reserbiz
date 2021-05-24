@@ -1118,7 +1118,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit that is bind to its term is not available at this time."
     }
   },
 

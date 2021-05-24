@@ -279,6 +279,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         Name = "Room (Studio Type)",
                         Description = "Id labore deserunt non mollit enim sit excepteur fugiat sit reprehenderit exercitation anim cupidatat elit.",
+                        Rate = 9000
                     }
                 );
 
@@ -287,6 +288,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         Name = "Bed Space",
                         Description = "Dolor consectetur dolor nisi eu proident.",
+                        Rate = 2500
                     }
                 );
 
@@ -295,6 +297,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         Name = "Condo",
                         Description = "Aliqua do excepteur cillum occaecat.",
+                        Rate = 13000
                     }
                 );
 
@@ -303,6 +306,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         Name = "Room (Non-Studio Type)",
                         Description = "Minim veniam sint sunt laboris ex aute ea esse in id cupidatat nisi duis.",
+                        Rate = 6000
                     }
                 );
 
@@ -476,9 +480,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.Month,
                     AdvancedPaymentDurationValue = 1,
                     DepositPaymentDurationValue = 3,
-                    ExcludeElectricBill = false,
+                    ExcludeElectricBill = true,
                     ElectricBillAmount = 1200,
-                    ExcludeWaterBill = false,
+                    ExcludeWaterBill = true,
                     WaterBillAmount = 650,
                     TermMiscellaneous = new List<TermMiscellaneous> {
                         new TermMiscellaneous
@@ -713,7 +717,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             try
             {
-                 var url = String.Format("{0}{1}/{2}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGenerateAccountStatementsForNewDatabaseURL, account.Id);
+                var url = String.Format("{0}{1}/{2}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGenerateAccountStatementsForNewDatabaseURL, account.Id);
                 var httpClient = new RestClient(url);
                 httpClient.Timeout = -1;
                 var httpRequest = new RestRequest(Method.POST);
