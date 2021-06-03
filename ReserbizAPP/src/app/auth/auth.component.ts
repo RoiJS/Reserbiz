@@ -73,6 +73,9 @@ export class AuthComponent implements OnInit {
               (async () => {
                 await this.settingsService.getSettingsDetails();
 
+                // Make sure to unsubsribe from previous topic notification
+                this.pushNotificationService.unsubscribe();
+
                 // Subscribe to push notifications
                 this.pushNotificationService.subscribe();
 
