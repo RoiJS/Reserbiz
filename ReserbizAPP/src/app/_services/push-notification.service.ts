@@ -65,11 +65,16 @@ export class PushNotificationService {
     const topicNotification = this.storageService.getString(
       'current-notification-topic'
     );
-    firebase
-      .unsubscribeFromTopic(topicNotification)
-      .then(() =>
-        console.log(`Unsubscribing to notification topic ${topicNotification}!`)
-      );
+
+    if (topicNotification) {
+      firebase
+        .unsubscribeFromTopic(topicNotification)
+        .then(() =>
+          console.log(
+            `Unsubscribing to notification topic ${topicNotification}!`
+          )
+        );
+    }
   }
 
   get navigateToUrl(): BehaviorSubject<boolean> {
