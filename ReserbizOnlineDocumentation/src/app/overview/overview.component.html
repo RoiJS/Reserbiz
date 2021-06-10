@@ -1,0 +1,28 @@
+<app-tool-bar
+  [title]="'GENERAL_TEXTS.RESERBIZ_ONLINE_DOCUMENTATION' | translate"
+></app-tool-bar>
+<div class="page-container">
+  <mat-card class="content-panel">
+    <span class="main-title">{{
+      "SYSTEM_OVERVIEW_PAGE.HEADER.TITLE" | translate
+    }}</span>
+    <div class="divider"></div>
+
+    <section>
+      <div
+        class="content-description"
+        [innerHTML]="'SYSTEM_OVERVIEW_PAGE.BODY.DESCRIPTION' | translate"
+      ></div>
+
+      <div class="image-container">
+        <img src="../../assets/images/system-overview/reserbiz-login.png" />
+        <img src="../../assets/images/system-overview/reserbiz-app.png" />
+        <img src="../../assets/images/system-overview/reserbiz-dashboard.png" />
+      </div>
+    </section>
+
+    <app-footer></app-footer>
+  </mat-card>
+
+  <!-- <mat-card class="content-subsection-panel"> </mat-card> -->
+</div>

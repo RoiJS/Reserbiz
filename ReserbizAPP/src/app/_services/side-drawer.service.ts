@@ -56,7 +56,7 @@ export class SideDrawerService {
         text: 'MAIN_MENU.SETTINGS',
         icon: String.fromCharCode(0xf013),
         url: '/settings',
-        hasSeparator: true,
+        hasSeparator: false,
       },
     ];
   }

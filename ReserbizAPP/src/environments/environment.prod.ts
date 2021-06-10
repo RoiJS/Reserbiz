@@ -12,4 +12,6 @@ export const environment = {
   // (3) FOR DEPLOYED VERSION - RESERBIZ WEB API
   reserbizAPIEndPoint: 'http://reserbiz.com/api',
   reserbizAPIEndPointWebsocket: 'http://reserbiz.com/websocket',
+
+  reserbizOnlineDocumentationURL: 'http://docs.reserbiz.com',
 };
