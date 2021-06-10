@@ -7,7 +7,9 @@
     "SPACES": "Units",
     "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "DOCUMENTATION": "Documentation",
+    "SIGN_OUT": "Sign out"
   },
 
   "GENERAL_TEXTS": {

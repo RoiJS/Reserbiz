@@ -34,11 +34,27 @@
         </GridLayout>
         <GridLayout
           columns="auto, *"
+          class="nt-drawer__list-item sidedrawer-list-item menu-separator"
+          (tap)="onOpenOnlineDocumentation()"
+        >
+          <label col="0" text="&#xf02d;" class="fa fa-solid fa-regular"></label>
+          <label
+            col="1"
+            [text]="'MAIN_MENU.DOCUMENTATION' | translate"
+            class="p-r-10"
+          ></label>
+        </GridLayout>
+        <GridLayout
+          columns="auto, *"
           class="nt-drawer__list-item sidedrawer-list-item"
           (tap)="onSignout()"
         >
           <label col="0" text="&#xf2f5;" class="fa fa-solid fa-regular"></label>
-          <label col="1" text="Sign out" class="p-r-10"></label>
+          <label
+            col="1"
+            [text]="'MAIN_MENU.SIGN_OUT' | translate"
+            class="p-r-10"
+          ></label>
         </GridLayout>
       </StackLayout>
     </ScrollView>

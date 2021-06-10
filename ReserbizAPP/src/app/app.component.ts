@@ -24,7 +24,7 @@ import {
   DrawerTransitionBase,
   SlideInOnTopTransition,
 } from 'nativescript-ui-sidedrawer';
-import { Application } from '@nativescript/core';
+import { Application, Utils } from '@nativescript/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -166,6 +166,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     sideDrawer.closeDrawer();
   }
 
+  onOpenOnlineDocumentation() {
+    Utils.openUrl(environment.reserbizOnlineDocumentationURL);
+  }
+
   private connectToSignalRServer() {
     this.initBroadCastSystemUpdateStatus();
     this.initBroadCastValidateLoginAccount();
@@ -294,7 +298,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           } else {
             (async () => {
-              const generalInformation = await this.generalInformationService.getGeneralInformation();
+              const generalInformation =
+                await this.generalInformationService.getGeneralInformation();
 
               // Check if the system is currently under system update
               if (generalInformation.systemUpdateStatus) {
