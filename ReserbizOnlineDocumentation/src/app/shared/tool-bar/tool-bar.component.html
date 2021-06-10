@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <button
     type="button"
     aria-label="Toggle sidenav"
@@ -6,7 +6,13 @@
     (click)="toggleDrawer()"
     *ngIf="isHandset"
   >
-    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    <mat-icon class="sidenav-toggle-icon" aria-label="Side nav toggle icon"
+      >menu</mat-icon
+    >
   </button>
-  <span>{{ title }}</span>
+  <span class="title">{{ title | uppercase }}</span>
+  <img
+    class="reserbiz-logo"
+    src="../../../assets//images/mainlogo/reserbiz-logo.png"
+  />
 </mat-toolbar>

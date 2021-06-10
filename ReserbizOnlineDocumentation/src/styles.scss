@@ -1,7 +1,8 @@
+/*#region CUSTOM THEME */
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -14,69 +15,69 @@
 // hue. Available color palettes: https://material.io/design/color/
 /* For use in src/lib/core/theming/_palette.scss */
 $ReserbizOnlineHelp-primary-palette: (
-    50 : #030303,
-    100 : #f9cec0,
-    200 : #f5ad97,
-    300 : #f18c6d,
-    400 : #ee734d,
-    500 : #eb5a2e,
-    600 : #e95229,
-    700 : #e54823,
-    800 : #e23f1d,
-    900 : #dd2e12,
-    A100 : #ffffff,
-    A200 : #ffdcd8,
-    A400 : #ffafa5,
-    A700 : #ff988b,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50: #030303,
+  100: #f9cec0,
+  200: #f5ad97,
+  300: #f18c6d,
+  400: #ee734d,
+  500: #eb5a2e,
+  600: #e95229,
+  700: #e54823,
+  800: #e23f1d,
+  900: #dd2e12,
+  A100: #ffffff,
+  A200: #ffdcd8,
+  A400: #ffafa5,
+  A700: #ff988b,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
 );
 
 $ReserbizOnlineHelp-accent-palette: (
-    50 : #fdf1ed,
-    100 : #fbddd3,
-    200 : #f8c6b6,
-    300 : #f5af99,
-    400 : #f39d83,
-    500 : #f18c6d,
-    600 : #ef8465,
-    700 : #ed795a,
-    800 : #eb6f50,
-    900 : #e75c3e,
-    A100 : #ffffff,
-    A200 : #ffffff,
-    A400 : #ffd7ce,
-    A700 : #ffc1b5,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #000000,
-        600 : #000000,
-        700 : #000000,
-        800 : #000000,
-        900 : #000000,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50: #fdf1ed,
+  100: #fbddd3,
+  200: #f8c6b6,
+  300: #f5af99,
+  400: #f39d83,
+  500: #f18c6d,
+  600: #ef8465,
+  700: #ed795a,
+  800: #eb6f50,
+  900: #e75c3e,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffd7ce,
+  A700: #ffc1b5,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
 );
 
 $ReserbizOnlineHelp-primary: mat-palette($ReserbizOnlineHelp-primary-palette);
@@ -87,20 +88,221 @@ $ReserbizOnlineHelp-warn: mat-palette($mat-red);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$ReserbizOnlineHelp-theme: mat-light-theme((
-  color: (
-    primary: $ReserbizOnlineHelp-primary,
-    accent: $ReserbizOnlineHelp-accent,
-    warn: $ReserbizOnlineHelp-warn,
+$ReserbizOnlineHelp-theme: mat-light-theme(
+  (
+    color: (
+      primary: $ReserbizOnlineHelp-primary,
+      accent: $ReserbizOnlineHelp-accent,
+      warn: $ReserbizOnlineHelp-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($ReserbizOnlineHelp-theme);
 
-/* You can add global styles to this file, and also import other style files */
+/*#endregion */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* You can add global styles to this file, and also import other style files */
+@import "./app-variables";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+/*#region SIDENAV BAR */
+
+.sidenav-header {
+  width: 100%;
+  height: 250px;
+  background: $primary-gradient;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+
+  img {
+    width: 160px;
+    height: auto;
+    align-self: center;
+  }
+}
+
+mat-tree-node[aria-level="1"] {
+  font-weight: 500;
+}
+
+.mat-tree-node {
+  justify-content: space-between;
+}
+
+.mat-tree-node:hover {
+  background: $primary-gradient;
+  color: white;
+}
+
+.active {
+  background: $primary-gradient;
+  color: white;
+}
+/*#endregion*/
+
+/*#region PAGE CONTAINER CLASSES */
+.page-container {
+  padding: 1em;
+  background: $background-gradient;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 4em;
+
+  .content-panel {
+    width: 75%;
+    margin-bottom: 1.5em;
+
+    section {
+      margin-bottom: 2em;
+
+      .table-container {
+        overflow: auto;
+        margin-bottom: 1.5em;
+
+        table tbody td {
+          padding: 0.7em;
+          font-size: 0.9em;
+        }
+
+        table thead th {
+          text-align: center;
+          padding-left: 0;
+        }
+
+        table td.mat-column-name,
+        table td.mat-column-datatype {
+          width: 10em;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .content-subsection-panel {
+    width: 20%;
+    margin-bottom: 1.5em;
+
+    mat-panel-title {
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+      padding-inline-start: 0;
+      font-size: 0.9em;
+    }
+
+    ul li {
+      cursor: pointer;
+    }
+
+    ul li a {
+      text-decoration: none;
+      color: black;
+    }
+
+    ul li a:hover,
+    ul li a:active {
+      color: #ff6f43;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .page-container {
+    flex-wrap: wrap-reverse;
+
+    .content-panel,
+    .content-subsection-panel {
+      width: 95%;
+    }
+
+    .table-container {
+      overflow: auto;
+      table {
+        width: 1000px;
+      }
+    }
+  }
+}
+
+/*#endregion*/
+
+/*#region PAGE CONTENT UTILITIES CLASSES */
+.main-title {
+  font-size: 1.5em;
+  font-weight: 500;
+  color: black;
+}
+
+.sub-title {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #707070;
+}
+
+.content-description {
+  font-size: 0.9em;
+  text-align: justify;
+  margin-bottom: 1em;
+
+  .system-icon {
+    width: 25px;
+    height: 100%;
+  }
+}
+
+.subsection-title {
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.divider {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(197, 197, 197);
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.image-container,
+.video-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  img,
+  video {
+    height: 100%;
+    max-width: 300px;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+  }
+}
+
+@media (max-width: 425px) {
+  .image-container,
+  .video-container {
+    img,
+    video {
+      height: 100%;
+      max-width: 100%;
+      margin-bottom: 1.5em;
+    }
+  }
+}
+/*#endregion */

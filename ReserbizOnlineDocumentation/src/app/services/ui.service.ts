@@ -18,11 +18,11 @@ export class UIService {
   constructor(private breakpointObserver: BreakpointObserver) {
     this._isHandSet;
   }
-  setDrawerRef(sideNavRef: MatSidenav | undefined) {
+  setDrawerRef(sideNavRef: MatSidenav | undefined): void {
     this._sideNavRef = sideNavRef;
   }
 
-  toggleDrawer() {
+  toggleDrawer(): void {
     this._sideNavRef?.toggle();
   }
 

@@ -17,24 +17,24 @@ import { UIService } from 'src/app/services/ui.service';
 export class ToolBarComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() title = '';
 
-  private _isHandset: boolean = false;
+  private _isHandset = false;
   private isHandSetSubscription: Subscription | undefined;
 
   constructor(private uiService: UIService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.isHandSetSubscription) {
       this.isHandSetSubscription?.unsubscribe();
     }
   }
 
-  toggleDrawer() {
+  toggleDrawer(): void {
     this.uiService.toggleDrawer();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.isHandSetSubscription = this.uiService.isHandset.subscribe(
       (result: boolean) => {
         this._isHandset = result;

@@ -1,0 +1,15 @@
+$background-gradient: linear-gradient(
+  120deg,
+  #e7e7e7 0%,
+  #ffffff 50%,
+  #e7e7e7 100%
+);
+
+$primary: #eb5a2e;
+$from-color-gradiant: #ff6f43;
+$to-color-gradiant: $primary;
+$primary-gradient: linear-gradient(
+  300deg,
+  $from-color-gradiant 40%,
+  $to-color-gradiant 100%
+);
