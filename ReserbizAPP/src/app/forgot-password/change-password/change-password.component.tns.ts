@@ -1,15 +1,12 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { RouterExtensions } from '@nativescript/angular';
 
-import { Button, Page } from '@nativescript/core';
+import { Page } from '@nativescript/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { UserAccountInfoFormSource } from '@src/app/_models/form/user-account-form.model';
 
-import { AuthService } from '@src/app/_services/auth.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ForgotPasswordService } from '@src/app/_services/forgot-password.service';
-import { threadId } from 'node:worker_threads';
 
 @Component({
   selector: 'app-change-password',

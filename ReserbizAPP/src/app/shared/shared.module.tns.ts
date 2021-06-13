@@ -13,6 +13,7 @@ import { FloatingButtonComponent } from '@src/app/shared/ui/floating-button/floa
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
 import { NativeScriptUIChartModule } from 'nativescript-ui-chart/angular';
+import { NativeScriptDateTimePickerModule } from '@nativescript/datetimepicker/angular';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { NativeScriptUIChartModule } from 'nativescript-ui-chart/angular';
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
     NativeScriptUIChartModule,
+    NativeScriptDateTimePickerModule,
     TranslateModule.forChild(),
   ],
   declarations: [
@@ -38,6 +40,7 @@ import { NativeScriptUIChartModule } from 'nativescript-ui-chart/angular';
     NativeScriptUIDataFormModule,
     NativeScriptUIListViewModule,
     NativeScriptUIChartModule,
+    NativeScriptDateTimePickerModule,
     TranslateModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],

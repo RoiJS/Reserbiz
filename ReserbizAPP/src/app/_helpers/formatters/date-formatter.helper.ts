@@ -8,4 +8,9 @@ export class DateFormatter {
 
     return moment(date).format(format);
   }
+
+  static isValidDate(date: string): boolean {
+    const dateToCompare = new Date(date);
+    return dateToCompare.getFullYear() !== 1;
+  }
 }

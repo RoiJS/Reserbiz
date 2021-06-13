@@ -5,6 +5,8 @@ import { AccountStatementFormSource } from '../../_models/form/account-statement
 import { AccountStatementDto } from '../../_dtos/account-statement.dto';
 import { AccountStatementMiscellaneous } from '../../_models/account-statement-miscellaneous.model';
 
+import { DateFormatter } from '../formatters/date-formatter.helper';
+
 export class AccountStatementMapper
   implements
     IBaseEntityMapper<AccountStatement>,
@@ -25,6 +27,11 @@ export class AccountStatementMapper
         as.depositPaymentDurationValue;
       accountStatement.advancedPaymentDurationValue =
         as.advancedPaymentDurationValue;
+      accountStatement.utilityBillsDueDate = DateFormatter.isValidDate(
+        as.utilityBillsDueDate?.toString()
+      )
+        ? new Date(as.utilityBillsDueDate)
+        : undefined;
       accountStatement.electricBill = as.electricBill;
       accountStatement.waterBill = as.waterBill;
       accountStatement.penaltyNextDueDate = as.penaltyNextDueDate;

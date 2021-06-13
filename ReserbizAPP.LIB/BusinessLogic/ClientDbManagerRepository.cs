@@ -29,7 +29,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
         public async Task SyncAllClientDatabases()
         {
             var activeDatabases = await _reserbizRepository.SystemDbContext.Clients
-                .Where(a => a.IsDelete == false)
+                .Where(a => a.IsActive == true && a.IsDelete == false)
                 .ToListAsync();
 
             foreach (var db in activeDatabases)

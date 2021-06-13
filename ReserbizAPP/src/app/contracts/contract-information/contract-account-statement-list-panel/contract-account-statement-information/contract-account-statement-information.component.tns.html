@@ -62,27 +62,6 @@
             [formGroup]="waterAndElecitricBillAmountformGroup"
             class="panel__body-section"
           >
-            <!-- Due Date  -->
-            <StackLayout
-              class="panel__details-section"
-              orientation="horizontal"
-            >
-              <StackLayout class="bill-category-name">
-                <label
-                  class="details-label"
-                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
-                ></label>
-              </StackLayout>
-
-              <StackLayout class="bill-category-value" orientation="horizontal">
-                <label
-                  [text]="currentAccountStatement?.dueDateFormatted"
-                ></label>
-              </StackLayout>
-            </StackLayout>
-
-            <StackLayout class="panel__border"></StackLayout>
-
             <!-- Miscellaneous -->
             <StackLayout
               *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
@@ -119,6 +98,30 @@
               class="panel__border"
               *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
             ></StackLayout>
+
+            <!-- Utility Bills Due Date Amount -->
+            <StackLayout
+              class="panel__details-section"
+              orientation="horizontal"
+            >
+              <StackLayout
+                class="bill-category-name"
+                verticalAlignment="middle"
+              >
+                <label
+                  class="details-label"
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
+                ></label>
+              </StackLayout>
+              <StackLayout class="bill-category-value" orientation="horizontal">
+                <DatePickerField
+                  class="utility-bill-due-date"
+                  [(ngModel)]="dueDate"
+                  [ngModelOptions]="{standalone: true}"
+                  margin="0"
+                ></DatePickerField>
+              </StackLayout>
+            </StackLayout>
 
             <!-- Water Bill Amount -->
             <StackLayout
@@ -182,6 +185,25 @@
             </StackLayout>
 
             <StackLayout class="panel__border"></StackLayout>
+
+            <!-- Due Date  -->
+            <StackLayout
+              class="panel__details-section"
+              orientation="horizontal"
+            >
+              <StackLayout class="bill-category-name">
+                <label
+                  class="details-label"
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
+                ></label>
+              </StackLayout>
+
+              <StackLayout class="bill-category-value" orientation="horizontal">
+                <label
+                  [text]="currentAccountStatement?.dueDateFormatted"
+                ></label>
+              </StackLayout>
+            </StackLayout>
 
             <!-- Rent Income -->
             <StackLayout
