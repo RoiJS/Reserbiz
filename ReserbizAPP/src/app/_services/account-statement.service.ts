@@ -18,7 +18,8 @@ import { AccountStatementMapper } from '../_helpers/mappers/account-statement-ma
 @Injectable({ providedIn: 'root' })
 export class AccountStatementService
   extends BaseService<AccountStatement>
-  implements IBaseService<AccountStatement> {
+  implements IBaseService<AccountStatement>
+{
   private _loadAccountStatementListFlag = new BehaviorSubject<boolean>(false);
   constructor(public http: HttpClient) {
     super(new AccountStatementMapper(), http);
@@ -70,7 +71,8 @@ export class AccountStatementService
   async updateWaterAndElectricBillAmount(
     id: number,
     waterBillAmount: number,
-    electricBillAmount: number
+    electricBillAmount: number,
+    utilityBillsDueDate: Date
   ): Promise<void> {
     return await this.http
       .post<void>(
@@ -79,6 +81,7 @@ export class AccountStatementService
           id,
           waterBillAmount,
           electricBillAmount,
+          utilityBillsDueDate,
         }
       )
       .toPromise();

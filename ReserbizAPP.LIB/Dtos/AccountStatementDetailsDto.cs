@@ -9,9 +9,10 @@ namespace ReserbizAPP.LIB.Dtos
         public int ContractId { get; set; }
         public DateTime DueDate { get; set; }
         public float Rate { get; set; }
-        public float ElectricBill { get; set; }
         public int AdvancedPaymentDurationValue { get; set; }
         public int DepositPaymentDurationValue { get; set; }
+        public DateTime UtilityBillsDueDate { get; set; }
+        public float ElectricBill { get; set; }
         public float WaterBill { get; set; }
         public DateTime PenaltyNextDueDate { get; set; }
         public float PenaltyTotalAmount { get; set; }
