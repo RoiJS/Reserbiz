@@ -75,7 +75,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 PenaltyValueType = contractTerm.PenaltyValueType,
                 PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
-                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit
+                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit,
+                MiscellaneousDueDate = contractTerm.MiscellaneousDueDate
             };
             newAccountStatement.AccountStatementMiscellaneous.AddRange(GenerateAccountStatementMiscellaneous(contractTerm.TermMiscellaneous));
             return newAccountStatement;

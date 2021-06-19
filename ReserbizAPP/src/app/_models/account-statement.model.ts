@@ -1,3 +1,5 @@
+import { MiscellaneousDueDateEnum } from '../_enum/miscellaneous-due-date.enum';
+
 import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
 import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 
@@ -22,6 +24,7 @@ export class AccountStatement extends Entity {
   public isFullyPaid: boolean;
   public isFirstAccountStatement: boolean;
   public tenantName: string;
+  public miscellaneousDueDate: MiscellaneousDueDateEnum;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
 
   constructor() {
@@ -37,6 +40,7 @@ export class AccountStatement extends Entity {
     this.accountStatementTotalAmount = 0;
     this.currentAmountPaid = 0;
     this.isFullyPaid = false;
+    this.miscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate;
     this.accountStatementMiscellaneous = [];
   }
 

@@ -30,9 +30,12 @@ import { DurationValueProvider } from '@src/app/_helpers/value_providers/duratio
 import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
 import { ValueTypeValueProvider } from '@src/app/_helpers/value_providers/value-type-provider.helper';
 import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
+import { MiscellaneousValueProvider } from '@src/app/_helpers/value_providers/miscellaneous-due-date-provider.helper';
+
 import { TermMapper } from '@src/app/_helpers/mappers/term-mapper.helper';
 
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 
 @Component({
@@ -42,7 +45,8 @@ import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 })
 export class ContractManageTermFormComponent
   extends BaseFormComponent<Term, TermDetailsFormSource, TermDto>
-  implements ITermFormValueProvider, OnInit, OnDestroy {
+  implements ITermFormValueProvider, OnInit, OnDestroy
+{
   @Output() onTermDetailsSaved = new EventEmitter<{
     termDetails: Term;
     currentSpaceType: SpaceType;
@@ -57,6 +61,8 @@ export class ContractManageTermFormComponent
   private _penaltyEffectiveAfterDurationUnitRangeValueProvider: DurationRangeValueProvider;
   private _valueTypeValueProvider: ValueTypeValueProvider;
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
+  private _miscellaneousDueDateValueProvider: MiscellaneousValueProvider;
+
   private _spaceTypeOptions;
 
   private _termDetailsSub: Subscription;
@@ -84,23 +90,25 @@ export class ContractManageTermFormComponent
       this.translateService
     );
 
+    this._miscellaneousDueDateValueProvider = new MiscellaneousValueProvider(
+      this.translateService
+    );
+
     this._valueTypeValueProvider = new ValueTypeValueProvider(
       this.translateService
     );
   }
 
   ngOnInit() {
-    this._termSavedDetailsSub = this.localManageTermService.entitySavedDetails.subscribe(
-      () => {
+    this._termSavedDetailsSub =
+      this.localManageTermService.entitySavedDetails.subscribe(() => {
         this.onTermDetailsSavedEmit();
-      }
-    );
+      });
 
-    this._cancelTermSavedDetailsSub = this.localManageTermService.entityCancelSaveDetails.subscribe(
-      () => {
+    this._cancelTermSavedDetailsSub =
+      this.localManageTermService.entityCancelSaveDetails.subscribe(() => {
         this.onCancelTermDetailsSavedEmit();
-      }
-    );
+      });
 
     this._termDetailsSub = this.localManageTermService.entityDetails.subscribe(
       (term: Term) => {
@@ -120,13 +128,13 @@ export class ContractManageTermFormComponent
 
           me._spaceTypeOptions = me._spaceTypeValueProvider.spaceTypeOptions;
 
-          me._durationDetailsRangeValueProvider = new DurationRangeValueProvider(
-            me._entityFormSource.durationUnit
-          );
+          me._durationDetailsRangeValueProvider =
+            new DurationRangeValueProvider(me._entityFormSource.durationUnit);
 
-          me._penaltyEffectiveAfterDurationUnitRangeValueProvider = new DurationRangeValueProvider(
-            me._entityFormSource.penaltyEffectiveAfterDurationUnit
-          );
+          me._penaltyEffectiveAfterDurationUnitRangeValueProvider =
+            new DurationRangeValueProvider(
+              me._entityFormSource.penaltyEffectiveAfterDurationUnit
+            );
         }, 500);
       }
     );
@@ -152,7 +160,7 @@ export class ContractManageTermFormComponent
       this._currentEntity = this._entityDtoMapper.mapFormSourceToEntity(
         this._entityFormSource
       );
-      this._currentEntity.id =  termId;
+      this._currentEntity.id = termId;
       this.onTermDetailsSaved.emit({
         termDetails: this._currentEntity,
         currentSpaceType: this._currentSpaceType,
@@ -204,7 +212,8 @@ export class ContractManageTermFormComponent
     }
 
     if (args.propertyName === 'durationUnit') {
-      this._durationDetailsRangeValueProvider.currentDuration = this._entityFormSource.durationUnit;
+      this._durationDetailsRangeValueProvider.currentDuration =
+        this._entityFormSource.durationUnit;
 
       /**
        * Whenever the duration unit is set to "None",
@@ -255,8 +264,8 @@ export class ContractManageTermFormComponent
        * but still, the user the option to change it with other duration unit.
        */
       this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
-        penaltyEffectiveAfterDurationUnit: this._entityFormSource
-          .penaltyAmountPerDurationUnit,
+        penaltyEffectiveAfterDurationUnit:
+          this._entityFormSource.penaltyAmountPerDurationUnit,
       });
     }
 
@@ -267,7 +276,8 @@ export class ContractManageTermFormComponent
        * depending on the currently selected duration unit for penalty
        * effective after duration field
        */
-      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration = this._entityFormSource.penaltyEffectiveAfterDurationUnit;
+      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration =
+        this._entityFormSource.penaltyEffectiveAfterDurationUnit;
     }
 
     if (args.propertyName === 'penaltyEffectiveAfterDurationValue') {
@@ -283,8 +293,8 @@ export class ContractManageTermFormComponent
         )
       ) {
         this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
-          penaltyEffectiveAfterDurationValue: this
-            ._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
+          penaltyEffectiveAfterDurationValue:
+            this._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
         });
       }
     }
@@ -292,6 +302,13 @@ export class ContractManageTermFormComponent
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {
     return this._durationValueProvider.durationOptions;
+  }
+
+  get miscellaneousDueDateOptions(): Array<{
+    key: MiscellaneousDueDateEnum;
+    label: string;
+  }> {
+    return this._miscellaneousDueDateValueProvider.dueDateOptions;
   }
 
   get valueTypeOptions(): Array<{ key: ValueTypeEnum; label: string }> {

@@ -1,4 +1,5 @@
 import { DurationEnum } from '../_enum/duration-unit.enum';
+import { MiscellaneousDueDateEnum } from '../_enum/miscellaneous-due-date.enum';
 import { ValueTypeEnum } from '../_enum/value-type.enum';
 
 import { Entity } from './entity.model';
@@ -29,6 +30,7 @@ export class Term extends Entity {
   public waterBillAmount: number;
 
   public termMiscellaneous: TermMiscellaneous[];
+  public deletedTermMiscellaneous: TermMiscellaneous[];
 
   public penaltyValue: number;
   public penaltyAmount: number;
@@ -42,6 +44,7 @@ export class Term extends Entity {
   public penaltyEffectiveAfterDurationUnit: DurationEnum;
   public penaltyEffectiveAfterDurationUnitText: string;
   public generateAccountStatementDaysBeforeValue: number;
+  public miscellaneousDueDate: MiscellaneousDueDateEnum;
 
   constructor() {
     super();

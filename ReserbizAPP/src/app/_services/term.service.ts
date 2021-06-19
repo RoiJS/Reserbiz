@@ -17,7 +17,8 @@ import { TermOption } from '../_models/options/term-option.model';
 @Injectable({ providedIn: 'root' })
 export class TermService
   extends BaseService<Term>
-  implements IBaseService<Term> {
+  implements IBaseService<Term>
+{
   private _loadTermListFlag = new BehaviorSubject<void>(null);
 
   constructor(public http: HttpClient) {
@@ -113,6 +114,7 @@ export class TermService
       newTerm.penaltyEffectiveAfterDurationUnit;
     termCreateDto.generateAccountStatementDaysBeforeValue =
       newTerm.generateAccountStatementDaysBeforeValue;
+    termCreateDto.miscellaneousDueDate = newTerm.miscellaneousDueDate;
 
     termCreateDto.termMiscellaneous = newTermMiscellaneous.map(
       (tm: TermMiscellaneous) => {
