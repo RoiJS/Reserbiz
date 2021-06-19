@@ -41,6 +41,7 @@ export class SharedComponent
   dataSource5: IField[] = [];
   dataSource6: IField[] = [];
   dataSource7: IField[] = [];
+  dataSource8: IField[] = [];
 
   constructor(protected uiService: UIService) {
     this._fragment = '';

@@ -178,7 +178,7 @@
           </div>
         </section>
 
-        <section>
+        <section id="penalty-settings-section">
           <p class="subsection-title">
             {{
               "TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.PENALTY_DETAILS_SECTION.TITLE"
@@ -231,6 +231,49 @@
 
           <div class="table-container">
             <table mat-table [dataSource]="dataSource5">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="datatype">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.datatype }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="definition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [innerHTML]="element.definition"
+                ></td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
+
+        <section id="miscellaneous-settings-section">
+          <p class="subsection-title">
+            {{
+              "TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.TITLE"
+                | translate
+            }}
+          </p>
+
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource6">
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
