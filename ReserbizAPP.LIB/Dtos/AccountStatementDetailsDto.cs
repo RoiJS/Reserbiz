@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Dtos
 {
@@ -23,6 +24,7 @@ namespace ReserbizAPP.LIB.Dtos
         public bool IsFullyPaid { get; set; }
         public bool isFirstAccountStatement { get; set; }
         public bool IsDeletable { get; set; }
+        public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
         public List<AccountStatementMiscellaneousDetailsDto> AccountStatementMiscellaneous { get; set; }
         public List<AccountStatementPaymentItemDetailsDto> PaymentBreakdowns { get; set; }
         public List<AccountStatementPenaltyItemDetailsDto> PenaltyBreakdowns { get; set; }

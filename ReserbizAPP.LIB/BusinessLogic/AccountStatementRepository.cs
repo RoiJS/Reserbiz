@@ -715,7 +715,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     totalAmount += accountStatement.PenaltyTotalAmount;
                 }
 
-                content.AppendLine(String.Format("<b>Total Amount:</b> {0}<br>", totalAmount.ToCurrencyFormat()));
+                if ((accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate && accountStatement.AccountStatementMiscellaneous.Count > 0) || accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.AppendLine(String.Format("<b>Total Amount:</b> {0}<br>", totalAmount.ToCurrencyFormat()));
+                }
+
                 content.AppendLine("<br>");
             }
             #endregion
@@ -769,6 +773,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Check if the rental fee is not fully paid then include the rental details
             if (!accountStatement.IsRentalFeeFullyPaid)
             {
+                content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
 
                 var totalAmount = 0.0f;
@@ -801,8 +806,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     totalAmount += accountStatement.PenaltyTotalAmount;
                 }
 
-                content.Append(String.Format("Total Amount: {0} \n", totalAmount.ToCurrencyFormat()));
-                content.Append("\n");
+                if ((accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate && accountStatement.AccountStatementMiscellaneous.Count > 0) || accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.Append(String.Format("Total Amount: {0} \n", totalAmount.ToCurrencyFormat()));
+                }
             }
             #endregion
 
@@ -811,6 +818,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Append electric and water bill amount
             if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
             {
+                content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
 
@@ -834,7 +842,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         content.Append("Miscellaneous Fees: \n");
                         foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
                         {
-                            content.AppendLine(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
+                            content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
                             totalAmount += item.Amount;
                         }
                     }
