@@ -316,5 +316,27 @@ export class TermsComponent
         `,
       },
     ];
+
+    this.dataSource6 = [
+      {
+        name: this.translateService.instant(
+          'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.MISCELLANEOUS_DUE_DATE_INFORMATION.NAME'
+        ),
+        datatype: this.translateService.instant(
+          'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.MISCELLANEOUS_DUE_DATE_INFORMATION.DATA_TYPE'
+        ),
+        definition: `
+          ${this.translateService.instant(
+            'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.MISCELLANEOUS_DUE_DATE_INFORMATION.DESCRIPTION_1'
+          )}
+          ${this.translateService.instant(
+            'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.MISCELLANEOUS_DUE_DATE_INFORMATION.DESCRIPTION_2'
+          )}
+          ${this.translateService.instant(
+            'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.MISCELLANEOUS_SETTINGS_SECTION.MISCELLANEOUS_DUE_DATE_INFORMATION.DESCRIPTION_3'
+          )}
+        `,
+      },
+    ];
   }
 }

@@ -1,6 +1,7 @@
 import { IBaseDto } from '../_interfaces/ibase-dto.interface';
 import { DurationEnum } from '../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../_enum/value-type.enum';
+import { MiscellaneousDueDateEnum } from '../_enum/miscellaneous-due-date.enum';
 
 export class TermDto implements IBaseDto {
   constructor(
@@ -21,6 +22,7 @@ export class TermDto implements IBaseDto {
     public penaltyAmountPerDurationUnit: DurationEnum,
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
-    public generateAccountStatementDaysBeforeValue: DurationEnum
+    public generateAccountStatementDaysBeforeValue: DurationEnum,
+    public miscellaneousDueDate: MiscellaneousDueDateEnum
   ) {}
 }

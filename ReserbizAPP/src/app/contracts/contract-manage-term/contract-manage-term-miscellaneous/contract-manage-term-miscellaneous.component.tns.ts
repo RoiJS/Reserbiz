@@ -15,7 +15,6 @@ import { TermMiscellaneous } from '@src/app/_models/term-miscellaneous.model';
 import { LocalManageTermMiscellaneousService } from '@src/app/_services/local-manage-term-miscellaneous.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'ns-contract-manage-term-miscellaneous',
@@ -23,9 +22,10 @@ import { skip } from 'rxjs/operators';
   styleUrls: ['./contract-manage-term-miscellaneous.component.scss'],
 })
 export class ContractManageTermMiscellaneousComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   @ViewChild('termMiscellaneousListView', { static: false })
-  contactPersonView: RadListViewComponent;
+  termMiscellaneousListView: RadListViewComponent;
 
   private _isBusy = false;
   private _termMiscellaneousListSub: Subscription;
@@ -60,13 +60,18 @@ export class ContractManageTermMiscellaneousComponent
   getTermMiscellaneousList() {
     this._isBusy = true;
     setTimeout(() => {
-      this._termMiscellaneousListSub = this.localManageTermMiscellaneousService.entityList
-        .subscribe((termMiscellaneous: TermMiscellaneous[]) => {
-          this._isBusy = false;
-          this._termMiscellaneous = new ObservableArray<TermMiscellaneous>(
-            termMiscellaneous
-          );
-        });
+      this._termMiscellaneousListSub =
+        this.localManageTermMiscellaneousService.entityList.subscribe(
+          (termMiscellaneous: TermMiscellaneous[]) => {
+            this._isBusy = false;
+            this._termMiscellaneous = new ObservableArray<TermMiscellaneous>(
+              termMiscellaneous
+            );
+            setTimeout(() => {
+              this.termMiscellaneousListView.listView.refresh();
+            }, 1000);
+          }
+        );
     }, 500);
   }
 

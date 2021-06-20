@@ -29,11 +29,13 @@ namespace ReserbizAPP.API.Controllers
 
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepository;
         private readonly ITermRepository<Term> _termRepository;
+        private readonly ITermMiscellaneousRepository<TermMiscellaneous> _termMiscellaneousRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ContractController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
             IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository,
             ISpaceTypeRepository<SpaceType> spaceTypeRepository, ITermRepository<Term> termRepository,
+            ITermMiscellaneousRepository<TermMiscellaneous> termMiscellaneousRepository,
              IMapper mapper, IPaginationService paginationService,
              IHttpContextAccessor httpContextAccessor
             )
@@ -45,6 +47,7 @@ namespace ReserbizAPP.API.Controllers
             _paginationService = paginationService;
             _spaceTypeRepository = spaceTypeRepository;
             _termRepository = termRepository;
+            _termMiscellaneousRepository = termMiscellaneousRepository;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -62,7 +65,7 @@ namespace ReserbizAPP.API.Controllers
             {
                 // (2) This will auto generate statement of accounts for the contrac
                 var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
-                 await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contractToCreate.Id);
+                await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contractToCreate.Id);
             }
             catch (Exception ex)
             {
@@ -177,6 +180,9 @@ namespace ReserbizAPP.API.Controllers
 
             if (await _contractRepository.SaveChanges())
             {
+                // Make sure to delete unused term miscellaneous
+                var deletedTermMiscellaneousIds = contractManageDto.Term.DeletedTermMiscellaneous.Select(t => t.Id).ToList();
+                await _termMiscellaneousRepository.DeleteMultipleTermMiscelleneousAsync(deletedTermMiscellaneousIds);
                 return NoContent();
             }
 

@@ -14,6 +14,7 @@ import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IAccountStatementFilter } from '../_interfaces/filters/iaccount-statement-filter.interface';
 
 import { AccountStatementMapper } from '../_helpers/mappers/account-statement-mapper.helper';
+import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
 
 @Injectable({ providedIn: 'root' })
 export class AccountStatementService
@@ -74,6 +75,7 @@ export class AccountStatementService
     electricBillAmount: number,
     utilityBillsDueDate: Date
   ): Promise<void> {
+    const date = DateFormatter.format(utilityBillsDueDate);
     return await this.http
       .post<void>(
         `${this._apiBaseUrl}/accountstatement/updateWaterAndElectricBillAmount`,
@@ -81,7 +83,7 @@ export class AccountStatementService
           id,
           waterBillAmount,
           electricBillAmount,
-          utilityBillsDueDate,
+          utilityBillsDueDate: date,
         }
       )
       .toPromise();

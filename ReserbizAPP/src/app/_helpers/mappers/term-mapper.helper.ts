@@ -12,11 +12,13 @@ import { TermDto } from '../../_dtos/term.dto';
 
 import { DurationEnum } from '../../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../../_enum/value-type.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 
 export class TermMapper
   implements
     IBaseEntityMapper<Term>,
-    IBaseDtoEntityMapper<Term, TermDetailsFormSource, TermDto> {
+    IBaseDtoEntityMapper<Term, TermDetailsFormSource, TermDto>
+{
   mapEntity(t: Term): Term {
     const term = new Term();
     const termMiscellaneousMapper = new TermMiscellaneousMapper();
@@ -58,6 +60,7 @@ export class TermMapper
       t.penaltyEffectiveAfterDurationUnit;
     term.penaltyEffectiveAfterDurationUnitText =
       t.penaltyEffectiveAfterDurationUnitText;
+    term.miscellaneousDueDate = t.miscellaneousDueDate;
     term.isActive = t.isActive;
     term.isDeletable = t.isDeletable;
 
@@ -91,7 +94,8 @@ export class TermMapper
       DurationEnum.Day,
       0,
       DurationEnum.Day,
-      5
+      5,
+      MiscellaneousDueDateEnum.SameWithRentalDueDate
     );
 
     return termFormSource;
@@ -116,7 +120,8 @@ export class TermMapper
       termFormSource.penaltyAmountPerDurationUnit,
       termFormSource.penaltyEffectiveAfterDurationValue,
       termFormSource.penaltyEffectiveAfterDurationUnit,
-      termFormSource.generateAccountStatementDaysBeforeValue
+      termFormSource.generateAccountStatementDaysBeforeValue,
+      termFormSource.miscellaneousDueDate
     );
     return term;
   }
@@ -140,7 +145,8 @@ export class TermMapper
       term.penaltyAmountPerDurationUnit,
       term.penaltyEffectiveAfterDurationValue,
       term.penaltyEffectiveAfterDurationUnit,
-      term.generateAccountStatementDaysBeforeValue
+      term.generateAccountStatementDaysBeforeValue,
+      term.miscellaneousDueDate
     );
 
     return termFormSource;
@@ -169,6 +175,7 @@ export class TermMapper
       formSource.penaltyEffectiveAfterDurationUnit;
     term.generateAccountStatementDaysBeforeValue =
       formSource.generateAccountStatementDaysBeforeValue;
+    term.miscellaneousDueDate = formSource.miscellaneousDueDate;
 
     return term;
   }

@@ -1,6 +1,7 @@
 import { BaseForm } from './base-form.model';
 import { DurationEnum } from '../../_enum/duration-unit.enum';
 import { ValueTypeEnum } from '../../_enum/value-type.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 
 export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
   constructor(
@@ -21,7 +22,8 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
     public penaltyAmountPerDurationUnit: DurationEnum,
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
-    public generateAccountStatementDaysBeforeValue: number
+    public generateAccountStatementDaysBeforeValue: number,
+    public miscellaneousDueDate: MiscellaneousDueDateEnum
   ) {
     super();
   }
@@ -45,7 +47,8 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
       this.penaltyAmountPerDurationUnit,
       this.penaltyEffectiveAfterDurationValue,
       this.penaltyEffectiveAfterDurationUnit,
-      this.generateAccountStatementDaysBeforeValue
+      this.generateAccountStatementDaysBeforeValue,
+      this.miscellaneousDueDate
     );
   }
 }
