@@ -45,6 +45,7 @@ export class AccountStatementMapper
       accountStatement.tenantName = as.tenantName;
       accountStatement.isFirstAccountStatement = as.isFirstAccountStatement;
       accountStatement.isDeletable = as.isDeletable;
+      accountStatement.miscellaneousDueDate = as.miscellaneousDueDate;
 
       if (
         as.accountStatementMiscellaneous &&
