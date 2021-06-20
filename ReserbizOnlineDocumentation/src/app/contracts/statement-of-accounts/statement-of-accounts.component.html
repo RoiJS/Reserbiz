@@ -1,0 +1,433 @@
+<app-tool-bar
+  [title]="'GENERAL_TEXTS.RESERBIZ_ONLINE_DOCUMENTATION' | translate"
+></app-tool-bar>
+<div class="page-container">
+  <div class="content-panel">
+    <mat-card>
+      <span class="main-title">{{
+        "STATEMENT_OF_ACCOUNTS_PAGE.HEADER.TITLE" | translate
+      }}</span>
+      <div class="divider"></div>
+
+      <section id="overview-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../assets/images/contracts/statement-of-accounts/statement-of-accounts-list-page.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_4'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_5'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <section id="add-new-statement-of-account-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../assets/images/contracts/statement-of-accounts/add-statement-of-account-dialog.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_4'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_5'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../assets/images/contracts/statement-of-accounts/generated-statement-of-account-notification.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_6'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_7'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_8'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_9'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_10'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <section id="search-statement-of-account-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../assets/images/contracts/statement-of-accounts/statement-of-account-filter-dialog.png"
+          />
+        </div>
+
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="defaultValue">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DEFAULT_VALUE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.defaultValue }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datatype">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.datatype }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="definition">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [innerHTML]="element.definition"
+              ></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+          </table>
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.DESCRIPTION_5'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <section id="statement-of-account-details-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../assets/images/contracts/statement-of-accounts/statement-of-accountde-details-page.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_4'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_5'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.DESCRIPTION_6'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <section id="delete-statement-of-account-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.DELETE_STATEMENT_OF_ACCOUNT.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.DELETE_STATEMENT_OF_ACCOUNT.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.DELETE_STATEMENT_OF_ACCOUNT.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <section id="send-statement-of-account-details-section">
+        <span class="sub-title">{{
+          "STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.DESCRIPTION_1'
+              | translate
+          "
+        ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.DESCRIPTION_4'
+              | translate
+          "
+        ></div>
+      </section>
+
+      <app-footer></app-footer>
+    </mat-card>
+  </div>
+
+  <div class="content-subsection-panel">
+    <mat-expansion-panel [expanded]="!isHandset">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{
+          "SUBSECTION_PANEL.TITLE" | translate
+        }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="overview-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="add-new-statement-of-account-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION.TITLE"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="search-statement-of-account-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TITLE"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="statement-of-account-details-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.STATEMENT_OF_ACCOUNT_DETAILS_SECTION.TITLE"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="delete-statement-of-account-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.DELETE_STATEMENT_OF_ACCOUNT.TITLE"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts']"
+            fragment="send-statement-of-account-details-section"
+            >{{
+              "STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEND_STATEMENT_OF_ACCOUNTS_DETAILS.TITLE"
+                | translate
+            }}</a
+          >
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </div>
+</div>

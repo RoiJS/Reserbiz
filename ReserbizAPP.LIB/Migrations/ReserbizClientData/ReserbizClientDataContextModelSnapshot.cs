@@ -148,6 +148,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<int>("MiscellaneousDueDate")
+                        .HasColumnType("int");
+
                     b.Property<int>("PenaltyAmountPerDurationUnit")
                         .HasColumnType("int");
 
@@ -171,6 +174,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UtilityBillsDueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("WaterBill")
                         .HasColumnType("real");
@@ -911,6 +917,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("bit");
 
                     b.Property<int>("MaximumNumberOfOccupants")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MiscellaneousDueDate")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")

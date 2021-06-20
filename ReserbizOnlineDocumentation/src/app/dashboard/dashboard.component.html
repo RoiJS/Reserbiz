@@ -1,0 +1,216 @@
+<app-tool-bar
+  [title]="'GENERAL_TEXTS.RESERBIZ_ONLINE_DOCUMENTATION' | translate"
+></app-tool-bar>
+<div class="page-container">
+  <div class="content-panel">
+    <mat-card>
+      <span class="main-title">{{
+        "DASHBAORD_PAGE.HEADER.TITLE" | translate
+      }}</span>
+      <div class="divider"></div>
+
+      <section id="overview-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/dashboard/reserbiz-dashboard.png" />
+        </div>
+      </section>
+
+      <section id="active-tenants-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.ACTIVE_TENANTS_WIDGET_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.ACTIVE_TENANTS_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img src="../../assets/images/dashboard/active-tenants-widget.png" />
+        </div>
+      </section>
+
+      <section id="active-units-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.ACTIVE_UNITS_WIDGET_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.ACTIVE_UNITS_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img src="../../assets/images/dashboard/available-units-widget.png" />
+        </div>
+      </section>
+
+      <section id="active-contracts-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.ACTIVE_CONTRACTS_WIDGET_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.ACTIVE_CONTRACTS_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img
+            src="../../assets/images/dashboard/active-contracts-widget.png"
+          />
+        </div>
+      </section>
+
+      <section id="upcoming-due-dates-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.UPCOMING_DUE_DATES_WIDGET_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.UPCOMING_DUE_DATES_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img
+            src="../../assets/images/dashboard/upcoming-due-dates-widget.png"
+          />
+        </div>
+      </section>
+
+      <section id="account-statement-summary-amount-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img
+            src="../../assets/images/dashboard/account-statements-amount-summary-widget.png"
+          />
+        </div>
+      </section>
+
+      <section id="unpaid-account-statements-widget-section">
+        <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.UNPAID_ACCOUNT_STATEMENTS_WIDGET_SECTION.TITLE"
+            | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.UNPAID_ACCOUNT_STATEMENTS_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img
+            src="../../assets/images/dashboard/unpaid-account-statements-widget.png"
+          />
+        </div>
+      </section>
+
+      <app-footer></app-footer>
+    </mat-card>
+  </div>
+
+  <div class="content-subsection-panel">
+    <mat-expansion-panel [expanded]="!isHandset">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{
+          "SUBSECTION_PANEL.TITLE" | translate
+        }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        <li>
+          <a [routerLink]="['/dashboard']" fragment="overview-section">{{
+            "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.OVERVIEW" | translate
+          }}</a>
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="active-tenants-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.ACTIVE_TENANTS_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="active-units-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.ACTIVE_UNITS_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="active-contracts-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.ACTIVE_CONTRACTS_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="upcoming-due-dates-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.UPCOMING_DUE_DATES_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="account-statement-summary-amount-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+        <li>
+          <a
+            [routerLink]="['/dashboard']"
+            fragment="unpaid-account-statements-widget-section"
+            >{{
+              "DASHBAORD_PAGE.OVERVIEW_SECTION_PANEL.UNPAID_ACCOUNT_STATEMENTS_WIDGET"
+                | translate
+            }}</a
+          >
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </div>
+</div>

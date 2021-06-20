@@ -14,11 +14,13 @@ import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IAccountStatementFilter } from '../_interfaces/filters/iaccount-statement-filter.interface';
 
 import { AccountStatementMapper } from '../_helpers/mappers/account-statement-mapper.helper';
+import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
 
 @Injectable({ providedIn: 'root' })
 export class AccountStatementService
   extends BaseService<AccountStatement>
-  implements IBaseService<AccountStatement> {
+  implements IBaseService<AccountStatement>
+{
   private _loadAccountStatementListFlag = new BehaviorSubject<boolean>(false);
   constructor(public http: HttpClient) {
     super(new AccountStatementMapper(), http);
@@ -70,8 +72,10 @@ export class AccountStatementService
   async updateWaterAndElectricBillAmount(
     id: number,
     waterBillAmount: number,
-    electricBillAmount: number
+    electricBillAmount: number,
+    utilityBillsDueDate: Date
   ): Promise<void> {
+    const date = DateFormatter.format(utilityBillsDueDate);
     return await this.http
       .post<void>(
         `${this._apiBaseUrl}/accountstatement/updateWaterAndElectricBillAmount`,
@@ -79,6 +83,7 @@ export class AccountStatementService
           id,
           waterBillAmount,
           electricBillAmount,
+          utilityBillsDueDate: date,
         }
       )
       .toPromise();

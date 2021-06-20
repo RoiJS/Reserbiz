@@ -7,7 +7,9 @@
     "SPACES": "Units",
     "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "DOCUMENTATION": "Documentation",
+    "SIGN_OUT": "Sign out"
   },
 
   "GENERAL_TEXTS": {
@@ -47,6 +49,10 @@
         "BASE_FORM": "Year",
         "S_FORM": "Years"
       }
+    },
+    "MISCELLANEOUS_DUE_DATE_OPTIONS": {
+      "SAME_WITH_RENTAL_DUE_DATE": "Same with Rental Due Date",
+      "SAME_WITH_UTILITY_BILL_DUE_DATE": "Same with Utility Due Date"
     },
     "INACTIVE": "Inactive",
     "MANAGE": "Manage",
@@ -751,6 +757,12 @@
           "HINT_TEXT": "Please enter penalty effective after duration unit"
         }
       },
+      "MISCELLANEOUS_SETTINGS_GROUP": {
+        "LABEL": "Miscellneous Settings",
+        "MISCELLANEOUS_DUE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Miscellaneous Due Date:"
+        }
+      },
       "AUTOMATION_SETTINGS_GROUP": {
         "LABEL": "Automation Settings",
         "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
@@ -863,6 +875,13 @@
         "PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL": {
           "CONTROL_LABEL": "Penalty Effective After Duration:",
           "HINT_TEXT": "Please enter penalty effective after duration unit"
+        }
+      },
+
+      "MISCELLANEOUS_SETTINGS_GROUP": {
+        "LABEL": "Miscellneous Settings",
+        "MISCELLANEOUS_DUE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Miscellaneous Due Date:"
         }
       },
 
@@ -1118,7 +1137,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit that is bind to its term is not available at this time."
     }
   },
 
@@ -1271,7 +1290,7 @@
     "SEND_DETAILS": "Send Details",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
-      "DUE_DATE": "Due Date",
+      "DUE_DATE": "Due Date:",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
       "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
       "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",

@@ -1,5 +1,5 @@
 Hi #tenantName,
-This is your statement of account for #date.
+This is your statement of account details.
 #statementofaccounts
 Thank you and Good Day,
 #organizationname

@@ -355,6 +355,36 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
+          [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.LABEL' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="miscellaneousDueDate"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.MISCELLANEOUS_DUE_DATE_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="miscellaneousDueDateOptions"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          collapsible="true"
           [name]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.LABEL' | translate"
           hidden="false"
         >
@@ -370,7 +400,7 @@
             tkPropertyGroupProperties
             name="generateAccountStatementDaysBeforeValue"
             [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL.CONTROL_LABEL' | translate"
-            index="0"
+            index="1"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Number">
             </TKPropertyEditor>

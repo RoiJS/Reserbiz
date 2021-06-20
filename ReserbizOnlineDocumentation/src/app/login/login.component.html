@@ -1,0 +1,102 @@
+<app-tool-bar
+  [title]="'GENERAL_TEXTS.RESERBIZ_ONLINE_DOCUMENTATION' | translate"
+></app-tool-bar>
+<div class="page-container">
+  <div class="content-panel">
+    <mat-card>
+      <span class="main-title">{{
+        "LOGIN_PAGE.HEADER.TITLE" | translate
+      }}</span>
+      <div class="divider"></div>
+
+      <section id="login-section">
+        <span class="sub-title">{{
+          "LOGIN_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'LOGIN_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_1' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/login/reserbiz-login.png" />
+        </div>
+
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="datatype">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.datatype }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="definition">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.definition }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'LOGIN_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_2' | translate
+          "
+        ></div>
+      </section>
+
+      <section id="forgot-password-section">
+        <span class="sub-title">{{
+          "LOGIN_PAGE.BODY.FORGOT_PASSWORD_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'LOGIN_PAGE.BODY.FORGOT_PASSWORD_SECTION.DESCRIPTION' | translate
+          "
+        ></div>
+      </section>
+
+      <app-footer></app-footer>
+    </mat-card>
+  </div>
+
+  <div class="content-subsection-panel">
+    <mat-expansion-panel [expanded]="!isHandset">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{
+          "SUBSECTION_PANEL.TITLE" | translate
+        }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        <li>
+          <a [routerLink]="['/login']" fragment="login-section">{{
+            "LOGIN_PAGE.OVERVIEW_SECTION_PANEL.OVERVIEW" | translate
+          }}</a>
+        </li>
+        <li>
+          <a [routerLink]="['/login']" fragment="forgot-password-section">{{
+            "LOGIN_PAGE.OVERVIEW_SECTION_PANEL.FORGOT_PASSWORD" | translate
+          }}</a>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </div>
+</div>

@@ -69,8 +69,11 @@ namespace ReserbizAPP.LIB.Dtos
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
-        
+
         public int GenerateAccountStatementDaysBeforeValue { get; set; }
+
+        public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
+
 
         public List<TermMiscellaneousDetailDto> TermMiscellaneous { get; set; }
     }

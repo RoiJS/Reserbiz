@@ -9,7 +9,6 @@ import { finalize } from 'rxjs/operators';
 
 import { TranslateService } from '@ngx-translate/core';
 
-
 import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Contract } from '@src/app/_models/contract.model';
 
@@ -27,7 +26,8 @@ import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.h
   styleUrls: ['./contract-account-statement-information.component.scss'],
 })
 export class ContractAccountStatementInformationComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   private _currentAccountStatement: AccountStatement;
   private _currentAccountStatementId: number;
   private _isBusy = false;
@@ -35,6 +35,8 @@ export class ContractAccountStatementInformationComponent
   private _waterAndElecitricBillAmountformGroup: FormGroup;
   private _updateAccountStatementListFlag: Subscription;
 
+  dueDate: Date;
+  private dueDateOriginal: Date;
   private waterBillAmountOriginal: number;
   private electricBillAmountOriginal: number;
   private _contract: Contract;
@@ -56,11 +58,12 @@ export class ContractAccountStatementInformationComponent
         this._currentAccountStatementId = +paramMap.get('accountStatementId');
         const contractId = +paramMap.get('contractId');
 
-        this._updateAccountStatementListFlag = this.accountStatementService.loadAccountStatementListFlag.subscribe(
-          () => {
-            this.getAccountStatmentInformation(contractId);
-          }
-        );
+        this._updateAccountStatementListFlag =
+          this.accountStatementService.loadAccountStatementListFlag.subscribe(
+            () => {
+              this.getAccountStatmentInformation(contractId);
+            }
+          );
       });
     });
 
@@ -77,17 +80,21 @@ export class ContractAccountStatementInformationComponent
     (async () => {
       this._contract = await this.contractService.getContract(contractId);
 
-      this._currentAccountStatement = await this.accountStatementService.getAccountStatement(
-        this._currentAccountStatementId
-      );
+      this._currentAccountStatement =
+        await this.accountStatementService.getAccountStatement(
+          this._currentAccountStatementId
+        );
 
+      this.dueDate = this._currentAccountStatement.utilityBillsDueDate;
       this._waterAndElecitricBillAmountformGroup.patchValue({
         electricBillAmount: this._currentAccountStatement.electricBill,
         waterBillAmount: this._currentAccountStatement.waterBill,
       });
 
-      this.electricBillAmountOriginal = this._currentAccountStatement.electricBill;
+      this.electricBillAmountOriginal =
+        this._currentAccountStatement.electricBill;
       this.waterBillAmountOriginal = this._currentAccountStatement.waterBill;
+      this.dueDateOriginal = this._currentAccountStatement.utilityBillsDueDate;
 
       this._isBusy = false;
     })();
@@ -101,14 +108,18 @@ export class ContractAccountStatementInformationComponent
   }
 
   updateInformation() {
-    const waterBillAmount = this.waterAndElecitricBillAmountformGroup.get(
-      'waterBillAmount'
-    ).value;
-    const electricBillAmount = this.waterAndElecitricBillAmountformGroup.get(
-      'electricBillAmount'
-    ).value;
+    const waterBillAmount =
+      this.waterAndElecitricBillAmountformGroup.get('waterBillAmount').value;
+    const electricBillAmount =
+      this.waterAndElecitricBillAmountformGroup.get('electricBillAmount').value;
 
-    if (this.checkedInputChanged(electricBillAmount, waterBillAmount)) {
+    if (
+      this.checkedInputChanged(
+        electricBillAmount,
+        waterBillAmount,
+        this.dueDate
+      )
+    ) {
       this.dialogService
         .confirm(
           this.translateService.instant(
@@ -127,7 +138,8 @@ export class ContractAccountStatementInformationComponent
                 await this.accountStatementService.updateWaterAndElectricBillAmount(
                   this._currentAccountStatement.id,
                   waterBillAmount,
-                  electricBillAmount
+                  electricBillAmount,
+                  this.dueDate
                 );
 
                 this.dialogService.alert(
@@ -213,11 +225,13 @@ export class ContractAccountStatementInformationComponent
 
   checkedInputChanged(
     electricBillAmount: number,
-    waterBillAmount: number
+    waterBillAmount: number,
+    dueDate: Date
   ): boolean {
     const result =
       electricBillAmount !== this.electricBillAmountOriginal ||
-      waterBillAmount !== this.waterBillAmountOriginal;
+      waterBillAmount !== this.waterBillAmountOriginal ||
+      dueDate !== this.dueDateOriginal;
     return result;
   }
 
@@ -281,18 +295,18 @@ export class ContractAccountStatementInformationComponent
     let grandTotal = 0;
 
     if (this._currentAccountStatement) {
-      const electricBillAmount = this._waterAndElecitricBillAmountformGroup.get(
-        'electricBillAmount'
-      ).value;
-      const waterBillAmount = this._waterAndElecitricBillAmountformGroup.get(
-        'waterBillAmount'
-      ).value;
+      const electricBillAmount =
+        this._waterAndElecitricBillAmountformGroup.get(
+          'electricBillAmount'
+        ).value;
+      const waterBillAmount =
+        this._waterAndElecitricBillAmountformGroup.get('waterBillAmount').value;
 
-      const miscellaneousTotalAmount = this._currentAccountStatement
-        .miscellaneousTotalAmount;
+      const miscellaneousTotalAmount =
+        this._currentAccountStatement.miscellaneousTotalAmount;
       const rentIncome = this._currentAccountStatement.rentIncome;
-      const penaltiesTotalAmount = this._currentAccountStatement
-        .penaltyTotalAmount;
+      const penaltiesTotalAmount =
+        this._currentAccountStatement.penaltyTotalAmount;
 
       grandTotal = miscellaneousTotalAmount + rentIncome + penaltiesTotalAmount;
 

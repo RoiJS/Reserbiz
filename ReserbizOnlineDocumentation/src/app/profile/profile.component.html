@@ -1,0 +1,92 @@
+<app-tool-bar
+  [title]="'GENERAL_TEXTS.RESERBIZ_ONLINE_DOCUMENTATION' | translate"
+></app-tool-bar>
+<div class="page-container">
+  <div class="content-panel">
+    <mat-card>
+      <span class="main-title">{{
+        "PROFILE_PAGE.HEADER.TITLE" | translate
+      }}</span>
+      <div class="divider"></div>
+
+      <section id="overview-section">
+        <span class="sub-title">{{
+          "PROFILE_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_1' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/profile/profile-main-page.png" />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_2' | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_3' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../assets/images/profile/personal-information-page.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_4' | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_5' | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PROFILE_PAGE.BODY.OVERVIEW_SECTION.DESCRIPTION_6' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/profile/account-information-page.png" />
+        </div>
+      </section>
+
+      <app-footer></app-footer>
+    </mat-card>
+  </div>
+
+  <div class="content-subsection-panel">
+    <mat-expansion-panel [expanded]="!isHandset">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{
+          "SUBSECTION_PANEL.TITLE" | translate
+        }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ul>
+        <li>
+          <a
+            [routerLink]="['/profile']"
+            fragment="overview-section"
+            >{{ "PROFILE_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate }}</a
+          >
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </div>
+</div>

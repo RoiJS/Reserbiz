@@ -23,6 +23,10 @@ export class PushNotificationService {
   subscribe() {
     if (this.storageService.hasKey('app-secret-token')) {
       const appSecretToken = this.storageService.getString('app-secret-token');
+      this.storageService.storeString(
+        'current-notification-topic',
+        appSecretToken
+      );
       firebase
         .subscribeToTopic(appSecretToken)
         .then(() =>
@@ -54,6 +58,22 @@ export class PushNotificationService {
           }
         });
       });
+    }
+  }
+
+  unsubscribe() {
+    const topicNotification = this.storageService.getString(
+      'current-notification-topic'
+    );
+
+    if (topicNotification) {
+      firebase
+        .unsubscribeFromTopic(topicNotification)
+        .then(() =>
+          console.log(
+            `Unsubscribing to notification topic ${topicNotification}!`
+          )
+        );
     }
   }
 

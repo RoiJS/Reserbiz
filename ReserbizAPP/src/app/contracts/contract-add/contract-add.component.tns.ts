@@ -43,7 +43,8 @@ import { SpaceValueProvider } from '@src/app/_helpers/value_providers/space-valu
 })
 export class ContractAddComponent
   extends BaseFormComponent<Contract, ContractDetailsFormSource, ContractDto>
-  implements IBaseFormComponent, IContractFormValueProvider, OnInit, OnDestroy {
+  implements IBaseFormComponent, IContractFormValueProvider, OnInit, OnDestroy
+{
   private _durationValueProvider: DurationValueProvider;
   private _termValueProvider: TermValueProvider;
   private _tenantValueProvider: TenantValueProvider;
@@ -170,9 +171,10 @@ export class ContractAddComponent
             this._entityFormSource.termId
           );
 
-          const termMiscellaneousList = await this.termMiscellaneousService.getTermMiscellaneousList(
-            termDetails.id
-          );
+          const termMiscellaneousList =
+            await this.termMiscellaneousService.getTermMiscellaneousList(
+              termDetails.id
+            );
 
           this.localManageTermService.entityDetails.next(termDetails);
           this.localManageTermMiscellaneousService.entityList.next(
@@ -209,7 +211,14 @@ export class ContractAddComponent
       isSpaceValid: boolean,
       isDurationUnitValid: boolean,
       isDurationValueValid: boolean;
-    isCodeValid = isTenantValid = isTermValid = isSpaceTypeNameValid = isSpaceValid = isDurationUnitValid = isDurationValueValid = true;
+    isCodeValid =
+      isTenantValid =
+      isTermValid =
+      isSpaceTypeNameValid =
+      isSpaceValid =
+      isDurationUnitValid =
+      isDurationValueValid =
+        true;
 
     const dataForm = this.formSource.dataForm;
     const codeProperty = dataForm.getPropertyByName('code');
@@ -234,10 +243,11 @@ export class ContractAddComponent
         isCodeValid = false;
       } else {
         // Check if code already exists
-        const checkCodeResult = await this.contractService.checkContractCodeIfExists(
-          0,
-          this._entityFormSource.code
-        );
+        const checkCodeResult =
+          await this.contractService.checkContractCodeIfExists(
+            0,
+            this._entityFormSource.code
+          );
 
         if (checkCodeResult) {
           codeProperty.errorMessage = this.translateService.instant(
@@ -268,9 +278,12 @@ export class ContractAddComponent
       isTermValid = true;
 
       const hasSpaces = this._spaceValueProvider.spaceOptions;
-      const hasAvailableSpaces = this._spaceValueProvider.spaceOptions.items.find(
-        (s) => s.isNotOccupied || (!s.isNotOccupied && s.occupiedByContractId === 0)
-      );
+      const hasAvailableSpaces =
+        this._spaceValueProvider.spaceOptions.items.find(
+          (s) =>
+            s.isNotOccupied ||
+            (!s.isNotOccupied && s.occupiedByContractId === 0)
+        );
 
       if (!hasSpaces) {
         spaceTypeNameProperty.errorMessage = this.translateService.instant(
@@ -367,13 +380,14 @@ export class ContractAddComponent
               this._isBusy = true;
 
               (async () => {
-                const contractDetails = this._entityDtoMapper.mapFormSourceToEntity(
-                  this._entityFormSource
-                );
-                const termDetails = this.localManageTermService.entityDetails
-                  .value;
-                const termMiscellaneousList = this
-                  .localManageTermMiscellaneousService.entityList.value;
+                const contractDetails =
+                  this._entityDtoMapper.mapFormSourceToEntity(
+                    this._entityFormSource
+                  );
+                const termDetails =
+                  this.localManageTermService.entityDetails.value;
+                const termMiscellaneousList =
+                  this.localManageTermMiscellaneousService.entityList.value;
 
                 this.localManageTermService.resetEntityDetails();
                 this.localManageTermMiscellaneousService.resetEntityList();

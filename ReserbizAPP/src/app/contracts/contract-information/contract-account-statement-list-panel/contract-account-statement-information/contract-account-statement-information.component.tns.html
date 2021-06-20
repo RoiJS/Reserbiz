@@ -39,6 +39,7 @@
       ></label>
       <button
         padding="0"
+        width="120"
         alignSelf="center"
         alignSelf="flex-end"
         class="fa fa-solid page-container__page-command btn-primary -rounded-lg"
@@ -62,63 +63,69 @@
             [formGroup]="waterAndElecitricBillAmountformGroup"
             class="panel__body-section"
           >
-            <!-- Due Date  -->
+            <!-- Utility Bills Due Date Amount -->
             <StackLayout
               class="panel__details-section"
               orientation="horizontal"
             >
-              <StackLayout class="bill-category-name">
+              <StackLayout
+                class="bill-category-name"
+                verticalAlignment="middle"
+              >
                 <label
                   class="details-label"
                   [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
                 ></label>
               </StackLayout>
-
               <StackLayout class="bill-category-value" orientation="horizontal">
-                <label
-                  [text]="currentAccountStatement?.dueDateFormatted"
-                ></label>
+                <DatePickerField
+                  class="utility-bill-due-date"
+                  [(ngModel)]="dueDate"
+                  [ngModelOptions]="{standalone: true}"
+                  margin="0"
+                ></DatePickerField>
               </StackLayout>
             </StackLayout>
 
-            <StackLayout class="panel__border"></StackLayout>
-
-            <!-- Miscellaneous -->
+            <!-- Check if the miscellaneous due date is set to "Same with Utility Due Date" -->
             <StackLayout
-              *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
-              class="panel__details-section"
-              orientation="horizontal"
+              *ngIf="currentAccountStatement?.miscellaneousDueDate === 2"
             >
-              <StackLayout class="bill-category-name">
-                <label
-                  class="details-label"
-                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
-                ></label>
+              <!-- Miscellaneous -->
+              <StackLayout
+                *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout class="bill-category-name">
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Account Statement Miscellaneous -->
+              <StackLayout
+                *ngFor="let accountMiscellaneous of currentAccountStatement?.accountStatementMiscellaneous"
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout class="bill-category-name">
+                  <label [text]="accountMiscellaneous.name"></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <label
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <label [text]="accountMiscellaneous.formattedAmount"></label>
+                </StackLayout>
               </StackLayout>
             </StackLayout>
-
-            <!-- Account Statement Miscellaneous -->
-            <StackLayout
-              *ngFor="let accountMiscellaneous of currentAccountStatement?.accountStatementMiscellaneous"
-              class="panel__details-section"
-              orientation="horizontal"
-            >
-              <StackLayout class="bill-category-name">
-                <label [text]="accountMiscellaneous.name"></label>
-              </StackLayout>
-              <StackLayout class="bill-category-value" orientation="horizontal">
-                <label
-                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
-                  class="m-r-5"
-                ></label>
-                <label [text]="accountMiscellaneous.formattedAmount"></label>
-              </StackLayout>
-            </StackLayout>
-
-            <StackLayout
-              class="panel__border"
-              *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
-            ></StackLayout>
 
             <!-- Water Bill Amount -->
             <StackLayout
@@ -182,6 +189,65 @@
             </StackLayout>
 
             <StackLayout class="panel__border"></StackLayout>
+
+            <!-- Due Date  -->
+            <StackLayout
+              class="panel__details-section"
+              orientation="horizontal"
+            >
+              <StackLayout class="bill-category-name">
+                <label
+                  class="details-label"
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
+                ></label>
+              </StackLayout>
+
+              <StackLayout class="bill-category-value" orientation="horizontal">
+                <label
+                  [text]="currentAccountStatement?.dueDateFormatted"
+                ></label>
+              </StackLayout>
+            </StackLayout>
+
+            <!-- Check if the miscellaneous due date is set to "Same with Rental Due Date" -->
+            <StackLayout
+              *ngIf="currentAccountStatement?.miscellaneousDueDate === 1"
+            >
+              <!-- Miscellaneous -->
+              <StackLayout
+                *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout class="bill-category-name">
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Account Statement Miscellaneous -->
+              <StackLayout
+                *ngFor="let accountMiscellaneous of currentAccountStatement?.accountStatementMiscellaneous"
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout class="bill-category-name">
+                  <label [text]="accountMiscellaneous.name"></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <label
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <label [text]="accountMiscellaneous.formattedAmount"></label>
+                </StackLayout>
+              </StackLayout>
+            </StackLayout>
 
             <!-- Rent Income -->
             <StackLayout

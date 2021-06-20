@@ -140,9 +140,9 @@ namespace ReserbizAPP.LIB.Models
                 // (1) NextDuedate should be before or on the exact date of expiration date.
                 // (2) EffectiveDate should be before or today.
                 // (3) EffectiveDate should be equal to the next due date or days before the daysBeforeGeneratingAccountStatement setting.
-                return ((NextDueDate <= ExpirationDate)
-                        && (EffectiveDate <= CurrentDateTime)
-                        && (EffectiveDate == NextDueDate || NextDueDate.Subtract(CurrentDateTime).Days <= Term.GenerateAccountStatementDaysBeforeValue));
+                return ((NextDueDate.Date <= ExpirationDate.Date)
+                        && (EffectiveDate.Date <= CurrentDateTime.Date)
+                        && (EffectiveDate.Date == NextDueDate.Date || NextDueDate.Subtract(CurrentDateTime).Days <= Term.GenerateAccountStatementDaysBeforeValue));
             }
 
         }

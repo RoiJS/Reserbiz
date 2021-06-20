@@ -24,7 +24,8 @@ import { ContractDto } from '../_dtos/contract-dto';
 @Injectable({ providedIn: 'root' })
 export class ContractService
   extends BaseService<Contract>
-  implements IBaseService<Contract> {
+  implements IBaseService<Contract>
+{
   private _loadContractListFlag = new BehaviorSubject<void>(null);
 
   constructor(public http: HttpClient) {
@@ -99,12 +100,14 @@ export class ContractService
   async manageContract(
     contractDetails: Contract,
     termDetails: Term,
-    termMiscellaneousList: TermMiscellaneous[]
+    termMiscellaneousList: TermMiscellaneous[],
+    originalTermMiscellaneousList: TermMiscellaneous[] = []
   ): Promise<void> {
     const contractManageDto = this.mapContractDto(
       contractDetails,
       termDetails,
-      termMiscellaneousList
+      termMiscellaneousList,
+      originalTermMiscellaneousList
     );
 
     if (contractDetails.id === 0) {
@@ -124,7 +127,8 @@ export class ContractService
   mapContractDto(
     contractDetails: Contract,
     termDetails: Term,
-    termMiscellaneousList: TermMiscellaneous[]
+    termMiscellaneousList: TermMiscellaneous[],
+    originalTermMiscellaneousList: TermMiscellaneous[]
   ): ContractDto {
     const isNewContract = contractDetails.id === 0;
 
@@ -169,12 +173,14 @@ export class ContractService
       termDetails.penaltyEffectiveAfterDurationUnit;
     contractManageDto.term.generateAccountStatementDaysBeforeValue =
       termDetails.generateAccountStatementDaysBeforeValue;
+    contractManageDto.term.miscellaneousDueDate =
+      termDetails.miscellaneousDueDate;
 
     contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {
         const termMiscellaneous = new TermMiscellaneous();
 
-        if (!isNewContract) {
+        if (tm.id > 0) {
           termMiscellaneous.id = tm.id;
         }
 
@@ -184,6 +190,24 @@ export class ContractService
         return termMiscellaneous;
       }
     );
+
+    contractManageDto.term.deletedTermMiscellaneous = [];
+
+    originalTermMiscellaneousList.forEach((tm: TermMiscellaneous) => {
+      const termMiscellaneous = new TermMiscellaneous();
+
+      const index = contractManageDto.term.termMiscellaneous.findIndex(
+        (t) => t.id === tm.id
+      );
+
+      if (index < 0) {
+        termMiscellaneous.id = tm.id;
+        termMiscellaneous.name = tm.name;
+        termMiscellaneous.description = tm.description;
+        termMiscellaneous.amount = tm.amount;
+        contractManageDto.term.deletedTermMiscellaneous.push(termMiscellaneous);
+      }
+    });
 
     return contractManageDto;
   }

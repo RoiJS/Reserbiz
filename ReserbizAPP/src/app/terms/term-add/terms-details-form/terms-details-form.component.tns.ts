@@ -19,6 +19,7 @@ import { SpaceTypeOption } from '@src/app/_models/options/space-type-option.mode
 import { ITermFormValueProvider } from '@src/app/_interfaces/value_providers/iterm-form-value-provider.interface';
 
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 
 import { LocalManageTermService } from '@src/app/_services/local-manage-term.service';
@@ -32,6 +33,8 @@ import { ValueTypeValueProvider } from '@src/app/_helpers/value_providers/value-
 import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
 import { PickerEditorValidator } from '@src/app/_helpers/validators/picker-editor-validator.helper';
 import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
+import { MiscellaneousValueProvider } from '@src/app/_helpers/value_providers/miscellaneous-due-date-provider.helper';
+
 import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper';
 
 registerElement('PickerEditorValidator', () => <any>PickerEditorValidator);
@@ -43,7 +46,8 @@ registerElement('PickerEditorValidator', () => <any>PickerEditorValidator);
 })
 export class TermsDetailsFormComponent
   extends BaseFormHelper<TermDetailsFormSource>
-  implements ITermFormValueProvider, OnInit, OnDestroy {
+  implements ITermFormValueProvider, OnInit, OnDestroy
+{
   @ViewChild(RadDataFormComponent, { static: false })
   termForm: RadDataFormComponent;
 
@@ -63,6 +67,7 @@ export class TermsDetailsFormComponent
   private _penaltyEffectiveAfterDurationUnitRangeValueProvider: DurationRangeValueProvider;
   private _valueTypeValueProvider: ValueTypeValueProvider;
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
+  private _miscellaneousDueDateValueProvider: MiscellaneousValueProvider;
 
   private _IsBusy = false;
 
@@ -93,25 +98,28 @@ export class TermsDetailsFormComponent
       this.spaceTypeService
     );
 
+    this._miscellaneousDueDateValueProvider = new MiscellaneousValueProvider(
+      this.translateService
+    );
+
     this._durationDetailsRangeValueProvider = new DurationRangeValueProvider(
       this._termDetailsForm.durationUnit
     );
 
-    this._penaltyEffectiveAfterDurationUnitRangeValueProvider = new DurationRangeValueProvider(
-      this._termDetailsForm.penaltyEffectiveAfterDurationUnit
-    );
+    this._penaltyEffectiveAfterDurationUnitRangeValueProvider =
+      new DurationRangeValueProvider(
+        this._termDetailsForm.penaltyEffectiveAfterDurationUnit
+      );
 
-    this._termSavedDetailsSub = this.localManageTermService.entitySavedDetails.subscribe(
-      () => {
+    this._termSavedDetailsSub =
+      this.localManageTermService.entitySavedDetails.subscribe(() => {
         this.onTermDetailsSavedEmit();
-      }
-    );
+      });
 
-    this._cancelTermSavedDetailsSub = this.localManageTermService.entityCancelSaveDetails.subscribe(
-      () => {
+    this._cancelTermSavedDetailsSub =
+      this.localManageTermService.entityCancelSaveDetails.subscribe(() => {
         this.onCancelTermDetailsSavedEmit();
-      }
-    );
+      });
   }
 
   ngOnDestroy() {
@@ -223,7 +231,7 @@ export class TermsDetailsFormComponent
 
       const hasContent = Boolean(
         this._newTermDetails.hasContent() ||
-        this.localManageTermMiscellaneous.entityList.value.length > 0
+          this.localManageTermMiscellaneous.entityList.value.length > 0
       );
 
       this.onCancelTermDetailsSaved.emit(hasContent);
@@ -261,7 +269,8 @@ export class TermsDetailsFormComponent
     }
 
     if (args.propertyName === 'durationUnit') {
-      this._durationDetailsRangeValueProvider.currentDuration = this._termDetailsForm.durationUnit;
+      this._durationDetailsRangeValueProvider.currentDuration =
+        this._termDetailsForm.durationUnit;
 
       /**
        * Whenever the duration unit is set to "None",
@@ -312,8 +321,8 @@ export class TermsDetailsFormComponent
        * but still, the user the option to change it with other duration unit.
        */
       this._termDetailsForm = this.reloadFormSource(this._termDetailsForm, {
-        penaltyEffectiveAfterDurationUnit: this._termDetailsForm
-          .penaltyAmountPerDurationUnit,
+        penaltyEffectiveAfterDurationUnit:
+          this._termDetailsForm.penaltyAmountPerDurationUnit,
       });
     }
 
@@ -324,7 +333,8 @@ export class TermsDetailsFormComponent
        * depending on the currently selected duration unit for penalty
        * effective after duration field
        */
-      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration = this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
+      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration =
+        this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
     }
 
     if (args.propertyName === 'penaltyEffectiveAfterDurationValue') {
@@ -340,8 +350,8 @@ export class TermsDetailsFormComponent
         )
       ) {
         this._termDetailsForm = this.reloadFormSource(this._termDetailsForm, {
-          penaltyEffectiveAfterDurationValue: this
-            ._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
+          penaltyEffectiveAfterDurationValue:
+            this._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
         });
       }
     }
@@ -352,24 +362,45 @@ export class TermsDetailsFormComponent
     this._newTermDetails.name = this._termDetailsForm.name;
     this._newTermDetails.spaceTypeId = this._termDetailsForm.spaceTypeId;
     this._newTermDetails.rate = this._termDetailsForm.rate;
-    this._newTermDetails.maximumNumberOfOccupants = this._termDetailsForm.maximumNumberOfOccupants;
+    this._newTermDetails.maximumNumberOfOccupants =
+      this._termDetailsForm.maximumNumberOfOccupants;
     this._newTermDetails.durationUnit = this._termDetailsForm.durationUnit;
-    this._newTermDetails.advancedPaymentDurationValue = this._termDetailsForm.advancedPaymentDurationValue;
-    this._newTermDetails.depositPaymentDurationValue = this._termDetailsForm.depositPaymentDurationValue;
-    this._newTermDetails.excludeElectricBill = this._termDetailsForm.excludeElectricBill;
-    this._newTermDetails.electricBillAmount = this._termDetailsForm.electricBillAmount;
-    this._newTermDetails.excludeWaterBill = this._termDetailsForm.excludeWaterBill;
-    this._newTermDetails.waterBillAmount = this._termDetailsForm.waterBillAmount;
+    this._newTermDetails.advancedPaymentDurationValue =
+      this._termDetailsForm.advancedPaymentDurationValue;
+    this._newTermDetails.depositPaymentDurationValue =
+      this._termDetailsForm.depositPaymentDurationValue;
+    this._newTermDetails.excludeElectricBill =
+      this._termDetailsForm.excludeElectricBill;
+    this._newTermDetails.electricBillAmount =
+      this._termDetailsForm.electricBillAmount;
+    this._newTermDetails.excludeWaterBill =
+      this._termDetailsForm.excludeWaterBill;
+    this._newTermDetails.waterBillAmount =
+      this._termDetailsForm.waterBillAmount;
     this._newTermDetails.penaltyValue = this._termDetailsForm.penaltyValue;
-    this._newTermDetails.penaltyValueType = this._termDetailsForm.penaltyValueType;
-    this._newTermDetails.penaltyAmountPerDurationUnit = this._termDetailsForm.penaltyAmountPerDurationUnit;
-    this._newTermDetails.penaltyEffectiveAfterDurationValue = this._termDetailsForm.penaltyEffectiveAfterDurationValue;
-    this._newTermDetails.penaltyEffectiveAfterDurationUnit = this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
-    this._newTermDetails.generateAccountStatementDaysBeforeValue = this._termDetailsForm.generateAccountStatementDaysBeforeValue;
+    this._newTermDetails.penaltyValueType =
+      this._termDetailsForm.penaltyValueType;
+    this._newTermDetails.penaltyAmountPerDurationUnit =
+      this._termDetailsForm.penaltyAmountPerDurationUnit;
+    this._newTermDetails.penaltyEffectiveAfterDurationValue =
+      this._termDetailsForm.penaltyEffectiveAfterDurationValue;
+    this._newTermDetails.penaltyEffectiveAfterDurationUnit =
+      this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
+    this._newTermDetails.generateAccountStatementDaysBeforeValue =
+      this._termDetailsForm.generateAccountStatementDaysBeforeValue;
+    this._newTermDetails.miscellaneousDueDate =
+      this._termDetailsForm.miscellaneousDueDate;
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {
     return this._durationValueProvider.durationOptions;
+  }
+
+  get miscellaneousDueDateOptions(): Array<{
+    key: MiscellaneousDueDateEnum;
+    label: string;
+  }> {
+    return this._miscellaneousDueDateValueProvider.dueDateOptions;
   }
 
   get valueTypeOptions(): Array<{ key: ValueTypeEnum; label: string }> {

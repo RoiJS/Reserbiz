@@ -20,18 +20,21 @@ import { SpaceTypeOption } from '@src/app/_models/options/space-type-option.mode
 
 import { TermDto } from '@src/app/_dtos/term.dto';
 
+import { TermMapper } from '@src/app/_helpers/mappers/term-mapper.helper';
+
 import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
 import { DurationRangeValueProvider } from '@src/app/_helpers/value_providers/duration-range-value-provider.helper';
 import { SpaceTypeValueProvider } from '@src/app/_helpers/value_providers/space-type-value-provider.helper';
-import { TermMapper } from '@src/app/_helpers/mappers/term-mapper.helper';
 import { ValueTypeValueProvider } from '@src/app/_helpers/value_providers/value-type-provider.helper';
+import { MiscellaneousValueProvider } from '@src/app/_helpers/value_providers/miscellaneous-due-date-provider.helper';
 
 import { IBaseFormComponent } from '@src/app/_interfaces/components/ibase-form.component.interface';
 import { ITermFormValueProvider } from '@src/app/_interfaces/value_providers/iterm-form-value-provider.interface';
 
 import { DurationEnum } from '@src/app/_enum/duration-unit.enum';
-import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
+import { ValueTypeEnum } from '@src/app/_enum/value-type.enum';
 
 @Component({
   selector: 'ns-term-edit-details',
@@ -40,7 +43,8 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 })
 export class TermEditDetailsComponent
   extends BaseFormComponent<Term, TermDetailsFormSource, TermDto>
-  implements IBaseFormComponent, ITermFormValueProvider, OnInit {
+  implements IBaseFormComponent, ITermFormValueProvider, OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   termForm: RadDataFormComponent;
 
@@ -49,6 +53,8 @@ export class TermEditDetailsComponent
   private _penaltyEffectiveAfterDurationUnitRangeValueProvider: DurationRangeValueProvider;
   private _valueTypeValueProvider: ValueTypeValueProvider;
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
+  private _miscellaneousDueDateValueProvider: MiscellaneousValueProvider;
+
   private _spaceTypeOptions;
 
   constructor(
@@ -72,6 +78,10 @@ export class TermEditDetailsComponent
     this._spaceTypeOptions = this._spaceTypeValueProvider.spaceTypeOptions;
 
     this._durationValueProvider = new DurationValueProvider(
+      this.translateService
+    );
+
+    this._miscellaneousDueDateValueProvider = new MiscellaneousValueProvider(
       this.translateService
     );
 
@@ -105,13 +115,13 @@ export class TermEditDetailsComponent
 
           me._spaceTypeOptions = me._spaceTypeValueProvider.spaceTypeOptions;
 
-          me._durationDetailsRangeValueProvider = new DurationRangeValueProvider(
-            me._entityFormSource.durationUnit
-          );
+          me._durationDetailsRangeValueProvider =
+            new DurationRangeValueProvider(me._entityFormSource.durationUnit);
 
-          me._penaltyEffectiveAfterDurationUnitRangeValueProvider = new DurationRangeValueProvider(
-            me._entityFormSource.penaltyEffectiveAfterDurationUnit
-          );
+          me._penaltyEffectiveAfterDurationUnitRangeValueProvider =
+            new DurationRangeValueProvider(
+              me._entityFormSource.penaltyEffectiveAfterDurationUnit
+            );
         })();
       });
     });
@@ -148,7 +158,8 @@ export class TermEditDetailsComponent
     }
 
     if (args.propertyName === 'durationUnit') {
-      this._durationDetailsRangeValueProvider.currentDuration = this._entityFormSource.durationUnit;
+      this._durationDetailsRangeValueProvider.currentDuration =
+        this._entityFormSource.durationUnit;
 
       /**
        * Whenever the duration unit is set to "None",
@@ -199,8 +210,8 @@ export class TermEditDetailsComponent
        * but still, the user the option to change it with other duration unit.
        */
       this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
-        penaltyEffectiveAfterDurationUnit: this._entityFormSource
-          .penaltyAmountPerDurationUnit,
+        penaltyEffectiveAfterDurationUnit:
+          this._entityFormSource.penaltyAmountPerDurationUnit,
       });
     }
 
@@ -211,7 +222,8 @@ export class TermEditDetailsComponent
        * depending on the currently selected duration unit for penalty
        * effective after duration field
        */
-      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration = this._entityFormSource.penaltyEffectiveAfterDurationUnit;
+      this._penaltyEffectiveAfterDurationUnitRangeValueProvider.currentDuration =
+        this._entityFormSource.penaltyEffectiveAfterDurationUnit;
     }
 
     if (args.propertyName === 'penaltyEffectiveAfterDurationValue') {
@@ -227,8 +239,8 @@ export class TermEditDetailsComponent
         )
       ) {
         this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
-          penaltyEffectiveAfterDurationValue: this
-            ._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
+          penaltyEffectiveAfterDurationValue:
+            this._penaltyEffectiveAfterDurationUnitRangeValueProvider.maximum,
         });
       }
     }
@@ -415,6 +427,13 @@ export class TermEditDetailsComponent
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {
     return this._durationValueProvider.durationOptions;
+  }
+
+  get miscellaneousDueDateOptions(): Array<{
+    key: MiscellaneousDueDateEnum;
+    label: string;
+  }> {
+    return this._miscellaneousDueDateValueProvider.dueDateOptions;
   }
 
   get valueTypeOptions(): Array<{ key: ValueTypeEnum; label: string }> {

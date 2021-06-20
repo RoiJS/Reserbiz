@@ -1,0 +1,912 @@
+{
+  "MAIN_MENU": {
+    "SYSTEM_OVERVIEW": "System Overview",
+    "SYSTEM_NAVIGATION": "System Navigation",
+    "LOGIN": "Login",
+    "FORGOT_PASSWORD": "Forgot Password",
+    "DASHBOARD": "Dashboard",
+    "TENANTS": "Tenants",
+    "UNIT_TYPES": "Unit Types",
+    "UNITS": "Units",
+    "TERMS": "Terms",
+    "CONTRACTS": "Contracts",
+    "STATEMENT_OF_ACCOUNTS": "Statement of Accounts",
+    "PAYMENTS": "Payments",
+    "PENALTIES": "Penalties",
+    "PROFILE": "Profile",
+    "SETTINGS": "Settings"
+  },
+
+  "GENERAL_TEXTS": {
+    "RESERBIZ_ONLINE_DOCUMENTATION": "Reserbiz Online Documentation",
+    "TABLE_DEFINITION": {
+      "FIELD_NAME": "Field Name",
+      "DEFAULT_VALUE": "Default Value",
+      "DATA_TYPE": "Data Type / Options",
+      "DESCRIPTION": "Description"
+    }
+  },
+
+  "SUBSECTION_PANEL": {
+    "TITLE": "Overview Content"
+  },
+
+  "SYSTEM_OVERVIEW_PAGE": {
+    "HEADER": {
+      "TITLE": "System Overview"
+    },
+    "BODY": {
+      "DESCRIPTION": "<p>Reserbiz mobile application is a system that help users to efficiently monitors and tracks the processes of dealing with information of an organization that is mainly focus on rental unit services. </p> <p>The system is only available for android devices for now. </p><p>The system is optimized to be used on mobile devices only.</p>"
+    }
+  },
+
+  "SYSTEM_NAVIGATION_PAGE": {
+    "HEADER": {
+      "TITLE": "System Navigation",
+      "SUBTITLE": "Overview"
+    },
+    "BODY": {
+      "DESCRIPTION": "<p>The system navigation contains the menus which correspond to each main page available on the application. Aside from the menus, on the upper area of the navigation menu, it also contains the name of the Organization or Company and the current user’s full name. Attached image below shows the following main menus available on the application.</p>"
+    }
+  },
+
+  "LOGIN_PAGE": {
+    "HEADER": {
+      "TITLE": "Login"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This is the very first page that the users see when opening the app for the first time. On this page, the user must enter his/her account credentials in order to access the application. Below are the fields available on this page.</p>",
+        "DESCRIPTION_2": "<p>By tapping Login button, the account credentials above will be validated. If the credentials are valid then the user will be redirected to the Dashboard page or the app, otherwise an error message will be shown depending on which fields have the problem and the user will not be able to proceed to the dashboard page.</p>",
+        "TABLE_INFORMATION": {
+          "COMPANY_INFORMATION": {
+            "NAME": "Company",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "This field determines from which organization/company does the user is coming from. Failed to enter a correct company name will display an error message saying, “Company does not exist.”. The next time user logs in, this field will remember the previous value that was entered."
+          },
+          "USERNAME_INFORMATION": {
+            "NAME": "Username",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "Username credential of the end-user. Failed to enter valid username then an error message saying, “Invalid username or password!”"
+          },
+          "PASSWORD_INFORMATION": {
+            "NAME": "Password",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "Password credential of the end-user. Failed to enter valid password then an error message will be displayed saying, “Invalid username or password!”"
+          }
+        }
+      },
+      "FORGOT_PASSWORD_SECTION": {
+        "TITLE": "Forgot Password",
+        "DESCRIPTION": "<p>By tapping this option, the user will be redirected to the Forgot Password page. See <a href='/forgot-password'>Forgot Password Feature</a> for more details.</p>"
+      }
+    },
+    "OVERVIEW_SECTION_PANEL": {
+      "OVERVIEW": "Overview",
+      "FORGOT_PASSWORD": "Forgot Password"
+    }
+  },
+
+  "FORGOT_PASSWORD_PAGE": {
+    "HEADER": {
+      "TITLE": "Forgot Pasword"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>On this page, the user can be able to reset his/her password. This involves two separate steps, first is to enter both company and username or email address of the account that the user wants to reset the password, If the credentials are correct then the user will be redirected to Change Password Page <Attach link of Change password age>, from this page, the user can change whatever password he/she wants.</p>"
+      },
+      "AUTHENTICATE_USER_SECTION": {
+        "TITLE": "Authenticate User",
+        "DESCRIPTION": "<p>Verify Account button will only be available if two fields above have values. By tapping this button, it will validate the credentials provided, if success the user will be redirected to Change Password Page</p>",
+        "TABLE_INFORMATION": {
+          "COMPANY_INFORMATION": {
+            "NAME": "Company",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "This field determines from which organization/company does the user is coming from. Failed to enter a correct company name will display an error message saying, “Company does not exist.”."
+          },
+          "EMAIL_ADDRESS_OR_USERNAME_INFORMATION": {
+            "NAME": "Username or Email Address",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "Username or email address credential of the user that wants to reset the password. Failed to enter valid username or email address then an error message saying, “Username or email address does not exist!”."
+          }
+        }
+      },
+      "CHANGE_PASSWORD_SECTION": {
+        "TITLE": "Change Password",
+        "DESCRIPTION_1": "<p>After providing valid credentials on the Forgot Password validation page, the user will be redirected to this page where she/he can start changing his/her password.</p>",
+        "DESCRIPTION_2": "<p>Once the user was able to change the password with a new one, the user will be redirected back to the Login page.</p>",
+        "TABLE_INFORMATION": {
+          "NEW_PASSWORD_INFORMATION": {
+            "NAME": "New Password",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "Field where user can enter his/her new desired password."
+          },
+          "CONFIRM_PASSWORD_INFORMATION": {
+            "NAME": "Confirm Password",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "Simply re-enter the new password from the previous field. Make sure to match the password, otherwise a warning message will be shown, and process will be going to failed."
+          }
+        }
+      }
+    },
+    "OVERVIEW_SECTION_PANEL": {
+      "OVERVIEW": "Overview",
+      "AUTHENTICATE_USER": "Authenticate User",
+      "CHANGE_PASSWORD": "Change Password",
+      "FORGOT_PASSWORD_SAMPLE_VIDEO": "Forgot Password Sample Video"
+    }
+  },
+
+  "DASHBAORD_PAGE": {
+    "HEADER": {
+      "TITLE": "Dashboard"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>This page contains what we called “widgets” that contains some of the important summary information that the app has which is helpful to the user administrator of the app. This contains some information like the number of active tenants, number of available units, number of active contracts and more. You can see below more details about each of these available widgets.</p>"
+      },
+      "ACTIVE_TENANTS_WIDGET_SECTION": {
+        "TITLE": "Active Tenants Widget",
+        "DESCRIPTION": "<p>This basically shows the current number of active tenants.</p>"
+      },
+      "ACTIVE_UNITS_WIDGET_SECTION": {
+        "TITLE": "Active Units Widget",
+        "DESCRIPTION": "<p>This basically shows the current number of available units.</p>"
+      },
+      "ACTIVE_CONTRACTS_WIDGET_SECTION": {
+        "TITLE": "Active Contracts Widget",
+        "DESCRIPTION": "<p>This contains the current number of active contracts.</p>"
+      },
+      "UPCOMING_DUE_DATES_WIDGET_SECTION": {
+        "TITLE": "Upcoming Due Dates Widget",
+        "DESCRIPTION": "<p>This widget is specialized for monitoring the list of contracts which have upcoming due dates for the current month. This contains the tenant attached to the contract and the due date. By tapping on a particular item, the user will be redirected to the contract information page. This widget will only show the list based on the current month initially however this widget has the ability to filter upcoming due dates by means of changing the month selected on the month picker. Take note that this excludes any past months.</p>"
+      },
+      "ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET_SECTION": {
+        "TITLE": "Account Statements Amount Summart Widget",
+        "DESCRIPTION": "<p>This widget calculates the Total Paid Amount and Total Unpaid Amount for all contracts available on the system. These values are also visualized using a Pie Chart.</p>"
+      },
+      "UNPAID_ACCOUNT_STATEMENTS_WIDGET_SECTION": {
+        "TITLE": "Unpaid Account Statements Widget",
+        "DESCRIPTION": "<p>This widget is responsible for monitoring the list of all unpaid statement of accounts. Each of the item shows the name of the tenant as well as the due date. By tapping on a particular item, the user will be redirected to the statement of account information page.</p>"
+      }
+    },
+    "OVERVIEW_SECTION_PANEL": {
+      "OVERVIEW": "Overview",
+      "ACTIVE_TENANTS_WIDGET": "Active Tenants Widget",
+      "ACTIVE_UNITS_WIDGET": "Active Units Widget",
+      "ACTIVE_CONTRACTS_WIDGET": "Active Contracts Widget",
+      "UPCOMING_DUE_DATES_WIDGET": "Upcoming Due Dates Widget",
+      "ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET": "Account Statements Amount Summary Widget",
+      "UNPAID_ACCOUNT_STATEMENTS_WIDGET": "Unpaid Account Statements Widget"
+    }
+  },
+
+  "TENANTS_PAGE": {
+    "HEADER": {
+      "TITLE": "Tenants"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>This is the place where user can administrate information about the tenants.</p>"
+      },
+      "SEARCH_TENANTS_SECTION": {
+        "TITLE": "Search Tenants",
+        "DESCRIPTION": "<p>On Tenant list page particularly on the search bar located at the top of the page, user can type in tenant’s name and tap the search icon on the phone’s keyboard then it will filter the tenants list based on the search keyword. If there are tenants name that match the entered keyword then it will show the list of tenants, otherwise a “No Available Tenants” text will be shown. In order to reset the list items, just simply tap the <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'> icon on the side of the search bar.</p>"
+      },
+      "ADD_NEW_TENANT_SECTION": {
+        "TITLE": "Add New Tenant",
+        "DESCRIPTION_1": "<p>By simply tapping the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> that is located on the bottom right side of the screen, the user will be redirected to the Add New Tenant Details Page.</p>",
+        "DESCRIPTION_2": "<p>This page is divided into two tabs, the Information Tab, and the Contact Persons Tab.</p>",
+        "DESCRIPTION_3": "<p>On the Information tab, this contains tenant's information form. Following required fields must be filled out. <ul> <li>First name</li> <li>Last name</li> <li>Address</li> <li>Contact Number</li> <li>Email Address</li> </ul></p>",
+        "DESCRIPTION_4": "<p>On the Contact Persons tab, user can add contact person(s) related with the tenant. Adding contact persons is optional. See <a href='/tenants#manage-contact-person-list-section'>Manage Contact Persons List: Managing contact persons when adding new tenant</a> for more details.</p>",
+        "DESCRIPTION_5": "<p>In order to save the new tenant information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> above, and at least required fields must be filled out, otherwise a warning message will be shown, and the process will not proceed.</p>",
+        "DESCRIPTION_6": "<p>If user attempts to return to the tenant list page without saving the tenant information, a confirmation dialog will be shown saying “You have some unsaved changes. Are you sure to leave this page?”. If user selected No then it will stay on tenant details form page, otherwise unsaved changes will be ignored, and user will be redirected to tenant list page.</p>"
+      },
+      "VIEW_TENANT_INFORMATION_SECTION": {
+        "TITLE": "View Tenant Information Section",
+        "DESCRIPTION_1": "<p>To view tenant information, simply tap a particular item from the tenant list and user will be redirected to the tenant information page.</p>",
+        "DESCRIPTION_2": "<p>This page is grouped into two sections, the tenant details section, and the contact persons list section.</p>"
+      },
+      "EDIT_TENANT_INFORMATION_SECTION": {
+        "TITLE": "Edit Tenant Information",
+        "DESCRIPTION": "<p>From the Tenant Information page particularly on the Tenant information section, tap the Manage Button and user will be redirected to Edit Tenant Information page. The page contains tenant’s information form. Just like when adding new tenant, required fields must be filled out, otherwise saving will not proceed.</p>"
+      },
+      "MANAGE_CONTACT_PERSONS_LIST_SECTION": {
+        "TITLE": "Manage Contact Persons List",
+        "DESCRIPTION_1": "<p>Managing contact persons can be done when creating new tenant or when editing existing tenant information.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Managing contact persons when adding new tenant</p>",
+        "DESCRIPTION_3": "<p>Inside new tenant details page, there is a dedicated tab for managing contact person list. To add new contact person just simply tap on the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> located at the bottom right side of the screen. This will redirect the user to the contact person details form. Fill-out all required fields and tap save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'>  to save the details and the user will be navigated back to contact person list tab.</p>",
+        "DESCRIPTION_4": "<p>To edit contact person details, select any contact person from the list by tapping it. User will be redirected to contact person details form. After editing any information, tap the save button  <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> at the upper right side of the screen then user will be asked if he/she wants to proceed with the save or not. If <b>Yes</b>, details will be saved and user will be redirected to contact person list tab page, otherwise, it will stay on the current page.</p>",
+        "DESCRIPTION_5": "<p>To delete a contact person, just simply tap the delete icon <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'> on the right side of the item. User will be asked if he/she wants to remove selected contact person or not. If Yes, contact person will be removed.</p>",
+        "DESCRIPTION_6": "<p>At this point, any available contact persons on the list are not yet persist, they are temporarily saved. In order for them to persist, user must tap the save button on the new tenant details page. It will save the new tenant details together with the new contact person/s.</p>",
+        "DESCRIPTION_7": "<p class='subsection-title'>Managing contact persons when editing existing tenant</p>",
+        "DESCRIPTION_8": "<p>On the Tenant Information page, a Contact Persons List section can be found at the bottom. Tap the Manage Button and the user will be redirected to the Contact Persons List Page.</p>",
+        "DESCRIPTION_9": "<p>To add new contact person just simply tap on the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'>  located at the bottom right side of the screen. This will redirect the user to the contact person details form. Fill-out all required fields and tap save button to save the details and the user will be navigated back to contact person list.</p>",
+        "DESCRIPTION_10": "<p>To edit contact person details, select any contact person from the list by tapping it. User will be redirected to contact person details form. After editing any information, tap the save button at the upper right side of the screen then user will be asked if he/she wants to proceed with the save or not. If Yes, details will be saved and user will be redirected to contact person list page, otherwise, it will stay on the current page.</p>",
+        "DESCRIPTION_11": "<p>To delete contact persons, user can do it one by one or multiple at once. To delete a single tenant, user must swipe an item to the left and this will reveal a delete icon <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'> option. By tapping the icon, the user will be asked if he/she wants to remove the selected contact person or not. To delete multiple contact persons at once, tap the list icon <img class='system-icon' src='../../assets/images/system-icons/list-icon.png'>  option placed on the application toolbar, this will activate the multiple selection feature. At this point, user can select any available contact persons from the list. After selecting items, user must tap the delete icon placed at the top of the screen. User will be asked if he/she wants to remove the selected contact persons or not.</p>"
+      },
+      "DELETE_TENANT_SECTION": {
+        "TITLE": "Delete Tenant",
+        "DESCRIPTION_1": "<p>There are two different ways on how to delete a tenant, the first one is from the tenant list page and the other one is on the tenant details page.</p>",
+        "DESCRIPTION_2": "<p>Take note that the delete option will only be available if there are no contracts attached to the tenant.</p>",
+        "DESCRIPTION_3": "<p class='subsection-title'>Deleting tenant from the tenant list page</p>",
+        "DESCRIPTION_4": "<p>On the tenant list page, delete option <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'> can be revealed by swiping a particular item to the left. If this option is disabled, this only means that the tenant is currently attached to contracts.</p>",
+        "DESCRIPTION_5": "<p>Deleting multiple tenants can also be achieved on the list page. By tapping on the list icon  <img class='system-icon' src='../../assets/images/system-icons/list-icon.png'> that is located at the upper right side of the screen, this will activate the multiple selection feature. Pick any tenants from the list that the user wishes to delete. Take note that selecting a tenant that is currently attached to any contracts, a warning message will appear saying “This item cannot be selected for deletion!”. This prevents the user from selecting and deleting this kind of item to secure the integrity of the data. After selecting tenants, tapping the delete option above will delete the selected tenants and be removed from the list. If user wishes to cancel the process, user can simply tap on the <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'> icon to deactivate the multiple selection and any previously selected tenants will be de-selected.</p>",
+        "DESCRIPTION_6": "<p class='subsection-title'>Deleting tenant from the tenant information page</p>",
+        "DESCRIPTION_7": "<p>On the tenant information page, delete option <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'> can also be found on the upper right side of the screen. This option will only be available if tenant is not attached to any contracts.</p>"
+      },
+      "ACTIVATE_DEACTIVATE_TENANT_SECTION": {
+        "TITLE": "Activate or Deactivate Tenant",
+        "DESCRIPTION_1": "<p>Just like the process of deleting tenants, this can also be done on two different pages, first is on the list page and the other is on the tenant information page.</p>",
+        "DESCRIPTION_2": "<p>Take note that deactivating a tenant will also means that any contracts attached with it will also be deactivated and activating back a tenant cannot automatically activate the contracts so be careful on deactivating tenants.</p>",
+        "DESCRIPTION_3": "<p class='subsection-title'>Activating or Deactivating from the list page</p>",
+        "DESCRIPTION_4": "<p>For deactivating a tenant, simply swipe the tenant item to the left, an icon <img class='system-icon' src='../../assets/images/system-icons/deactivate-icon.png'> will be revealed. This is the icon for deactivating a tenant. If user tap this option, user will receive a confirmation message saying “By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactivate this selected tenant?”. If Yes, this will deactivate the tenant and the system will determine if there are any attach active contracts to this person then these will be deactivated as well. </p>",
+        "DESCRIPTION_5": "<p>Deactivated tenants are shown with a red circle on the left side of the tenant’s name.</p>",
+        "DESCRIPTION_6": "<p>For activating a tenant, simply swipe the tenant item to the left then an icon <img class='system-icon' src='../../assets/images/system-icons/activate-icon.png'> will be revealed. This is the icon for activating a tenant. If user tap this option, user will be prompted if he/she wants to proceed or not.</p>",
+        "DESCRIPTION_7": "<p class='subsection-title'>Activating or Deactivating from the tenant information page</p>",
+        "DESCRIPTION_8": "<p>On the tenant details page, tapping the icon <img class='system-icon' src='../../assets/images/system-icons/deactivate-icon.png'> will deactivate the tenant. If user tap this option, user will receive a confirmation message saying “By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactivate this selected tenant?”. If Yes, this will deactivate the tenant and the system will determine if there are any attach active contracts to this person then these will be deactivated as well.</p>",
+        "DESCRIPTION_9": "<p>For activating a tenant, tapping the icon <img class='system-icon' src='../../assets/images/system-icons/activate-icon.png'> will activate the tenant. If user tap this option, user will be prompted if he/she wants to proceed or not. </p>"
+      }
+    },
+    "OVERVIEW_SECTION_PANEL": {
+      "OVERVIEW": "Overview",
+      "SEARCH_TENANTS": "Search Tenants",
+      "ADD_NEW_TENANT": "Add New Tenant",
+      "VIEW_TENANT_INFORMATION": "View Tenant Information",
+      "EDIT_TENANT_INFORMATION": "Edit Tenant Information",
+      "MANAGE_CONTACT_PERSONS_LIST": "Manage Contact Persons List",
+      "DELETE_TENANT": "Delete Tenant",
+      "ACTIVATE_DEACTIVATE_TENANT": "Activate or Deactivate Tenant"
+    }
+  },
+
+  "UNIT_TYPES_PAGE": {
+    "HEADER": {
+      "TITLE": "Unit Types"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>Unit types are basically categories of units. This helps user to categorize or group units based on categories. Here, we define the name, description and the rate for each unit type and later can be used when administrating units. See Units section for more details.</p>"
+      },
+      "ADD_NEW_UNIT_TYPE_SECTION": {
+        "TITLE": "Add New Unit Type",
+        "DESCRIPTION": "<p>In order to create new unit type, tap the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> located at the bottom right side of the screen. This will bring the user to the add new unit type details form page. This form contains three fields: the name, description and the rate. Fill-out these fields and tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> at the top.</p>"
+      },
+      "EDIT_UNIT_TYPE_SECTION": {
+        "TITLE": "Edit Unit Type",
+        "DESCRIPTION": "<p>To edit a unit type, user can simply tap on any of the unit type available from the list. Update the field that the user wishes to update and then tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'>.</p>"
+      },
+      "SEARCH_UNIT_TYPE_SECTION": {
+        "TITLE": "Search Unit Type",
+        "DESCRIPTION": "<p>User can only search by unit type name. On the search bar, type in any unit type name and the list will be filtered based on this text. If there are no unit type matches the entered text, a text “No Available Unit Types” will be shown on the center of the screen.</p>"
+      },
+      "DELETE_UNIT_TYPE_SECTION": {
+        "TITLE": "Delete Unit Type",
+        "DESCRIPTION_1": "<p>Deleting unit type can be done one by one of multiple items at once.</p>",
+        "DESCRIPTION_2": "<p>Take note that delete option is only enabled if the unit type is not yet attached to any units or terms.</p>",
+        "DESCRIPTION_3": "<p>To delete item individually, swipe an item to the left and this will reveal the delete icon.</p>",
+        "DESCRIPTION_4": "<p>To delete multiple unit types, tap the icon <img class='system-icon' src='../../assets/images/system-icons/list-icon.png'> to activate the multiple selection feature. Select any items from the list. Selecting unit types that are currently attached to any units, a warning message will be shown that says “This item cannot be selected for deletion”.</p>",
+        "DESCRIPTION_5": "<p>User can anytime cancel the process by tapping the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'> located the application toolbar. </p>"
+      }
+    }
+  },
+
+  "UNITS_PAGE": {
+    "HEADER": {
+      "TITLE": "Units"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>In the context of the application, units are basically referring to the space that the tenants are renting. This is the place in the application where user can administrate units’ information.</p>",
+        "DESCRIPTION_2": "<p>Units that are currently attached to any active contracts are marked with this badge <img class='system-badge-icon' src='../../assets/images/system-icons/occupied-badge.png'> while units that are available and not yet attached to any active contracts are marked with this badge  <img class='system-badge-icon' src='../../assets/images/system-icons/available-badge.png'>.</p>"
+      },
+      "ADD_NEW_UNIT_SECTION": {
+        "TITLE": "Add New Unit",
+        "DESCRIPTION": "<p>To add new unit, tap the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> at the bottom right side of the screen. User will be redirected to new unit details form. Form contains two fields, the unit description and the unit type. After filling out the fields, tapping the save button will going to save the new unit information.</p>"
+      },
+      "EDIT_UNIT_SECTION": {
+        "TITLE": "Edit Unit",
+        "DESCRIPTION": "<p>From the unit list page, tap any unit the user wants to edit. This will bring the user to edit details form page.</p>"
+      },
+      "SEARCH_UNIT_SECTION": {
+        "TITLE": "Search Unit",
+        "DESCRIPTION": "<p>From the unit list page, there is a search bar at the top of the screen. User can only filter unit based on unit description. </p>"
+      },
+      "DELETE_UNIT_SECTION": {
+        "TITLE": "Delete Unit Section",
+        "DESCRIPTION_1": "<p>Deleting unit can be done one by one of multiple items at once.</p>",
+        "DESCRIPTION_2": "<p>Take note that delete option is only enabled if the unit is not attached to contract.</p>",
+        "DESCRIPTION_3": "<p>To delete item individually, swipe an item to the left and this will reveal the delete icon.</p>",
+        "DESCRIPTION_4": "<p>To delete multiple units, tap the icon <img class='system-icon' src='../../assets/images/system-icons/list-icon.png'> to activate the multiple selection feature. Select any items from the list. Selecting units that are currently attached to any active contracts, a warning message will be shown that says “This item cannot be selected for deletion”.</p>",
+        "DESCRIPTION_5": "<p>User can anytime cancel the process by tapping the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'> located the application toolbar. </p>"
+      }
+    }
+  },
+
+  "TERMS_PAGE": {
+    "HEADER": {
+      "TITLE": "Terms"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>In the application context, term defines as a template of agreement on how will be the calculation of the amount that the tenant is going to pay for renting units. User can create one or more term templates, and these can be bind to one or more contracts, see Contracts for more details.</p>"
+      },
+      "ADD_NEW_TERM_SECTION": {
+        "TITLE": "Add New Term",
+        "DESCRIPTION_1": "<p>To create new term details, tap the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> placed at the bottom right side of the screen. This will bring the user to the details form page.</p>",
+        "DESCRIPTION_2": "<p>This page is divided into two tabs, the <b>Details tab</b>, and the <b>Miscellaneous tab</b>.</p>",
+        "DESCRIPTION_3": "<p>Details tab contains the form for creating new term details. Below are the following fields available for the term. These fields are grouped inside panels.</p>",
+        "DESCRIPTION_4": "<p>On the Miscellaneous Tab, user can define one or more miscellaneous items connected with the term. The amount for each of this miscellaneous will automatically be included on the total amount for the statement of account. Please refer to <a href='/terms#manage-term-miscellaneous-section'>Manage Term Miscellaneous: Managing miscellaneous when creating term</a> for the detailed instructions for administrating miscellaneous.</p>",
+        "DESCRIPTION_5": "<p>In order to save the new term information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> above, and make sure that the required fields are filled out, otherwise a warning message will be shown, and the process will not proceed.</p>",
+        "DESCRIPTION_6": "<p>If user attempts to return to the term list page without saving the term information, a confirmation dialog will be shown saying “You have some unsaved changes. Are you sure to leave this page?”. If user selected No then it will stay on term details form page, otherwise unsaved changes will be ignored, and user will be redirected to term list page.</p>",
+        "TABLE_INFORMATION": {
+          "GENERAL_INFORMATION_SECTION": {
+            "TITLE": "General Information",
+            "CODE_INFORMATION": {
+              "NAME": "Code",
+              "DATA_TYPE": "Alphanumeric",
+              "DESCRIPTION": "This is a user defined code for the Term. This value should be unique. Required field."
+            },
+            "NAME_INFORMATION": {
+              "NAME": "Name",
+              "DATA_TYPE": "Alphanumeric",
+              "DESCRIPTION": "This is a user defined code for the Term. This value should be unique. Required field."
+            },
+            "UNIT_TYPE": {
+              "NAME": "Unit Type",
+              "DATA_TYPE": "Dropdown (List of active unit types)",
+              "DESCRIPTION": "This contains the list of all active unit types available on the system. Selecting a unit type will auto pre-fill the rate value based on the rate of the selected unit type."
+            },
+            "RATE_INFORMATION": {
+              "NAME": "Rate",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION": "This will define the rate for the term. Selecting a unit type will auto pre-fill this field based on the rate of the selected unit type, but the user can still change the amount anytime. Required field."
+            },
+            "MAX_NUMBER_OF_OCCUPANTS": {
+              "NAME": "Max No. of Occupants",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION": "This will define the maximum number of occupants. Required field."
+            }
+          },
+          "DURATION_INFORMATION_SECTION": {
+            "TITLE": "Duration Details",
+            "DURATION_UNIT_INFORMATION": {
+              "NAME": "Duration Unit",
+              "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter, Year)",
+              "DESCRIPTION": "This field basically determines the duration interval for generating a statement of account which contains the calculated amount for paying the rent."
+            },
+            "ADVANCED_PAYMENT_DURATION_INFORMATION": {
+              "NAME": "Advanced Payment Duration",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>The number of duration interval that the tenant must pay in advanced. This will also define the initial number of statement of accounts that will  generated by the system. </p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Advanced Payment Duration: 1</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the tenant is obliged to pay 1 month in advanced.</i></p>"
+            },
+            "DEPOSIT_PAYMENT_DURATION_INFORMATION": {
+              "NAME": "Deposit Payment Duration",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>The number of duration interval that the tenant must deposit, and this amount will always be part of the first statement of account.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Deposit Payment Duration: 2</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the tenant is obliged to pay a 2-month deposit </i></p>"
+            }
+          },
+          "ELECTRIC_AND_WATER_BILL_DETAILS_SECTION": {
+            "TITLE": "Electric and Water Bill Details",
+            "EXCLUDE_ELECTRIC_BILL_INFORMATION": {
+              "NAME": "Exclude Electric Bill",
+              "DATA_TYPE": "Active or Not",
+              "DESCRIPTION": "This will determine if the electric bill amount is already included on the rate amount or not."
+            },
+            "ELECTRIC_BILL_AMOUNT_INFORMATION": {
+              "NAME": "Electric Bill Amount",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION": "This field is only available if the <B>Exclude Electric Bill</B> field is active. This will the determine the amount for the electric bill."
+            },
+            "EXCLUDE_WATER_BILL_INFORMATION": {
+              "NAME": "Exclude Water Bill",
+              "DATA_TYPE": "Active or Not",
+              "DESCRIPTION": "This will determine if the water bill amount is already included on the rate amount or not."
+            },
+            "WATER_BILL_AMOUNT_INFORMATION": {
+              "NAME": "Water Bill Amount",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION": "This field is only available if the <b>Exclude Water Bill</b> field is active. This will determine the amount for the water bill."
+            }
+          },
+          "PENALTY_DETAILS_SECTION": {
+            "TITLE": "Penalty Details",
+            "PENALTY_VALUE_TYPE_INFORMATION": {
+              "NAME": "Penalty Value Type",
+              "DATA_TYPE": "Fixed or Percentage",
+              "DESCRIPTION": "This will determine if the penalty value is in fixed format of should be calculated based on percentage against the current rate value for the term."
+            },
+            "PENALTY_VALUE_INFORMATION": {
+              "NAME": "Penalty Value",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>This will define the value for the penalty. The value will be automatically the penalty amount if the <b>Penalty Value Type</b> setting is set to <b>Fixed</b> and if the <b>Penalty Value Type</b> is set to <b>Percentage</b> then the penalty amount will be calculated based on penalty value as the percentage against the current rate amount specified on the term.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example # 1:</b><br>Penalty Value Type: Fixed<br>Penalty Value: 50</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the penalty amount is 50.</p>",
+              "DESCRIPTION_4": "<p><i><b>Example # 2:</b><br>Rate: 9000<br>Penalty Value Type: Percentage<br>Penalty Value: 5</i></p>",
+              "DESCRIPTION_5": "<p><i>This means that the penalty amount is 5% of the rate which is 9000.</i></p>"
+            },
+            "PENALTY_AMOUNT_PER_DURATION_INFORMATION": {
+              "NAME": "Penalty Amount Per Duration",
+              "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter, Year)",
+              "DESCRIPTION_1": "<p>This will define the duration interval for calculating penalty amount and add it up on the statement of account total amount.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Penalty Value Type: Fixed<br>Penalty Value: 50<br>Penalty Amount Per Duration: Day</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the tenant will be penalized with the amount of Php 50 per day.</i></p>"
+            },
+            "PENALTY_EFFECTIVE_AFTER_DURATION_INFORMATION": {
+              "NAME": "Penalty Effective After Duration",
+              "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter, Year)",
+              "DESCRIPTION": "This will define the duration unit for the penalty to take effect."
+            },
+            "PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_INFORMATION": {
+              "NAME": "Penalty Effective After Duration Value",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>This defines the number of <b>Penalty Effective After Duration Value</b> after the statement of account due date has passed before the penalty will take effect. </p>",
+              "DESCRIPTION_2": "<p><i><b>Example: </b><br>Penalty Effective After Duration: Day<br>Penalty Effective After Duration Value: 5</i></p>",
+              "DESCRIPTION_3": "<p>This means that 5 days after the due date of the statement of account, the penalty will start to take effect.</p>",
+              "DESCRIPTION_4": "<p><b>Take note that the penalty will only take effect if the expected rental amount has not been fully paid yet after the due date has already passed. Rental is basically referring to the current rate amount as well.</b></p>"
+            }
+          },
+          "AUTOMATION_SETTINGS_SECTION": {
+            "TITLE": "Automation Settings",
+            "GENERATE_ACCOUNT_STATEMENTS_DAYS_BEFORE_DUE_DATE_INFORMATION": {
+              "NAME": "Generate Account Statements Days Before Due Date",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>It’s good to know that the system has a global scheduled task that checks and automatically generate statement of accounts. So, this setting will define the number of days in which the scheduled task will automatically generate statement of account in advanced.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Generate account statement days before due date: 5</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the system will automatically generate statement of account 5 days before the actual its actual due date.</i></p>"
+            }
+          },
+          "MISCELLANEOUS_SETTINGS_SECTION": {
+            "TITLE": "Miscellaneous Settings",
+            "MISCELLANEOUS_DUE_DATE_INFORMATION": {
+              "NAME": "Miscellaneous Due Date",
+              "DATA_TYPE": "Dropdown (Same With Rental Due Date or Same With Utility Due Date)",
+              "DESCRIPTION_1": "<p>This setting will define from which due date does the miscellaneous fees should follow.</p>",
+              "DESCRIPTION_2": "<p><b>Same With Rental Due Date</b>: This means that the miscellaneous fees will follow the same due date as the rental fees which is automatically calculated based on the term attached to the contract.</p>",
+              "DESCRIPTION_3": "<p><b>Same with Utility Due Date</b>: This means that the miscellaneous fees will follow the same due date as the utility bills (Electric & Water Bills) which is defined on the statement of account.</p>"
+            }
+          }
+        }
+      },
+      "MANAGE_TERM_MISCELLANEOUS_SECTION": {
+        "TITLE": "Manage Term Miscellaneous",
+        "DESCRIPTION_1": "<p>Take note that miscellaneous is always attached with term. Administrating list of miscellaneous can be done when creating a new term or updating an existing term detail.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Managing Term Miscellaneous when Adding New Term</p>",
+        "DESCRIPTION_3": "<p>Inside the new term details page, a dedicated tab for managing miscellaneous list can be found. In order to add a new miscellaneous just simply tap on the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> located at the bottom right side of the screen. This will bring the user to the miscellaneous form. This form contains Name (Required field), Description and Amount fields. Fill-out at least the required field and tap save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'>  to save the details and the user will be navigated back to the miscellaneous list tab.</p>",
+        "DESCRIPTION_4": "<p>To edit miscellaneous details, select any miscellaneous from the list by tapping it. User will be redirected to edit details form. After editing any information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> at the upper right side of the screen then user will be asked if he/she wants to proceed with the save or not. If Yes, details will be saved and user will be redirected to miscellaneous list tab page, otherwise, it will stay on the current page.</p>",
+        "DESCRIPTION_5": "<p>To delete a miscellaneous, just simply tap the delete icon <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'>  on the right side of the item. User will be asked if he/she wants to remove selected item or not. If Yes, miscellaneous will be removed.</p>",
+        "DESCRIPTION_6": "<p>At this point, any available miscellaneous on the list are not yet persist, they are temporarily saved. In order for them to persist, user must tap the save button on the new term details page. It will save the new term details together with the new miscellaneous.</p>",
+        "DESCRIPTION_7": "<p class='subsection-title'>Managing miscellaneous when editing existing term</p>",
+        "DESCRIPTION_8": "<p>On the Term Information page, a section for Miscellaneous can be found at the bottom. Tap the Manage Button and this will bring the user to the Miscellaneous List Page.</p>",
+        "DESCRIPTION_9": "<p>In order to add a new miscellaneous just simply tap on the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'> located at the bottom right side of the screen. This will bring the user to the miscellaneous form. This form contains Name (Required field), Description and Amount fields. Fill-out at least the required field and tap save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> to save the details and the user will be navigated back to the miscellaneous list tab.</p>",
+        "DESCRIPTION_10": "<p>To edit miscellaneous details, select any miscellaneous from the list by tapping it. User will be redirected to edit details form. After editing any information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'> at the upper right side of the screen then user will be asked if he/she wants to proceed with the save or not. If Yes, details will be saved and user will be redirected to miscellaneous list tab page, otherwise, it will stay on the current page.</p>",
+        "DESCRIPTION_11": "<p>To delete miscellaneous, user can do it one by one or multiple at once. To delete a single miscellaneous, user must swipe an item to the left and this will reveal a delete icon <img class='system-icon' src='../../assets/images/system-icons/delete-icon.png'> option. By tapping the icon, the user will be asked if he/she wants to remove the selected miscellaneous or not. To delete multiple miscellaneous at once, tap the list icon   option placed on the application toolbar, this will activate the multiple selection feature. At this point, user can select any available miscellaneous from the list. After selecting items, user must tap the delete icon placed at the top of the screen. User will be asked if he/she wants to remove the selected miscellaneous or not.</p>"
+      },
+      "VIEW_TERM_INFORMATION_SECTION": {
+        "TITLE": "View Term Information",
+        "DESCRIPTION_1": "<p>To view term information, simply tap a particular item from the term list and user will be redirected to the term information page.</p>",
+        "DESCRIPTION_2": "<p>This page is grouped into two sections, the term details section, and the miscellaneous list section.</p>"
+      },
+      "EDIT_TERM_INFORMATION_SECTION": {
+        "TITLE": "Edit Term Information",
+        "DESCRIPTION": "<p>From the Term Information page particularly on the term information section, tap the Manage Button and user will be redirected to Edit term page. The page contains term’s information form. Just like when adding new term, required fields must be filled out, otherwise saving will not proceed. Please refer to section <a href='/terms#add-new-term-section'>Add New Term</a> for the detailed documentation for each of the field.</p>"
+      },
+      "SEARCH_TERMS_SECTION": {
+        "TITLE": "Search Terms",
+        "DESCRIPTION": "<p>User can only search by term name. On the search bar, type in any term name and the list will be filtered based on this text. If there are no terms name that match with the entered text, a text “No Available Terms” will be shown on the center of the screen.</p>"
+      },
+      "DELETE_TERM_SECTION": {
+        "TITLE": "Delete Term",
+        "DESCRIPTION_1": "<p>Deleting term can be done one by one of multiple items at once.</p>",
+        "DESCRIPTION_2": "<p>Take note that delete option is only enabled if the term is not yet attached to any contracts.</p>",
+        "DESCRIPTION_3": "<p>To delete item individually, swipe an item to the left and this will reveal the delete icon.</p>",
+        "DESCRIPTION_4": "<p>To delete multiple miscellaneous, tap the icon  <img class='system-icon' src='../../assets/images/system-icons/list-icon.png'> to activate the multiple selection feature. Select any items from the list. Selecting miscellaneous that are currently attached to any contracts, a warning message will be shown that says “This item cannot be selected for deletion”.</p>"
+      }
+    }
+  },
+
+  "CONTRACTS_PAGE": {
+    "HEADER": {
+      "TITLE": "Contracts"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "<p>This is the module where user administrates contract information.  Contract contains information such as the tenant that is bind to the contract, the term template that will use as the basis for the calculation of the payments, the unit that the tenant will going to rent and the duration of contract, it could have specified start date with end date or could be an open contract.</p>"
+      },
+      "CONTRACT_LIST_SECTION": {
+        "TITLE": "Contract List",
+        "DESCRIPTION_1": "<p>Contract List page contains the list of all available active contracts. At the top section of the screen, user can see the number of active contracts and the number of active open contracts. </p>",
+        "DESCRIPTION_2": "<p>Each item on list is showing some information of the contract. The date shown on the left side is the upcoming due date for the statement of account inside the contract. It’s good to know that by default, items are sorted based on the latest upcoming due date, so these values are changing from time to time. If the statement of account for a particular due date has already been generated, then this value will change based on the next due date for the statement of account inside the contract. Each item is also showing the code, the name of the tenant and also the expiration of the contract. Any contracts that have specified duration, this will show the number of years, months and days before the contracts ends and if the contract is set to open contract, then it only shows label <b>Open Contract.</b>"
+      },
+      "SEARCH_CONTRACT_SECTION": {
+        "TITLE": "Search Contracts",
+        "DESCRIPTION_1": "<p>Searching contracts helps the user to filter the list based on the search criteria. Contract list offers an advanced filter setting that is useful to effectively filter the list.</p>",
+        "DESCRIPTION_2": "<p>To activate the basic filter, simply tap the search icon <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> located at the application toolbar. This will show a search bar where user can search contract based on code. </p>",
+        "DESCRIPTION_3": "<p>To activate the advanced filter setting, tap on the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon.png'>. This will open a dialog which contains different fields for filtering contracts.</p>",
+        "DESCRIPTION_4": "<p>To activate the filter, tap on the Confirm button. To Reset the filter setting to their default values, tap the Reset button.</p>",
+        "DESCRIPTION_5": "<p>The filter icons will be shown inside a circle which indicates that the advanced filter setting is active.</p>",
+        "DESCRIPTION_6": "<p>Take note that the user next time re-visit the contract list page, the previous filter settings will be remembered. To close the filter settings, tap on the icon  <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "TABLE_INFORMATION": {
+          "TENANT_INFORMATION": {
+            "NAME": "Tenant",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Dropdown (Contains list of all active tenants)",
+            "DESCRIPTION": "Selecting tenant will filter the list of contracts that are attached to the selected tenant."
+          },
+          "ACTIVE_FROM_INFORMATION": {
+            "NAME": "Active From",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter contracts which are active within the specified Active From field."
+          },
+          "ACTIVE_TO_INFORMATION": {
+            "NAME": "Active To",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter contracts which are active within the specified Active To field."
+          },
+          "NEXT_DUE_DATE_FROM_INFORMATION": {
+            "NAME": "Next Due Date From",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter contracts that have next due date within the specified Next Due Date From field."
+          },
+          "NEXT_DUE_DATE_TO_INFORMATION": {
+            "NAME": "Next Due Date To",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter contracts that have next due date within the specified Next Due Date To field."
+          },
+          "SORT_ORDER_INFORMATION": {
+            "NAME": "Sort Order",
+            "DEFAULT_VALUES": "Ascending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "This will determine the sorting order which is based on the next due date."
+          },
+          "OPEN_CONTRACT_INFORMATION": {
+            "NAME": "Open Contract",
+            "DEFAULT_VALUES": "Not Active",
+            "DATA_TYPE": "Active or Not",
+            "DESCRIPTION": "Determine contracts that are marked as Open contract or not."
+          }
+        }
+      },
+      "ARCHIVE_CONTRACT_SECTION": {
+        "TITLE": "Archive Contract",
+        "DESCRIPTION_1": "<p>Contracts can also be moved to archive. Take note that archiving contracts also means that these contracts will be marked as inactive. This separates the active contracts from the archived ones. This action is available on two different pages: On the contract list page and on the contract details page.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Archive Contract in Contract List Page</p>",
+        "DESCRIPTION_3": "<p>Archiving contracts in contract list page can be done one by one or multiple at once.</p>",
+        "DESCRIPTION_4": "<p>To archive a single contract, select any contract from the list that the user wishes to move to archive, and this will reveal the icon <img class='system-icon' src='../../assets/images/system-icons/archive-icon.png'> for tagging a contract as archived. Tap the icon and this will ask the user to proceed or not. If yes, the selected contract will be moved to archive contract list page. See <a href='/contracts#archived-contract-list-section'>Archived Contracts</a> for more information.</p>",
+        "DESCRIPTION_5": "<p>To archive multiple contracts at once, tap the more option icon at the upper right side <img class='system-icon' src='../../assets/images/system-icons/more-options-icon.png'>. This will open up a menu the select the option <b>Multiple Select</b>. This will give the user the ability to select multiple contracts and archive them all at once. Tap the archive icon <img class='system-icon' src='../../assets/images/system-icons/archive-icon.png'> and this will ask the user to proceed or not. If Yes, then selected contracts will be moved to archived contract list page. Use can cancel the process anytime by tapping on the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "DESCRIPTION_6": "<p class='subsection-title'>Archive Contract in Contract Details Page</p>",
+        "DESCRIPTION_7": "<p>Inside the contract details page, there is a more option located at the upper right side of the toolbar, tapping the option and this will open up a menu, select the <b>Archive</b> option from the menu. This will ask the user to proceed or not. If yes, the selected contract will be moved to archive contract list page. See <a href='/contracts#archived-contract-list-section'>Archived Contracts</a> for more information.</p>"
+      },
+      "ARCHIVED_CONTRACT_LIST_SECTION": {
+        "TITLE": "Archived Contract List",
+        "DESCRIPTION_1": "<p>Archived Contract List basically contains the list of contracts that have been marked as archived by the user. This list also contains contracts that are already expired.</p>",
+        "DESCRIPTION_2": "<p>To get to the archived list page, tap the more icon <img class='system-icon' src='../../assets/images/system-icons/more-options-icon.png'> option and this will open up a menu. From the menu, select <b>Archived List</b>.</p>",
+        "DESCRIPTION_3": "<p>User can see some important numbers on the header section of the list such as the total number of archived contracts, which is also breakdown into the number of expired and inactive contracts. Inactive contracts are represented by icon <img class='system-icon' src='../../assets/images/system-icons/archive-icon.png'> and expired contracts are represented by icon <img class='system-icon' src='../../assets/images/system-icons/expired-icon.png'>.</p>"
+      },
+      "SEARCH_ARCHIVED_CONTRACTS_SECTION": {
+        "TITLE": "Search Archived Contracts",
+        "DESCRIPTION": "<p>User can search archived contracts by code. To activate search function, tap the search <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> icon located at the toolbar section. After typing in contract code, tap the search icon on the phone’s keyboard. If there are archived contracts code that matches the search text then the list will be filtered, otherwise “No Available Archived Contracts” text will be shown. To exit the search function, tap the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>"
+      },
+      "UNARCHIVE_OR_ACTIVATE_CONTRACTS_SECTION": {
+        "TITLE": "Unarchive/Activate Contracts",
+        "DESCRIPTION_1": "<p>Take note that unarchiving/activating of archived contract is not available on expired contracts. To activate a contract, swipe the item to the left and this will reveal the icon <img class='system-icon' src='../../assets/images/system-icons/unarchive-icon.png'/>. Tap the activate option and this will ask the user to proceed or not. </p>",
+        "DESCRIPTION_2": "<p>There is one scenario where activating archived contract is not allowed and it is when the unit that is bind to contract is not available meaning, the unit is currently bind to a different active contract.</p>",
+        "DESCRIPTION_3": "<p>To activate an expired contract, the end date must be updated to future date. See <a href='/contracts#edit-contract-section'>Edit Contract</a> Details section for more information.</p>"
+      },
+      "CALENDAR_VIEW_SECTION": {
+        "TITLE": "Calendar View",
+        "DESCRIPTION_1": "<p>Active Contracts can also be viewed through calendar view. To go to calendar view, tap the more icon <img class='system-icon' src='../../assets/images/system-icons/more-options-icon.png'/> located at the toolbar section and this will open a menu then select <b>Calendar View</b> option. </p>",
+        "DESCRIPTION_2": "<p>The calendar view offers three different ways to view the calendar: Week, Month or Year.</p>",
+        "DESCRIPTION_3": "<p>To view available contracts for a particular date, simply tap the date on the calendar.</p>",
+        "DESCRIPTION_4": "<p>Tapping on any item available on the list will bring the user to contract details page. See <a href='/contracts#contract-details-page-section'>View Contract Details</a> page for more details.</p>"
+      },
+      "CREATE_NEW_CONTRACT_SECTION": {
+        "TITLE": "Create New Contract",
+        "DESCRIPTION_1": "<p>To create new contract details, tap the add button <img class='system-icon' src='../../assets/images/system-icons/floating-add-icon.png'/> and this will bring the user to the new contract details form page.</p>",
+        "DESCRIPTION_2": "<p>Form contains the following fields below.</p>",
+        "DESCRIPTION_3": "<p>In order to save the new contract information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'/>  above, and make sure that the required fields are filled out, otherwise a warning message will be shown, and the process will not proceed. If the form is valid then user will be asked to proceed with the save or not. If Yes, then information will be saved, and the user will be returned to the contract list page.</p>",
+        "DESCRIPTION_4": "<p>When saving the new contract information, the system will check the contract’s effective date against the current date. If the contract’s effective date is below or equal the current date, then the system will automatically generate the initial statement of account(s) for the contract.</p>",
+        "DESCRIPTION_5": "<p class='subsection-title' id='manage-term-details-contract-section'>Manage Term Details When Creating New or Updating Existing Contract</p>",
+        "DESCRIPTION_6": "<p>When creating or updating a contract details, user will have to select which term template will be used as the basis for calculating the statement of accounts for the contract. This term can also be managed from within the contract details form page. To manage term details, first select term from the term dropdown and on the toolbar section, tap the more icon <img class='system-icon' src='../../assets/images/system-icons/more-options-icon.png'/> option and this will open the menu and then select <b>Manage Term Details</b>, and this will bring the user to the manage term details page.</p>",
+        "DESCRIPTION_7": "<p>This page is divided into two tabs, the <b>Details tab</b>, and the <b>Miscellaneous tab</b>.</p>",
+        "DESCRIPTION_8": "<p>Details tab contains the form for creating new term details. Below are the following fields available for the term.</p>",
+        "DESCRIPTION_9": "<p>Fields are automatically pre-filled with values based on the selected term from contract details page. Take note that both <b>Code</b> and <b>Name</b> fields are disabled.</p>",
+        "DESCRIPTION_10": "<p>Below are the following fields available for the term. These fields are grouped inside panels.</p>",
+        "DESCRIPTION_11": "<p>On the Miscellaneous Tab, a list of miscellaneous will be shown based on the selected term from the contract details page. The user can administrate the list. Please refer to <a href='/terms#manage-term-miscellaneous-section'>Manage Term Miscellaneous: Managing miscellaneous editing existing term</a> for the detailed instructions for administrating miscellaneous.</p>",
+        "DESCRIPTION_12": "<p>To save the new term information, tap the save button <img class='system-icon' src='../../assets/images/system-icons/save-icon.png'/> above, and make sure that the required fields are filled out, otherwise a warning message will be shown, and the process will not proceed.</p>",
+        "DESCRIPTION_13": "<p>If user attempts to return to the contract details form page without saving the changes, a confirmation dialog will be shown saying “You have some unsaved changes. Are you sure to leave this page?”. If user selected No then it will stay on term details form page, otherwise unsaved changes will be ignored, and user will be navigated back to the contract details for page.</p>",
+        "DESCRIPTION_14": "<p>At this point, the updates on the term details are just temporarily saved. The save button on contract level must be tapped in order to persist the update on the term level.</p>",
+        "TABLE_INFORMATION": {
+          "CODE_INFORMATION": {
+            "NAME": "Code",
+            "DATA_TYPE": "Alphanumeric",
+            "DESCRIPTION": "This is a user defined code for the contract. Value for this field must be unique. Required field."
+          },
+          "TENANT_INFORMATION": {
+            "NAME": "Tenant",
+            "DATA_TYPE": "Dropdown (This contains all available active tenants)",
+            "DESCRIPTION": "Active tenant that will be assigned to the contract. Required field."
+          },
+          "TERM_INFORMATION": {
+            "NAME": "Term",
+            "DATA_TYPE": "Dropdown (This contains all active terms)",
+            "DESCRIPTION": "This will determine the term template that will be used as a basis for calculating the statement of accounts for the contract. This creates a copy of the term template that will be exclusive only for the contract. This term can be updated and does not affect the original term. See <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating existing Contract</a> section for more details. Required field."
+          },
+          "UNIT_TYPE_INFORMATION": {
+            "NAME": "Unit Type",
+            "DATA_TYPE": "Label",
+            "DESCRIPTION": "This will show the unit type value that is based on the currently selected term."
+          },
+          "UNIT_INFORMATION": {
+            "NAME": "Unit",
+            "DATA_TYPE": "Dropdown (This contains all active units based on the current unit type)",
+            "DESCRIPTION_1": "<p>This will determine which unit that will be assigned to the contract. Required field.</p>",
+            "DESCRIPTION_2": "<p>Take note that If the selected unit is already assigned to a different active contract, then an error message will be shown saying “The unit is already occupied. Please select other unit.”</p>"
+          },
+          "EFFECTIVE_DATE_INFORMATION": {
+            "NAME": "Effective Date",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will determine when the effective/start date of the contract is."
+          },
+          "OPEN_CONTRACT_INFORMATION": {
+            "NAME": "Open Contract",
+            "DATA_TYPE": "Active or Not",
+            "DESCRIPTION": "This will define if the contract is open or not."
+          },
+          "DURATION_UNIT_INFORMATION": {
+            "NAME": "Duration Unit",
+            "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter or Year)",
+            "DESCRIPTION": "This will define the duration unit that will be used to calculate the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active."
+          },
+          "DURATION_VALUE_INFORMATION": {
+            "NAME": "Duration Value",
+            "DATA_TYPE": "Number",
+            "DESCRIPTION_1": "<p>This is a combination with the Duration Unit setting. Basically, these two settings will determine the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active.</p>",
+            "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Duration Value: 12</i></p>",
+            "DESCRIPTION_3": "<p><i>This means that the contract will be expired after 12 months.</i></p>"
+          }
+        }
+      },
+      "CONTRACT_DETAILS_PAGE_SECTION": {
+        "TITLE": "Contract Details Page",
+        "DESCRIPTION_1": "<p>On the contract list page, select contract by tapping an item from the list. User will be navigated to the contract details page. Contract Details page is divided into three main sections, (1) the contract details header section (2) the statement of accounts sections, see <a href='/contracts/statement-of-accounts#overview-section'>Statement of Accounts</a> section for more details about statement of accounts, and the (3) the contract details footer section. This section will focus more on both the header and the footer sections.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Header Section</p>",
+        "DESCRIPTION_3": "<p>This section contains some information about the contract such as <b>Code, Effective Date, Tenant, Open Contract, Unit, Next Due Date</b>.</p>",
+        "DESCRIPTION_4": "<p>The <b>Open Contract</b> section will be replaced with the Expiration date if the contract is not set as Open Contract.</p>",
+        "DESCRIPTION_5": "<p>The <b>Next Due Date</b> section will be replaced with the text “Archived” if the contract is tagged as archived or if the contract is already expired.</p>",
+        "DESCRIPTION_6": "<p class='subsection-title'>Footer Section</p>",
+        "DESCRIPTION_7": "<p><b>Total Paid Amount</b> section contains the total amount that has already been paid by the tenant.</p>",
+        "DESCRIPTION_8": "<p>Below the Total Amount Paid section, user can see <b>Paid Amount from Deposit</b>. This section contains the amount that has been paid using the deposited amount. There is a scenario where tenant will eventually decide to use their deposited amount by extending their stay on the unit which they are renting. This section is useful to keep track of how much deposited amount has already been used by the tenant.</p>",
+        "DESCRIPTION_9": "<p><b>Total Expected Amount</b> section basically contains the sum of all amounts of statement of accounts. This helps the user to provide the expected amount that the tenant would need to pay.</p>",
+        "DESCRIPTION_10": "<p>Below the Total Expected Amount section, we have the <b>Expected Deposit Amount</b>. This section shows how much the expected amount that the tenant must deposit. The amount value is based on the term template used by the contract.</p>",
+        "DESCRIPTION_11": "<p><b>Encashed Deposit Amount</b> section display the amount that the tenant has encashed based on the remaining deposited amount. There is an instance where tenant might decide to end their contract and encash their remaining deposited amount only if there is any amount left based on their contract. This helps the user to see how much the tenant received from their remaining deposited amount.</p>"
+      },
+      "ENCASH_DEPOSIT_AMOUNT_SECTION": {
+        "TITLE": "Encash Deposit Amount",
+        "DESCRIPTION_1": "<p>This is a feature where tenant can be able to encash their remaining deposited amount. This is useful if for instance, tenant decides to end their contract and encash their remaining deposited amount only if there’s any amount left based on their contract. This feature is only available if the expected deposit amount has already been fully paid by the tenant. </p>",
+        "DESCRIPTION_2": "<p>So, to encash the deposited amount, tap on the more option   located at the toolbar section. This will open menu and then select the <b>Encash Deposit Amount</b> option. This will ask the user to proceed or not. If Yes, the encashed amount will be displayed on the <b>Encashed Deposit Amount</b> section inside the contract details footer section.</p>"
+      },
+      "RETURN_ENCASHED_DEPOSIT_AMOUNT_SECTION": {
+        "TITLE": "Return Encashed Deposit Amount",
+        "DESCRIPTION": "<p>There is also a way to return the encashed deposit amount. To do this, tap on the more option <img class='system-icon' src='../../assets/images/system-icons/more-options-icon.png'/> located at the toolbar section. This will open menu and then select the <b>Return Encashed Deposit Amount</b> option. This will ask the user to proceed or not. If Yes, <b>Encashed Deposit Amount</b> section will be set to 0.</p>"
+      },
+      "EDIT_CONTRACT_DETAILS_SECTION": {
+        "TITLE": "Edit Contract Details",
+        "DESCRIPTION_1": "<p>From within the contract details page, tap the edit icon <img class='system-icon' src='../../assets/images/system-icons/edit-icon.png'/> located at the toolbar section. This will bring the user to the edit contract form page. Refer <a href='/contracts#create-new-contract-section'>Create New Contract</a> section for more details about each field.</p>",
+        "DESCRIPTION_2": "<p>Managing term details can also be done when updating contract details. Please see <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating Existing Contract</a> for more details.</p>"
+      }
+    }
+  },
+
+  "STATEMENT_OF_ACCOUNTS_PAGE": {
+    "HEADER": {
+      "TITLE": "Statement of Accounts"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>Statement accounts contains the information about the amount for each due date. The bill amount is based on the term template used by the contract.</p>",
+        "DESCRIPTION_2": "<p>This is the page where user can administrate statement of accounts information.</p>",
+        "DESCRIPTION_3": "<p>The list contains some information about the statement of accounts such as the <b>status</b>, the <b>date</b>, and the <b>amount</b>.</p>",
+        "DESCRIPTION_4": "<p>Any paid statement of accounts is marked with paid badge <img src='../../../assets/images/system-icons/paid-icon.png'>.</p>",
+        "DESCRIPTION_5": "<p>Any unpaid statement of accounts is marked with unpaid badge <img src='../../../assets/images/system-icons/unpaid-icon.png'>.</p>"
+      },
+      "ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION": {
+        "TITLE": "Add New Statement of Accounts",
+        "DESCRIPTION_1": "<p>Creating statement of accounts can be done manually and automatically.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Manual Adding of Statement of Account</p>",
+        "DESCRIPTION_3": "<p>To add statement of account manually, simply tap the add button <img src='../../../assets/images/system-icons/add-icon.png'>. This will open a dialog. Dialog shows some information about the breakdown of the amounts for the statement of account. It has also <b>Mark as Paid</b> option. This will determine if the new statement of account will automatically be marked as paid or not. If Yes, then a new payment entry will be added containing the total amount of the statement of account. See <a href='/contracts/statement-of-accounts/payments#overview-section'>Payments</a> section for more details about the process of registering payments in the application. Tap the <b>Create</b> button to create new statement of account or tap Close button to cancel the process.</p>",
+        "DESCRIPTION_4": "<p class='subsection-title'>Automatically Adding of Statement of Accounts</p>",
+        "DESCRIPTION_5": "<p>It is good to know that there is a scheduled task running every day on the server that monitors and checks if there are any upcoming due date. If the scheduled task found any active contracts that have upcoming due dates, then the system will automatically generate statement of accounts. Notification will be sent to the device for each generated statement of accounts. </p>",
+        "DESCRIPTION_6": "<p>Following criteria must be satisfied in order for the scheduled task to generate statement of accounts:<br><ul><li>Contract’s next due date should be before the contract’s expiration date.</li><li>Contract’s effective date should be before or equal to the current date.</li><li>Contract’s effective date should be equal to the contract ‘s next due date OR the number of days before the contract’s next due date with respect to the current date is equal or less the value for the setting called <b>Generate account statement days before due date</b>.</li></ul></p>",
+        "DESCRIPTION_7": "<p><b>Examples:</b><br><br><br><b>Scenario # 1:</b><br><ul><li>Current date: 2021-05-17</li><li>Contract’s effective date = 2021-04-17</li><li>Contract’s expiration date = 2022-04-17</li><li>Contract’s next due date = 2021-05-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
+        "DESCRIPTION_8": "<p><b>Scenario # 2:</b><br><ul><li>Current date: 2021-04-19</li><li>Contract’s effective date = 2020-12-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-04-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 2 days</li></ul></p>",
+        "DESCRIPTION_9": "<p><b>Scenario # 3:</b><br><ul><li>Current date: 2021-06-17</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
+        "DESCRIPTION_10": "<p><b>Scenario # 4:</b><br><ul><li>Current date: 2021-06-21</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 0 day</li></ul></p>"
+      },
+      "SEARCH_STATEMENT_OF_ACCOUNTS_SECTION": {
+        "TITLE": "Search Statement of Accounts",
+        "DESCRIPTION_1": "<p>The application also offers a feature to filter the list of statement of accounts. By tapping the search icon <img class='system-icon' src='../../../assets/images/system-icons/filter-icon.png'>, a filter dialog will open. This dialog contains setting options that user can use to filter the list.</p>",
+        "DESCRIPTION_2": "<p>Tap the Confirm button to activate the filter setting.</p>",
+        "DESCRIPTION_3": "<p>Tap the Reset button to reset the filter setting to their default values.</p>",
+        "DESCRIPTION_5": "<p>The filter icon will be shown in orange color <img class='system-icon' src='../../../assets/images/system-icons/active-filter-icon.png'> which indicates that the filter settings is active. The filter setting will be remembered the next time that the user visits the page.</p>",
+        "TABLE_INFORMATION": {
+          "FROM_INFORMATION": {
+            "NAME": "From",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter any statement of account date that are after the specified <b>From</b> date."
+          },
+          "TO_INFORMATION": {
+            "NAME": "To",
+            "DEFAULT_VALUES": "Empty",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "This will filter any statement of account date that are before the specified <b>To</b> date."
+          },
+          "PAYMENT_STATUS_INFORMATION": {
+            "NAME": "Payment Status",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Paid, Unpaid)",
+            "DESCRIPTION": "This will filter the statement of account based on the status."
+          },
+          "SORT_ORDER_INFORMATION": {
+            "NAME": "Sort Order",
+            "DEFAULT_VALUES": "Descending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "This will determine the order on how to display the list based on the statement of account date."
+          }
+        }
+      },
+      "STATEMENT_OF_ACCOUNT_DETAILS_SECTION": {
+        "TITLE": "Statement of Account Details",
+        "DESCRIPTION_1": "<p>To view statement of account details, from within the statement of list tap any item from the list. This will bring the user to the statement of account details page.</p>",
+        "DESCRIPTION_2": "<p>This page shows a detailed information about the statement of account amount.</p>",
+        "DESCRIPTION_3": "<p>The information are group into two section, the <b>Utility bills</b> section and the <b>Rental fees</b> section</p>",
+        "DESCRIPTION_4": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous. The due date for miscellaneous fees can be configured whether same with the rental fees or same with the utility biils. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details. If the Miscellaneous Due Date setting is set to <b>Same With Rental Fees</b>, then the miscellaneous section will be displayed under Rental Fees section and if the Miscellaneous Due Date is set to <b>Same With Utility Bills</b> then the miscellaneous section will be displayed undere Utility bills section.</p>",
+        "DESCRIPTION_5": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
+        "DESCRIPTION_6": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>"
+      },
+      "DELETE_STATEMENT_OF_ACCOUNT": {
+        "TITLE": "Delete Statement of Account",
+        "DESCRIPTION_1": "<p>From within the statement of account information page, user can delete statement of account. To delete tap the delete icon located at the toolbar section. This will ask the user to proceed or not. If Yes, user will be navigated back to statement of account list.</p>",
+        "DESCRIPTION_2": "<p>Take note that the delete option is only available for the latest statement of account, this is to make sure that the order of the statement of accounts based on the date is retained.</p>"
+      },
+      "SEND_STATEMENT_OF_ACCOUNTS_DETAILS": {
+        "TITLE": "Send Statement of Accounts",
+        "DESCRIPTION_1": "<p>The application offers a feature to send the statement of account details to the tenant through SMS and email. This way, the user can share the information to remind the tenant about the bills.</p>",
+        "DESCRIPTION_2": "<p>To send the statement of account details, tap the <b>Send Details</b> button.</p>",
+        "DESCRIPTION_3": "<p>Sending of statement of accounts through SMS is only allowed once per day but sending through email is allowed multiple times per day.</p>",
+        "DESCRIPTION_4": "<p>The statement of account details will be sent via SMS to the tenant’s contact information and via email based on tenant’s email address.</p>"
+      }
+    }
+  },
+
+  "PAYMENTS_PAGE": {
+    "HEADER": {
+      "TITLE": "Payments"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>The payments page contains the list of payment breakdown for a particular statement of account. The user register payment for a particular statement and the list can be sorted from the latest to the oldest or vice versa. This helps the user to keep track of payments made by the tenant per statement of account.</p>",
+        "DESCRIPTION_2": "<p>To go to the list of payments, tap the more icon option from within the statement of account details page and select the <b>Payments</b> menu option.</p>",
+        "DESCRIPTION_3": "<p>On the footer section page, user can see the <b>Total Paid Amount</b> Section and the >b>Paid Amount from Deposit</b> section.</p>",
+        "DESCRIPTION_4": "<p><b>Total Paid Amount</b> section basically displays the total amount that the tenant paid for the statement of account.</p>",
+        "DESCRIPTION_5": "<p><b>Paid Amount from Deposit</b> section contains the total amount that the tenant paid using the deposited amount.</p>"
+      },
+      "REGISTER_PAYMENT_SECTION": {
+        "TITLE": "Register Payment",
+        "DESCRIPTION_1": "<p>To add payment details, tap the plus icon <img class='system-icon' src='../../../assets/images/system-icons/add-icon-2.png'/> located at the toolbar section. This will open a dialog which contains form related with the payment. </p>",
+        "DESCRIPTION_2": "<p>Tap the <b>Save</b> button to save the payment details or tap the <b>Close</b> button to cancel the process.</p>",
+        "TABLE_INFORMATION": {
+          "AMOUNT_FROM_DEPOSIT_INFORMATION": {
+            "NAME": "Amount from Deposit",
+            "DATA_TYPE": "Active or Not",
+            "DESCRIPTION_1": "<p>This will determine if the payment amount is from the deposited amount.</p>",
+            "DESCRIPTION_2": "<p>This setting is only available if the deposited amount is already fully paid, there are still available remaining deposited amount and has not been marked as encashed yet.</p>",
+            "DESCRIPTION_3": "<p>The system is smart enough to pre-fill the amount field if this setting is activated. If the remaining deposited amount is still greater than the rate amount of the rental, then the amount field will automatically be prefilled with the same amount of the rate. If the remaining deposited amount is less than the rate of the rental, then the amount field will be prefilled with the exact remaining deposited amount.</p>",
+            "DESCRIPTION_4": "<p><i><b>Examples:</b><br>Scenario # 1:<br>Remaining Deposited Amount: 18,000<br>Remaining Deposited Amount: 18,000<br>Amount field: 9000</i></p>",
+            "DESCRIPTION_5": "<p><i>Scenario # 2:<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
+            "DESCRIPTION_6": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
+          },
+          "AMOUNT_INFORMATION": {
+            "NAME": "Amount",
+            "DATA_TYPE": "Number",
+            "DESCRIPTION": "This will contain the payment amount. Required field."
+          },
+          "DATE_INFORMATION": {
+            "NAME": "Date",
+            "DATA_TYPE": "Date",
+            "DESCRIPTION": "The date when the payment amount has been received."
+          },
+          "TIME_INFORMATION": {
+            "NAME": "Time",
+            "DATA_TYPE": "Time",
+            "DESCRIPTION": "The time when the payment amount has been received."
+          },
+          "NOTES_INFORMATION": {
+            "NAME": "Notes",
+            "DATA_TYPE": "Text",
+            "DESCRIPTION": "This will contain some notes regarding the payment. Optional."
+          }
+        }
+      },
+      "VIEW_PAYMENT_DETAILS_SECTION": {
+        "TITLE": "View Payment Details",
+        "DESCRIPTION": "<p>To view payment details, tap any item from the list. This will open a dialog same with the one from <a href='/contracts/statement-of-accounts/payments#register-payment-section'>Register Payment</a> section.</p>"
+      },
+      "SORT_PAYMENT_LIST_SECTION": {
+        "TITLE": "Sort Payment List",
+        "DESCRIPTION": "<p>User can sort the list from latest to the oldest or vice versa. To sort the list from oldest to latest, tap the icon <img class='system-icon' src='../../../assets/images/system-icons/ascending-sort-icon.png'/> and tap the <img class='system-icon' src='../../../assets/images/system-icons/descending-sort-icon.png'/> to sort the item from latest to oldest.</p>"
+      }
+    }
+  },
+
+  "PENALTIES_PAGE": {
+    "HEADER": {
+      "TITLE": "Penalties"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This page contains the list of penalties per statement of account. Each item contains the amount and the date of the penalty. Penalties are automatically generated by the system. There is a scheduled task that runs every day and automatically generates penalties based on the penalty setting setup on the contract. Please see <a href='/terms#penalty-settings-section'>Penalty Settings</a> section for more details.</p>",
+        "DESCRIPTION_2": "<p><b>Total Penalty Amount</b> can be seen on the footer section.</p>"
+      },
+      "SORT_PENALTY_LIST_SECTION": {
+        "TITLE": "Sort Payment List",
+        "DESCRIPTION": "<p>User can sort the list from latest to the oldest or vice versa. To sort the list from oldest to latest, tap the icon <img class='system-icon' src='../../../assets/images/system-icons/ascending-sort-icon.png'/> and tap the <img class='system-icon' src='../../../assets/images/descending-sort-icon.png'/> to sort the item from latest to oldest.</p>"
+      }
+    }
+  },
+
+  "PROFILE_PAGE": {
+    "HEADER": {
+      "TITLE": "Profile"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This is the page where user can administrate its profile information such as <b>Personal Information</b> and <b>Account Information</b>.</p>",
+        "DESCRIPTION_2": "<p class='subsection-title'>Manage Personal Information</p>",
+        "DESCRIPTION_3": "<p>To update personal information, tap the Manage Button under the <b>General Information</b> section. This will bring the user to the personal information form page. User can update <b>First name</b>, <b>Middle name</b>, <b>Last name</b>, and the <b>Gender</b> information. To save the changes, tap on the save button located at the toolbar section.</p>",
+        "DESCRIPTION_4": "<p class='subsection-title'>Manage Account Information</p>",
+        "DESCRIPTION_5": "<p>To update account information, tap the Manage Button under the <b>Account Information</b> section. This will bring the user to the account information form page. User can update <b>Username</b>, <b>Email Address</b>, and the <b>Password</b>. To save the changes, tap on the save button located at the toolbar section.</p>",
+        "DESCRIPTION_6": "<p>Take note that username must be unique.</p>"
+      }
+    }
+  },
+
+  "SETTINGS_PAGE": {
+    "HEADER": {
+      "TITLE": "Settings"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This page contains some global configuration for the system. This page contains panel called General Settings.</p>",
+        "DESCRIPTION_2": "<p>General Settings panel contains single setting called Business Name. This business name is used on the SMS and the email when sending statement of account details to the tenant. See <a href='/contracts/statement-of-accounts#send-statement-of-account-details-section'>Send Statement of Account Details</a> section.</p>",
+        "DESCRIPTION_3": "<p>To save changes, tap the save button on the toolbar section.</p>"
+      }
+    }
+  },
+
+  "FOOTER_SECTION": {
+    "DESCRIPTION": "Copyright 2021. All Rights."
+  }
+}

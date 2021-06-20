@@ -17,6 +17,7 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum DurationUnit { get; set; }
         public int AdvancedPaymentDurationValue { get; set; }
         public int DepositPaymentDurationValue { get; set; }
+        public DateTime UtilityBillsDueDate { get; set; }
         public float ElectricBill { get; set; }
         public float WaterBill { get; set; }
         public List<AccountStatementMiscellaneous> AccountStatementMiscellaneous { get; set; }
@@ -26,6 +27,8 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum PenaltyAmountPerDurationUnit { get; set; }
         public int PenaltyEffectiveAfterDurationValue { get; set; }
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
+        public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
+
 
         // This will record the last date when the sms notification has been sent.
         // We will only allow to send one sms notification once per day
@@ -274,6 +277,13 @@ namespace ReserbizAPP.LIB.Models
             else
             {
                 totalAmount += Rate;
+            }
+
+            // Check if the Miscellaneous Due Date setting is set to SameWithRentalDueDate
+            // then we add the miscellaneous total amount with the Rental Amount
+            if (MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+            {
+                totalAmount += MiscellaneousTotalAmount;
             }
 
             return totalAmount;

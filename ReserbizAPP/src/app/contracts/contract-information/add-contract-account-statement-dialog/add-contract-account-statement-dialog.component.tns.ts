@@ -14,7 +14,7 @@ import { AccountStatement } from '@src/app/_models/account-statement.model';
 export class AddContractAccountStatementDialogComponent implements OnInit {
   private _suggestedAccountStatement: AccountStatement;
 
-  private _markAsPaid: boolean;
+  private _markAsPaid: boolean = false;
 
   constructor(private params: ModalDialogParams) {
     this._suggestedAccountStatement = params.context.suggestedAccountStatement;

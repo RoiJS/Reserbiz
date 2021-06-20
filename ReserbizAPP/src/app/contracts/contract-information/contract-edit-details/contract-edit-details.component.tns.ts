@@ -47,7 +47,8 @@ import { SpaceService } from '@src/app/_services/space.service';
 })
 export class ContractEditDetailsComponent
   extends BaseFormComponent<Contract, ContractDetailsFormSource, ContractDto>
-  implements IBaseFormComponent, IContractFormValueProvider, OnInit, OnDestroy {
+  implements IBaseFormComponent, IContractFormValueProvider, OnInit, OnDestroy
+{
   private _durationValueProvider: DurationValueProvider;
   private _termValueProvider: TermValueProvider;
   private _tenantValueProvider: TenantValueProvider;
@@ -232,7 +233,14 @@ export class ContractEditDetailsComponent
       isSpaceValid: boolean,
       isDurationUnitValid: boolean,
       isDurationValueValid: boolean;
-    isCodeValid = isTenantValid = isTermValid = isSpaceTypeNameValid = isSpaceValid = isDurationUnitValid = isDurationValueValid = true;
+    isCodeValid =
+      isTenantValid =
+      isTermValid =
+      isSpaceTypeNameValid =
+      isSpaceValid =
+      isDurationUnitValid =
+      isDurationValueValid =
+        true;
 
     const dataForm = this.formSource.dataForm;
     const codeProperty = dataForm.getPropertyByName('code');
@@ -257,10 +265,11 @@ export class ContractEditDetailsComponent
         isCodeValid = false;
       } else {
         // Check if code already exists
-        const checkCodeResult = await this.contractService.checkContractCodeIfExists(
-          this._currentEntity.id,
-          this._entityFormSource.code
-        );
+        const checkCodeResult =
+          await this.contractService.checkContractCodeIfExists(
+            this._currentEntity.id,
+            this._entityFormSource.code
+          );
 
         if (checkCodeResult) {
           codeProperty.errorMessage = this.translateService.instant(
@@ -291,10 +300,11 @@ export class ContractEditDetailsComponent
       isTermValid = true;
 
       const hasSpaces = this._spaceValueProvider.spaceOptions;
-      const hasAvailableSpaces = this._spaceValueProvider.spaceOptions.items.find(
-        (s) =>
-          s.isNotOccupied || s.occupiedByContractId === this._currentEntity.id
-      );
+      const hasAvailableSpaces =
+        this._spaceValueProvider.spaceOptions.items.find(
+          (s) =>
+            s.isNotOccupied || s.occupiedByContractId === this._currentEntity.id
+        );
 
       if (!hasSpaces) {
         spaceTypeNameProperty.errorMessage = this.translateService.instant(
@@ -326,9 +336,11 @@ export class ContractEditDetailsComponent
 
       // Check if the current selected space is
       // not occupied by other contract
-      if (!space.isNotOccupied
-        && space.occupiedByContractId !== this._currentEntity.id
-        && space.occupiedByContractId !== 0) {
+      if (
+        !space.isNotOccupied &&
+        space.occupiedByContractId !== this._currentEntity.id &&
+        space.occupiedByContractId !== 0
+      ) {
         spaceIdProperty.errorMessage = this.translateService.instant(
           'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
         );
@@ -360,12 +372,13 @@ export class ContractEditDetailsComponent
       // Needs to validate if the proposed new expiration date is valid.
       // A valid expiration date must not be less than the contract's
       // next due date.
-      const validateNewExpirationDate = await this.contractService.validateExpirationDate(
-        this.currentEntity.id,
-        DateFormatter.format(this._entityFormSource.effectiveDate),
-        this._entityFormSource.durationUnit,
-        this._entityFormSource.durationValue
-      );
+      const validateNewExpirationDate =
+        await this.contractService.validateExpirationDate(
+          this.currentEntity.id,
+          DateFormatter.format(this._entityFormSource.effectiveDate),
+          this._entityFormSource.durationUnit,
+          this._entityFormSource.durationValue
+        );
 
       if (!validateNewExpirationDate) {
         durationUnitProperty.errorMessage = this.translateService.instant(
@@ -455,30 +468,36 @@ export class ContractEditDetailsComponent
               this._isBusy = true;
 
               (async () => {
-                const contractDetails = this._entityDtoMapper.mapFormSourceToEntity(
-                  this._entityFormSource
-                );
+                const contractDetails =
+                  this._entityDtoMapper.mapFormSourceToEntity(
+                    this._entityFormSource
+                  );
                 contractDetails.id = this._currentEntity.id;
 
-                const termDetails = this.localManageTermService.entityDetails
-                  .value;
-                const termMiscellaneousList = this
-                  .localManageTermMiscellaneousService.entityList.value;
+                const termDetails =
+                  this.localManageTermService.entityDetails.value;
+                const termMiscellaneousList =
+                  this.localManageTermMiscellaneousService.entityList.value;
 
-                this.localManageTermService.resetEntityDetails();
-                this.localManageTermMiscellaneousService.resetEntityList();
-
+                const originalTermMiscellaneous =
+                  await this.termMiscellaneousService.getTermMiscellaneousList(
+                    termDetails.id
+                  );
                 try {
                   await this.contractService.manageContract(
                     contractDetails,
                     termDetails,
-                    termMiscellaneousList
+                    termMiscellaneousList,
+                    originalTermMiscellaneous
                   );
 
                   this.dialogService.alert(
                     this._updateDialogTexts.title,
                     this._updateDialogTexts.successMessage,
                     () => {
+                      this.localManageTermService.resetEntityDetails();
+                      this.localManageTermMiscellaneousService.resetEntityList();
+
                       this._entityService.reloadListFlag();
                       this.router.back();
                     }
@@ -505,9 +524,8 @@ export class ContractEditDetailsComponent
 
       const termDetails = await this.termService.getTerm(termId);
 
-      const termMiscellaneousList = await this.termMiscellaneousService.getTermMiscellaneousList(
-        termId
-      );
+      const termMiscellaneousList =
+        await this.termMiscellaneousService.getTermMiscellaneousList(termId);
 
       this.localManageTermService.entityDetails.next(termDetails);
       this.localManageTermMiscellaneousService.entityList.next(

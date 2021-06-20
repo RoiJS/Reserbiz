@@ -109,6 +109,7 @@ namespace ReserbizAPP.API.Controllers
 
             accountStatementFromRepo.WaterBill = accountStatementWaterAndElectricBillUpdateDto.WaterBillAmount;
             accountStatementFromRepo.ElectricBill = accountStatementWaterAndElectricBillUpdateDto.ElectricBillAmount;
+            accountStatementFromRepo.UtilityBillsDueDate = Convert.ToDateTime(accountStatementWaterAndElectricBillUpdateDto.UtilityBillsDueDate);
 
             if (await _accountStatementRepository.SaveChanges())
                 return NoContent();

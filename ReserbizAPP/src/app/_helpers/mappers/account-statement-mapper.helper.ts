@@ -5,6 +5,8 @@ import { AccountStatementFormSource } from '../../_models/form/account-statement
 import { AccountStatementDto } from '../../_dtos/account-statement.dto';
 import { AccountStatementMiscellaneous } from '../../_models/account-statement-miscellaneous.model';
 
+import { DateFormatter } from '../formatters/date-formatter.helper';
+
 export class AccountStatementMapper
   implements
     IBaseEntityMapper<AccountStatement>,
@@ -12,50 +14,61 @@ export class AccountStatementMapper
       AccountStatement,
       AccountStatementFormSource,
       AccountStatementDto
-    > {
+    >
+{
   mapEntity(as: AccountStatement): AccountStatement {
     const accountStatement = new AccountStatement();
-    accountStatement.contractId = as.contractId;
-    accountStatement.id = as.id;
-    accountStatement.dueDate = as.dueDate;
-    accountStatement.rate = as.rate;
-    accountStatement.depositPaymentDurationValue =
-      as.depositPaymentDurationValue;
-    accountStatement.advancedPaymentDurationValue =
-      as.advancedPaymentDurationValue;
-    accountStatement.electricBill = as.electricBill;
-    accountStatement.waterBill = as.waterBill;
-    accountStatement.penaltyNextDueDate = as.penaltyNextDueDate;
-    accountStatement.penaltyTotalAmount = as.penaltyTotalAmount;
-    accountStatement.accountStatementTotalAmount =
-      as.accountStatementTotalAmount;
-    accountStatement.currentAmountPaid = as.currentAmountPaid;
-    accountStatement.miscellaneousTotalAmount = as.miscellaneousTotalAmount;
-    accountStatement.currentBalance = as.currentBalance;
-    accountStatement.isFullyPaid = as.isFullyPaid;
-    accountStatement.tenantName = as.tenantName;
-    accountStatement.isFirstAccountStatement = as.isFirstAccountStatement;
-    accountStatement.isDeletable = as.isDeletable;
+    if (as) {
+      accountStatement.contractId = as.contractId;
+      accountStatement.id = as.id;
+      accountStatement.dueDate = as.dueDate;
+      accountStatement.rate = as.rate;
+      accountStatement.depositPaymentDurationValue =
+        as.depositPaymentDurationValue;
+      accountStatement.advancedPaymentDurationValue =
+        as.advancedPaymentDurationValue;
+      accountStatement.utilityBillsDueDate = DateFormatter.isValidDate(
+        as.utilityBillsDueDate?.toString()
+      )
+        ? new Date(as.utilityBillsDueDate)
+        : undefined;
+      accountStatement.electricBill = as.electricBill;
+      accountStatement.waterBill = as.waterBill;
+      accountStatement.penaltyNextDueDate = as.penaltyNextDueDate;
+      accountStatement.penaltyTotalAmount = as.penaltyTotalAmount;
+      accountStatement.accountStatementTotalAmount =
+        as.accountStatementTotalAmount;
+      accountStatement.currentAmountPaid = as.currentAmountPaid;
+      accountStatement.miscellaneousTotalAmount = as.miscellaneousTotalAmount;
+      accountStatement.currentBalance = as.currentBalance;
+      accountStatement.isFullyPaid = as.isFullyPaid;
+      accountStatement.tenantName = as.tenantName;
+      accountStatement.isFirstAccountStatement = as.isFirstAccountStatement;
+      accountStatement.isDeletable = as.isDeletable;
+      accountStatement.miscellaneousDueDate = as.miscellaneousDueDate;
 
-    if (
-      as.accountStatementMiscellaneous &&
-      as.accountStatementMiscellaneous.length > 0
-    ) {
-      accountStatement.accountStatementMiscellaneous = as.accountStatementMiscellaneous.map(
-        (
-          accountStatementMiscellaneousObject: AccountStatementMiscellaneous
-        ) => {
-          const accountStatmentMiscellaneous = new AccountStatementMiscellaneous();
+      if (
+        as.accountStatementMiscellaneous &&
+        as.accountStatementMiscellaneous.length > 0
+      ) {
+        accountStatement.accountStatementMiscellaneous =
+          as.accountStatementMiscellaneous.map(
+            (
+              accountStatementMiscellaneousObject: AccountStatementMiscellaneous
+            ) => {
+              const accountStatmentMiscellaneous =
+                new AccountStatementMiscellaneous();
 
-          accountStatmentMiscellaneous.name =
-            accountStatementMiscellaneousObject.name;
-          accountStatmentMiscellaneous.description =
-            accountStatementMiscellaneousObject.description;
-          accountStatmentMiscellaneous.amount =
-            accountStatementMiscellaneousObject.amount;
-          return accountStatmentMiscellaneous;
-        }
-      );
+              accountStatmentMiscellaneous.name =
+                accountStatementMiscellaneousObject.name;
+              accountStatmentMiscellaneous.description =
+                accountStatementMiscellaneousObject.description;
+              accountStatmentMiscellaneous.amount =
+                accountStatementMiscellaneousObject.amount;
+              return accountStatmentMiscellaneous;
+            }
+          );
+      }
     }
 
     return accountStatement;

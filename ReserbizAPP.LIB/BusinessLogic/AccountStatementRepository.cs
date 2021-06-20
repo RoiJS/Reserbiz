@@ -75,7 +75,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 PenaltyValueType = contractTerm.PenaltyValueType,
                 PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
-                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit
+                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit,
+                MiscellaneousDueDate = contractTerm.MiscellaneousDueDate
             };
             newAccountStatement.AccountStatementMiscellaneous.AddRange(GenerateAccountStatementMiscellaneous(contractTerm.TermMiscellaneous));
             return newAccountStatement;
@@ -668,7 +669,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
 
             template = template.Replace("#tenantName", tenant.PersonFullName);
-            template = template.Replace("#date", accountStatement.DueDate.ToString("MM/dd/yyyy"));
             template = template.Replace("#statementofaccounts", content);
             template = template.Replace("#organizationname", clientSettings.BusinessName);
 
@@ -679,53 +679,88 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var content = new StringBuilder();
 
-            var rentalFee = accountStatement.Rate;
-            if (accountStatement.IsFirstAccountStatement)
+            #region Rental fee section
+            // Check if the rental fee is not fully paid then include the rental details
+            if (!accountStatement.IsRentalFeeFullyPaid)
             {
-                rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
-            }
-            content.AppendLine(String.Format("<b>Rental Fee:</b> {0}<br>", rentalFee.ToCurrencyFormat()));
+                content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.DueDate.ToString("MM/dd/yyyy")));
 
-            // Append any miscellaneous fees
-            if (accountStatement.AccountStatementMiscellaneous.Count > 0)
-            {
-                content.AppendLine("<b>Miscellaneous Fees:</b><br>");
-                foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                var totalAmount = 0.0f;
+                var rentalFee = accountStatement.Rate;
+                if (accountStatement.IsFirstAccountStatement)
                 {
-                    content.AppendLine(String.Format("{0}: {1}<br>", item.Name, item.Amount.ToCurrencyFormat()));
+                    rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
                 }
-            }
+                content.AppendLine(String.Format("<b>Rental Fee:</b> {0}<br>", rentalFee.ToCurrencyFormat()));
+                totalAmount += rentalFee;
 
+                if (accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+                {
+                    // Include miscellaneous if Miscellaneous Due Date is Same with rental due date
+                    if (accountStatement.AccountStatementMiscellaneous.Count > 0)
+                    {
+                        content.AppendLine("<b>Miscellaneous Fees:</b><br>");
+                        foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                        {
+                            content.AppendLine(String.Format("{0}: {1}<br>", item.Name, item.Amount.ToCurrencyFormat()));
+                            totalAmount += item.Amount;
+                        }
+                    }
+                }
+
+                // Append Penalty amount
+                if (accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.AppendLine(String.Format("<b>Penalties Amount:</b> {0}<br>", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
+                    totalAmount += accountStatement.PenaltyTotalAmount;
+                }
+
+                if ((accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate && accountStatement.AccountStatementMiscellaneous.Count > 0) || accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.AppendLine(String.Format("<b>Total Amount:</b> {0}<br>", totalAmount.ToCurrencyFormat()));
+                }
+
+                content.AppendLine("<br>");
+            }
+            #endregion
+
+            #region Utility bills section
             // Append electric and water bill amount
             if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
             {
+                content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
+                var totalAmount = 0.0f;
+
                 if (accountStatement.ElectricBill > 0)
                 {
                     content.AppendLine(String.Format("<b>Electric Bill Amount:</b> {0}<br>", accountStatement.ElectricBill.ToCurrencyFormat()));
+                    totalAmount += accountStatement.ElectricBill;
                 }
 
                 if (accountStatement.WaterBill > 0)
                 {
                     content.AppendLine(String.Format("<b>Water Bill Amount:</b> {0}<br>", accountStatement.WaterBill.ToCurrencyFormat()));
+                    totalAmount += accountStatement.WaterBill;
                 }
-            }
 
-            // Append Penalty amount
-            if (accountStatement.PenaltyTotalAmount > 0)
-            {
-                content.AppendLine(String.Format("<b>Penalties Amount:</b> {0}<br>", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
-            }
+                if (accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithUtilityBillDueDate)
+                {
+                    // Include miscellaneous if Miscellaneous Due Date is Same with utility bills due date
+                    if (accountStatement.AccountStatementMiscellaneous.Count > 0)
+                    {
+                        content.AppendLine("<b>Miscellaneous Fees:</b><br>");
+                        foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                        {
+                            content.AppendLine(String.Format("{0}: {1}<br>", item.Name, item.Amount.ToCurrencyFormat()));
+                            totalAmount += item.Amount;
+                        }
+                    }
+                }
 
-            if (accountStatement.AccountStatementMiscellaneous.Count > 0
-             || accountStatement.WaterBill > 0
-             || accountStatement.ElectricBill > 0
-             || accountStatement.PenaltyTotalAmount > 0)
-            {
-                // Append Total Amount
-                content.AppendLine("<br>");
-                content.AppendLine(String.Format("<b>Total Amount:</b> {0}<br>", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
+                content.AppendLine(String.Format("<b>Total Amount:</b> {0}<br>", totalAmount.ToCurrencyFormat()));
                 content.AppendLine("<br>");
             }
+            #endregion
 
             return content.ToString();
         }
@@ -734,56 +769,89 @@ namespace ReserbizAPP.LIB.BusinessLogic
         {
             var content = new StringBuilder();
 
-            var rentalFee = accountStatement.Rate;
-            if (accountStatement.IsFirstAccountStatement)
-            {
-                rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
-            }
-
-            content.Append(String.Format("Rental Fee: {0} \n", rentalFee.ToCurrencyFormat()));
-
-            // Append any miscellaneous fees
-            if (accountStatement.AccountStatementMiscellaneous.Count > 0)
+            #region  Rental fee section
+            // Check if the rental fee is not fully paid then include the rental details
+            if (!accountStatement.IsRentalFeeFullyPaid)
             {
                 content.Append("\n");
-                content.Append("Miscellaneous Fees: \n");
-                foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
+
+                var totalAmount = 0.0f;
+                var rentalFee = accountStatement.Rate;
+                if (accountStatement.IsFirstAccountStatement)
                 {
-                    content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
+                    rentalFee += accountStatement.Rate * accountStatement.DepositPaymentDurationValue;
+                }
+                content.Append(String.Format("Rental Fee: {0} \n", rentalFee.ToCurrencyFormat()));
+                totalAmount += rentalFee;
+
+                if (accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+                {
+                    // Include miscellaneous if Miscellaneous Due Date is Same with rental due date
+                    if (accountStatement.AccountStatementMiscellaneous.Count > 0)
+                    {
+                        content.Append("Miscellaneous Fees: \n");
+                        foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                        {
+                            content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
+                            totalAmount += item.Amount;
+                        }
+                    }
+                }
+
+                // Append Penalty amount
+                if (accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.Append(String.Format("Penalties Amount: {0} \n", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
+                    totalAmount += accountStatement.PenaltyTotalAmount;
+                }
+
+                if ((accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate && accountStatement.AccountStatementMiscellaneous.Count > 0) || accountStatement.PenaltyTotalAmount > 0)
+                {
+                    content.Append(String.Format("Total Amount: {0} \n", totalAmount.ToCurrencyFormat()));
                 }
             }
+            #endregion
 
+
+            #region Utility bills section
             // Append electric and water bill amount
             if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
             {
                 content.Append("\n");
+                content.Append(String.Format("Due Date: {0} \n", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
+                var totalAmount = 0.0f;
+
                 if (accountStatement.ElectricBill > 0)
                 {
                     content.Append(String.Format("Electric Bill Amount: {0} \n", accountStatement.ElectricBill.ToCurrencyFormat()));
+                    totalAmount += accountStatement.ElectricBill;
                 }
 
                 if (accountStatement.WaterBill > 0)
                 {
                     content.Append(String.Format("Water Bill Amount: {0} \n", accountStatement.WaterBill.ToCurrencyFormat()));
+                    totalAmount += accountStatement.WaterBill;
                 }
-            }
 
-            // Append Penalty amount
-            if (accountStatement.PenaltyTotalAmount > 0)
-            {
-                content.Append(String.Format("Penalties Amount: {0} \n", accountStatement.PenaltyTotalAmount.ToCurrencyFormat()));
-            }
+                if (accountStatement.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithUtilityBillDueDate)
+                {
+                    // Include miscellaneous if Miscellaneous Due Date is Same with utility bills due date
+                    if (accountStatement.AccountStatementMiscellaneous.Count > 0)
+                    {
+                        content.Append("Miscellaneous Fees: \n");
+                        foreach (AccountStatementMiscellaneous item in accountStatement.AccountStatementMiscellaneous)
+                        {
+                            content.Append(String.Format("{0}: {1} \n", item.Name, item.Amount.ToCurrencyFormat()));
+                            totalAmount += item.Amount;
+                        }
+                    }
+                }
 
-
-            if (accountStatement.AccountStatementMiscellaneous.Count > 0
-                         || accountStatement.WaterBill > 0
-                         || accountStatement.ElectricBill > 0
-                         || accountStatement.PenaltyTotalAmount > 0)
-            {
-                // Append Total Amount
-                content.Append("\r\n");
-                content.Append(String.Format("Total Amount: {0}", accountStatement.AccountStatementTotalAmount.ToCurrencyFormat()));
+                content.Append(String.Format("Total Amount: {0} \n", totalAmount.ToCurrencyFormat()));
+                content.Append("\n");
             }
+            #endregion
 
             return content.ToString();
         }
