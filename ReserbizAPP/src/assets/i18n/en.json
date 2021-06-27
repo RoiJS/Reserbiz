@@ -279,7 +279,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate selected tenant",
-      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
       "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
     }
@@ -401,7 +401,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate tenant",
-      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
       "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
     }
@@ -1137,7 +1137,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit that is bind to its term is not available at this time."
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
     }
   },
 
@@ -1254,7 +1254,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
     },
     "ENCASH_DEPOSIT_AMOUNT_DIALOG": {
       "TITLE": "Encash Deposit Amount",
