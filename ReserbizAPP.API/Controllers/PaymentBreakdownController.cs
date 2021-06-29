@@ -59,6 +59,7 @@ namespace ReserbizAPP.API.Controllers
                 DateTimeReceived = paymentForCreationDto.DateTimeReceived.ToLocalTimeZone(),
                 Notes = paymentForCreationDto.Notes,
                 IsAmountFromDeposit = paymentForCreationDto.IsAmountFromDeposit,
+                PaymentForType = paymentForCreationDto.PaymentForType,
             };
 
             _accountStatementRepository.SetCurrentUserId(CurrentUserId);
@@ -107,14 +108,16 @@ namespace ReserbizAPP.API.Controllers
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<PaymentPaginationListDto>(mappedPaymentDetails, page);
 
-            await CalculatePaginationTotalAmounts(contractId, entityPaginationListDto, paymentBreakdownsFromRepo);
+            await CalculatePaginationTotalAmounts(contractId, accountStatementId, entityPaginationListDto, paymentBreakdownsFromRepo);
 
             return Ok(entityPaginationListDto);
         }
 
-        private async Task CalculatePaginationTotalAmounts(int contractId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        private async Task CalculatePaginationTotalAmounts(int contractId, int accountStatementId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
         {
             var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
+
+            var currentAccountStatement = await _accountStatementRepository.GetAccountStatementAsync(accountStatementId);
 
             entityPaginationListDto.TotalAmount = _accountStatementRepository.CalculateTotalAmountPaid(paymentBreakdowns);
 
@@ -122,7 +125,7 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
 
-            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(firstAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
         }
     }
 }

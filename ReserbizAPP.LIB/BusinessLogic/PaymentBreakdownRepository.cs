@@ -36,7 +36,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                ReceivedById = p.ReceivedById,
                                                ReceivedBy = u,
                                                Notes = p.Notes,
-                                               IsAmountFromDeposit = p.IsAmountFromDeposit
+                                               IsAmountFromDeposit = p.IsAmountFromDeposit,
+                                               PaymentForType = p.PaymentForType
                                            }).ToListAsync();
 
 

@@ -103,7 +103,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private List<AccountStatementMiscellaneous> GenerateAccountStatementMiscellaneous(List<TermMiscellaneous> termMiscellaneous)
         {
             var accountTermMiscellaneous = new List<AccountStatementMiscellaneous>();
-            foreach (var item in termMiscellaneous)
+
+            // Get only active term miscellaneous
+            foreach (var item in termMiscellaneous.Where(t => t.IsActive == true && t.IsDelete == false))
             {
                 var newTermMiscellaneous = new AccountStatementMiscellaneous();
                 newTermMiscellaneous.Name = item.Name;

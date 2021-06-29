@@ -78,6 +78,17 @@ export class PaymentsComponent
       },
       {
         name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.NAME'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DESCRIPTION'
+        ),
+      },
+      {
+        name: this.translateService.instant(
           'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.NAME'
         ),
         datatype: this.translateService.instant(

@@ -806,7 +806,7 @@
         "TITLE": "Overview",
         "DESCRIPTION_1": "<p>The payments page contains the list of payment breakdown for a particular statement of account. The user register payment for a particular statement and the list can be sorted from the latest to the oldest or vice versa. This helps the user to keep track of payments made by the tenant per statement of account.</p>",
         "DESCRIPTION_2": "<p>To go to the list of payments, tap the more icon option from within the statement of account details page and select the <b>Payments</b> menu option.</p>",
-        "DESCRIPTION_3": "<p>On the footer section page, user can see the <b>Total Paid Amount</b> Section and the >b>Paid Amount from Deposit</b> section.</p>",
+        "DESCRIPTION_3": "<p>On the footer section page, user can see the <b>Total Paid Amount</b> Section and the <b>Paid Amount from Deposit</b> section.</p>",
         "DESCRIPTION_4": "<p><b>Total Paid Amount</b> section basically displays the total amount that the tenant paid for the statement of account.</p>",
         "DESCRIPTION_5": "<p><b>Paid Amount from Deposit</b> section contains the total amount that the tenant paid using the deposited amount.</p>"
       },
@@ -824,6 +824,11 @@
             "DESCRIPTION_4": "<p><i><b>Examples:</b><br>Scenario # 1:<br>Remaining Deposited Amount: 18,000<br>Remaining Deposited Amount: 18,000<br>Amount field: 9000</i></p>",
             "DESCRIPTION_5": "<p><i>Scenario # 2:<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
             "DESCRIPTION_6": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
+          },
+          "PAYMENT_FOR_INFORMATION": {
+            "NAME": "Payment For",
+            "DATA_TYPE": "Dropdown (Rental, Electric Bill, Water Bill, Miscellaneous Fees or Penalty)",
+            "DESCRIPTION": "<p>This will define if the payment is for <b>Rental, Electric Bill, Water Bill, Miscellaneous fees</b> or <b>Penalty</b>.</p>"
           },
           "AMOUNT_INFORMATION": {
             "NAME": "Amount",

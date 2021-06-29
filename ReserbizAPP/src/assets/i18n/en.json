@@ -54,6 +54,13 @@
       "SAME_WITH_RENTAL_DUE_DATE": "Same with Rental Due Date",
       "SAME_WITH_UTILITY_BILL_DUE_DATE": "Same with Utility Due Date"
     },
+    "PAYMENT_TYPE_OPTIONS": {
+      "RENTAL": "Rental",
+      "ELECTRIC_BILL": "Electric Bill",
+      "WATER_BILL": "Water Bill",
+      "MISCELLANEOUS_FEES": "Miscellaneous Fees",
+      "PENALTY": "Penalty"
+    },
     "INACTIVE": "Inactive",
     "MANAGE": "Manage",
     "SELECTED_ITEMS": "Selected Items",
@@ -1359,7 +1366,8 @@
     },
     "EMPTY_PAYMENT_LIST": "No Available Payments",
     "PAYMENT_DETAILS": {
-      "RECEIVED_BY": "Received By:"
+      "RECEIVED_BY": "Received By:",
+      "PAYMENT_FOR": "Payment For"
     },
     "FOOTER_SECTION": {
       "TOTAL_PAID_AMOUNT": "Total Paid Amount",
@@ -1383,6 +1391,9 @@
         "AMOUNT_FROM_DEPOSIT_CONTROL": {
           "LABEL": "Amount From Deposit:",
           "EXCEEDED_VALUE_ERROR_MESSAGE": "Amount entered exceeded the available remaining deposited amount which is {0}."
+        },
+        "PAYMENT_FOR_CONTROL": {
+          "LABEL": "Payment For:"
         },
         "RECEIVED_BY_LABEL": "Received By:",
         "NOTES_LABEL": "Notes:"

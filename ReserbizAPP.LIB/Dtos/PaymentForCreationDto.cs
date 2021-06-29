@@ -1,4 +1,5 @@
 using System;
+using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Dtos
 {
@@ -8,5 +9,6 @@ namespace ReserbizAPP.LIB.Dtos
         public DateTime DateTimeReceived { get; set; }
         public string Notes { get; set; }
         public bool IsAmountFromDeposit { get; set; }
+        public PaymentForTypeEnum PaymentForType { get; set; }
     }
 }
