@@ -1,3 +1,4 @@
+import { PaymentForTypeEnum } from '../_enum/payment-type.enum';
 import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
 import { NumberFormatter } from '../_helpers/formatters/number-formatter.helper';
 
@@ -10,6 +11,7 @@ export class Payment extends Entity {
   public receivedBy: string;
   public notes: string;
   public isAmountFromDeposit: boolean;
+  public paymentForType: PaymentForTypeEnum;
 
   constructor() {
     super();
@@ -19,6 +21,7 @@ export class Payment extends Entity {
     this.receivedBy = '';
     this.notes = '';
     this.isAmountFromDeposit = false;
+    this.paymentForType = PaymentForTypeEnum.Rental;
   }
 
   get timeReceived(): Date {

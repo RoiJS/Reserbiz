@@ -50,6 +50,31 @@
       </TKPropertyGroup>
       <!-- #End -->
 
+      <!-- #Start - Payment For Type setting -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_PaymentForType"
+        [titleHidden]="true"
+      >
+        <TKDataFormGridLayout tkPropertyGroupLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="paymentForType"
+            [displayName]="'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.PAYMENT_FOR_CONTROL.LABEL' | translate"
+            [valuesProvider]="paymentTypeOptions"
+            index="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKDataFormGridLayout>
+      </TKPropertyGroup>
+      <!-- #End -->
+
       <!-- #Start - Amount field -->
       <TKPropertyGroup
         tkDataFormGroups

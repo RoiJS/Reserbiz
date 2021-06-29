@@ -55,13 +55,16 @@
               <ng-template tkListItemTemplate let-payment="item">
                 <GridLayout
                   class="app-list-item-template payment-item-template"
-                  rows="*, *, *"
+                  rows="*, *, *, *"
                   columns="70, 200, *"
                 >
                   <!-- #Start Payment main icon section -->
                   <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
                     <StackLayout
-                      class="payment-icon-placeholder app-list-item-template__image-container"
+                      class="
+                        payment-icon-placeholder
+                        app-list-item-template__image-container
+                      "
                       verticalAlignment="middle"
                     >
                       <label
@@ -92,9 +95,56 @@
                   </StackLayout>
                   <!-- #End -->
 
-                  <!-- #Start Payment Date Time Received section -->
+                  <!-- #Start Payment For section -->
                   <StackLayout
                     row="1"
+                    column="1"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-for"
+                  >
+                    <label
+                      class="payment-item-template__detail payment-for-label"
+                      [text]="'PAYMENTS.PAYMENT_DETAILS.PAYMENT_FOR' | translate"
+                    ></label>
+                    <div [ngSwitch]="payment?.paymentForType">
+                      <!-- Rental -->
+                      <label
+                        *ngSwitchCase="1"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL' | translate"
+                      ></label>
+                      <!-- Electric Bill -->
+                      <label
+                        *ngSwitchCase="2"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL' | translate"
+                      ></label>
+                      <!-- Water Bill -->
+                      <label
+                        *ngSwitchCase="3"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL' | translate"
+                      ></label>
+                      <!-- Miscellaneous Fee -->
+                      <label
+                        *ngSwitchCase="4"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES' | translate"
+                      ></label>
+                      <!-- Penalty Fee -->
+                      <label
+                        *ngSwitchCase="5"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY' | translate"
+                      ></label>
+                    </div>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Payment Date Time Received section -->
+                  <StackLayout
+                    row="2"
                     column="1"
                     orientation="horizontal"
                     verticalAlignment="middle"
@@ -113,7 +163,7 @@
 
                   <!-- #Start Payment Received By section -->
                   <StackLayout
-                    row="2"
+                    row="3"
                     column="1"
                     columSpan="2"
                     orientation="horizontal"
@@ -186,7 +236,11 @@
             >
               <label
                 text="&#xf53d;"
-                class="fa fa-solid m-r-5 payment-list-footer__total-amount-section-icon"
+                class="
+                  fa fa-solid
+                  m-r-5
+                  payment-list-footer__total-amount-section-icon
+                "
               ></label>
               <label
                 class="payment-list-footer__total-amount-section-detail"
@@ -216,7 +270,9 @@
             class="payment-list-footer__total-amount-from-deposit-section"
           >
             <label
-              class="payment-list-footer__total-amount-from-deposit-section-label"
+              class="
+                payment-list-footer__total-amount-from-deposit-section-label
+              "
               [text]="'PAYMENTS.FOOTER_SECTION.TOTAL_PAID_AMOUNT_FROM_DEPOSIT' | translate"
             ></label>
             <StackLayout
@@ -226,10 +282,16 @@
             >
               <label
                 text="&#xf53d;"
-                class="fa fa-solid m-r-5 payment-list-footer__total-amount-from-deposit-section-icon"
+                class="
+                  fa fa-solid
+                  m-r-5
+                  payment-list-footer__total-amount-from-deposit-section-icon
+                "
               ></label>
               <label
-                class="payment-list-footer__total-amount-from-deposit-section-detail"
+                class="
+                  payment-list-footer__total-amount-from-deposit-section-detail
+                "
                 [text]="totalAmountFromDeposit"
               ></label>
             </StackLayout>

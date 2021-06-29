@@ -1,3 +1,4 @@
+import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
 import { PaymentDto } from '../../_dtos/payment-dto';
 
 import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
@@ -9,7 +10,8 @@ import { Payment } from '../../_models/payment.model';
 export class PaymentMapper
   implements
     IBaseEntityMapper<Payment>,
-    IBaseDtoEntityMapper<Payment, PaymentFormSource, PaymentDto> {
+    IBaseDtoEntityMapper<Payment, PaymentFormSource, PaymentDto>
+{
   mapEntity(p: Payment): Payment {
     const payment = new Payment();
 
@@ -19,6 +21,7 @@ export class PaymentMapper
     payment.receivedBy = p.receivedBy;
     payment.notes = p.notes;
     payment.isAmountFromDeposit = p.isAmountFromDeposit;
+    payment.paymentForType = p.paymentForType;
     return payment;
   }
 
@@ -29,6 +32,7 @@ export class PaymentMapper
       0,
       '',
       false,
+      PaymentForTypeEnum.Rental,
       ''
     );
     return paymentFormSource;
@@ -45,7 +49,8 @@ export class PaymentMapper
       paymentFormSource.dateReceived,
       paymentFormSource.amount,
       paymentFormSource.notes,
-      paymentFormSource.isAmountFromDeposit
+      paymentFormSource.isAmountFromDeposit,
+      paymentFormSource.paymentForType
     );
 
     return paymentDto;
@@ -58,6 +63,7 @@ export class PaymentMapper
       payment.amount,
       payment.notes,
       payment.isAmountFromDeposit,
+      payment.paymentForType,
       payment.receivedBy
     );
     return paymentFormSource;
@@ -77,6 +83,7 @@ export class PaymentMapper
     payment.receivedBy = paymentFormSource.receivedBy;
     payment.notes = paymentFormSource.notes;
     payment.isAmountFromDeposit = paymentFormSource.isAmountFromDeposit;
+    payment.paymentForType = paymentFormSource.paymentForType;
 
     return payment;
   }

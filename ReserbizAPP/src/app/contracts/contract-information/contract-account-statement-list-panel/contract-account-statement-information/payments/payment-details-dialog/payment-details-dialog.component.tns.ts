@@ -11,15 +11,17 @@ import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper'
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 import { PaymentMapper } from '@src/app/_helpers/mappers/payment-mapper.helper';
 
+import { PaymentTypeValueProvider } from '@src/app/_helpers/value_providers/payment-type-value-provider.helper';
+
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
+import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
 
 import { Contract } from '@src/app/_models/contract.model';
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
-
 
 @Component({
   selector: 'ns-payment-details-dialog',
@@ -28,7 +30,8 @@ import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
 })
 export class PaymentDetailsDialogComponent
   extends BaseFormHelper<PaymentFormSource>
-  implements OnInit {
+  implements OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
@@ -43,6 +46,8 @@ export class PaymentDetailsDialogComponent
   private _firstAccountStatement = new AccountStatement();
 
   private _paymentDetailsFormSource: PaymentFormSource;
+
+  private _paymentTypeValueProvider: PaymentTypeValueProvider;
 
   constructor(
     private dialogService: DialogService,
@@ -61,7 +66,11 @@ export class PaymentDetailsDialogComponent
     this._depositedAmountBalance = params.context.depositedAmountBalance;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._paymentTypeValueProvider = new PaymentTypeValueProvider(
+      this.translateService
+    );
+  }
 
   onSave() {
     const isFormValid = this.validateForm();
@@ -169,9 +178,8 @@ export class PaymentDetailsDialogComponent
   }
 
   private initFormDetails(paymentDetails: Payment) {
-    this._paymentDetailsFormSource = this.paymentMapper.mapEntityToFormSource(
-      paymentDetails
-    );
+    this._paymentDetailsFormSource =
+      this.paymentMapper.mapEntityToFormSource(paymentDetails);
   }
 
   get paymentMapper(): PaymentMapper {
@@ -196,6 +204,10 @@ export class PaymentDetailsDialogComponent
 
   get encashedDepositAmount(): boolean {
     return this._contract?.encashDepositAmount;
+  }
+
+  get paymentTypeOptions(): Array<{ key: PaymentForTypeEnum; label: string }> {
+    return this._paymentTypeValueProvider.paymentTypeOptions;
   }
 
   /**
