@@ -22,7 +22,11 @@ namespace ReserbizAPP.LIB.Interfaces
         float CalculateTotalAmountPaid(IEnumerable<PaymentBreakdown> paymentBreakdowns);
         float CalculateTotalAmountPaidUsingDeposit(IEnumerable<PaymentBreakdown> paymentBreakdowns);
         Task<double> CalculatedDepositedAmountBalance(int contractId, AccountStatement firstAccountStatement);
-        double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance);
+        double CalculatedSuggestedAmountForPayment(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement firstAccountStatement, double depositedAmountBalance);
+        double CalculateSuggestedAmountForElectricBill(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance);
+        double CalculateSuggestedAmountForWaterBill(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance);
+        double CalculateSuggestedAmountForMiscellaneousFees(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance);
+        double CalculateSuggestedAmountForPenaltyAmount(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance);
         Task<float> CalculateOverAllPaymentUsedFromDepositedAmount(int contractId);
         Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary();
         Task SendAccountStatement(int id);

@@ -546,9 +546,59 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return firstAccountStatement.CalculatedDepositAmount - overAllPaymentsUsedFromDepositedAmount;
         }
 
-        public double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance)
+        public double CalculatedSuggestedAmountForPayment(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            return firstAccountStatement.Rate <= depositedAmountBalance ? firstAccountStatement.Rate : depositedAmountBalance;
+            var paidRentalAmount = paymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Rental)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidRentalAmount = currentAccountStatement.Rate - paidRentalAmount;
+
+            return remainingUnpaidRentalAmount <= depositedAmountBalance ? currentAccountStatement.Rate : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForElectricBill(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidElectricBillAmount = paymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.ElectricBill)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidElectricBillAmount = currentAccountStatement.ElectricBill - paidElectricBillAmount;
+
+            return remainingUnpaidElectricBillAmount <= depositedAmountBalance ? remainingUnpaidElectricBillAmount : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForWaterBill(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidWaterBillAmount = paymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.WaterBill)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidWaterBillAmount = currentAccountStatement.WaterBill - paidWaterBillAmount;
+
+            return remainingUnpaidWaterBillAmount <= depositedAmountBalance ? remainingUnpaidWaterBillAmount : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForMiscellaneousFees(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidMiscellaneousFeesAmount = paymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.MiscellaneousFee)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidMiscellaneousFees = currentAccountStatement.MiscellaneousTotalAmount - paidMiscellaneousFeesAmount;
+
+            return remainingUnpaidMiscellaneousFees <= depositedAmountBalance ? remainingUnpaidMiscellaneousFees : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForPenaltyAmount(IEnumerable<PaymentBreakdown> paymentBreakdowns, AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidPenaltyAmount = paymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Penalty)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidPenaltyAmount = currentAccountStatement.PenaltyTotalAmount - paidPenaltyAmount;
+
+            return remainingUnpaidPenaltyAmount <= depositedAmountBalance ? remainingUnpaidPenaltyAmount : depositedAmountBalance;
         }
 
         public async Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary()

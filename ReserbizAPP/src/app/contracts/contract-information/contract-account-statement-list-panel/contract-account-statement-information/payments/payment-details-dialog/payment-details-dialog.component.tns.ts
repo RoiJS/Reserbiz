@@ -39,7 +39,12 @@ export class PaymentDetailsDialogComponent
   private _dialogIntent: DialogIntentEnum;
 
   private _contract: Contract;
-  private _suggestedAmountForPayment = 0;
+  private _suggestedRentalAmount = 0;
+  private _suggestedElectricBillAmount = 0;
+  private _suggestedWaterBillAmount = 0;
+  private _suggestedMiscellaneousFeesAmount = 0;
+  private _suggestedPenaltyAmount = 0;
+
   private _depositedAmountBalance = 0;
   private _currentAccountStatementId = 0;
 
@@ -62,7 +67,13 @@ export class PaymentDetailsDialogComponent
     this._dialogIntent = params.context.dialogIntent;
     this._currentAccountStatementId = params.context.currentAccountStatementId;
     this._firstAccountStatement = params.context.firstAccountStatement;
-    this._suggestedAmountForPayment = params.context.suggestedAmountForPayment;
+    this._suggestedRentalAmount = params.context.suggestedRentalAmount;
+    this._suggestedElectricBillAmount =
+      params.context.suggestedElectricBillAmount;
+    this._suggestedWaterBillAmount = params.context.suggestedWaterBillAmount;
+    this._suggestedMiscellaneousFeesAmount =
+      params.context.suggestedMiscellaneousFeesAmount;
+    this._suggestedPenaltyAmount = params.context.suggestedPenaltyAmount;
     this._depositedAmountBalance = params.context.depositedAmountBalance;
   }
 
@@ -112,15 +123,40 @@ export class PaymentDetailsDialogComponent
     /**
      * If Amount From Deposit, pre-fill the amount field
      */
-    if (args.propertyName === 'isAmountFromDeposit') {
+    if (
+      args.propertyName === 'isAmountFromDeposit' ||
+      args.propertyName === 'paymentForType'
+    ) {
       if (
         this._paymentDetailsFormSource.isAmountFromDeposit &&
         this._paymentDetailsFormSource.amount === 0
       ) {
+        let suggestedAmount = 0;
+
+        switch (this._paymentDetailsFormSource.paymentForType) {
+          case PaymentForTypeEnum.Rental:
+            suggestedAmount = this._suggestedRentalAmount;
+            break;
+          case PaymentForTypeEnum.ElectricBill:
+            suggestedAmount = this._suggestedElectricBillAmount;
+            break;
+          case PaymentForTypeEnum.WaterBill:
+            suggestedAmount = this._suggestedWaterBillAmount;
+            break;
+          case PaymentForTypeEnum.MiscellaneousFee:
+            suggestedAmount = this._suggestedMiscellaneousFeesAmount;
+            break;
+          case PaymentForTypeEnum.Penalty:
+            suggestedAmount = this._suggestedPenaltyAmount;
+            break;
+          default:
+            break;
+        }
+
         this._paymentDetailsFormSource = this.reloadFormSource(
           this._paymentDetailsFormSource,
           {
-            amount: this._suggestedAmountForPayment,
+            amount: suggestedAmount,
           }
         );
       }
