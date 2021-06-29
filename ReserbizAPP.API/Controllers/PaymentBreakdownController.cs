@@ -125,15 +125,15 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
 
-            entityPaginationListDto.SuggestedRentalAmount = _accountStatementRepository.CalculatedSuggestedAmountForPayment(paymentBreakdowns, currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedRentalAmount = _accountStatementRepository.CalculatedSuggestedAmountForRentalPayment(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
 
-            entityPaginationListDto.SuggestedElectricBillAmount = _accountStatementRepository.CalculateSuggestedAmountForElectricBill(paymentBreakdowns, currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedElectricBillAmount = _accountStatementRepository.CalculateSuggestedAmountForElectricBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
 
-            entityPaginationListDto.SuggestedWaterBillAmount = _accountStatementRepository.CalculateSuggestedAmountForWaterBill(paymentBreakdowns, currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedWaterBillAmount = _accountStatementRepository.CalculateSuggestedAmountForWaterBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
 
-            entityPaginationListDto.SuggestedMiscelleneousAmount = _accountStatementRepository.CalculateSuggestedAmountForMiscellaneousFees(paymentBreakdowns, currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedMiscelleneousAmount = _accountStatementRepository.CalculateSuggestedAmountForMiscellaneousFees(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
 
-            entityPaginationListDto.SuggestedPenaltyAmount = _accountStatementRepository.CalculateSuggestedAmountForPenaltyAmount(paymentBreakdowns, currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedPenaltyAmount = _accountStatementRepository.CalculateSuggestedAmountForPenaltyAmount(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
         }
     }
 }

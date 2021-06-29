@@ -129,7 +129,8 @@ export class PaymentDetailsDialogComponent
     ) {
       if (
         this._paymentDetailsFormSource.isAmountFromDeposit &&
-        this._paymentDetailsFormSource.amount === 0
+        (!this._paymentDetailsFormSource.amount ||
+          this._paymentDetailsFormSource.amount === 0)
       ) {
         let suggestedAmount = 0;
 
