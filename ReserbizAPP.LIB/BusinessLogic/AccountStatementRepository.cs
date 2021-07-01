@@ -554,7 +554,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             var remainingUnpaidRentalAmount = currentAccountStatement.Rate - paidRentalAmount;
 
-            return remainingUnpaidRentalAmount <= depositedAmountBalance ? currentAccountStatement.Rate : depositedAmountBalance;
+            return remainingUnpaidRentalAmount <= depositedAmountBalance ? remainingUnpaidRentalAmount : depositedAmountBalance;
         }
 
         public double CalculateSuggestedAmountForElectricBill(AccountStatement currentAccountStatement, double depositedAmountBalance)
