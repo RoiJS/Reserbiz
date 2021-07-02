@@ -125,7 +125,15 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
 
-            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedRentalAmount = _accountStatementRepository.CalculatedSuggestedAmountForRentalPayment(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedElectricBillAmount = _accountStatementRepository.CalculateSuggestedAmountForElectricBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedWaterBillAmount = _accountStatementRepository.CalculateSuggestedAmountForWaterBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedMiscelleneousAmount = _accountStatementRepository.CalculateSuggestedAmountForMiscellaneousFees(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedPenaltyAmount = _accountStatementRepository.CalculateSuggestedAmountForPenaltyAmount(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
         }
     }
 }

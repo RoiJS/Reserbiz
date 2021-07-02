@@ -820,10 +820,12 @@
             "DATA_TYPE": "Active or Not",
             "DESCRIPTION_1": "<p>This will determine if the payment amount is from the deposited amount.</p>",
             "DESCRIPTION_2": "<p>This setting is only available if the deposited amount is already fully paid, there are still available remaining deposited amount and has not been marked as encashed yet.</p>",
-            "DESCRIPTION_3": "<p>The system is smart enough to pre-fill the amount field if this setting is activated. If the remaining deposited amount is still greater than the rate amount of the rental, then the amount field will automatically be prefilled with the same amount of the rate. If the remaining deposited amount is less than the rate of the rental, then the amount field will be prefilled with the exact remaining deposited amount.</p>",
-            "DESCRIPTION_4": "<p><i><b>Examples:</b><br>Scenario # 1:<br>Remaining Deposited Amount: 18,000<br>Remaining Deposited Amount: 18,000<br>Amount field: 9000</i></p>",
-            "DESCRIPTION_5": "<p><i>Scenario # 2:<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
-            "DESCRIPTION_6": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
+            "DESCRIPTION_3": "<p>The system is smart enough to pre-fill the <b>Amount</b> field if this setting is activated. For instance, If the selected <b>Payment For</b> setting is <b>Rental</b> then whatever the remaining unpaid rental amount will be pre-filled to the amount field provided that the remaining rental amount is still less than the remaining unused deposited amount, otherwise the remaining unused deposited amount will be used. This is the same for other <b>Payment For</b> options.</p>",
+            "DESCRIPTION_4": "<p><i><b>Examples:</b><br><b>Scenario # 1:</b><br>Payment For: Rental<br>Remaining Deposited Amount: 18,000<br>Rate: 9,000<br>Amount field: 9000</i></p>",
+            "DESCRIPTION_5": "<p><i><b>Scenario # 2:</b><br>Payment For: Rental<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
+            "DESCRIPTION_6": "<p><i><b>Scenario # 3:</b><br>Payment For: Electric Bill<br>Remaining Deposited Amount: 8,500<br>Electric Bill: 1200<br>Amount field: 1200</i></p>",
+            "DESCRIPTION_7": "<p><i><b>Scenario # 4:</b><br>Payment For: Electric Bill<br>Remaining Deposited Amount: 1000<br>Electric Bill: 1200<br>Amount field: 1000</i></p>",
+            "DESCRIPTION_8": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
           },
           "PAYMENT_FOR_INFORMATION": {
             "NAME": "Payment For",

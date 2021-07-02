@@ -21,7 +21,8 @@ import { BaseService } from './base.service';
 })
 export class PaymentsService
   extends BaseService<Payment>
-  implements IBaseService<Payment> {
+  implements IBaseService<Payment>
+{
   private _loadPaymentListFlag = new BehaviorSubject<boolean>(false);
 
   constructor(public http: HttpClient) {
@@ -59,8 +60,14 @@ export class PaymentsService
 
     paymentPaginationList.totalItems = data.totalItems;
     paymentPaginationList.totalAmount = data.totalAmount;
-    paymentPaginationList.suggestedAmountForPayment =
-      data.suggestedAmountForPayment;
+    paymentPaginationList.suggestedRentalAmount = data.suggestedRentalAmount;
+    paymentPaginationList.suggestedElectricBillAmount =
+      data.suggestedElectricBillAmount;
+    paymentPaginationList.suggestedWaterBillAmount =
+      data.suggestedWaterBillAmount;
+    paymentPaginationList.suggestedMiscelleneousAmount =
+      data.suggestedMiscelleneousAmount;
+    paymentPaginationList.suggestedPenaltyAmount = data.suggestedPenaltyAmount;
     paymentPaginationList.depositedAmountBalance = data.depositedAmountBalance;
     paymentPaginationList.totalAmountFromDeposit = data.totalAmountFromDeposit;
     paymentPaginationList.page = data.page;

@@ -45,9 +45,14 @@ import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.h
 })
 export class PaymentsComponent
   extends BaseListComponent<Payment>
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   private _totalPaidAmount = 0;
-  private _suggestedAmountForPayment = 0;
+  private _suggestedRentalAmount = 0;
+  private _suggestedElectricBillAmount = 0;
+  private _suggestedWaterBillAmount = 0;
+  private _suggestedMiscellaneousFeesAmount = 0;
+  private _suggestedPenaltyAmount = 0;
   private _depositedAmountBalance = 0;
   private _totalAmountFromDeposit = 0;
 
@@ -87,32 +92,41 @@ export class PaymentsComponent
         const contractId = +paramMap.get('contractId');
 
         (async () => {
-          this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
-            contractId
-          );
+          this._firstAccountStatement =
+            await this.accountStatementService.getFirstAccountStatement(
+              contractId
+            );
 
           this._contract = await this.contractService.getContract(contractId);
 
-          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
-            (reset: boolean) => {
-              (<PaymentFilter>this._entityFilter).contractId = contractId;
-              (<PaymentFilter>(
-                this._entityFilter
-              )).parentId = this._currentItemParentId;
-              this.getPaginatedEntities(
-                (paymentPaginationList: PaymentPaginationList) => {
-                  this._totalPaidAmount = paymentPaginationList.totalAmount;
-                  this._totalAmountFromDeposit =
-                    paymentPaginationList.totalAmountFromDeposit;
+          this._loadListFlagSub =
+            this.paymentService.loadPaymentListFlag.subscribe(
+              (reset: boolean) => {
+                (<PaymentFilter>this._entityFilter).contractId = contractId;
+                (<PaymentFilter>this._entityFilter).parentId =
+                  this._currentItemParentId;
+                this.getPaginatedEntities(
+                  (paymentPaginationList: PaymentPaginationList) => {
+                    this._totalPaidAmount = paymentPaginationList.totalAmount;
+                    this._totalAmountFromDeposit =
+                      paymentPaginationList.totalAmountFromDeposit;
 
-                  this._suggestedAmountForPayment =
-                    paymentPaginationList.suggestedAmountForPayment;
-                  this._depositedAmountBalance =
-                    paymentPaginationList.depositedAmountBalance;
-                }
-              );
-            }
-          );
+                    this._suggestedRentalAmount =
+                      paymentPaginationList.suggestedRentalAmount;
+                    this._suggestedElectricBillAmount =
+                      paymentPaginationList.suggestedElectricBillAmount;
+                    this._suggestedWaterBillAmount =
+                      paymentPaginationList.suggestedWaterBillAmount;
+                    this._suggestedMiscellaneousFeesAmount =
+                      paymentPaginationList.suggestedMiscelleneousAmount;
+                    this._suggestedPenaltyAmount =
+                      paymentPaginationList.suggestedPenaltyAmount;
+                    this._depositedAmountBalance =
+                      paymentPaginationList.depositedAmountBalance;
+                  }
+                );
+              }
+            );
         })();
       });
     });
@@ -204,7 +218,12 @@ export class PaymentsComponent
         currentAccountStatementId: this._currentItemParentId,
         firstAccountStatement: this._firstAccountStatement,
         depositedAmountBalance: this._depositedAmountBalance,
-        suggestedAmountForPayment: this._suggestedAmountForPayment,
+        suggestedRentalAmount: this._suggestedRentalAmount,
+        suggestedElectricBillAmount: this._suggestedElectricBillAmount,
+        suggestedWaterBillAmount: this._suggestedWaterBillAmount,
+        suggestedMiscellaneousFeesAmount:
+          this._suggestedMiscellaneousFeesAmount,
+        suggestedPenaltyAmount: this._suggestedPenaltyAmount,
       },
       fullscreen: false,
       animated: true,

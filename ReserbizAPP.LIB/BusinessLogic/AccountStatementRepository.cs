@@ -546,9 +546,59 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return firstAccountStatement.CalculatedDepositAmount - overAllPaymentsUsedFromDepositedAmount;
         }
 
-        public double CalculatedSuggestedAmountForPayment(AccountStatement firstAccountStatement, double depositedAmountBalance)
+        public double CalculatedSuggestedAmountForRentalPayment(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            return firstAccountStatement.Rate <= depositedAmountBalance ? firstAccountStatement.Rate : depositedAmountBalance;
+            var paidRentalAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Rental)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidRentalAmount = currentAccountStatement.Rate - paidRentalAmount;
+
+            return remainingUnpaidRentalAmount <= depositedAmountBalance ? remainingUnpaidRentalAmount : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForElectricBill(AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidElectricBillAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.ElectricBill)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidElectricBillAmount = currentAccountStatement.ElectricBill - paidElectricBillAmount;
+
+            return remainingUnpaidElectricBillAmount <= depositedAmountBalance ? remainingUnpaidElectricBillAmount : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForWaterBill(AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidWaterBillAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.WaterBill)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidWaterBillAmount = currentAccountStatement.WaterBill - paidWaterBillAmount;
+
+            return remainingUnpaidWaterBillAmount <= depositedAmountBalance ? remainingUnpaidWaterBillAmount : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForMiscellaneousFees(AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidMiscellaneousFeesAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.MiscellaneousFee)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidMiscellaneousFees = currentAccountStatement.MiscellaneousTotalAmount - paidMiscellaneousFeesAmount;
+
+            return remainingUnpaidMiscellaneousFees <= depositedAmountBalance ? remainingUnpaidMiscellaneousFees : depositedAmountBalance;
+        }
+
+        public double CalculateSuggestedAmountForPenaltyAmount(AccountStatement currentAccountStatement, double depositedAmountBalance)
+        {
+            var paidPenaltyAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Penalty)
+                                                            .Select(p => p.Amount)
+                                                            .Sum();
+
+            var remainingUnpaidPenaltyAmount = currentAccountStatement.PenaltyTotalAmount - paidPenaltyAmount;
+
+            return remainingUnpaidPenaltyAmount <= depositedAmountBalance ? remainingUnpaidPenaltyAmount : depositedAmountBalance;
         }
 
         public async Task<AccountStatementsAmountSummary> GetAccountStatementsAmountSummary()

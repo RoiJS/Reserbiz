@@ -5,6 +5,10 @@ namespace ReserbizAPP.LIB.Interfaces
         double TotalAmount { get; set; }
         double TotalAmountFromDeposit { get; set; }
         double DepositedAmountBalance { get; set; }
-        double SuggestedAmountForPayment { get; set; }
+        double SuggestedRentalAmount { get; set; }
+        double SuggestedElectricBillAmount { get; set; }
+        double SuggestedWaterBillAmount { get; set; }
+        double SuggestedMiscelleneousAmount { get; set; }
+        double SuggestedPenaltyAmount { get; set; }
     }
 }

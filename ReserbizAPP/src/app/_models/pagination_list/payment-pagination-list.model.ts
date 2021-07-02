@@ -3,7 +3,11 @@ import { IPaymentPaginationList } from '../../_interfaces/pagination_list/ipayme
 
 export class PaymentPaginationList implements IPaymentPaginationList {
   public totalAmount: number;
-  public suggestedAmountForPayment: number;
+  public suggestedRentalAmount: number;
+  public suggestedElectricBillAmount: number;
+  public suggestedWaterBillAmount: number;
+  public suggestedMiscelleneousAmount: number;
+  public suggestedPenaltyAmount: number;
   public depositedAmountBalance: number;
   public totalAmountFromDeposit: number;
   public totalItems: number;

@@ -74,6 +74,12 @@ export class PaymentsComponent
           ${this.translateService.instant(
             'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_6'
           )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_7'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_8'
+          )}
         `,
       },
       {
