@@ -432,7 +432,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 3,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeForBedSpaceTermTemplate = new Term
                 {
@@ -468,7 +469,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 5,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeIdForCondoTermTemplate = new Term
                 {
@@ -504,7 +506,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 3,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeIdForRoomNonStudioTypeTermTemplate = new Term
                 {
@@ -522,7 +525,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     WaterBillAmount = 0,
                     TermMiscellaneous = new List<TermMiscellaneous>(),
                     PenaltyValue = 0,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
 
                 _context.Terms.Add(unitTypeForRoomStudioTypeTermTemplate);
