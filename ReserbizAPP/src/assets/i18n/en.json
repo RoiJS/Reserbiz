@@ -1157,50 +1157,68 @@
       }
     },
     "FORM_CONTROL": {
-      "CODE_CONTROL": {
-        "CONTROL_LABEL": "Code:",
-        "HINT_TEXT": "Enter code here",
-        "EMPTY_ERROR_MESSAGE": "Please enter code",
-        "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
-        "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+      "GENERAL_INFORMATION_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "TENANT_CONTROL": {
+          "CONTROL_LABEL": "Tenant:",
+          "EMPTY_ERROR_MESSAGE": "Please select tenant"
+        },
+        "TERM_CONTROL": {
+          "CONTROL_LABEL": "Term:",
+          "EMPTY_ERROR_MESSAGE": "Please select term",
+          "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
+          "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
+        },
+        "SPACE_TYPE_NAME_CONTROL": {
+          "CONTROL_LABEL": "Unit Type:"
+        },
+        "SPACE_CONTROL": {
+          "CONTROL_LABEL": "Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit",
+          "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
+        },
+        "EFFECTIVE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Effective Date:",
+          "HINT_TEXT": "Please enter effective date"
+        },
+        "OPEN_CONTRACT_CONTROL": {
+          "CONTROL_LABEL": "Open Contract:"
+        },
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select duration unit",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Duration Value:",
+          "EMPTY_ERROR_MESSAGE": "Please provide duration value",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "EXPIRATION_DATE_CONTROL": {
+          "CONTROL_LABEL": "Expiration Date:"
+        }
       },
-      "TENANT_CONTROL": {
-        "CONTROL_LABEL": "Tenant:",
-        "EMPTY_ERROR_MESSAGE": "Please select tenant"
-      },
-      "TERM_CONTROL": {
-        "CONTROL_LABEL": "Term:",
-        "EMPTY_ERROR_MESSAGE": "Please select term",
-        "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
-        "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
-      },
-      "SPACE_TYPE_NAME_CONTROL": {
-        "CONTROL_LABEL": "Unit Type:"
-      },
-      "SPACE_CONTROL": {
-        "CONTROL_LABEL": "Unit:",
-        "EMPTY_ERROR_MESSAGE": "Please select unit",
-        "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
-      },
-      "EFFECTIVE_DATE_CONTROL": {
-        "CONTROL_LABEL": "Effective Date:",
-        "HINT_TEXT": "Please enter effective date"
-      },
-      "OPEN_CONTRACT_CONTROL": {
-        "CONTROL_LABEL": "Open Contract:"
-      },
-      "DURATION_UNIT_CONTROL": {
-        "CONTROL_LABEL": "Duration Unit:",
-        "EMPTY_ERROR_MESSAGE": "Please select duration unit",
-        "INVALID_ERROR_MESSAGE": "This is not valid"
-      },
-      "DURATION_VALUE_CONTROL": {
-        "CONTROL_LABEL": "Duration Value:",
-        "EMPTY_ERROR_MESSAGE": "Please provide duration value",
-        "INVALID_ERROR_MESSAGE": "This is not valid"
-      },
-      "EXPIRATION_DATE_CONTROL": {
-        "CONTROL_LABEL": "Expiration Date:"
+      "MARK_ACCOUNT_STATEMENT_AS_PAID_CONTROL_GROUP": {
+        "LABEL": "Mark Account Statement As Paid",
+        "INCLUDE_RENTAL_FEE_CONTROL": {
+          "CONTROL_LABEL": "Check Rental Fee:"
+        },
+        "INCLUDE_UTILITY_BILLS_CONTROL": {
+          "CONTROL_LABEL": "Check Utility Bills:"
+        },
+        "INCLUDE_MISCELLANEOUS_FEE_CONTROL": {
+          "CONTROL_LABEL": "Check Miscellaneous Fees:"
+        },
+        "INCLUDE_PENALTY_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Check Penalty Amount:"
+        }
       },
       "ADD_DIALOG": {
         "TITLE": "Add New Contract",

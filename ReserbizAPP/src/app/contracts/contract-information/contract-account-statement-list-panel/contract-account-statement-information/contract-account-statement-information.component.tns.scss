@@ -20,6 +20,7 @@ Button {
 
   &__details-section {
     padding: 0;
+    margin: 5;
     font-size: 14;
     border-bottom-width: 0;
 
@@ -35,15 +36,16 @@ Button {
     }
 
     .bill-category-name {
-      width: 50%;
-
+      width: 45%;
+      text-align: right;
+      margin-right: 10;
       .details-label {
         color: $primary;
       }
     }
 
     .bill-category-value {
-      width: 50%;
+      width: 45%;
     }
 
     .utility-bill-due-date {

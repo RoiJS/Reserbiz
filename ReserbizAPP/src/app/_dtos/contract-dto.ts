@@ -12,7 +12,11 @@ export class ContractDto {
     public effectiveDate: Date,
     public isOpenContract: boolean,
     public durationUnit: DurationEnum,
-    public durationValue: number
+    public durationValue: number,
+    public includeRentalFee: boolean,
+    public includeUtilityBills: boolean,
+    public includeMiscellaneousFees: boolean,
+    public includePenaltyAmount: boolean
   ) {
     this.term = new Term();
     this.term.termParentId = termId;

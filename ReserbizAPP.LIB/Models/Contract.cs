@@ -12,27 +12,30 @@ namespace ReserbizAPP.LIB.Models
     {
         public string Code { get; set; }
 
+        #region "General Settings"
         public int TenantId { get; set; }
         public Tenant Tenant { get; set; }
-
         public int TermId { get; set; }
         public Term Term { get; set; }
-
         public int? SpaceId { get; set; }
         public Space Space { get; set; }
-
         public DateTime EffectiveDate { get; set; }
-
         public bool IsOpenContract { get; set; }
-
         public bool EncashDepositAmount { get; set; }
         public int? EncashedDepositAmountByAccountId { get; set; }
         public Account EncashedDepositAmountByAccount { get; set; }
         public DateTime EncashedDepositAmountDateTime { get; set; }
-
         public int DurationValue { get; set; }
-
         public DurationEnum DurationUnit { get; set; }
+        #endregion
+
+
+        #region "Mark Account Statement as Paid Setting"
+        public bool IncludeRentalFee { get; set; }
+        public bool IncludeUtilityBills { get; set; }
+        public bool IncludeMiscellaneousFees { get; set; }
+        public bool IncludePenaltyAmount { get; set; }
+        #endregion
 
         public List<AccountStatement> AccountStatements { get; set; }
 

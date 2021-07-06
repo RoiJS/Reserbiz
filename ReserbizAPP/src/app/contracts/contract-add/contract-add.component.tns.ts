@@ -232,13 +232,13 @@ export class ContractAddComponent
     // Check and validate code field
     if (this._entityFormSource.code.trim() === '') {
       codeProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
+        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
       );
       isCodeValid = false;
     } else {
       if (this._entityFormSource.code.length > 10) {
         codeProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE'
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE'
         );
         isCodeValid = false;
       } else {
@@ -251,7 +251,7 @@ export class ContractAddComponent
 
         if (checkCodeResult) {
           codeProperty.errorMessage = this.translateService.instant(
-            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE'
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE'
           );
         }
         isCodeValid = !checkCodeResult;
@@ -261,7 +261,7 @@ export class ContractAddComponent
     // Check and validate tenant id field
     if (this._entityFormSource.tenantId === 0) {
       tenandIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.TENANT_CONTROL.EMPTY_ERROR_MESSAGE'
+        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.EMPTY_ERROR_MESSAGE'
       );
       isTenantValid = false;
     } else {
@@ -271,7 +271,7 @@ export class ContractAddComponent
     // Check and validate term id field
     if (this._entityFormSource.termId === 0) {
       termIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.TERM_CONTROL.EMPTY_ERROR_MESSAGE'
+        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.EMPTY_ERROR_MESSAGE'
       );
       isTermValid = false;
     } else {
@@ -287,13 +287,13 @@ export class ContractAddComponent
 
       if (!hasSpaces) {
         spaceTypeNameProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.TERM_CONTROL.NO_ASSIGNED_SPACES'
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_ASSIGNED_SPACES'
         );
         isSpaceTypeNameValid = false;
       } else {
         if (!hasAvailableSpaces) {
           spaceTypeNameProperty.errorMessage = this.translateService.instant(
-            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.TERM_CONTROL.NO_AVAILABLE_SPACES'
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_AVAILABLE_SPACES'
           );
           isSpaceTypeNameValid = false;
         } else {
@@ -305,7 +305,7 @@ export class ContractAddComponent
     // Check and validate space id field
     if (this._entityFormSource.spaceId === 0) {
       spaceIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.SPACE_CONTROL.EMPTY_ERROR_MESSAGE'
+        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.EMPTY_ERROR_MESSAGE'
       );
       isSpaceValid = false;
     } else {
@@ -315,7 +315,7 @@ export class ContractAddComponent
 
       if (!space.isNotOccupied && space.occupiedByContractId !== 0) {
         spaceIdProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
         );
         isSpaceValid = false;
       } else {
@@ -326,7 +326,7 @@ export class ContractAddComponent
     if (!this._entityFormSource.isOpenContract) {
       if (this._entityFormSource.durationUnit === DurationEnum.None) {
         durationUnitProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.DURATION_UNIT_CONTROL.EMPTY_ERROR_MESSAGE'
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.EMPTY_ERROR_MESSAGE'
         );
         isDurationUnitValid = false;
       } else {
@@ -335,7 +335,7 @@ export class ContractAddComponent
 
       if (this._entityFormSource.durationValue === 0) {
         durationValueProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.DURATION_VALUE_CONTROL.EMPTY_ERROR_MESSAGE'
+          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.EMPTY_ERROR_MESSAGE'
         );
         isDurationValueValid = false;
       } else {

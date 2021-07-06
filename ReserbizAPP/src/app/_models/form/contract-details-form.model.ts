@@ -4,7 +4,8 @@ import { DurationEnum } from '../../_enum/duration-unit.enum';
 
 export class ContractDetailsFormSource
   extends BaseForm<ContractDetailsFormSource>
-  implements IBaseFormSource<ContractDetailsFormSource> {
+  implements IBaseFormSource<ContractDetailsFormSource>
+{
   constructor(
     public code: string,
     public tenantId: number,
@@ -14,7 +15,11 @@ export class ContractDetailsFormSource
     public effectiveDate: Date,
     public isOpenContract: boolean,
     public durationValue: number,
-    public durationUnit: DurationEnum
+    public durationUnit: DurationEnum,
+    public includeRentalFee: boolean,
+    public includeUtilityBills: boolean,
+    public includeMiscellaneousFees: boolean,
+    public includePenaltyAmount: boolean
   ) {
     super();
   }
@@ -29,7 +34,11 @@ export class ContractDetailsFormSource
       this.effectiveDate,
       this.isOpenContract,
       this.durationValue,
-      this.durationUnit
+      this.durationUnit,
+      this.includeRentalFee,
+      this.includeUtilityBills,
+      this.includeMiscellaneousFees,
+      this.includePenaltyAmount
     );
   }
 }
