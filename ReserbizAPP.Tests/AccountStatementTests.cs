@@ -12,6 +12,7 @@ namespace ReserbizAPP.Tests
     [TestFixture]
     public class AccountStatementTests
     {
+        #region "IsFirstAccountStatement Test Cases"
         [Test]
         public void Should_IsFirstAccountStatementReturnTrue_WhenContractContainsSingleAccountStatement()
         {
@@ -378,6 +379,9 @@ namespace ReserbizAPP.Tests
             Assert.IsFalse(result);
         }
 
+        #endregion
+
+        #region "GetContractActiveAccountStatements Test Cases"
         [Test]
         public void Test_GetContractActiveAccountStatements_WhenOriginalAccountStatementListContainsAllActiveAccountStatements()
         {
@@ -684,6 +688,8 @@ namespace ReserbizAPP.Tests
             Assert.AreEqual(expectedActiveAccountStatements, result);
         }
 
+        #endregion
+        
         [Test]
         public void Test_GetPenaltyNextDueDate_WhenAccountStatementContainsEmptyPenaltyBreakdowns()
         {
@@ -2242,8 +2248,9 @@ namespace ReserbizAPP.Tests
             Assert.AreEqual(expectedCurrentBalance, result);
         }
 
+        #region "Test Cases For IsFullyPaid"
         [Test]
-        public void Should_IsFullyPaidReturnFalse_WhenCurrentPaidAmountIsLessThanTheAccountStatementTotalAmount()
+        public void Should_IsFullyPaidReturnFalse_WhenPaidRentalFeeIsLessThanTheExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsActive()
         {
             // Arrange
             var contractObject = GetTestContractObject();
@@ -2255,6 +2262,9 @@ namespace ReserbizAPP.Tests
             // Set current date time
             contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
             contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeRentalFee = true;
 
             // Arrange - Create test statement of accounts
             contractObject.AccountStatements.Add(new AccountStatement
@@ -2373,14 +2383,48 @@ namespace ReserbizAPP.Tests
                 Id = 1,
                 AccountStatementId = 2,
                 Amount = 5000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
             });
             testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
             {
                 Id = 2,
                 AccountStatementId = 2,
                 Amount = 3000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
             });
 
             // Act 
@@ -2391,7 +2435,7 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_IsFullyPaidReturnTrue_WhenCurrentPaidAmountIsEqualToTheAccountStatementTotalAmount()
+        public void Should_IsFullyPaidReturnTrue_WhenPaidRentalFeeIsEqualToTheExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsActive()
         {
             // Arrange
             var contractObject = GetTestContractObject();
@@ -2403,6 +2447,9 @@ namespace ReserbizAPP.Tests
             // Set current date time
             contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
             contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeRentalFee = true;
 
             // Arrange - Create test statement of accounts
             contractObject.AccountStatements.Add(new AccountStatement
@@ -2521,21 +2568,56 @@ namespace ReserbizAPP.Tests
                 Id = 1,
                 AccountStatementId = 2,
                 Amount = 5000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
             });
             testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
             {
                 Id = 2,
                 AccountStatementId = 2,
                 Amount = 3000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
             });
             testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
             {
                 Id = 2,
                 AccountStatementId = 2,
-                Amount = 2007,
-                ReceivedById = 700
+                Amount = 1000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
             });
 
             // Act 
@@ -2546,7 +2628,200 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
-        public void Should_IsFullyPaidReturnTrue_WhenCurrentPaidAmountIsGreaterThanTheAccountStatementTotalAmount()
+        public void Should_IsFullyPaidReturnTrue_WhenPaidRentalFeeIsGreaterThanTheExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeRentalFee = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 1100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidRentalFeeIsLessThanExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsNotActive()
         {
             // Arrange
             var contractObject = GetTestContractObject();
@@ -2676,21 +2951,48 @@ namespace ReserbizAPP.Tests
                 Id = 1,
                 AccountStatementId = 2,
                 Amount = 5000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
             });
             testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
             {
                 Id = 2,
                 AccountStatementId = 2,
                 Amount = 3000,
-                ReceivedById = 700
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
             });
             testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
             {
                 Id = 2,
                 AccountStatementId = 2,
-                Amount = 3000,
-                ReceivedById = 700
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
             });
 
             // Act 
@@ -2699,6 +3001,5436 @@ namespace ReserbizAPP.Tests
             // Assert
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidRentalFeeIsEqualToTheExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 1000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidRentalFeeIsGreaterThanTheExpectedRentalFeeAmount_And_ContractIncludeRentalSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 1100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnFalse_WhenPaidElectricBillIsLessThanTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidElectricBillIsGreaterThanTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidElectricBillIsEqualToTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidElectricBillIsLessThanTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidElectricBillIsGreaterThanTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidElectricBillIsEqualToTheExpectedElectricBillAmount_And_ContractIncludeUtilityBillsSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnFalse_WhenPaidWaterBillIsLessThanTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillsSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidWaterBillIsGreaterThanTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillsSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidWaterBillIsEqualToTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeUtilityBills = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidWaterBillIsLessThanTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillsSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidWaterBillIsGreaterThanTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillsSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidWaterBillIsEqualToTheExpectedWaterBillAmount_And_ContractIncludeUtilityBillSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnFalse_WhenPaidMiscellaneousFeesIsLessThanTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeMiscellaneousFees = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 200,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidMiscellaneousFeesIsGreaterThanTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeMiscellaneousFees = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 260,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidMiscellaneousFeesEqualToTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include rental fees for validation 
+            contractObject.IncludeMiscellaneousFees = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidMiscellaneousFeesIsLessThanTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 499,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidMiscellaneousFeesIsGreaterThanTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidMiscellaneousFeesIsEqualToTheExpectedMiscellaneousFeesAmount_And_ContractIncludeMiscellaneousFeesSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnFalse_WhenPaidPenaltyAmountIsLessThanTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty amount for validation 
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 99.99f,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 200,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidPenaltyAmountIsGreaterThanTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty amount for validation 
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100.99f,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 260,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidPenaltyAmountIsEqualToTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty fee for validation 
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidPenaltyAmountIsLessThanTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 99.99f,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 200,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidPenaltyAmountIsGreaterThanTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 130,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 300,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100.99f,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 260,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenPaidPenaltyAmountIsEqualToTheExpectedPenaltyAmount_And_ContractIncludePenaltyAmountSettingIsNotActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 500,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnFalse_WhenTotalPaidAmountIsLessThanThanTheExpectedTotalAmount_And_ContractIncludePenaltyRentalFeeIncludeUtilityBillsIncludeMiscellaneouFeesAndIncludePenaltyAmountSettingsAreActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty amount for validation 
+            contractObject.IncludeRentalFee = true;
+            contractObject.IncludeUtilityBills = true;
+            contractObject.IncludeMiscellaneousFees = true;
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 3000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 120,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 99.99f,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 200,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenTotalPaidAmountIsGreaterThanThanTheExpectedTotalAmount_And_ContractIncludePenaltyRentalFeeIncludeUtilityBillsIncludeMiscellaneouFeesAndIncludePenaltyAmountSettingsAreActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty amount for validation 
+            contractObject.IncludeRentalFee = true;
+            contractObject.IncludeUtilityBills = true;
+            contractObject.IncludeMiscellaneousFees = true;
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 4000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 251,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void Should_IsFullyPaidReturnTrue_WhenTotalPaidAmountIsEqualToTheExpectedTotalAmount_And_ContractIncludePenaltyRentalFeeIncludeUtilityBillsIncludeMiscellaneouFeesAndIncludePenaltyAmountSettingsAreActive()
+        {
+            // Arrange
+            var contractObject = GetTestContractObject();
+
+            // Arrange - Set duration unit and value
+            contractObject.DurationValue = 1;
+            contractObject.DurationUnit = DurationEnum.Year;
+
+            // Set current date time
+            contractObject.SetCurrentDateTime(new DateTime(2019, 12, 31));
+            contractObject.AccountStatements = new List<AccountStatement>();
+
+            // Make sure to include penalty amount for validation 
+            contractObject.IncludeRentalFee = true;
+            contractObject.IncludeUtilityBills = true;
+            contractObject.IncludeMiscellaneousFees = true;
+            contractObject.IncludePenaltyAmount = true;
+
+            // Arrange - Create test statement of accounts
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 1,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 10, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            contractObject.AccountStatements.Add(new AccountStatement
+            {
+                Id = 3,
+                ContractId = 1,
+                DueDate = new DateTime(2019, 12, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            });
+
+            // Arrange - Initialize test account statement
+            var testAccountStatement = new AccountStatement
+            {
+                Id = 2,
+                ContractId = 1,
+                Contract = contractObject,
+                DueDate = new DateTime(2019, 11, 15),
+                Rate = 9000,
+                DurationUnit = DurationEnum.Month,
+                AdvancedPaymentDurationValue = 1,
+                DepositPaymentDurationValue = 2,
+                ElectricBill = 127,
+                WaterBill = 280,
+                PenaltyValue = 50,
+                PenaltyValueType = ValueTypeEnum.Fixed,
+                PenaltyAmountPerDurationUnit = DurationEnum.Day,
+                PenaltyEffectiveAfterDurationValue = 3,
+                PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
+                IsActive = true
+            };
+
+            testAccountStatement.PenaltyBreakdowns = new List<PenaltyBreakdown>();
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 18),
+                Amount = 50
+            });
+            testAccountStatement.PenaltyBreakdowns.Add(new PenaltyBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                DueDate = new DateTime(2019, 11, 19),
+                Amount = 50
+            });
+
+            testAccountStatement.AccountStatementMiscellaneous = new List<AccountStatementMiscellaneous>();
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 1,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 150
+            });
+            testAccountStatement.AccountStatementMiscellaneous.Add(new AccountStatementMiscellaneous
+            {
+                Id = 2,
+                AccountStatementId = 1,
+                Name = "Utility",
+                Amount = 350
+            });
+
+            testAccountStatement.PaymentBreakdowns = new List<PaymentBreakdown>();
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 1,
+                AccountStatementId = 2,
+                Amount = 5000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 4000,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Rental
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 127,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.ElectricBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 280,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.WaterBill
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 100,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.Penalty
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+            testAccountStatement.PaymentBreakdowns.Add(new PaymentBreakdown
+            {
+                Id = 2,
+                AccountStatementId = 2,
+                Amount = 250,
+                ReceivedById = 700,
+                PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+            });
+
+            // Act 
+            var result = testAccountStatement.IsFullyPaid;
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        #endregion
 
         [Test]
         public void Should_IsPenaltySettingActiveReturnTrue_WhenPenaltyValueIsGreaterThanZero()
@@ -5493,6 +11225,10 @@ namespace ReserbizAPP.Tests
                 IsOpenContract = false,
                 DurationValue = 1,
                 DurationUnit = DurationEnum.Year,
+                IncludeRentalFee = true,
+                IncludeUtilityBills = true,
+                IncludeMiscellaneousFees = true,
+                IncludePenaltyAmount = true,
                 AccountStatements = new List<AccountStatement>
                     {
                         // PAID
@@ -5517,11 +11253,13 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 27000
+                                    Amount = 27000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1150
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             }
                         },
@@ -5547,7 +11285,8 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 10000
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             }
                         },
@@ -5573,7 +11312,23 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 10700
+                                    Amount = 9000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 300,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 250,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             }
                         },
@@ -5599,7 +11354,23 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 10800
+                                    Amount = 9000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 335,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 230,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             }
                         },
@@ -5636,15 +11407,18 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1000
+                                    Amount = 1000,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             },
                         },
@@ -5678,15 +11452,18 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1000
+                                    Amount = 1000,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             },
                         },
@@ -5712,23 +11489,32 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1000
+                                    Amount = 300,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1000
+                                    Amount = 450,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 }
                             },
                         },
-                        // PAID
+                        // NOT PAID
                         new AccountStatement
                         {
                             Id = 8,
@@ -5750,11 +11536,13 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                             },
                         },
@@ -5780,15 +11568,29 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
+
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1900
+                                    Amount = 450,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 300,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 },
                             },
                         },
@@ -5814,15 +11616,29 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
+
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1900
+                                    Amount = 450,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 300,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 },
                             },
                         },
@@ -5848,11 +11664,13 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                             },
                         },
@@ -5878,15 +11696,29 @@ namespace ReserbizAPP.Tests
                             PaymentBreakdowns = new List<PaymentBreakdown> {
                                 new PaymentBreakdown
                                 {
-                                    Amount = 6000
+                                    Amount = 6000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
+
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 3000
+                                    Amount = 3000,
+                                    PaymentForType = PaymentForTypeEnum.Rental
                                 },
                                 new PaymentBreakdown
                                 {
-                                    Amount = 1900
+                                    Amount = 450,
+                                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 300,
+                                    PaymentForType = PaymentForTypeEnum.WaterBill
+                                },
+                                new PaymentBreakdown
+                                {
+                                    Amount = 1150,
+                                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                                 },
                             },
                         },
@@ -5917,11 +11749,13 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 27000
+                            Amount = 27000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1150
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     }
                 },
@@ -5948,7 +11782,8 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 10000
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     }
                 },
@@ -5975,7 +11810,23 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 10700
+                            Amount = 9000,
+                            PaymentForType = PaymentForTypeEnum.Rental
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 300,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 250,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     }
                 },
@@ -6002,7 +11853,23 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 10800
+                            Amount = 9000,
+                            PaymentForType = PaymentForTypeEnum.Rental
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 335,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 230,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     }
                 },
@@ -6040,15 +11907,18 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1000
+                            Amount = 1000,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     },
                 },
@@ -6083,15 +11953,18 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1000
+                            Amount = 1000,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     },
                 },
@@ -6118,19 +11991,28 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1000
+                            Amount = 300,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1000
+                            Amount = 450,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         }
                     },
                 },
@@ -6157,11 +12039,13 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                     },
                 },
@@ -6188,15 +12072,29 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
+
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1900
+                            Amount = 450,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 300,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         },
                     },
                 },
@@ -6223,15 +12121,29 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
+
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1900
+                            Amount = 450,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 300,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         },
                     },
                 },
@@ -6258,11 +12170,13 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                     },
                 },
@@ -6289,15 +12203,29 @@ namespace ReserbizAPP.Tests
                     PaymentBreakdowns = new List<PaymentBreakdown> {
                         new PaymentBreakdown
                         {
-                            Amount = 6000
+                            Amount = 6000,
+                            PaymentForType = PaymentForTypeEnum.Rental
+
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 3000
+                            Amount = 3000,
+                            PaymentForType = PaymentForTypeEnum.Rental
                         },
                         new PaymentBreakdown
                         {
-                            Amount = 1900
+                            Amount = 450,
+                            PaymentForType = PaymentForTypeEnum.ElectricBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 300,
+                            PaymentForType = PaymentForTypeEnum.WaterBill
+                        },
+                        new PaymentBreakdown
+                        {
+                            Amount = 1150,
+                            PaymentForType = PaymentForTypeEnum.MiscellaneousFee
                         },
                     },
                 },
