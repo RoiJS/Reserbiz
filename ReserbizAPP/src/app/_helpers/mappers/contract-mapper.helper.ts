@@ -11,7 +11,8 @@ import { DurationEnum } from '../../_enum/duration-unit.enum';
 export class ContractMapper
   implements
     IBaseEntityMapper<Contract>,
-    IBaseDtoEntityMapper<Contract, ContractDetailsFormSource, ContractDto> {
+    IBaseDtoEntityMapper<Contract, ContractDetailsFormSource, ContractDto>
+{
   mapEntity(c: Contract): Contract {
     const contract = new Contract();
 
@@ -30,6 +31,11 @@ export class ContractMapper
     contract.encashDepositAmount = c.encashDepositAmount;
     contract.durationValue = c.durationValue;
     contract.durationUnit = c.durationUnit;
+    contract.includeRentalFee = c.includeRentalFee;
+    contract.includeUtilityBills = c.includeUtilityBills;
+    contract.includeMiscellaneousFees = c.includeMiscellaneousFees;
+    contract.includePenaltyAmount = c.includePenaltyAmount;
+
     contract.expirationDate = new Date(c.expirationDate);
     contract.isExpired = c.isExpired;
     contract.isEditable = c.isEditable;
@@ -42,19 +48,21 @@ export class ContractMapper
       c.contractDurationBeforeContractEnds &&
       c.contractDurationBeforeContractEnds.length > 0
     ) {
-      contract.contractDurationBeforeContractEnds = c.contractDurationBeforeContractEnds.map(
-        (cd: ContractDurationBeforeContractEnds) => {
-          const contractDurationBeforeContractEnds = new ContractDurationBeforeContractEnds();
+      contract.contractDurationBeforeContractEnds =
+        c.contractDurationBeforeContractEnds.map(
+          (cd: ContractDurationBeforeContractEnds) => {
+            const contractDurationBeforeContractEnds =
+              new ContractDurationBeforeContractEnds();
 
-          contractDurationBeforeContractEnds.durationValue = Math.round(
-            cd.durationValue
-          );
-          contractDurationBeforeContractEnds.durationUnitText =
-            cd.durationUnitText;
+            contractDurationBeforeContractEnds.durationValue = Math.round(
+              cd.durationValue
+            );
+            contractDurationBeforeContractEnds.durationUnitText =
+              cd.durationUnitText;
 
-          return contractDurationBeforeContractEnds;
-        }
-      );
+            return contractDurationBeforeContractEnds;
+          }
+        );
     }
 
     return contract;
@@ -70,7 +78,11 @@ export class ContractMapper
       new Date(),
       false,
       0,
-      DurationEnum.None
+      DurationEnum.None,
+      true,
+      false,
+      true,
+      false
     );
 
     return contractDetailsForm;
@@ -87,7 +99,11 @@ export class ContractMapper
       contractFormSource.effectiveDate,
       contractFormSource.isOpenContract,
       contractFormSource.durationUnit,
-      contractFormSource.durationValue
+      contractFormSource.durationValue,
+      contractFormSource.includeRentalFee,
+      contractFormSource.includeUtilityBills,
+      contractFormSource.includeMiscellaneousFees,
+      contractFormSource.includePenaltyAmount
     );
 
     return contractForUpdate;
@@ -103,7 +119,11 @@ export class ContractMapper
       contract.effectiveDate,
       contract.isOpenContract,
       contract.durationValue,
-      contract.durationUnit
+      contract.durationUnit,
+      contract.includeRentalFee,
+      contract.includeUtilityBills,
+      contract.includeMiscellaneousFees,
+      contract.includePenaltyAmount
     );
 
     return contractFormSource;
@@ -122,6 +142,11 @@ export class ContractMapper
     contract.isOpenContract = contractFormSource.isOpenContract;
     contract.durationUnit = contractFormSource.durationUnit;
     contract.durationValue = contractFormSource.durationValue;
+    contract.includeRentalFee = contractFormSource.includeRentalFee;
+    contract.includeUtilityBills = contractFormSource.includeUtilityBills;
+    contract.includeMiscellaneousFees =
+      contractFormSource.includeMiscellaneousFees;
+    contract.includePenaltyAmount = contractFormSource.includePenaltyAmount;
     return contract;
   }
 }

@@ -432,7 +432,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 3,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeForBedSpaceTermTemplate = new Term
                 {
@@ -468,7 +469,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 5,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeIdForCondoTermTemplate = new Term
                 {
@@ -504,7 +506,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     PenaltyAmountPerDurationUnit = DurationEnum.Day,
                     PenaltyEffectiveAfterDurationValue = 3,
                     PenaltyEffectiveAfterDurationUnit = DurationEnum.Day,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
                 var unitTypeIdForRoomNonStudioTypeTermTemplate = new Term
                 {
@@ -522,7 +525,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     WaterBillAmount = 0,
                     TermMiscellaneous = new List<TermMiscellaneous>(),
                     PenaltyValue = 0,
-                    GenerateAccountStatementDaysBeforeValue = 5
+                    GenerateAccountStatementDaysBeforeValue = 5,
+                    MiscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate
                 };
 
                 _context.Terms.Add(unitTypeForRoomStudioTypeTermTemplate);
@@ -617,7 +621,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 12,
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
-                    SpaceId = roomStudioType1.Id
+                    SpaceId = roomStudioType1.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -629,7 +635,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
-                    SpaceId = roomStudioType2.Id
+                    SpaceId = roomStudioType2.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -641,7 +649,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 6,
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
-                    SpaceId = bedSpace1.Id
+                    SpaceId = bedSpace1.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -653,7 +663,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 4,
                     DurationUnit = DurationEnum.Week,
                     IsOpenContract = false,
-                    SpaceId = bedSpace2.Id
+                    SpaceId = bedSpace2.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -665,7 +677,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 12,
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
-                    SpaceId = condo1.Id
+                    SpaceId = condo1.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -677,7 +691,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
-                    SpaceId = roomNonStudioType2.Id
+                    SpaceId = roomNonStudioType2.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -689,7 +705,9 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
-                    SpaceId = roomNonStudioType1.Id
+                    SpaceId = roomNonStudioType1.Id,
+                    IncludeRentalFee = true,
+                    IncludeMiscellaneousFees = true
                 });
 
                 _context.SaveChanges();

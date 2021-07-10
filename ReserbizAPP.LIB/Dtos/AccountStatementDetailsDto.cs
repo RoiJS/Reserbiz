@@ -24,6 +24,11 @@ namespace ReserbizAPP.LIB.Dtos
         public bool IsFullyPaid { get; set; }
         public bool isFirstAccountStatement { get; set; }
         public bool IsDeletable { get; set; }
+        public float TotalPaidRentalAmount { get; set; }
+        public float TotalPaidElectricBills { get; set; }
+        public float TotalPaidWaterBills { get; set; }
+        public float TotalPaidMiscellaneousFees { get; set; }
+        public float TotalPaidPenaltyAmount { get; set; }
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
         public List<AccountStatementMiscellaneousDetailsDto> AccountStatementMiscellaneous { get; set; }
         public List<AccountStatementPaymentItemDetailsDto> PaymentBreakdowns { get; set; }

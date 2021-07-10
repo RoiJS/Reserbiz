@@ -140,7 +140,11 @@ export class ContractService
       contractDetails.effectiveDate,
       contractDetails.isOpenContract,
       contractDetails.durationUnit,
-      contractDetails.durationValue
+      contractDetails.durationValue,
+      contractDetails.includeRentalFee,
+      contractDetails.includeUtilityBills,
+      contractDetails.includeMiscellaneousFees,
+      contractDetails.includePenaltyAmount
     );
 
     if (!isNewContract) {
@@ -180,7 +184,7 @@ export class ContractService
       (tm: TermMiscellaneous) => {
         const termMiscellaneous = new TermMiscellaneous();
 
-        if (tm.id > 0) {
+        if (!isNewContract && tm.id > 0) {
           termMiscellaneous.id = tm.id;
         }
 

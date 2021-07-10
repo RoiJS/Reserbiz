@@ -418,39 +418,89 @@
           <img src="../../assets/images/contracts/contract-details-form.png" />
         </div>
 
-        <div class="table-container">
-          <table mat-table [dataSource]="dataSource2">
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-            </ng-container>
+        <section>
+          <p class="subsection-title">
+            {{
+              "CONTRACTS_PAGE.BODY.CREATE_NEW_CONTRACT_SECTION.TABLE_INFORMATION.GENERAL_INFORMATION_SECTION.TITLE"
+                | translate
+            }}
+          </p>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource2">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
 
-            <ng-container matColumnDef="datatype">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.datatype }}
-              </td>
-            </ng-container>
+              <ng-container matColumnDef="datatype">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.datatype }}
+                </td>
+              </ng-container>
 
-            <ng-container matColumnDef="definition">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
-              </th>
-              <td
-                mat-cell
-                *matCellDef="let element"
-                [innerHTML]="element.definition"
-              ></td>
-            </ng-container>
+              <ng-container matColumnDef="definition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [innerHTML]="element.definition"
+                ></td>
+              </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-        </div>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <p class="subsection-title">
+            {{
+              "CONTRACTS_PAGE.BODY.CREATE_NEW_CONTRACT_SECTION.TABLE_INFORMATION.MARK_ACCOUNT_STATEMENT_AS_PAID_SECTION.TITLE"
+                | translate
+            }}
+          </p>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource9">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="datatype">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.datatype }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="definition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [innerHTML]="element.definition"
+                ></td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
 
         <div
           class="content-description"

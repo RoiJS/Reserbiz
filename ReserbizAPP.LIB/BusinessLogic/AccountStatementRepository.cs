@@ -363,15 +363,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                 // with the same amount of statement of account
                                 // total amount
                                 newContractAccountStatement.Contract = contract;
-                                var paymentBreakdown = new PaymentBreakdown()
-                                {
-                                    Amount = newContractAccountStatement.AccountStatementTotalAmount,
-                                    ReceivedById = currentUserId,
-                                    DateTimeReceived = newContractAccountStatement.DueDate,
-                                    Notes = String.Empty,
-                                    IsAmountFromDeposit = false,
-                                };
-                                newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                                RegisterPayments(newContractAccountStatement, currentUserId);
 
                                 await _contractRepository.SaveChanges();
                             }
@@ -389,15 +382,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                             // with the same amount of statement of account
                             // total amount
                             newContractAccountStatement.Contract = contract;
-                            var paymentBreakdown = new PaymentBreakdown()
-                            {
-                                Amount = newContractAccountStatement.AccountStatementTotalAmount,
-                                ReceivedById = currentUserId,
-                                DateTimeReceived = newContractAccountStatement.DueDate,
-                                Notes = String.Empty,
-                                IsAmountFromDeposit = false,
-                            };
-                            newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                            RegisterPayments(newContractAccountStatement, currentUserId);
 
                             await _contractRepository.SaveChanges();
                         }
@@ -433,15 +419,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 if (markAsPaid)
                 {
                     newContractAccountStatement.Contract = contract;
-                    var paymentBreakdown = new PaymentBreakdown()
-                    {
-                        Amount = newContractAccountStatement.AccountStatementTotalAmount,
-                        ReceivedById = currentUserId,
-                        DateTimeReceived = DateTime.Now,
-                        Notes = String.Empty,
-                        IsAmountFromDeposit = false,
-                    };
-                    newContractAccountStatement.PaymentBreakdowns.Add(paymentBreakdown);
+
+                    RegisterPayments(newContractAccountStatement, currentUserId);
                 }
 
                 contract.AccountStatements.Add(newContractAccountStatement);
@@ -548,9 +527,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public double CalculatedSuggestedAmountForRentalPayment(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            var paidRentalAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Rental)
-                                                            .Select(p => p.Amount)
-                                                            .Sum();
+            var paidRentalAmount = currentAccountStatement.TotalPaidRentalAmount;
 
             var remainingUnpaidRentalAmount = currentAccountStatement.Rate - paidRentalAmount;
 
@@ -559,9 +536,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public double CalculateSuggestedAmountForElectricBill(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            var paidElectricBillAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.ElectricBill)
-                                                            .Select(p => p.Amount)
-                                                            .Sum();
+            var paidElectricBillAmount = currentAccountStatement.TotalPaidElectricBills;
 
             var remainingUnpaidElectricBillAmount = currentAccountStatement.ElectricBill - paidElectricBillAmount;
 
@@ -570,9 +545,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public double CalculateSuggestedAmountForWaterBill(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            var paidWaterBillAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.WaterBill)
-                                                            .Select(p => p.Amount)
-                                                            .Sum();
+            var paidWaterBillAmount = currentAccountStatement.TotalPaidWaterBills;
 
             var remainingUnpaidWaterBillAmount = currentAccountStatement.WaterBill - paidWaterBillAmount;
 
@@ -581,9 +554,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public double CalculateSuggestedAmountForMiscellaneousFees(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            var paidMiscellaneousFeesAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.MiscellaneousFee)
-                                                            .Select(p => p.Amount)
-                                                            .Sum();
+            var paidMiscellaneousFeesAmount = currentAccountStatement.TotalPaidMiscellaneousFees;
 
             var remainingUnpaidMiscellaneousFees = currentAccountStatement.MiscellaneousTotalAmount - paidMiscellaneousFeesAmount;
 
@@ -592,9 +563,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         public double CalculateSuggestedAmountForPenaltyAmount(AccountStatement currentAccountStatement, double depositedAmountBalance)
         {
-            var paidPenaltyAmount = currentAccountStatement.PaymentBreakdowns.Where(p => p.PaymentForType == PaymentForTypeEnum.Penalty)
-                                                            .Select(p => p.Amount)
-                                                            .Sum();
+            var paidPenaltyAmount = currentAccountStatement.TotalPaidPenaltyAmount;
 
             var remainingUnpaidPenaltyAmount = currentAccountStatement.PenaltyTotalAmount - paidPenaltyAmount;
 
@@ -929,6 +898,69 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     throw new Exception($"Error when sending push notification for client {dbHashName}. Error Message {ex.Message}");
                 }
+            }
+        }
+
+        private void RegisterPayments(AccountStatement newContractAccountStatement, int currentUserId)
+        {
+            if (newContractAccountStatement.RentalTotalAmount > 0)
+            {
+                var paymentForRental = new PaymentBreakdown()
+                {
+                    Amount = newContractAccountStatement.RentalTotalAmount,
+                    ReceivedById = currentUserId,
+                    DateTimeReceived = DateTime.Now,
+                    Notes = String.Empty,
+                    IsAmountFromDeposit = false,
+                    PaymentForType = PaymentForTypeEnum.Rental
+                };
+
+                newContractAccountStatement.PaymentBreakdowns.Add(paymentForRental);
+            }
+
+            if (newContractAccountStatement.ElectricBill > 0)
+            {
+                var paymentForElectricBill = new PaymentBreakdown()
+                {
+                    Amount = newContractAccountStatement.ElectricBill,
+                    ReceivedById = currentUserId,
+                    DateTimeReceived = DateTime.Now,
+                    Notes = String.Empty,
+                    IsAmountFromDeposit = false,
+                    PaymentForType = PaymentForTypeEnum.ElectricBill
+                };
+
+                newContractAccountStatement.PaymentBreakdowns.Add(paymentForElectricBill);
+            }
+
+            if (newContractAccountStatement.WaterBill > 0)
+            {
+                var paymentForWaterBill = new PaymentBreakdown()
+                {
+                    Amount = newContractAccountStatement.WaterBill,
+                    ReceivedById = currentUserId,
+                    DateTimeReceived = DateTime.Now,
+                    Notes = String.Empty,
+                    IsAmountFromDeposit = false,
+                    PaymentForType = PaymentForTypeEnum.WaterBill
+                };
+
+                newContractAccountStatement.PaymentBreakdowns.Add(paymentForWaterBill);
+            }
+
+            if (newContractAccountStatement.MiscellaneousTotalAmount > 0)
+            {
+                var paymentForMiscellaneousFees = new PaymentBreakdown()
+                {
+                    Amount = newContractAccountStatement.MiscellaneousTotalAmount,
+                    ReceivedById = currentUserId,
+                    DateTimeReceived = DateTime.Now,
+                    Notes = String.Empty,
+                    IsAmountFromDeposit = false,
+                    PaymentForType = PaymentForTypeEnum.MiscellaneousFee
+                };
+
+                newContractAccountStatement.PaymentBreakdowns.Add(paymentForMiscellaneousFees);
             }
         }
     }
