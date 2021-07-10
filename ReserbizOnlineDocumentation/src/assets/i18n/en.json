@@ -633,53 +633,79 @@
         "DESCRIPTION_13": "<p>If user attempts to return to the contract details form page without saving the changes, a confirmation dialog will be shown saying “You have some unsaved changes. Are you sure to leave this page?”. If user selected No then it will stay on term details form page, otherwise unsaved changes will be ignored, and user will be navigated back to the contract details for page.</p>",
         "DESCRIPTION_14": "<p>At this point, the updates on the term details are just temporarily saved. The save button on contract level must be tapped in order to persist the update on the term level.</p>",
         "TABLE_INFORMATION": {
-          "CODE_INFORMATION": {
-            "NAME": "Code",
-            "DATA_TYPE": "Alphanumeric",
-            "DESCRIPTION": "This is a user defined code for the contract. Value for this field must be unique. Required field."
+          "GENERAL_INFORMATION_SECTION": {
+            "TITLE": "General Information",
+            "CODE_INFORMATION": {
+              "NAME": "Code",
+              "DATA_TYPE": "Alphanumeric",
+              "DESCRIPTION": "This is a user defined code for the contract. Value for this field must be unique. Required field."
+            },
+            "TENANT_INFORMATION": {
+              "NAME": "Tenant",
+              "DATA_TYPE": "Dropdown (This contains all available active tenants)",
+              "DESCRIPTION": "Active tenant that will be assigned to the contract. Required field."
+            },
+            "TERM_INFORMATION": {
+              "NAME": "Term",
+              "DATA_TYPE": "Dropdown (This contains all active terms)",
+              "DESCRIPTION": "This will determine the term template that will be used as a basis for calculating the statement of accounts for the contract. This creates a copy of the term template that will be exclusive only for the contract. This term can be updated and does not affect the original term. See <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating existing Contract</a> section for more details. Required field."
+            },
+            "UNIT_TYPE_INFORMATION": {
+              "NAME": "Unit Type",
+              "DATA_TYPE": "Label",
+              "DESCRIPTION": "This will show the unit type value that is based on the currently selected term."
+            },
+            "UNIT_INFORMATION": {
+              "NAME": "Unit",
+              "DATA_TYPE": "Dropdown (This contains all active units based on the current unit type)",
+              "DESCRIPTION_1": "<p>This will determine which unit that will be assigned to the contract. Required field.</p>",
+              "DESCRIPTION_2": "<p>Take note that If the selected unit is already assigned to a different active contract, then an error message will be shown saying “The unit is already occupied. Please select other unit.”</p>"
+            },
+            "EFFECTIVE_DATE_INFORMATION": {
+              "NAME": "Effective Date",
+              "DATA_TYPE": "Date",
+              "DESCRIPTION": "This will determine when the effective/start date of the contract is."
+            },
+            "OPEN_CONTRACT_INFORMATION": {
+              "NAME": "Open Contract",
+              "DATA_TYPE": "Active or Not",
+              "DESCRIPTION": "This will define if the contract is open or not."
+            },
+            "DURATION_UNIT_INFORMATION": {
+              "NAME": "Duration Unit",
+              "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter or Year)",
+              "DESCRIPTION": "This will define the duration unit that will be used to calculate the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active."
+            },
+            "DURATION_VALUE_INFORMATION": {
+              "NAME": "Duration Value",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>This is a combination with the Duration Unit setting. Basically, these two settings will determine the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Duration Value: 12</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the contract will be expired after 12 months.</i></p>"
+            }
           },
-          "TENANT_INFORMATION": {
-            "NAME": "Tenant",
-            "DATA_TYPE": "Dropdown (This contains all available active tenants)",
-            "DESCRIPTION": "Active tenant that will be assigned to the contract. Required field."
-          },
-          "TERM_INFORMATION": {
-            "NAME": "Term",
-            "DATA_TYPE": "Dropdown (This contains all active terms)",
-            "DESCRIPTION": "This will determine the term template that will be used as a basis for calculating the statement of accounts for the contract. This creates a copy of the term template that will be exclusive only for the contract. This term can be updated and does not affect the original term. See <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating existing Contract</a> section for more details. Required field."
-          },
-          "UNIT_TYPE_INFORMATION": {
-            "NAME": "Unit Type",
-            "DATA_TYPE": "Label",
-            "DESCRIPTION": "This will show the unit type value that is based on the currently selected term."
-          },
-          "UNIT_INFORMATION": {
-            "NAME": "Unit",
-            "DATA_TYPE": "Dropdown (This contains all active units based on the current unit type)",
-            "DESCRIPTION_1": "<p>This will determine which unit that will be assigned to the contract. Required field.</p>",
-            "DESCRIPTION_2": "<p>Take note that If the selected unit is already assigned to a different active contract, then an error message will be shown saying “The unit is already occupied. Please select other unit.”</p>"
-          },
-          "EFFECTIVE_DATE_INFORMATION": {
-            "NAME": "Effective Date",
-            "DATA_TYPE": "Date",
-            "DESCRIPTION": "This will determine when the effective/start date of the contract is."
-          },
-          "OPEN_CONTRACT_INFORMATION": {
-            "NAME": "Open Contract",
-            "DATA_TYPE": "Active or Not",
-            "DESCRIPTION": "This will define if the contract is open or not."
-          },
-          "DURATION_UNIT_INFORMATION": {
-            "NAME": "Duration Unit",
-            "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter or Year)",
-            "DESCRIPTION": "This will define the duration unit that will be used to calculate the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active."
-          },
-          "DURATION_VALUE_INFORMATION": {
-            "NAME": "Duration Value",
-            "DATA_TYPE": "Number",
-            "DESCRIPTION_1": "<p>This is a combination with the Duration Unit setting. Basically, these two settings will determine the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active.</p>",
-            "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Duration Value: 12</i></p>",
-            "DESCRIPTION_3": "<p><i>This means that the contract will be expired after 12 months.</i></p>"
+          "MARK_ACCOUNT_STATEMENT_AS_PAID_SECTION": {
+            "TITLE": "Mark Account Statement as Paid",
+            "CHECK_RENTAL_FEE_INFORMATION": {
+              "NAME": "Check Rental Fee",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Rental Fee Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_MISCELLANEOUS_FEES_INFORMATION": {
+              "NAME": "Check Miscellaneous Fees",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Miscellaneous Fees Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_UTILITY_BILLS_INFORMATION": {
+              "NAME": "Check Utility Bills",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Electric and Water Bills Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_PENALTY_AMOUNT_INFORMATION": {
+              "NAME": "Check Penalty Amount",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Penalty Amount should be validated to check the statement of account status.</p>"
+            }
           }
         }
       },
@@ -780,7 +806,8 @@
         "DESCRIPTION_3": "<p>The information are group into two section, the <b>Utility bills</b> section and the <b>Rental fees</b> section</p>",
         "DESCRIPTION_4": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous. The due date for miscellaneous fees can be configured whether same with the rental fees or same with the utility biils. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details. If the Miscellaneous Due Date setting is set to <b>Same With Rental Fees</b>, then the miscellaneous section will be displayed under Rental Fees section and if the Miscellaneous Due Date is set to <b>Same With Utility Bills</b> then the miscellaneous section will be displayed undere Utility bills section.</p>",
         "DESCRIPTION_5": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
-        "DESCRIPTION_6": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>"
+        "DESCRIPTION_6": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
+        "DESCRIPTION_7": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
       },
       "DELETE_STATEMENT_OF_ACCOUNT": {
         "TITLE": "Delete Statement of Account",
