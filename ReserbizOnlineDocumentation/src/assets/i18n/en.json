@@ -806,8 +806,12 @@
         "DESCRIPTION_3": "<p>The information are group into two section, the <b>Utility bills</b> section and the <b>Rental fees</b> section</p>",
         "DESCRIPTION_4": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous. The due date for miscellaneous fees can be configured whether same with the rental fees or same with the utility biils. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details. If the Miscellaneous Due Date setting is set to <b>Same With Rental Fees</b>, then the miscellaneous section will be displayed under Rental Fees section and if the Miscellaneous Due Date is set to <b>Same With Utility Bills</b> then the miscellaneous section will be displayed undere Utility bills section.</p>",
         "DESCRIPTION_5": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
-        "DESCRIPTION_6": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
-        "DESCRIPTION_7": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
+        "DESCRIPTION_6": "<p><b>Electric Bill Amount</b> field is only available if the electric bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_7": "<p><b>Water Bill Amount</b> field is only available if the water bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_8": "<p>If in case that both electric and water bill amount are set to be included on the rental fee amount, then the entire section will not be available.</p>",
+
+        "DESCRIPTION_9": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
+        "DESCRIPTION_10": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
       },
       "DELETE_STATEMENT_OF_ACCOUNT": {
         "TITLE": "Delete Statement of Account",
