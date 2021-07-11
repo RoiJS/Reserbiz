@@ -747,18 +747,18 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             #region Utility bills section
             // Append electric and water bill amount
-            if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
+            if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
             {
                 content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
 
-                if (accountStatement.ElectricBill > 0)
+                if (accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0)
                 {
                     content.AppendLine(String.Format("<b>Electric Bill Amount:</b> {0}<br>", accountStatement.ElectricBill.ToCurrencyFormat()));
                     totalAmount += accountStatement.ElectricBill;
                 }
 
-                if (accountStatement.WaterBill > 0)
+                if (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0)
                 {
                     content.AppendLine(String.Format("<b>Water Bill Amount:</b> {0}<br>", accountStatement.WaterBill.ToCurrencyFormat()));
                     totalAmount += accountStatement.WaterBill;
@@ -837,19 +837,19 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             #region Utility bills section
             // Append electric and water bill amount
-            if (accountStatement.WaterBill > 0 || accountStatement.ElectricBill > 0)
+            if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
             {
                 content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
 
-                if (accountStatement.ElectricBill > 0)
+                if (accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0)
                 {
                     content.Append(String.Format("Electric Bill Amount: {0} \n", accountStatement.ElectricBill.ToCurrencyFormat()));
                     totalAmount += accountStatement.ElectricBill;
                 }
 
-                if (accountStatement.WaterBill > 0)
+                if (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0)
                 {
                     content.Append(String.Format("Water Bill Amount: {0} \n", accountStatement.WaterBill.ToCurrencyFormat()));
                     totalAmount += accountStatement.WaterBill;

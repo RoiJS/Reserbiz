@@ -13,7 +13,9 @@ export class AccountStatement extends Entity {
   public advancedPaymentDurationValue: number;
   public depositPaymentDurationValue: number;
   public utilityBillsDueDate: Date;
+  public excludeElectricBill: boolean;
   public electricBill: number;
+  public excludeWaterBill: boolean;
   public waterBill: number;
   public penaltyNextDueDate: Date;
   public penaltyTotalAmount: number;
@@ -38,7 +40,9 @@ export class AccountStatement extends Entity {
     this.contractId = 0;
     this.dueDate = null;
     this.rate = 0;
+    this.excludeElectricBill = true;
     this.electricBill = 0;
+    this.excludeWaterBill = true;
     this.waterBill = 0;
     this.penaltyNextDueDate = null;
     this.penaltyTotalAmount = 0;

@@ -32,7 +32,9 @@ export class AccountStatementMapper
       )
         ? new Date(as.utilityBillsDueDate)
         : undefined;
+      accountStatement.excludeElectricBill = as.excludeElectricBill;
       accountStatement.electricBill = as.electricBill;
+      accountStatement.excludeWaterBill = as.excludeWaterBill;
       accountStatement.waterBill = as.waterBill;
       accountStatement.penaltyNextDueDate = as.penaltyNextDueDate;
       accountStatement.penaltyTotalAmount = as.penaltyTotalAmount;
@@ -49,7 +51,8 @@ export class AccountStatementMapper
       accountStatement.totalPaidRentalAmount = as.totalPaidRentalAmount;
       accountStatement.totalPaidWaterBills = as.totalPaidWaterBills;
       accountStatement.totalPaidElectricBills = as.totalPaidElectricBills;
-      accountStatement.totalPaidMiscellaneousFees = as.totalPaidMiscellaneousFees;
+      accountStatement.totalPaidMiscellaneousFees =
+        as.totalPaidMiscellaneousFees;
       accountStatement.totalPaidPenaltyAmount = as.totalPaidPenaltyAmount;
 
       if (

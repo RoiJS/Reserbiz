@@ -13,7 +13,9 @@ namespace ReserbizAPP.LIB.Dtos
         public int AdvancedPaymentDurationValue { get; set; }
         public int DepositPaymentDurationValue { get; set; }
         public DateTime UtilityBillsDueDate { get; set; }
+        public bool ExcludeElectricBill { get; set; }
         public float ElectricBill { get; set; }
+        public bool ExcludeWaterBill { get; set; }
         public float WaterBill { get; set; }
         public DateTime PenaltyNextDueDate { get; set; }
         public float PenaltyTotalAmount { get; set; }
