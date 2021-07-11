@@ -1404,7 +1404,8 @@
         "TIME_LABEL": "Time:",
         "AMOUNT_CONTROL": {
           "LABEL": "Amount:",
-          "EMPTY_ERROR_MESSAGE": "Please enter amount"
+          "EMPTY_ERROR_MESSAGE": "Please enter amount",
+          "EXCEEDED_VALUE_ERROR_MESSAGE": "The total amount already exceeds with the expected amount for {0} which is {1}."
         },
         "AMOUNT_FROM_DEPOSIT_CONTROL": {
           "LABEL": "Amount From Deposit:",

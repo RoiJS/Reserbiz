@@ -70,6 +70,27 @@ export class PaymentsService
     paymentPaginationList.suggestedPenaltyAmount = data.suggestedPenaltyAmount;
     paymentPaginationList.depositedAmountBalance = data.depositedAmountBalance;
     paymentPaginationList.totalAmountFromDeposit = data.totalAmountFromDeposit;
+
+    paymentPaginationList.totalExpectedRentalAmount =
+      data.totalExpectedRentalAmount;
+    paymentPaginationList.totalExpectedElectricBillAmount =
+      data.totalExpectedElectricBillAmount;
+    paymentPaginationList.totalExpectedWaterBillAmount =
+      data.totalExpectedWaterBillAmount;
+    paymentPaginationList.totalExpectedMiscellaneousFeesAmount =
+      data.totalExpectedMiscellaneousFeesAmount;
+    paymentPaginationList.totalExpectedPenaltyAmount =
+      data.totalExpectedPenaltyAmount;
+
+    paymentPaginationList.totalPaidRentalAmount = data.totalPaidRentalAmount;
+    paymentPaginationList.totalPaidElectricBillAmount =
+      data.totalPaidElectricBillAmount;
+    paymentPaginationList.totalPaidWaterBillAmount =
+      data.totalPaidWaterBillAmount;
+    paymentPaginationList.totalPaidMiscellaneousFeesAmount =
+      data.totalPaidMiscellaneousFeesAmount;
+    paymentPaginationList.totalPaidPenaltyAmount = data.totalPaidPenaltyAmount;
+
     paymentPaginationList.page = data.page;
     paymentPaginationList.numberOfItemsPerPage = data.numberOfItemsPerPage;
     const items = data.items.map((p: Payment) => {

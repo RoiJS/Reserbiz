@@ -56,6 +56,18 @@ export class PaymentsComponent
   private _depositedAmountBalance = 0;
   private _totalAmountFromDeposit = 0;
 
+  private _totalExpectedRentalAmount = 0;
+  private _totalExpectedElectricBillAmount = 0;
+  private _totalExpectedwaterBillAmount = 0;
+  private _totalExpectedMiscellaneousFeesAmount = 0;
+  private _totalExpectedPenaltyAmount = 0;
+
+  private _totalPaidRentalAmount = 0;
+  private _totalPaidElectricBillAmount = 0;
+  private _totalPaidWaterBillAmount = 0;
+  private _totalPaidMiscellaneousFeesAmount = 0;
+  private _totalPaidPenaltyAmount = 0;
+
   private _firstAccountStatement: AccountStatement;
   private _contract: Contract;
 
@@ -123,6 +135,28 @@ export class PaymentsComponent
                       paymentPaginationList.suggestedPenaltyAmount;
                     this._depositedAmountBalance =
                       paymentPaginationList.depositedAmountBalance;
+
+                    this._totalExpectedRentalAmount =
+                      paymentPaginationList.totalExpectedRentalAmount;
+                    this._totalExpectedElectricBillAmount =
+                      paymentPaginationList.totalExpectedElectricBillAmount;
+                    this._totalExpectedwaterBillAmount =
+                      paymentPaginationList.totalExpectedWaterBillAmount;
+                    this._totalExpectedMiscellaneousFeesAmount =
+                      paymentPaginationList.totalExpectedMiscellaneousFeesAmount;
+                    this._totalExpectedPenaltyAmount =
+                      paymentPaginationList.totalExpectedPenaltyAmount;
+
+                    this._totalPaidRentalAmount =
+                      paymentPaginationList.totalPaidRentalAmount;
+                    this._totalPaidElectricBillAmount =
+                      paymentPaginationList.totalPaidElectricBillAmount;
+                    this._totalPaidWaterBillAmount =
+                      paymentPaginationList.totalPaidWaterBillAmount;
+                    this._totalPaidMiscellaneousFeesAmount =
+                      paymentPaginationList.totalPaidMiscellaneousFeesAmount;
+                    this._totalPaidPenaltyAmount =
+                      paymentPaginationList.totalPaidPenaltyAmount;
                   }
                 );
               }
@@ -224,6 +258,20 @@ export class PaymentsComponent
         suggestedMiscellaneousFeesAmount:
           this._suggestedMiscellaneousFeesAmount,
         suggestedPenaltyAmount: this._suggestedPenaltyAmount,
+
+        totalExpectedRentalAmount: this._totalExpectedRentalAmount,
+        totalExpectedElectricBillAmount: this._totalExpectedElectricBillAmount,
+        totalExpectedWaterBillAmount: this._totalExpectedwaterBillAmount,
+        totalExpectedMiscellaneousFeesAmount:
+          this._totalExpectedMiscellaneousFeesAmount,
+        totalExpectedPenaltyAmount: this._totalExpectedPenaltyAmount,
+
+        totalPaidRentalAmount: this._totalPaidRentalAmount,
+        totalPaidElectricBillAmount: this._totalPaidElectricBillAmount,
+        totalPaidWaterBillAmount: this._totalPaidWaterBillAmount,
+        totalPaidMiscellaneousFeesAmount:
+          this._totalPaidMiscellaneousFeesAmount,
+        totalPaidPenaltyAmount: this._totalPaidPenaltyAmount,
       },
       fullscreen: false,
       animated: true,

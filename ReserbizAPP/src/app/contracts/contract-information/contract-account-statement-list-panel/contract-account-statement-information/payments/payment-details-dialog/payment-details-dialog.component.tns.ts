@@ -45,6 +45,18 @@ export class PaymentDetailsDialogComponent
   private _suggestedMiscellaneousFeesAmount = 0;
   private _suggestedPenaltyAmount = 0;
 
+  private _totalExpectedRentalAmount = 0;
+  private _totalExpectedElectricBillAmount = 0;
+  private _totalExpectedwaterBillAmount = 0;
+  private _totalExpectedMiscellaneousFeesAmount = 0;
+  private _totalExpectedPenaltyAmount = 0;
+
+  private _totalPaidRentalAmount = 0;
+  private _totalPaidElectricBillAmount = 0;
+  private _totalPaidWaterBillAmount = 0;
+  private _totalPaidMiscellaneousFeesAmount = 0;
+  private _totalPaidPenaltyAmount = 0;
+
   private _depositedAmountBalance = 0;
   private _currentAccountStatementId = 0;
 
@@ -75,6 +87,24 @@ export class PaymentDetailsDialogComponent
       params.context.suggestedMiscellaneousFeesAmount;
     this._suggestedPenaltyAmount = params.context.suggestedPenaltyAmount;
     this._depositedAmountBalance = params.context.depositedAmountBalance;
+
+    this._totalExpectedRentalAmount = params.context.totalExpectedRentalAmount;
+    this._totalExpectedElectricBillAmount =
+      params.context.totalExpectedElectricBillAmount;
+    this._totalExpectedwaterBillAmount =
+      params.context.totalExpectedWaterBillAmount;
+    this._totalExpectedMiscellaneousFeesAmount =
+      params.context.totalExpectedMiscellaneousFeesAmount;
+    this._totalExpectedPenaltyAmount =
+      params.context.totalExpectedPenaltyAmount;
+
+    this._totalPaidRentalAmount = params.context.totalPaidRentalAmount;
+    this._totalPaidElectricBillAmount =
+      params.context.totalPaidElectricBillAmount;
+    this._totalPaidWaterBillAmount = params.context.totalPaidWaterBillAmount;
+    this._totalPaidMiscellaneousFeesAmount =
+      params.context.totalPaidMiscellaneousFeesAmount;
+    this._totalPaidPenaltyAmount = params.context.totalPaidPenaltyAmount;
   }
 
   ngOnInit() {
@@ -177,6 +207,7 @@ export class PaymentDetailsDialogComponent
       );
       isAmountValid = false;
     } else {
+      // Check amount if the Amount From Deposit setting is active
       if (
         this._paymentDetailsFormSource.isAmountFromDeposit &&
         this._paymentDetailsFormSource.amount > this._depositedAmountBalance
@@ -193,7 +224,66 @@ export class PaymentDetailsDialogComponent
 
         isAmountValid = false;
       } else {
-        isAmountValid = true;
+        let totalPaidAmount = 0;
+        let totalExpectedAmount = 0;
+        let paymentCategoryName = '';
+
+        switch (this._paymentDetailsFormSource.paymentForType) {
+          case PaymentForTypeEnum.Rental:
+            totalPaidAmount = this._totalPaidRentalAmount;
+            totalExpectedAmount = this._totalExpectedRentalAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL'
+            );
+            break;
+          case PaymentForTypeEnum.ElectricBill:
+            totalPaidAmount = this._totalPaidElectricBillAmount;
+            totalExpectedAmount = this._totalExpectedElectricBillAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL'
+            );
+            break;
+          case PaymentForTypeEnum.WaterBill:
+            totalPaidAmount = this._totalPaidWaterBillAmount;
+            totalExpectedAmount = this._totalExpectedwaterBillAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL'
+            );
+            break;
+          case PaymentForTypeEnum.MiscellaneousFee:
+            totalPaidAmount = this._totalPaidMiscellaneousFeesAmount;
+            totalExpectedAmount = this._totalExpectedMiscellaneousFeesAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES'
+            );
+            break;
+          case PaymentForTypeEnum.Penalty:
+            totalPaidAmount = this._totalPaidPenaltyAmount;
+            totalExpectedAmount = this._totalExpectedPenaltyAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY'
+            );
+            break;
+          default:
+            break;
+        }
+
+        // Check if the entered amount + total paid amount already exceeds with the expected total amount.
+        if (
+          totalPaidAmount + this._paymentDetailsFormSource.amount >
+          totalExpectedAmount
+        ) {
+          let errorMessage = this.translateService.instant(
+            'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE'
+          );
+          errorMessage = errorMessage.replace('{0}', paymentCategoryName);
+          errorMessage = errorMessage.replace('{1}', totalExpectedAmount);
+          amountProperty.errorMessage = errorMessage;
+
+          isAmountValid = false;
+        } else {
+          isAmountValid = true;
+        }
       }
     }
 
