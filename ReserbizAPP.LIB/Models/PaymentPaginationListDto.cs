@@ -13,6 +13,19 @@ namespace ReserbizAPP.LIB.Models
         public double SuggestedWaterBillAmount { get; set; }
         public double SuggestedMiscelleneousAmount { get; set; }
         public double SuggestedPenaltyAmount { get; set; }
+
+        public double TotalExpectedRentalAmount { get; set; }
+        public double TotalExpectedElectricBillAmount { get; set; }
+        public double TotalExpectedWaterBillAmount { get; set; }
+        public double TotalExpectedMiscellaneousFeesAmount { get; set; }
+        public double TotalExpectedPenaltyAmount { get; set; }
+
+        public double TotalPaidRentalAmount { get; set; }
+        public double TotalPaidElectricBillAmount { get; set; }
+        public double TotalPaidWaterBillAmount { get; set; }
+        public double TotalPaidMiscellaneousFeesAmount { get; set; }
+        public double TotalPaidPenaltyAmount { get; set; }
+
         public int TotalItems { get; set; }
         public int Page { get; set; }
         public int NumberOfItemsPerPage { get; set; }

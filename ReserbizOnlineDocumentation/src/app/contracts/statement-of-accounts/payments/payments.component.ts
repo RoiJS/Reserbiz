@@ -100,9 +100,17 @@ export class PaymentsComponent
         datatype: this.translateService.instant(
           'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DATA_TYPE'
         ),
-        definition: this.translateService.instant(
-          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION'
-        ),
+        definition: `
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_1'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_2'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_3'
+          )}
+        `,
       },
       {
         name: this.translateService.instant(

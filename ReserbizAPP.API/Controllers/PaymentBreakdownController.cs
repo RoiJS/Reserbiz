@@ -134,6 +134,26 @@ namespace ReserbizAPP.API.Controllers
             entityPaginationListDto.SuggestedMiscelleneousAmount = _accountStatementRepository.CalculateSuggestedAmountForMiscellaneousFees(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
 
             entityPaginationListDto.SuggestedPenaltyAmount = _accountStatementRepository.CalculateSuggestedAmountForPenaltyAmount(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.TotalExpectedRentalAmount = currentAccountStatement.RentalTotalAmount;
+
+            entityPaginationListDto.TotalExpectedElectricBillAmount = currentAccountStatement.ElectricBill;
+
+            entityPaginationListDto.TotalExpectedWaterBillAmount = currentAccountStatement.WaterBill;
+
+            entityPaginationListDto.TotalExpectedMiscellaneousFeesAmount = currentAccountStatement.MiscellaneousTotalAmount;
+
+            entityPaginationListDto.TotalExpectedPenaltyAmount = currentAccountStatement.PenaltyTotalAmount;
+
+            entityPaginationListDto.TotalPaidRentalAmount = currentAccountStatement.TotalPaidRentalAmount;
+
+            entityPaginationListDto.TotalPaidElectricBillAmount = currentAccountStatement.TotalPaidElectricBills;
+
+            entityPaginationListDto.TotalPaidWaterBillAmount = currentAccountStatement.TotalPaidWaterBills;
+
+            entityPaginationListDto.TotalPaidMiscellaneousFeesAmount = currentAccountStatement.TotalPaidMiscellaneousFees;
+
+            entityPaginationListDto.TotalPaidPenaltyAmount = currentAccountStatement.TotalPaidPenaltyAmount;
         }
     }
 }
