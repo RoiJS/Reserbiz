@@ -59,136 +59,151 @@
           </StackLayout>
 
           <!-- Group body -->
-          <StackLayout
-            [formGroup]="waterAndElecitricBillAmountformGroup"
-            class="panel__body-section"
-          >
-            <!-- Utility Bills Due Date Amount -->
+          <StackLayout class="panel__body-section">
             <StackLayout
-              class="panel__details-section"
-              orientation="horizontal"
+              *ngIf="currentAccountStatement?.excludeElectricBill || currentAccountStatement?.excludeWaterBill"
+              [formGroup]="waterAndElecitricBillAmountformGroup"
             >
+              <!-- Utility Bills Due Date Amount -->
               <StackLayout
-                class="bill-category-name"
-                verticalAlignment="middle"
-              >
-                <label
-                  class="details-label"
-                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
-                ></label>
-              </StackLayout>
-              <StackLayout class="bill-category-value" orientation="horizontal">
-                <DatePickerField
-                  class="utility-bill-due-date"
-                  [(ngModel)]="dueDate"
-                  [ngModelOptions]="{standalone: true}"
-                  margin="0"
-                ></DatePickerField>
-              </StackLayout>
-            </StackLayout>
-
-            <!-- Check if the miscellaneous due date is set to "Same with Utility Due Date" -->
-            <StackLayout
-              *ngIf="currentAccountStatement?.miscellaneousDueDate === 2"
-            >
-              <!-- Miscellaneous -->
-              <StackLayout
-                *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
                 class="panel__details-section"
                 orientation="horizontal"
               >
-                <StackLayout class="bill-category-name">
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
                   <label
                     class="details-label"
-                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
                   ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <DatePickerField
+                    class="utility-bill-due-date"
+                    [(ngModel)]="dueDate"
+                    [ngModelOptions]="{standalone: true}"
+                    margin="0"
+                  ></DatePickerField>
                 </StackLayout>
               </StackLayout>
 
-              <!-- Account Statement Miscellaneous -->
+              <!-- Check if the miscellaneous due date is set to "Same with Utility Due Date" -->
               <StackLayout
-                *ngFor="let accountMiscellaneous of currentAccountStatement?.accountStatementMiscellaneous"
+                *ngIf="currentAccountStatement?.miscellaneousDueDate === 2"
+              >
+                <!-- Miscellaneous -->
+                <StackLayout
+                  *ngIf="currentAccountStatement?.accountStatementMiscellaneous.length > 0"
+                  class="panel__details-section"
+                  orientation="horizontal"
+                >
+                  <StackLayout class="bill-category-name">
+                    <label
+                      class="details-label"
+                      [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                    ></label>
+                  </StackLayout>
+                </StackLayout>
+
+                <!-- Account Statement Miscellaneous -->
+                <StackLayout
+                  *ngFor="let accountMiscellaneous of currentAccountStatement?.accountStatementMiscellaneous"
+                  class="panel__details-section"
+                  orientation="horizontal"
+                >
+                  <StackLayout class="bill-category-name">
+                    <label [text]="accountMiscellaneous.name"></label>
+                  </StackLayout>
+                  <StackLayout
+                    class="bill-category-value"
+                    orientation="horizontal"
+                  >
+                    <label
+                      [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      [text]="accountMiscellaneous.formattedAmount"
+                    ></label>
+                  </StackLayout>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Water Bill Amount -->
+              <StackLayout
                 class="panel__details-section"
                 orientation="horizontal"
+                *ngIf="currentAccountStatement?.excludeWaterBill"
               >
-                <StackLayout class="bill-category-name">
-                  <label [text]="accountMiscellaneous.name"></label>
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
+                  ></label>
                 </StackLayout>
                 <StackLayout
                   class="bill-category-value"
                   orientation="horizontal"
                 >
                   <label
+                    verticalAlignment="middle"
                     [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
                     class="m-r-5"
                   ></label>
-                  <label [text]="accountMiscellaneous.formattedAmount"></label>
+                  <TextField
+                    margin="0"
+                    verticalAlignment="middle"
+                    class="txt-water-bill-amount"
+                    [autocorrection]="false"
+                    keyboardType="number"
+                    formControlName="waterBillAmount"
+                  ></TextField>
                 </StackLayout>
               </StackLayout>
-            </StackLayout>
 
-            <!-- Water Bill Amount -->
-            <StackLayout
-              class="panel__details-section"
-              orientation="horizontal"
-            >
+              <!-- Electric Bill Amount -->
               <StackLayout
-                class="bill-category-name"
-                verticalAlignment="middle"
+                class="panel__details-section"
+                orientation="horizontal"
+                *ngIf="currentAccountStatement?.excludeElectricBill"
               >
-                <label
-                  class="details-label"
-                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
-                ></label>
-              </StackLayout>
-              <StackLayout class="bill-category-value" orientation="horizontal">
-                <label
+                <StackLayout
+                  class="bill-category-name"
                   verticalAlignment="middle"
-                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
-                  class="m-r-5"
-                ></label>
-                <TextField
-                  margin="0"
-                  verticalAlignment="middle"
-                  class="txt-water-bill-amount"
-                  [autocorrection]="false"
-                  keyboardType="number"
-                  formControlName="waterBillAmount"
-                ></TextField>
+                >
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <label
+                    verticalAlignment="middle"
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <TextField
+                    margin="0"
+                    class="txt-electric-bill-amount"
+                    [autocorrection]="false"
+                    keyboardType="number"
+                    formControlName="electricBillAmount"
+                  ></TextField>
+                </StackLayout>
               </StackLayout>
-            </StackLayout>
 
-            <!-- Electric Bill Amount -->
-            <StackLayout
-              class="panel__details-section"
-              orientation="horizontal"
-            >
-              <StackLayout
-                class="bill-category-name"
-                verticalAlignment="middle"
-              >
-                <label
-                  class="details-label"
-                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
-                ></label>
-              </StackLayout>
-              <StackLayout class="bill-category-value" orientation="horizontal">
-                <label
-                  verticalAlignment="middle"
-                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
-                  class="m-r-5"
-                ></label>
-                <TextField
-                  margin="0"
-                  class="txt-electric-bill-amount"
-                  [autocorrection]="false"
-                  keyboardType="number"
-                  formControlName="electricBillAmount"
-                ></TextField>
-              </StackLayout>
+              <StackLayout class="panel__border"></StackLayout>
             </StackLayout>
-
-            <StackLayout class="panel__border"></StackLayout>
 
             <!-- Due Date  -->
             <StackLayout
@@ -380,7 +395,9 @@
               *ngIf="currentAccountStatement?.totalPaidRentalAmount > 0"
             >
               <StackLayout class="bill-category-name">
-                <label [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.RENT_AMOUNT_LABEL' | translate"></label>
+                <label
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.RENT_AMOUNT_LABEL' | translate"
+                ></label>
               </StackLayout>
               <StackLayout class="bill-category-value" orientation="horizontal">
                 <label
@@ -401,7 +418,9 @@
               *ngIf="currentAccountStatement?.totalPaidElectricBills > 0"
             >
               <StackLayout class="bill-category-name">
-                <label [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"></label>
+                <label
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
+                ></label>
               </StackLayout>
               <StackLayout class="bill-category-value" orientation="horizontal">
                 <label
@@ -413,7 +432,7 @@
                 ></label>
               </StackLayout>
             </StackLayout>
-            
+
             <!-- Water Bill -->
             <StackLayout
               class="panel__details-section"
@@ -422,7 +441,9 @@
               *ngIf="currentAccountStatement?.totalPaidWaterBills > 0"
             >
               <StackLayout class="bill-category-name">
-                <label [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"></label>
+                <label
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
+                ></label>
               </StackLayout>
               <StackLayout class="bill-category-value" orientation="horizontal">
                 <label
@@ -434,7 +455,7 @@
                 ></label>
               </StackLayout>
             </StackLayout>
-            
+
             <!-- Miscellaneous Fees -->
             <StackLayout
               class="panel__details-section"
@@ -443,7 +464,9 @@
               *ngIf="currentAccountStatement?.totalPaidMiscellaneousFees > 0"
             >
               <StackLayout class="bill-category-name">
-                <label [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"></label>
+                <label
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                ></label>
               </StackLayout>
               <StackLayout class="bill-category-value" orientation="horizontal">
                 <label
@@ -455,7 +478,7 @@
                 ></label>
               </StackLayout>
             </StackLayout>
-            
+
             <!-- Penalty Fees -->
             <StackLayout
               class="panel__details-section"
@@ -464,7 +487,9 @@
               *ngIf="currentAccountStatement?.totalPaidPenaltyAmount > 0"
             >
               <StackLayout class="bill-category-name">
-                <label [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.PENALTIES_LABEL' | translate"></label>
+                <label
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.PENALTIES_LABEL' | translate"
+                ></label>
               </StackLayout>
               <StackLayout class="bill-category-value" orientation="horizontal">
                 <label
