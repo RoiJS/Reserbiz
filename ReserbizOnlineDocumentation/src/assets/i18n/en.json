@@ -862,7 +862,9 @@
           "AMOUNT_INFORMATION": {
             "NAME": "Amount",
             "DATA_TYPE": "Number",
-            "DESCRIPTION": "This will contain the payment amount. Required field."
+            "DESCRIPTION_1": "<p>This will contain the payment amount. Required field.</p>",
+            "DESCRIPTION_2": "<p>There is a validation that checks if the amount already exceeds with the expected amount based on the current selected <b>Payment For</b> setting.</p>",
+            "DESCRIPTION_3": "<div class='image-container'><img class='system-icon' src='../../../assets/images/contracts/payments/amount-exceed-error-message.png'/></div>"
           },
           "DATE_INFORMATION": {
             "NAME": "Date",
