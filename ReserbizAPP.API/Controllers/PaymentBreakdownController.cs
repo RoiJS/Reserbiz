@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -100,9 +101,18 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getPaymentsPerAccountStatement")]
-        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
+        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, PaymentForTypeEnum paymentForType, SortOrderEnum sortOrder)
         {
-            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId, sortOrder);
+            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId);
+
+
+            var paymentFilter = new PaymentFilter
+            {
+                PaymentForType = paymentForType,
+                SortOrder = sortOrder
+            };
+
+            paymentBreakdownsFromRepo = _paymentBreakdownRepository.GetFilteredPayments(paymentBreakdownsFromRepo.ToList(), paymentFilter);
 
             var mappedPaymentDetails = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(paymentBreakdownsFromRepo);
 

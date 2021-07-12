@@ -55,6 +55,7 @@
       "SAME_WITH_UTILITY_BILL_DUE_DATE": "Same with Utility Due Date"
     },
     "PAYMENT_TYPE_OPTIONS": {
+      "ALL": "All",
       "RENTAL": "Rental",
       "ELECTRIC_BILL": "Electric Bill",
       "WATER_BILL": "Water Bill",
@@ -1390,6 +1391,16 @@
     "FOOTER_SECTION": {
       "TOTAL_PAID_AMOUNT": "Total Paid Amount",
       "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
+    }
+  },
+
+  "PAYMENT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "PAYMENT_FOR_LABEL": "Payment For:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   },
 

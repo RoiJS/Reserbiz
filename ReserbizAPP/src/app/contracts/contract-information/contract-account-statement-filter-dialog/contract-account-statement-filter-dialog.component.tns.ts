@@ -22,7 +22,8 @@ import { PaymentStatusValueProvider } from '@src/app/_helpers/value_providers/pa
 })
 export class ContractAccountStatementFilterDialogComponent
   extends BaseFormHelper<AccountStatementFilterFormSource>
-  implements OnInit {
+  implements OnInit
+{
   private _accountStatementFilterData: AccountStatementFilter;
   private _accountStatementFilterFormSource: AccountStatementFilterFormSource;
   private _accountStatementFilterFormSourceOriginal: AccountStatementFilterFormSource;
@@ -38,14 +39,16 @@ export class ContractAccountStatementFilterDialogComponent
     this._accountStatementFilterData = <AccountStatementFilter>(
       params.context.accountStatementFilter
     );
-    this._accountStatementFilterFormSource = new AccountStatementFilterFormSource(
-      this._accountStatementFilterData.fromDate,
-      this._accountStatementFilterData.toDate,
-      this._accountStatementFilterData.paymentStatus,
-      this._accountStatementFilterData.sortOrder
-    );
+    this._accountStatementFilterFormSource =
+      new AccountStatementFilterFormSource(
+        this._accountStatementFilterData.fromDate,
+        this._accountStatementFilterData.toDate,
+        this._accountStatementFilterData.paymentStatus,
+        this._accountStatementFilterData.sortOrder
+      );
 
-    this._accountStatementFilterFormSourceOriginal = this._accountStatementFilterFormSource.clone();
+    this._accountStatementFilterFormSourceOriginal =
+      this._accountStatementFilterFormSource.clone();
   }
 
   ngOnInit() {
@@ -56,30 +59,6 @@ export class ContractAccountStatementFilterDialogComponent
     this._paymentStatusValueProvider = new PaymentStatusValueProvider(
       this.translateService
     );
-  }
-
-  initFilterOptions(accountStatementFilter: AccountStatementFilter) {
-    if (accountStatementFilter.fromDate) {
-      this._accountStatementFilterData.fromDate = new Date(
-        accountStatementFilter.fromDate
-      );
-    }
-
-    if (accountStatementFilter.toDate) {
-      this._accountStatementFilterData.toDate = new Date(
-        accountStatementFilter.toDate
-      );
-    }
-
-    if (accountStatementFilter.paymentStatus) {
-      this._accountStatementFilterData.paymentStatus =
-        accountStatementFilter.paymentStatus;
-    }
-
-    if (accountStatementFilter.sortOrder) {
-      this._accountStatementFilterData.sortOrder =
-        accountStatementFilter.sortOrder;
-    }
   }
 
   onConfirm() {
@@ -100,10 +79,14 @@ export class ContractAccountStatementFilterDialogComponent
   }
 
   setFilterValues() {
-    this._accountStatementFilterData.fromDate = this._accountStatementFilterFormSource.fromDate;
-    this._accountStatementFilterData.toDate = this._accountStatementFilterFormSource.toDate;
-    this._accountStatementFilterData.paymentStatus = this._accountStatementFilterFormSource.paymentStatus;
-    this._accountStatementFilterData.sortOrder = this._accountStatementFilterFormSource.sortOrder;
+    this._accountStatementFilterData.fromDate =
+      this._accountStatementFilterFormSource.fromDate;
+    this._accountStatementFilterData.toDate =
+      this._accountStatementFilterFormSource.toDate;
+    this._accountStatementFilterData.paymentStatus =
+      this._accountStatementFilterFormSource.paymentStatus;
+    this._accountStatementFilterData.sortOrder =
+      this._accountStatementFilterFormSource.sortOrder;
   }
 
   resetFilterValues() {

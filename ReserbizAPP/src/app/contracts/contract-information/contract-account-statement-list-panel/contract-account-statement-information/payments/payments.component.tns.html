@@ -8,19 +8,13 @@
     class="fa action-item-button"
     (tap)="openAddPaymentDialog()"
   ></ActionItem>
-  <!-- # Ascending icon -->
-  <ActionItem
-    *ngIf="currentSortOrder && currentSortOrder === 2"
-    icon="font://&#xf885;"
-    class="fa fa-solid action-item-button"
-    (tap)="setSortOrder(1)"
-  ></ActionItem>
-  <!-- # Descending icon -->
-  <ActionItem
-    *ngIf="currentSortOrder && currentSortOrder === 1"
-    icon="font://&#xf160;"
-    class="fa fa-solid action-item-button"
-    (tap)="setSortOrder(2)"
+
+  <ActionItem (tap)="openFilterDialog()">
+    <label
+      text="&#xf0b0;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
   ></ActionItem>
 </ns-action-bar>
 <StackLayout>
