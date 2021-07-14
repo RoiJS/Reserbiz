@@ -20,6 +20,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _appSettings = appSettings;
         }
 
+        public PaymentBreakdownRepository()
+        {
+            
+        }
+
         public async Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsPerAccountStatmentAsync(int accountStatementId)
         {
             var paymentBreakdowns = await (from p in _reserbizRepository.ClientDbContext.PaymentBreakdowns
