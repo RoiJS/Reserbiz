@@ -356,9 +356,9 @@ export class SidedrawerService {
                     fragment: 'view-payment-details-section',
                   },
                   {
-                    name: 'PAYMENTS_PAGE.BODY.SORT_PAYMENT_LIST_SECTION.TITLE',
+                    name: 'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TITLE',
                     url: '/contracts/statement-of-accounts/payments',
-                    fragment: 'sort-payment-list-section',
+                    fragment: 'filter-payment-list-section',
                   },
                 ],
               },

@@ -20,7 +20,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
             _appSettings = appSettings;
         }
 
-        public async Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsPerAccountStatmentAsync(int accountStatementId, SortOrderEnum sortOrder)
+        public PaymentBreakdownRepository()
+        {
+            
+        }
+
+        public async Task<IEnumerable<PaymentBreakdown>> GetAllPaymentsPerAccountStatmentAsync(int accountStatementId)
         {
             var paymentBreakdowns = await (from p in _reserbizRepository.ClientDbContext.PaymentBreakdowns
                                            where p.AccountStatementId == accountStatementId
@@ -40,21 +45,34 @@ namespace ReserbizAPP.LIB.BusinessLogic
                                                PaymentForType = p.PaymentForType
                                            }).ToListAsync();
 
+            return paymentBreakdowns;
+        }
 
-            var user = await (from u in _reserbizRepository.ClientDbContext.Accounts where u.Id == 1 select u).FirstOrDefaultAsync();
+        public List<PaymentBreakdown> GetFilteredPayments(IList<PaymentBreakdown> unfilteredPayments, IPaymentFilter paymentFilter)
+        {
+            var filteredPayments = unfilteredPayments;
 
-            if (sortOrder == SortOrderEnum.Ascending)
+            // Filter payment for type 
+            if (paymentFilter.PaymentForType != PaymentForTypeEnum.All)
             {
-                return paymentBreakdowns
-                        .OrderBy(p => p.DateTimeReceived)
-                        .ToList();
+                filteredPayments = filteredPayments.Where(c => c.PaymentForType == paymentFilter.PaymentForType).ToList();
+            }
+
+            // Set sort order based on next due date
+            // Sort order is ascending by default
+            if (paymentFilter.SortOrder == SortOrderEnum.Ascending)
+            {
+                return filteredPayments
+                    .OrderBy(c => c.DateTimeReceived)
+                    .ToList();
             }
             else
             {
-                return paymentBreakdowns
-                        .OrderByDescending(p => p.DateTimeReceived)
-                        .ToList();
+                return filteredPayments
+                    .OrderByDescending(c => c.DateTimeReceived)
+                    .ToList();
             }
         }
+
     }
 }

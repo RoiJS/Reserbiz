@@ -1,4 +1,5 @@
 export enum PaymentForTypeEnum {
+  All = 0,
   Rental = 1,
   ElectricBill = 2,
   WaterBill = 3,

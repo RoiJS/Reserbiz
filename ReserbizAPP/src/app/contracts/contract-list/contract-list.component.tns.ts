@@ -15,8 +15,6 @@ import {
   ModalDialogOptions,
 } from '@nativescript/angular';
 
-import { delay } from 'rxjs/operators';
-
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 
 import { Contract } from '@src/app/_models/contract.model';
