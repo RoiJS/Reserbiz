@@ -146,5 +146,36 @@ export class PaymentsComponent
         ),
       },
     ];
+
+    this.dataSource2 = [
+      {
+        name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DESCRIPTION'
+        ),
+      },
+      {
+        name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DESCRIPTION'
+        ),
+      },
+    ];
   }
 }

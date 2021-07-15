@@ -139,17 +139,74 @@
         </div>
       </section>
 
-      <section id="sort-payment-list-section">
+      <section id="filter-payment-list-section">
         <span class="sub-title">{{
-          "PAYMENTS_PAGE.BODY.SORT_PAYMENT_LIST_SECTION.TITLE" | translate
+          "PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TITLE" | translate
         }}</span>
         <div
           class="content-description"
           [innerHTML]="
-            'PAYMENTS_PAGE.BODY.SORT_PAYMENT_LIST_SECTION.DESCRIPTION'
+            'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.DESCRIPTION'
               | translate
           "
         ></div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../../../assets/images/contracts/payments/filter-payments-dialog.png"
+          />
+        </div>
+
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource2">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="defaultValue">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DEFAULT_VALUE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.defaultValue }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datatype">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.datatype }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="definition">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [innerHTML]="element.definition"
+              ></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+          </table>
+        </div>
       </section>
 
       <app-footer></app-footer>
@@ -165,24 +222,39 @@
       </mat-expansion-panel-header>
       <ul>
         <li>
-          <a [routerLink]="['/contracts/statement-of-accounts/payments']" fragment="overview-section">{{
-            "PAYMENTS_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate
-          }}</a>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts/payments']"
+            fragment="overview-section"
+            >{{ "PAYMENTS_PAGE.BODY.OVERVIEW_SECTION.TITLE" | translate }}</a
+          >
         </li>
         <li>
-          <a [routerLink]="['/contracts/statement-of-accounts/payments']" fragment="register-payment-section">{{
-            "PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TITLE" | translate
-          }}</a>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts/payments']"
+            fragment="register-payment-section"
+            >{{
+              "PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TITLE" | translate
+            }}</a
+          >
         </li>
         <li>
-          <a [routerLink]="['/contracts/statement-of-accounts/payments']" fragment="view-payment-details-section">{{
-            "PAYMENTS_PAGE.BODY.VIEW_PAYMENT_DETAILS_SECTION.TITLE" | translate
-          }}</a>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts/payments']"
+            fragment="view-payment-details-section"
+            >{{
+              "PAYMENTS_PAGE.BODY.VIEW_PAYMENT_DETAILS_SECTION.TITLE"
+                | translate
+            }}</a
+          >
         </li>
         <li>
-          <a [routerLink]="['/contracts/statement-of-accounts/payments']" fragment="sort-payment-list-section">{{
-            "PAYMENTS_PAGE.BODY.SORT_PAYMENT_LIST_SECTION.TITLE" | translate
-          }}</a>
+          <a
+            [routerLink]="['/contracts/statement-of-accounts/payments']"
+            fragment="filter-payment-list-section"
+            >{{
+              "PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TITLE" | translate
+            }}</a
+          >
         </li>
       </ul>
     </mat-expansion-panel>

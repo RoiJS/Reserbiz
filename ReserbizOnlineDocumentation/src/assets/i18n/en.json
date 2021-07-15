@@ -891,9 +891,24 @@
         "TITLE": "View Payment Details",
         "DESCRIPTION": "<p>To view payment details, tap any item from the list. This will open a dialog same with the one from <a href='/contracts/statement-of-accounts/payments#register-payment-section'>Register Payment</a> section.</p>"
       },
-      "SORT_PAYMENT_LIST_SECTION": {
-        "TITLE": "Sort Payment List",
-        "DESCRIPTION": "<p>User can sort the list from latest to the oldest or vice versa. To sort the list from oldest to latest, tap the icon <img class='system-icon' src='../../../assets/images/system-icons/ascending-sort-icon.png'/> and tap the <img class='system-icon' src='../../../assets/images/system-icons/descending-sort-icon.png'/> to sort the item from latest to oldest.</p>"
+      "FILTER_PAYMENT_LIST_SECTION": {
+        "TITLE": "Filter Payments",
+        "DESCRIPTION": "<p>To filter payment list, tap the filter <img class='system-icon' src='../../../assets/images/system-icons/filter-icon.png'/> icon. This will open a filter dialog. The filter dialog has two filter settings: <b>Payment For</b> and <b>Sort Order</b>.</p>",
+        "DESCRIPTION_2": "<p>Current filter settings will be remembered and will be used the next time revisit the page.</p>",
+        "TABLE_INFORMATION": {
+          "PAYMENT_FOR_INFORMATION": {
+            "NAME": "Payment For",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Rental, Electric Bill, Water Bill, Miscellaneous and Penalty)",
+            "DESCRIPTION": "This will filter the list based on the selected Payment for options."
+          },
+          "SORT_ORDER_INFORMATION": {
+            "NAME": "Sort Order",
+            "DEFAULT_VALUES": "Descending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "This will determine the order on how to display the list based on the payment date time received."
+          }
+        }
       }
     }
   },
