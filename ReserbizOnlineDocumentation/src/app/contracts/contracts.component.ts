@@ -601,5 +601,44 @@ export class ContractsComponent
         `,
       },
     ];
+
+    this.dataSource10 = [
+      {
+        name: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DATA_TYPE'
+        ),
+        definition: `
+          ${this.translateService.instant(
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION_1'
+          )}
+          ${this.translateService.instant(
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION_2'
+          )}
+          ${this.translateService.instant(
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION_3'
+          )}
+        `,
+      },
+      {
+        name: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.CODE_SORT_ORDER_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.CODE_SORT_ORDER_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.CODE_SORT_ORDER_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TABLE_INFORMATION.CODE_SORT_ORDER_INFORMATION.DESCRIPTION'
+        ),
+      },
+    ];
   }
 }

@@ -5,29 +5,40 @@ import {
   OnDestroy,
   NgZone,
   ChangeDetectorRef,
+  ViewContainerRef,
 } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from '@nativescript/angular';
+import {
+  ModalDialogOptions,
+  ModalDialogService,
+  RouterExtensions,
+} from '@nativescript/angular';
 
 import {
   ListViewEventData,
   SwipeActionsEventData,
 } from 'nativescript-ui-listview';
 
+import { delay } from 'rxjs/operators';
+
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
+import { ContractArchivedFilterDialogComponent } from './contract-archived-filter-dialog/contract-archived-filter-dialog.component.tns';
 
 import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
+import { StorageService } from '@src/app/_services/storage.service';
 
 import { ContractPaginationList } from '@src/app/_models/pagination_list/contract-pagination-list.model';
 import { ContractFilter } from '@src/app/_models/filters/contract-filter.model';
 import { Contract } from '@src/app/_models/contract.model';
 import { Space } from '@src/app/_models/space.model';
-import { delay } from 'rxjs/operators';
+
+import { ArchivedContractStatusEnum } from '@src/app/_enum/archived-contract-options.enum';
+import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
 @Component({
   selector: 'ns-contract-archived-list',
@@ -36,10 +47,15 @@ import { delay } from 'rxjs/operators';
 })
 export class ContractArchivedListComponent
   extends BaseListComponent<Contract>
-  implements IBaseListComponent, OnInit, OnDestroy {
+  implements IBaseListComponent, OnInit, OnDestroy
+{
   private _expiredContractsCount: number;
   private _inactiveContractsCount: number;
   private _isCurrentItemExpired = false;
+
+  private ARCHIVED_CONTRACT_FILTER_STATUS = 'archviedContractFilter_status';
+  private ARCHIVED_CONTRACT_FILTER_CODE_SORT_ORDER =
+    'archivedContractFilter_codeSortOrder';
 
   constructor(
     protected contractService: ContractService,
@@ -49,7 +65,10 @@ export class ContractArchivedListComponent
     protected ngZone: NgZone,
     protected translateService: TranslateService,
     protected router: RouterExtensions,
-    private spaceService: SpaceService
+    private modalDialogService: ModalDialogService,
+    private spaceService: SpaceService,
+    private storageService: StorageService,
+    private vcRef: ViewContainerRef
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = contractService;
@@ -69,6 +88,7 @@ export class ContractArchivedListComponent
     this._loadListFlagSub = this.contractService.loadContractListFlag
       .pipe(delay(1000))
       .subscribe(() => {
+        this.initFilterOptions();
         this.getPaginatedEntities(
           (contractPaginationList: ContractPaginationList) => {
             this._expiredContractsCount =
@@ -155,6 +175,93 @@ export class ContractArchivedListComponent
 
         super.activateSelectedItem();
       });
+  }
+
+  initFilterOptions() {
+    const status = this.storageService.getString(
+      this.ARCHIVED_CONTRACT_FILTER_STATUS
+    );
+    const codeSortOrder = this.storageService.getString(
+      this.ARCHIVED_CONTRACT_FILTER_CODE_SORT_ORDER
+    );
+
+    if (status) {
+      (<ContractFilter>this._entityFilter).archivedContractStatus = <
+        ArchivedContractStatusEnum
+      >parseInt(status);
+    }
+
+    if (codeSortOrder) {
+      (<ContractFilter>this._entityFilter).codeSortOrder = <SortOrderEnum>(
+        parseInt(codeSortOrder)
+      );
+    }
+  }
+
+  storeFilterOptions(contractFilter: ContractFilter) {
+    const status = contractFilter.archivedContractStatus;
+    const codeSortOrder = contractFilter.sortOrder;
+
+    if (status) {
+      this.storageService.storeString(
+        this.ARCHIVED_CONTRACT_FILTER_STATUS,
+        status.toString()
+      );
+    }
+
+    if (codeSortOrder) {
+      this.storageService.storeString(
+        this.ARCHIVED_CONTRACT_FILTER_CODE_SORT_ORDER,
+        codeSortOrder.toString()
+      );
+    }
+  }
+
+  resetFilterOptions() {
+    this.storageService.remove(this.ARCHIVED_CONTRACT_FILTER_STATUS);
+    this.storageService.remove(this.ARCHIVED_CONTRACT_FILTER_CODE_SORT_ORDER);
+  }
+
+  initFilterDialog(): Promise<any> {
+    const dialogOptions: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: {
+        contractFilter: <ContractFilter>this._entityFilter,
+      },
+      fullscreen: false,
+      animated: true,
+    };
+
+    return this.modalDialogService.showModal(
+      ContractArchivedFilterDialogComponent,
+      dialogOptions
+    );
+  }
+
+  openFilterDialog() {
+    this.initFilterDialog().then(
+      (data: { filterHasChanged: boolean; filter: ContractFilter }) => {
+        if (!data) {
+          return;
+        }
+
+        if (!data.filterHasChanged) {
+          return;
+        }
+
+        if (data.filter.isFilterActive()) {
+          this.storeFilterOptions(data.filter);
+        } else {
+          (<ContractFilter>this._entityFilter).reset();
+          this.resetFilterOptions();
+        }
+
+        // Needs to reset the page number to get
+        // the correct data
+        this._entityFilter.page = 1;
+        this.entityService.reloadListFlag();
+      }
+    );
   }
 
   get expiredContractsCount(): number {

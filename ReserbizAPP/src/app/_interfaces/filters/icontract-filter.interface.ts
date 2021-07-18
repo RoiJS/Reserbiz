@@ -1,5 +1,7 @@
 import { IEntityFilter } from './ientity-filter.interface';
 
+import { ArchivedContractStatusEnum } from '@src/app/_enum/archived-contract-options.enum';
+
 export interface IContractFilter extends IEntityFilter {
   code: string;
   tenantId: number;
@@ -9,4 +11,5 @@ export interface IContractFilter extends IEntityFilter {
   nextDueDateToFilter: Date;
   openContract: boolean;
   archived: boolean;
+  archivedContractStatus: ArchivedContractStatusEnum;
 }

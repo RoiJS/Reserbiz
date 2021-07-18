@@ -3,10 +3,12 @@
   [hasMenu]="false"
   *ngIf="!filterOptionActive"
 >
-  <ActionItem
-    icon="font://&#xf002;"
-    class="fa fa-solid action-item-button"
-    (tap)="activateDeactivateFilterOptions()"
+  <ActionItem (tap)="activateDeactivateFilterOptions()">
+    <label
+      text="&#xf002;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
   ></ActionItem>
 </ns-action-bar>
 
@@ -24,6 +26,13 @@
     (clear)="onClearSearchText($event)"
   >
   </SearchBar>
+  <ActionItem (tap)="openFilterDialog()">
+    <label
+      text="&#xf0b0;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
+  ></ActionItem>
   <ActionItem
     icon="font://&#xf00d;"
     class="fa fa-solid action-item-button"

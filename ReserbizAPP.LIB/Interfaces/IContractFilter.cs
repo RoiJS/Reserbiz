@@ -1,4 +1,5 @@
 using System;
+using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Interfaces
 {
@@ -11,5 +12,8 @@ namespace ReserbizAPP.LIB.Interfaces
         DateTime NextDueDateFrom { get; set; }
         DateTime NextDueDateTo { get; set; }
         bool OpenContract { get; set; }
+        bool ArchivedContractsIncluded { get; set; }
+        SortOrderEnum CodeSortOrder { get; set; }
+        ArchivedContractStatusEnum ArchivedContractStatus { get; set; }
     }
 }

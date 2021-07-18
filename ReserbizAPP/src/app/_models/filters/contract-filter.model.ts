@@ -1,7 +1,10 @@
 import { IContractFilter } from '../../_interfaces/filters/icontract-filter.interface';
-import { EntityFilter } from './entity-filter.model';
 import { DateFormatter } from '../../_helpers/formatters/date-formatter.helper';
-import { SortOrderEnum } from '../../_enum/sort-order.enum';
+
+import { EntityFilter } from './entity-filter.model';
+
+import { ArchivedContractStatusEnum } from '@src/app/_enum/archived-contract-options.enum';
+import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
 export class ContractFilter extends EntityFilter implements IContractFilter {
   public code: string;
@@ -12,6 +15,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
   public nextDueDateToFilter: Date;
   public openContract: boolean;
   public archived: boolean;
+  public archivedContractStatus: ArchivedContractStatusEnum;
+  public codeSortOrder: SortOrderEnum;
   public page: number;
 
   constructor() {
@@ -23,6 +28,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
     this.nextDueDateToFilter = null;
     this.openContract = false;
     this.sortOrder = SortOrderEnum.Ascending;
+    this.archivedContractStatus = ArchivedContractStatusEnum.All;
+    this.codeSortOrder = SortOrderEnum.Descending;
   }
 
   reset(): void {
@@ -33,6 +40,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
     this.nextDueDateToFilter = null;
     this.openContract = null;
     this.sortOrder = SortOrderEnum.Ascending;
+    this.archivedContractStatus = ArchivedContractStatusEnum.All;
+    this.codeSortOrder = SortOrderEnum.Descending;
   }
 
   isFilterActive(): boolean {
@@ -43,7 +52,9 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
         this.nextDueDateFromFilter ||
         this.nextDueDateToFilter ||
         this.openContract ||
-        this.sortOrder === SortOrderEnum.Descending
+        this.sortOrder === SortOrderEnum.Descending ||
+        this.archivedContractStatus !== ArchivedContractStatusEnum.All ||
+        this.codeSortOrder === SortOrderEnum.Ascending
     );
 
     return hasFilter;
@@ -58,6 +69,8 @@ export class ContractFilter extends EntityFilter implements IContractFilter {
       nextDueDateTo: DateFormatter.format(this.nextDueDateToFilter),
       openContract: this.openContract,
       archived: this.archived,
+      archivedContractStatus: this.archivedContractStatus,
+      codeSortOrder: this.codeSortOrder,
       page: this.page,
       searchKeyword: this.searchKeyword,
       sortOrder: this.sortOrder,
