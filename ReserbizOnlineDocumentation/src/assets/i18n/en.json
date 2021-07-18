@@ -601,7 +601,28 @@
       },
       "SEARCH_ARCHIVED_CONTRACTS_SECTION": {
         "TITLE": "Search Archived Contracts",
-        "DESCRIPTION": "<p>User can search archived contracts by code. To activate search function, tap the search <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> icon located at the toolbar section. After typing in contract code, tap the search icon on the phone’s keyboard. If there are archived contracts code that matches the search text then the list will be filtered, otherwise “No Available Archived Contracts” text will be shown. To exit the search function, tap the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>"
+        "DESCRIPTION": "<p>User can also search and filter archived contracts. To activate search function, tap the search <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> icon located at the toolbar section. This will show a search bar where user can search contract based on the code..</p>",
+        "DESCRIPTION_2": "<p>To activate the advanced filter setting, tap on the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon.png'>. This will open a dialog which contains different fields for filtering contracts.</p>",
+        "DESCRIPTION_3": "<p>To activate the filter, tap on the Confirm button. To Reset the filter setting to their default values, tap the Reset button.</p>",
+        "DESCRIPTION_4": "<p>The filter icon will be shown inside a circle which indicates that the advanced filter setting is active.</p>",
+        "DESCRIPTION_5": "<p>Take note that the user next time re-visit the contract list page, the previous filter settings will be remembered.</p>",
+        "DESCRIPTION_6": "<p>To close the filter settings, tap on the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "TABLE_INFORMATION": {
+          "STATUS_INFORMATION": {
+            "NAME": "Status",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Expired or Inactive)",
+            "DESCRIPTION_1": "<p>This filters the list based on status (All, Expired or Inactive).</p>",
+            "DESCRIPTION_2": "<p><b>Expired</b> – These are archived contracts that already been expired based on the effective date and the duration settings.</p>",
+            "DESCRIPTION_3": "<p><b>Inactive</b> – These are archived contracts that are not expired but marked as inactive.</p>"
+          },
+          "CODE_SORT_ORDER_INFORMATION": {
+            "NAME": "Code Sort Order",
+            "DEFAULT_VALUES": "Descending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "<p>This will define the order of the list based on the contract code.</p>"
+          }
+        }
       },
       "UNARCHIVE_OR_ACTIVATE_CONTRACTS_SECTION": {
         "TITLE": "Unarchive/Activate Contracts",
