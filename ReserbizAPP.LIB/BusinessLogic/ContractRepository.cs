@@ -184,6 +184,36 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 filteredContracts = filteredContracts.Where(c => c.IsOpenContract).ToList();
             }
 
+            // Filter for archived contracts
+            if (contractFilter.ArchivedContractsIncluded)
+            {
+                // Check archived contract status, either Expired or Inactive
+                if (contractFilter.ArchivedContractStatus == ArchivedContractStatusEnum.Expired)
+                {
+                    filteredContracts = filteredContracts.Where(c => c.IsExpired).ToList();
+                }
+
+                if (contractFilter.ArchivedContractStatus == ArchivedContractStatusEnum.Inactive)
+                {
+                    filteredContracts = filteredContracts.Where(c => c.IsInactive).ToList();
+                }
+
+                // Set sort order based on code
+                // Sort order is descending by default
+                if (contractFilter.CodeSortOrder == SortOrderEnum.Descending)
+                {
+                    return filteredContracts
+                        .OrderByDescending(c => c.Code)
+                        .ToList();
+                }
+                else
+                {
+                    return filteredContracts
+                        .OrderBy(c => c.Code)
+                        .ToList();
+                }
+            }
+
             // Set sort order based on next due date
             // Sort order is ascending by default
             if (contractFilter.SortOrder == SortOrderEnum.Ascending)

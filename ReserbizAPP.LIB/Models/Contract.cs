@@ -81,6 +81,15 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public bool IsInactive
+        {
+            get
+            {
+                // Any contracts that are not yet expired and set as inactive are considered as archived inactive contract
+                return (!IsExpired && !IsActive);
+            }
+        }
+
         public DateTime NextDueDate
         {
             get

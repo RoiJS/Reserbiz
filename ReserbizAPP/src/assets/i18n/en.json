@@ -62,6 +62,11 @@
       "MISCELLANEOUS_FEES": "Miscellaneous Fees",
       "PENALTY": "Penalty"
     },
+    "ARCHIVED_CONTRACT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
     "INACTIVE": "Inactive",
     "MANAGE": "Manage",
     "SELECTED_ITEMS": "Selected Items",
@@ -1076,7 +1081,9 @@
       "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
       "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
       "OPEN_CONTRACT_LABEL": "Open Contract:",
-      "SORT_ORDER_LABEL": "Sort Order:"
+      "SORT_ORDER_LABEL": "Sort Order:",
+      "CODE_SORT_ORDER_LABEL": "Code Sort Order:",
+      "STATUS_LABEL": "Status:"
     }
   },
 

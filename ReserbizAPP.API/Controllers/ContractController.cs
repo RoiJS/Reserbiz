@@ -133,7 +133,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getAllContracts")]
-        public async Task<ActionResult<ContractPaginationListDto>> GetAllContracts(string searchKeyword, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, SortOrderEnum sortOrder, bool archived, int page)
+        public async Task<ActionResult<ContractPaginationListDto>> GetAllContracts(string searchKeyword, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, SortOrderEnum sortOrder, bool archived, ArchivedContractStatusEnum archivedContractStatus, SortOrderEnum codeSortOrder, int page)
         {
             var contractsFromRepo = await _contractRepository.GetAllContractsAsync(archived);
 
@@ -146,7 +146,10 @@ namespace ReserbizAPP.API.Controllers
                 NextDueDateFrom = nextDueDateFrom,
                 NextDueDateTo = nextDueDateTo,
                 OpenContract = openContract,
-                SortOrder = sortOrder
+                SortOrder = sortOrder,
+                ArchivedContractsIncluded = archived,
+                ArchivedContractStatus = archivedContractStatus,
+                CodeSortOrder = codeSortOrder
             };
 
             contractsFromRepo = _contractRepository.GetFilteredContracts(contractsFromRepo.ToList(), contractFilter);
