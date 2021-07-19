@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -111,13 +112,15 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<SpacePaginationListDto>> GetSpaces(string searchKeyword, int page)
+        public async Task<ActionResult<SpacePaginationListDto>> GetSpaces(string searchKeyword, UnitStatusEnum status, int unitTypeId, int page)
         {
             var spacesFromRepo = await _spaceRepository.GetAllActiveSpaces();
 
             var spaceFilter = new SpaceFilter
             {
                 Description = searchKeyword,
+                UnitTypeId = unitTypeId,
+                Status = status
             };
 
             spacesFromRepo = _spaceRepository.GetFilteredSpaces(spacesFromRepo.ToList(), spaceFilter);

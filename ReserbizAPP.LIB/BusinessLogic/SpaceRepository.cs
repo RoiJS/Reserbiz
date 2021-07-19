@@ -64,6 +64,28 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 filteredSpaces = filteredSpaces.Where(c => c.Description.Contains(spaceFilter.Description)).ToList();
             }
 
+            // Filter by unit type id
+            if (spaceFilter.UnitTypeId != 0)
+            {
+                filteredSpaces = filteredSpaces.Where(c => c.SpaceTypeId == spaceFilter.UnitTypeId).ToList();
+            }
+
+            // Filter by unit type id
+            if (spaceFilter.Status != UnitStatusEnum.All)
+            {
+                // Get list of available units
+                if (spaceFilter.Status == UnitStatusEnum.Available)
+                {
+                    filteredSpaces = filteredSpaces.Where(c => c.IsNotOccupied == true).ToList();
+                }
+
+                // Get list of occupied units
+                if (spaceFilter.Status == UnitStatusEnum.Occupied)
+                {
+                    filteredSpaces = filteredSpaces.Where(c => c.IsNotOccupied == false).ToList();
+                }
+            }
+
             // Set sort order based on description
             // Sort order is ascending by default
             if (spaceFilter.SortOrder == SortOrderEnum.Ascending)

@@ -67,6 +67,11 @@
       "EXPIRED": "Expired",
       "INACTIVE": "Inactive"
     },
+    "UNIT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "AVAILABLE": "Available",
+      "OCCUPIED": "Occupied"
+    },
     "INACTIVE": "Inactive",
     "MANAGE": "Manage",
     "SELECTED_ITEMS": "Selected Items",
@@ -519,6 +524,16 @@
       "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
       "SUCCESS_MESSAGE": "Selected unit type has been removed!",
       "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
+    }
+  },
+
+  "SPACES_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "STATUS_LABEL": "Status:",
+      "UNIT_TYPE_LABEL": "Unit Type:"
     }
   },
 

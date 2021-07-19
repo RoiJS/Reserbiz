@@ -11,7 +11,8 @@ export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
 
   constructor(
     private translateService: TranslateService,
-    private spaceTypeService: SpaceTypeService
+    private spaceTypeService: SpaceTypeService,
+    private includeAllOption?: boolean
   ) {
     this.spaceTypeService
       .getSpaceTypesAsOptions(this.translateService)
@@ -20,7 +21,11 @@ export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
         // Define a default option
         const defaultSpaceTypeOption = new SpaceTypeOption();
         defaultSpaceTypeOption.id = 0;
-        defaultSpaceTypeOption.name = '';
+        defaultSpaceTypeOption.name = this.includeAllOption
+          ? this.translateService.instant(
+              'GENERAL_TEXTS.UNIT_STATUS_OPTIONS.ALL'
+            )
+          : '';
         defaultSpaceTypeOption.rate = 0;
         defaultSpaceTypeOption.isActive = true;
         defaultSpaceTypeOption.isDelete = false;

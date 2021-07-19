@@ -1,0 +1,91 @@
+<StackLayout class="unit-filter-dialog dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="70%" orientation="horizontal">
+        <label
+          text="&#xf0b0;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'SPACES_FILTER_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <RadDataForm [source]="unitFilterFormSource">
+      <!-- #Start Status Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Status"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="status"
+          [displayName]="'SPACES_FILTER_DIALOG.BODY_SECTION.STATUS_LABEL' | translate"
+          [valuesProvider]="unitStatusOptions"
+          index="0"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+
+      <!-- #Start Unit Type Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Unit_Type"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="unitTypeId"
+          [displayName]="'SPACES_FILTER_DIALOG.BODY_SECTION.UNIT_TYPE_LABEL' | translate"
+          [valuesProvider]="unitTypeOptions"
+          index="1"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+    </RadDataForm>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="filter-dialog-buttons">
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
+        class="btn-confirm-filter btn-primary -rounded-lg"
+        (tap)="onConfirm()"
+      ></button>
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
+        class="btn-reset-filter -rounded-lg"
+        (tap)="onReset()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>
