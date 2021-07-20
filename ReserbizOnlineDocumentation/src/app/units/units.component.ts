@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { UIService } from '../services/ui.service';
 import { SharedComponent } from '../shared/components/shared/shared.component';
@@ -21,7 +22,8 @@ export class UnitsComponent
 {
   constructor(
     protected activatedRoute: ActivatedRoute,
-    protected uiService: UIService
+    protected uiService: UIService,
+    private translateService: TranslateService
   ) {
     super(uiService);
     this.activatedRoute = activatedRoute;
@@ -29,6 +31,7 @@ export class UnitsComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.setDataSource();
   }
 
   ngOnDestroy(): void {
@@ -41,5 +44,47 @@ export class UnitsComponent
 
   ngAfterViewChecked(): void {
     super.ngAfterViewChecked();
+  }
+
+  setDataSource(): void {
+    this.dataSource = [
+      {
+        name: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DATA_TYPE'
+        ),
+
+        definition: `
+          ${this.translateService.instant(
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION'
+          )}
+          ${this.translateService.instant(
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION_2'
+          )}
+          ${this.translateService.instant(
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.STATUS_INFORMATION.DESCRIPTION_3'
+          )}
+        `,
+      },
+      {
+        name: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.UNIT_TYPE_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.UNIT_TYPE_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.UNIT_TYPE_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TABLE_INFORMATION.UNIT_TYPE_INFORMATION.DESCRIPTION'
+        ),
+      },
+    ];
   }
 }

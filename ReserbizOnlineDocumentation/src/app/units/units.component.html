@@ -55,14 +55,114 @@
         ></div>
       </section>
 
-      <section id="search-unit-section">
+      <section id="filter-unit-section">
         <span class="sub-title">{{
-          "UNITS_PAGE.BODY.SEARCH_UNIT_SECTION.TITLE" | translate
+          "UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TITLE" | translate
         }}</span>
         <div
           class="content-description"
           [innerHTML]="
-            'UNITS_PAGE.BODY.SEARCH_UNIT_SECTION.DESCRIPTION' | translate
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/units/activate-filter.png" />
+        </div>
+
+        <div class="image-container">
+          <img src="../../assets/images/units/unit-searchbar.png" />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION_2' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img src="../../assets/images/units/unit-filter-dialog.png" />
+        </div>
+
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="defaultValue">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DEFAULT_VALUE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.defaultValue }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datatype">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.datatype }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="definition">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [innerHTML]="element.definition"
+              ></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+          </table>
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION_3' | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION_4' | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../assets/images/units/active-unit-filter-indicator1.png"
+          />
+        </div>
+
+        <div class="image-container">
+          <img
+            src="../../assets/images/units/active-unit-filter-indicator2.png"
+          />
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION_5' | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.DESCRIPTION_6' | translate
           "
         ></div>
       </section>
@@ -131,8 +231,8 @@
           }}</a>
         </li>
         <li>
-          <a [routerLink]="['/units']" fragment="search-unit-section">{{
-            "UNITS_PAGE.BODY.SEARCH_UNIT_SECTION.TITLE" | translate
+          <a [routerLink]="['/units']" fragment="filter-unit-section">{{
+            "UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TITLE" | translate
           }}</a>
         </li>
         <li>
