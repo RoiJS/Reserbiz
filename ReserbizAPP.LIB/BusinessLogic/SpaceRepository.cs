@@ -21,6 +21,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
+        public SpaceRepository()
+        {
+
+        }
+
         public async Task<IEnumerable<Space>> GetSpacesAsOptions()
         {
             return await _reserbizRepository.ClientDbContext.Spaces
