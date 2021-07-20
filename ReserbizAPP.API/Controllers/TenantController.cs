@@ -59,7 +59,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getTenantAsOptions")]
-        public async Task<ActionResult<IEnumerable<TenantOptionDto>>> GetSpaceTypesAsOptions()
+        public async Task<ActionResult<IEnumerable<TenantOptionDto>>> GetTenantAsOptions()
         {
             var tenantsFromRepo = await _tenantRepository.GetTenantAsOptions();
 

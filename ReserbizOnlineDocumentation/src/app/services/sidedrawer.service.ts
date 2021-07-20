@@ -181,9 +181,9 @@ export class SidedrawerService {
             fragment: 'edit-unit-section',
           },
           {
-            name: 'UNITS_PAGE.BODY.SEARCH_UNIT_SECTION.TITLE',
+            name: 'UNITS_PAGE.BODY.FILTER_UNIT_SECTION.TITLE',
             url: '/units',
-            fragment: 'search-unit-section',
+            fragment: 'filter-unit-section',
           },
           {
             name: 'UNITS_PAGE.BODY.DELETE_UNIT_SECTION.TITLE',

@@ -314,9 +314,30 @@
         "TITLE": "Edit Unit",
         "DESCRIPTION": "<p>From the unit list page, tap any unit the user wants to edit. This will bring the user to edit details form page.</p>"
       },
-      "SEARCH_UNIT_SECTION": {
-        "TITLE": "Search Unit",
-        "DESCRIPTION": "<p>From the unit list page, there is a search bar at the top of the screen. User can only filter unit based on unit description. </p>"
+      "FILTER_UNIT_SECTION": {
+        "TITLE": "Filter Units",
+        "DESCRIPTION": "<p>User can search and filter units. To activate search function, tap the search icon <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> located at the toolbar section. This will show a search bar where user can search contract based on the unit’s description. </p>",
+        "DESCRIPTION_2": "<p>To activate the advanced filter setting, tap on the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon.png'>. This will open a dialog which contains different fields for filtering contracts.</p>",
+        "DESCRIPTION_3": "<p>To activate the filter, tap on the Confirm button. To Reset the filter setting to their default values, tap the Reset button.</p>",
+        "DESCRIPTION_4": "<p>The filter icons will be shown inside a circle which indicates that the advanced filter setting is active.</p>",
+        "DESCRIPTION_5": "<p>Take note that the user next time re-visit the unit list page, the previous filter settings will be remembered.</p>",
+        "DESCRIPTION_6": "<p>To close the filter settings, tap on the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "TABLE_INFORMATION": {
+          "STATUS_INFORMATION": {
+            "NAME": "Status",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Occupied or Available)",
+            "DESCRIPTION": "<p>This filters the list based on unit’s status (All, Occupied or Available)</p>",
+            "DESCRIPTION_2": "<p><b>Occupied</b> – These are units that are currently attached to active contracts.",
+            "DESCRIPTION_3": "<p><b>Available</b> – These are units that are currently not attached to any contracts."
+          },
+          "UNIT_TYPE_INFORMATION": {
+            "NAME": "Unit Type",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (This contains all active unit types)",
+            "DESCRIPTION": "<p>This will filter the unit list based on selected unit type.</p>"
+          }
+        }
       },
       "DELETE_UNIT_SECTION": {
         "TITLE": "Delete Unit Section",
