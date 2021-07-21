@@ -25,7 +25,8 @@ import { IDtoProcess } from '../_interfaces/idto-process.interface';
 })
 export class TenantService
   extends BaseService<Tenant>
-  implements IBaseService<Tenant> {
+  implements IBaseService<Tenant>
+{
   private _loadTenantListFlag = new BehaviorSubject<void>(null);
 
   constructor(public http: HttpClient) {
@@ -113,7 +114,8 @@ export class TenantService
           cp.middleName,
           cp.lastName,
           cp.gender,
-          cp.contactNumber
+          cp.contactNumber,
+          cp.relation
         );
       }
     );

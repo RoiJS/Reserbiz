@@ -8,6 +8,7 @@ namespace ReserbizAPP.LIB.Models
         public int TenantId { get; set; }
         public Tenant Tenant { get; set; }
         public string ContactNumber { get; set; }
+        public string Relation { get; set; }
 
         public int? DeletedById { get; set; }
         public Account DeletedBy { get; set; }
