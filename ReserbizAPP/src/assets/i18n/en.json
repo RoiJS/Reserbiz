@@ -466,6 +466,10 @@
         "CONTROL_LABEL": "Contact Number:",
         "HINT_TEXT": "Please enter contact number"
       },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
+      },
       "ADD_DIALOG": {
         "TITLE": "Add Details",
         "CONFIRM_MESSAGE": "Are you sure to save new contact person?",
@@ -496,6 +500,10 @@
       "CONTACT_NUMBER_CONTROL": {
         "CONTROL_LABEL": "Contact Number:",
         "HINT_TEXT": "Please enter contact number"
+      },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
       },
       "UPDATE_DIALOG": {
         "TITLE": "Edit Details",

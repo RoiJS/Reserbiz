@@ -13,5 +13,6 @@ namespace ReserbizAPP.LIB.Dtos
         [Required]
         public GenderEnum Gender { get; set; }
         public string ContactNumber { get; set; }
+        public string Relation { get; set; }
     }
 }

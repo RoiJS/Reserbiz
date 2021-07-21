@@ -8,6 +8,7 @@ export class ContactPerson extends Entity {
   public lastName: string;
   public gender: GenderEnum;
   public contactNumber: string;
+  public relation: string;
   public tenantId: number;
   public isSelected: boolean;
   public isActive: boolean;
@@ -20,6 +21,7 @@ export class ContactPerson extends Entity {
     this.lastName = '';
     this.gender = GenderEnum.Male;
     this.contactNumber = '';
+    this.relation = '';
     this.tenantId = 0;
     this.isSelected = false;
     this.isActive = false;

@@ -1,7 +1,10 @@
 import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
+
 import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
+
 import { ContactPerson } from '../../_models/contact-person.model';
 import { ContactPersonDetailsFormSource } from '../../_models/form/contact-person-details-form.model';
+
 import { ContactPersonDto } from '../../_dtos/contact-person.dto';
 import { GenderEnum } from '../../_enum/gender.enum';
 
@@ -12,7 +15,8 @@ export class ContactPersonMapper
       ContactPerson,
       ContactPersonDetailsFormSource,
       ContactPersonDto
-    > {
+    >
+{
   mapEntity(cp: ContactPerson): ContactPerson {
     const contactPerson = new ContactPerson();
 
@@ -22,6 +26,7 @@ export class ContactPersonMapper
     contactPerson.lastName = cp.lastName;
     contactPerson.gender = cp.gender;
     contactPerson.contactNumber = cp.contactNumber;
+    contactPerson.relation = cp.relation;
     contactPerson.tenantId = cp.tenantId;
 
     return contactPerson;
@@ -33,6 +38,7 @@ export class ContactPersonMapper
       '',
       '',
       GenderEnum.Male,
+      '',
       ''
     );
 
@@ -45,7 +51,8 @@ export class ContactPersonMapper
       cpf.middleName,
       cpf.lastName,
       cpf.gender,
-      cpf.contactNumber
+      cpf.contactNumber,
+      cpf.relation
     );
     return contactPersonDto;
   }
@@ -58,7 +65,8 @@ export class ContactPersonMapper
       contactPerson.middleName,
       contactPerson.lastName,
       contactPerson.gender,
-      contactPerson.contactNumber
+      contactPerson.contactNumber,
+      contactPerson.relation
     );
 
     return contactPersonFormSource;

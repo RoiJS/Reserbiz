@@ -11,6 +11,7 @@ namespace ReserbizAPP.LIB.Dtos
         public string LastName { get; set; }
         public GenderEnum Gender { get; set; }
         public string ContactNumber { get; set; }
+        public string Relation { get; set; }
         public int TenantId { get; set; }
     }
 }
