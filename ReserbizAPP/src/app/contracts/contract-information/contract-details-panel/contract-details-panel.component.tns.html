@@ -1,10 +1,10 @@
 <StackLayout class="contract-header-container">
-  <GridLayout columns="80, *, *" rows="*, *, *">
+  <GridLayout columns="80, 120, *" rows="*, *, *, *, *, *">
     <!-- #Start - Contract Icon Section -->
     <StackLayout
       row="0"
       column="0"
-      rowSpan="2"
+      rowSpan="5"
       class="contract-header-container__contract-icon"
       verticalAlignment="middle"
     >
@@ -13,110 +13,154 @@
     <!-- #End -->
 
     <!-- #Start - Code Section -->
-    <StackLayout row="0" column="1" class="m-r-10">
+    <StackLayout
+      row="0"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
+    >
+      <label text="&#xf292;" class="fa fa-solid m-r-5"></label>
       <label
         [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.CODE_LABEL' | translate"
       ></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf292;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.code"></label>
-      </StackLayout>
+    </StackLayout>
+    <StackLayout
+      class="contract-header-container__contract-value"
+      row="0"
+      column="2"
+    >
+      <label [text]="currentContract?.code"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Tenant Section -->
-    <StackLayout row="1" column="1" class="m-r-10">
-      <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.TENANT_LABEL' | translate"></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf007;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.tenantName"></label>
-      </StackLayout>
+    <StackLayout
+      row="1"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
+    >
+      <label text="&#xf007;" class="fa fa-solid m-r-5"></label>
+      <label
+        [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.TENANT_LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <StackLayout
+      class="contract-header-container__contract-value"
+      row="1"
+      column="2"
+    >
+      <label [text]="currentContract?.tenantName"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Space Section -->
-    <StackLayout row="2" column="1" class="m-r-10">
-      <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.SPACE_NAME_LABEL' | translate"></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf0c8;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.spaceName"></label>
-      </StackLayout>
+    <StackLayout
+      row="2"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
+    >
+      <label text="&#xf0c8;" class="fa fa-solid m-r-5"></label>
+      <label
+        [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.SPACE_NAME_LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <StackLayout
+      class="contract-header-container__contract-value"
+      row="2"
+      column="2"
+    >
+      <label [text]="currentContract?.spaceName"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Effective Date Section -->
-    <StackLayout row="0" column="2">
-      <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.EFFECTIVE_DATE_LABEL' | translate"></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.effectiveDateFormatted"></label>
-      </StackLayout>
+    <StackLayout
+      row="3"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
+    >
+      <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
+      <label
+        [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.EFFECTIVE_DATE_LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <StackLayout
+      class="contract-header-container__contract-value"
+      row="3"
+      column="2"
+    >
+      <label [text]="currentContract?.effectiveDateFormatted"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Expiration Section -->
-    <StackLayout row="1" column="2" *ngIf="!currentContract?.isOpenContract">
-      <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.EXPIRATION_DATE_LABEL' | translate"></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.expirationDateFormatted"></label>
-      </StackLayout>
+    <StackLayout
+      row="4"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
+      *ngIf="!currentContract?.isOpenContract"
+    >
+      <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
+      <label
+        [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.EXPIRATION_DATE_LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <StackLayout
+      class="contract-header-container__contract-value"
+      row="4"
+      column="2"
+      *ngIf="!currentContract?.isOpenContract"
+    >
+      <label [text]="currentContract?.expirationDateFormatted"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Open Contract Section -->
-    <StackLayout row="1" column="2" *ngIf="currentContract?.isOpenContract">
+    <StackLayout row="4" column="1" *ngIf="currentContract?.isOpenContract">
       <StackLayout
         orientation="horizontal"
-        class="m-t-20 contract-header-container__contract-details"
+        class="contract-header-container__contract-details"
       >
         <label text="&#xf2f2;" class="fa fa-solid m-r-5"></label>
-        <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.OPEN_CONTRACT_LABEL' | translate"></label>
+        <label
+          [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.OPEN_CONTRACT_LABEL' | translate"
+        ></label>
       </StackLayout>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Next Due Date Section -->
     <StackLayout
-      row="2"
-      column="2"
+      row="5"
+      column="1"
+      orientation="horizontal"
+      class="contract-header-container__contract-details"
       *ngIf="currentContract?.isActive && !currentContract?.isExpired"
     >
-      <label [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.NEXT_DUE_DATE_LABEL' | translate"></label>
-      <StackLayout
-        orientation="horizontal"
-        class="contract-header-container__contract-details"
-      >
-        <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
-        <label [text]="currentContract?.nextDueDateFormatted"></label>
-      </StackLayout>
+      <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
+      <label
+        [text]="'CONTRACT_DETAILS_PAGE.DETAILS_SECTION.NEXT_DUE_DATE_LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <StackLayout
+      row="5"
+      column="2"
+      class="contract-header-container__contract-value"
+      *ngIf="currentContract?.isActive && !currentContract?.isExpired"
+    >
+      <label [text]="currentContract?.nextDueDateFormatted"></label>
     </StackLayout>
     <!-- #End -->
 
     <!-- #Start - Archived Section -->
-    <StackLayout
-      row="2"
-      column="2"
-      *ngIf="isContractArchived"
-    >
+    <StackLayout row="5" column="1" *ngIf="isContractArchived">
       <StackLayout
         orientation="horizontal"
-        class="m-t-20 contract-header-container__contract-details"
+        class="contract-header-container__contract-details"
       >
         <label text="&#xf1c6;" class="fa fa-solid m-r-5"></label>
         <label
