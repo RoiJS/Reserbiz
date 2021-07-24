@@ -418,8 +418,8 @@
               "DESCRIPTION_3": "<p><i>This means that the tenant is obliged to pay a 2-month deposit </i></p>"
             }
           },
-          "ELECTRIC_AND_WATER_BILL_DETAILS_SECTION": {
-            "TITLE": "Electric and Water Bill Details",
+          "UTILITY_BILL_DETAILS_SECTION": {
+            "TITLE": "Utility Bills Details",
             "EXCLUDE_ELECTRIC_BILL_INFORMATION": {
               "NAME": "Exclude Electric Bill",
               "DATA_TYPE": "Active or Not",
