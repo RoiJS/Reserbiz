@@ -146,7 +146,8 @@ export class AuthService {
       );
   }
 
-  logout(redirect: boolean = true) {
+  logout(url?: string) {
+    let redirectUrl = '/auth';
     this._user.next(null);
     this._tokenInfo.next(null);
 
@@ -160,9 +161,11 @@ export class AuthService {
 
     this.pushNotificationService.navigateToUrl.next(false);
 
-    if (redirect) {
-      this.routingService.replace(['/auth']);
+    if (url) {
+      redirectUrl = url;
     }
+
+    this.routingService.replace([redirectUrl]);
   }
 
   updatePersonalInformation(user: UserPersonalInfoFormSource): Observable<any> {

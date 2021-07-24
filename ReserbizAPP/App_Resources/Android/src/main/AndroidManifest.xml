@@ -14,7 +14,7 @@
 
 		<meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/ns_primary" />
 
-		<activity android:name="com.tns.NativeScriptActivity" android:label="@string/title_activity_kimera" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@style/LaunchScreenTheme" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan">
+		<activity android:name="com.tns.NativeScriptActivity" android:label="@string/title_activity_kimera" android:configChanges="keyboardHidden|orientation|screenSize" android:theme="@style/LaunchScreenTheme" android:launchMode="singleTop">
 
 			<meta-data android:name="SET_THEME_ON_LAUNCH" android:resource="@style/AppTheme" />
 

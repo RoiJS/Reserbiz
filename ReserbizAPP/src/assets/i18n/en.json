@@ -191,7 +191,10 @@
   "NO_CONNECTION_PAGE": {
     "MAIN_TEXT": "Oops! You're offline.",
     "SECONDARY_TEXT": "Please make sure that you have connection.",
-    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+    "DIALOG": {
+      "TITLE": "No Connection",
+      "MESSAGE": "Failed to connect to the server. The application will automatically exit."
+    }
   },
 
   "SYSTEM_UPDATE_PAGE": {

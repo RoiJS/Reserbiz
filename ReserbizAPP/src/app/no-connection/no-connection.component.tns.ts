@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { isAndroid, isIOS, Page } from '@nativescript/core';
 
-import { RouterExtensions } from '@nativescript/angular';
+import { DialogService } from '@src/app/_services/dialog.service';
 
-import { Page } from '@nativescript/core';
-import {
-  connectionType,
-  getConnectionType,
-} from '@nativescript/core/connectivity';
+import { TranslateService } from '@ngx-translate/core';
 
-import { CheckConnectionService } from '../_services/check-connection.service';
+declare var android: any;
 
 @Component({
   selector: 'ns-no-connection',
@@ -17,23 +14,25 @@ import { CheckConnectionService } from '../_services/check-connection.service';
 })
 export class NoConnectionComponent implements OnInit {
   constructor(
-    private checkConnectionService: CheckConnectionService,
+    private dialogService: DialogService,
     private page: Page,
-    private routerExtensions: RouterExtensions
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
     this.hideActionBar();
+    this.dialogService.alert(
+      this.translateService.instant('NO_CONNECTION_PAGE.DIALOG.TITLE'),
+      this.translateService.instant('NO_CONNECTION_PAGE.DIALOG.MESSAGE'),
+      () => {
+        if (isAndroid) {
+          android.os.Process.killProcess(android.os.Process.myPid());
+        }
+      }
+    );
   }
 
   hideActionBar() {
     this.page.actionBarHidden = true;
-  }
-
-  tryAgain() {
-    const currentConnectionType = getConnectionType();
-    if (currentConnectionType !== connectionType.none) {
-      this.routerExtensions.navigate(['/auth']);
-    }
   }
 }
