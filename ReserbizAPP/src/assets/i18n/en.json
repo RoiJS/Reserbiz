@@ -752,8 +752,8 @@
         }
       },
 
-      "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-        "LABEL": "Electric & Water Bill Details",
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
         "EXCLUDE_ELECTRIC_BILL_CONTROL": {
           "CONTROL_LABEL": "Exclude Electric Bill:"
         },
@@ -872,8 +872,8 @@
         }
       },
 
-      "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-        "LABEL": "Electric & Water Bill Details",
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
         "EXCLUDE_ELECTRIC_BILL_CONTROL": {
           "CONTROL_LABEL": "Exclude Electric Bill:"
         },
@@ -966,8 +966,8 @@
       "DEPOSIT_PAYMENT_DURATION_LABEL": "Deposit Payment:"
     },
 
-    "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-      "LABEL": "ELECTRIC & WATER BILL DETAILS",
+    "UTILITY_BILL_DETAILS_GROUP": {
+      "LABEL": "UTILITY BILLS DETAILS",
       "EXCLUDE_ELECTRIC_BILL_LABEL": "Electric bill not included",
       "INCLUDE_ELECTRIC_BILL_LABEL": "Electric bill included: ",
       "EXCLUDE_WATER_BILL_LABEL": "Water bill not included",
