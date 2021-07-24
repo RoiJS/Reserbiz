@@ -288,6 +288,7 @@
           "CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.TITLE"
             | translate
         }}</span>
+
         <div
           class="content-description"
           [innerHTML]="
@@ -301,6 +302,92 @@
             src="../../assets/images/contracts/search-archived-contracts.png"
           />
         </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.DESCRIPTION_2'
+              | translate
+          "
+        ></div>
+
+        <div class="image-container">
+          <img
+            src="../../assets/images/contracts/archived-filter-dialog.png"
+          />
+        </div>
+
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource10">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="defaultValue">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DEFAULT_VALUE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.defaultValue }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datatype">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.datatype }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="definition">
+              <th mat-header-cell *matHeaderCellDef>
+                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [innerHTML]="element.definition"
+              ></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+          </table>
+        </div>
+
+        <div
+          class="content-description"
+          [innerHTML]="
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.DESCRIPTION_3'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.DESCRIPTION_4'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.DESCRIPTION_5'
+              | translate
+          "
+        ></div>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'CONTRACTS_PAGE.BODY.SEARCH_ARCHIVED_CONTRACTS_SECTION.DESCRIPTION_6'
+              | translate
+          "
+        ></div>
       </section>
 
       <section id="unarchive-activate-contracts-section">
@@ -418,39 +505,89 @@
           <img src="../../assets/images/contracts/contract-details-form.png" />
         </div>
 
-        <div class="table-container">
-          <table mat-table [dataSource]="dataSource2">
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-            </ng-container>
+        <section>
+          <p class="subsection-title">
+            {{
+              "CONTRACTS_PAGE.BODY.CREATE_NEW_CONTRACT_SECTION.TABLE_INFORMATION.GENERAL_INFORMATION_SECTION.TITLE"
+                | translate
+            }}
+          </p>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource2">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
 
-            <ng-container matColumnDef="datatype">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let element">
-                {{ element.datatype }}
-              </td>
-            </ng-container>
+              <ng-container matColumnDef="datatype">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.datatype }}
+                </td>
+              </ng-container>
 
-            <ng-container matColumnDef="definition">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
-              </th>
-              <td
-                mat-cell
-                *matCellDef="let element"
-                [innerHTML]="element.definition"
-              ></td>
-            </ng-container>
+              <ng-container matColumnDef="definition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [innerHTML]="element.definition"
+                ></td>
+              </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-        </div>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <p class="subsection-title">
+            {{
+              "CONTRACTS_PAGE.BODY.CREATE_NEW_CONTRACT_SECTION.TABLE_INFORMATION.MARK_ACCOUNT_STATEMENT_AS_PAID_SECTION.TITLE"
+                | translate
+            }}
+          </p>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource9">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.FIELD_NAME" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="datatype">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DATA_TYPE" | translate }}
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.datatype }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="definition">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ "GENERAL_TEXTS.TABLE_DEFINITION.DESCRIPTION" | translate }}
+                </th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [innerHTML]="element.definition"
+                ></td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </section>
 
         <div
           class="content-description"
@@ -608,7 +745,7 @@
         <section>
           <p class="subsection-title">
             {{
-              "TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.ELECTRIC_AND_WATER_BILL_DETAILS_SECTION.TITLE"
+              "TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.UTILITY_BILL_DETAILS_SECTION.TITLE"
                 | translate
             }}
           </p>

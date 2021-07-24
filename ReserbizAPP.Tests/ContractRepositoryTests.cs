@@ -532,6 +532,506 @@ namespace ReserbizAPP.Tests
         }
 
         [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToAll()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.All
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 10
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToAll_And_CodeSortOrderIsDescending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.All,
+                CodeSortOrder = SortOrderEnum.Descending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 10
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToAll_And_CodeSortOrderIsAscending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.All,
+                CodeSortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 1
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 10
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToExpired()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Expired
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToExpired_And_CodeSortOrderIsDescending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Expired,
+                CodeSortOrder = SortOrderEnum.Descending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToExpired_And_CodeSortOrderIsAscending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Expired,
+                CodeSortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 8
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToInactive()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Inactive
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 10
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToInactive_And_CodeSortOrderIsDescending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Inactive,
+                CodeSortOrder = SortOrderEnum.Descending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 10
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenArchivedContractStatusIsSetToInactive_And_CodeSortOrderIsAscending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                ArchivedContractStatus = ArchivedContractStatusEnum.Inactive,
+                CodeSortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+
+                new Contract {
+                    Id = 1
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 10
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenCodeSortOrderIsDescending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                CodeSortOrder = SortOrderEnum.Descending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 10
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 1
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
+        public void Test_GetFilteredContractsForArchived_WhenCodeSortOrderIsAscending()
+        {
+            // Arrange
+            var contractRepository = new ContractRepository();
+            var contractList = GetArchivedContractList();
+            var comparer = new ContractComparer();
+            var contractFilter = new ContractFilter
+            {
+                ArchivedContractsIncluded = true,
+                CodeSortOrder = SortOrderEnum.Ascending
+            };
+
+            // Act
+            var actualResult = contractRepository.GetFilteredContracts(contractList, contractFilter);
+
+            // Assert
+            var expectedResult = new List<Contract> {
+                new Contract {
+                    Id = 1
+                },
+                new Contract {
+                    Id = 2
+                },
+                new Contract {
+                    Id = 3
+                },
+                new Contract {
+                    Id = 4
+                },
+                new Contract {
+                    Id = 5
+                },
+                new Contract {
+                    Id = 6
+                },
+                new Contract {
+                    Id = 7
+                },
+                new Contract {
+                    Id = 8
+                },
+                new Contract {
+                    Id = 9
+                },
+                new Contract {
+                    Id = 10
+                },
+            };
+
+            CollectionAssert.AreEqual(actualResult, expectedResult, comparer);
+        }
+
+        [Test]
         public void Test_GetFilteredContracts_WhenFilterOpenContractIsAvailable()
         {
             // Arrange
@@ -749,7 +1249,7 @@ namespace ReserbizAPP.Tests
             // Assert
             Assert.IsTrue(actualResult);
         }
-        
+
         [Test]
         public void Should_ValidateExpirationDateReturnTrue_WhenThereAreContractStatementAccounts_AndExpirationDateIsEqualToNextDueDate()
         {
@@ -763,7 +1263,7 @@ namespace ReserbizAPP.Tests
             // Assert
             Assert.IsTrue(actualResult);
         }
-        
+
         [TestCase(DurationEnum.Week, 3)]
         [TestCase(DurationEnum.Day, 15)]
         public void Should_ValidateExpirationDateReturnTrue_WhenThereAreContractStatementAccounts_AndNextDueDateIsGreaterThanExpirationDate(DurationEnum durationEnum, int durationValue)
@@ -1060,6 +1560,326 @@ namespace ReserbizAPP.Tests
                     TermId = 1,
                     EffectiveDate = new DateTime(2020, 04, 12),
                     IsOpenContract = true,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
+                    AccountStatements = new List<AccountStatement>
+                    {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 05, 12)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 06, 12)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 07, 12)
+                        },
+                    }
+                }
+            );
+
+            return contracts;
+        }
+
+        private List<Contract> GetArchivedContractList()
+        {
+            var contracts = new List<Contract>();
+
+            // Inactive Contract
+            contracts.Add(
+                new Contract
+                {
+                    Id = 1,
+                    Code = "G1-Code-1001",
+                    TenantId = 1,
+                    TermId = 1,
+                    EffectiveDate = new DateTime(2020, 09, 15),
+                    IsOpenContract = true,
+                    IsActive = false,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
+                    AccountStatements = new List<AccountStatement>
+                    {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 10, 15)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 11, 15)
+                        },
+                    }
+                }
+            );
+
+            // Expired Contract
+            contracts.Add(
+               new Contract
+               {
+                   Id = 2,
+                   Code = "G1-Code-1002",
+                   TenantId = 2,
+                   TermId = 2,
+                   EffectiveDate = new DateTime(2020, 07, 02),
+                   IsOpenContract = false,
+                   DurationValue = 5,
+                   DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Week
+                   },
+                   AccountStatements = new List<AccountStatement>
+                   {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 07, 09)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 07, 16)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 07, 23)
+                        },
+                   }
+               }
+           );
+
+            // Expired Contract
+            contracts.Add(
+                new Contract
+                {
+                    Id = 3,
+                    Code = "G1-Code-1003",
+                    TenantId = 3,
+                    TermId = 3,
+                    EffectiveDate = new DateTime(2020, 05, 10),
+                    IsOpenContract = false,
+                    DurationValue = 6,
+                    DurationUnit = DurationEnum.Month,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
+                    AccountStatements = new List<AccountStatement>()
+                }
+            );
+
+            // Inactive Contract
+            contracts.Add(
+                new Contract
+                {
+                    Id = 4,
+                    Code = "G1-Code-1004",
+                    TenantId = 3,
+                    TermId = 1,
+                    EffectiveDate = new DateTime(2020, 02, 11),
+                    IsOpenContract = true,
+                    IsActive = false,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Month
+                    },
+                    AccountStatements = new List<AccountStatement>
+                    {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 03, 11)
+                        },
+                   }
+                }
+            );
+
+            // Inactive Contract
+            contracts.Add(
+               new Contract
+               {
+                   Id = 5,
+                   Code = "G1-Code-1005",
+                   TenantId = 4,
+                   TermId = 3,
+                   EffectiveDate = new DateTime(2020, 01, 23),
+                   IsOpenContract = true,
+                   IsActive = false,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Quarter
+                   },
+                   AccountStatements = new List<AccountStatement>
+                   {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Quarter,
+                            DueDate = new DateTime(2020, 04, 23)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Quarter,
+                            DueDate = new DateTime(2020, 07, 23)
+                        },
+                  }
+               }
+           );
+
+            // Expired Contract
+            contracts.Add(
+               new Contract
+               {
+                   Id = 6,
+                   Code = "G2-Code-1006",
+                   TenantId = 5,
+                   TermId = 5,
+                   EffectiveDate = new DateTime(2020, 01, 15),
+                   IsOpenContract = false,
+                   DurationValue = 1,
+                   DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Week
+                   },
+                   AccountStatements = new List<AccountStatement>
+                   {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 01, 22)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 01, 29)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Week,
+                            DueDate = new DateTime(2020, 02, 05)
+                        },
+                  }
+               }
+           );
+
+            // Expired Contract
+            contracts.Add(
+               new Contract
+               {
+                   Id = 7,
+                   Code = "G2-Code-1007",
+                   TenantId = 6,
+                   TermId = 1,
+                   EffectiveDate = new DateTime(2020, 02, 02),
+                   IsOpenContract = false,
+                   DurationValue = 1,
+                   DurationUnit = DurationEnum.Year,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Month
+                   },
+                   AccountStatements = new List<AccountStatement>
+                   {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 03, 02)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 04, 02)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2020, 05, 02)
+                        },
+                  }
+               }
+           );
+
+            // Expired Contract
+            contracts.Add(
+               new Contract
+               {
+                   Id = 8,
+                   Code = "G2-Code-1008",
+                   TenantId = 7,
+                   TermId = 2,
+                   EffectiveDate = new DateTime(2019, 08, 18),
+                   IsOpenContract = false,
+                   DurationValue = 3,
+                   DurationUnit = DurationEnum.Month,
+                   Term = new Term
+                   {
+                       DurationUnit = DurationEnum.Month
+                   },
+                   AccountStatements = new List<AccountStatement>
+                   {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2019, 09, 18)
+                        },
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Month,
+                            DueDate = new DateTime(2019, 10, 18)
+                        },
+                  }
+               }
+           );
+
+            // Inactive Contract
+            contracts.Add(
+                new Contract
+                {
+                    Id = 9,
+                    Code = "G2-Code-1009",
+                    TenantId = 8,
+                    TermId = 8,
+                    EffectiveDate = new DateTime(2020, 04, 12),
+                    IsOpenContract = true,
+                    IsActive = false,
+                    Term = new Term
+                    {
+                        DurationUnit = DurationEnum.Quarter
+                    },
+                    AccountStatements = new List<AccountStatement>
+                    {
+                        new AccountStatement
+                        {
+                            DurationUnit = DurationEnum.Quarter,
+                            DueDate = new DateTime(2020, 07, 12)
+                        },
+                    }
+                }
+            );
+
+            // Inactive Contract
+            contracts.Add(
+                new Contract
+                {
+                    Id = 10,
+                    Code = "G2-Code-1010",
+                    TenantId = 9,
+                    TermId = 1,
+                    EffectiveDate = new DateTime(2020, 04, 12),
+                    IsOpenContract = true,
+                    IsActive = false,
                     Term = new Term
                     {
                         DurationUnit = DurationEnum.Month

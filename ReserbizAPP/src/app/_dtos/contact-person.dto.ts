@@ -7,6 +7,7 @@ export class ContactPersonDto implements IBaseDto {
     public middleName: string,
     public lastName: string,
     public gender: GenderEnum,
-    public contactNumber: string
+    public contactNumber: string,
+    public relation: string
   ) {}
 }

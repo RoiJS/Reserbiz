@@ -74,7 +74,10 @@
               rowSpan="2"
             >
               <StackLayout
-                class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
+                class="
+                  app-list-item-template__selection-mode
+                  app-list-item-template__selection-mode--is-not-selected
+                "
                 verticalAlignment="middle"
               >
               </StackLayout>
@@ -88,7 +91,10 @@
               rowSpan="2"
             >
               <StackLayout
-                class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
+                class="
+                  app-list-item-template__selection-mode
+                  app-list-item-template__selection-mode--is-selected
+                "
                 verticalAlignment="middle"
               >
                 <label
@@ -130,7 +136,11 @@
                 *ngIf="!tenant.isActive"
                 class="app-list-item-template__inactive-indicator"
               ></StackLayout>
-              <label class="fullname" [text]="tenant.fullName"></label>
+              <label
+                class="fullname"
+                [ngClass]="{'app-list-item-template__inactive-text-indicator': !tenant.isActive}"
+                [text]="tenant.fullName"
+              ></label>
             </StackLayout>
 
             <StackLayout

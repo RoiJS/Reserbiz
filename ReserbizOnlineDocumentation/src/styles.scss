@@ -182,6 +182,7 @@ mat-tree-node[aria-level="1"] {
         }
 
         table td.mat-column-name,
+        table td.mat-column-defaultValue,
         table td.mat-column-datatype {
           width: 10em;
           text-align: center;
@@ -251,7 +252,7 @@ mat-tree-node[aria-level="1"] {
 .sub-title {
   font-size: 1.1em;
   font-weight: 500;
-  color: #707070;
+  color: #f7663a;
 }
 
 .content-description {

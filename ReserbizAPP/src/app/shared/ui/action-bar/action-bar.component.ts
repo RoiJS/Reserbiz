@@ -7,17 +7,13 @@ declare var android: any;
 @Component({
   selector: 'ns-action-bar',
   templateUrl: './action-bar.component.html',
-  styleUrls: ['./action-bar.component.scss']
+  styleUrls: ['./action-bar.component.scss'],
 })
 export class ActionBarComponent implements OnInit {
   @Input() title = '';
   @Input() hasChallenge = false;
 
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  onLogout() {
-    this.authService.logout();
-  }
 }

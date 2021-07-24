@@ -74,7 +74,24 @@ export class PaymentsComponent
           ${this.translateService.instant(
             'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_6'
           )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_7'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_FROM_DEPOSIT_INFORMATION.DESCRIPTION_8'
+          )}
         `,
+      },
+      {
+        name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.NAME'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DESCRIPTION'
+        ),
       },
       {
         name: this.translateService.instant(
@@ -83,9 +100,17 @@ export class PaymentsComponent
         datatype: this.translateService.instant(
           'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DATA_TYPE'
         ),
-        definition: this.translateService.instant(
-          'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION'
-        ),
+        definition: `
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_1'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_2'
+          )}
+          ${this.translateService.instant(
+            'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.AMOUNT_INFORMATION.DESCRIPTION_3'
+          )}
+        `,
       },
       {
         name: this.translateService.instant(
@@ -118,6 +143,37 @@ export class PaymentsComponent
         ),
         definition: this.translateService.instant(
           'PAYMENTS_PAGE.BODY.REGISTER_PAYMENT_SECTION.TABLE_INFORMATION.NOTES_INFORMATION.DESCRIPTION'
+        ),
+      },
+    ];
+
+    this.dataSource2 = [
+      {
+        name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.PAYMENT_FOR_INFORMATION.DESCRIPTION'
+        ),
+      },
+      {
+        name: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'PAYMENTS_PAGE.BODY.FILTER_PAYMENT_LIST_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.DESCRIPTION'
         ),
       },
     ];

@@ -18,7 +18,9 @@ namespace ReserbizAPP.LIB.Models
         public int AdvancedPaymentDurationValue { get; set; }
         public int DepositPaymentDurationValue { get; set; }
         public DateTime UtilityBillsDueDate { get; set; }
+        public bool ExcludeElectricBill { get; set; }
         public float ElectricBill { get; set; }
+        public bool ExcludeWaterBill { get; set; }
         public float WaterBill { get; set; }
         public List<AccountStatementMiscellaneous> AccountStatementMiscellaneous { get; set; }
         public List<PaymentBreakdown> PaymentBreakdowns { get; set; }
@@ -108,6 +110,21 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
+        public float RentalTotalAmount
+        {
+            get
+            {
+                return CalculateTotalRentalAmount();
+            }
+        }
+
+        public float UtilityBillsAmount
+        {
+            get
+            {
+                return WaterBill + ElectricBill;
+            }
+        }
         public float PenaltyTotalAmount
         {
             get
@@ -160,7 +177,7 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (CurrentAmountPaid >= AccountStatementTotalAmount);
+                return ValidateIfFullyPaid();
             }
         }
 
@@ -206,6 +223,54 @@ namespace ReserbizAPP.LIB.Models
             get
             {
                 return IsAccountStatementDeletable();
+            }
+        }
+
+        public float TotalPaidRentalAmount
+        {
+            get
+            {
+                return CalculateTotalPaidRentalAmount();
+            }
+        }
+
+        public float TotalPaidUtilityBills
+        {
+            get
+            {
+                return CalculateTotalPaidElectricBillAmount() + CalculateTotalPaidWaterBillAmount();
+            }
+        }
+
+        public float TotalPaidElectricBills
+        {
+            get
+            {
+                return CalculateTotalPaidElectricBillAmount();
+            }
+        }
+
+        public float TotalPaidWaterBills
+        {
+            get
+            {
+                return CalculateTotalPaidWaterBillAmount();
+            }
+        }
+
+        public float TotalPaidMiscellaneousFees
+        {
+            get
+            {
+                return CalculateTotalPaidMiscellaneousBillAmount();
+            }
+        }
+
+        public float TotalPaidPenaltyAmount
+        {
+            get
+            {
+                return CalculateTotalPaidPenaltyAmount();
             }
         }
 
@@ -257,7 +322,9 @@ namespace ReserbizAPP.LIB.Models
 
         private float CalculatePenaltyTotalAmount()
         {
-            var totalAmount = PenaltyBreakdowns.Sum(p => p.Amount);
+            var totalAmount = PenaltyBreakdowns
+                                .Where(p => p.IsActive == true && p.IsDelete == false)
+                                .Sum(p => p.Amount);
             return totalAmount;
         }
 
@@ -310,6 +377,77 @@ namespace ReserbizAPP.LIB.Models
             return totalAmount;
         }
 
+        private float CalculateTotalRentalAmount()
+        {
+            var totalAmount = 0.0f;
+
+            // Calculate Advance and Deposit amount and add it
+            //  to the total amount if the account statement is first in the list.
+            if (IsFirstAccountStatement)
+            {
+                totalAmount += Rate;
+
+                // Calculate the Deposit Payment amount and add it to the total amount
+                totalAmount += CalculatedDepositAmount;
+            }
+            else
+            {
+                totalAmount += Rate;
+            }
+
+            return totalAmount;
+        }
+
+        private float CalculateTotalPaidRentalAmount()
+        {
+            var totalAmount = PaymentBreakdowns
+                                .Where(p => p.PaymentForType == PaymentForTypeEnum.Rental)
+                                .Select(p => p.Amount)
+                                .Sum();
+
+            return totalAmount;
+        }
+
+        private float CalculateTotalPaidElectricBillAmount()
+        {
+            var totalAmount = PaymentBreakdowns
+                                .Where(p => p.PaymentForType == PaymentForTypeEnum.ElectricBill)
+                                .Select(p => p.Amount)
+                                .Sum();
+
+            return totalAmount;
+        }
+
+        private float CalculateTotalPaidWaterBillAmount()
+        {
+            var totalAmount = PaymentBreakdowns
+                                .Where(p => p.PaymentForType == PaymentForTypeEnum.WaterBill)
+                                .Select(p => p.Amount)
+                                .Sum();
+
+            return totalAmount;
+        }
+
+        private float CalculateTotalPaidMiscellaneousBillAmount()
+        {
+            var totalAmount = PaymentBreakdowns
+                                .Where(p => p.PaymentForType == PaymentForTypeEnum.MiscellaneousFee)
+                                .Select(p => p.Amount)
+                                .Sum();
+
+            return totalAmount;
+        }
+
+        private float CalculateTotalPaidPenaltyAmount()
+        {
+            var totalAmount = PaymentBreakdowns
+                                .Where(p => p.PaymentForType == PaymentForTypeEnum.Penalty)
+                                .Select(p => p.Amount)
+                                .Sum();
+
+            return totalAmount;
+        }
+
         private float CalculateMiscellaneousTotalAmount()
         {
             var totalAmount = AccountStatementMiscellaneous.Sum(a => a.Amount);
@@ -347,6 +485,40 @@ namespace ReserbizAPP.LIB.Models
         private float CalculateDepositPaymentAmount()
         {
             return Rate * DepositPaymentDurationValue;
+        }
+
+        private bool ValidateIfFullyPaid()
+        {
+            var isRentalFullyPaid = true;
+            var isElectricBillsPaid = true;
+            var isWaterBillsPaid = true;
+            var isMisellaneousFeesPaid = true;
+            var isPenaltyAmountPaid = true;
+
+            if (Contract.IncludeRentalFee)
+            {
+                isRentalFullyPaid = TotalPaidRentalAmount >= RentalTotalAmount;
+            }
+
+            if (Contract.IncludeUtilityBills)
+            {
+                isElectricBillsPaid = CalculateTotalPaidElectricBillAmount() >= ElectricBill;
+
+                isWaterBillsPaid = CalculateTotalPaidWaterBillAmount() >= WaterBill;
+            }
+
+            if (Contract.IncludeMiscellaneousFees)
+            {
+                isMisellaneousFeesPaid = TotalPaidMiscellaneousFees >= MiscellaneousTotalAmount;
+            }
+
+            if (Contract.IncludePenaltyAmount)
+            {
+                isPenaltyAmountPaid = TotalPaidPenaltyAmount >= PenaltyTotalAmount;
+            }
+
+
+            return isRentalFullyPaid && isElectricBillsPaid && isWaterBillsPaid && isMisellaneousFeesPaid && isPenaltyAmountPaid;
         }
     }
 }

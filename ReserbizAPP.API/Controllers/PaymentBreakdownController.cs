@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -59,6 +60,7 @@ namespace ReserbizAPP.API.Controllers
                 DateTimeReceived = paymentForCreationDto.DateTimeReceived.ToLocalTimeZone(),
                 Notes = paymentForCreationDto.Notes,
                 IsAmountFromDeposit = paymentForCreationDto.IsAmountFromDeposit,
+                PaymentForType = paymentForCreationDto.PaymentForType,
             };
 
             _accountStatementRepository.SetCurrentUserId(CurrentUserId);
@@ -99,22 +101,33 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getPaymentsPerAccountStatement")]
-        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, SortOrderEnum sortOrder)
+        public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, PaymentForTypeEnum paymentForType, SortOrderEnum sortOrder)
         {
-            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId, sortOrder);
+            var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId);
+
+
+            var paymentFilter = new PaymentFilter
+            {
+                PaymentForType = paymentForType,
+                SortOrder = sortOrder
+            };
+
+            paymentBreakdownsFromRepo = _paymentBreakdownRepository.GetFilteredPayments(paymentBreakdownsFromRepo.ToList(), paymentFilter);
 
             var mappedPaymentDetails = _mapper.Map<IEnumerable<PaymentBreakdownForDetailsDto>>(paymentBreakdownsFromRepo);
 
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<PaymentPaginationListDto>(mappedPaymentDetails, page);
 
-            await CalculatePaginationTotalAmounts(contractId, entityPaginationListDto, paymentBreakdownsFromRepo);
+            await CalculatePaginationTotalAmounts(contractId, accountStatementId, entityPaginationListDto, paymentBreakdownsFromRepo);
 
             return Ok(entityPaginationListDto);
         }
 
-        private async Task CalculatePaginationTotalAmounts(int contractId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
+        private async Task CalculatePaginationTotalAmounts(int contractId, int accountStatementId, PaymentPaginationListDto entityPaginationListDto, IEnumerable<PaymentBreakdown> paymentBreakdowns)
         {
             var firstAccountStatement = await _accountStatementRepository.GetFirstAccountStatement(contractId);
+
+            var currentAccountStatement = await _accountStatementRepository.GetAccountStatementAsync(accountStatementId);
 
             entityPaginationListDto.TotalAmount = _accountStatementRepository.CalculateTotalAmountPaid(paymentBreakdowns);
 
@@ -122,7 +135,35 @@ namespace ReserbizAPP.API.Controllers
 
             entityPaginationListDto.DepositedAmountBalance = await _accountStatementRepository.CalculatedDepositedAmountBalance(contractId, firstAccountStatement);
 
-            entityPaginationListDto.SuggestedAmountForPayment = _accountStatementRepository.CalculatedSuggestedAmountForPayment(firstAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+            entityPaginationListDto.SuggestedRentalAmount = _accountStatementRepository.CalculatedSuggestedAmountForRentalPayment(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedElectricBillAmount = _accountStatementRepository.CalculateSuggestedAmountForElectricBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedWaterBillAmount = _accountStatementRepository.CalculateSuggestedAmountForWaterBill(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedMiscelleneousAmount = _accountStatementRepository.CalculateSuggestedAmountForMiscellaneousFees(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.SuggestedPenaltyAmount = _accountStatementRepository.CalculateSuggestedAmountForPenaltyAmount(currentAccountStatement, entityPaginationListDto.DepositedAmountBalance);
+
+            entityPaginationListDto.TotalExpectedRentalAmount = currentAccountStatement.RentalTotalAmount;
+
+            entityPaginationListDto.TotalExpectedElectricBillAmount = currentAccountStatement.ElectricBill;
+
+            entityPaginationListDto.TotalExpectedWaterBillAmount = currentAccountStatement.WaterBill;
+
+            entityPaginationListDto.TotalExpectedMiscellaneousFeesAmount = currentAccountStatement.MiscellaneousTotalAmount;
+
+            entityPaginationListDto.TotalExpectedPenaltyAmount = currentAccountStatement.PenaltyTotalAmount;
+
+            entityPaginationListDto.TotalPaidRentalAmount = currentAccountStatement.TotalPaidRentalAmount;
+
+            entityPaginationListDto.TotalPaidElectricBillAmount = currentAccountStatement.TotalPaidElectricBills;
+
+            entityPaginationListDto.TotalPaidWaterBillAmount = currentAccountStatement.TotalPaidWaterBills;
+
+            entityPaginationListDto.TotalPaidMiscellaneousFeesAmount = currentAccountStatement.TotalPaidMiscellaneousFees;
+
+            entityPaginationListDto.TotalPaidPenaltyAmount = currentAccountStatement.TotalPaidPenaltyAmount;
         }
     }
 }

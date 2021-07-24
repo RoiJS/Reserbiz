@@ -153,7 +153,7 @@
     <!-- Group Header -->
     <StackLayout class="panel__header-section">
       <label
-        [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.LABEL' | translate"
+        [text]="'TERM_DETAILS_PAGE.UTILITY_BILL_DETAILS_GROUP.LABEL' | translate"
       ></label>
     </StackLayout>
     <!-- Group body -->
@@ -169,12 +169,12 @@
           <label
             *ngIf="currentTerm?.excludeElectricBill"
             class="details-label"
-            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_LABEL' | translate"
+            [text]="'TERM_DETAILS_PAGE.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_LABEL' | translate"
           ></label>
           <label
             *ngIf="!currentTerm?.excludeElectricBill"
             class="details-label"
-            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.INCLUDE_ELECTRIC_BILL_LABEL' | translate"
+            [text]="'TERM_DETAILS_PAGE.UTILITY_BILL_DETAILS_GROUP.INCLUDE_ELECTRIC_BILL_LABEL' | translate"
           ></label>
           <label
             *ngIf="!currentTerm?.excludeElectricBill"
@@ -199,12 +199,12 @@
           <label
             *ngIf="currentTerm?.excludeWaterBill"
             class="details-label"
-            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_LABEL' | translate"
+            [text]="'TERM_DETAILS_PAGE.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_LABEL' | translate"
           ></label>
           <label
             *ngIf="!currentTerm?.excludeWaterBill"
             class="details-label"
-            [text]="'TERM_DETAILS_PAGE.ELECTRIC_AND_WATER_BILL_DETAILS_GROUP.INCLUDE_WATER_BILL_LABEL' | translate"
+            [text]="'TERM_DETAILS_PAGE.UTILITY_BILL_DETAILS_GROUP.INCLUDE_WATER_BILL_LABEL' | translate"
           ></label>
           <label
             *ngIf="!currentTerm?.excludeElectricBill"

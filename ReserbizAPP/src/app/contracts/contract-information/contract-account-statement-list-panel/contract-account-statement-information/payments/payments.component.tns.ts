@@ -17,15 +17,17 @@ import {
   RouterExtensions,
 } from '@nativescript/angular';
 
-import { delay, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
 import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
+import { PaymentFilterDialogComponent } from './payment-filter-dialog/payment-filter-dialog.component';
 
+import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
 import { PaymentsService } from '@src/app/_services/payments.service';
-import { AccountStatementService } from '@src/app/_services/account-statement.service';
+import { StorageService } from '@src/app/_services/storage.service';
 
 import { AccountStatement } from '@src/app/_models/account-statement.model';
 import { Contract } from '@src/app/_models/contract.model';
@@ -36,6 +38,8 @@ import { PaymentPaginationList } from '@src/app/_models/pagination_list/payment-
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 import { PaymentDto } from '@src/app/_dtos/payment-dto';
+import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
+
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
 @Component({
@@ -45,14 +49,34 @@ import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.h
 })
 export class PaymentsComponent
   extends BaseListComponent<Payment>
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   private _totalPaidAmount = 0;
-  private _suggestedAmountForPayment = 0;
+  private _suggestedRentalAmount = 0;
+  private _suggestedElectricBillAmount = 0;
+  private _suggestedWaterBillAmount = 0;
+  private _suggestedMiscellaneousFeesAmount = 0;
+  private _suggestedPenaltyAmount = 0;
   private _depositedAmountBalance = 0;
   private _totalAmountFromDeposit = 0;
 
+  private _totalExpectedRentalAmount = 0;
+  private _totalExpectedElectricBillAmount = 0;
+  private _totalExpectedwaterBillAmount = 0;
+  private _totalExpectedMiscellaneousFeesAmount = 0;
+  private _totalExpectedPenaltyAmount = 0;
+
+  private _totalPaidRentalAmount = 0;
+  private _totalPaidElectricBillAmount = 0;
+  private _totalPaidWaterBillAmount = 0;
+  private _totalPaidMiscellaneousFeesAmount = 0;
+  private _totalPaidPenaltyAmount = 0;
+
   private _firstAccountStatement: AccountStatement;
   private _contract: Contract;
+
+  private PAYMENT_FILTER_PAYMENT_FOR_TYPE = 'PaymentFilter_paymentForType';
+  private PAYMENT_FILTER_SORT_ORDER = 'PaymentFilter_sortOrder';
 
   constructor(
     protected paymentService: PaymentsService,
@@ -66,7 +90,8 @@ export class PaymentsComponent
     private contractService: ContractService,
     private modalDialogService: ModalDialogService,
     private vcRef: ViewContainerRef,
-    private pageRoute: PageRoute
+    private pageRoute: PageRoute,
+    private storageService: StorageService
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = paymentService;
@@ -87,32 +112,65 @@ export class PaymentsComponent
         const contractId = +paramMap.get('contractId');
 
         (async () => {
-          this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
-            contractId
-          );
+          this._firstAccountStatement =
+            await this.accountStatementService.getFirstAccountStatement(
+              contractId
+            );
 
           this._contract = await this.contractService.getContract(contractId);
 
-          this._loadListFlagSub = this.paymentService.loadPaymentListFlag.subscribe(
-            (reset: boolean) => {
-              (<PaymentFilter>this._entityFilter).contractId = contractId;
-              (<PaymentFilter>(
-                this._entityFilter
-              )).parentId = this._currentItemParentId;
-              this.getPaginatedEntities(
-                (paymentPaginationList: PaymentPaginationList) => {
-                  this._totalPaidAmount = paymentPaginationList.totalAmount;
-                  this._totalAmountFromDeposit =
-                    paymentPaginationList.totalAmountFromDeposit;
+          this._loadListFlagSub =
+            this.paymentService.loadPaymentListFlag.subscribe(
+              (reset: boolean) => {
+                (<PaymentFilter>this._entityFilter).contractId = contractId;
+                (<PaymentFilter>this._entityFilter).parentId =
+                  this._currentItemParentId;
 
-                  this._suggestedAmountForPayment =
-                    paymentPaginationList.suggestedAmountForPayment;
-                  this._depositedAmountBalance =
-                    paymentPaginationList.depositedAmountBalance;
-                }
-              );
-            }
-          );
+                this.initFilterOptions();
+                this.getPaginatedEntities(
+                  (paymentPaginationList: PaymentPaginationList) => {
+                    this._totalPaidAmount = paymentPaginationList.totalAmount;
+                    this._totalAmountFromDeposit =
+                      paymentPaginationList.totalAmountFromDeposit;
+
+                    this._suggestedRentalAmount =
+                      paymentPaginationList.suggestedRentalAmount;
+                    this._suggestedElectricBillAmount =
+                      paymentPaginationList.suggestedElectricBillAmount;
+                    this._suggestedWaterBillAmount =
+                      paymentPaginationList.suggestedWaterBillAmount;
+                    this._suggestedMiscellaneousFeesAmount =
+                      paymentPaginationList.suggestedMiscelleneousAmount;
+                    this._suggestedPenaltyAmount =
+                      paymentPaginationList.suggestedPenaltyAmount;
+                    this._depositedAmountBalance =
+                      paymentPaginationList.depositedAmountBalance;
+
+                    this._totalExpectedRentalAmount =
+                      paymentPaginationList.totalExpectedRentalAmount;
+                    this._totalExpectedElectricBillAmount =
+                      paymentPaginationList.totalExpectedElectricBillAmount;
+                    this._totalExpectedwaterBillAmount =
+                      paymentPaginationList.totalExpectedWaterBillAmount;
+                    this._totalExpectedMiscellaneousFeesAmount =
+                      paymentPaginationList.totalExpectedMiscellaneousFeesAmount;
+                    this._totalExpectedPenaltyAmount =
+                      paymentPaginationList.totalExpectedPenaltyAmount;
+
+                    this._totalPaidRentalAmount =
+                      paymentPaginationList.totalPaidRentalAmount;
+                    this._totalPaidElectricBillAmount =
+                      paymentPaginationList.totalPaidElectricBillAmount;
+                    this._totalPaidWaterBillAmount =
+                      paymentPaginationList.totalPaidWaterBillAmount;
+                    this._totalPaidMiscellaneousFeesAmount =
+                      paymentPaginationList.totalPaidMiscellaneousFeesAmount;
+                    this._totalPaidPenaltyAmount =
+                      paymentPaginationList.totalPaidPenaltyAmount;
+                  }
+                );
+              }
+            );
         })();
       });
     });
@@ -124,10 +182,104 @@ export class PaymentsComponent
     super.ngOnDestroy();
   }
 
+  //#region "Filter-related functions"
+  openFilterDialog() {
+    this.initFilterDialog().then(
+      (data: { filterHasChanged: boolean; filter: PaymentFilter }) => {
+        if (!data) {
+          return;
+        }
+
+        if (!data.filterHasChanged) {
+          return;
+        }
+
+        if (data.filter.isFilterActive()) {
+          this.storeFilterOptions(data.filter);
+        } else {
+          (<PaymentFilter>this._entityFilter).reset();
+          this.resetFilterOptions();
+        }
+
+        // Needs to reset the page number to get
+        // the correct data
+        this._entityFilter.page = 1;
+        this.entityService.reloadListFlag();
+      }
+    );
+  }
+
+  private initFilterOptions() {
+    const paymentForType = this.storageService.getString(
+      `${this.PAYMENT_FILTER_PAYMENT_FOR_TYPE}_${this._currentItemParentId}`
+    );
+    const sortOrder = this.storageService.getString(
+      `${this.PAYMENT_FILTER_SORT_ORDER}_${this._currentItemParentId}`
+    );
+
+    if (paymentForType) {
+      (<PaymentFilter>this._entityFilter).paymentForType = <PaymentForTypeEnum>(
+        parseInt(paymentForType)
+      );
+    }
+
+    if (sortOrder) {
+      (<PaymentFilter>this._entityFilter).sortOrder = <SortOrderEnum>(
+        parseInt(sortOrder)
+      );
+    }
+  }
+
+  private storeFilterOptions(paymentFilter: PaymentFilter) {
+    const paymentForType = paymentFilter.paymentForType;
+    const sortOrder = paymentFilter.sortOrder;
+
+    if (paymentForType) {
+      this.storageService.storeString(
+        `${this.PAYMENT_FILTER_PAYMENT_FOR_TYPE}_${this._currentItemParentId}`,
+        paymentForType.toString()
+      );
+    }
+
+    if (sortOrder) {
+      this.storageService.storeString(
+        `${this.PAYMENT_FILTER_SORT_ORDER}_${this._currentItemParentId}`,
+        sortOrder.toString()
+      );
+    }
+  }
+
+  private resetFilterOptions() {
+    this.storageService.remove(
+      `${this.PAYMENT_FILTER_PAYMENT_FOR_TYPE}_${this._currentItemParentId}`
+    );
+    this.storageService.remove(
+      `${this.PAYMENT_FILTER_SORT_ORDER}_${this._currentItemParentId}`
+    );
+  }
+
+  private initFilterDialog(): Promise<any> {
+    const dialogOptions: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: {
+        paymentFilter: <PaymentFilter>this._entityFilter,
+      },
+      fullscreen: false,
+      animated: true,
+    };
+
+    return this.modalDialogService.showModal(
+      PaymentFilterDialogComponent,
+      dialogOptions
+    );
+  }
+  //#endregion
+
+  //#region "Payment dialog related functions"
   openAddPaymentDialog() {
     const newPaymentDetails = new Payment();
 
-    this.initFilterDialog(newPaymentDetails, DialogIntentEnum.Add).then(
+    this.initPaymentDialog(newPaymentDetails, DialogIntentEnum.Add).then(
       (returnedPaymentDetails: PaymentDto) => {
         if (returnedPaymentDetails) {
           this._isBusy = true;
@@ -183,15 +335,10 @@ export class PaymentsComponent
       this.appListView.listView.deselectItemAt(paymentItemIndex);
     }, 100);
 
-    this.initFilterDialog(paymentDetails, DialogIntentEnum.View);
+    this.initPaymentDialog(paymentDetails, DialogIntentEnum.View);
   }
 
-  setSortOrder(sortOrder: SortOrderEnum) {
-    this._entityFilter.sortOrder = <SortOrderEnum>sortOrder;
-    this.paymentService.loadPaymentListFlag.next(true);
-  }
-
-  private initFilterDialog(
+  private initPaymentDialog(
     paymentDetails: Payment,
     dialogIntent: DialogIntentEnum
   ): Promise<any> {
@@ -204,7 +351,26 @@ export class PaymentsComponent
         currentAccountStatementId: this._currentItemParentId,
         firstAccountStatement: this._firstAccountStatement,
         depositedAmountBalance: this._depositedAmountBalance,
-        suggestedAmountForPayment: this._suggestedAmountForPayment,
+        suggestedRentalAmount: this._suggestedRentalAmount,
+        suggestedElectricBillAmount: this._suggestedElectricBillAmount,
+        suggestedWaterBillAmount: this._suggestedWaterBillAmount,
+        suggestedMiscellaneousFeesAmount:
+          this._suggestedMiscellaneousFeesAmount,
+        suggestedPenaltyAmount: this._suggestedPenaltyAmount,
+
+        totalExpectedRentalAmount: this._totalExpectedRentalAmount,
+        totalExpectedElectricBillAmount: this._totalExpectedElectricBillAmount,
+        totalExpectedWaterBillAmount: this._totalExpectedwaterBillAmount,
+        totalExpectedMiscellaneousFeesAmount:
+          this._totalExpectedMiscellaneousFeesAmount,
+        totalExpectedPenaltyAmount: this._totalExpectedPenaltyAmount,
+
+        totalPaidRentalAmount: this._totalPaidRentalAmount,
+        totalPaidElectricBillAmount: this._totalPaidElectricBillAmount,
+        totalPaidWaterBillAmount: this._totalPaidWaterBillAmount,
+        totalPaidMiscellaneousFeesAmount:
+          this._totalPaidMiscellaneousFeesAmount,
+        totalPaidPenaltyAmount: this._totalPaidPenaltyAmount,
       },
       fullscreen: false,
       animated: true,
@@ -215,6 +381,7 @@ export class PaymentsComponent
       dialogOptions
     );
   }
+  //#endregion
 
   get currentSortOrder(): SortOrderEnum {
     return this._entityFilter.sortOrder;

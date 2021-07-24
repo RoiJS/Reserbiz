@@ -13,7 +13,9 @@ export class AccountStatement extends Entity {
   public advancedPaymentDurationValue: number;
   public depositPaymentDurationValue: number;
   public utilityBillsDueDate: Date;
+  public excludeElectricBill: boolean;
   public electricBill: number;
+  public excludeWaterBill: boolean;
   public waterBill: number;
   public penaltyNextDueDate: Date;
   public penaltyTotalAmount: number;
@@ -27,12 +29,20 @@ export class AccountStatement extends Entity {
   public miscellaneousDueDate: MiscellaneousDueDateEnum;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
 
+  public totalPaidRentalAmount: number;
+  public totalPaidElectricBills: number;
+  public totalPaidWaterBills: number;
+  public totalPaidMiscellaneousFees: number;
+  public totalPaidPenaltyAmount: number;
+
   constructor() {
     super();
     this.contractId = 0;
     this.dueDate = null;
     this.rate = 0;
+    this.excludeElectricBill = true;
     this.electricBill = 0;
+    this.excludeWaterBill = true;
     this.waterBill = 0;
     this.penaltyNextDueDate = null;
     this.penaltyTotalAmount = 0;
@@ -42,6 +52,11 @@ export class AccountStatement extends Entity {
     this.isFullyPaid = false;
     this.miscellaneousDueDate = MiscellaneousDueDateEnum.SameWithRentalDueDate;
     this.accountStatementMiscellaneous = [];
+    this.totalPaidRentalAmount = 0;
+    this.totalPaidElectricBills = 0;
+    this.totalPaidWaterBills = 0;
+    this.totalPaidMiscellaneousFees = 0;
+    this.totalPaidPenaltyAmount = 0;
   }
 
   get dueDateFormatted(): string {
@@ -90,5 +105,25 @@ export class AccountStatement extends Entity {
 
   get rateFormatted(): string {
     return NumberFormatter.formatCurrency(this.rate);
+  }
+
+  get totalPaidRentalAmountFormatted(): string {
+    return NumberFormatter.formatCurrency(this.totalPaidRentalAmount);
+  }
+
+  get totalPaidElectricBillsAmountFormatted(): string {
+    return NumberFormatter.formatCurrency(this.totalPaidElectricBills);
+  }
+
+  get totalPaidWaterBillsAmountFormatted(): string {
+    return NumberFormatter.formatCurrency(this.totalPaidWaterBills);
+  }
+
+  get totalPaidMiscellaneousFeesFormatted(): string {
+    return NumberFormatter.formatCurrency(this.totalPaidMiscellaneousFees);
+  }
+
+  get totalPaidPenaltyFeesFormatted(): string {
+    return NumberFormatter.formatCurrency(this.totalPaidPenaltyAmount);
   }
 }

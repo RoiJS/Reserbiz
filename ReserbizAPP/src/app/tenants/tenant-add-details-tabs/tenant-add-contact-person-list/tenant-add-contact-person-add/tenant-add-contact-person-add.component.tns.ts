@@ -24,7 +24,8 @@ import { IGenderValueProvider } from '@src/app/_interfaces/value_providers/igend
   styleUrls: ['./tenant-add-contact-person-add.component.css'],
 })
 export class TenantAddContactPersonAddComponent
-  implements IGenderValueProvider, OnInit {
+  implements IGenderValueProvider, OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   contactPersonForm: RadDataFormComponent;
 
@@ -65,11 +66,17 @@ export class TenantAddContactPersonAddComponent
             setTimeout(() => {
               const newContactPerson = new ContactPerson();
 
-              newContactPerson.firstName = this._contactPersonFormSource.firstName;
-              newContactPerson.middleName = this._contactPersonFormSource.middleName;
-              newContactPerson.lastName = this._contactPersonFormSource.lastName;
+              newContactPerson.firstName =
+                this._contactPersonFormSource.firstName;
+              newContactPerson.middleName =
+                this._contactPersonFormSource.middleName;
+              newContactPerson.lastName =
+                this._contactPersonFormSource.lastName;
               newContactPerson.gender = this._contactPersonFormSource.gender;
-              newContactPerson.contactNumber = this._contactPersonFormSource.contactNumber;
+              newContactPerson.contactNumber =
+                this._contactPersonFormSource.contactNumber;
+              newContactPerson.relation =
+                this._contactPersonFormSource.relation;
 
               this.addContactPersonsService.addNewEntity(newContactPerson);
 

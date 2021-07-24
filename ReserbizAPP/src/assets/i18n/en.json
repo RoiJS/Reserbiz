@@ -54,6 +54,24 @@
       "SAME_WITH_RENTAL_DUE_DATE": "Same with Rental Due Date",
       "SAME_WITH_UTILITY_BILL_DUE_DATE": "Same with Utility Due Date"
     },
+    "PAYMENT_TYPE_OPTIONS": {
+      "ALL": "All",
+      "RENTAL": "Rental",
+      "ELECTRIC_BILL": "Electric Bill",
+      "WATER_BILL": "Water Bill",
+      "MISCELLANEOUS_FEES": "Miscellaneous Fees",
+      "PENALTY": "Penalty"
+    },
+    "ARCHIVED_CONTRACT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
+    "UNIT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "AVAILABLE": "Available",
+      "OCCUPIED": "Occupied"
+    },
     "INACTIVE": "Inactive",
     "MANAGE": "Manage",
     "SELECTED_ITEMS": "Selected Items",
@@ -173,7 +191,10 @@
   "NO_CONNECTION_PAGE": {
     "MAIN_TEXT": "Oops! You're offline.",
     "SECONDARY_TEXT": "Please make sure that you have connection.",
-    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+    "DIALOG": {
+      "TITLE": "No Connection",
+      "MESSAGE": "Failed to connect to the server. The application will automatically exit."
+    }
   },
 
   "SYSTEM_UPDATE_PAGE": {
@@ -279,7 +300,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate selected tenant",
-      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
       "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
     }
@@ -401,7 +422,7 @@
     },
     "DEACTIVATE_TENANT_DIALOG": {
       "TITLE": "Deactivate tenant",
-      "CONFIRM_MESSAGE": "By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactive this selected tenant?",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
       "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
       "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
     }
@@ -448,6 +469,10 @@
         "CONTROL_LABEL": "Contact Number:",
         "HINT_TEXT": "Please enter contact number"
       },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
+      },
       "ADD_DIALOG": {
         "TITLE": "Add Details",
         "CONFIRM_MESSAGE": "Are you sure to save new contact person?",
@@ -479,6 +504,10 @@
         "CONTROL_LABEL": "Contact Number:",
         "HINT_TEXT": "Please enter contact number"
       },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
+      },
       "UPDATE_DIALOG": {
         "TITLE": "Edit Details",
         "CONFIRM_MESSAGE": "Are you sure to save changes?",
@@ -506,6 +535,16 @@
       "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
       "SUCCESS_MESSAGE": "Selected unit type has been removed!",
       "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
+    }
+  },
+
+  "SPACES_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "STATUS_LABEL": "Status:",
+      "UNIT_TYPE_LABEL": "Unit Type:"
     }
   },
 
@@ -716,8 +755,8 @@
         }
       },
 
-      "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-        "LABEL": "Electric & Water Bill Details",
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
         "EXCLUDE_ELECTRIC_BILL_CONTROL": {
           "CONTROL_LABEL": "Exclude Electric Bill:"
         },
@@ -836,8 +875,8 @@
         }
       },
 
-      "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-        "LABEL": "Electric & Water Bill Details",
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
         "EXCLUDE_ELECTRIC_BILL_CONTROL": {
           "CONTROL_LABEL": "Exclude Electric Bill:"
         },
@@ -930,8 +969,8 @@
       "DEPOSIT_PAYMENT_DURATION_LABEL": "Deposit Payment:"
     },
 
-    "ELECTRIC_AND_WATER_BILL_DETAILS_GROUP": {
-      "LABEL": "ELECTRIC & WATER BILL DETAILS",
+    "UTILITY_BILL_DETAILS_GROUP": {
+      "LABEL": "UTILITY BILLS DETAILS",
       "EXCLUDE_ELECTRIC_BILL_LABEL": "Electric bill not included",
       "INCLUDE_ELECTRIC_BILL_LABEL": "Electric bill included: ",
       "EXCLUDE_WATER_BILL_LABEL": "Water bill not included",
@@ -1068,7 +1107,9 @@
       "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
       "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
       "OPEN_CONTRACT_LABEL": "Open Contract:",
-      "SORT_ORDER_LABEL": "Sort Order:"
+      "SORT_ORDER_LABEL": "Sort Order:",
+      "CODE_SORT_ORDER_LABEL": "Code Sort Order:",
+      "STATUS_LABEL": "Status:"
     }
   },
 
@@ -1137,7 +1178,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit that is bind to its term is not available at this time."
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
     }
   },
 
@@ -1150,50 +1191,68 @@
       }
     },
     "FORM_CONTROL": {
-      "CODE_CONTROL": {
-        "CONTROL_LABEL": "Code:",
-        "HINT_TEXT": "Enter code here",
-        "EMPTY_ERROR_MESSAGE": "Please enter code",
-        "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
-        "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+      "GENERAL_INFORMATION_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "TENANT_CONTROL": {
+          "CONTROL_LABEL": "Tenant:",
+          "EMPTY_ERROR_MESSAGE": "Please select tenant"
+        },
+        "TERM_CONTROL": {
+          "CONTROL_LABEL": "Term:",
+          "EMPTY_ERROR_MESSAGE": "Please select term",
+          "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
+          "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
+        },
+        "SPACE_TYPE_NAME_CONTROL": {
+          "CONTROL_LABEL": "Unit Type:"
+        },
+        "SPACE_CONTROL": {
+          "CONTROL_LABEL": "Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit",
+          "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
+        },
+        "EFFECTIVE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Effective Date:",
+          "HINT_TEXT": "Please enter effective date"
+        },
+        "OPEN_CONTRACT_CONTROL": {
+          "CONTROL_LABEL": "Open Contract:"
+        },
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select duration unit",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Duration Value:",
+          "EMPTY_ERROR_MESSAGE": "Please provide duration value",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "EXPIRATION_DATE_CONTROL": {
+          "CONTROL_LABEL": "Expiration Date:"
+        }
       },
-      "TENANT_CONTROL": {
-        "CONTROL_LABEL": "Tenant:",
-        "EMPTY_ERROR_MESSAGE": "Please select tenant"
-      },
-      "TERM_CONTROL": {
-        "CONTROL_LABEL": "Term:",
-        "EMPTY_ERROR_MESSAGE": "Please select term",
-        "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
-        "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
-      },
-      "SPACE_TYPE_NAME_CONTROL": {
-        "CONTROL_LABEL": "Unit Type:"
-      },
-      "SPACE_CONTROL": {
-        "CONTROL_LABEL": "Unit:",
-        "EMPTY_ERROR_MESSAGE": "Please select unit",
-        "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
-      },
-      "EFFECTIVE_DATE_CONTROL": {
-        "CONTROL_LABEL": "Effective Date:",
-        "HINT_TEXT": "Please enter effective date"
-      },
-      "OPEN_CONTRACT_CONTROL": {
-        "CONTROL_LABEL": "Open Contract:"
-      },
-      "DURATION_UNIT_CONTROL": {
-        "CONTROL_LABEL": "Duration Unit:",
-        "EMPTY_ERROR_MESSAGE": "Please select duration unit",
-        "INVALID_ERROR_MESSAGE": "This is not valid"
-      },
-      "DURATION_VALUE_CONTROL": {
-        "CONTROL_LABEL": "Duration Value:",
-        "EMPTY_ERROR_MESSAGE": "Please provide duration value",
-        "INVALID_ERROR_MESSAGE": "This is not valid"
-      },
-      "EXPIRATION_DATE_CONTROL": {
-        "CONTROL_LABEL": "Expiration Date:"
+      "MARK_ACCOUNT_STATEMENT_AS_PAID_CONTROL_GROUP": {
+        "LABEL": "Mark Account Statement As Paid",
+        "INCLUDE_RENTAL_FEE_CONTROL": {
+          "CONTROL_LABEL": "Check Rental Fee:"
+        },
+        "INCLUDE_UTILITY_BILLS_CONTROL": {
+          "CONTROL_LABEL": "Check Utility Bills:"
+        },
+        "INCLUDE_MISCELLANEOUS_FEE_CONTROL": {
+          "CONTROL_LABEL": "Check Miscellaneous Fees:"
+        },
+        "INCLUDE_PENALTY_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Check Penalty Amount:"
+        }
       },
       "ADD_DIALOG": {
         "TITLE": "Add New Contract",
@@ -1254,7 +1313,7 @@
     },
     "ARCHIVED_FAILED_DIALOG": {
       "TITLE": "Remove from archive",
-      "ERROR_MESSAGE": "The selected contract cannot be remove from archive because the unit type attached on its term has no available slot anymore."
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
     },
     "ENCASH_DEPOSIT_AMOUNT_DIALOG": {
       "TITLE": "Encash Deposit Amount",
@@ -1359,11 +1418,22 @@
     },
     "EMPTY_PAYMENT_LIST": "No Available Payments",
     "PAYMENT_DETAILS": {
-      "RECEIVED_BY": "Received By:"
+      "RECEIVED_BY": "Received By:",
+      "PAYMENT_FOR": "Payment For"
     },
     "FOOTER_SECTION": {
       "TOTAL_PAID_AMOUNT": "Total Paid Amount",
       "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
+    }
+  },
+
+  "PAYMENT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "PAYMENT_FOR_LABEL": "Payment For:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   },
 
@@ -1378,11 +1448,15 @@
         "TIME_LABEL": "Time:",
         "AMOUNT_CONTROL": {
           "LABEL": "Amount:",
-          "EMPTY_ERROR_MESSAGE": "Please enter amount"
+          "EMPTY_ERROR_MESSAGE": "Please enter amount",
+          "EXCEEDED_VALUE_ERROR_MESSAGE": "The total amount already exceeds with the expected amount for {0} which is {1}."
         },
         "AMOUNT_FROM_DEPOSIT_CONTROL": {
           "LABEL": "Amount From Deposit:",
           "EXCEEDED_VALUE_ERROR_MESSAGE": "Amount entered exceeded the available remaining deposited amount which is {0}."
+        },
+        "PAYMENT_FOR_CONTROL": {
+          "LABEL": "Payment For:"
         },
         "RECEIVED_BY_LABEL": "Received By:",
         "NOTES_LABEL": "Notes:"

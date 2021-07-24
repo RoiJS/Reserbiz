@@ -1,20 +1,33 @@
 import { Location } from '@angular/common';
 
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewContainerRef,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { RouterExtensions } from '@nativescript/angular';
+import {
+  ModalDialogOptions,
+  ModalDialogService,
+  RouterExtensions,
+} from '@nativescript/angular';
 
 import { BaseListComponent } from '@src/app/shared/component/base-list.component';
+import { UnitFilterDialogComponent } from './unit-filter-dialog/unit-filter-dialog.component';
 
 import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 import { Space } from '@src/app/_models/space.model';
 import { SpaceFilter } from '@src/app/_models/filters/space-filter.model';
 
+import { UnitStatusEnum } from '@src/app/_enum/unit-status.enum';
+
 import { DialogService } from '@src/app/_services/dialog.service';
 import { SpaceService } from '@src/app/_services/space.service';
-import { delay } from 'rxjs/operators';
+import { StorageService } from '@src/app/_services/storage.service';
 
 @Component({
   selector: 'app-space-list',
@@ -23,14 +36,21 @@ import { delay } from 'rxjs/operators';
 })
 export class SpaceListComponent
   extends BaseListComponent<Space>
-  implements IBaseListComponent, OnInit, OnDestroy {
+  implements IBaseListComponent, OnInit, OnDestroy
+{
+  private UNIT_FILTER_STATUS = 'UnitFilter_status';
+  private UNIT_FILTER_UNIT_TYPE = 'UnitFilter_unitType';
+
   constructor(
+    protected dialogService: DialogService,
+    protected location: Location,
+    protected ngZone: NgZone,
+    protected router: RouterExtensions,
+    protected translateService: TranslateService,
     private spaceService: SpaceService,
-    dialogService: DialogService,
-    location: Location,
-    ngZone: NgZone,
-    router: RouterExtensions,
-    translateService: TranslateService
+    private storageService: StorageService,
+    private modalDialogService: ModalDialogService,
+    private vcRef: ViewContainerRef
   ) {
     super(dialogService, location, ngZone, router, translateService);
     this.entityService = spaceService;
@@ -41,6 +61,7 @@ export class SpaceListComponent
 
   ngOnInit() {
     this._loadListFlagSub = this.spaceService.loadSpacesFlag.subscribe(() => {
+      this.initFilterOptions();
       this.getPaginatedEntities();
     });
 
@@ -82,5 +103,88 @@ export class SpaceListComponent
         'SPACE_LIST_PAGE.REMOVE_SPACE_DIALOG.ERROR_MESSAGE'
       ),
     };
+  }
+
+  openFilterDialog() {
+    this.initFilterDialog().then(
+      (data: { filterHasChanged: boolean; filter: SpaceFilter }) => {
+        if (!data) {
+          return;
+        }
+
+        if (!data.filterHasChanged) {
+          return;
+        }
+
+        if (data.filter.isFilterActive()) {
+          this.storeFilterOptions(data.filter);
+        } else {
+          (<SpaceFilter>this._entityFilter).reset();
+          this.resetFilterOptions();
+        }
+
+        // Needs to reset the page number to get
+        // the correct data
+        this._entityFilter.page = 1;
+        this.entityService.reloadListFlag();
+      }
+    );
+  }
+
+  private initFilterOptions() {
+    const status = this.storageService.getString(`${this.UNIT_FILTER_STATUS}`);
+    const unitType = this.storageService.getString(
+      `${this.UNIT_FILTER_UNIT_TYPE}`
+    );
+
+    if (status) {
+      (<SpaceFilter>this._entityFilter).status = <UnitStatusEnum>(
+        parseInt(status)
+      );
+    }
+
+    if (unitType) {
+      (<SpaceFilter>this._entityFilter).unitTypeId = parseInt(unitType);
+    }
+  }
+
+  private storeFilterOptions(spaceFilter: SpaceFilter) {
+    const status = spaceFilter.status;
+    const unitType = spaceFilter.unitTypeId;
+
+    if (status) {
+      this.storageService.storeString(
+        `${this.UNIT_FILTER_STATUS}`,
+        status.toString()
+      );
+    }
+
+    if (unitType) {
+      this.storageService.storeString(
+        `${this.UNIT_FILTER_UNIT_TYPE}`,
+        unitType.toString()
+      );
+    }
+  }
+
+  private resetFilterOptions() {
+    this.storageService.remove(`${this.UNIT_FILTER_STATUS}`);
+    this.storageService.remove(`${this.UNIT_FILTER_UNIT_TYPE}`);
+  }
+
+  private initFilterDialog(): Promise<any> {
+    const dialogOptions: ModalDialogOptions = {
+      viewContainerRef: this.vcRef,
+      context: {
+        spaceFilter: <SpaceFilter>this._entityFilter,
+      },
+      fullscreen: false,
+      animated: true,
+    };
+
+    return this.modalDialogService.showModal(
+      UnitFilterDialogComponent,
+      dialogOptions
+    );
   }
 }

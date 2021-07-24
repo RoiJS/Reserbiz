@@ -3,10 +3,12 @@ import { SpaceListComponent } from './space-list/space-list.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { SpacesRoutingModule } from './spaces-routing.module';
+import { UnitFilterDialogComponent } from './space-list/unit-filter-dialog/unit-filter-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SpacesRoutingModule],
-  declarations: [SpaceListComponent],
+  entryComponents: [UnitFilterDialogComponent],
+  declarations: [SpaceListComponent, UnitFilterDialogComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class SpacesModule {}

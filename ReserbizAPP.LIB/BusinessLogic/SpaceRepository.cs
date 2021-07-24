@@ -21,6 +21,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
+        public SpaceRepository()
+        {
+
+        }
+
         public async Task<IEnumerable<Space>> GetSpacesAsOptions()
         {
             return await _reserbizRepository.ClientDbContext.Spaces
@@ -62,6 +67,28 @@ namespace ReserbizAPP.LIB.BusinessLogic
             if (!String.IsNullOrEmpty(spaceFilter.Description))
             {
                 filteredSpaces = filteredSpaces.Where(c => c.Description.Contains(spaceFilter.Description)).ToList();
+            }
+
+            // Filter by unit type id
+            if (spaceFilter.UnitTypeId != 0)
+            {
+                filteredSpaces = filteredSpaces.Where(c => c.SpaceTypeId == spaceFilter.UnitTypeId).ToList();
+            }
+
+            // Filter by unit type id
+            if (spaceFilter.Status != UnitStatusEnum.All)
+            {
+                // Get list of available units
+                if (spaceFilter.Status == UnitStatusEnum.Available)
+                {
+                    filteredSpaces = filteredSpaces.Where(c => c.IsNotOccupied == true).ToList();
+                }
+
+                // Get list of occupied units
+                if (spaceFilter.Status == UnitStatusEnum.Occupied)
+                {
+                    filteredSpaces = filteredSpaces.Where(c => c.IsNotOccupied == false).ToList();
+                }
             }
 
             // Set sort order based on description

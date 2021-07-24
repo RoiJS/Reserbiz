@@ -23,7 +23,8 @@ import { GenderValueProvider } from '@src/app/_helpers/value_providers/gender-va
   styleUrls: ['./tenant-add-contact-person-edit.component.css'],
 })
 export class TenantAddContactPersonEditComponent
-  implements IGenderValueProvider, OnInit {
+  implements IGenderValueProvider, OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   contactPersonForm: RadDataFormComponent;
 
@@ -58,10 +59,12 @@ export class TenantAddContactPersonEditComponent
           this._currentContacPerson.middleName,
           this._currentContacPerson.lastName,
           this._currentContacPerson.gender,
-          this._currentContacPerson.contactNumber
+          this._currentContacPerson.contactNumber,
+          this._currentContacPerson.relation
         );
 
-        this._contactPersonFormSourceOriginal = this._contactPersonFormSource.clone();
+        this._contactPersonFormSourceOriginal =
+          this._contactPersonFormSource.clone();
       });
     });
   }
@@ -86,11 +89,18 @@ export class TenantAddContactPersonEditComponent
           if (res === ButtonOptions.YES) {
             this._isBusy = true;
 
-            this._currentContacPerson.firstName = this._contactPersonFormSource.firstName;
-            this._currentContacPerson.middleName = this._contactPersonFormSource.middleName;
-            this._currentContacPerson.lastName = this._contactPersonFormSource.lastName;
-            this._currentContacPerson.gender = this._contactPersonFormSource.gender;
-            this._currentContacPerson.contactNumber = this._contactPersonFormSource.contactNumber;
+            this._currentContacPerson.firstName =
+              this._contactPersonFormSource.firstName;
+            this._currentContacPerson.middleName =
+              this._contactPersonFormSource.middleName;
+            this._currentContacPerson.lastName =
+              this._contactPersonFormSource.lastName;
+            this._currentContacPerson.gender =
+              this._contactPersonFormSource.gender;
+            this._currentContacPerson.contactNumber =
+              this._contactPersonFormSource.contactNumber;
+            this._currentContacPerson.relation =
+              this._contactPersonFormSource.relation;
 
             this.addContactPersonsService.updateEntity(
               this._currentContacPerson

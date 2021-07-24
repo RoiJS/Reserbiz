@@ -11,15 +11,17 @@ import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper'
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 import { PaymentMapper } from '@src/app/_helpers/mappers/payment-mapper.helper';
 
+import { PaymentTypeValueProvider } from '@src/app/_helpers/value_providers/payment-type-value-provider.helper';
+
 import { DialogService } from '@src/app/_services/dialog.service';
 
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
+import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
 
 import { Contract } from '@src/app/_models/contract.model';
 import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
-
 
 @Component({
   selector: 'ns-payment-details-dialog',
@@ -28,7 +30,8 @@ import { PaymentFormSource } from '@src/app/_models/form/payment-form.model';
 })
 export class PaymentDetailsDialogComponent
   extends BaseFormHelper<PaymentFormSource>
-  implements OnInit {
+  implements OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
@@ -36,13 +39,32 @@ export class PaymentDetailsDialogComponent
   private _dialogIntent: DialogIntentEnum;
 
   private _contract: Contract;
-  private _suggestedAmountForPayment = 0;
+  private _suggestedRentalAmount = 0;
+  private _suggestedElectricBillAmount = 0;
+  private _suggestedWaterBillAmount = 0;
+  private _suggestedMiscellaneousFeesAmount = 0;
+  private _suggestedPenaltyAmount = 0;
+
+  private _totalExpectedRentalAmount = 0;
+  private _totalExpectedElectricBillAmount = 0;
+  private _totalExpectedwaterBillAmount = 0;
+  private _totalExpectedMiscellaneousFeesAmount = 0;
+  private _totalExpectedPenaltyAmount = 0;
+
+  private _totalPaidRentalAmount = 0;
+  private _totalPaidElectricBillAmount = 0;
+  private _totalPaidWaterBillAmount = 0;
+  private _totalPaidMiscellaneousFeesAmount = 0;
+  private _totalPaidPenaltyAmount = 0;
+
   private _depositedAmountBalance = 0;
   private _currentAccountStatementId = 0;
 
   private _firstAccountStatement = new AccountStatement();
 
   private _paymentDetailsFormSource: PaymentFormSource;
+
+  private _paymentTypeValueProvider: PaymentTypeValueProvider;
 
   constructor(
     private dialogService: DialogService,
@@ -57,11 +79,39 @@ export class PaymentDetailsDialogComponent
     this._dialogIntent = params.context.dialogIntent;
     this._currentAccountStatementId = params.context.currentAccountStatementId;
     this._firstAccountStatement = params.context.firstAccountStatement;
-    this._suggestedAmountForPayment = params.context.suggestedAmountForPayment;
+    this._suggestedRentalAmount = params.context.suggestedRentalAmount;
+    this._suggestedElectricBillAmount =
+      params.context.suggestedElectricBillAmount;
+    this._suggestedWaterBillAmount = params.context.suggestedWaterBillAmount;
+    this._suggestedMiscellaneousFeesAmount =
+      params.context.suggestedMiscellaneousFeesAmount;
+    this._suggestedPenaltyAmount = params.context.suggestedPenaltyAmount;
     this._depositedAmountBalance = params.context.depositedAmountBalance;
+
+    this._totalExpectedRentalAmount = params.context.totalExpectedRentalAmount;
+    this._totalExpectedElectricBillAmount =
+      params.context.totalExpectedElectricBillAmount;
+    this._totalExpectedwaterBillAmount =
+      params.context.totalExpectedWaterBillAmount;
+    this._totalExpectedMiscellaneousFeesAmount =
+      params.context.totalExpectedMiscellaneousFeesAmount;
+    this._totalExpectedPenaltyAmount =
+      params.context.totalExpectedPenaltyAmount;
+
+    this._totalPaidRentalAmount = params.context.totalPaidRentalAmount;
+    this._totalPaidElectricBillAmount =
+      params.context.totalPaidElectricBillAmount;
+    this._totalPaidWaterBillAmount = params.context.totalPaidWaterBillAmount;
+    this._totalPaidMiscellaneousFeesAmount =
+      params.context.totalPaidMiscellaneousFeesAmount;
+    this._totalPaidPenaltyAmount = params.context.totalPaidPenaltyAmount;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._paymentTypeValueProvider = new PaymentTypeValueProvider(
+      this.translateService
+    );
+  }
 
   onSave() {
     const isFormValid = this.validateForm();
@@ -103,15 +153,41 @@ export class PaymentDetailsDialogComponent
     /**
      * If Amount From Deposit, pre-fill the amount field
      */
-    if (args.propertyName === 'isAmountFromDeposit') {
+    if (
+      args.propertyName === 'isAmountFromDeposit' ||
+      args.propertyName === 'paymentForType'
+    ) {
       if (
         this._paymentDetailsFormSource.isAmountFromDeposit &&
-        this._paymentDetailsFormSource.amount === 0
+        (!this._paymentDetailsFormSource.amount ||
+          this._paymentDetailsFormSource.amount === 0)
       ) {
+        let suggestedAmount = 0;
+
+        switch (this._paymentDetailsFormSource.paymentForType) {
+          case PaymentForTypeEnum.Rental:
+            suggestedAmount = this._suggestedRentalAmount;
+            break;
+          case PaymentForTypeEnum.ElectricBill:
+            suggestedAmount = this._suggestedElectricBillAmount;
+            break;
+          case PaymentForTypeEnum.WaterBill:
+            suggestedAmount = this._suggestedWaterBillAmount;
+            break;
+          case PaymentForTypeEnum.MiscellaneousFee:
+            suggestedAmount = this._suggestedMiscellaneousFeesAmount;
+            break;
+          case PaymentForTypeEnum.Penalty:
+            suggestedAmount = this._suggestedPenaltyAmount;
+            break;
+          default:
+            break;
+        }
+
         this._paymentDetailsFormSource = this.reloadFormSource(
           this._paymentDetailsFormSource,
           {
-            amount: this._suggestedAmountForPayment,
+            amount: suggestedAmount,
           }
         );
       }
@@ -131,6 +207,7 @@ export class PaymentDetailsDialogComponent
       );
       isAmountValid = false;
     } else {
+      // Check amount if the Amount From Deposit setting is active
       if (
         this._paymentDetailsFormSource.isAmountFromDeposit &&
         this._paymentDetailsFormSource.amount > this._depositedAmountBalance
@@ -147,7 +224,66 @@ export class PaymentDetailsDialogComponent
 
         isAmountValid = false;
       } else {
-        isAmountValid = true;
+        let totalPaidAmount = 0;
+        let totalExpectedAmount = 0;
+        let paymentCategoryName = '';
+
+        switch (this._paymentDetailsFormSource.paymentForType) {
+          case PaymentForTypeEnum.Rental:
+            totalPaidAmount = this._totalPaidRentalAmount;
+            totalExpectedAmount = this._totalExpectedRentalAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL'
+            );
+            break;
+          case PaymentForTypeEnum.ElectricBill:
+            totalPaidAmount = this._totalPaidElectricBillAmount;
+            totalExpectedAmount = this._totalExpectedElectricBillAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL'
+            );
+            break;
+          case PaymentForTypeEnum.WaterBill:
+            totalPaidAmount = this._totalPaidWaterBillAmount;
+            totalExpectedAmount = this._totalExpectedwaterBillAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL'
+            );
+            break;
+          case PaymentForTypeEnum.MiscellaneousFee:
+            totalPaidAmount = this._totalPaidMiscellaneousFeesAmount;
+            totalExpectedAmount = this._totalExpectedMiscellaneousFeesAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES'
+            );
+            break;
+          case PaymentForTypeEnum.Penalty:
+            totalPaidAmount = this._totalPaidPenaltyAmount;
+            totalExpectedAmount = this._totalExpectedPenaltyAmount;
+            paymentCategoryName = this.translateService.instant(
+              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY'
+            );
+            break;
+          default:
+            break;
+        }
+
+        // Check if the entered amount + total paid amount already exceeds with the expected total amount.
+        if (
+          totalPaidAmount + this._paymentDetailsFormSource.amount >
+          totalExpectedAmount
+        ) {
+          let errorMessage = this.translateService.instant(
+            'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE'
+          );
+          errorMessage = errorMessage.replace('{0}', paymentCategoryName);
+          errorMessage = errorMessage.replace('{1}', totalExpectedAmount);
+          amountProperty.errorMessage = errorMessage;
+
+          isAmountValid = false;
+        } else {
+          isAmountValid = true;
+        }
       }
     }
 
@@ -169,9 +305,8 @@ export class PaymentDetailsDialogComponent
   }
 
   private initFormDetails(paymentDetails: Payment) {
-    this._paymentDetailsFormSource = this.paymentMapper.mapEntityToFormSource(
-      paymentDetails
-    );
+    this._paymentDetailsFormSource =
+      this.paymentMapper.mapEntityToFormSource(paymentDetails);
   }
 
   get paymentMapper(): PaymentMapper {
@@ -196,6 +331,10 @@ export class PaymentDetailsDialogComponent
 
   get encashedDepositAmount(): boolean {
     return this._contract?.encashDepositAmount;
+  }
+
+  get paymentTypeOptions(): Array<{ key: PaymentForTypeEnum; label: string }> {
+    return this._paymentTypeValueProvider.paymentTypeOptions;
   }
 
   /**

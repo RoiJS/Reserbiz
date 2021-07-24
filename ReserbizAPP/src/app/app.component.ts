@@ -286,16 +286,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initMonitorConnectivityRedirection() {
     this.checkConnectionSub = this.checkConnectionService.currentConnectionType
-      .pipe(delay(5000))
+      .pipe(delay(2000))
       .subscribe((currentConnection: connectionType) => {
         this.zone.run(() => {
           if (currentConnection === connectionType.none) {
             // Auto-logout the user during system update.
-            this.authService.logout(false);
-
-            this.routerExtensions.navigate(['/no-connection'], {
-              clearHistory: true,
-            });
+            this.authService.logout('/no-connection');
           } else {
             (async () => {
               const generalInformation =
@@ -304,11 +300,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
               // Check if the system is currently under system update
               if (generalInformation.systemUpdateStatus) {
                 // Auto-logout the user during system update.
-                this.authService.logout(false);
-
-                this.routerExtensions.navigate(['/system-update'], {
-                  clearHistory: true,
-                });
+                this.authService.logout('/system-update');
               }
             })();
           }

@@ -4,6 +4,7 @@ import { NativeScriptRouterModule } from '@nativescript/angular';
 
 import { PaymentsComponent } from './payments.component';
 import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
+import { PaymentFilterDialogComponent } from './payment-filter-dialog/payment-filter-dialog.component';
 
 import { SharedModule } from '../../../../../shared/shared.module';
 
@@ -17,8 +18,15 @@ import { SharedModule } from '../../../../../shared/shared.module';
     ]),
     SharedModule,
   ],
-  declarations: [PaymentsComponent, PaymentDetailsDialogComponent],
-  entryComponents: [PaymentDetailsDialogComponent],
-  schemas: [NO_ERRORS_SCHEMA]
+  declarations: [
+    PaymentsComponent,
+    PaymentDetailsDialogComponent,
+    PaymentFilterDialogComponent,
+  ],
+  entryComponents: [
+    PaymentDetailsDialogComponent,
+    PaymentFilterDialogComponent,
+  ],
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class PaymentsModule {}

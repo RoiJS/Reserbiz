@@ -142,6 +142,12 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<float>("ElectricBill")
                         .HasColumnType("real");
 
+                    b.Property<bool>("ExcludeElectricBill")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ExcludeWaterBill")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -345,6 +351,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Relation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TenantId")
                         .HasColumnType("int");
 
@@ -414,6 +423,18 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("EncashedDepositAmountDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IncludeMiscellaneousFees")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IncludePenaltyAmount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IncludeRentalFee")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IncludeUtilityBills")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -549,6 +570,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentForType")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReceivedById")
                         .HasColumnType("int");

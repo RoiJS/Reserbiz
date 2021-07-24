@@ -135,10 +135,13 @@ export class ContractAccountStatementInformationComponent
 
             (async () => {
               try {
+                const updatedWaterBillAmount = waterBillAmount || 0;
+                const updatedElectricBillAmount = electricBillAmount || 0;
+
                 await this.accountStatementService.updateWaterAndElectricBillAmount(
                   this._currentAccountStatement.id,
-                  waterBillAmount,
-                  electricBillAmount,
+                  updatedWaterBillAmount,
+                  updatedElectricBillAmount,
                   this.dueDate
                 );
 

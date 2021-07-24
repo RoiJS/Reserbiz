@@ -254,6 +254,10 @@ $sidedrawer-list-icon-size: 20;
       margin-right: 10;
     }
 
+    &__inactive-text-indicator {
+      color: #ff4d4d;
+    }
+
     &__item-main-label {
       font-size: 15;
       font-weight: bold;

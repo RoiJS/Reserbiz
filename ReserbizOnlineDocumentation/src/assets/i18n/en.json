@@ -245,7 +245,7 @@
         "DESCRIPTION_2": "<p>Take note that deactivating a tenant will also means that any contracts attached with it will also be deactivated and activating back a tenant cannot automatically activate the contracts so be careful on deactivating tenants.</p>",
         "DESCRIPTION_3": "<p class='subsection-title'>Activating or Deactivating from the list page</p>",
         "DESCRIPTION_4": "<p>For deactivating a tenant, simply swipe the tenant item to the left, an icon <img class='system-icon' src='../../assets/images/system-icons/deactivate-icon.png'> will be revealed. This is the icon for deactivating a tenant. If user tap this option, user will receive a confirmation message saying “By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactivate this selected tenant?”. If Yes, this will deactivate the tenant and the system will determine if there are any attach active contracts to this person then these will be deactivated as well. </p>",
-        "DESCRIPTION_5": "<p>Deactivated tenants are shown with a red circle on the left side of the tenant’s name.</p>",
+        "DESCRIPTION_5": "<p>Deactivated tenants are shown in red text with a red circle on the left side.</p>",
         "DESCRIPTION_6": "<p>For activating a tenant, simply swipe the tenant item to the left then an icon <img class='system-icon' src='../../assets/images/system-icons/activate-icon.png'> will be revealed. This is the icon for activating a tenant. If user tap this option, user will be prompted if he/she wants to proceed or not.</p>",
         "DESCRIPTION_7": "<p class='subsection-title'>Activating or Deactivating from the tenant information page</p>",
         "DESCRIPTION_8": "<p>On the tenant details page, tapping the icon <img class='system-icon' src='../../assets/images/system-icons/deactivate-icon.png'> will deactivate the tenant. If user tap this option, user will receive a confirmation message saying “By deactivating this tenant, any active contracts attach to this person will also be inactivated and this cannot be reverted anymore. Are you really sure to inactivate this selected tenant?”. If Yes, this will deactivate the tenant and the system will determine if there are any attach active contracts to this person then these will be deactivated as well.</p>",
@@ -314,9 +314,30 @@
         "TITLE": "Edit Unit",
         "DESCRIPTION": "<p>From the unit list page, tap any unit the user wants to edit. This will bring the user to edit details form page.</p>"
       },
-      "SEARCH_UNIT_SECTION": {
-        "TITLE": "Search Unit",
-        "DESCRIPTION": "<p>From the unit list page, there is a search bar at the top of the screen. User can only filter unit based on unit description. </p>"
+      "FILTER_UNIT_SECTION": {
+        "TITLE": "Filter Units",
+        "DESCRIPTION": "<p>User can search and filter units. To activate search function, tap the search icon <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> located at the toolbar section. This will show a search bar where user can search contract based on the unit’s description. </p>",
+        "DESCRIPTION_2": "<p>To activate the advanced filter setting, tap on the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon.png'>. This will open a dialog which contains different fields for filtering contracts.</p>",
+        "DESCRIPTION_3": "<p>To activate the filter, tap on the Confirm button. To Reset the filter setting to their default values, tap the Reset button.</p>",
+        "DESCRIPTION_4": "<p>The filter icons will be shown inside a circle which indicates that the advanced filter setting is active.</p>",
+        "DESCRIPTION_5": "<p>Take note that the user next time re-visit the unit list page, the previous filter settings will be remembered.</p>",
+        "DESCRIPTION_6": "<p>To close the filter settings, tap on the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "TABLE_INFORMATION": {
+          "STATUS_INFORMATION": {
+            "NAME": "Status",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Occupied or Available)",
+            "DESCRIPTION": "<p>This filters the list based on unit’s status (All, Occupied or Available)</p>",
+            "DESCRIPTION_2": "<p><b>Occupied</b> – These are units that are currently attached to active contracts.",
+            "DESCRIPTION_3": "<p><b>Available</b> – These are units that are currently not attached to any contracts."
+          },
+          "UNIT_TYPE_INFORMATION": {
+            "NAME": "Unit Type",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (This contains all active unit types)",
+            "DESCRIPTION": "<p>This will filter the unit list based on selected unit type.</p>"
+          }
+        }
       },
       "DELETE_UNIT_SECTION": {
         "TITLE": "Delete Unit Section",
@@ -397,8 +418,8 @@
               "DESCRIPTION_3": "<p><i>This means that the tenant is obliged to pay a 2-month deposit </i></p>"
             }
           },
-          "ELECTRIC_AND_WATER_BILL_DETAILS_SECTION": {
-            "TITLE": "Electric and Water Bill Details",
+          "UTILITY_BILL_DETAILS_SECTION": {
+            "TITLE": "Utility Bills Details",
             "EXCLUDE_ELECTRIC_BILL_INFORMATION": {
               "NAME": "Exclude Electric Bill",
               "DATA_TYPE": "Active or Not",
@@ -601,7 +622,28 @@
       },
       "SEARCH_ARCHIVED_CONTRACTS_SECTION": {
         "TITLE": "Search Archived Contracts",
-        "DESCRIPTION": "<p>User can search archived contracts by code. To activate search function, tap the search <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> icon located at the toolbar section. After typing in contract code, tap the search icon on the phone’s keyboard. If there are archived contracts code that matches the search text then the list will be filtered, otherwise “No Available Archived Contracts” text will be shown. To exit the search function, tap the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>"
+        "DESCRIPTION": "<p>User can also search and filter archived contracts. To activate search function, tap the search <img class='system-icon' src='../../assets/images/system-icons/search-icon.png'> icon located at the toolbar section. This will show a search bar where user can search contract based on the code..</p>",
+        "DESCRIPTION_2": "<p>To activate the advanced filter setting, tap on the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon.png'>. This will open a dialog which contains different fields for filtering contracts.</p>",
+        "DESCRIPTION_3": "<p>To activate the filter, tap on the Confirm button. To Reset the filter setting to their default values, tap the Reset button.</p>",
+        "DESCRIPTION_4": "<p>The filter icon will be shown inside a circle which indicates that the advanced filter setting is active.</p>",
+        "DESCRIPTION_5": "<p>Take note that the user next time re-visit the contract list page, the previous filter settings will be remembered.</p>",
+        "DESCRIPTION_6": "<p>To close the filter settings, tap on the icon <img class='system-icon' src='../../assets/images/system-icons/x-icon.png'>.</p>",
+        "TABLE_INFORMATION": {
+          "STATUS_INFORMATION": {
+            "NAME": "Status",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Expired or Inactive)",
+            "DESCRIPTION_1": "<p>This filters the list based on status (All, Expired or Inactive).</p>",
+            "DESCRIPTION_2": "<p><b>Expired</b> – These are archived contracts that already been expired based on the effective date and the duration settings.</p>",
+            "DESCRIPTION_3": "<p><b>Inactive</b> – These are archived contracts that are not expired but marked as inactive.</p>"
+          },
+          "CODE_SORT_ORDER_INFORMATION": {
+            "NAME": "Code Sort Order",
+            "DEFAULT_VALUES": "Descending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "<p>This will define the order of the list based on the contract code.</p>"
+          }
+        }
       },
       "UNARCHIVE_OR_ACTIVATE_CONTRACTS_SECTION": {
         "TITLE": "Unarchive/Activate Contracts",
@@ -633,53 +675,79 @@
         "DESCRIPTION_13": "<p>If user attempts to return to the contract details form page without saving the changes, a confirmation dialog will be shown saying “You have some unsaved changes. Are you sure to leave this page?”. If user selected No then it will stay on term details form page, otherwise unsaved changes will be ignored, and user will be navigated back to the contract details for page.</p>",
         "DESCRIPTION_14": "<p>At this point, the updates on the term details are just temporarily saved. The save button on contract level must be tapped in order to persist the update on the term level.</p>",
         "TABLE_INFORMATION": {
-          "CODE_INFORMATION": {
-            "NAME": "Code",
-            "DATA_TYPE": "Alphanumeric",
-            "DESCRIPTION": "This is a user defined code for the contract. Value for this field must be unique. Required field."
+          "GENERAL_INFORMATION_SECTION": {
+            "TITLE": "General Information",
+            "CODE_INFORMATION": {
+              "NAME": "Code",
+              "DATA_TYPE": "Alphanumeric",
+              "DESCRIPTION": "This is a user defined code for the contract. Value for this field must be unique. Required field."
+            },
+            "TENANT_INFORMATION": {
+              "NAME": "Tenant",
+              "DATA_TYPE": "Dropdown (This contains all available active tenants)",
+              "DESCRIPTION": "Active tenant that will be assigned to the contract. Required field."
+            },
+            "TERM_INFORMATION": {
+              "NAME": "Term",
+              "DATA_TYPE": "Dropdown (This contains all active terms)",
+              "DESCRIPTION": "This will determine the term template that will be used as a basis for calculating the statement of accounts for the contract. This creates a copy of the term template that will be exclusive only for the contract. This term can be updated and does not affect the original term. See <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating existing Contract</a> section for more details. Required field."
+            },
+            "UNIT_TYPE_INFORMATION": {
+              "NAME": "Unit Type",
+              "DATA_TYPE": "Label",
+              "DESCRIPTION": "This will show the unit type value that is based on the currently selected term."
+            },
+            "UNIT_INFORMATION": {
+              "NAME": "Unit",
+              "DATA_TYPE": "Dropdown (This contains all active units based on the current unit type)",
+              "DESCRIPTION_1": "<p>This will determine which unit that will be assigned to the contract. Required field.</p>",
+              "DESCRIPTION_2": "<p>Take note that If the selected unit is already assigned to a different active contract, then an error message will be shown saying “The unit is already occupied. Please select other unit.”</p>"
+            },
+            "EFFECTIVE_DATE_INFORMATION": {
+              "NAME": "Effective Date",
+              "DATA_TYPE": "Date",
+              "DESCRIPTION": "This will determine when the effective/start date of the contract is."
+            },
+            "OPEN_CONTRACT_INFORMATION": {
+              "NAME": "Open Contract",
+              "DATA_TYPE": "Active or Not",
+              "DESCRIPTION": "This will define if the contract is open or not."
+            },
+            "DURATION_UNIT_INFORMATION": {
+              "NAME": "Duration Unit",
+              "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter or Year)",
+              "DESCRIPTION": "This will define the duration unit that will be used to calculate the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active."
+            },
+            "DURATION_VALUE_INFORMATION": {
+              "NAME": "Duration Value",
+              "DATA_TYPE": "Number",
+              "DESCRIPTION_1": "<p>This is a combination with the Duration Unit setting. Basically, these two settings will determine the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active.</p>",
+              "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Duration Value: 12</i></p>",
+              "DESCRIPTION_3": "<p><i>This means that the contract will be expired after 12 months.</i></p>"
+            }
           },
-          "TENANT_INFORMATION": {
-            "NAME": "Tenant",
-            "DATA_TYPE": "Dropdown (This contains all available active tenants)",
-            "DESCRIPTION": "Active tenant that will be assigned to the contract. Required field."
-          },
-          "TERM_INFORMATION": {
-            "NAME": "Term",
-            "DATA_TYPE": "Dropdown (This contains all active terms)",
-            "DESCRIPTION": "This will determine the term template that will be used as a basis for calculating the statement of accounts for the contract. This creates a copy of the term template that will be exclusive only for the contract. This term can be updated and does not affect the original term. See <a href='/contracts#manage-term-details-contract-section'>Manage Term Details When Creating New or Updating existing Contract</a> section for more details. Required field."
-          },
-          "UNIT_TYPE_INFORMATION": {
-            "NAME": "Unit Type",
-            "DATA_TYPE": "Label",
-            "DESCRIPTION": "This will show the unit type value that is based on the currently selected term."
-          },
-          "UNIT_INFORMATION": {
-            "NAME": "Unit",
-            "DATA_TYPE": "Dropdown (This contains all active units based on the current unit type)",
-            "DESCRIPTION_1": "<p>This will determine which unit that will be assigned to the contract. Required field.</p>",
-            "DESCRIPTION_2": "<p>Take note that If the selected unit is already assigned to a different active contract, then an error message will be shown saying “The unit is already occupied. Please select other unit.”</p>"
-          },
-          "EFFECTIVE_DATE_INFORMATION": {
-            "NAME": "Effective Date",
-            "DATA_TYPE": "Date",
-            "DESCRIPTION": "This will determine when the effective/start date of the contract is."
-          },
-          "OPEN_CONTRACT_INFORMATION": {
-            "NAME": "Open Contract",
-            "DATA_TYPE": "Active or Not",
-            "DESCRIPTION": "This will define if the contract is open or not."
-          },
-          "DURATION_UNIT_INFORMATION": {
-            "NAME": "Duration Unit",
-            "DATA_TYPE": "Dropdown (Day, Week, Month, Quarter or Year)",
-            "DESCRIPTION": "This will define the duration unit that will be used to calculate the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active."
-          },
-          "DURATION_VALUE_INFORMATION": {
-            "NAME": "Duration Value",
-            "DATA_TYPE": "Number",
-            "DESCRIPTION_1": "<p>This is a combination with the Duration Unit setting. Basically, these two settings will determine the end date of the contract. This is only available if the <b>Open Contract</b> setting is not active. This field is required If the <a>Open Contract</a> is not active.</p>",
-            "DESCRIPTION_2": "<p><i><b>Example:</b><br>Duration Unit: Month<br>Duration Value: 12</i></p>",
-            "DESCRIPTION_3": "<p><i>This means that the contract will be expired after 12 months.</i></p>"
+          "MARK_ACCOUNT_STATEMENT_AS_PAID_SECTION": {
+            "TITLE": "Mark Account Statement as Paid",
+            "CHECK_RENTAL_FEE_INFORMATION": {
+              "NAME": "Check Rental Fee",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Rental Fee Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_MISCELLANEOUS_FEES_INFORMATION": {
+              "NAME": "Check Miscellaneous Fees",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Miscellaneous Fees Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_UTILITY_BILLS_INFORMATION": {
+              "NAME": "Check Utility Bills",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Electric and Water Bills Amount should be validated to check the statement of account status.</p>"
+            },
+            "CHECK_PENALTY_AMOUNT_INFORMATION": {
+              "NAME": "Check Penalty Amount",
+              "DATA_TYPE": "Active or not",
+              "DESCRIPTION": "<p>This will define if the Penalty Amount should be validated to check the statement of account status.</p>"
+            }
           }
         }
       },
@@ -780,7 +848,12 @@
         "DESCRIPTION_3": "<p>The information are group into two section, the <b>Utility bills</b> section and the <b>Rental fees</b> section</p>",
         "DESCRIPTION_4": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous. The due date for miscellaneous fees can be configured whether same with the rental fees or same with the utility biils. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details. If the Miscellaneous Due Date setting is set to <b>Same With Rental Fees</b>, then the miscellaneous section will be displayed under Rental Fees section and if the Miscellaneous Due Date is set to <b>Same With Utility Bills</b> then the miscellaneous section will be displayed undere Utility bills section.</p>",
         "DESCRIPTION_5": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
-        "DESCRIPTION_6": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>"
+        "DESCRIPTION_6": "<p><b>Electric Bill Amount</b> field is only available if the electric bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_7": "<p><b>Water Bill Amount</b> field is only available if the water bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_8": "<p>If in case that both electric and water bill amount are set to be included on the rental fee amount, then the entire section will not be available.</p>",
+
+        "DESCRIPTION_9": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
+        "DESCRIPTION_10": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
       },
       "DELETE_STATEMENT_OF_ACCOUNT": {
         "TITLE": "Delete Statement of Account",
@@ -806,7 +879,7 @@
         "TITLE": "Overview",
         "DESCRIPTION_1": "<p>The payments page contains the list of payment breakdown for a particular statement of account. The user register payment for a particular statement and the list can be sorted from the latest to the oldest or vice versa. This helps the user to keep track of payments made by the tenant per statement of account.</p>",
         "DESCRIPTION_2": "<p>To go to the list of payments, tap the more icon option from within the statement of account details page and select the <b>Payments</b> menu option.</p>",
-        "DESCRIPTION_3": "<p>On the footer section page, user can see the <b>Total Paid Amount</b> Section and the >b>Paid Amount from Deposit</b> section.</p>",
+        "DESCRIPTION_3": "<p>On the footer section page, user can see the <b>Total Paid Amount</b> Section and the <b>Paid Amount from Deposit</b> section.</p>",
         "DESCRIPTION_4": "<p><b>Total Paid Amount</b> section basically displays the total amount that the tenant paid for the statement of account.</p>",
         "DESCRIPTION_5": "<p><b>Paid Amount from Deposit</b> section contains the total amount that the tenant paid using the deposited amount.</p>"
       },
@@ -820,15 +893,24 @@
             "DATA_TYPE": "Active or Not",
             "DESCRIPTION_1": "<p>This will determine if the payment amount is from the deposited amount.</p>",
             "DESCRIPTION_2": "<p>This setting is only available if the deposited amount is already fully paid, there are still available remaining deposited amount and has not been marked as encashed yet.</p>",
-            "DESCRIPTION_3": "<p>The system is smart enough to pre-fill the amount field if this setting is activated. If the remaining deposited amount is still greater than the rate amount of the rental, then the amount field will automatically be prefilled with the same amount of the rate. If the remaining deposited amount is less than the rate of the rental, then the amount field will be prefilled with the exact remaining deposited amount.</p>",
-            "DESCRIPTION_4": "<p><i><b>Examples:</b><br>Scenario # 1:<br>Remaining Deposited Amount: 18,000<br>Remaining Deposited Amount: 18,000<br>Amount field: 9000</i></p>",
-            "DESCRIPTION_5": "<p><i>Scenario # 2:<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
-            "DESCRIPTION_6": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
+            "DESCRIPTION_3": "<p>The system is smart enough to pre-fill the <b>Amount</b> field if this setting is activated. For instance, If the selected <b>Payment For</b> setting is <b>Rental</b> then whatever the remaining unpaid rental amount will be pre-filled to the amount field provided that the remaining rental amount is still less than the remaining unused deposited amount, otherwise the remaining unused deposited amount will be used. This is the same for other <b>Payment For</b> options.</p>",
+            "DESCRIPTION_4": "<p><i><b>Examples:</b><br><b>Scenario # 1:</b><br>Payment For: Rental<br>Remaining Deposited Amount: 18,000<br>Rate: 9,000<br>Amount field: 9000</i></p>",
+            "DESCRIPTION_5": "<p><i><b>Scenario # 2:</b><br>Payment For: Rental<br>Remaining Deposited Amount: 8,500<br>Rate: 9,000<br>Amount field: 8,500</i></p>",
+            "DESCRIPTION_6": "<p><i><b>Scenario # 3:</b><br>Payment For: Electric Bill<br>Remaining Deposited Amount: 8,500<br>Electric Bill: 1200<br>Amount field: 1200</i></p>",
+            "DESCRIPTION_7": "<p><i><b>Scenario # 4:</b><br>Payment For: Electric Bill<br>Remaining Deposited Amount: 1000<br>Electric Bill: 1200<br>Amount field: 1000</i></p>",
+            "DESCRIPTION_8": "<p>Payment details that are tagged as “Amount from Deposit“ will have this icon <img class='system-icon' src='../../../assets/images/system-icons/amount-from-deposit-icon.png'/> on the right side of the item on the list of payments.</p>"
+          },
+          "PAYMENT_FOR_INFORMATION": {
+            "NAME": "Payment For",
+            "DATA_TYPE": "Dropdown (Rental, Electric Bill, Water Bill, Miscellaneous Fees or Penalty)",
+            "DESCRIPTION": "<p>This will define if the payment is for <b>Rental, Electric Bill, Water Bill, Miscellaneous fees</b> or <b>Penalty</b>.</p>"
           },
           "AMOUNT_INFORMATION": {
             "NAME": "Amount",
             "DATA_TYPE": "Number",
-            "DESCRIPTION": "This will contain the payment amount. Required field."
+            "DESCRIPTION_1": "<p>This will contain the payment amount. Required field.</p>",
+            "DESCRIPTION_2": "<p>There is a validation that checks if the amount already exceeds with the expected amount based on the current selected <b>Payment For</b> setting.</p>",
+            "DESCRIPTION_3": "<div class='image-container'><img class='system-icon' src='../../../assets/images/contracts/payments/amount-exceed-error-message.png'/></div>"
           },
           "DATE_INFORMATION": {
             "NAME": "Date",
@@ -851,9 +933,24 @@
         "TITLE": "View Payment Details",
         "DESCRIPTION": "<p>To view payment details, tap any item from the list. This will open a dialog same with the one from <a href='/contracts/statement-of-accounts/payments#register-payment-section'>Register Payment</a> section.</p>"
       },
-      "SORT_PAYMENT_LIST_SECTION": {
-        "TITLE": "Sort Payment List",
-        "DESCRIPTION": "<p>User can sort the list from latest to the oldest or vice versa. To sort the list from oldest to latest, tap the icon <img class='system-icon' src='../../../assets/images/system-icons/ascending-sort-icon.png'/> and tap the <img class='system-icon' src='../../../assets/images/system-icons/descending-sort-icon.png'/> to sort the item from latest to oldest.</p>"
+      "FILTER_PAYMENT_LIST_SECTION": {
+        "TITLE": "Filter Payments",
+        "DESCRIPTION": "<p>To filter payment list, tap the filter <img class='system-icon' src='../../../assets/images/system-icons/filter-icon.png'/> icon. This will open a filter dialog. The filter dialog has two filter settings: <b>Payment For</b> and <b>Sort Order</b>.</p>",
+        "DESCRIPTION_2": "<p>Current filter settings will be remembered and will be used the next time revisit the page.</p>",
+        "TABLE_INFORMATION": {
+          "PAYMENT_FOR_INFORMATION": {
+            "NAME": "Payment For",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Rental, Electric Bill, Water Bill, Miscellaneous and Penalty)",
+            "DESCRIPTION": "This will filter the list based on the selected Payment for options."
+          },
+          "SORT_ORDER_INFORMATION": {
+            "NAME": "Sort Order",
+            "DEFAULT_VALUES": "Descending",
+            "DATA_TYPE": "Ascending or Descending",
+            "DESCRIPTION": "This will determine the order on how to display the list based on the payment date time received."
+          }
+        }
       }
     }
   },

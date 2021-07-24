@@ -90,6 +90,16 @@ namespace ReserbizAPP.API.Helpers
                     opt => opt.MapFrom(src => src.CurrentBalance))
                 .ForMember(dest => dest.IsDeletable,
                     opt => opt.MapFrom(src => src.IsDeletable))
+                .ForMember(dest => dest.TotalPaidRentalAmount,
+                    opt => opt.MapFrom(src => src.TotalPaidRentalAmount))
+                .ForMember(dest => dest.TotalPaidElectricBills,
+                    opt => opt.MapFrom(src => src.TotalPaidElectricBills))
+                .ForMember(dest => dest.TotalPaidWaterBills,
+                    opt => opt.MapFrom(src => src.TotalPaidWaterBills))
+                .ForMember(dest => dest.TotalPaidMiscellaneousFees,
+                    opt => opt.MapFrom(src => src.TotalPaidMiscellaneousFees))
+                .ForMember(dest => dest.TotalPaidPenaltyAmount,
+                    opt => opt.MapFrom(src => src.TotalPaidPenaltyAmount))
                 .ForMember(dest => dest.IsFullyPaid,
                     opt => opt.MapFrom(src => src.IsFullyPaid));
             CreateMap<AccountStatementMiscellaneous, AccountStatementMiscellaneousDetailsDto>();
