@@ -157,11 +157,7 @@ export class PaymentDetailsDialogComponent
       args.propertyName === 'isAmountFromDeposit' ||
       args.propertyName === 'paymentForType'
     ) {
-      if (
-        this._paymentDetailsFormSource.isAmountFromDeposit &&
-        (!this._paymentDetailsFormSource.amount ||
-          this._paymentDetailsFormSource.amount === 0)
-      ) {
+      if (this._paymentDetailsFormSource.isAmountFromDeposit) {
         let suggestedAmount = 0;
 
         switch (this._paymentDetailsFormSource.paymentForType) {
