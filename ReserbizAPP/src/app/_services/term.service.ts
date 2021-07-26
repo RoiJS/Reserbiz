@@ -115,6 +115,8 @@ export class TermService
     termCreateDto.generateAccountStatementDaysBeforeValue =
       newTerm.generateAccountStatementDaysBeforeValue;
     termCreateDto.miscellaneousDueDate = newTerm.miscellaneousDueDate;
+    termCreateDto.includeMiscellaneousCheckAndCalculateForPenalty =
+      newTerm.includeMiscellaneousCheckAndCalculateForPenalty;
 
     termCreateDto.termMiscellaneous = newTermMiscellaneous.map(
       (tm: TermMiscellaneous) => {

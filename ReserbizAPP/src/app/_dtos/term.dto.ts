@@ -23,6 +23,7 @@ export class TermDto implements IBaseDto {
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
     public generateAccountStatementDaysBeforeValue: DurationEnum,
-    public miscellaneousDueDate: MiscellaneousDueDateEnum
+    public miscellaneousDueDate: MiscellaneousDueDateEnum,
+    public includeMiscellaneousCheckAndCalculateForPenalty: boolean,
   ) {}
 }

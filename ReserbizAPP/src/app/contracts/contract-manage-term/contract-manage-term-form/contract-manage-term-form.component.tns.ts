@@ -298,6 +298,21 @@ export class ContractManageTermFormComponent
         });
       }
     }
+
+    if (args.propertyName === 'miscellaneousDueDate') {
+      /**
+       * If the Miscellaneous Due Date is not same with rental fee
+       * then deactivate setting includeMiscellaneousCheckAndCalculateForPenalty.
+       */
+      if (
+        this._entityFormSource.miscellaneousDueDate !==
+        MiscellaneousDueDateEnum.SameWithRentalDueDate
+      ) {
+        this._entityFormSource = this.reloadFormSource(this._entityFormSource, {
+          includeMiscellaneousCheckAndCalculateForPenalty: false,
+        });
+      }
+    }
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {

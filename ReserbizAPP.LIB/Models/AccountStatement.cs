@@ -31,6 +31,13 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; }
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
 
+        // This will determine if the miscellaneous fees amount will
+        // be included when checking for penalty.
+        // If this setting is activated and the penalty value type is set
+        // to "Percentage", the calculation for penalty value will be based from
+        // Rental fees + Miscellaneous fees.
+        public bool IncludeMiscellaneousCheckAndCalculateForPenalty { get; set; }
+
 
         // This will record the last date when the sms notification has been sent.
         // We will only allow to send one sms notification once per day
@@ -185,7 +192,17 @@ namespace ReserbizAPP.LIB.Models
         {
             get
             {
-                return (CurrentAmountPaid >= AccountStatementTotalRentalFeeAmount);
+                var currentRentalPaidAmount = TotalPaidRentalAmount;
+
+                if (IncludeMiscellaneousCheckAndCalculateForPenalty && MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+                {
+                    currentRentalPaidAmount += TotalPaidMiscellaneousFees;
+                }
+
+                // Checking for this is based on the current paid rental amount against the expected rental fee amount.
+                // If IncludeMiscellaneousCheckAndCalculateForPenalty is true and miscellaneous due date is same with rental fee, 
+                // then we must include the miscellaneous fees when checking this.  
+                return (currentRentalPaidAmount >= AccountStatementTotalRentalFeeAmount);
             }
         }
 
@@ -314,7 +331,16 @@ namespace ReserbizAPP.LIB.Models
 
             if (PenaltyValueType == ValueTypeEnum.Percentage)
             {
-                penaltyAmountValue = (float)Math.Round((Rate * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
+                var basedAmount = Rate;
+
+                // If the miscellaneous fee is set to be included when checking and calculating for 
+                // penalty then calculate the penalty percentage amount based on the rental fee amount + miscellaneous fees
+                if (IncludeMiscellaneousCheckAndCalculateForPenalty)
+                {
+                    basedAmount = Rate + MiscellaneousTotalAmount;
+                }
+
+                penaltyAmountValue = (float)Math.Round((basedAmount * (PenaltyValue / 100)), 2, MidpointRounding.AwayFromZero);
             }
 
             return penaltyAmountValue;
@@ -346,9 +372,10 @@ namespace ReserbizAPP.LIB.Models
                 totalAmount += Rate;
             }
 
-            // Check if the Miscellaneous Due Date setting is set to SameWithRentalDueDate
-            // then we add the miscellaneous total amount with the Rental Amount
-            if (MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+            // Check if the Miscellaneous Due Date setting is set to SameWithRentalDueDate and if 
+            // the miscellaneous is set to be included on the checking of penalty, 
+            // then we add the miscellaneous total amount with the Rental Amount.
+            if (IncludeMiscellaneousCheckAndCalculateForPenalty && MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
             {
                 totalAmount += MiscellaneousTotalAmount;
             }

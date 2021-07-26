@@ -179,6 +179,8 @@ export class ContractService
       termDetails.generateAccountStatementDaysBeforeValue;
     contractManageDto.term.miscellaneousDueDate =
       termDetails.miscellaneousDueDate;
+    contractManageDto.term.includeMiscellaneousCheckAndCalculateForPenalty =
+      termDetails.includeMiscellaneousCheckAndCalculateForPenalty;
 
     contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {
