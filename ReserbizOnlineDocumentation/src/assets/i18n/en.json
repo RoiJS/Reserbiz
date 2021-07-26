@@ -451,11 +451,14 @@
             "PENALTY_VALUE_INFORMATION": {
               "NAME": "Penalty Value",
               "DATA_TYPE": "Number",
-              "DESCRIPTION_1": "<p>This will define the value for the penalty. The value will be automatically the penalty amount if the <b>Penalty Value Type</b> setting is set to <b>Fixed</b> and if the <b>Penalty Value Type</b> is set to <b>Percentage</b> then the penalty amount will be calculated based on penalty value as the percentage against the current rate amount specified on the term.</p>",
-              "DESCRIPTION_2": "<p><i><b>Example # 1:</b><br>Penalty Value Type: Fixed<br>Penalty Value: 50</i></p>",
-              "DESCRIPTION_3": "<p><i>This means that the penalty amount is 50.</p>",
-              "DESCRIPTION_4": "<p><i><b>Example # 2:</b><br>Rate: 9000<br>Penalty Value Type: Percentage<br>Penalty Value: 5</i></p>",
-              "DESCRIPTION_5": "<p><i>This means that the penalty amount is 5% of the rate which is 9000.</i></p>"
+              "DESCRIPTION_1": "<p>This will define the value for the penalty. The value will be the penalty amount if the <b>Penalty Value Type</b> setting is set to <b>Fixed</b> and if the <b>Penalty Value Type</b> is set to <b>Percentage</b> then the penalty amount will be calculated based on penalty value as the percentage against the current rate amount specified on the term.</p>",
+              "DESCRIPTION_2": "<p>If it is set to <b>Percentage</b> and <b>Miscellaneous Due Date</b> setting is set to <b>Same With Rental Due Date</b> and <b>Include in Checking and Calculating Penalty</b> is activated, then getting the percenatage penalty amount will be based on the total of rental fees and miscellaneous fees amount.</p>",
+              "DESCRIPTION_3": "<p><i><b>Example # 1:</b><br>Penalty Value Type: Fixed<br>Penalty Value: 50</i></p>",
+              "DESCRIPTION_4": "<p><i>This means that the penalty amount is <b>50</b>.</p>",
+              "DESCRIPTION_5": "<p><i><b>Example # 2:</b><br>Rate: 9000<br>Penalty Value Type: Percentage<br>Penalty Value: 5</i></p>",
+              "DESCRIPTION_6": "<p><i>This means that the penalty amount is <b>5%</b> of the rate which is <b>9000</b>.</i></p>",
+              "DESCRIPTION_7": "<p><i><b>Example # 3:</b><br>Rate: 9000<br>Total Miscellaneous Fees: 1500<br>Miscellaneous Due Date: Same With Rental Due Date<br>Include in Checking and Calculating Penalty: Active<br>Penalty Value Type: Percentage<br>Penalty Value: 5</i></p>",
+              "DESCRIPTION_8": "<p><i>This means that the penalty amount is <b>5%</b> of the sum of rate and miscellaneous fees which is <b>10,500.00</b>.</i></p>"
             },
             "PENALTY_AMOUNT_PER_DURATION_INFORMATION": {
               "NAME": "Penalty Amount Per Duration",
@@ -475,7 +478,7 @@
               "DESCRIPTION_1": "<p>This defines the number of <b>Penalty Effective After Duration Value</b> after the statement of account due date has passed before the penalty will take effect. </p>",
               "DESCRIPTION_2": "<p><i><b>Example: </b><br>Penalty Effective After Duration: Day<br>Penalty Effective After Duration Value: 5</i></p>",
               "DESCRIPTION_3": "<p>This means that 5 days after the due date of the statement of account, the penalty will start to take effect.</p>",
-              "DESCRIPTION_4": "<p><b>Take note that the penalty will only take effect if the expected rental amount has not been fully paid yet after the due date has already passed. Rental is basically referring to the current rate amount as well.</b></p>"
+              "DESCRIPTION_4": "<p><b>TAKE NOTE:</b> The penalty will only take effect if the expected rental amount has not been fully paid yet after the due date has already passed. Rental is basically referring to the current rate amount as well. But if <b>Miscellaneous Due Date</b> is set to <b>Same With Rental Due Date</b> and <b>Include in Checking and Calculating Penalty</b> is active, then penalty will take effect if both expected rental fee and miscellaneous fees are not yet fully paid.</p>"
             }
           },
           "AUTOMATION_SETTINGS_SECTION": {
@@ -496,6 +499,12 @@
               "DESCRIPTION_1": "<p>This setting will define from which due date does the miscellaneous fees should follow.</p>",
               "DESCRIPTION_2": "<p><b>Same With Rental Due Date</b>: This means that the miscellaneous fees will follow the same due date as the rental fees which is automatically calculated based on the term attached to the contract.</p>",
               "DESCRIPTION_3": "<p><b>Same with Utility Due Date</b>: This means that the miscellaneous fees will follow the same due date as the utility bills (Electric & Water Bills) which is defined on the statement of account.</p>"
+            },
+            "INCLUDE_CHECKING_AND_CALCULATING_FOR_PENALTY_INFORMATION": {
+              "NAME": "Include in Checking and Calculating Penalty",
+              "DATA_TYPE": "Active or Not",
+              "DESCRIPTION_1": "<p>This will determine if the miscellaneous fees will also be included when checking for penalty. This will also be included when calculating for the <b>Penalty Amount</b> if the <b>Penalty Value Type</b> setting is set to Percentage.</p>",
+              "DESCRIPTION_2": "<p>This setting is only available if the <b>Miscellaneous Due Date</b> is set to be <b>Same With Rental Due Date</b>.</p>"
             }
           }
         }
