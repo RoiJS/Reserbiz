@@ -15,6 +15,8 @@ import { TermService } from '@src/app/_services/term.service';
 
 import { DurationValueProvider } from '@src/app/_helpers/value_providers/duration-value-provider.helper';
 
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
+
 @Component({
   selector: 'ns-term-information',
   templateUrl: './term-information.component.html',
@@ -66,20 +68,23 @@ export class TermInformationComponent implements OnInit, OnDestroy {
       this._currentTerm = await this.termService.getTerm(this._currentTermId);
       this._isBusy = false;
 
-      this._currentTerm.advancedPaymentDurationText = this._durationValueProvider.getDurationName(
-        this._currentTerm.advancedPaymentDurationValue,
-        this._currentTerm.durationUnitText
-      );
+      this._currentTerm.advancedPaymentDurationText =
+        this._durationValueProvider.getDurationName(
+          this._currentTerm.advancedPaymentDurationValue,
+          this._currentTerm.durationUnitText
+        );
 
-      this._currentTerm.depositPaymentDurationText = this._durationValueProvider.getDurationName(
-        this._currentTerm.depositPaymentDurationValue,
-        this._currentTerm.durationUnitText
-      );
+      this._currentTerm.depositPaymentDurationText =
+        this._durationValueProvider.getDurationName(
+          this._currentTerm.depositPaymentDurationValue,
+          this._currentTerm.durationUnitText
+        );
 
-      this._currentTerm.penaltyEffectiveAfterDurationUnitText = this._durationValueProvider.getDurationName(
-        this._currentTerm.penaltyEffectiveAfterDurationValue,
-        this._currentTerm.penaltyEffectiveAfterDurationUnitText
-      );
+      this._currentTerm.penaltyEffectiveAfterDurationUnitText =
+        this._durationValueProvider.getDurationName(
+          this._currentTerm.penaltyEffectiveAfterDurationValue,
+          this._currentTerm.penaltyEffectiveAfterDurationUnitText
+        );
 
       let penaltyAmountText = this.translateService.instant(
         'TERM_DETAILS_PAGE.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_LABEL'
@@ -102,8 +107,24 @@ export class TermInformationComponent implements OnInit, OnDestroy {
           this._currentTerm.penaltyEffectiveAfterDurationUnitText
         );
 
+      let miscellaneousDueDateText = this.translateService.instant(
+        'TERM_DETAILS_PAGE.MISCELLANEOUS_SETTINGS_DETAILS_GROUP.DUE_DATE'
+      );
+      miscellaneousDueDateText = miscellaneousDueDateText.replace(
+        '{0}',
+        this._currentTerm.miscellaneousDueDate ===
+          MiscellaneousDueDateEnum.SameWithRentalDueDate
+          ? this.translateService.instant(
+              'GENERAL_TEXTS.MISCELLANEOUS_DUE_DATE_OPTIONS.SAME_WITH_RENTAL_DUE_DATE'
+            )
+          : this.translateService.instant(
+              'GENERAL_TEXTS.MISCELLANEOUS_DUE_DATE_OPTIONS.SAME_WITH_UTILITY_BILL_DUE_DATE'
+            )
+      );
+
       this._currentTerm.penaltyAmountText = penaltyAmountText;
       this._currentTerm.penaltyEffectiveText = penaltyEffectiveText;
+      this._currentTerm.miscellaneousDueDateText = miscellaneousDueDateText;
     })();
   }
 

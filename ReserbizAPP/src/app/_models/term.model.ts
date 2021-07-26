@@ -45,6 +45,8 @@ export class Term extends Entity {
   public penaltyEffectiveAfterDurationUnitText: string;
   public generateAccountStatementDaysBeforeValue: number;
   public miscellaneousDueDate: MiscellaneousDueDateEnum;
+  public miscellaneousDueDateText: string;
+  public includeMiscellaneousCheckAndCalculateForPenalty: boolean;
 
   constructor() {
     super();

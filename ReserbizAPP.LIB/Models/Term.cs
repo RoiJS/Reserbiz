@@ -70,9 +70,17 @@ namespace ReserbizAPP.LIB.Models
         // Penalty will be effective after duration unit based on DurationEnum value
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
-        public int GenerateAccountStatementDaysBeforeValue  { get; set; }
-        
+        public int GenerateAccountStatementDaysBeforeValue { get; set; }
+
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
+
+        // This will determine if the miscellaneous fees amount will
+        // be included when checking for penalty.
+        // If this setting is activated and the penalty value type is set
+        // to "Percentage", the calculation for penalty value will be based from
+        // Rental fees + Miscellaneous fees.
+        // This property is also available on class AccountStatement.
+        public bool IncludeMiscellaneousCheckAndCalculateForPenalty { get; set; }
 
         public List<Contract> Contracts { get; set; }
 

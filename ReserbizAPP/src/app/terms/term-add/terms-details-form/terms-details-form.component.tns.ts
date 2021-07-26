@@ -355,6 +355,21 @@ export class TermsDetailsFormComponent
         });
       }
     }
+
+    if (args.propertyName === 'miscellaneousDueDate') {
+      /**
+       * If the Miscellaneous Due Date is not same with rental fee
+       * then deactivate setting includeMiscellaneousCheckAndCalculateForPenalty.
+       */
+      if (
+        this._termDetailsForm.miscellaneousDueDate !==
+        MiscellaneousDueDateEnum.SameWithRentalDueDate
+      ) {
+        this._termDetailsForm = this.reloadFormSource(this._termDetailsForm, {
+          includeMiscellaneousCheckAndCalculateForPenalty: false,
+        });
+      }
+    }
   }
 
   mapFormSourceToEntity() {
@@ -390,6 +405,8 @@ export class TermsDetailsFormComponent
       this._termDetailsForm.generateAccountStatementDaysBeforeValue;
     this._newTermDetails.miscellaneousDueDate =
       this._termDetailsForm.miscellaneousDueDate;
+    this._newTermDetails.includeMiscellaneousCheckAndCalculateForPenalty =
+      this._termDetailsForm.includeMiscellaneousCheckAndCalculateForPenalty;
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {
