@@ -535,38 +535,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 _context.Terms.Add(unitTypeIdForRoomNonStudioTypeTermTemplate);
 
                 _context.SaveChanges();
-
-                _context.Entry(unitTypeForRoomStudioTypeTermTemplate).State = EntityState.Detached;
-                _context.Entry(unitTypeForBedSpaceTermTemplate).State = EntityState.Detached;
-                _context.Entry(unitTypeIdForCondoTermTemplate).State = EntityState.Detached;
-                _context.Entry(unitTypeIdForRoomNonStudioTypeTermTemplate).State = EntityState.Detached;
-
-                unitTypeForRoomStudioTypeTermTemplate.Id = 0;
-                unitTypeForBedSpaceTermTemplate.Id = 0;
-                unitTypeIdForCondoTermTemplate.Id = 0;
-                unitTypeIdForRoomNonStudioTypeTermTemplate.Id = 0;
-
-                ResetTermMiscellaneousId(unitTypeForRoomStudioTypeTermTemplate.TermMiscellaneous);
-                ResetTermMiscellaneousId(unitTypeForBedSpaceTermTemplate.TermMiscellaneous);
-                ResetTermMiscellaneousId(unitTypeIdForCondoTermTemplate.TermMiscellaneous);
-                ResetTermMiscellaneousId(unitTypeIdForRoomNonStudioTypeTermTemplate.TermMiscellaneous);
-
-                var unitTypeForRoomStudioTypeTerm = GetTerm("0001");
-                var unitTypeForBedSpaceTerm = GetTerm("0002");
-                var unitTypeIdForCondoTerm = GetTerm("0003");
-                var unitTypeIdForRoomNonStudioTypeTerm = GetTerm("0004");
-
-                unitTypeForRoomStudioTypeTermTemplate.TermParentId = unitTypeForRoomStudioTypeTerm.Id;
-                unitTypeForBedSpaceTermTemplate.TermParentId = unitTypeForBedSpaceTerm.Id;
-                unitTypeIdForCondoTermTemplate.TermParentId = unitTypeIdForCondoTerm.Id;
-                unitTypeIdForRoomNonStudioTypeTermTemplate.TermParentId = unitTypeIdForRoomNonStudioTypeTerm.Id;
-
-                _context.Terms.Add(unitTypeIdForRoomNonStudioTypeTermTemplate);
-                _context.Terms.Add(unitTypeIdForCondoTermTemplate);
-                _context.Terms.Add(unitTypeForBedSpaceTermTemplate);
-                _context.Terms.Add(unitTypeForRoomStudioTypeTermTemplate);
-
-                _context.SaveChanges();
             }
         }
 
@@ -584,6 +552,42 @@ namespace ReserbizAPP.LIB.BusinessLogic
             });
         }
 
+        private Term CloneTermDetails(Term originalTerm)
+        {
+            var newTerm = new Term();
+            newTerm.Id = 0;
+            newTerm.TermParentId = originalTerm.TermParentId;
+            newTerm.Name = originalTerm.Name;
+            newTerm.Code = originalTerm.Code;
+            newTerm.SpaceTypeId = originalTerm.SpaceTypeId;
+            newTerm.Rate = originalTerm.Rate;
+            newTerm.MaximumNumberOfOccupants = originalTerm.MaximumNumberOfOccupants;
+            newTerm.DurationUnit = originalTerm.DurationUnit;
+            newTerm.AdvancedPaymentDurationValue = originalTerm.AdvancedPaymentDurationValue;
+            newTerm.DepositPaymentDurationValue = originalTerm.DepositPaymentDurationValue;
+            newTerm.ExcludeElectricBill = originalTerm.ExcludeElectricBill;
+            newTerm.ElectricBillAmount = originalTerm.ElectricBillAmount;
+            newTerm.ExcludeWaterBill = originalTerm.ExcludeWaterBill;
+            newTerm.WaterBillAmount = originalTerm.WaterBillAmount;
+            newTerm.PenaltyValue = originalTerm.PenaltyValue;
+            newTerm.PenaltyValueType = originalTerm.PenaltyValueType;
+            newTerm.PenaltyAmountPerDurationUnit = originalTerm.PenaltyAmountPerDurationUnit;
+            newTerm.PenaltyEffectiveAfterDurationValue = originalTerm.PenaltyEffectiveAfterDurationValue;
+            newTerm.PenaltyEffectiveAfterDurationUnit = originalTerm.PenaltyEffectiveAfterDurationUnit;
+            newTerm.GenerateAccountStatementDaysBeforeValue = originalTerm.GenerateAccountStatementDaysBeforeValue;
+            newTerm.MiscellaneousDueDate = originalTerm.MiscellaneousDueDate;
+            newTerm.IncludeMiscellaneousCheckAndCalculateForPenalty = originalTerm.IncludeMiscellaneousCheckAndCalculateForPenalty;
+
+            newTerm.TermMiscellaneous = new List<TermMiscellaneous>();
+
+            originalTerm.TermMiscellaneous.ForEach(t =>
+            {
+                newTerm.TermMiscellaneous.Add(t);
+            });
+
+            return newTerm;
+        }
+
         private async Task SeedContracts(Client client)
         {
             if (!_context.Contracts.Any())
@@ -593,11 +597,40 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 var account = _context.Accounts.FirstOrDefault();
 
                 // Setup terms to be used
-                var term1 = terms[4];
-                var term2 = terms[5];
-                var term3 = terms[6];
-                var term4 = terms[7];
+                var unitTypeForRoomStudioTypeTerm = GetTerm("0001");
+                var unitTypeForBedSpaceTerm = GetTerm("0002");
+                var unitTypeIdForCondoTerm = GetTerm("0003");
+                var unitTypeIdForRoomNonStudioTypeTerm = GetTerm("0004");
 
+                _context.Entry(unitTypeForRoomStudioTypeTerm).State = EntityState.Detached;
+                _context.Entry(unitTypeForBedSpaceTerm).State = EntityState.Detached;
+                _context.Entry(unitTypeIdForCondoTerm).State = EntityState.Detached;
+                _context.Entry(unitTypeIdForRoomNonStudioTypeTerm).State = EntityState.Detached;
+
+                unitTypeForRoomStudioTypeTerm.TermParentId = unitTypeForRoomStudioTypeTerm.Id;
+                unitTypeForBedSpaceTerm.TermParentId = unitTypeForBedSpaceTerm.Id;
+                unitTypeIdForCondoTerm.TermParentId = unitTypeIdForCondoTerm.Id;
+                unitTypeIdForRoomNonStudioTypeTerm.TermParentId = unitTypeIdForRoomNonStudioTypeTerm.Id;
+
+                unitTypeForRoomStudioTypeTerm.Id = 0;
+                unitTypeForBedSpaceTerm.Id = 0;
+                unitTypeIdForCondoTerm.Id = 0;
+                unitTypeIdForRoomNonStudioTypeTerm.Id = 0;
+
+                ResetTermMiscellaneousId(unitTypeForRoomStudioTypeTerm.TermMiscellaneous);
+                ResetTermMiscellaneousId(unitTypeForBedSpaceTerm.TermMiscellaneous);
+                ResetTermMiscellaneousId(unitTypeIdForCondoTerm.TermMiscellaneous);
+                ResetTermMiscellaneousId(unitTypeIdForRoomNonStudioTypeTerm.TermMiscellaneous);
+
+                var termForContract1 = CloneTermDetails(unitTypeForRoomStudioTypeTerm);
+                var termForContract2 = CloneTermDetails(unitTypeForRoomStudioTypeTerm);
+                var termForContract3 = CloneTermDetails(unitTypeForBedSpaceTerm);
+                var termForContract4 = CloneTermDetails(unitTypeForBedSpaceTerm);
+                var termForContract5 = CloneTermDetails(unitTypeIdForCondoTerm);
+                var termForContract6 = CloneTermDetails(unitTypeIdForRoomNonStudioTypeTerm);
+                var termForContract7 = CloneTermDetails(unitTypeIdForRoomNonStudioTypeTerm);
+
+                // Set up units to be used
                 var roomStudioType1 = GetUnit("Room 101");
                 var roomStudioType2 = GetUnit("Room 102");
                 var bedSpace1 = GetUnit("Room 103 - Bed Unit 1");
@@ -616,7 +649,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0001",
                     TenantId = tenants[0].Id,
-                    TermId = term1.Id,
+                    Term = termForContract1,
                     EffectiveDate = DateTime.Now.AddMonths(-8).AddDays(15),
                     DurationValue = 12,
                     DurationUnit = DurationEnum.Month,
@@ -630,7 +663,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0002",
                     TenantId = tenants[1].Id,
-                    TermId = term1.Id,
+                    Term = termForContract2,
                     EffectiveDate = DateTime.Now.AddMonths(-5).AddDays(3),
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
@@ -644,7 +677,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0003",
                     TenantId = tenants[2].Id,
-                    TermId = term2.Id,
+                    Term = termForContract3,
                     EffectiveDate = DateTime.Now.AddMonths(-3).AddDays(10),
                     DurationValue = 6,
                     DurationUnit = DurationEnum.Month,
@@ -658,7 +691,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0004",
                     TenantId = tenants[3].Id,
-                    TermId = term2.Id,
+                    Term = termForContract4,
                     EffectiveDate = DateTime.Now.AddMonths(-1).AddDays(2),
                     DurationValue = 4,
                     DurationUnit = DurationEnum.Week,
@@ -672,7 +705,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0005",
                     TenantId = tenants[4].Id,
-                    TermId = term3.Id,
+                    Term = termForContract5,
                     EffectiveDate = DateTime.Now.AddMonths(-6).AddDays(9),
                     DurationValue = 12,
                     DurationUnit = DurationEnum.Month,
@@ -686,7 +719,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0006",
                     TenantId = tenants[2].Id,
-                    TermId = term4.Id,
+                    Term = termForContract6,
                     EffectiveDate = DateTime.Now.AddMonths(-3).AddDays(13),
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
@@ -700,7 +733,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 {
                     Code = "C-0007",
                     TenantId = tenants[1].Id,
-                    TermId = term4.Id,
+                    Term = termForContract7,
                     EffectiveDate = DateTime.Now.AddMonths(-4).AddDays(6),
                     DurationValue = 0,
                     DurationUnit = DurationEnum.None,
