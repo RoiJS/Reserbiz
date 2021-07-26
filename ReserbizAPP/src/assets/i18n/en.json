@@ -800,6 +800,9 @@
         "LABEL": "Miscellneous Settings",
         "MISCELLANEOUS_DUE_DATE_CONTROL": {
           "CONTROL_LABEL": "Miscellaneous Due Date:"
+        },
+        "INCLUDE_CHECK_AND_CALCULATE_FOR_PENALTY_CONTROL": {
+          "CONTROL_LABEL": "Include in Checking and Calculating Penalty:"
         }
       },
       "AUTOMATION_SETTINGS_GROUP": {
@@ -982,6 +985,12 @@
       "LABEL": "PENALTY DETAILS",
       "PENALTY_AMOUNT_PER_DURATION_LABEL": "Penalty Amount Per {0}: {1} {2}",
       "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
+    },
+
+    "MISCELLANEOUS_SETTINGS_DETAILS_GROUP": {
+      "LABEL": "MISCELLANEOUS SETTINGS",
+      "DUE_DATE": "Due Date: {0}",
+      "INCLUDE_IN_PENALTY_VALIDATION_AND_CALCULATION": "Include in Checking and Calculating Penalty"
     },
 
     "AUTOMATION_SETTINGS_DETAILS_GROUP": {
