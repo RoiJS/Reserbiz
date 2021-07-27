@@ -483,12 +483,28 @@ export class ContractEditDetailsComponent
                   await this.termMiscellaneousService.getTermMiscellaneousList(
                     termDetails.id
                   );
+                const originalTermDetails = await this.termService.getTerm(
+                  termDetails.id
+                );
+
+                const termDetailsHasNotChanged =
+                  this.localManageTermService.isSame(originalTermDetails);
+
+                const termMiscellaneousNotHasChanged =
+                  this.localManageTermMiscellaneousService.isSame(
+                    originalTermMiscellaneous
+                  );
+
+                const contractTermHasNotChanged = Boolean(
+                  termDetailsHasNotChanged && termMiscellaneousNotHasChanged
+                );
+
                 try {
                   await this.contractService.manageContract(
                     contractDetails,
                     termDetails,
                     termMiscellaneousList,
-                    originalTermMiscellaneous
+                    contractTermHasNotChanged
                   );
 
                   this.dialogService.alert(

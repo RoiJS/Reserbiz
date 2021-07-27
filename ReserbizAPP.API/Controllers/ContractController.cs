@@ -29,16 +29,18 @@ namespace ReserbizAPP.API.Controllers
 
         private readonly ISpaceTypeRepository<SpaceType> _spaceTypeRepository;
         private readonly ITermRepository<Term> _termRepository;
+        private readonly ITermVersionRepository<TermVersion> _termVersionRepository;
         private readonly ITermMiscellaneousRepository<TermMiscellaneous> _termMiscellaneousRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ContractController(IAccountStatementRepository<AccountStatement> accountStatementRepository,
             IContractRepository<Contract> contractRepository, ITenantRepository<Tenant> tenantRepository,
             ISpaceTypeRepository<SpaceType> spaceTypeRepository, ITermRepository<Term> termRepository,
+            ITermVersionRepository<TermVersion> termVersionRepository,
             ITermMiscellaneousRepository<TermMiscellaneous> termMiscellaneousRepository,
-             IMapper mapper, IPaginationService paginationService,
-             IHttpContextAccessor httpContextAccessor
-            )
+            IMapper mapper, IPaginationService paginationService,
+            IHttpContextAccessor httpContextAccessor
+        )
         {
             _mapper = mapper;
             _accountStatementRepository = accountStatementRepository;
@@ -47,6 +49,7 @@ namespace ReserbizAPP.API.Controllers
             _paginationService = paginationService;
             _spaceTypeRepository = spaceTypeRepository;
             _termRepository = termRepository;
+            _termVersionRepository = termVersionRepository;
             _termMiscellaneousRepository = termMiscellaneousRepository;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -165,16 +168,18 @@ namespace ReserbizAPP.API.Controllers
             return Ok(entityPaginationListDto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateContract(int id, ContractManageDto contractManageDto)
+        [HttpPut("{contractId}/{termId}")]
+        public async Task<IActionResult> UpdateContract(int contractId, int termId, ContractManageDto contractManageDto)
         {
-            var contractFromRepo = await _contractRepository.GetEntity(id)
+            var contractFromRepo = await _contractRepository.GetEntity(contractId)
                                         .ToObjectAsync();
 
             if (contractFromRepo == null)
                 return NotFound("Contract not exists.");
 
             _contractRepository.SetCurrentUserId(CurrentUserId);
+
+            await CheckAndKeepPreviousTermVersion(contractId, termId, contractManageDto);
 
             _mapper.Map(contractManageDto, contractFromRepo);
 
@@ -183,13 +188,10 @@ namespace ReserbizAPP.API.Controllers
 
             if (await _contractRepository.SaveChanges())
             {
-                // Make sure to delete unused term miscellaneous
-                var deletedTermMiscellaneousIds = contractManageDto.Term.DeletedTermMiscellaneous.Select(t => t.Id).ToList();
-                await _termMiscellaneousRepository.DeleteMultipleTermMiscelleneousAsync(deletedTermMiscellaneousIds);
                 return NoContent();
             }
 
-            throw new Exception($"Updating contract information with an id of {id} failed on save.");
+            throw new Exception($"Updating contract information with an id of {contractId} failed on save.");
         }
 
         [HttpGet("getAllContractsPerTenant/{tenantId}")]
@@ -363,6 +365,27 @@ namespace ReserbizAPP.API.Controllers
             var entityPaginationListDto = _paginationService.PaginateEntityListGeneric<ContractPaginationListDto>(mappedContracts, 0);
 
             return Ok(entityPaginationListDto);
+        }
+
+        /// <summary>
+        /// This saves a copy of the previous term assigned on the contract.
+        /// If there are any changes on the term then we create a new copy, this means 
+        /// that the previous term details will be ignored but we will keep a copy 
+        /// of the termIds assigned to the contracts. This is important so we can keep
+        /// track of the versions of the term. This might be useful for future use just in case
+        /// there could be a problem on the generated statement of accounts. 
+        /// </summary>
+        /// <param name="contractId">Contract Id</param>
+        /// <param name="contractManageDto">DTO that contains the contract details including the term and term miscellaneous.</param>
+        /// <returns></returns>
+        private async Task CheckAndKeepPreviousTermVersion(int contractId, int termId, ContractManageDto contractManageDto)
+        {
+            if (contractManageDto.Term.Id == 0)
+            {
+                _termVersionRepository.SetCurrentUserId(CurrentUserId);
+                // Saves the term id of the previous version
+                await _termVersionRepository.AddTermVersion(contractId, termId);
+            }
         }
     }
 }
