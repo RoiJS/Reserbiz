@@ -26,6 +26,7 @@ namespace ReserbizAPP.LIB.DbContexts
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
         public DbSet<Term> Terms { get; set; }
+        public DbSet<TermVersion> TermVersions { get; set; }
         public DbSet<SpaceType> SpaceTypes { get; set; }
         public DbSet<Space> Spaces { get; set; }
         public DbSet<TermMiscellaneous> TermMiscellaneous { get; set; }
@@ -211,7 +212,7 @@ namespace ReserbizAPP.LIB.DbContexts
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_TermMiscellaneous_DeactivatedById_Accounts_AccountId");
             });
-            
+
             modelBuilder.Entity<Contract>(a =>
             {
                 a.HasOne(field => field.CreatedBy)
@@ -234,7 +235,7 @@ namespace ReserbizAPP.LIB.DbContexts
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_Contracts_DeactivatedById_Accounts_AccountId");
             });
-            
+
             modelBuilder.Entity<AccountStatement>(a =>
             {
                 a.HasOne(field => field.CreatedBy)
@@ -257,7 +258,7 @@ namespace ReserbizAPP.LIB.DbContexts
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_AccountStatements_DeactivatedById_Accounts_AccountId");
             });
-            
+
             modelBuilder.Entity<ClientSettings>(a =>
             {
                 a.HasOne(field => field.CreatedBy)
@@ -280,7 +281,7 @@ namespace ReserbizAPP.LIB.DbContexts
                 .HasForeignKey(fk => fk.DeactivatedById)
                 .HasConstraintName("FK_ClientSettings_DeactivatedById_Accounts_AccountId");
             });
-            
+
             modelBuilder.Entity<PaymentBreakdown>(a =>
             {
                 a.HasOne(field => field.CreatedBy)

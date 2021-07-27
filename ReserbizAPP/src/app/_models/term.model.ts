@@ -30,7 +30,6 @@ export class Term extends Entity {
   public waterBillAmount: number;
 
   public termMiscellaneous: TermMiscellaneous[];
-  public deletedTermMiscellaneous: TermMiscellaneous[];
 
   public penaltyValue: number;
   public penaltyAmount: number;
