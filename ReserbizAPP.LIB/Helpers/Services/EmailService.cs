@@ -32,7 +32,7 @@ namespace ReserbizAPP.LIB.Helpers.Services {
 
                 SmtpClient smtpClient = new SmtpClient (_smtp);
                 smtpClient.Port = _smtpPort;
-                smtpClient.EnableSsl = true;
+                smtpClient.EnableSsl = false;
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.Credentials = new NetworkCredential (_smtpServerAddress, _smtpServerPassword);
