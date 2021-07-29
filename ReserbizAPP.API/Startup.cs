@@ -86,6 +86,9 @@ namespace ReserbizAPP.API
             // Register IOptions pattern for EmailServerSettings section
             services.Configure<EmailServerSettings>(Configuration.GetSection("EmailServerSettings"));
 
+            // Register IOptions pattern for DbUserAccountDefaultsSettings section
+            services.Configure<DbUserAccountDefaultsSettings>(Configuration.GetSection("DbUserAccountDefaultsSettings"));
+
             // Register Automapper
             services.AddAutoMapper(typeof(Startup).Assembly);
 
@@ -127,7 +130,7 @@ namespace ReserbizAPP.API
                             throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
                         // Format and configure connection string for the current http request.
-                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBName);
+                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
                         options.UseSqlServer(connectionString);
                     }
 
