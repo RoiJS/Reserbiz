@@ -194,7 +194,7 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
             {
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
-                                _emailServerSettings.Value.SmtpAddress,
+                                _appSettings.Value.SchedulerEmailNotificationSettings.SenderEmailAddress,
                                 _emailServerSettings.Value.SmtpPassword,
                                 _emailServerSettings.Value.SmtpPort
                             );

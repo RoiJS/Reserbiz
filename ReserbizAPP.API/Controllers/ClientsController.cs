@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
+using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -17,14 +19,17 @@ namespace ReserbizAPP.API.Controllers
         private readonly IClientRepository<Client> _clientRepository;
         private readonly IMapper _mapper;
         private readonly IGeneralInformationRepository<GeneralInformation> _generalInformationRepository;
+        private readonly IOptions<DbUserAccountDefaultsSettings> _dbUserAccountDefaultSettings;
 
         public ClientsController(
             IClientRepository<Client> clientRepository,
             IGeneralInformationRepository<GeneralInformation> generalInformationRepository,
+            IOptions<DbUserAccountDefaultsSettings> dbUserAccountDefaultSettings,
             IMapper mapper
         )
         {
             _clientRepository = clientRepository;
+            _dbUserAccountDefaultSettings = dbUserAccountDefaultSettings;
             _generalInformationRepository = generalInformationRepository;
             _mapper = mapper;
         }
@@ -38,7 +43,10 @@ namespace ReserbizAPP.API.Controllers
                 Type = ClientTypeEnum.Regular,
                 Description = clientForRegisterDto.Description,
                 ContactNumber = clientForRegisterDto.ContactNumber,
-                DateJoined = DateTime.Now
+                DateJoined = DateTime.Now,
+                DBServer = _dbUserAccountDefaultSettings.Value.DbServer,
+                DBusername = _dbUserAccountDefaultSettings.Value.DbUsername,
+                DBPassword = _dbUserAccountDefaultSettings.Value.DbPassword,
             };
 
             var userAccount = new UserAccount
@@ -81,7 +89,10 @@ namespace ReserbizAPP.API.Controllers
                 Name = demoForRegisterDto.Name,
                 Type = ClientTypeEnum.Demo,
                 ContactNumber = demoForRegisterDto.ContactNumber,
-                DateJoined = DateTime.Now
+                DateJoined = DateTime.Now,
+                DBServer = _dbUserAccountDefaultSettings.Value.DbServer,
+                DBusername = _dbUserAccountDefaultSettings.Value.DbUsername,
+                DBPassword = _dbUserAccountDefaultSettings.Value.DbPassword,
             };
 
             var userAccount = new UserAccount

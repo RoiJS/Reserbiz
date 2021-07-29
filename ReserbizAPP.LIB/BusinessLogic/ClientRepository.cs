@@ -156,7 +156,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
-                                _emailServerSettings.Value.SmtpAddress,
+                                emailSender,
                                 _emailServerSettings.Value.SmtpPassword,
                                 _emailServerSettings.Value.SmtpPort
                             );

@@ -393,6 +393,22 @@
               ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="includeMiscellaneousCheckAndCalculateForPenalty"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.INCLUDE_CHECK_AND_CALCULATE_FOR_PENALTY_CONTROL.CONTROL_LABEL' | translate"
+            index="1"
+            columnIndex="0"
+            [readOnly]="!(entityFormSource?.miscellaneousDueDate === 1)"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
         </TKPropertyGroup>
 
         <TKPropertyGroup

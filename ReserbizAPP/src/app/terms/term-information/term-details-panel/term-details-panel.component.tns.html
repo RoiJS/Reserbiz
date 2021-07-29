@@ -148,7 +148,7 @@
     </StackLayout>
   </StackLayout>
 
-  <!-- Electric and Water Bill Group -->
+  <!-- Utility Bills Group -->
   <StackLayout class="panel__details-group-panel">
     <!-- Group Header -->
     <StackLayout class="panel__header-section">
@@ -256,6 +256,51 @@
           <label
             class="details-label"
             [text]="currentTerm?.penaltyEffectiveText"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+
+  <!-- Miscellaneous Settings Details Group -->
+  <StackLayout class="panel__details-group-panel">
+    <!-- Group Header -->
+    <StackLayout class="panel__header-section">
+      <label
+        [text]="'TERM_DETAILS_PAGE.MISCELLANEOUS_SETTINGS_DETAILS_GROUP.LABEL' | translate"
+      ></label>
+    </StackLayout>
+    <!-- Group body -->
+    <StackLayout class="panel__body-section">
+      <!-- Due Date -->
+      <StackLayout class="panel__details-section">
+        <FlexBoxLayout
+          class="details-miscellaneous-due-date"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            class="details-label"
+            [text]="currentTerm?.miscellaneousDueDateText"
+          ></label>
+        </FlexBoxLayout>
+      </StackLayout>
+
+      <!-- Include when calculating and checking for penalty -->
+      <StackLayout
+        class="panel__details-section"
+        *ngIf="currentTerm?.includeMiscellaneousCheckAndCalculateForPenalty"
+      >
+        <FlexBoxLayout
+          class="details-include-checking-and-calculating-for-penalty"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <label class="fa fa-solid m-r-5" text="&#xf138;"></label>
+          <label
+            class="details-label"
+            [text]="'TERM_DETAILS_PAGE.MISCELLANEOUS_SETTINGS_DETAILS_GROUP.INCLUDE_IN_PENALTY_VALIDATION_AND_CALCULATION' | translate"
           ></label>
         </FlexBoxLayout>
       </StackLayout>

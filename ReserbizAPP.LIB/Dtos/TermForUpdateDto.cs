@@ -87,6 +87,8 @@ namespace ReserbizAPP.LIB.Dtos
 
         [Required]
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
+        [Required]
+        public bool IncludeMiscellaneousCheckAndCalculateForPenalty { get; set; }
 
     }
 }

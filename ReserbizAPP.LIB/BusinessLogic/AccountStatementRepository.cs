@@ -442,7 +442,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 // Check of the penalty setting is active.
                 if (!accountStatement.IsPenaltySettingActive) continue;
 
-                // Only generate penalties if it valid to do so.
+                // Only generate penalties if it is valid to do so.
                 while (accountStatement.IsValidForGeneratingPenalty)
                 {
                     var newPenaltyItem = RegisterNewPenaltyItem(accountStatement);
@@ -660,7 +660,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 var emailService = new EmailService(
                                 _emailServerSettings.Value.SmtpServer,
-                                _emailServerSettings.Value.SmtpAddress,
+                                _appSettings.Value.AccountStatementNotificationSettings.SenderEmailAddress,
                                 _emailServerSettings.Value.SmtpPassword,
                                 _emailServerSettings.Value.SmtpPort
                             );

@@ -101,13 +101,13 @@ export class ContractService
     contractDetails: Contract,
     termDetails: Term,
     termMiscellaneousList: TermMiscellaneous[],
-    originalTermMiscellaneousList: TermMiscellaneous[] = []
+    contractTermDetailsHasNotChanged: boolean = true
   ): Promise<void> {
     const contractManageDto = this.mapContractDto(
       contractDetails,
       termDetails,
       termMiscellaneousList,
-      originalTermMiscellaneousList
+      contractTermDetailsHasNotChanged
     );
 
     if (contractDetails.id === 0) {
@@ -117,7 +117,7 @@ export class ContractService
     } else {
       return this.http
         .put<void>(
-          `${this._apiBaseUrl}/contract/${contractDetails.id}`,
+          `${this._apiBaseUrl}/contract/${contractDetails.id}/${termDetails.id}`,
           contractManageDto
         )
         .toPromise();
@@ -128,7 +128,7 @@ export class ContractService
     contractDetails: Contract,
     termDetails: Term,
     termMiscellaneousList: TermMiscellaneous[],
-    originalTermMiscellaneousList: TermMiscellaneous[]
+    contractTermDetailsHasNotChanged: boolean
   ): ContractDto {
     const isNewContract = contractDetails.id === 0;
 
@@ -147,7 +147,9 @@ export class ContractService
       contractDetails.includePenaltyAmount
     );
 
-    if (!isNewContract) {
+    // Check if contract is not new and there have no changes
+    // on the term details including the term miscellaneous list
+    if (!isNewContract && contractTermDetailsHasNotChanged) {
       contractManageDto.term.id = termDetails.id;
     }
 
@@ -179,12 +181,16 @@ export class ContractService
       termDetails.generateAccountStatementDaysBeforeValue;
     contractManageDto.term.miscellaneousDueDate =
       termDetails.miscellaneousDueDate;
+    contractManageDto.term.includeMiscellaneousCheckAndCalculateForPenalty =
+      termDetails.includeMiscellaneousCheckAndCalculateForPenalty;
 
     contractManageDto.term.termMiscellaneous = termMiscellaneousList.map(
       (tm: TermMiscellaneous) => {
         const termMiscellaneous = new TermMiscellaneous();
 
-        if (!isNewContract && tm.id > 0) {
+        // Check if the contract is not new, no changes on the term details
+        // including term miscellaneous and term miscellaneous id is not 0.
+        if (!isNewContract && contractTermDetailsHasNotChanged && tm.id > 0) {
           termMiscellaneous.id = tm.id;
         }
 
@@ -194,24 +200,6 @@ export class ContractService
         return termMiscellaneous;
       }
     );
-
-    contractManageDto.term.deletedTermMiscellaneous = [];
-
-    originalTermMiscellaneousList.forEach((tm: TermMiscellaneous) => {
-      const termMiscellaneous = new TermMiscellaneous();
-
-      const index = contractManageDto.term.termMiscellaneous.findIndex(
-        (t) => t.id === tm.id
-      );
-
-      if (index < 0) {
-        termMiscellaneous.id = tm.id;
-        termMiscellaneous.name = tm.name;
-        termMiscellaneous.description = tm.description;
-        termMiscellaneous.amount = tm.amount;
-        contractManageDto.term.deletedTermMiscellaneous.push(termMiscellaneous);
-      }
-    });
 
     return contractManageDto;
   }
