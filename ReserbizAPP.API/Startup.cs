@@ -93,6 +93,7 @@ namespace ReserbizAPP.API
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Database connection to Reserbiz System Database
+            Console.WriteLine(Configuration.GetConnectionString("ReserbizDBConnection"));
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
             // Database connection to any Reserbiz Client Databases
@@ -130,8 +131,8 @@ namespace ReserbizAPP.API
                             throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
                         // Format and configure connection string for the current http request.
-                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
-                        options.UseSqlServer(connectionString);
+                        var clientConnectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
+                        options.UseSqlServer(clientConnectionString);
                     }
 
                 });
@@ -248,7 +249,7 @@ namespace ReserbizAPP.API
                 endpoints.MapHub<ReserbizMainHub>("websocket/reserbizMainHub");
             });
 
-            //Add hangfire built-in dashboard
+            // Add hangfire built-in dashboard
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorizationFilter() }
