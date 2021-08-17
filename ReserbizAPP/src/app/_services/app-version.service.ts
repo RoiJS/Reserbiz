@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 
-const appversion = require('nativescript-appversion');
+import * as appversion from "@nativescript/appversion";
 
 @Injectable({
   providedIn: 'root',
