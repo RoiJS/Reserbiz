@@ -26,6 +26,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
         private readonly IOptions<ApplicationSettings> _appSettings;
         private readonly IOptions<EmailServerSettings> _emailServerSettings;
         private readonly ITenantRepository<Tenant> _tenantRepository;
+        private readonly INotificationRepository<Notification> _notificationRepository;
+        private readonly IUserNotificationRepository<UserNotification> _userNotificationRepository;
+        private readonly IGenerateAccountStatementNotificationRepository<GeneratedAccountStatementNotification> _generateAccountStatementNotificationRepository;
+        private readonly IAccountRepository<Account> _accountRepository;
         private readonly IOptions<SMSAPISettings> _smsApiSettings;
 
         public AccountStatementRepository(
@@ -36,15 +40,23 @@ namespace ReserbizAPP.LIB.BusinessLogic
             IOptions<ApplicationSettings> appSettings,
             IOptions<EmailServerSettings> emailServerSettings,
             IOptions<SMSAPISettings> smsApiSettings,
-            ITenantRepository<Tenant> tenantRepository) : base(reserbizRepository, reserbizRepository.ClientDbContext)
+            ITenantRepository<Tenant> tenantRepository,
+            INotificationRepository<Notification> notificationRepository,
+            IUserNotificationRepository<UserNotification> userNotificationRepository,
+            IGenerateAccountStatementNotificationRepository<GeneratedAccountStatementNotification> generateAccountStatementNotificationRepository,
+            IAccountRepository<Account> accountRepository) : base(reserbizRepository, reserbizRepository.ClientDbContext)
         {
             _appSettings = appSettings;
+            _accountRepository = accountRepository;
             _emailServerSettings = emailServerSettings;
             _smsApiSettings = smsApiSettings;
             _paymentBreakdownRepository = paymentBreakdownRepository;
             _contractRepository = contractRepository;
             _clientSettingsRepository = clientSettingsRepository;
             _tenantRepository = tenantRepository;
+            _notificationRepository = notificationRepository;
+            _userNotificationRepository = userNotificationRepository;
+            _generateAccountStatementNotificationRepository = generateAccountStatementNotificationRepository;
         }
 
         public AccountStatementRepository() : base()
@@ -892,7 +904,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
                     data.Add("url", $"contracts/{contract.Id}/account-statement/{accountStatement.Id}");
 
+                    // Broacast notification
                     await fireBasePushNotificationService.Send(notificationTitle, notificationBody, data);
+
+                    // Register notification on database
+                    await RegisterNotification(accountStatementDate, accountStatement.Id, contract.Id, contract.TenantId);
                 }
                 catch (Exception ex)
                 {
@@ -961,6 +977,41 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 };
 
                 newContractAccountStatement.PaymentBreakdowns.Add(paymentForMiscellaneousFees);
+            }
+        }
+
+        private async Task RegisterNotification(string accountStatementDate, int accountStatementId, int contractId, int tenantId)
+        {
+            var accounts = await _accountRepository.GetAllActiveUsers();
+            var accountStatementNotification = new GeneratedAccountStatementNotification
+            {
+                AccountStatementDateTime = Convert.ToDateTime(accountStatementDate),
+                AccountStatementId = accountStatementId,
+                ContractId = contractId,
+                TenantId = tenantId
+            };
+
+            var accountStatementNotificationService = new AccountStatementNotificationService(_generateAccountStatementNotificationRepository, accountStatementNotification);
+            var notificationId = await _notificationRepository.Register(accountStatementNotificationService);
+
+            // We will only send the notification to all active administrator accounts
+            foreach (var account in accounts)
+            {
+                try
+                {
+                    var userNotification = new UserNotification
+                    {
+                        NotificationId = notificationId,
+                        UserId = account.Id,
+                        UserType = UserTypeEnum.Administrator
+                    };
+
+                    await _userNotificationRepository.Register(userNotification);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error registering notification for user {account.Id}. Error Message: {ex.Message}");
+                }
             }
         }
     }

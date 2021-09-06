@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210901172648_IntroducedNotificationsTable")]
+    partial class IntroducedNotificationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -602,6 +604,15 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int");
 
                     b.Property<int>("NotificationTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ReadStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1220,50 +1231,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.ToTable("TermVersions");
                 });
 
-            modelBuilder.Entity("ReserbizAPP.LIB.Models.UserNotification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateDeactivated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateDeleted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NotificationId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("ReadStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotificationId");
-
-                    b.ToTable("UserNotifications");
-                });
-
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>
                 {
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
@@ -1786,17 +1753,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Navigation("Contract");
 
                     b.Navigation("Term");
-                });
-
-            modelBuilder.Entity("ReserbizAPP.LIB.Models.UserNotification", b =>
-                {
-                    b.HasOne("ReserbizAPP.LIB.Models.Notification", "Notification")
-                        .WithMany()
-                        .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Notification");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>

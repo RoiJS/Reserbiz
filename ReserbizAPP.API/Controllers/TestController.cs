@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -8,6 +7,7 @@ using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
+using Microsoft.Extensions.Localization;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -18,14 +18,17 @@ namespace ReserbizAPP.API.Controllers
         private readonly IClientRepository<Client> _clientRepository;
         private readonly ITestRepository<IEntity> _testRepository;
         private readonly IOptions<ApplicationSettings> _appSettings;
+        private readonly IStringLocalizer _stringLocalizer;
 
         public TestController(
             IClientRepository<Client> clientRepository,
             ITestRepository<IEntity> testRepository,
-            IOptions<ApplicationSettings> appSettings
+            IOptions<ApplicationSettings> appSettings,
+            IStringLocalizer stringLocalizer
         )
         {
             _appSettings = appSettings;
+            _stringLocalizer = stringLocalizer;
             _clientRepository = clientRepository;
             _testRepository = testRepository;
         }
@@ -65,6 +68,13 @@ namespace ReserbizAPP.API.Controllers
         {
             await _testRepository.SendPushNotification();
             return Ok();
+        }
+
+        [HttpGet("getLocalizeText")]
+        public string GetLocalizeText()
+        {
+            var text = _stringLocalizer["SampleText"].Value;
+            return text;
         }
     }
 }

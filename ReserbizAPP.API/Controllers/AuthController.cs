@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using ReserbizAPP.API.Helpers.Interfaces;
 using ReserbizAPP.API.Hubs;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
@@ -252,7 +253,8 @@ namespace ReserbizAPP.API.Controllers
                 new Claim (ReserbizClaimTypes.LastName, user.LastName),
                 new Claim (ReserbizClaimTypes.Gender, ((int)user.Gender).ToString()),
                 new Claim (ReserbizClaimTypes.Username, user.Username),
-                new Claim (ReserbizClaimTypes.EmailAddress, user.EmailAddress)
+                new Claim (ReserbizClaimTypes.EmailAddress, user.EmailAddress),
+                new Claim (ReserbizClaimTypes.UserType, ((int)UserTypeEnum.Administrator).ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.GeneralSettings.Token));
