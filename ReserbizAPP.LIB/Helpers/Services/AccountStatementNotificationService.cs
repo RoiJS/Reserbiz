@@ -23,7 +23,7 @@ namespace ReserbizAPP.LIB.Helpers.Services
         {
             get
             {
-                return "AccountStatementNotificationFormatIdentifier";
+                return "account_statement_notification_message";
             }
         }
 
@@ -58,7 +58,7 @@ namespace ReserbizAPP.LIB.Helpers.Services
                                                                 .FirstOrDefaultAsync();
 
             var contractFromRepo = await reserbizRepository.ClientDbContext.Contracts
-                .Where(c => c.Id == accountStatementNotificationFromRepo.Id)
+                .Where(c => c.Id == accountStatementNotificationFromRepo.ContractId)
                 .AsQueryable()
                 .Includes(
                     c => c.AccountStatements,
@@ -81,6 +81,38 @@ namespace ReserbizAPP.LIB.Helpers.Services
             var notificationUrl = String.Format("contracts/{0}/account-statement/{1}", accountStatementNotificationFromRepo.ContractId, accountStatementNotificationFromRepo.AccountStatementId);
 
             return notificationUrl;
+        }
+
+        public async Task MarkItemAsRead(IReserbizRepository<Entity> reserbizRepository, int itemId, int currentUserId, UserTypeEnum currentUserType)
+        {
+
+            // Get unread user notification for a particular statement of account.
+            var unreadNotification = await (from un in reserbizRepository.ClientDbContext.UserNotifications
+
+                                            join n in reserbizRepository.ClientDbContext.Notifications
+                                            on un.NotificationId equals n.Id
+
+                                            join gan in reserbizRepository.ClientDbContext.GeneratedAccountStatementNotifications
+                                            on n.NotificationTypeId equals gan.Id
+
+                                            where un.UserId == currentUserId &&
+                                            un.UserType == currentUserType &&
+                                            n.NotificationType == NotificationTypeEnum.AccountStatement &&
+                                            gan.AccountStatementId == itemId &&
+                                            un.ReadStatus == false
+
+                                            select new
+                                            {
+                                                UserNotification = un,
+                                            }).FirstOrDefaultAsync();
+
+            if (unreadNotification != null)
+            {
+                // Mark the notification to read status.
+                unreadNotification.UserNotification.ReadStatus = true;
+
+                await reserbizRepository.ClientDbContext.SaveChangesAsync();
+            }
         }
     }
 }

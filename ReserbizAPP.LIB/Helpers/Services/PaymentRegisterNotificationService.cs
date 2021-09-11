@@ -56,5 +56,10 @@ namespace ReserbizAPP.LIB.Helpers.Services
         {
             throw new System.NotImplementedException();
         }
+
+        public Task MarkItemAsRead(IReserbizRepository<Entity> reserbizRepository, int itemId, int currentUserId, UserTypeEnum CurrentUserType)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

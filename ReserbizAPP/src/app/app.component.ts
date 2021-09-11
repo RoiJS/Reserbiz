@@ -42,12 +42,13 @@ import { PushNotificationService } from './_services/push-notification.service';
 import { SideDrawerService } from './_services/side-drawer.service';
 import { SettingsService } from './_services/settings.service';
 import { UIService } from './_services/ui.service';
+import { StorageService } from './_services/storage.service';
+import { UserNotificationService } from './_services/user-notification.service';
 
 import { MainMenu } from './_models/main-menu.model';
 import { Settings } from './_models/settings.model';
 
 import { environment } from '@src/environments/environment';
-import { StorageService } from './_services/storage.service';
 
 // Import Websocket to be able to use SignalR
 declare var require;
@@ -77,6 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private _sideDrawerTransition: DrawerTransitionBase;
 
   private signalrCore: SignalrCore;
+  private _userNotificationUnreadCount = 0;
 
   constructor(
     private authService: AuthService,
@@ -94,6 +96,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private uiService: UIService,
     private vcRef: ViewContainerRef,
     private translate: TranslateService,
+    private userNotificationService: UserNotificationService,
     private zone: NgZone
   ) {
     this.signalrCore = new SignalrCore();
@@ -112,6 +115,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.initUserInfoSubscriptions();
       await this.settingsService.getSettingsDetails();
+      await this.setUserNotificationUnreadCount();
     })();
 
     this.monitorInternetConnectivity();
@@ -183,6 +187,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           console.error('Error on connecting to ReserbizMainHub.');
         }
       );
+  }
+
+  private async setUserNotificationUnreadCount() {
+    this.userNotificationService.unreadNotificationCount.subscribe(
+      (count: number) => {
+        this._userNotificationUnreadCount = count;
+      }
+    );
+
+    this.userNotificationService.checkNotificationUpdate();
   }
 
   private initBroadCastSystemUpdateStatus() {
@@ -299,7 +313,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
               // Check if the system is currently under system update
               if (generalInformation.systemUpdateStatus) {
-                // Auto-logout the user during system update.
                 this.authService.logout('/system-update');
               }
             })();
@@ -330,5 +343,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get appVersion(): string {
     return this.appVersionService.appVersion;
+  }
+
+  get userNotificationUnreadCount(): string {
+    return this._userNotificationUnreadCount > 99
+      ? '99+'
+      : this._userNotificationUnreadCount.toString();
   }
 }

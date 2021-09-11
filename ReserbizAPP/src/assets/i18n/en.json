@@ -7,6 +7,7 @@
     "SPACES": "Units",
     "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings",
     "DOCUMENTATION": "Documentation",
     "SIGN_OUT": "Sign out"
@@ -1538,7 +1539,29 @@
           "TOTAL_PAID_AMOUNT": "Total Paid Amount",
           "TOTAL_UNPAID_AMOUNT": "Total Unpaid Amount"
         }
+      },
+      "UNREAD_NOTIFICATION_COUNT_WIDGET": {
+        "MAIN_LABEL_1": "You have",
+        "MAIN_LABEL_2": "unread Notifications"
       }
+    }
+  },
+
+  "NOTIFICATION_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Notifications"
+    },
+    "EMPTY_NOTIFICATION_LIST": "No Available Notifications"
+  },
+
+  "NOTIFICATION_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Notification Filter"
+    },
+    "BODY_SECTION": {
+      "FROM_DATE_LABEL": "From Date:",
+      "TO_DATE_LABEL": "To Date:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   }
 }

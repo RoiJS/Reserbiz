@@ -598,6 +598,12 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<int>("NotificationFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationFromType")
+                        .HasColumnType("int");
+
                     b.Property<int>("NotificationType")
                         .HasColumnType("int");
 

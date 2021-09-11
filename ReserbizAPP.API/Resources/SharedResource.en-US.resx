@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountStatementNotificationFormatIdentifier" xml:space="preserve">
+  <data name="account_statement_notification_message" xml:space="preserve">
     <value>New statement of account generated for customer {0} for {1} ({2})</value>
+  </data>
+  <data name="reserbiz_label" xml:space="preserve">
+    <value>Reserbiz</value>
+  </data>
+  <data name="today_label" xml:space="preserve">
+    <value>Today</value>
   </data>
 </root>

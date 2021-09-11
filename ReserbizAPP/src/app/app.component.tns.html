@@ -19,7 +19,7 @@
       <StackLayout>
         <GridLayout
           *ngFor="let menu of mainMenuList"
-          columns="auto, *"
+          columns="auto, *, 60"
           class="nt-drawer__list-item sidedrawer-list-item"
           [class.menu-separator]="menu.hasSeparator"
           [class.selected]="isComponentSelected(menu.url)"
@@ -31,6 +31,12 @@
             class="fa fa-regular fa-solid"
           ></label>
           <label col="1" [text]="menu.text | translate" class="p-r-10"></label>
+          <label
+            class="badge-count"
+            col="2"
+            *ngIf="menu.text === 'MAIN_MENU.NOTIFICATIONS' && userNotificationUnreadCount > 0"
+            [text]="userNotificationUnreadCount"
+          ></label>
         </GridLayout>
         <GridLayout
           columns="auto, *"

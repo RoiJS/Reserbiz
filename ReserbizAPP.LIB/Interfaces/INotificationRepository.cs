@@ -6,6 +6,6 @@ namespace ReserbizAPP.LIB.Interfaces
     public interface INotificationRepository<TEntity>
          : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
-        Task<int> Register(IBaseNotificationService baseNotificationService);
+        Task<int> Register(IBaseNotificationService baseNotificationService, int notificationFromId, NotificationFromTypeEnum notificationFromType);
     }
 }

@@ -81,6 +81,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 DurationUnit = contractTerm.DurationUnit,
                 ElectricBill = electricBill,
                 WaterBill = waterBill,
+                ExcludeElectricBill = contractTerm.ExcludeElectricBill,
+                ExcludeWaterBill = contractTerm.ExcludeWaterBill,
                 PenaltyValue = contractTerm.PenaltyValue,
                 AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
                 DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
@@ -992,7 +994,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             };
 
             var accountStatementNotificationService = new AccountStatementNotificationService(_generateAccountStatementNotificationRepository, accountStatementNotification);
-            var notificationId = await _notificationRepository.Register(accountStatementNotificationService);
+            var notificationId = await _notificationRepository.Register(accountStatementNotificationService, 0, NotificationFromTypeEnum.ReserbizSystem);
 
             // We will only send the notification to all active administrator accounts
             foreach (var account in accounts)

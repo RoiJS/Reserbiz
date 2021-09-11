@@ -12,5 +12,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task Register(UserNotification userNotification);
         Task<List<UserNotificationForListDto>> GetUserNotificationAsync(int userId, UserTypeEnum userType);
         List<UserNotificationForListDto> GetFilteredUserNotifications(IList<UserNotificationForListDto> unfilteredUserNotifications, IUserNotificationFilter userNotificationFilter);
+        Task<int> GetUnreadNotificationsCount();
     }
 }

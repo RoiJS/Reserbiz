@@ -11,5 +11,6 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<int> Register();
         Task<string> ConvertNotificationDetailsToText(IReserbizRepository<Entity> reserbizRepository, string textFormat, int notificationTypeId);
         Task<string> GenerateNotificationUrl(IReserbizRepository<Entity> reserbizRepository, int notificationTypeId);
+        Task MarkItemAsRead(IReserbizRepository<Entity> reserbizRepository, int itemId, int currentUserId, UserTypeEnum currentUserType);
     }
 }

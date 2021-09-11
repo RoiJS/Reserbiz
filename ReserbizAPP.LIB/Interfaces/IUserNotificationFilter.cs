@@ -4,6 +4,7 @@ namespace ReserbizAPP.LIB.Interfaces
 {
     public interface IUserNotificationFilter : IEntityFilter
     {
-        DateTime NotificationDateTime { get; set; }
+        DateTime FromDate { get; set; }
+        DateTime ToDate { get; set; }
     }
 }
