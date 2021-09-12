@@ -387,6 +387,22 @@ export class SidedrawerService {
         url: '/profile',
       },
       {
+        name: 'MAIN_MENU.NOTIFICATIONS',
+        url: '/notifications',
+        children: [
+          {
+            name: 'NOTIFICATION_PAGE.BODY.OVERVIEW_SECTION.TITLE',
+            url: '/notifications',
+            fragment: 'overview-section',
+          },
+          {
+            name: 'NOTIFICATION_PAGE.BODY.FILTER_NOTIFICATION_SECTION.TITLE',
+            url: '/notifications',
+            fragment: 'filter-notification-section',
+          },
+        ],
+      },
+      {
         name: 'MAIN_MENU.SETTINGS',
         url: '/settings',
       },

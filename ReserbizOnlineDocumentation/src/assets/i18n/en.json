@@ -14,6 +14,7 @@
     "PAYMENTS": "Payments",
     "PENALTIES": "Penalties",
     "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings"
   },
 
@@ -147,6 +148,10 @@
       "OVERVIEW_SECTION": {
         "TITLE": "Overview",
         "DESCRIPTION": "<p>This page contains what we called “widgets” that contains some of the important summary information that the app has which is helpful to the user administrator of the app. This contains some information like the number of active tenants, number of available units, number of active contracts and more. You can see below more details about each of these available widgets.</p>"
+      },
+      "UNREAD_NOTIFICATION_COUNT_WIDGET_SECTION": {
+        "TITLE": "Unread Notification Count Widget",
+        "DESCRIPTION": "<p>This contains the number of unread notifications available on the user’s account. Tapping on this widget, user will be redirected to the notification list page.</p>"
       },
       "ACTIVE_TENANTS_WIDGET_SECTION": {
         "TITLE": "Active Tenants Widget",
@@ -1008,6 +1013,24 @@
         "DESCRIPTION_1": "<p>This page contains some global configuration for the system. This page contains panel called General Settings.</p>",
         "DESCRIPTION_2": "<p>General Settings panel contains single setting called Business Name. This business name is used on the SMS and the email when sending statement of account details to the tenant. See <a href='/contracts/statement-of-accounts#send-statement-of-account-details-section'>Send Statement of Account Details</a> section.</p>",
         "DESCRIPTION_3": "<p>To save changes, tap the save button on the toolbar section.</p>"
+      }
+    }
+  },
+
+  "NOTIFICATION_PAGE": {
+    "HEADER": {
+      "TITLE": "Notifications"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This page contains the list of all notifications received by the user.</p>",
+        "DESCRIPTION_2": "<p>By clicking a specific notification item from the list, the user will be redirected to the page that corresponds to the notification item.</p>"
+      },
+      "FILTER_NOTIFICATION_SECTION": {
+        "TITLE": "Filter Notifications",
+        "DESCRIPTION_1": "<p>Notification list can also be filtered through the filter dialog. By clicking the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon1.png'/>, a dialog filter will pop up containing filter settings.</p>",
+        "DESCRIPTION_2": "<p>Filter settings will be remembered the next time that user will re-visit this page.</p>"
       }
     }
   },
