@@ -1,0 +1,41 @@
+<StackLayout *ngIf="actualEntityCount > 0" class="dashboard-container__widget-panel">
+  <ns-loader-layout [busy]="isBusy">
+    <FlexboxLayout
+      class="dashboard-container__unread-notification-count-widget-container"
+    >
+      <GridLayout
+        class="dashboard-container__widget-content-section"
+        rows="*"
+        columns="50, *"
+        (tap)="goToNotificationPage()"
+      >
+        <StackLayout row="0" col="0" class="notification-icon-container m-r-10">
+          <label
+            horizontalAlignment="center"
+            class="fa fa-solid"
+            text="&#xf0f3;"
+          ></label>
+        </StackLayout>
+        <StackLayout
+          row="0"
+          col="1"
+          class="m-r-10 notification-text-container"
+          orientation="horizontal"
+          verticalAlignment="middle"
+        >
+          <label
+            class="m-r-5"
+            [text]="'DASHBOARD.BODY_SECTION.UNREAD_NOTIFICATION_COUNT_WIDGET.MAIN_LABEL_1' | translate"
+          ></label>
+          <label
+            class="m-r-5 notification-counter-label"
+            [text]="entityCount"
+          ></label>
+          <label
+            [text]="'DASHBOARD.BODY_SECTION.UNREAD_NOTIFICATION_COUNT_WIDGET.MAIN_LABEL_2' | translate"
+          ></label>
+        </StackLayout>
+      </GridLayout>
+    </FlexboxLayout>
+  </ns-loader-layout>
+</StackLayout>

@@ -27,6 +27,22 @@
 
       <section id="active-tenants-widget-section">
         <span class="sub-title">{{
+          "DASHBAORD_PAGE.BODY.UNREAD_NOTIFICATION_COUNT_WIDGET_SECTION.TITLE" | translate
+        }}</span>
+        <div
+          class="content-description"
+          [innerHTML]="
+            'DASHBAORD_PAGE.BODY.UNREAD_NOTIFICATION_COUNT_WIDGET_SECTION.DESCRIPTION'
+              | translate
+          "
+        ></div>
+        <div class="image-container">
+          <img src="../../assets/images/dashboard/unread-notification-count-widget.png" />
+        </div>
+      </section>
+
+      <section id="active-tenants-widget-section">
+        <span class="sub-title">{{
           "DASHBAORD_PAGE.BODY.ACTIVE_TENANTS_WIDGET_SECTION.TITLE" | translate
         }}</span>
         <div

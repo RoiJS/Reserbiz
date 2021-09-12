@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.Interfaces;
-using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.BusinessLogic
 {

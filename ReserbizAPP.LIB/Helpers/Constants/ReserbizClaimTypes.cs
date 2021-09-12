@@ -1,3 +1,5 @@
+using ReserbizAPP.LIB.Enums;
+
 namespace ReserbizAPP.LIB.Helpers
 {
     public static class ReserbizClaimTypes
@@ -8,6 +10,7 @@ namespace ReserbizAPP.LIB.Helpers
         public const string Gender = "gender";
         public const string Username = "username";
         public const string EmailAddress = "emailAddress";
+        public const string UserType = "userType";
         public const string DateCreated = "dateCreated";
     }
 }

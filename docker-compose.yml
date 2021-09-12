@@ -1,0 +1,45 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  # SQL Server 2019 Service
+  reserbiz-db-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: "reserbiz_db_server_container"
+    environment: 
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Gewq!4u2"
+        MSSQL_PID: "Express"
+    ports: 
+        - "9153:1433"
+    volumes: 
+        - /d/Database:/var/opt/mssql/data
+
+  # Reserbiz Web API Service (.NET Core API)
+  reserbiz-web-api:
+    image: reserbiz/web-api
+    container_name: "reserbiz_web_api_container"
+    build:
+      context: .
+      dockerfile: ReserbizAPP.API/Dockerfile
+    ports:
+      - 9152:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on: 
+      - reserbiz-db-server
+
+  # Reserbiz Online documentation (Angular Application)
+  reserbiz-online-documentation:
+    image: reserbiz/online-documentation
+    build:
+      context: .
+      dockerfile: ReserbizOnlineDocumentation/Dockerfile
+    ports:
+      - '8080:80' # Port for ngix server (Production)
+    volumes:
+      - '/app/node_modules'
+      - '.:/app'
+
+  

@@ -10,6 +10,7 @@ using ReserbizAPP.LIB.Models;
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using Microsoft.AspNetCore.Http;
+using ReserbizAPP.LIB.Helpers.Services;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -24,13 +25,15 @@ namespace ReserbizAPP.API.Controllers
         private readonly IAccountStatementRepository<AccountStatement> _accountStatementRepository;
         private readonly IPaginationService _paginationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IReserbizRepository<Entity> _genericReserbizRepository;
 
         public AccountStatementController(
             IAccountStatementRepository<AccountStatement> accountStatementRepository,
             ITenantRepository<Tenant> tenantRepository,
             IContractRepository<Contract> contractRepository,
             IMapper mapper, IPaginationService paginationService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IReserbizRepository<Entity> genericReserbizRepository)
         {
             _mapper = mapper;
             _tenantRepository = tenantRepository;
@@ -38,6 +41,7 @@ namespace ReserbizAPP.API.Controllers
             _accountStatementRepository = accountStatementRepository;
             _paginationService = paginationService;
             _httpContextAccessor = httpContextAccessor;
+            _genericReserbizRepository = genericReserbizRepository;
         }
 
         [HttpGet("{id}")]
@@ -49,6 +53,11 @@ namespace ReserbizAPP.API.Controllers
                 return NotFound("Account Statement not found.");
 
             var accountStatementToReturn = _mapper.Map<AccountStatementDetailsDto>(accountStatementFromRepo);
+
+            // Make sure to check if there is an unread user notification for this statement of account, 
+            // If so, then mark it as read status.
+            var accountStatementNotificationService = new AccountStatementNotificationService();
+            await accountStatementNotificationService.MarkItemAsRead(_genericReserbizRepository, id, CurrentUserId, CurrentUserType);
 
             return Ok(accountStatementToReturn);
         }

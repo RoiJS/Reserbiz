@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  reserbiz-online-documentation:
+    image: reserbiz/online-documentation
+    build: .
+    ports:
+      - "8080:80"
+      - "4200:4200"
+      - "49153:49153"
+    volumes:
+      - "/app/node_modules"
+      - ".:/app"

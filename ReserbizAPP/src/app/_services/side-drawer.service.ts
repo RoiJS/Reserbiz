@@ -45,11 +45,16 @@ export class SideDrawerService {
         url: '/contracts',
         hasSeparator: false,
       },
-
       {
         text: 'MAIN_MENU.PROFILE',
         icon: String.fromCharCode(0xf2bd),
         url: '/profile',
+        hasSeparator: false,
+      },
+      {
+        text: 'MAIN_MENU.NOTIFICATIONS',
+        icon: String.fromCharCode(0xf0f3),
+        url: '/notifications',
         hasSeparator: false,
       },
       {

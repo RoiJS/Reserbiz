@@ -15,6 +15,7 @@ import { UpcomingContractDueDatesCountBadgeComponent } from './upcoming-contract
 import { UnpaidAccountStatementsWidgetComponent } from './unpaid-account-statements-widget/unpaid-account-statements-widget.component';
 import { UnpaidAccountStatementsCountBadgeComponent } from './unpaid-account-statements-widget/unpaid-account-statements-count-badge/unpaid-account-statements-count-badge.component';
 import { UnpaidAccountStatementsListComponent } from './unpaid-account-statements-widget/unpaid-account-statements-list/unpaid-account-statements-list.component';
+import { UnreadNotificationCountWidgetComponent } from './unread-notification-count-widget/unread-notification-count-widget.component';
 
 @NgModule({
   imports: [SharedModule, DashboardRoutingModule],
@@ -31,6 +32,7 @@ import { UnpaidAccountStatementsListComponent } from './unpaid-account-statement
     UnpaidAccountStatementsCountBadgeComponent,
     UnpaidAccountStatementsListComponent,
     AccountStatementsAmountSummaryComponent,
+    UnreadNotificationCountWidgetComponent,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

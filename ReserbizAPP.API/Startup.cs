@@ -25,6 +25,11 @@ using Hangfire;
 using Hangfire.SqlServer;
 using ReserbizAPP.API.Helpers.Filters;
 using ReserbizAPP.API.Helpers.Extensions;
+using System.Collections.Generic;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Localization;
 
 namespace ReserbizAPP.API
 {
@@ -66,6 +71,10 @@ namespace ReserbizAPP.API
             services.AddScoped(typeof(IClientSettingsRepository<ClientSettings>), typeof(ClientSettingsRepository));
             services.AddScoped(typeof(IPaymentBreakdownRepository<PaymentBreakdown>), typeof(PaymentBreakdownRepository));
             services.AddScoped(typeof(IPenaltyBreakdownRepository<PenaltyBreakdown>), typeof(PenaltyBreakdownRepository));
+            services.AddScoped(typeof(INotificationRepository<Notification>), typeof(NotificationRepository));
+            services.AddScoped(typeof(IUserNotificationRepository<UserNotification>), typeof(UserNotificationRepository));
+            services.AddScoped(typeof(IGenerateAccountStatementNotificationRepository<GeneratedAccountStatementNotification>), typeof(GenerateAccountStatementNotificationRepository));
+            services.AddScoped(typeof(IPaymentRegisterNotificationRepository<PaymentRegisterNotification>), typeof(PaymentRegisterNotificationRepository));
             services.AddScoped(typeof(IErrorLogRepository<ErrorLog>), typeof(ErrorLogRepository));
             services.AddScoped(typeof(IRefreshTokenRepository<RefreshToken>), typeof(RefreshTokenRepository));
             services.AddScoped(typeof(IDataSeedRepository<IEntity>), typeof(DataSeedRepository));
@@ -93,6 +102,7 @@ namespace ReserbizAPP.API
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Database connection to Reserbiz System Database
+            Console.WriteLine(Configuration.GetConnectionString("ReserbizDBConnection"));
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
             // Database connection to any Reserbiz Client Databases
@@ -130,12 +140,30 @@ namespace ReserbizAPP.API
                             throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
                         // Format and configure connection string for the current http request.
-                        var connectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
-                        options.UseSqlServer(connectionString);
+                        var clientConnectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
+                        options.UseSqlServer(clientConnectionString);
                     }
 
                 });
             }
+
+            #region "Localization Services"
+            // Register localization feature
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+            services.AddScoped<IStringLocalizer, StringLocalizer<SharedResource>>();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                List<CultureInfo> supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            #endregion
+
 
             services.AddMvc().AddNewtonsoftJson(opt =>
             {
@@ -248,7 +276,10 @@ namespace ReserbizAPP.API
                 endpoints.MapHub<ReserbizMainHub>("websocket/reserbizMainHub");
             });
 
-            //Add hangfire built-in dashboard
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+
+            // Add hangfire built-in dashboard
             app.UseHangfireDashboard("/hangfire", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthorizationFilter() }
