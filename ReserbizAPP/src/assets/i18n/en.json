@@ -111,7 +111,11 @@
       "NOVEMBER": "November",
       "DECEMBER": "Decemeber"
     },
-    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items"
+    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items",
+    "ACCOUNT_STATEMENT_TYPE": {
+      "RENTAL_BILL": "Rental Bill",
+      "UTILITY_BILL": "Utility Bill"
+    }
   },
 
   "SIDE_DRAWER_SECTION": {
@@ -1350,20 +1354,28 @@
 
   "ACCOUNT_STATEMENT_DETAILS": {
     "ACTION_BAR_SECTION": {
-      "TITLE": "STATEMENT OF ACCOUNT",
-      "OPTIONS": {
-        "PAYMENTS": "Payments",
-        "PENALTIES": "Penalties"
+      "FOR_VIEWING": {
+        "TITLE": "STATEMENT OF ACCOUNT",
+        "OPTIONS": {
+          "PAYMENTS": "Payments",
+          "PENALTIES": "Penalties"
+        }
+      },
+      "FOR_CREATION": {
+        "TITLE": "New Statement of Account"
       }
     },
     "SEND_DETAILS": "Send Details",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
+      "NEW_RENTAL_BILL_LABEL": "New Rental Bill",
+      "NEW_UTILITY_BILL_LABEL": "New Utility Bill",
       "DUE_DATE": "Due Date:",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
       "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
       "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
       "ELECTRICITY_BILL_AMOUNT_LABEL": "Electric Bill Amount:",
+      "RATE_LABEL": "Rate:",
       "RENT_INCOME_LABEL": "Rent Income:",
       "RENT_AMOUNT_LABEL": "Rent Amount:",
       "PENALTIES_LABEL": "Penalties Amount:",
@@ -1384,9 +1396,13 @@
     },
     "CREATE_NEW_DIALOG": {
       "TITLE": "Create new statement of account",
-      "CONFIRM_MESSAGE": "Are you sure you want to create new statement of account?",
-      "SUCCESS_MESSAGE": "New statement of account has been successfully created.",
-      "ERROR_MESSAGE": "Failed to create new statement of account. Please try again later."
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
+      "NEW_UTILIY_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for utility bills?",
+      "NEW_UTILIY_BILL_SUCCESS_MESSAGE": "New statement of account for utility bills has been successfully created.",
+      "NEW_UTILIY_BILL_ERROR_MESSAGE": "Failed to create new statement of account for utility bills. Please try again later.",
+      "NEW_RENTAL_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for rental bill?",
+      "NEW_RENTAL_BILL_SUCCESS_MESSAGE": "New statement of account for rental bill has been successfully created.",
+      "NEW_RENTAL_BILL_ERROR_MESSAGE": "Failed to create new statement of account for rental bills. Please try again later."
     },
     "DELETE_ACCOUNT_STATEMENT_DIALOG": {
       "TITLE": "Delete Statement of account",

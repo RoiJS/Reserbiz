@@ -68,7 +68,7 @@ namespace ReserbizAPP.API.Controllers
             {
                 // (2) This will auto generate statement of accounts for the contrac
                 var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
-                await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contractToCreate.Id);
+                await _accountStatementRepository.GenerateContractAccountStatementsForRentalBill(dbHashName, contractToCreate.Id);
             }
             catch (Exception ex)
             {

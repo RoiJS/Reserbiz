@@ -12,12 +12,12 @@
   ></ActionItem>
 
   <ActionItem
-    [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.OPTIONS.PAYMENTS' | translate"
+    [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.FOR_VIEWING.OPTIONS.PAYMENTS' | translate"
     (tap)="navigateToOtherPage('payments/:id')"
     android.position="popup"
   ></ActionItem>
   <ActionItem
-    [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.OPTIONS.PENALTIES' | translate"
+    [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.FOR_VIEWING.OPTIONS.PENALTIES' | translate"
     android.position="popup"
     (tap)="navigateToOtherPage('penalties/:id')"
   ></ActionItem>
@@ -35,7 +35,7 @@
     >
       <label
         alignSelf="center"
-        [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.TITLE' | translate"
+        [text]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.FOR_VIEWING.TITLE' | translate"
       ></label>
       <button
         padding="0"

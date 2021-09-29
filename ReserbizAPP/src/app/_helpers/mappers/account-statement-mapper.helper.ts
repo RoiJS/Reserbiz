@@ -1,26 +1,18 @@
 import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
 import { AccountStatement } from '../../_models/account-statement.model';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { AccountStatementFormSource } from '../../_models/form/account-statement-form.model';
-import { AccountStatementDto } from '../../_dtos/account-statement.dto';
 import { AccountStatementMiscellaneous } from '../../_models/account-statement-miscellaneous.model';
 
 import { DateFormatter } from '../formatters/date-formatter.helper';
 
 export class AccountStatementMapper
-  implements
-    IBaseEntityMapper<AccountStatement>,
-    IBaseDtoEntityMapper<
-      AccountStatement,
-      AccountStatementFormSource,
-      AccountStatementDto
-    >
+  implements IBaseEntityMapper<AccountStatement>
 {
   mapEntity(as: AccountStatement): AccountStatement {
     const accountStatement = new AccountStatement();
     if (as) {
       accountStatement.contractId = as.contractId;
       accountStatement.id = as.id;
+      accountStatement.accountStatementType = as.accountStatementType;
       accountStatement.dueDate = as.dueDate;
       accountStatement.rate = as.rate;
       accountStatement.depositPaymentDurationValue =
@@ -80,35 +72,5 @@ export class AccountStatementMapper
     }
 
     return accountStatement;
-  }
-
-  initFormSource(): AccountStatementFormSource {
-    const accountStatementFormSource = new AccountStatementFormSource(0.0, 0.0);
-
-    return accountStatementFormSource;
-  }
-
-  mapFormSourceToDto(afs: AccountStatementFormSource): AccountStatementDto {
-    const accountStatementDto = new AccountStatementDto(
-      afs.electricBill,
-      afs.waterBill
-    );
-    return accountStatementDto;
-  }
-
-  mapEntityToFormSource(
-    accountStatement: AccountStatement
-  ): AccountStatementFormSource {
-    const accountStatementFormSource = new AccountStatementFormSource(
-      accountStatement.electricBill,
-      accountStatement.waterBill
-    );
-    return accountStatementFormSource;
-  }
-
-  mapFormSourceToEntity(
-    formSource: AccountStatementFormSource
-  ): AccountStatement {
-    throw new Error('Not implemented');
   }
 }

@@ -44,6 +44,9 @@ namespace ReserbizAPP.LIB.Models
         // this is because there is a charge sending sms using the SMS
         // API Service that the application is using.
         public DateTime SMSNotificationLastDateSent { get; set; }
+
+        public AccountStatementTypeEnum AccountStatementType { get; set; } = AccountStatementTypeEnum.RentalBill;
+
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
 
         public int? DeletedById { get; set; }
@@ -484,7 +487,10 @@ namespace ReserbizAPP.LIB.Models
         private bool IsFirstAccountStatementItem()
         {
             var activeAccountStatements = Contract.AccountStatements
-                                                .Where(a => a.IsActive && a.IsDelete == false)
+                                                .Where(
+                                                    a => a.IsActive &&
+                                                    a.IsDelete == false
+                                                )
                                                 .OrderBy(a => a.DueDate)
                                                 .ToList();
 

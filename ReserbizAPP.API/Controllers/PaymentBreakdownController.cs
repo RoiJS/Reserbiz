@@ -51,7 +51,7 @@ namespace ReserbizAPP.API.Controllers
                                                                             .ToObjectAsync();
 
             if (accountStatementFromRepo == null)
-                return NotFound("Account Statemtent not found.");
+                return NotFound("Account Statement not found.");
 
             var newPaymentDetails = new PaymentBreakdown()
             {

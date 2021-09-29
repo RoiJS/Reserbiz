@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { delay, finalize } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -36,9 +36,6 @@ import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.h
 
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
-import { ButtonOptions } from '@src/app/_enum/button-options.enum';
-
-import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-component.interface';
 
 @Component({
   selector: 'ns-contract-account-statement-list-panel',
@@ -47,7 +44,8 @@ import { IBaseListComponent } from '@src/app/_interfaces/components/ibase-list-c
 })
 export class ContractAccountStatementListPanelComponent
   extends BaseListComponent<AccountStatement>
-  implements OnInit, OnChanges {
+  implements OnInit, OnChanges
+{
   @Input() currentContractId: number;
   @Input() IsCurrentContractArchived: boolean;
   @Input() IsCurrentContractEncashedDepositAmount: boolean;
@@ -67,6 +65,7 @@ export class ContractAccountStatementListPanelComponent
 
   constructor(
     protected accountStatementService: AccountStatementService,
+    protected activatedRoute: ActivatedRoute,
     protected contractService: ContractService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected dialogService: DialogService,
@@ -82,6 +81,7 @@ export class ContractAccountStatementListPanelComponent
     this.entityService = accountStatementService;
     this.changeDetectorRef = changeDetectorRef;
 
+    this.activatedRoute = activatedRoute;
     this._entityFilter = new AccountStatementFilter();
     this._entityFilter.page = 1;
   }
@@ -89,19 +89,21 @@ export class ContractAccountStatementListPanelComponent
   ngOnChanges(args: SimpleChanges) {
     if (args.currentContractId.currentValue) {
       this._entityFilter.parentId = +args.currentContractId.currentValue;
-      this._loadListFlagSub = this.accountStatementService.loadAccountStatementListFlag.subscribe(
-        (reset: boolean) => {
-          this.initFilterOptions();
-          this.getPaginatedEntities((e: AccountStatementPaginationList) => {
-            this._totalExpectedAmount = e.totalExpectedAmount;
-            this._totalPaidAmount = e.totalPaidAmount;
+      this._loadListFlagSub =
+        this.accountStatementService.loadAccountStatementListFlag.subscribe(
+          (reset: boolean) => {
+            this.initFilterOptions();
+            this.getPaginatedEntities((e: AccountStatementPaginationList) => {
+              this._totalExpectedAmount = e.totalExpectedAmount;
+              this._totalPaidAmount = e.totalPaidAmount;
 
-            this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
-            this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
-            this._totalEncashedDepositedAmount = e.totalEncashedDepositedAmount;
-          });
-        }
-      );
+              this._totalExpectedDepositAmount = e.totalExpectedDepositAmount;
+              this._totalPaidAmountFromDeposit = e.totalPaidAmountFromDeposit;
+              this._totalEncashedDepositedAmount =
+                e.totalEncashedDepositedAmount;
+            });
+          }
+        );
     }
   }
 
@@ -217,13 +219,12 @@ export class ContractAccountStatementListPanelComponent
     );
   }
 
-  initAddAccountStatementDialog(
-    suggestedAccountStatement: AccountStatement
-  ): Promise<any> {
+  initCreateNewAccountStatementDialog(contractId: number): Promise<any> {
     const dialogOptions: ModalDialogOptions = {
       viewContainerRef: this.vcRef,
       context: {
-        suggestedAccountStatement: suggestedAccountStatement,
+        contractId: contractId,
+        accountStatementListCount: this._totalNumberOfItems,
       },
       fullscreen: false,
       animated: true,
@@ -261,73 +262,17 @@ export class ContractAccountStatementListPanelComponent
     );
   }
 
-  openAddAccountStatementDialog() {
+  openCreateNewAccountStatementDialog() {
     (async () => {
-      const suggestedAccountStatement = await this.accountStatementService.getSuggestedNewAccountStatement(
+      this.initCreateNewAccountStatementDialog(
         this._entityFilter.parentId
-      );
-      this.initAddAccountStatementDialog(suggestedAccountStatement).then(
-        (data: { confirm: boolean; markAsPaid: boolean }) => {
-          if (!data) {
-            return;
-          }
-
-          if (data.confirm) {
-            this.dialogService
-              .confirm(
-                this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
-                ),
-                this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.CONFIRM_MESSAGE'
-                )
-              )
-              .then((res: ButtonOptions) => {
-                if (res === ButtonOptions.YES) {
-                  this._isBusy = true;
-
-                  this.accountStatementService
-                    .createNewAccountStatement(
-                      this._entityFilter.parentId,
-                      data.markAsPaid
-                    )
-                    .pipe(finalize(() => (this._isBusy = false)))
-                    .subscribe(
-                      () => {
-                        this.dialogService.alert(
-                          this.translateService.instant(
-                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
-                          ),
-                          this.translateService.instant(
-                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.SUCCESS_MESSAGE'
-                          ),
-                          () => {
-                            // Needs to reset the page number to get
-                            // the correct data
-                            this._entityFilter.page = 1;
-                            this.entityService.reloadListFlag();
-                            this.contractService.reloadListFlag();
-                          }
-                        );
-                      },
-                      (error: Error) => {
-                        this.dialogService.alert(
-                          this.translateService.instant(
-                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
-                          ),
-                          this.translateService.instant(
-                            'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.ERROR_MESSAGE'
-                          )
-                        );
-                      }
-                    );
-                } else {
-                  this.openAddAccountStatementDialog();
-                }
-              });
-          }
+      ).then((data: { url: string }) => {
+        if (!data) {
+          return;
         }
-      );
+
+        this.navigateToOtherPage(data.url);
+      });
     })();
   }
 
@@ -338,9 +283,7 @@ export class ContractAccountStatementListPanelComponent
 
     this._isNotNavigateToOtherPage = false;
 
-    this.navigateToOtherPage(
-      `contracts/${this.currentContractId}/account-statement/${selectedItem.id}`
-    );
+    this.navigateToOtherPage(`account-statement/${selectedItem.id}`);
   }
 
   get totalPaidAmount(): string {

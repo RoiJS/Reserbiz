@@ -11,6 +11,7 @@ using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Helpers.Services;
+using ReserbizAPP.LIB.Helpers.Services.StatementOfAccounts;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -64,38 +65,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public AccountStatement RegisterNewAccountStament(Contract contract)
-        {
-            var contractTerm = contract.Term;
-
-            // Value for electric and water bill will be 0 for the 
-            // first account statement and will be based on term
-            // for the succeeding generation of account statements.
-            var waterBill = contract.AccountStatements.Count > 0 ? contractTerm.WaterBillAmount : 0;
-            var electricBill = contract.AccountStatements.Count > 0 ? contractTerm.ElectricBillAmount : 0;
-
-            var newAccountStatement = new AccountStatement
-            {
-                DueDate = contract.NextDueDate,
-                Rate = contractTerm.Rate,
-                DurationUnit = contractTerm.DurationUnit,
-                ElectricBill = electricBill,
-                WaterBill = waterBill,
-                ExcludeElectricBill = contractTerm.ExcludeElectricBill,
-                ExcludeWaterBill = contractTerm.ExcludeWaterBill,
-                PenaltyValue = contractTerm.PenaltyValue,
-                AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
-                DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
-                PenaltyValueType = contractTerm.PenaltyValueType,
-                PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
-                PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
-                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit,
-                MiscellaneousDueDate = contractTerm.MiscellaneousDueDate
-            };
-            newAccountStatement.AccountStatementMiscellaneous.AddRange(GenerateAccountStatementMiscellaneous(contractTerm.TermMiscellaneous));
-            return newAccountStatement;
-        }
-
         public async Task<AccountStatement> GetSuggestedNewAccountStatement(int contractId)
         {
             var contract = await _contractRepository
@@ -107,27 +76,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
                             )
                             .ToObjectAsync();
 
-            var proposedAccountStatement = RegisterNewAccountStament(contract);
+            var proposedAccountStatement = GenerateSuggesteAccountStatement(contract);
 
             proposedAccountStatement.Contract = contract;
             proposedAccountStatement.Contract.AccountStatements = contract.AccountStatements.Where(a => a.IsDelete == false).ToList();
 
             return proposedAccountStatement;
-        }
-        private List<AccountStatementMiscellaneous> GenerateAccountStatementMiscellaneous(List<TermMiscellaneous> termMiscellaneous)
-        {
-            var accountTermMiscellaneous = new List<AccountStatementMiscellaneous>();
-
-            // Get only active term miscellaneous
-            foreach (var item in termMiscellaneous.Where(t => t.IsActive == true && t.IsDelete == false))
-            {
-                var newTermMiscellaneous = new AccountStatementMiscellaneous();
-                newTermMiscellaneous.Name = item.Name;
-                newTermMiscellaneous.Description = item.Description;
-                newTermMiscellaneous.Amount = item.Amount;
-                accountTermMiscellaneous.Add(newTermMiscellaneous);
-            }
-            return accountTermMiscellaneous;
         }
 
         public PenaltyBreakdown RegisterNewPenaltyItem(AccountStatement accountStatement)
@@ -265,7 +219,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public async Task GenerateContractAccountStatements(string dbHashName, int contractId)
+        public async Task GenerateContractAccountStatementsForRentalBill(string dbHashName, int contractId)
         {
             var listOfNewAccountStatements = new List<AccountStatement>();
             var contract = await _contractRepository
@@ -282,9 +236,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             while (contract.IsDueForGeneratingAccountStatement)
             {
+                // Make sure to only checks any statement of account that is set to Rental Bills.
                 var isAccountStatementExists = (await _reserbizRepository.ClientDbContext.AccountStatements
                     .Where(
                         a => a.ContractId == contract.Id &&
+                        a.AccountStatementType == AccountStatementTypeEnum.RentalBill &&
                         a.DueDate == contract.NextDueDate &&
                         a.IsDelete == false &&
                         a.IsActive
@@ -302,7 +258,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     {
                         for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
                         {
-                            var newContractAccountStatement = RegisterNewAccountStament(contract);
+                            var newContractAccountStatement = RegisterNewAccountStatementForRentalBill(contract);
                             contract.AccountStatements.Add(newContractAccountStatement);
                             listOfNewAccountStatements.Add(newContractAccountStatement);
                         }
@@ -312,7 +268,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     // then generate only single account statement.
                     else
                     {
-                        var newContractAccountStatement = RegisterNewAccountStament(contract);
+                        var newContractAccountStatement = RegisterNewAccountStatementForRentalBill(contract);
                         contract.AccountStatements.Add(newContractAccountStatement);
                         listOfNewAccountStatements.Add(newContractAccountStatement);
                     }
@@ -332,7 +288,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public async Task GenerateContractAccountStatementsForNewDatabase(int contractId, int currentUserId)
+        public async Task GenerateContractAccountStatementsRentalBillForNewDatabase(int contractId, int currentUserId)
         {
             var contract = await _contractRepository
                 .GetEntity(contractId)
@@ -353,6 +309,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         .Where(
                             a => a.ContractId == contract.Id &&
                             a.DueDate == contract.NextDueDate &&
+                            a.AccountStatementType == AccountStatementTypeEnum.RentalBill &&
                             a.IsDelete == false &&
                             a.IsActive
                         )
@@ -369,16 +326,22 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         {
                             for (var idx = 0; idx < contract.Term.AdvancedPaymentDurationValue; idx++)
                             {
-                                var newContractAccountStatement = RegisterNewAccountStament(contract);
+                                // Insert new statement of account for rental bill
+                                var newContractAccountStatementForRentalBill = RegisterNewAccountStatementForRentalBill(contract);
+                                contract.AccountStatements.Add(newContractAccountStatementForRentalBill);
+                                newContractAccountStatementForRentalBill.Contract = contract;
+                                RegisterPayments(newContractAccountStatementForRentalBill, currentUserId);
 
-                                contract.AccountStatements.Add(newContractAccountStatement);
+                                await _contractRepository.SaveChanges();
 
-                                // Add entry on payment breakdown 
-                                // with the same amount of statement of account
-                                // total amount
-                                newContractAccountStatement.Contract = contract;
-
-                                RegisterPayments(newContractAccountStatement, currentUserId);
+                                // Insert new statement of account for utility bill
+                                var newContractAccountStatementForUtilityBill = await RegisterNewAccountStatementForUtilityBill(contract, newContractAccountStatementForRentalBill.DueDate);
+                                if (newContractAccountStatementForUtilityBill != null)
+                                {
+                                    contract.AccountStatements.Add(newContractAccountStatementForUtilityBill);
+                                    newContractAccountStatementForUtilityBill.Contract = contract;
+                                    RegisterPayments(newContractAccountStatementForUtilityBill, currentUserId);
+                                }
 
                                 await _contractRepository.SaveChanges();
                             }
@@ -388,16 +351,22 @@ namespace ReserbizAPP.LIB.BusinessLogic
                         // then generate only single account statement.
                         else
                         {
-                            var newContractAccountStatement = RegisterNewAccountStament(contract);
+                            // Insert new statement of account for rental bill
+                            var newContractAccountStatementForRentalBill = RegisterNewAccountStatementForRentalBill(contract);
+                            contract.AccountStatements.Add(newContractAccountStatementForRentalBill);
+                            newContractAccountStatementForRentalBill.Contract = contract;
+                            RegisterPayments(newContractAccountStatementForRentalBill, currentUserId);
 
-                            contract.AccountStatements.Add(newContractAccountStatement);
+                            await _contractRepository.SaveChanges();
 
-                            // Add entry on payment breakdown 
-                            // with the same amount of statement of account
-                            // total amount
-                            newContractAccountStatement.Contract = contract;
-
-                            RegisterPayments(newContractAccountStatement, currentUserId);
+                            // Insert new statement of account for utility bill
+                            var newContractAccountStatementForUtilityBill = await RegisterNewAccountStatementForUtilityBill(contract, newContractAccountStatementForRentalBill.DueDate);
+                            if (newContractAccountStatementForUtilityBill != null)
+                            {
+                                contract.AccountStatements.Add(newContractAccountStatementForUtilityBill);
+                                newContractAccountStatementForUtilityBill.Contract = contract;
+                                RegisterPayments(newContractAccountStatementForUtilityBill, currentUserId);
+                            }
 
                             await _contractRepository.SaveChanges();
                         }
@@ -410,10 +379,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public async Task GenerateContractAccountStatement(int contractId, bool markAsPaid, int currentUserId)
+        public async Task GenerateNewContractAccountStatement(AccountStatement accountStatement, bool markAsPaid, int currentUserId)
         {
             var contract = await _contractRepository
-                    .GetEntity(contractId)
+                    .GetEntity(accountStatement.ContractId)
                     .Includes(
                         c => c.Term,
                         c => c.Term.TermMiscellaneous,
@@ -423,9 +392,17 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (contract == null) return;
 
+            _contractRepository.SetCurrentUserId(currentUserId);
+
             try
             {
-                var newContractAccountStatement = RegisterNewAccountStament(contract);
+                var statementOfAccountServiceTypeName = Enum.GetName(typeof(AccountStatementTypeEnum), accountStatement.AccountStatementType);
+                var className = $"ReserbizAPP.LIB.Helpers.Services.StatementOfAccounts.{statementOfAccountServiceTypeName}StatementOfAccountService";
+                var constructedType = Type.GetType(className);
+
+                var statementOfAccountTypeInstance = (IStatementOfAccountService)Activator.CreateInstance(constructedType);
+
+                var newContractAccountStatement = statementOfAccountTypeInstance.GenerateStatementOfAccount(contract, accountStatement);
 
                 // Mark as Paid, Add entry on payment breakdown 
                 // with the same amount of statement of account
@@ -634,6 +611,84 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             // Send account statement details via SMS
             await SendAccountStatementAsSMS(accountStatement, tenant);
+        }
+
+        private AccountStatement RegisterNewAccountStatementForRentalBill(Contract contract)
+        {
+            var rentalBillStatementOfAccountService = new RentalBillStatementOfAccountService();
+            var newAccountStatement = rentalBillStatementOfAccountService.GenerateStatementOfAccount(contract, new AccountStatement());
+            return newAccountStatement;
+        }
+
+        private async Task<AccountStatement> RegisterNewAccountStatementForUtilityBill(Contract contract, DateTime dueDate)
+        {
+            var accountStatementTemplate = await GetSuggestedNewAccountStatement(contract.Id);
+
+            if (accountStatementTemplate.ExcludeElectricBill && accountStatementTemplate.ElectricBill > 0 &&
+                accountStatementTemplate.ExcludeWaterBill && accountStatementTemplate.WaterBill > 0)
+            {
+                var utilityBillStatementOfAccountService = new UtilityBillStatementOfAccountService();
+                var newUtilityBillAccountStatement = new AccountStatement();
+
+                newUtilityBillAccountStatement.DueDate = dueDate.GetLastDayOfMonth();
+                newUtilityBillAccountStatement.WaterBill = accountStatementTemplate.WaterBill;
+                newUtilityBillAccountStatement.ElectricBill = accountStatementTemplate.ElectricBill;
+                newUtilityBillAccountStatement.ExcludeElectricBill = accountStatementTemplate.ExcludeElectricBill;
+                newUtilityBillAccountStatement.ExcludeWaterBill = accountStatementTemplate.ExcludeWaterBill;
+
+                var newAccountStatement = utilityBillStatementOfAccountService.GenerateStatementOfAccount(contract, newUtilityBillAccountStatement);
+                return newAccountStatement;
+            }
+
+            return null;
+        }
+
+        private List<AccountStatementMiscellaneous> GenerateAccountStatementMiscellaneous(List<TermMiscellaneous> termMiscellaneous)
+        {
+            var accountTermMiscellaneous = new List<AccountStatementMiscellaneous>();
+
+            // Get only active term miscellaneous
+            foreach (var item in termMiscellaneous.Where(t => t.IsActive == true && t.IsDelete == false))
+            {
+                var newTermMiscellaneous = new AccountStatementMiscellaneous();
+                newTermMiscellaneous.Name = item.Name;
+                newTermMiscellaneous.Description = item.Description;
+                newTermMiscellaneous.Amount = item.Amount;
+                accountTermMiscellaneous.Add(newTermMiscellaneous);
+            }
+            return accountTermMiscellaneous;
+        }
+
+        private AccountStatement GenerateSuggesteAccountStatement(Contract contract)
+        {
+            var contractTerm = contract.Term;
+
+            // Value for electric and water bill will be 0 for the 
+            // first account statement and will be based on term
+            // for the succeeding generation of account statements.
+            var waterBill = contract.AccountStatements.Count > 0 ? contractTerm.WaterBillAmount : 0;
+            var electricBill = contract.AccountStatements.Count > 0 ? contractTerm.ElectricBillAmount : 0;
+
+            var newAccountStatement = new AccountStatement
+            {
+                DueDate = contract.NextDueDate,
+                Rate = contractTerm.Rate,
+                DurationUnit = contractTerm.DurationUnit,
+                ElectricBill = electricBill,
+                WaterBill = waterBill,
+                ExcludeElectricBill = contractTerm.ExcludeElectricBill,
+                ExcludeWaterBill = contractTerm.ExcludeWaterBill,
+                PenaltyValue = contractTerm.PenaltyValue,
+                AdvancedPaymentDurationValue = contractTerm.AdvancedPaymentDurationValue,
+                DepositPaymentDurationValue = contractTerm.DepositPaymentDurationValue,
+                PenaltyValueType = contractTerm.PenaltyValueType,
+                PenaltyAmountPerDurationUnit = contractTerm.PenaltyAmountPerDurationUnit,
+                PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
+                PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit,
+                MiscellaneousDueDate = contractTerm.MiscellaneousDueDate
+            };
+            newAccountStatement.AccountStatementMiscellaneous.AddRange(GenerateAccountStatementMiscellaneous(contractTerm.TermMiscellaneous));
+            return newAccountStatement;
         }
 
         private async Task SendAccountStatementAsSMS(AccountStatement accountStatement, Tenant tenant)

@@ -103,6 +103,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("AccountStatementType")
+                        .HasColumnType("int");
+
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
 
