@@ -203,6 +203,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 filteredAccountStatements = filteredAccountStatements.Where(c => c.IsFullyPaid == isPaid).ToList();
             }
 
+            // Filter based on account statement type
+            if (accountStatementFilter.AccountStatementType != AccountStatementTypeEnum.All)
+            {
+                filteredAccountStatements = filteredAccountStatements.Where(c => c.AccountStatementType == accountStatementFilter.AccountStatementType).ToList();
+            }
+
             // Set sort order based on due date
             // Sort order is ascending by default
             if (accountStatementFilter.SortOrder == SortOrderEnum.Ascending)
@@ -771,7 +777,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             #region Rental fee section
             // Check if the rental fee is not fully paid then include the rental details
-            if (!accountStatement.IsRentalFeeFullyPaid)
+            if (!accountStatement.IsRentalFeeFullyPaidForPenaltyCheck)
             {
                 content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.DueDate.ToString("MM/dd/yyyy")));
 
@@ -818,7 +824,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Append electric and water bill amount
             if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
             {
-                content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
+                content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.DueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
 
                 if (accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0)
@@ -861,7 +867,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             #region  Rental fee section
             // Check if the rental fee is not fully paid then include the rental details
-            if (!accountStatement.IsRentalFeeFullyPaid)
+            if (!accountStatement.IsRentalFeeFullyPaidForPenaltyCheck)
             {
                 content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
@@ -909,7 +915,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
             {
                 content.Append("\n");
-                content.Append(String.Format("Due Date: {0} \n", accountStatement.UtilityBillsDueDate.ToString("MM/dd/yyyy")));
+                content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
 
                 if (accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0)

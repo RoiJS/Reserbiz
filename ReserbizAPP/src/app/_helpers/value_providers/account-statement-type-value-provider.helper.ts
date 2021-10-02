@@ -7,7 +7,8 @@ export class AccountStatementTypeValueProvider
 {
   constructor(
     private translateService: TranslateService,
-    private includeUtilityBills: boolean
+    private includeUtilityBills: boolean,
+    private includeAllOption?: boolean
   ) {}
   get accountStatementTypeOptions(): Array<{
     key: AccountStatementTypeEnum;
@@ -17,6 +18,15 @@ export class AccountStatementTypeValueProvider
       key: AccountStatementTypeEnum;
       label: string;
     }> = [];
+
+    if (this.includeAllOption) {
+      options.push({
+        key: AccountStatementTypeEnum.All,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.ACCOUNT_STATEMENT_TYPE.ALL'
+        ),
+      });
+    }
 
     options.push({
       key: AccountStatementTypeEnum.RentalBill,

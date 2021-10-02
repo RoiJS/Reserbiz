@@ -92,9 +92,9 @@
       "DESCENDING": "Descending"
     },
     "PAYMENT_STATUS": {
-      "ALL": "ALL",
-      "PAID": "PAID",
-      "UNPAID": "UNPAID"
+      "ALL": "All",
+      "PAID": "Paid",
+      "UNPAID": "Unpaid"
     },
     "FILTER": "Filter",
     "MONTH": {
@@ -113,6 +113,7 @@
     },
     "EMPTY_LIST_DEFAULT_TEXT": "No Available Items",
     "ACCOUNT_STATEMENT_TYPE": {
+      "ALL": "All",
       "RENTAL_BILL": "Rental Bill",
       "UTILITY_BILL": "Utility Bill"
     }
@@ -1349,7 +1350,7 @@
       "PAID": "PAID",
       "UNPAID": "UNPAID"
     },
-    "HEADER_LABEL": "STATEMENT OF ACCOUNTS"
+    "HEADER_LABEL": "Statement of Accounts"
   },
 
   "ACCOUNT_STATEMENT_DETAILS": {
@@ -1428,6 +1429,7 @@
       "DATE_FROM_LABEL": "From:",
       "DATE_TO_LABEL": "To:",
       "PAYMENT_STATUS_LABEL": "Payment Status:",
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
       "SORT_ORDER_LABEL": "Sort Order:"
     }
   },

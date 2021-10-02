@@ -9,9 +9,11 @@ import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper'
 import { AccountStatementFilterFormSource } from '@src/app/_models/form/account-statement-filter-form.model';
 import { AccountStatementFilter } from '@src/app/_models/filters/account-statement-filter.model';
 
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
+import { AccountStatementTypeValueProvider } from '@src/app/_helpers/value_providers/account-statement-type-value-provider.helper';
 import { SortOrderValueProvider } from '@src/app/_helpers/value_providers/sort-order-value-provider.helper';
 import { PaymentStatusValueProvider } from '@src/app/_helpers/value_providers/payment-status-value-provider.helper';
 
@@ -30,6 +32,7 @@ export class ContractAccountStatementFilterDialogComponent
 
   private _sortOrderValueProvider: SortOrderValueProvider;
   private _paymentStatusValueProvider: PaymentStatusValueProvider;
+  private _accountStatementTypeValueProvider: AccountStatementTypeValueProvider;
 
   constructor(
     private params: ModalDialogParams,
@@ -44,6 +47,7 @@ export class ContractAccountStatementFilterDialogComponent
         this._accountStatementFilterData.fromDate,
         this._accountStatementFilterData.toDate,
         this._accountStatementFilterData.paymentStatus,
+        this._accountStatementFilterData.accountStatementType,
         this._accountStatementFilterData.sortOrder
       );
 
@@ -59,6 +63,9 @@ export class ContractAccountStatementFilterDialogComponent
     this._paymentStatusValueProvider = new PaymentStatusValueProvider(
       this.translateService
     );
+
+    this._accountStatementTypeValueProvider =
+      new AccountStatementTypeValueProvider(this.translateService, false, true);
   }
 
   onConfirm() {
@@ -85,6 +92,8 @@ export class ContractAccountStatementFilterDialogComponent
       this._accountStatementFilterFormSource.toDate;
     this._accountStatementFilterData.paymentStatus =
       this._accountStatementFilterFormSource.paymentStatus;
+    this._accountStatementFilterData.accountStatementType =
+      this._accountStatementFilterFormSource.accountStatementType;
     this._accountStatementFilterData.sortOrder =
       this._accountStatementFilterFormSource.sortOrder;
   }
@@ -96,6 +105,7 @@ export class ContractAccountStatementFilterDialogComponent
         fromDate: null,
         toDate: null,
         paymentStatus: PaymentStatusEnum.All,
+        accountStatementType: AccountStatementTypeEnum.All,
         sortOrder: SortOrderEnum.Descending,
       }
     );
@@ -111,6 +121,13 @@ export class ContractAccountStatementFilterDialogComponent
 
   get sortOrderOptions(): Array<{ key: SortOrderEnum; label: string }> {
     return this._sortOrderValueProvider.sortOrderOptions;
+  }
+
+  get accountStatementTypeOptions(): Array<{
+    key: AccountStatementTypeEnum;
+    label: string;
+  }> {
+    return this._accountStatementTypeValueProvider.accountStatementTypeOptions;
   }
 
   get paymentStatusOptions(): Array<{ key: PaymentStatusEnum; label: string }> {

@@ -75,9 +75,9 @@ export class AccountStatementService
     id: number,
     waterBillAmount: number,
     electricBillAmount: number,
-    utilityBillsDueDate: Date
+    dueDate: Date
   ): Promise<void> {
-    const date = DateFormatter.format(utilityBillsDueDate);
+    const date = DateFormatter.format(dueDate);
     return await this.http
       .post<void>(
         `${this._apiBaseUrl}/accountstatement/updateWaterAndElectricBillAmount`,
@@ -85,7 +85,7 @@ export class AccountStatementService
           id,
           waterBillAmount,
           electricBillAmount,
-          utilityBillsDueDate: date,
+          dueDate: date,
         }
       )
       .toPromise();

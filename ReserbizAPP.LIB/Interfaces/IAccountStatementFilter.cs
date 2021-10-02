@@ -8,5 +8,6 @@ namespace ReserbizAPP.LIB.Interfaces
         DateTime FromDate { get; set; }
         DateTime ToDate { get; set; }
         PaymentStatusEnum PaymentStatus { get; set; }
+        AccountStatementTypeEnum AccountStatementType { get; set; }
     }
 }

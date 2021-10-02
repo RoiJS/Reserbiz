@@ -159,11 +159,11 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public float AccountStatementTotalRentalFeeAmount
+        public float AccountStatementTotalRentalFeeAmountForPenaltyCheck
         {
             get
             {
-                return CalculateRentalFee();
+                return CalculateRentalFeeForPenaltyCheck();
             }
         }
 
@@ -191,7 +191,7 @@ namespace ReserbizAPP.LIB.Models
             }
         }
 
-        public bool IsRentalFeeFullyPaid
+        public bool IsRentalFeeFullyPaidForPenaltyCheck
         {
             get
             {
@@ -205,7 +205,40 @@ namespace ReserbizAPP.LIB.Models
                 // Checking for this is based on the current paid rental amount against the expected rental fee amount.
                 // If IncludeMiscellaneousCheckAndCalculateForPenalty is true and miscellaneous due date is same with rental fee, 
                 // then we must include the miscellaneous fees when checking this.  
-                return (currentRentalPaidAmount >= AccountStatementTotalRentalFeeAmount);
+                return (currentRentalPaidAmount >= AccountStatementTotalRentalFeeAmountForPenaltyCheck);
+            }
+        }
+
+        public bool IsRentalFeeFullyPaid
+        {
+            get
+            {
+                var currentRentalPaidAmount = TotalPaidRentalAmount;
+
+                if (MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+                {
+                    currentRentalPaidAmount += TotalPaidMiscellaneousFees;
+                }
+
+                // Checking for this is based on the current paid rental amount against the expected rental fee amount.
+                return (currentRentalPaidAmount >= CalculateRentalFee());
+            }
+        }
+
+        public bool IsUtilityFeeFullyPaid
+        {
+            get
+            {
+                var currentUtilityBillPaidAmount = TotalPaidUtilityBills;
+                var expectedUtilityBillAmount = UtilityBillsAmount;
+
+                if (MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithUtilityBillDueDate)
+                {
+                    currentUtilityBillPaidAmount += TotalPaidMiscellaneousFees;
+                    expectedUtilityBillAmount += MiscellaneousTotalAmount;
+                }
+
+                return (currentUtilityBillPaidAmount >= expectedUtilityBillAmount);
             }
         }
 
@@ -217,7 +250,7 @@ namespace ReserbizAPP.LIB.Models
                 // (1) Account statement should be due for generating penalty.
                 // (2) Account statement rental fees has not been full paid yet.
                 // (3) Account statement should not be the first account statement from the list.
-                return (IsDueToGeneratePenalty && !IsRentalFeeFullyPaid && !IsFirstAccountStatement);
+                return (IsDueToGeneratePenalty && !IsRentalFeeFullyPaidForPenaltyCheck && !IsFirstAccountStatement);
             }
         }
 
@@ -357,7 +390,7 @@ namespace ReserbizAPP.LIB.Models
             return totalAmount;
         }
 
-        private float CalculateRentalFee()
+        private float CalculateRentalFeeForPenaltyCheck()
         {
             var totalAmount = 0.0f;
 
@@ -379,6 +412,34 @@ namespace ReserbizAPP.LIB.Models
             // the miscellaneous is set to be included on the checking of penalty, 
             // then we add the miscellaneous total amount with the Rental Amount.
             if (IncludeMiscellaneousCheckAndCalculateForPenalty && MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
+            {
+                totalAmount += MiscellaneousTotalAmount;
+            }
+
+            return totalAmount;
+        }
+
+        private float CalculateRentalFee()
+        {
+            var totalAmount = 0.0f;
+
+            // Calculate Advance and Deposit amount and add it
+            //  to the total amount if the account statement is first in the list.
+            if (IsFirstAccountStatement)
+            {
+                totalAmount += Rate;
+
+                // Calculate the Deposit Payment amount and add it to the total amount
+                totalAmount += CalculatedDepositAmount;
+            }
+            else
+            {
+                totalAmount += Rate;
+            }
+
+            // Check if the Miscellaneous Due Date setting is set to SameWithRentalDueDate and if
+            // then we add the miscellaneous total amount with the Rental Amount.
+            if (MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)
             {
                 totalAmount += MiscellaneousTotalAmount;
             }
@@ -500,13 +561,21 @@ namespace ReserbizAPP.LIB.Models
 
         private bool IsAccountStatementDeletable()
         {
+            // Only get the last rental bill statement of account.
             var lastAccountStatement = Contract.AccountStatements
-                                                .Where(a => a.IsActive && a.IsDelete == false)
+                                                .Where(
+                                                    a => a.AccountStatementType == AccountStatementTypeEnum.RentalBill &&
+                                                    a.IsActive &&
+                                                    a.IsDelete == false
+                                                )
                                                 .OrderByDescending(a => a.DueDate)
                                                 .FirstOrDefault();
 
-            // Last account statement is deletable
-            return (lastAccountStatement != null && lastAccountStatement.Id == Id);
+            // Deletable statement of account is deletable if:
+            // (1) It is a latest rental statement of account OR
+            // (2) It is a utility bill statement of account
+            return (AccountStatementType == AccountStatementTypeEnum.UtilityBill || 
+                (AccountStatementType == AccountStatementTypeEnum.RentalBill && lastAccountStatement != null && lastAccountStatement.Id == Id));
         }
 
         private float CalculateCurrentAmountPaid()
@@ -522,36 +591,18 @@ namespace ReserbizAPP.LIB.Models
 
         private bool ValidateIfFullyPaid()
         {
-            var isRentalFullyPaid = true;
-            var isElectricBillsPaid = true;
-            var isWaterBillsPaid = true;
-            var isMisellaneousFeesPaid = true;
-            var isPenaltyAmountPaid = true;
-
-            if (Contract.IncludeRentalFee)
+            if (AccountStatementType == AccountStatementTypeEnum.RentalBill)
             {
-                isRentalFullyPaid = TotalPaidRentalAmount >= RentalTotalAmount;
+                var isPenaltyAmountPaid = TotalPaidPenaltyAmount >= PenaltyTotalAmount;
+                return IsRentalFeeFullyPaid && isPenaltyAmountPaid;
             }
 
-            if (Contract.IncludeUtilityBills)
+            if (AccountStatementType == AccountStatementTypeEnum.UtilityBill)
             {
-                isElectricBillsPaid = CalculateTotalPaidElectricBillAmount() >= ElectricBill;
-
-                isWaterBillsPaid = CalculateTotalPaidWaterBillAmount() >= WaterBill;
+                return IsUtilityFeeFullyPaid;
             }
 
-            if (Contract.IncludeMiscellaneousFees)
-            {
-                isMisellaneousFeesPaid = TotalPaidMiscellaneousFees >= MiscellaneousTotalAmount;
-            }
-
-            if (Contract.IncludePenaltyAmount)
-            {
-                isPenaltyAmountPaid = TotalPaidPenaltyAmount >= PenaltyTotalAmount;
-            }
-
-
-            return isRentalFullyPaid && isElectricBillsPaid && isWaterBillsPaid && isMisellaneousFeesPaid && isPenaltyAmountPaid;
+            return true;
         }
     }
 }

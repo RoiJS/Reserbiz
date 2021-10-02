@@ -1,4 +1,5 @@
 export enum AccountStatementTypeEnum {
-    RentalBill = 1,
-    UtilityBilll = 2
+  All = 0,
+  RentalBill = 1,
+  UtilityBilll = 2,
 }

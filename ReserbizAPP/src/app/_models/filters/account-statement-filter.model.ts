@@ -1,3 +1,4 @@
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 import { PaymentStatusEnum } from '../../_enum/payment-status.enum';
 import { SortOrderEnum } from '../../_enum/sort-order.enum';
 
@@ -9,16 +10,19 @@ import { EntityFilter } from './entity-filter.model';
 
 export class AccountStatementFilter
   extends EntityFilter
-  implements IAccountStatementFilter {
+  implements IAccountStatementFilter
+{
   public fromDate: Date;
   public toDate: Date;
   public paymentStatus: PaymentStatusEnum;
+  public accountStatementType: AccountStatementTypeEnum;
 
   constructor() {
     super();
     this.fromDate = null;
     this.toDate = null;
     this.paymentStatus = PaymentStatusEnum.All;
+    this.accountStatementType = AccountStatementTypeEnum.All;
     this.sortOrder = SortOrderEnum.Descending;
   }
 
@@ -26,6 +30,7 @@ export class AccountStatementFilter
     this.fromDate = null;
     this.toDate = null;
     this.paymentStatus = PaymentStatusEnum.All;
+    this.accountStatementType = AccountStatementTypeEnum.All;
     this.sortOrder = SortOrderEnum.Descending;
   }
 
@@ -34,6 +39,7 @@ export class AccountStatementFilter
       this.fromDate ||
         this.toDate ||
         this.paymentStatus !== PaymentStatusEnum.All ||
+        this.accountStatementType !== AccountStatementTypeEnum.All ||
         this.sortOrder !== SortOrderEnum.Descending
     );
 
@@ -47,6 +53,7 @@ export class AccountStatementFilter
       fromDate: DateFormatter.format(this.fromDate),
       toDate: DateFormatter.format(this.toDate),
       paymentStatus: this.paymentStatus,
+      accountStatementType: this.accountStatementType,
       sortOrder: this.sortOrder,
     };
   }

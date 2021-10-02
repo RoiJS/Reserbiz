@@ -34,6 +34,7 @@ import { StorageService } from '@src/app/_services/storage.service';
 
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 import { PaymentStatusEnum } from '@src/app/_enum/payment-status.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
@@ -56,11 +57,14 @@ export class ContractAccountStatementListPanelComponent
   private _totalPaidAmountFromDeposit = 0;
   private _totalEncashedDepositedAmount = 0;
 
-  private ACCOUNT_STATMENT_FILTER_FROM_DATE = 'AccountStatementFilter_fromDate';
-  private ACCOUNT_STATMENT_FILTER_TO_DATE = 'AccountStatementFilter_toDate';
-  private ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS =
+  private ACCOUNT_STATEMENT_FILTER_FROM_DATE =
+    'AccountStatementFilter_fromDate';
+  private ACCOUNT_STATEMENT_FILTER_TO_DATE = 'AccountStatementFilter_toDate';
+  private ACCOUNT_STATEMENT_FILTER_PAYMENT_STATUS =
     'AccountStatementFilter_paymentStatus';
-  private ACCOUNT_STATMENT_FILTER_SORT_ORDER =
+  private ACCOUNT_STATEMENT_FILTER_ACCOUNT_STATEMENT_TYPE =
+    'AccountStatementFilter_accountStatementType';
+  private ACCOUNT_STATEMENT_FILTER_SORT_ORDER =
     'AccountStatementFilter_sortOrder';
 
   constructor(
@@ -115,16 +119,19 @@ export class ContractAccountStatementListPanelComponent
     const contractId = this._entityFilter.parentId;
 
     const fromDate = this.storageService.getString(
-      `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_FROM_DATE}_${contractId}`
     );
     const toDate = this.storageService.getString(
-      `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_TO_DATE}_${contractId}`
     );
     const paymentStatus = this.storageService.getString(
-      `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_PAYMENT_STATUS}_${contractId}`
+    );
+    const accountStatementType = this.storageService.getString(
+      `${this.ACCOUNT_STATEMENT_FILTER_ACCOUNT_STATEMENT_TYPE}_${contractId}`
     );
     const sortOrder = this.storageService.getString(
-      `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_SORT_ORDER}_${contractId}`
     );
 
     if (fromDate) {
@@ -143,6 +150,12 @@ export class ContractAccountStatementListPanelComponent
       >parseInt(paymentStatus);
     }
 
+    if (accountStatementType) {
+      (<AccountStatementFilter>this._entityFilter).accountStatementType = <
+        AccountStatementTypeEnum
+      >parseInt(accountStatementType);
+    }
+
     if (sortOrder) {
       (<AccountStatementFilter>this._entityFilter).sortOrder = <SortOrderEnum>(
         parseInt(sortOrder)
@@ -154,33 +167,41 @@ export class ContractAccountStatementListPanelComponent
     const fromDate = accountStatementFilter.fromDate;
     const toDate = accountStatementFilter.toDate;
     const paymentStatus = accountStatementFilter.paymentStatus;
+    const accountStatementType = accountStatementFilter.accountStatementType;
     const sortOrder = accountStatementFilter.sortOrder;
     const contractId = this._entityFilter.parentId;
 
     if (fromDate) {
       this.storageService.storeString(
-        `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`,
+        `${this.ACCOUNT_STATEMENT_FILTER_FROM_DATE}_${contractId}`,
         fromDate.toString()
       );
     }
 
     if (toDate) {
       this.storageService.storeString(
-        `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`,
+        `${this.ACCOUNT_STATEMENT_FILTER_TO_DATE}_${contractId}`,
         toDate.toString()
       );
     }
 
     if (paymentStatus) {
       this.storageService.storeString(
-        `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`,
+        `${this.ACCOUNT_STATEMENT_FILTER_PAYMENT_STATUS}_${contractId}`,
         paymentStatus.toString()
+      );
+    }
+
+    if (accountStatementType) {
+      this.storageService.storeString(
+        `${this.ACCOUNT_STATEMENT_FILTER_ACCOUNT_STATEMENT_TYPE}_${contractId}`,
+        accountStatementType.toString()
       );
     }
 
     if (sortOrder) {
       this.storageService.storeString(
-        `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`,
+        `${this.ACCOUNT_STATEMENT_FILTER_SORT_ORDER}_${contractId}`,
         sortOrder.toString()
       );
     }
@@ -190,16 +211,19 @@ export class ContractAccountStatementListPanelComponent
     const contractId = this._entityFilter.parentId;
 
     this.storageService.remove(
-      `${this.ACCOUNT_STATMENT_FILTER_FROM_DATE}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_FROM_DATE}_${contractId}`
     );
     this.storageService.remove(
-      `${this.ACCOUNT_STATMENT_FILTER_TO_DATE}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_TO_DATE}_${contractId}`
     );
     this.storageService.remove(
-      `${this.ACCOUNT_STATMENT_FILTER_PAYMENT_STATUS}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_PAYMENT_STATUS}_${contractId}`
     );
     this.storageService.remove(
-      `${this.ACCOUNT_STATMENT_FILTER_SORT_ORDER}_${contractId}`
+      `${this.ACCOUNT_STATEMENT_FILTER_ACCOUNT_STATEMENT_TYPE}_${contractId}`
+    );
+    this.storageService.remove(
+      `${this.ACCOUNT_STATEMENT_FILTER_SORT_ORDER}_${contractId}`
     );
   }
 
