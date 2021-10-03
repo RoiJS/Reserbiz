@@ -30,12 +30,6 @@ export class Contract extends Entity {
   public spaceTypeId: number;
   public accountStatementsCount: number;
 
-  // Mark Account Statement As Paid Settings
-  public includeRentalFee: boolean;
-  public includeUtilityBills: boolean;
-  public includeMiscellaneousFees: boolean;
-  public includePenaltyAmount: boolean;
-
   constructor() {
     super();
     this.id = 0;

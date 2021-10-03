@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211003170546_RemovedColumnsIncludeRentalFeeIncludeUtilityBillsIncludeMiscellaneousFeesAndIncludePenaltyAmountFromTableColumns")]
+    partial class RemovedColumnsIncludeRentalFeeIncludeUtilityBillsIncludeMiscellaneousFeesAndIncludePenaltyAmountFromTableColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,6 +188,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UtilityBillsDueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("WaterBill")
                         .HasColumnType("real");

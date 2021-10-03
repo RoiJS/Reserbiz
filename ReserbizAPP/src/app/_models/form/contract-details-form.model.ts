@@ -15,11 +15,7 @@ export class ContractDetailsFormSource
     public effectiveDate: Date,
     public isOpenContract: boolean,
     public durationValue: number,
-    public durationUnit: DurationEnum,
-    public includeRentalFee: boolean,
-    public includeUtilityBills: boolean,
-    public includeMiscellaneousFees: boolean,
-    public includePenaltyAmount: boolean
+    public durationUnit: DurationEnum
   ) {
     super();
   }
@@ -34,11 +30,7 @@ export class ContractDetailsFormSource
       this.effectiveDate,
       this.isOpenContract,
       this.durationValue,
-      this.durationUnit,
-      this.includeRentalFee,
-      this.includeUtilityBills,
-      this.includeMiscellaneousFees,
-      this.includePenaltyAmount
+      this.durationUnit
     );
   }
 }

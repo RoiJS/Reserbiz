@@ -141,10 +141,6 @@ export class ContractService
       contractDetails.isOpenContract,
       contractDetails.durationUnit,
       contractDetails.durationValue,
-      contractDetails.includeRentalFee,
-      contractDetails.includeUtilityBills,
-      contractDetails.includeMiscellaneousFees,
-      contractDetails.includePenaltyAmount
     );
 
     // Check if contract is not new and there have no changes

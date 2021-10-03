@@ -19,11 +19,6 @@ export class AccountStatementMapper
         as.depositPaymentDurationValue;
       accountStatement.advancedPaymentDurationValue =
         as.advancedPaymentDurationValue;
-      accountStatement.utilityBillsDueDate = DateFormatter.isValidDate(
-        as.utilityBillsDueDate?.toString()
-      )
-        ? new Date(as.utilityBillsDueDate)
-        : undefined;
       accountStatement.excludeElectricBill = as.excludeElectricBill;
       accountStatement.electricBill = as.electricBill;
       accountStatement.excludeWaterBill = as.excludeWaterBill;

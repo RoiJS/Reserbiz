@@ -29,14 +29,6 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum DurationUnit { get; set; }
         #endregion
 
-
-        #region "Mark Account Statement as Paid Setting"
-        public bool IncludeRentalFee { get; set; }
-        public bool IncludeUtilityBills { get; set; }
-        public bool IncludeMiscellaneousFees { get; set; }
-        public bool IncludePenaltyAmount { get; set; }
-        #endregion
-
         public List<AccountStatement> AccountStatements { get; set; }
 
         public int? DeletedById { get; set; }

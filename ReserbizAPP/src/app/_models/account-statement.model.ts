@@ -13,7 +13,6 @@ export class AccountStatement extends Entity {
   public rate: number;
   public advancedPaymentDurationValue: number;
   public depositPaymentDurationValue: number;
-  public utilityBillsDueDate: Date;
   public excludeElectricBill: boolean;
   public electricBill: number;
   public excludeWaterBill: boolean;

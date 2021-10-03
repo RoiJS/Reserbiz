@@ -1254,21 +1254,6 @@
           "CONTROL_LABEL": "Expiration Date:"
         }
       },
-      "MARK_ACCOUNT_STATEMENT_AS_PAID_CONTROL_GROUP": {
-        "LABEL": "Mark Account Statement As Paid",
-        "INCLUDE_RENTAL_FEE_CONTROL": {
-          "CONTROL_LABEL": "Check Rental Fee:"
-        },
-        "INCLUDE_UTILITY_BILLS_CONTROL": {
-          "CONTROL_LABEL": "Check Utility Bills:"
-        },
-        "INCLUDE_MISCELLANEOUS_FEE_CONTROL": {
-          "CONTROL_LABEL": "Check Miscellaneous Fees:"
-        },
-        "INCLUDE_PENALTY_AMOUNT_CONTROL": {
-          "CONTROL_LABEL": "Check Penalty Amount:"
-        }
-      },
       "ADD_DIALOG": {
         "TITLE": "Add New Contract",
         "CONFIRM_MESSAGE": "Are you sure to save new contract?",
