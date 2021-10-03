@@ -776,8 +776,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var content = new StringBuilder();
 
             #region Rental fee section
-            // Check if the rental fee is not fully paid then include the rental details
-            if (!accountStatement.IsRentalFeeFullyPaidForPenaltyCheck)
+            // Check if the statement of account is for rental bill
+            if (accountStatement.AccountStatementType == AccountStatementTypeEnum.RentalBill)
             {
                 content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.DueDate.ToString("MM/dd/yyyy")));
 
@@ -821,8 +821,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
             #endregion
 
             #region Utility bills section
-            // Append electric and water bill amount
-            if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
+            // Check if the statement of account is for utility bill
+            if (accountStatement.AccountStatementType == AccountStatementTypeEnum.UtilityBill)
             {
                 content.AppendLine(String.Format("<b>Due Date:</b> {0}<br>", accountStatement.DueDate.ToString("MM/dd/yyyy")));
                 var totalAmount = 0.0f;
@@ -866,8 +866,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var content = new StringBuilder();
 
             #region  Rental fee section
-            // Check if the rental fee is not fully paid then include the rental details
-            if (!accountStatement.IsRentalFeeFullyPaidForPenaltyCheck)
+            // Check if the statement of account is for rental bill
+            if (accountStatement.AccountStatementType == AccountStatementTypeEnum.RentalBill)
             {
                 content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
@@ -911,8 +911,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
 
             #region Utility bills section
-            // Append electric and water bill amount
-            if ((accountStatement.ExcludeWaterBill && accountStatement.WaterBill > 0) || (accountStatement.ExcludeElectricBill && accountStatement.ElectricBill > 0))
+            // Check if the statement of account is for utility bill
+            if (accountStatement.AccountStatementType == AccountStatementTypeEnum.UtilityBill)
             {
                 content.Append("\n");
                 content.Append(String.Format("Due Date: {0} \n", accountStatement.DueDate.ToString("MM/dd/yyyy")));
