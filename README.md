@@ -9,8 +9,10 @@ Following are the main pages of the application:
 * Unit Types
 * Terms
 * Contracts
-* Settings
 * Profile
+* Notifications
+* Settings
+
 
 
 # Technology Used
