@@ -97,6 +97,15 @@ $sidedrawer-list-icon-size: 20;
         vertical-align: center;
         color: black;
       }
+      label.badge-count {
+        background-color: $primary;
+        color: $white;
+        padding: 5;
+        text-align: center;
+        margin-right: 10;
+        border-radius: 50%;
+        font-weight: bold;
+      }
       .fa {
         font-size: $sidedrawer-list-icon-size;
         width: $sidedrawer-list-width-size;
@@ -106,6 +115,9 @@ $sidedrawer-list-icon-size: 20;
         background-color: $item-active-background;
         label {
           color: $item-active-color;
+        }
+        label.badge-count {
+          color: $white;
         }
       }
     }

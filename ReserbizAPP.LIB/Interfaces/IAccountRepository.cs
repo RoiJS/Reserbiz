@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ReserbizAPP.LIB.Models;
 
@@ -8,5 +9,6 @@ namespace ReserbizAPP.LIB.Interfaces
     {
 
         Task<Account> VerifyUsernameOrEmailAddress(string usernameOrEmailAddress);
+        Task<List<Account>> GetAllActiveUsers();
     }
 }

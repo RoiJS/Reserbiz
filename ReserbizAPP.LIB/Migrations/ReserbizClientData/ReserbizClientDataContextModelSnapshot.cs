@@ -103,6 +103,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("AccountStatementType")
+                        .HasColumnType("int");
+
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
 
@@ -183,9 +186,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UtilityBillsDueDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<float>("WaterBill")
                         .HasColumnType("real");
@@ -427,18 +427,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Property<DateTime>("EncashedDepositAmountDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IncludeMiscellaneousFees")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludePenaltyAmount")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludeRentalFee")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludeUtilityBills")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -525,6 +513,96 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.ToTable("ErrorLogs");
                 });
 
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.GeneratedAccountStatementNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("AccountStatementDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("AccountStatementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountStatementId");
+
+                    b.HasIndex("ContractId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("GeneratedAccountStatementNotifications");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NotificationFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationFromType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NotificationTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentBreakdown", b =>
                 {
                     b.Property<int>("Id")
@@ -598,6 +676,36 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("PaymentBreakdowns");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentRegisterNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentRegisterNotifications");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PenaltyBreakdown", b =>
@@ -1106,6 +1214,50 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.ToTable("TermVersions");
                 });
 
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.UserNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeactivated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NotificationId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ReadStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotificationId");
+
+                    b.ToTable("UserNotifications");
+                });
+
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>
                 {
                     b.HasOne("ReserbizAPP.LIB.Models.Account", "CreatedBy")
@@ -1326,6 +1478,33 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.GeneratedAccountStatementNotification", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.AccountStatement", "AccountStatement")
+                        .WithMany()
+                        .HasForeignKey("AccountStatementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Contract", "Contract")
+                        .WithMany()
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ReserbizAPP.LIB.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountStatement");
+
+                    b.Navigation("Contract");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.PaymentBreakdown", b =>
@@ -1601,6 +1780,17 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                     b.Navigation("Contract");
 
                     b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("ReserbizAPP.LIB.Models.UserNotification", b =>
+                {
+                    b.HasOne("ReserbizAPP.LIB.Models.Notification", "Notification")
+                        .WithMany()
+                        .HasForeignKey("NotificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Notification");
                 });
 
             modelBuilder.Entity("ReserbizAPP.LIB.Models.Account", b =>

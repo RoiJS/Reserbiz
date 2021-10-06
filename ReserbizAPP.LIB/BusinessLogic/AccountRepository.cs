@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,15 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .FirstOrDefaultAsync();
 
             return account;
+        }
+
+        public async Task<List<Account>> GetAllActiveUsers()
+        {
+            var activeAccounts = await _reserbizRepository.ClientDbContext.Accounts
+                .Where(a => a.IsActive && !a.IsDelete)
+                .ToListAsync();
+
+            return activeAccounts;
         }
     }
 }

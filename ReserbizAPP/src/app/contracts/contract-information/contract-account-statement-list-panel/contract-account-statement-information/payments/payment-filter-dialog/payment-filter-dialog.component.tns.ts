@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalDialogParams } from '@nativescript/angular';
 import { TranslateService } from '@ngx-translate/core';
 
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 
@@ -9,6 +11,8 @@ import { BaseFormHelper } from '@src/app/_helpers/base_helpers/base-form.helper'
 
 import { PaymentTypeValueProvider } from '@src/app/_helpers/value_providers/payment-type-value-provider.helper';
 import { SortOrderValueProvider } from '@src/app/_helpers/value_providers/sort-order-value-provider.helper';
+
+import { AccountStatement } from '@src/app/_models/account-statement.model';
 
 import { PaymentFilter } from '@src/app/_models/filters/payment-filter.model';
 import { PaymentFilterFormSource } from '@src/app/_models/form/payment-filter-form.model';
@@ -22,6 +26,8 @@ export class PaymentFilterDialogComponent
   extends BaseFormHelper<PaymentFilterFormSource>
   implements OnInit
 {
+  private _accountStatementDetails = new AccountStatement();
+
   private _paymentFilterData: PaymentFilter;
   private _paymentFilterFormSource: PaymentFilterFormSource;
   private _paymentFilterFormSourceOriginal: PaymentFilterFormSource;
@@ -34,9 +40,8 @@ export class PaymentFilterDialogComponent
     private translateService: TranslateService
   ) {
     super();
-    this._paymentFilterData = <PaymentFilter>(
-      params.context.paymentFilter
-    );
+    this._accountStatementDetails = params.context.accountStatementDetails;
+    this._paymentFilterData = <PaymentFilter>params.context.paymentFilter;
     this._paymentFilterFormSource = new PaymentFilterFormSource(
       this._paymentFilterData.paymentForType,
       this._paymentFilterData.sortOrder
@@ -47,13 +52,30 @@ export class PaymentFilterDialogComponent
   }
 
   ngOnInit() {
+    const isAccountStatementForRentalBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.RentalBill;
+    const isAccountStatementForUtilityBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.UtilityBilll;
+    const showMiscellaneousFeesOption =
+      (isAccountStatementForRentalBill &&
+        this._accountStatementDetails.miscellaneousDueDate ===
+          MiscellaneousDueDateEnum.SameWithRentalDueDate) ||
+      (isAccountStatementForUtilityBill &&
+        this._accountStatementDetails.miscellaneousDueDate ===
+          MiscellaneousDueDateEnum.SameWithUtilityBillDueDate);
+
     this._sortOrderValueProvider = new SortOrderValueProvider(
       this.translateService
     );
 
     this._paymentForTypeValueProvider = new PaymentTypeValueProvider(
       this.translateService,
-      true
+      true,
+      isAccountStatementForRentalBill,
+      isAccountStatementForUtilityBill,
+      showMiscellaneousFeesOption
     );
   }
 

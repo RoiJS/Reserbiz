@@ -12,7 +12,6 @@ namespace ReserbizAPP.LIB.Dtos
         public float Rate { get; set; }
         public int AdvancedPaymentDurationValue { get; set; }
         public int DepositPaymentDurationValue { get; set; }
-        public DateTime UtilityBillsDueDate { get; set; }
         public bool ExcludeElectricBill { get; set; }
         public float ElectricBill { get; set; }
         public bool ExcludeWaterBill { get; set; }
@@ -31,6 +30,7 @@ namespace ReserbizAPP.LIB.Dtos
         public float TotalPaidWaterBills { get; set; }
         public float TotalPaidMiscellaneousFees { get; set; }
         public float TotalPaidPenaltyAmount { get; set; }
+        public AccountStatementTypeEnum AccountStatementType { get; set; }
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
         public List<AccountStatementMiscellaneousDetailsDto> AccountStatementMiscellaneous { get; set; }
         public List<AccountStatementPaymentItemDetailsDto> PaymentBreakdowns { get; set; }

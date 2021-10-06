@@ -9,6 +9,7 @@ namespace ReserbizAPP.LIB.Models
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public PaymentStatusEnum PaymentStatus { get; set; } = PaymentStatusEnum.All;
+        public AccountStatementTypeEnum AccountStatementType { get; set; } = AccountStatementTypeEnum.All;
         public SortOrderEnum? SortOrder { get; set; } = SortOrderEnum.Ascending;
     }
 }

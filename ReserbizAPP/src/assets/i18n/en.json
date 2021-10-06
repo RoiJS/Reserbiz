@@ -7,6 +7,7 @@
     "SPACES": "Units",
     "SPACE_TYPES": "Unit Types",
     "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings",
     "DOCUMENTATION": "Documentation",
     "SIGN_OUT": "Sign out"
@@ -91,9 +92,9 @@
       "DESCENDING": "Descending"
     },
     "PAYMENT_STATUS": {
-      "ALL": "ALL",
-      "PAID": "PAID",
-      "UNPAID": "UNPAID"
+      "ALL": "All",
+      "PAID": "Paid",
+      "UNPAID": "Unpaid"
     },
     "FILTER": "Filter",
     "MONTH": {
@@ -110,7 +111,12 @@
       "NOVEMBER": "November",
       "DECEMBER": "Decemeber"
     },
-    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items"
+    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items",
+    "ACCOUNT_STATEMENT_TYPE": {
+      "ALL": "All",
+      "RENTAL_BILL": "Rental Bill",
+      "UTILITY_BILL": "Utility Bill"
+    }
   },
 
   "SIDE_DRAWER_SECTION": {
@@ -1248,21 +1254,6 @@
           "CONTROL_LABEL": "Expiration Date:"
         }
       },
-      "MARK_ACCOUNT_STATEMENT_AS_PAID_CONTROL_GROUP": {
-        "LABEL": "Mark Account Statement As Paid",
-        "INCLUDE_RENTAL_FEE_CONTROL": {
-          "CONTROL_LABEL": "Check Rental Fee:"
-        },
-        "INCLUDE_UTILITY_BILLS_CONTROL": {
-          "CONTROL_LABEL": "Check Utility Bills:"
-        },
-        "INCLUDE_MISCELLANEOUS_FEE_CONTROL": {
-          "CONTROL_LABEL": "Check Miscellaneous Fees:"
-        },
-        "INCLUDE_PENALTY_AMOUNT_CONTROL": {
-          "CONTROL_LABEL": "Check Penalty Amount:"
-        }
-      },
       "ADD_DIALOG": {
         "TITLE": "Add New Contract",
         "CONFIRM_MESSAGE": "Are you sure to save new contract?",
@@ -1344,25 +1335,33 @@
       "PAID": "PAID",
       "UNPAID": "UNPAID"
     },
-    "HEADER_LABEL": "STATEMENT OF ACCOUNTS"
+    "HEADER_LABEL": "Statement of Accounts"
   },
 
   "ACCOUNT_STATEMENT_DETAILS": {
     "ACTION_BAR_SECTION": {
-      "TITLE": "STATEMENT OF ACCOUNT",
-      "OPTIONS": {
-        "PAYMENTS": "Payments",
-        "PENALTIES": "Penalties"
+      "FOR_VIEWING": {
+        "TITLE": "STATEMENT OF ACCOUNT",
+        "OPTIONS": {
+          "PAYMENTS": "Payments",
+          "PENALTIES": "Penalties"
+        }
+      },
+      "FOR_CREATION": {
+        "TITLE": "New Statement of Account"
       }
     },
     "SEND_DETAILS": "Send Details",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
+      "NEW_RENTAL_BILL_LABEL": "New Rental Bill",
+      "NEW_UTILITY_BILL_LABEL": "New Utility Bill",
       "DUE_DATE": "Due Date:",
       "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
       "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
       "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
       "ELECTRICITY_BILL_AMOUNT_LABEL": "Electric Bill Amount:",
+      "RATE_LABEL": "Rate:",
       "RENT_INCOME_LABEL": "Rent Income:",
       "RENT_AMOUNT_LABEL": "Rent Amount:",
       "PENALTIES_LABEL": "Penalties Amount:",
@@ -1383,9 +1382,13 @@
     },
     "CREATE_NEW_DIALOG": {
       "TITLE": "Create new statement of account",
-      "CONFIRM_MESSAGE": "Are you sure you want to create new statement of account?",
-      "SUCCESS_MESSAGE": "New statement of account has been successfully created.",
-      "ERROR_MESSAGE": "Failed to create new statement of account. Please try again later."
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
+      "NEW_UTILIY_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for utility bills?",
+      "NEW_UTILIY_BILL_SUCCESS_MESSAGE": "New statement of account for utility bills has been successfully created.",
+      "NEW_UTILIY_BILL_ERROR_MESSAGE": "Failed to create new statement of account for utility bills. Please try again later.",
+      "NEW_RENTAL_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for rental bill?",
+      "NEW_RENTAL_BILL_SUCCESS_MESSAGE": "New statement of account for rental bill has been successfully created.",
+      "NEW_RENTAL_BILL_ERROR_MESSAGE": "Failed to create new statement of account for rental bills. Please try again later."
     },
     "DELETE_ACCOUNT_STATEMENT_DIALOG": {
       "TITLE": "Delete Statement of account",
@@ -1411,6 +1414,7 @@
       "DATE_FROM_LABEL": "From:",
       "DATE_TO_LABEL": "To:",
       "PAYMENT_STATUS_LABEL": "Payment Status:",
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
       "SORT_ORDER_LABEL": "Sort Order:"
     }
   },
@@ -1538,7 +1542,29 @@
           "TOTAL_PAID_AMOUNT": "Total Paid Amount",
           "TOTAL_UNPAID_AMOUNT": "Total Unpaid Amount"
         }
+      },
+      "UNREAD_NOTIFICATION_COUNT_WIDGET": {
+        "MAIN_LABEL_1": "You have",
+        "MAIN_LABEL_2": "unread Notifications"
       }
+    }
+  },
+
+  "NOTIFICATION_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Notifications"
+    },
+    "EMPTY_NOTIFICATION_LIST": "No Available Notifications"
+  },
+
+  "NOTIFICATION_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Notification Filter"
+    },
+    "BODY_SECTION": {
+      "FROM_DATE_LABEL": "From Date:",
+      "TO_DATE_LABEL": "To Date:",
+      "SORT_ORDER_LABEL": "Sort Order:"
     }
   }
 }

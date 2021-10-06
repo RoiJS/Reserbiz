@@ -17,6 +17,7 @@ import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { AccountStatementService } from '@src/app/_services/account-statement.service';
 import { ContractService } from '@src/app/_services/contract.service';
 import { DialogService } from '@src/app/_services/dialog.service';
+import { UserNotificationService } from '@src/app/_services/user-notification.service';
 
 import { NumberFormatter } from '@src/app/_helpers/formatters/number-formatter.helper';
 
@@ -46,6 +47,7 @@ export class ContractAccountStatementInformationComponent
     private accountStatementService: AccountStatementService,
     private contractService: ContractService,
     private dialogService: DialogService,
+    private userNotificationService: UserNotificationService,
     private formBuilder: FormBuilder,
     private pageRoute: PageRoute,
     private translateService: TranslateService,
@@ -85,7 +87,7 @@ export class ContractAccountStatementInformationComponent
           this._currentAccountStatementId
         );
 
-      this.dueDate = this._currentAccountStatement.utilityBillsDueDate;
+      this.dueDate = this._currentAccountStatement.dueDate;
       this._waterAndElecitricBillAmountformGroup.patchValue({
         electricBillAmount: this._currentAccountStatement.electricBill,
         waterBillAmount: this._currentAccountStatement.waterBill,
@@ -94,9 +96,12 @@ export class ContractAccountStatementInformationComponent
       this.electricBillAmountOriginal =
         this._currentAccountStatement.electricBill;
       this.waterBillAmountOriginal = this._currentAccountStatement.waterBill;
-      this.dueDateOriginal = this._currentAccountStatement.utilityBillsDueDate;
+      this.dueDateOriginal = this._currentAccountStatement.dueDate;
 
       this._isBusy = false;
+
+      // Make sure to reload unread notification count.
+      this.userNotificationService.checkNotificationUpdate();
     })();
   }
 

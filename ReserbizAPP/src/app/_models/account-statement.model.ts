@@ -1,3 +1,4 @@
+import { AccountStatementTypeEnum } from '../_enum/account-statement-type.enum';
 import { MiscellaneousDueDateEnum } from '../_enum/miscellaneous-due-date.enum';
 
 import { DateFormatter } from '../_helpers/formatters/date-formatter.helper';
@@ -12,7 +13,6 @@ export class AccountStatement extends Entity {
   public rate: number;
   public advancedPaymentDurationValue: number;
   public depositPaymentDurationValue: number;
-  public utilityBillsDueDate: Date;
   public excludeElectricBill: boolean;
   public electricBill: number;
   public excludeWaterBill: boolean;
@@ -26,6 +26,7 @@ export class AccountStatement extends Entity {
   public isFullyPaid: boolean;
   public isFirstAccountStatement: boolean;
   public tenantName: string;
+  public accountStatementType: AccountStatementTypeEnum;
   public miscellaneousDueDate: MiscellaneousDueDateEnum;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
 

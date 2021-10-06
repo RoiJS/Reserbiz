@@ -1,0 +1,28 @@
+<StackLayout>
+  <RadDataForm
+    [source]="accountStatementTypeDropdownControlFormSource"
+    (propertyCommitted)="onPropertyCommitted($event)"
+  >
+    <TKPropertyGroup
+      tkDataFormGroups
+      name="Group_AccountStatementType"
+      [titleHidden]="true"
+      hidden="false"
+    >
+      <TKEntityProperty
+        tkPropertyGroupProperties
+        name="accountStatementType"
+        [displayName]="'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.ACCOUNT_STATEMENT_TYPE_LABEL' | translate"
+        [valuesProvider]="accountStatementTypeOptions"
+        index="0"
+      >
+        <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+          <TKPropertyEditorStyle
+            tkPropertyEditorStyle
+            labelTextSize="14"
+          ></TKPropertyEditorStyle>
+        </TKPropertyEditor>
+      </TKEntityProperty>
+    </TKPropertyGroup>
+  </RadDataForm>
+</StackLayout>

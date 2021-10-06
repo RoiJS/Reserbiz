@@ -22,6 +22,14 @@
     background-color: white;
   }
 
+  &__statement-of-account-list-header {
+    background: $primary-gradient;
+    padding: 3;
+    color: $white;
+    border-radius: 5%;
+    margin-bottom: 8;
+  }
+
   .app-list-item-swipe-template {
     &__option {
       width: 20;
@@ -36,7 +44,7 @@
       margin-right: 10;
       border-radius: 50%;
       padding: 6;
-      color: white;
+      color: $white;
 
       &--paid {
         background-color: rgb(50, 189, 50);
@@ -53,6 +61,18 @@
 
     &__detail {
       font-size: 14;
+    }
+
+    &__account-statement-type-icon {
+      background-color: $primary;
+      border-radius: 50%;
+      width: 30;
+      height: 30;
+
+      label {
+        color: $white;
+        font-size: 15;
+      }
     }
   }
 }

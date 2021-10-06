@@ -92,6 +92,20 @@ export class StatementOfAccountsComponent
       },
       {
         name: this.translateService.instant(
+          'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TABLE_INFORMATION.ACCOUNT_STATEMENT_TYPE_INFORMATION.NAME'
+        ),
+        defaultValue: this.translateService.instant(
+          'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TABLE_INFORMATION.ACCOUNT_STATEMENT_TYPE_INFORMATION.DEFAULT_VALUES'
+        ),
+        datatype: this.translateService.instant(
+          'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TABLE_INFORMATION.ACCOUNT_STATEMENT_TYPE_INFORMATION.DATA_TYPE'
+        ),
+        definition: this.translateService.instant(
+          'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TABLE_INFORMATION.ACCOUNT_STATEMENT_TYPE_INFORMATION.DESCRIPTION'
+        ),
+      },
+      {
+        name: this.translateService.instant(
           'STATEMENT_OF_ACCOUNTS_PAGE.BODY.SEARCH_STATEMENT_OF_ACCOUNTS_SECTION.TABLE_INFORMATION.SORT_ORDER_INFORMATION.NAME'
         ),
         defaultValue: this.translateService.instant(

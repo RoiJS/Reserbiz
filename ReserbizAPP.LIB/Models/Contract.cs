@@ -29,14 +29,6 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum DurationUnit { get; set; }
         #endregion
 
-
-        #region "Mark Account Statement as Paid Setting"
-        public bool IncludeRentalFee { get; set; }
-        public bool IncludeUtilityBills { get; set; }
-        public bool IncludeMiscellaneousFees { get; set; }
-        public bool IncludePenaltyAmount { get; set; }
-        #endregion
-
         public List<AccountStatement> AccountStatements { get; set; }
 
         public int? DeletedById { get; set; }
@@ -172,8 +164,13 @@ namespace ReserbizAPP.LIB.Models
         private DateTime GetNextDueDate()
         {
             var nextDueDate = new DateTime();
-            var activeAccountStatements = AccountStatements
-                    .Where(a => a.IsDelete == false)
+
+            // Only get statement of account with the type of Rental Bills.
+            var activeRentalBillAccountStatements = AccountStatements
+                    .Where(a =>
+                        a.AccountStatementType == AccountStatementTypeEnum.RentalBill &&
+                        a.IsDelete == false
+                    )
                     .ToList();
 
             // If the there are no account statements yet,
@@ -181,17 +178,17 @@ namespace ReserbizAPP.LIB.Models
             // next due date, If not, we will
             // calculate the next due date based 
             // on the duration unit
-            if (activeAccountStatements.Count == 0)
+            if (activeRentalBillAccountStatements.Count == 0)
             {
                 nextDueDate = EffectiveDate;
             }
             else
             {
                 // Make sure that active statement of accounts are ordered by due date ascending
-                var accountStatementsOrderByDueDateAscending = activeAccountStatements
+                var accountStatementsOrderByDueDateAscending = activeRentalBillAccountStatements
                                                                     .OrderBy(a => a.DueDate)
                                                                     .ToList();
-                var lastAccountStatement = accountStatementsOrderByDueDateAscending[activeAccountStatements.Count - 1];
+                var lastAccountStatement = accountStatementsOrderByDueDateAscending[activeRentalBillAccountStatements.Count - 1];
                 var currentDueDate = lastAccountStatement.DueDate;
                 var daysBeforeNextDueDate = currentDueDate.CalculateDaysBasedOnDuration(1, Term.DurationUnit);
                 nextDueDate = currentDueDate.AddDays(daysBeforeNextDueDate);

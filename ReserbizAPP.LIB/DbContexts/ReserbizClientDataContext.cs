@@ -35,6 +35,10 @@ namespace ReserbizAPP.LIB.DbContexts
         public DbSet<AccountStatementMiscellaneous> AccountStatementMiscellaneous { get; set; }
         public DbSet<PaymentBreakdown> PaymentBreakdowns { get; set; }
         public DbSet<PenaltyBreakdown> PenaltyBreakdowns { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
+        public DbSet<GeneratedAccountStatementNotification> GeneratedAccountStatementNotifications { get; set; }
+        public DbSet<PaymentRegisterNotification> PaymentRegisterNotifications { get; set; }
         public DbSet<ClientSettings> ClientSettings { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
 

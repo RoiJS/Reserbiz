@@ -14,6 +14,7 @@
     "PAYMENTS": "Payments",
     "PENALTIES": "Penalties",
     "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings"
   },
 
@@ -147,6 +148,10 @@
       "OVERVIEW_SECTION": {
         "TITLE": "Overview",
         "DESCRIPTION": "<p>This page contains what we called “widgets” that contains some of the important summary information that the app has which is helpful to the user administrator of the app. This contains some information like the number of active tenants, number of available units, number of active contracts and more. You can see below more details about each of these available widgets.</p>"
+      },
+      "UNREAD_NOTIFICATION_COUNT_WIDGET_SECTION": {
+        "TITLE": "Unread Notification Count Widget",
+        "DESCRIPTION": "<p>This contains the number of unread notifications available on the user’s account. Tapping on this widget, user will be redirected to the notification list page.</p>"
       },
       "ACTIVE_TENANTS_WIDGET_SECTION": {
         "TITLE": "Active Tenants Widget",
@@ -800,22 +805,33 @@
         "TITLE": "Overview",
         "DESCRIPTION_1": "<p>Statement accounts contains the information about the amount for each due date. The bill amount is based on the term template used by the contract.</p>",
         "DESCRIPTION_2": "<p>This is the page where user can administrate statement of accounts information.</p>",
-        "DESCRIPTION_3": "<p>The list contains some information about the statement of accounts such as the <b>status</b>, the <b>date</b>, and the <b>amount</b>.</p>",
-        "DESCRIPTION_4": "<p>Any paid statement of accounts is marked with paid badge <img src='../../../assets/images/system-icons/paid-icon.png'>.</p>",
-        "DESCRIPTION_5": "<p>Any unpaid statement of accounts is marked with unpaid badge <img src='../../../assets/images/system-icons/unpaid-icon.png'>.</p>"
+        "DESCRIPTION_3": "<p>Statement of account can be categorized into to types, the <b>Rental Bill</b> and <b>Utility bill</b> statement of account.</p>",
+        "DESCRIPTION_4": "<p><b>Rental bill</b> statement of accounts contains bills information that is specific for rental. <b>Utility Bill</b> on the other hand contains bills information regarding both electric and water bill.</p>",
+        "DESCRIPTION_5": "<p>The list contains some information about the statement of accounts such as the <b>status</b>, the <b>date</b>, and the <b>amount</b>.</p>",
+        "DESCRIPTION_6": "<p>Any paid statement of accounts is marked with paid badge <img src='../../../assets/images/system-icons/paid-icon.png'>.</p>",
+        "DESCRIPTION_7": "<p>Any unpaid statement of accounts is marked with unpaid badge <img src='../../../assets/images/system-icons/unpaid-icon.png'>.</p>",
+        "DESCRIPTION_8": "<p>Statement of account that has <img class='system-icon' src='../../../assets/images/system-icons/utility-bill-account-statement-icon.png'> indicates that it is a type of Utility Bill.</p>",
+        "DESCRIPTION_9": "<p>Statement of account that has <img class='system-icon' src='../../../assets/images/system-icons/rental-bill-account-statement-icon.png'> indicates that it is a type of Rental Bill.</p>"
       },
       "ADD_NEW_STATEMENT_OF_ACCOUNTS_SECTION": {
         "TITLE": "Add New Statement of Accounts",
-        "DESCRIPTION_1": "<p>Creating statement of accounts can be done manually and automatically.</p>",
+        "DESCRIPTION_1": "<p>Creating statement of accounts can be done manually or automatically.</p>",
         "DESCRIPTION_2": "<p class='subsection-title'>Manual Adding of Statement of Account</p>",
-        "DESCRIPTION_3": "<p>To add statement of account manually, simply tap the add button <img src='../../../assets/images/system-icons/add-icon.png'>. This will open a dialog. Dialog shows some information about the breakdown of the amounts for the statement of account. It has also <b>Mark as Paid</b> option. This will determine if the new statement of account will automatically be marked as paid or not. If Yes, then a new payment entry will be added containing the total amount of the statement of account. See <a href='/contracts/statement-of-accounts/payments#overview-section'>Payments</a> section for more details about the process of registering payments in the application. Tap the <b>Create</b> button to create new statement of account or tap Close button to cancel the process.</p>",
-        "DESCRIPTION_4": "<p class='subsection-title'>Automatically Adding of Statement of Accounts</p>",
-        "DESCRIPTION_5": "<p>It is good to know that there is a scheduled task running every day on the server that monitors and checks if there are any upcoming due date. If the scheduled task found any active contracts that have upcoming due dates, then the system will automatically generate statement of accounts. Notification will be sent to the device for each generated statement of accounts. </p>",
-        "DESCRIPTION_6": "<p>Following criteria must be satisfied in order for the scheduled task to generate statement of accounts:<br><ul><li>Contract’s next due date should be before the contract’s expiration date.</li><li>Contract’s effective date should be before or equal to the current date.</li><li>Contract’s effective date should be equal to the contract ‘s next due date OR the number of days before the contract’s next due date with respect to the current date is equal or less the value for the setting called <b>Generate account statement days before due date</b>.</li></ul></p>",
-        "DESCRIPTION_7": "<p><b>Examples:</b><br><br><br><b>Scenario # 1:</b><br><ul><li>Current date: 2021-05-17</li><li>Contract’s effective date = 2021-04-17</li><li>Contract’s expiration date = 2022-04-17</li><li>Contract’s next due date = 2021-05-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
-        "DESCRIPTION_8": "<p><b>Scenario # 2:</b><br><ul><li>Current date: 2021-04-19</li><li>Contract’s effective date = 2020-12-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-04-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 2 days</li></ul></p>",
-        "DESCRIPTION_9": "<p><b>Scenario # 3:</b><br><ul><li>Current date: 2021-06-17</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
-        "DESCRIPTION_10": "<p><b>Scenario # 4:</b><br><ul><li>Current date: 2021-06-21</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 0 day</li></ul></p>"
+        "DESCRIPTION_3": "<p>To add statement of account manually, simply tap the add button <img src='../../../assets/images/system-icons/add-icon.png'> . This will open a dialog. The dialog contains a dropdown option for statement of account type. By default, Rental Bill option is selected. Selecting statement of account and tapping <b>Create</b> button will redirect user to its corresponding page.</p>",
+        "DESCRIPTION_4": "<p>Take note that <b>Utility Bill</b> option is only available if both contract term settings called <b>Electric Bill Amount</b> and <b>Exclude Water Bill</b> are not inactive and also the statement of account list is not empty. See <a href='/terms#miscellaneous-settings-section'>Add New Term</a> section for more details about Term settings.</p>",
+        "DESCRIPTION_5": "<p class='sublowersection-title'>For Rental Bill</p>",
+        "DESCRIPTION_6": "<p>This page contains the summary details for the rental bill statement of account that is to be created once tapping the save button. This page also contains the <b>Mark as Paid</b> setting, which indicates whether to automatically set the statement of account as <b>Paid</b> or not once it is created. If it is activated, what will happen behind the scenes is that this will basically register payment amount that is equal to the Total Amount.</p>",
+
+        "DESCRIPTION_7": "<p class='sublowersection-title'>For Utility Bill</p>",
+        "DESCRIPTION_8": "<p>This page contains the summary details for the utility bill statement of account that is to be created once tapping the save button. This contains fields that can be edited (Due Date, Water Bill Amount and Electric Bill Amount). This page also contains the <b>Mark as Paid</b> setting, which indicates whether to automatically set the statement of account as <b>Paid</b> or not once it is created. If it is activated, what will happen behind the scenes is that this will basically register payment amount that is equal to the Total Amount.</p>",
+
+        "DESCRIPTION_9": "<p class='subsection-title'>Automatically Adding of Statement of Accounts</p>",
+        "DESCRIPTION_10": "<p>It is good to know that there is a scheduled task running every day on the server that monitors and checks if there are any upcoming due date. If the scheduled task found any active contracts that have upcoming due dates, then the system will automatically generate statement of accounts. Take note that this functionality will only generate statement of accounts for <b>Rental Bills</b>. Notification will be sent to the device for each generated statement of accounts.</p>",
+        "DESCRIPTION_11": "<p>Following criteria must be satisfied in order for the scheduled task to generate statement of accounts:<br><ul><li>Contract’s next due date should be before the contract’s expiration date.</li><li>Contract’s effective date should be before or equal to the current date.</li><li>Contract’s effective date should be equal to the contract ‘s next due date OR the number of days before the contract’s next due date with respect to the current date is equal or less the value for the setting called <b>Generate account statement days before due date</b>.</li></ul></p>",
+        "DESCRIPTION_12": "<p><b>Examples:</b><br><br><br><b>Scenario # 1:</b><br><ul><li>Current date: 2021-05-17</li><li>Contract’s effective date = 2021-04-17</li><li>Contract’s expiration date = 2022-04-17</li><li>Contract’s next due date = 2021-05-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
+        "DESCRIPTION_13": "<p><b>Scenario # 2:</b><br><ul><li>Current date: 2021-04-19</li><li>Contract’s effective date = 2020-12-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-04-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 2 days</li></ul></p>",
+        "DESCRIPTION_14": "<p><b>Scenario # 3:</b><br><ul><li>Current date: 2021-06-17</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 4 days</li></ul></p>",
+        "DESCRIPTION_15": "<p><b>Scenario # 4:</b><br><ul><li>Current date: 2021-06-21</li><li>Contract’s effective date = 2020-06-21</li><li>Contract’s expiration date = 2021-06-21</li><li>Contract’s next due date = 2021-06-21</li><li>Generate account statement days before due date = 5 days</li><li>Days before due date = Contract’s next due date – Current Date = 0 day</li></ul></p>"
       },
       "SEARCH_STATEMENT_OF_ACCOUNTS_SECTION": {
         "TITLE": "Search Statement of Accounts",
@@ -842,6 +858,12 @@
             "DATA_TYPE": "Dropdown (All, Paid, Unpaid)",
             "DESCRIPTION": "This will filter the statement of account based on the status."
           },
+          "ACCOUNT_STATEMENT_TYPE_INFORMATION": {
+            "NAME": "Account Statement Type",
+            "DEFAULT_VALUES": "All",
+            "DATA_TYPE": "Dropdown (All, Rental Bill, and Electric Bill)",
+            "DESCRIPTION": "This will filter the statement of account based on the statement of account type."
+          },
           "SORT_ORDER_INFORMATION": {
             "NAME": "Sort Order",
             "DEFAULT_VALUES": "Descending",
@@ -853,21 +875,26 @@
       "STATEMENT_OF_ACCOUNT_DETAILS_SECTION": {
         "TITLE": "Statement of Account Details",
         "DESCRIPTION_1": "<p>To view statement of account details, from within the statement of list tap any item from the list. This will bring the user to the statement of account details page.</p>",
-        "DESCRIPTION_2": "<p>This page shows a detailed information about the statement of account amount.</p>",
-        "DESCRIPTION_3": "<p>The information are group into two section, the <b>Utility bills</b> section and the <b>Rental fees</b> section</p>",
-        "DESCRIPTION_4": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous. The due date for miscellaneous fees can be configured whether same with the rental fees or same with the utility biils. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details. If the Miscellaneous Due Date setting is set to <b>Same With Rental Fees</b>, then the miscellaneous section will be displayed under Rental Fees section and if the Miscellaneous Due Date is set to <b>Same With Utility Bills</b> then the miscellaneous section will be displayed undere Utility bills section.</p>",
-        "DESCRIPTION_5": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
-        "DESCRIPTION_6": "<p><b>Electric Bill Amount</b> field is only available if the electric bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
-        "DESCRIPTION_7": "<p><b>Water Bill Amount</b> field is only available if the water bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
-        "DESCRIPTION_8": "<p>If in case that both electric and water bill amount are set to be included on the rental fee amount, then the entire section will not be available.</p>",
 
-        "DESCRIPTION_9": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
-        "DESCRIPTION_10": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
+        "DESCRIPTION_2": "<p class='subsection-title'>For Rental Bill</p>",
+        "DESCRIPTION_3": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous AND if the contract term setting called <b>Miscellaneous Due Date</b> is set to <b>Same With Rental Due Date</b>. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details.</p>",
+        "DESCRIPTION_4": "<p><b>Penalties Amount</b> section is only available if there are available penalties.</p>",
+        "DESCRIPTION_5": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>",
+
+        "DESCRIPTION_6": "<p class='subsection-title'>For Utility Bill</p>",
+        "DESCRIPTION_7": "<p><b>Electric Bill Amount</b> field is only available if the electric bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_8": "<p><b>Water Bill Amount</b> field is only available if the water bill is set to be NOT included on the rental rate which is configured from within the Term settings.</p>",
+        "DESCRIPTION_9": "<p><b>Miscellaneous Fee</b> section is only available if there are available miscellaneous AND if the contract term setting called <b>Miscellaneous Due Date</b> is set to <b>Same With Utility Due Date</b>. Please see <a href='/terms#miscellaneous-settings-section'>Miscellaneous Due Date</a> for more details.</p>",
+        "DESCRIPTION_10": "<p>Values for <b>Utility Bills Due Date</b>, <b>Water Bill Amount</b> and <b>Electric Bill Amount</b> can be updated and in order to save the value, just tap the save button located in the toolbar section.</p>",
+        "DESCRIPTION_11": "<p>On the bottom section of the page, the payment breakdown can also be seen.</p>"
       },
       "DELETE_STATEMENT_OF_ACCOUNT": {
         "TITLE": "Delete Statement of Account",
         "DESCRIPTION_1": "<p>From within the statement of account information page, user can delete statement of account. To delete tap the delete icon located at the toolbar section. This will ask the user to proceed or not. If Yes, user will be navigated back to statement of account list.</p>",
-        "DESCRIPTION_2": "<p>Take note that the delete option is only available for the latest statement of account, this is to make sure that the order of the statement of accounts based on the date is retained.</p>"
+        "DESCRIPTION_2": "<p class='subsection-title'>For Rental Bill</p>",
+        "DESCRIPTION_3": "<p>Take note that the delete option is only available for the latest statement of account, this is to make sure that the order of the statement of accounts based on the date is retained.</p>",
+        "DESCRIPTION_4": "<p class='subsection-title'>For Utility Bill</p>",
+        "DESCRIPTION_5": "<p>The delete option is always available. The order of the utility bill statement of account does not matter so delete button is always available.</p>"
       },
       "SEND_STATEMENT_OF_ACCOUNTS_DETAILS": {
         "TITLE": "Send Statement of Accounts",
@@ -912,7 +939,9 @@
           "PAYMENT_FOR_INFORMATION": {
             "NAME": "Payment For",
             "DATA_TYPE": "Dropdown (Rental, Electric Bill, Water Bill, Miscellaneous Fees or Penalty)",
-            "DESCRIPTION": "<p>This will define if the payment is for <b>Rental, Electric Bill, Water Bill, Miscellaneous fees</b> or <b>Penalty</b>.</p>"
+            "DESCRIPTION_1": "<p>This will define if the payment is for <b>Rental, Electric Bill, Water Bill, Miscellaneous fees</b> or <b>Penalty</b>.</p>",
+            "DESCRIPTION_2": "<p>For <b>Rental Bill</b> - Statement of account, only Rental, Penalty and Miscellaneous fees (only if the contract term setting called <b>Miscellaneous Due Date</b> is set to <b>Same With Rental Due Date</b>) options are available.</p>",
+            "DESCRIPTION_3": "<p>For <b>Utility Bill</b> - Statement of account, only Electric Bill, Water Bill and Miscellaneous fees (only if the contract term setting called <b>Miscellaneous Due Date</b> is set to Same With Utility Due Date)</p>"
           },
           "AMOUNT_INFORMATION": {
             "NAME": "Amount",
@@ -951,7 +980,9 @@
             "NAME": "Payment For",
             "DEFAULT_VALUES": "All",
             "DATA_TYPE": "Dropdown (All, Rental, Electric Bill, Water Bill, Miscellaneous and Penalty)",
-            "DESCRIPTION": "This will filter the list based on the selected Payment for options."
+            "DESCRIPTION_1": "This will filter the list based on the selected Payment for options.",
+            "DESCRIPTION_2": "<p>For <b>Rental Bill</b> - Statement of account, only Rental, Penalty and Miscellaneous fees (only if the contract term setting called <b>Miscellaneous Due Date</b> is set to <b>Same With Rental Due Date</b>) options are available.</p>",
+            "DESCRIPTION_3": "<p>For <b>Utility Bill</b> - Statement of account, only Electric Bill, Water Bill and Miscellaneous fees (only if the contract term setting called <b>Miscellaneous Due Date</b> is set to Same With Utility Due Date)</p>"
           },
           "SORT_ORDER_INFORMATION": {
             "NAME": "Sort Order",
@@ -1008,6 +1039,24 @@
         "DESCRIPTION_1": "<p>This page contains some global configuration for the system. This page contains panel called General Settings.</p>",
         "DESCRIPTION_2": "<p>General Settings panel contains single setting called Business Name. This business name is used on the SMS and the email when sending statement of account details to the tenant. See <a href='/contracts/statement-of-accounts#send-statement-of-account-details-section'>Send Statement of Account Details</a> section.</p>",
         "DESCRIPTION_3": "<p>To save changes, tap the save button on the toolbar section.</p>"
+      }
+    }
+  },
+
+  "NOTIFICATION_PAGE": {
+    "HEADER": {
+      "TITLE": "Notifications"
+    },
+    "BODY": {
+      "OVERVIEW_SECTION": {
+        "TITLE": "Overview",
+        "DESCRIPTION_1": "<p>This page contains the list of all notifications received by the user.</p>",
+        "DESCRIPTION_2": "<p>By clicking a specific notification item from the list, the user will be redirected to the page that corresponds to the notification item.</p>"
+      },
+      "FILTER_NOTIFICATION_SECTION": {
+        "TITLE": "Filter Notifications",
+        "DESCRIPTION_1": "<p>Notification list can also be filtered through the filter dialog. By clicking the filter icon <img class='system-icon' src='../../assets/images/system-icons/filter-icon1.png'/>, a dialog filter will pop up containing filter settings.</p>",
+        "DESCRIPTION_2": "<p>Filter settings will be remembered the next time that user will re-visit this page.</p>"
       }
     }
   },

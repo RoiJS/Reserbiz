@@ -83,4 +83,11 @@ export const routes: Routes = [
         (m) => m.SystemUpdateModule
       ),
   },
+  {
+    path: 'notifications',
+    loadChildren: () =>
+      import('./notifications/notifications.module').then(
+        (m) => m.NotificationsModule
+      ),
+  },
 ];

@@ -1,0 +1,31 @@
+@import '../../../app-variables';
+
+.dashboard-container {
+  &__widget-panel {
+    height: auto;
+  }
+
+  &__unread-notification-count-widget-container {
+    width: 100%;
+    justify-content: center;
+
+    .notification-icon-container {
+      background-color: $primary;
+      padding: 5;
+      border-radius: 50%;
+      height: 40;
+      width: 40;
+      color: $white;
+      font-size: 20;
+    }
+
+    .notification-counter-label {
+      font-weight: bold;
+      color: $primary;
+    }
+  }
+
+  &__widget-content-section {
+    width: 80%;
+  }
+}

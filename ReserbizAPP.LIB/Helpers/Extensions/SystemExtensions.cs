@@ -59,6 +59,16 @@ namespace ReserbizAPP.LIB.Helpers
             return numberOfDays;
         }
 
+        /// <summary>
+        /// This calculates the last day of the month.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetLastDayOfMonth(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
+        }
+
         public static IQueryable<TEntity> Includes<TEntity>(this IQueryable<TEntity> query,
                                     params Expression<Func<TEntity, object>>[] includes)
                                     where TEntity : class, IEntity
@@ -114,7 +124,7 @@ namespace ReserbizAPP.LIB.Helpers
         {
             return TimeZoneInfo.ConvertTimeBySystemTimeZoneId(dateTime.ToUniversalTime(), timezoneId);
         }
-        
+
         /// <summary>
         /// Convert date and time based on the local timezone id
         /// </summary>
