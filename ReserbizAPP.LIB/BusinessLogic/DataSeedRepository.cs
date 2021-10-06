@@ -655,8 +655,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
                     SpaceId = roomStudioType1.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -669,8 +667,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
                     SpaceId = roomStudioType2.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -683,8 +679,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
                     SpaceId = bedSpace1.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -697,8 +691,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.Week,
                     IsOpenContract = false,
                     SpaceId = bedSpace2.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -711,8 +703,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.Month,
                     IsOpenContract = false,
                     SpaceId = condo1.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -725,8 +715,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
                     SpaceId = roomNonStudioType2.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.Contracts.Add(new Contract
@@ -739,8 +727,6 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     DurationUnit = DurationEnum.None,
                     IsOpenContract = true,
                     SpaceId = roomNonStudioType1.Id,
-                    IncludeRentalFee = true,
-                    IncludeMiscellaneousFees = true
                 });
 
                 _context.SaveChanges();

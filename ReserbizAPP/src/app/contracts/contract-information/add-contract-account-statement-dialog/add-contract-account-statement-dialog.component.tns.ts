@@ -1,44 +1,75 @@
-import { Component, OnInit } from '@angular/core';
-
-import { EventData, Switch } from '@nativescript/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ModalDialogParams } from '@nativescript/angular';
+import { Subscription } from 'rxjs';
 
-import { AccountStatement } from '@src/app/_models/account-statement.model';
+import { AccountStatementTypeDropdownControlService } from '@src/app/_services/account-statement-type-dropdown-control.service';
+
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 
 @Component({
   selector: 'ns-add-contract-account-statement-dialog',
   templateUrl: './add-contract-account-statement-dialog.component.html',
   styleUrls: ['./add-contract-account-statement-dialog.component.scss'],
 })
-export class AddContractAccountStatementDialogComponent implements OnInit {
-  private _suggestedAccountStatement: AccountStatement;
+export class AddContractAccountStatementDialogComponent
+  implements OnInit, OnDestroy
+{
+  private _contractId = 0;
+  private _accountStatementListCount = 0;
+  private _accountStatementTypeValueServiceSub: Subscription;
 
-  private _markAsPaid: boolean = false;
+  private _accountStatementType: AccountStatementTypeEnum;
 
-  constructor(private params: ModalDialogParams) {
-    this._suggestedAccountStatement = params.context.suggestedAccountStatement;
+  constructor(
+    private accountStatementTypeDropdownValueService: AccountStatementTypeDropdownControlService,
+    private params: ModalDialogParams
+  ) {
+    this._contractId = params.context.contractId;
+    this._accountStatementListCount = params.context.accountStatementListCount;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._accountStatementTypeValueServiceSub =
+      this.accountStatementTypeDropdownValueService.accountStatementTypeDropdownValue.subscribe(
+        (currentValue: AccountStatementTypeEnum) => {
+          this._accountStatementType = currentValue;
+        }
+      );
+  }
+
+  ngOnDestroy() {
+    if (this._accountStatementTypeValueServiceSub) {
+      this._accountStatementTypeValueServiceSub.unsubscribe();
+    }
+  }
 
   closeDialog() {
     this.params.closeCallback();
   }
 
   onCreate() {
+    let url = '';
+
+    switch (this._accountStatementType) {
+      case AccountStatementTypeEnum.RentalBill:
+        url = 'new-account-statement/new-rental-bill-statement-of-account';
+        break;
+      case AccountStatementTypeEnum.UtilityBilll:
+        url = 'new-account-statement/new-utility-bill-statement-of-account';
+        break;
+    }
+
     this.params.closeCallback({
-      confirm: true,
-      markAsPaid: this._markAsPaid,
+      url,
     });
   }
 
-  onCheckedChange(args: EventData) {
-    const sw = args.object as Switch;
-    this._markAsPaid = sw.checked;
+  get contractId(): number {
+    return this._contractId;
   }
 
-  get suggestedAccountStatement(): AccountStatement {
-    return this._suggestedAccountStatement;
+  get accountStatementListCount(): number {
+    return this._accountStatementListCount;
   }
 }

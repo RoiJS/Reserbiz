@@ -103,6 +103,9 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("AccountStatementType")
+                        .HasColumnType("int");
+
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
 
@@ -183,9 +186,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int?>("UpdatedById")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UtilityBillsDueDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<float>("WaterBill")
                         .HasColumnType("real");
@@ -426,18 +426,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<DateTime>("EncashedDepositAmountDateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IncludeMiscellaneousFees")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludePenaltyAmount")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludeRentalFee")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IncludeUtilityBills")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

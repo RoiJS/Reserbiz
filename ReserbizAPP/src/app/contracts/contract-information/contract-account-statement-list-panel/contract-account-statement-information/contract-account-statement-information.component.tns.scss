@@ -21,7 +21,7 @@ Button {
   &__details-section {
     padding: 0;
     margin: 5;
-    font-size: 14;
+    font-size: 16;
     border-bottom-width: 0;
 
     TextField {
@@ -52,6 +52,16 @@ Button {
       width: 120;
       font-size: 15;
       padding: 0;
+    }
+
+    Switch[checked='true'] {
+      color: $primary;
+      background-color: rgb(194, 193, 193);
+    }
+
+    Switch[checked='false'] {
+      color: rgb(194, 193, 193);
+      background-color: gray;
     }
   }
 }

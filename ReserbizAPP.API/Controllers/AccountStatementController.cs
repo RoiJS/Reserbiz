@@ -63,7 +63,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpGet("getAccountStatementsPerContract")]
-        public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, SortOrderEnum sortOrder, int page)
+        public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, AccountStatementTypeEnum accountStatementType, SortOrderEnum sortOrder, int page)
         {
             var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
             var accountStatementsFromRepo = await _accountStatementRepository.GetActiveAccountStatementsPerContractAsync(contractId);
@@ -74,6 +74,7 @@ namespace ReserbizAPP.API.Controllers
                 FromDate = fromDate,
                 ToDate = toDate,
                 PaymentStatus = paymentStatus,
+                AccountStatementType = accountStatementType,
                 SortOrder = sortOrder
             };
 
@@ -118,7 +119,7 @@ namespace ReserbizAPP.API.Controllers
 
             accountStatementFromRepo.WaterBill = accountStatementWaterAndElectricBillUpdateDto.WaterBillAmount;
             accountStatementFromRepo.ElectricBill = accountStatementWaterAndElectricBillUpdateDto.ElectricBillAmount;
-            accountStatementFromRepo.UtilityBillsDueDate = accountStatementWaterAndElectricBillUpdateDto.UtilityBillsDueDate != "" ? Convert.ToDateTime(accountStatementWaterAndElectricBillUpdateDto.UtilityBillsDueDate) : new DateTime(0001, 01, 01);
+            accountStatementFromRepo.DueDate = accountStatementWaterAndElectricBillUpdateDto.DueDate != "" ? Convert.ToDateTime(accountStatementWaterAndElectricBillUpdateDto.DueDate) : new DateTime(0001, 01, 01);
 
             if (await _accountStatementRepository.SaveChanges())
                 return NoContent();
@@ -170,16 +171,18 @@ namespace ReserbizAPP.API.Controllers
             return Ok(suggestedAccountStatementToReturn);
         }
 
-        [HttpPost("createNewAccountStatement/{contractId}/{marksAsPaid}")]
-        public async Task<ActionResult<AccountStatementDetailsDto>> CreateNewAccountStatement(int contractId, bool marksAsPaid)
+        [HttpPost("createNewAccountStatement/{marksAsPaid}")]
+        public async Task<ActionResult<AccountStatementDetailsDto>> CreateNewAccountStatement(NewAccountStatementDto newAccountStatementDto, bool marksAsPaid)
         {
             try
             {
+                var accountStatement = _mapper.Map<AccountStatement>(newAccountStatementDto);
+
                 // Generate single statement of accounts
-                await _accountStatementRepository.GenerateContractAccountStatement(contractId, marksAsPaid, CurrentUserId);
+                await _accountStatementRepository.GenerateNewContractAccountStatement(accountStatement, marksAsPaid, CurrentUserId);
 
                 // Generate penalties
-                await _accountStatementRepository.GenerateAccountStatementPenalties(contractId);
+                await _accountStatementRepository.GenerateAccountStatementPenalties(accountStatement.ContractId);
             }
             catch (Exception ex)
             {
@@ -221,7 +224,7 @@ namespace ReserbizAPP.API.Controllers
                 {
                     try
                     {
-                        await _accountStatementRepository.GenerateContractAccountStatementsForNewDatabase(contract.Id, currentUserId);
+                        await _accountStatementRepository.GenerateContractAccountStatementsRentalBillForNewDatabase(contract.Id, currentUserId);
                     }
                     catch (Exception exception)
                     {
@@ -248,7 +251,7 @@ namespace ReserbizAPP.API.Controllers
                     try
                     {
                         var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
-                        await _accountStatementRepository.GenerateContractAccountStatements(dbHashName, contract.Id);
+                        await _accountStatementRepository.GenerateContractAccountStatementsForRentalBill(dbHashName, contract.Id);
                     }
                     catch (Exception exception)
                     {

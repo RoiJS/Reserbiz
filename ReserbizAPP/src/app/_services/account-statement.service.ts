@@ -10,6 +10,8 @@ import { AccountStatementsAmountSummary } from '../_models/account-statement-amo
 import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
 import { AccountStatementPaginationList } from '../_models/pagination_list/account-statement-pagination-list.model';
 
+import { NewAccountStatementDto } from '../_dtos/new-account-statement.dto';
+
 import { IBaseService } from '../_interfaces/services/ibase-service.interface';
 import { IAccountStatementFilter } from '../_interfaces/filters/iaccount-statement-filter.interface';
 
@@ -73,9 +75,9 @@ export class AccountStatementService
     id: number,
     waterBillAmount: number,
     electricBillAmount: number,
-    utilityBillsDueDate: Date
+    dueDate: Date
   ): Promise<void> {
-    const date = DateFormatter.format(utilityBillsDueDate);
+    const date = DateFormatter.format(dueDate);
     return await this.http
       .post<void>(
         `${this._apiBaseUrl}/accountstatement/updateWaterAndElectricBillAmount`,
@@ -83,7 +85,7 @@ export class AccountStatementService
           id,
           waterBillAmount,
           electricBillAmount,
-          utilityBillsDueDate: date,
+          dueDate: date,
         }
       )
       .toPromise();
@@ -106,12 +108,12 @@ export class AccountStatementService
   }
 
   createNewAccountStatement(
-    contractId: number,
+    newStatementOfAccount: NewAccountStatementDto,
     markAsPaid: boolean
   ): Observable<void> {
     return this.http.post<void>(
-      `${this._apiBaseUrl}/accountstatement/createNewAccountStatement/${contractId}/${markAsPaid}`,
-      {}
+      `${this._apiBaseUrl}/accountstatement/createNewAccountStatement/${markAsPaid}`,
+      newStatementOfAccount
     );
   }
 

@@ -36,11 +36,6 @@ namespace ReserbizAPP.LIB.Dtos
 
         public DurationEnum DurationUnit { get; set; }
 
-        public bool IncludeRentalFee { get; set; }
-        public bool IncludeUtilityBills { get; set; }
-        public bool IncludeMiscellaneousFees { get; set; }
-        public bool IncludePenaltyAmount { get; set; }
-
         public bool Status { get; set; }
 
         public DateTime ExpirationDate { get; set; }

@@ -3,42 +3,60 @@
     <!-- #Start Contract Account Statement List Setion -->
     <StackLayout>
       <StackLayout class="page-container contract-account-list-container">
-        <!-- #Start Account Statement Header Container -->
+        <!-- #Start Account Statement Header Button Options -->
         <FlexBoxLayout
-          class="page-container__page-divider contract-account-list-container__page-divider"
-          justifyContent="space-between"
+          class="
+            page-container__page-divider
+            contract-account-list-container__page-divider
+          "
+          justifyContent="flex-end"
         >
-          <StackLayout
-            alignSelf="center"
-            orientation="horizontal"
-            verticalAlignment="middle"
-          >
-            <label
-              class="fa fa-solid m-r-10 contract-account-list-container__icon"
-              text="&#xf03a;"
-            ></label>
-            <label
-              alignSelf="center"
-              [text]="'ACCOUNT_STATEMENT_LIST.HEADER_LABEL' | translate"
-            ></label>
-          </StackLayout>
-
           <button
             alignSelf="center"
-            class="fa fa-solid page-container__page-command contract-account-list-container__button -rounded-lg"
-            (tap)="openAddAccountStatementDialog()"
+            class="
+              fa fa-solid
+              page-container__page-command
+              contract-account-list-container__button
+              -rounded-lg
+            "
+            (tap)="openCreateNewAccountStatementDialog()"
             *ngIf="!IsCurrentContractArchived"
             text="&#xf067;"
           ></button>
           <button
             alignSelf="center"
-            class="fa fa-solid page-container__page-command contract-account-list-container__button -rounded-lg"
+            class="
+              fa fa-solid
+              page-container__page-command
+              contract-account-list-container__button
+              -rounded-lg
+            "
             [ngClass]="{'contract-account-list-container__button--active': isFilterActive}"
             (tap)="openFilterDialog()"
             text="&#xf0b0;"
           ></button>
         </FlexBoxLayout>
         <!-- #End -->
+
+        <!-- #Start Account Statement Header Title -->
+        <FlexBoxLayout
+          class="
+            contract-account-list-container__statement-of-account-list-header
+          "
+          justifyContent="space-around"
+        >
+          <StackLayout orientation="horizontal">
+            <label
+              class="fa fa-solid m-r-10 contract-account-list-container__icon"
+              text="&#xf03a;"
+            ></label>
+            <label
+              [text]="'ACCOUNT_STATEMENT_LIST.HEADER_LABEL' | translate"
+            ></label>
+          </StackLayout>
+        </FlexBoxLayout>
+        <!-- #End -->
+
         <ns-list-layout
           [hasItems]="items?.length > 0"
           [emptyTextIdentifier]="'ACCOUNT_STATEMENT_LIST.EMPTY_ACCOUNT_STATEMENT_LIST'"
@@ -61,15 +79,20 @@
           >
             <ng-template tkListItemTemplate let-accountStatement="item">
               <GridLayout
-                class="app-list-item-template contract-account-statement-item-template"
+                class="
+                  app-list-item-template
+                  contract-account-statement-item-template
+                "
                 rows="*"
-                columns="100, *, *"
+                columns="100, *, *, 35"
               >
                 <!-- #Start Payment status section -->
                 <StackLayout
                   row="0"
                   column="0"
-                  class="contract-account-statement-item-template__payment-status"
+                  class="
+                    contract-account-statement-item-template__payment-status
+                  "
                   [ngClass]="{ 'contract-account-statement-item-template__payment-status--paid': accountStatement?.isFullyPaid, 'contract-account-statement-item-template__payment-status--unpaid': !accountStatement?.isFullyPaid  }"
                 >
                   <StackLayout
@@ -108,7 +131,11 @@
                 >
                   <label
                     text="&#xf073;"
-                    class="fa fa-solid m-r-5 contract-account-statement-item-template__icon"
+                    class="
+                      fa fa-solid
+                      m-r-5
+                      contract-account-statement-item-template__icon
+                    "
                   ></label>
                   <label
                     class="contract-account-statement-item-template__detail"
@@ -127,11 +154,41 @@
                 >
                   <label
                     text="&#xf53d;"
-                    class="fa fa-solid m-r-5 contract-account-statement-item-template__icon"
+                    class="
+                      fa fa-solid
+                      m-r-5
+                      contract-account-statement-item-template__icon
+                    "
                   ></label>
                   <label
                     class="contract-account-statement-item-template__detail"
                     [text]="accountStatement?.accountStatementTotalAmountFormatted"
+                  ></label>
+                </StackLayout>
+                <!-- #End -->
+
+                <!-- #Start Account Statement Type Icon section -->
+                <StackLayout
+                  row="0"
+                  column="3"
+                  verticalAlignment="middle"
+                  horizontalAlignment="center"
+                  class="
+                    contract-account-statement-item-template__account-statement-type-icon
+                  "
+                >
+                  <label
+                    *ngIf="accountStatement?.accountStatementType === 1"
+                    horizontalAlignment="center"
+                    text="&#xf015;"
+                    class="fa fa-solid"
+                  ></label>
+
+                  <label
+                    *ngIf="accountStatement?.accountStatementType === 2"
+                    horizontalAlignment="center"
+                    text="&#xf7d9;"
+                    class="fa fa-solid"
                   ></label>
                 </StackLayout>
                 <!-- #End -->
@@ -151,10 +208,14 @@
           horizontalAlignment="center"
           row="0"
           column="0"
-          class="contract-account-statement-list-footer__total-paid-amount-section"
+          class="
+            contract-account-statement-list-footer__total-paid-amount-section
+          "
         >
           <label
-            class="contract-account-statement-list-footer__total-paid-amount-section-label"
+            class="
+              contract-account-statement-list-footer__total-paid-amount-section-label
+            "
             [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_PAID_AMOUNT'| translate"
           ></label>
           <StackLayout
@@ -164,10 +225,16 @@
           >
             <label
               text="&#xf53d;"
-              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-paid-amount-section-icon"
+              class="
+                fa fa-solid
+                m-r-5
+                contract-account-statement-list-footer__total-paid-amount-section-icon
+              "
             ></label>
             <label
-              class="contract-account-statement-list-footer__total-paid-amount-section-detail"
+              class="
+                contract-account-statement-list-footer__total-paid-amount-section-detail
+              "
               [text]="totalPaidAmount"
             ></label>
           </StackLayout>
@@ -179,10 +246,14 @@
           horizontalAlignment="center"
           row="1"
           column="0"
-          class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section"
+          class="
+            contract-account-statement-list-footer__total-paid-amount-from-deposit-section
+          "
         >
           <label
-            class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-label"
+            class="
+              contract-account-statement-list-footer__total-paid-amount-from-deposit-section-label
+            "
             [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_PAID_AMOUNT_FROM_DEPOSIT'| translate"
           ></label>
           <StackLayout
@@ -192,10 +263,16 @@
           >
             <label
               text="&#xf53d;"
-              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-paid-amount-from-deposit-section-icon"
+              class="
+                fa fa-solid
+                m-r-5
+                contract-account-statement-list-footer__total-paid-amount-from-deposit-section-icon
+              "
             ></label>
             <label
-              class="contract-account-statement-list-footer__total-paid-amount-from-deposit-section-detail"
+              class="
+                contract-account-statement-list-footer__total-paid-amount-from-deposit-section-detail
+              "
               [text]="totalPaidAmountFromDeposit"
             ></label>
           </StackLayout>
@@ -217,10 +294,14 @@
           horizontalAlignment="center"
           row="0"
           column="2"
-          class="contract-account-statement-list-footer__total-expected-amount-section"
+          class="
+            contract-account-statement-list-footer__total-expected-amount-section
+          "
         >
           <label
-            class="contract-account-statement-list-footer__total-expected-amount-section-label"
+            class="
+              contract-account-statement-list-footer__total-expected-amount-section-label
+            "
             [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_AMOUNT'| translate"
           ></label>
           <StackLayout
@@ -230,10 +311,16 @@
           >
             <label
               text="&#xf53d;"
-              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-expected-amount-section-icon"
+              class="
+                fa fa-solid
+                m-r-5
+                contract-account-statement-list-footer__total-expected-amount-section-icon
+              "
             ></label>
             <label
-              class="contract-account-statement-list-footer__total-expected-amount-section-detail"
+              class="
+                contract-account-statement-list-footer__total-expected-amount-section-detail
+              "
               [text]="totalExpectedAmount"
             ></label>
           </StackLayout>
@@ -245,10 +332,14 @@
           horizontalAlignment="center"
           row="1"
           column="2"
-          class="contract-account-statement-list-footer__total-expected-deposit-amount-section"
+          class="
+            contract-account-statement-list-footer__total-expected-deposit-amount-section
+          "
         >
           <label
-            class="contract-account-statement-list-footer__total-expected-deposit-amount-section-label"
+            class="
+              contract-account-statement-list-footer__total-expected-deposit-amount-section-label
+            "
             [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_EXPECTED_DEPOSIT_AMOUNT'| translate"
           ></label>
           <StackLayout
@@ -258,10 +349,16 @@
           >
             <label
               text="&#xf53d;"
-              class="fa fa-solid m-r-5 contract-account-statement-list-footer__total-expected-deposit-amount-section-icon"
+              class="
+                fa fa-solid
+                m-r-5
+                contract-account-statement-list-footer__total-expected-deposit-amount-section-icon
+              "
             ></label>
             <label
-              class="contract-account-statement-list-footer__total-expected-deposit-amount-section-detail"
+              class="
+                contract-account-statement-list-footer__total-expected-deposit-amount-section-detail
+              "
               [text]="totalExpectedDepositAmount"
             ></label>
           </StackLayout>
@@ -273,10 +370,14 @@
           horizontalAlignment="center"
           row="2"
           colSpan="3"
-          class="contract-account-statement-list-footer__encashed-deposit-amount-section"
+          class="
+            contract-account-statement-list-footer__encashed-deposit-amount-section
+          "
         >
           <label
-            class="contract-account-statement-list-footer__encashed-deposit-amount-section-label"
+            class="
+              contract-account-statement-list-footer__encashed-deposit-amount-section-label
+            "
             [text]="'ACCOUNT_STATEMENT_FOOTER.TOTAL_ENCASHED_DEPOSIT_AMOUNT'| translate"
           ></label>
           <StackLayout
@@ -286,10 +387,16 @@
           >
             <label
               text="&#xf53d;"
-              class="fa fa-solid m-r-5 contract-account-statement-list-footer__encashed-deposit-amount-section-icon"
+              class="
+                fa fa-solid
+                m-r-5
+                contract-account-statement-list-footer__encashed-deposit-amount-section-icon
+              "
             ></label>
             <label
-              class="contract-account-statement-list-footer__encashed-deposit-amount-section-detail"
+              class="
+                contract-account-statement-list-footer__encashed-deposit-amount-section-detail
+              "
               [text]="totalEncashedDepositedAmount"
             ></label>
           </StackLayout>

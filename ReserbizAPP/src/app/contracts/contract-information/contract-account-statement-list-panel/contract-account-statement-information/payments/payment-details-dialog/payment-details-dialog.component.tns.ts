@@ -15,8 +15,10 @@ import { PaymentTypeValueProvider } from '@src/app/_helpers/value_providers/paym
 
 import { DialogService } from '@src/app/_services/dialog.service';
 
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 import { ButtonOptions } from '@src/app/_enum/button-options.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
+import { MiscellaneousDueDateEnum } from '@src/app/_enum/miscellaneous-due-date.enum';
 import { PaymentForTypeEnum } from '@src/app/_enum/payment-type.enum';
 
 import { Contract } from '@src/app/_models/contract.model';
@@ -60,6 +62,7 @@ export class PaymentDetailsDialogComponent
   private _depositedAmountBalance = 0;
   private _currentAccountStatementId = 0;
 
+  private _accountStatementDetails = new AccountStatement();
   private _firstAccountStatement = new AccountStatement();
 
   private _paymentDetailsFormSource: PaymentFormSource;
@@ -76,6 +79,7 @@ export class PaymentDetailsDialogComponent
     this.initFormDetails(params.context.paymentDetails);
 
     this._contract = params.context.contract;
+    this._accountStatementDetails = params.context.accountStatementDetails;
     this._dialogIntent = params.context.dialogIntent;
     this._currentAccountStatementId = params.context.currentAccountStatementId;
     this._firstAccountStatement = params.context.firstAccountStatement;
@@ -108,8 +112,26 @@ export class PaymentDetailsDialogComponent
   }
 
   ngOnInit() {
+    const isAccountStatementForRentalBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.RentalBill;
+    const isAccountStatementForUtilityBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.UtilityBilll;
+    const showMiscellaneousFeesOption =
+      (isAccountStatementForRentalBill &&
+        this._accountStatementDetails.miscellaneousDueDate ===
+          MiscellaneousDueDateEnum.SameWithRentalDueDate) ||
+      (isAccountStatementForUtilityBill &&
+        this._accountStatementDetails.miscellaneousDueDate ===
+          MiscellaneousDueDateEnum.SameWithUtilityBillDueDate);
+
     this._paymentTypeValueProvider = new PaymentTypeValueProvider(
-      this.translateService
+      this.translateService,
+      false,
+      isAccountStatementForRentalBill,
+      isAccountStatementForUtilityBill,
+      showMiscellaneousFeesOption
     );
   }
 

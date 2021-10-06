@@ -31,10 +31,6 @@ export class ContractMapper
     contract.encashDepositAmount = c.encashDepositAmount;
     contract.durationValue = c.durationValue;
     contract.durationUnit = c.durationUnit;
-    contract.includeRentalFee = c.includeRentalFee;
-    contract.includeUtilityBills = c.includeUtilityBills;
-    contract.includeMiscellaneousFees = c.includeMiscellaneousFees;
-    contract.includePenaltyAmount = c.includePenaltyAmount;
 
     contract.expirationDate = new Date(c.expirationDate);
     contract.isExpired = c.isExpired;
@@ -78,11 +74,7 @@ export class ContractMapper
       new Date(),
       false,
       0,
-      DurationEnum.None,
-      true,
-      false,
-      true,
-      false
+      DurationEnum.None
     );
 
     return contractDetailsForm;
@@ -99,11 +91,7 @@ export class ContractMapper
       contractFormSource.effectiveDate,
       contractFormSource.isOpenContract,
       contractFormSource.durationUnit,
-      contractFormSource.durationValue,
-      contractFormSource.includeRentalFee,
-      contractFormSource.includeUtilityBills,
-      contractFormSource.includeMiscellaneousFees,
-      contractFormSource.includePenaltyAmount
+      contractFormSource.durationValue
     );
 
     return contractForUpdate;
@@ -119,11 +107,7 @@ export class ContractMapper
       contract.effectiveDate,
       contract.isOpenContract,
       contract.durationValue,
-      contract.durationUnit,
-      contract.includeRentalFee,
-      contract.includeUtilityBills,
-      contract.includeMiscellaneousFees,
-      contract.includePenaltyAmount
+      contract.durationUnit
     );
 
     return contractFormSource;
@@ -142,11 +126,6 @@ export class ContractMapper
     contract.isOpenContract = contractFormSource.isOpenContract;
     contract.durationUnit = contractFormSource.durationUnit;
     contract.durationValue = contractFormSource.durationValue;
-    contract.includeRentalFee = contractFormSource.includeRentalFee;
-    contract.includeUtilityBills = contractFormSource.includeUtilityBills;
-    contract.includeMiscellaneousFees =
-      contractFormSource.includeMiscellaneousFees;
-    contract.includePenaltyAmount = contractFormSource.includePenaltyAmount;
     return contract;
   }
 }

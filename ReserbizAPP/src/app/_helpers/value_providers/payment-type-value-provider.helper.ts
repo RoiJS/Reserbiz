@@ -6,7 +6,10 @@ import { IPaymentTypeValueProvider } from '@src/app/_interfaces/value_providers/
 export class PaymentTypeValueProvider implements IPaymentTypeValueProvider {
   constructor(
     private translateService: TranslateService,
-    private includeAllOption?: boolean
+    private includeAllOption: boolean,
+    private showRentalBillsOptions: boolean,
+    private showUtilityBillsOptions: boolean,
+    private showMiscellaneousFeesOption: boolean
   ) {}
 
   get paymentTypeOptions(): Array<{ key: PaymentForTypeEnum; label: string }> {
@@ -21,40 +24,46 @@ export class PaymentTypeValueProvider implements IPaymentTypeValueProvider {
       });
     }
 
-    options.push({
-      key: PaymentForTypeEnum.Rental,
-      label: this.translateService.instant(
-        'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL'
-      ),
-    });
+    if (this.showRentalBillsOptions) {
+      options.push({
+        key: PaymentForTypeEnum.Rental,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL'
+        ),
+      });
 
-    options.push({
-      key: PaymentForTypeEnum.ElectricBill,
-      label: this.translateService.instant(
-        'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL'
-      ),
-    });
+      options.push({
+        key: PaymentForTypeEnum.Penalty,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY'
+        ),
+      });
+    }
 
-    options.push({
-      key: PaymentForTypeEnum.WaterBill,
-      label: this.translateService.instant(
-        'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL'
-      ),
-    });
+    if (this.showUtilityBillsOptions) {
+      options.push({
+        key: PaymentForTypeEnum.ElectricBill,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL'
+        ),
+      });
 
-    options.push({
-      key: PaymentForTypeEnum.MiscellaneousFee,
-      label: this.translateService.instant(
-        'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES'
-      ),
-    });
+      options.push({
+        key: PaymentForTypeEnum.WaterBill,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL'
+        ),
+      });
+    }
 
-    options.push({
-      key: PaymentForTypeEnum.Penalty,
-      label: this.translateService.instant(
-        'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY'
-      ),
-    });
+    if (this.showMiscellaneousFeesOption) {
+      options.push({
+        key: PaymentForTypeEnum.MiscellaneousFee,
+        label: this.translateService.instant(
+          'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES'
+        ),
+      });
+    }
 
     return options;
   }

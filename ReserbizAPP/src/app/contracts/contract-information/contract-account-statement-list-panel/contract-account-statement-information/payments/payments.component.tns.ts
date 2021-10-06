@@ -35,6 +35,7 @@ import { Payment } from '@src/app/_models/payment.model';
 import { PaymentFilter } from '@src/app/_models/filters/payment-filter.model';
 import { PaymentPaginationList } from '@src/app/_models/pagination_list/payment-pagination-list.model';
 
+import { AccountStatementTypeEnum } from '@src/app/_enum/account-statement-type.enum';
 import { SortOrderEnum } from '@src/app/_enum/sort-order.enum';
 import { DialogIntentEnum } from '@src/app/_enum/dialog-intent.enum';
 import { PaymentDto } from '@src/app/_dtos/payment-dto';
@@ -72,6 +73,7 @@ export class PaymentsComponent
   private _totalPaidMiscellaneousFeesAmount = 0;
   private _totalPaidPenaltyAmount = 0;
 
+  private _accountStatementDetails: AccountStatement;
   private _firstAccountStatement: AccountStatement;
   private _contract: Contract;
 
@@ -115,6 +117,11 @@ export class PaymentsComponent
           this._firstAccountStatement =
             await this.accountStatementService.getFirstAccountStatement(
               contractId
+            );
+
+          this._accountStatementDetails =
+            await this.accountStatementService.getAccountStatement(
+              this._currentItemParentId
             );
 
           this._contract = await this.contractService.getContract(contractId);
@@ -262,6 +269,7 @@ export class PaymentsComponent
     const dialogOptions: ModalDialogOptions = {
       viewContainerRef: this.vcRef,
       context: {
+        accountStatementDetails: this._accountStatementDetails,
         paymentFilter: <PaymentFilter>this._entityFilter,
       },
       fullscreen: false,
@@ -277,7 +285,20 @@ export class PaymentsComponent
 
   //#region "Payment dialog related functions"
   openAddPaymentDialog() {
+    const isAccountStatementForRentalBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.RentalBill;
+    const isAccountStatementForUtilityBill =
+      this._accountStatementDetails.accountStatementType ===
+      AccountStatementTypeEnum.UtilityBilll;
+
     const newPaymentDetails = new Payment();
+
+    if (isAccountStatementForRentalBill) {
+      newPaymentDetails.paymentForType = PaymentForTypeEnum.Rental;
+    } else if (isAccountStatementForUtilityBill) {
+      newPaymentDetails.paymentForType = PaymentForTypeEnum.ElectricBill;
+    }
 
     this.initPaymentDialog(newPaymentDetails, DialogIntentEnum.Add).then(
       (returnedPaymentDetails: PaymentDto) => {
@@ -348,6 +369,7 @@ export class PaymentsComponent
         paymentDetails,
         dialogIntent,
         contract: this._contract,
+        accountStatementDetails: this._accountStatementDetails,
         currentAccountStatementId: this._currentItemParentId,
         firstAccountStatement: this._firstAccountStatement,
         depositedAmountBalance: this._depositedAmountBalance,

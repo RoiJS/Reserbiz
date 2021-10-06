@@ -93,6 +93,9 @@ namespace ReserbizAPP.LIB.Dtos
         public int GenerateAccountStatementDaysBeforeValue { get; set; }
 
         [Required]
+        public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
+
+        [Required]
         public bool IncludeMiscellaneousCheckAndCalculateForPenalty { get; set; }
 
         public List<TermMiscellaneousManageDto> TermMiscellaneous { get; set; }
