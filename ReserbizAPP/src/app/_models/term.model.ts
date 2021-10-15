@@ -46,6 +46,7 @@ export class Term extends Entity {
   public miscellaneousDueDate: MiscellaneousDueDateEnum;
   public miscellaneousDueDateText: string;
   public includeMiscellaneousCheckAndCalculateForPenalty: boolean;
+  public autoSendNewAccountStatement: boolean;
 
   constructor() {
     super();

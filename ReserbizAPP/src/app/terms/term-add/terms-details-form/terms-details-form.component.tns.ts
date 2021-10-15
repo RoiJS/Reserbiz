@@ -403,6 +403,8 @@ export class TermsDetailsFormComponent
       this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
     this._newTermDetails.generateAccountStatementDaysBeforeValue =
       this._termDetailsForm.generateAccountStatementDaysBeforeValue;
+    this._newTermDetails.autoSendNewAccountStatement =
+      this._termDetailsForm.autoSendNewAccountStatement;
     this._newTermDetails.miscellaneousDueDate =
       this._termDetailsForm.miscellaneousDueDate;
     this._newTermDetails.includeMiscellaneousCheckAndCalculateForPenalty =

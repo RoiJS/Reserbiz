@@ -71,6 +71,8 @@ namespace ReserbizAPP.LIB.Models
         public DurationEnum PenaltyEffectiveAfterDurationUnit { get; set; } = DurationEnum.Day;
 
         public int GenerateAccountStatementDaysBeforeValue { get; set; }
+        
+        public bool AutoSendNewAccountStatement { get; set; }
 
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
 

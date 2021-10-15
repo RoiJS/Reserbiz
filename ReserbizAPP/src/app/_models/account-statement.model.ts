@@ -29,6 +29,7 @@ export class AccountStatement extends Entity {
   public accountStatementType: AccountStatementTypeEnum;
   public miscellaneousDueDate: MiscellaneousDueDateEnum;
   public accountStatementMiscellaneous: AccountStatementMiscellaneous[];
+  public lastDateSent: Date;
 
   public totalPaidRentalAmount: number;
   public totalPaidElectricBills: number;
@@ -62,6 +63,14 @@ export class AccountStatement extends Entity {
 
   get dueDateFormatted(): string {
     return DateFormatter.format(this.dueDate, 'MMM DD, YYYY');
+  }
+
+  get lastDateSentFormatted(): string {
+    if (!DateFormatter.isValidDate(this.lastDateSent.toString())) {
+      return '';
+    }
+
+    return DateFormatter.format(this.lastDateSent, 'MMM DD, YYYY HH:mm');
   }
 
   get rentIncome(): number {

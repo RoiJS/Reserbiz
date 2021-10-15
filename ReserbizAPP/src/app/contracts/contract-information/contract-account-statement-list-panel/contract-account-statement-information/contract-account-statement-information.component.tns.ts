@@ -35,6 +35,7 @@ export class ContractAccountStatementInformationComponent
 
   private _waterAndElecitricBillAmountformGroup: FormGroup;
   private _updateAccountStatementListFlag: Subscription;
+  private _lastDateSent: string;
 
   dueDate: Date;
   private dueDateOriginal: Date;
@@ -63,7 +64,7 @@ export class ContractAccountStatementInformationComponent
         this._updateAccountStatementListFlag =
           this.accountStatementService.loadAccountStatementListFlag.subscribe(
             () => {
-              this.getAccountStatmentInformation(contractId);
+              this.getAccountStatementInformation(contractId);
             }
           );
       });
@@ -76,7 +77,7 @@ export class ContractAccountStatementInformationComponent
     this._updateAccountStatementListFlag.unsubscribe();
   }
 
-  getAccountStatmentInformation(contractId: number) {
+  getAccountStatementInformation(contractId: number) {
     this._isBusy = true;
 
     (async () => {
@@ -86,6 +87,8 @@ export class ContractAccountStatementInformationComponent
         await this.accountStatementService.getAccountStatement(
           this._currentAccountStatementId
         );
+
+      this._lastDateSent = this._currentAccountStatement.lastDateSentFormatted;
 
       this.dueDate = this._currentAccountStatement.dueDate;
       this._waterAndElecitricBillAmountformGroup.patchValue({
@@ -262,6 +265,8 @@ export class ContractAccountStatementInformationComponent
                 this._currentAccountStatementId
               );
 
+              this.accountStatementService.reloadListFlag(true);
+
               this.dialogService.alert(
                 this.translateService.instant(
                   'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
@@ -285,6 +290,25 @@ export class ContractAccountStatementInformationComponent
           })();
         }
       });
+  }
+
+  navigateToOtherPage(mainUrl: string) {
+    setTimeout(() => {
+      mainUrl = mainUrl.replace(
+        ':id',
+        this._currentAccountStatementId.toString()
+      );
+
+      const routeConfig: ExtendedNavigationExtras = {
+        transition: {
+          name: 'slideLeft',
+        },
+      };
+
+      routeConfig.relativeTo = this.activatedRoute;
+
+      this.router.navigate([mainUrl], routeConfig);
+    }, 100);
   }
 
   get currentAccountStatement(): AccountStatement {
@@ -339,22 +363,7 @@ export class ContractAccountStatementInformationComponent
     )}`;
   }
 
-  navigateToOtherPage(mainUrl: string) {
-    setTimeout(() => {
-      mainUrl = mainUrl.replace(
-        ':id',
-        this._currentAccountStatementId.toString()
-      );
-
-      const routeConfig: ExtendedNavigationExtras = {
-        transition: {
-          name: 'slideLeft',
-        },
-      };
-
-      routeConfig.relativeTo = this.activatedRoute;
-
-      this.router.navigate([mainUrl], routeConfig);
-    }, 100);
+  get lastDateSentFormatted(): string {
+    return this._lastDateSent;
   }
 }

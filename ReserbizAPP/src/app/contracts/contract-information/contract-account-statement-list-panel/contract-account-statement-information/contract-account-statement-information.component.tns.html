@@ -527,5 +527,30 @@
         </StackLayout>
       </ScrollView>
     </StackLayout>
+
+    <StackLayout
+      *ngIf="lastDateSentFormatted"
+      class="panel panel__last-date-sent"
+    >
+      <FlexBoxLayout
+        justifyContent="space-between"
+        class="panel__last-date-sent__body-section"
+      >
+        <StackLayout class="last-date-sent-label" orientation="horizontal">
+          <label text="&#xf073;" class="fa fa-solid m-r-5"></label>
+          <label
+            fontWeight="bold"
+            [text]="'ACCOUNT_STATEMENT_DETAILS.LAST_DATE_SENT' | translate"
+            textWrap="true"
+          ></label>
+        </StackLayout>
+
+        <label
+          fontWeight="bold"
+          [text]="lastDateSentFormatted"
+          textWrap="true"
+        ></label>
+      </FlexBoxLayout>
+    </StackLayout>
   </StackLayout>
 </ns-loader-layout>
