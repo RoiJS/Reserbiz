@@ -18,7 +18,8 @@ namespace ReserbizAPP.LIB.Helpers.Services.StatementOfAccounts
                 ExcludeElectricBill = contractTerm.ExcludeElectricBill,
                 ExcludeWaterBill = contractTerm.ExcludeWaterBill,
                 MiscellaneousDueDate = contractTerm.MiscellaneousDueDate,
-                AccountStatementType = AccountStatementTypeEnum.UtilityBill
+                AccountStatementType = AccountStatementTypeEnum.UtilityBill,
+                AutoSendNewAccountStatement = contractTerm.AutoSendNewAccountStatement
             };
 
             if (contractTerm.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithUtilityBillDueDate)

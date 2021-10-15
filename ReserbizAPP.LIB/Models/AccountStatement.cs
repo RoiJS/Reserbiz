@@ -44,6 +44,12 @@ namespace ReserbizAPP.LIB.Models
         // API Service that the application is using.
         public DateTime SMSNotificationLastDateSent { get; set; }
 
+        // This will record the last date and time when the statement of account 
+        // details was sent, whether is automatically or manually.
+        public DateTime LastDateSent { get; set; }
+
+        public bool AutoSendNewAccountStatement { get; set; }
+
         public AccountStatementTypeEnum AccountStatementType { get; set; } = AccountStatementTypeEnum.RentalBill;
 
         public List<PenaltyBreakdown> PenaltyBreakdowns { get; set; }

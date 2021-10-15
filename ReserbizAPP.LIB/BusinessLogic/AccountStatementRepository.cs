@@ -106,6 +106,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 )
                 .ToObjectAsync();
 
+            accountStatementFromRepo.LastDateSent = accountStatementFromRepo.LastDateSent.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone);
+
             return accountStatementFromRepo;
         }
 
@@ -225,7 +227,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        public async Task GenerateContractAccountStatementsForRentalBill(string dbHashName, int contractId)
+        public async Task GenerateContractAccountStatementsForRentalBill(string dbHashName, int contractId, SendAccountStatementModeEnum sendAccountStatementMode)
         {
             var listOfNewAccountStatements = new List<AccountStatement>();
             var contract = await _contractRepository
@@ -286,7 +288,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 await _contractRepository.SaveChanges();
 
                 // Send push notifications on the device subscribing to db hash name topic
-                await SendPushNotifications(dbHashName, contract, listOfNewAccountStatements);
+                await SendPushNotifications(dbHashName, contract, listOfNewAccountStatements, sendAccountStatementMode);
             }
             catch (Exception ex)
             {
@@ -612,11 +614,22 @@ namespace ReserbizAPP.LIB.BusinessLogic
             var accountStatement = await GetAccountStatementAsync(id);
             var tenant = await _tenantRepository.GetTenantAsync(accountStatement.Contract.TenantId);
 
-            // Send account statement details via email
-            await SendAccountStatementAsEmail(accountStatement, tenant);
+            try
+            {
+                // Send account statement details via email
+                await SendAccountStatementAsEmail(accountStatement, tenant);
 
-            // Send account statement details via SMS
-            await SendAccountStatementAsSMS(accountStatement, tenant);
+                // Send account statement details via SMS
+                await SendAccountStatementAsSMS(accountStatement, tenant);
+
+                accountStatement.LastDateSent = DateTime.Now;
+
+                await _accountRepository.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
         private AccountStatement RegisterNewAccountStatementForRentalBill(Contract contract)
@@ -952,7 +965,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             return content.ToString();
         }
 
-        private async Task SendPushNotifications(string dbHashName, Contract contract, List<AccountStatement> newAccountStatements)
+        private async Task SendPushNotifications(string dbHashName, Contract contract, List<AccountStatement> newAccountStatements, SendAccountStatementModeEnum sendAccountStatementMode)
         {
 
             var notificationTitle = "New Statement of Account";
@@ -972,6 +985,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
                     // Register notification on database
                     await RegisterNotification(accountStatementDate, accountStatement.Id, contract.Id, contract.TenantId);
+
+                    // Auto-send statement of account details
+                    if (sendAccountStatementMode == SendAccountStatementModeEnum.Automatic && accountStatement.AutoSendNewAccountStatement)
+                    {
+                        await SendAccountStatement(accountStatement.Id);
+                    }
                 }
                 catch (Exception ex)
                 {

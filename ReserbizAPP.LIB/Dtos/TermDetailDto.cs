@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
-using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Dtos
 {
@@ -71,6 +70,8 @@ namespace ReserbizAPP.LIB.Dtos
         public string PenaltyEffectiveAfterDurationUnitText { get; set; }
 
         public int GenerateAccountStatementDaysBeforeValue { get; set; }
+
+        public bool AutoSendNewAccountStatement { get; set; }
 
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
         public bool IncludeMiscellaneousCheckAndCalculateForPenalty { get; set; }

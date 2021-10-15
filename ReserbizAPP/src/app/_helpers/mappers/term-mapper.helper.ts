@@ -63,6 +63,7 @@ export class TermMapper
     term.miscellaneousDueDate = t.miscellaneousDueDate;
     term.includeMiscellaneousCheckAndCalculateForPenalty =
       t.includeMiscellaneousCheckAndCalculateForPenalty;
+    term.autoSendNewAccountStatement = t.autoSendNewAccountStatement;
     term.isActive = t.isActive;
     term.isDeletable = t.isDeletable;
 
@@ -97,6 +98,7 @@ export class TermMapper
       0,
       DurationEnum.Day,
       5,
+      false,
       MiscellaneousDueDateEnum.SameWithRentalDueDate,
       false
     );
@@ -124,6 +126,7 @@ export class TermMapper
       termFormSource.penaltyEffectiveAfterDurationValue,
       termFormSource.penaltyEffectiveAfterDurationUnit,
       termFormSource.generateAccountStatementDaysBeforeValue,
+      termFormSource.autoSendNewAccountStatement,
       termFormSource.miscellaneousDueDate,
       termFormSource.includeMiscellaneousCheckAndCalculateForPenalty
     );
@@ -150,6 +153,7 @@ export class TermMapper
       term.penaltyEffectiveAfterDurationValue,
       term.penaltyEffectiveAfterDurationUnit,
       term.generateAccountStatementDaysBeforeValue,
+      term.autoSendNewAccountStatement,
       term.miscellaneousDueDate,
       term.includeMiscellaneousCheckAndCalculateForPenalty
     );
@@ -180,6 +184,8 @@ export class TermMapper
       formSource.penaltyEffectiveAfterDurationUnit;
     term.generateAccountStatementDaysBeforeValue =
       formSource.generateAccountStatementDaysBeforeValue;
+    term.autoSendNewAccountStatement =
+      formSource.autoSendNewAccountStatement;
     term.miscellaneousDueDate = formSource.miscellaneousDueDate;
     term.includeMiscellaneousCheckAndCalculateForPenalty =
       formSource.includeMiscellaneousCheckAndCalculateForPenalty;

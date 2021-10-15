@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReserbizAPP.LIB.DbContexts;
 
 namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 {
     [DbContext(typeof(ReserbizClientDataContext))]
-    partial class ReserbizClientDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211013151502_IntroducedColumnLastDateSentOnTableAccountStatement")]
+    partial class IntroducedColumnLastDateSentOnTableAccountStatement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +110,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
-
-                    b.Property<bool>("AutoSendNewAccountStatement")
-                        .HasColumnType("bit");
 
                     b.Property<int>("ContractId")
                         .HasColumnType("int");
@@ -1008,9 +1007,6 @@ namespace ReserbizAPP.LIB.Migrations.ReserbizClientData
 
                     b.Property<int>("AdvancedPaymentDurationValue")
                         .HasColumnType("int");
-
-                    b.Property<bool>("AutoSendNewAccountStatement")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");

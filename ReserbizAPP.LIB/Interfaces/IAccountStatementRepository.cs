@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Models;
 
 namespace ReserbizAPP.LIB.Interfaces
@@ -13,7 +14,7 @@ namespace ReserbizAPP.LIB.Interfaces
         Task<IEnumerable<AccountStatement>> GetActiveAccountStatementsPerContractAsync(int contractId);
         Task<IEnumerable<AccountStatement>> GetUnpaidAccountStatementsAsync();
         List<AccountStatement> GetFilteredAccountStatements(IList<AccountStatement> unfilteredAccountStatements, IAccountStatementFilter accountStatementFilter);
-        Task GenerateContractAccountStatementsForRentalBill(string dbHashName, int contractId);
+        Task GenerateContractAccountStatementsForRentalBill(string dbHashName, int contractId, SendAccountStatementModeEnum sendAccountStatementMode);
         Task GenerateContractAccountStatementsRentalBillForNewDatabase(int contractId, int currentUserId);
         Task GenerateNewContractAccountStatement(AccountStatement accountStatement, bool markAsPaid, int currentUserId);
         Task GenerateAccountStatementPenalties(int tenantId);

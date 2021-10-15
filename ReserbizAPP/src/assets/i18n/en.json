@@ -815,6 +815,9 @@
         "LABEL": "Automation Settings",
         "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
           "CONTROL_LABEL": "Generate account statement days before due date:"
+        },
+        "AUTO_SEND_ACCOUNT_STATEMENT": {
+          "CONTROL_LABEL": "Auto-send Statement of Account:"
         }
       },
       "ADD_DIALOG": {
@@ -937,6 +940,9 @@
         "LABEL": "Automation Settings",
         "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
           "CONTROL_LABEL": "Generate account statement days before due date:"
+        },
+        "AUTO_SEND_ACCOUNT_STATEMENT": {
+          "CONTROL_LABEL": "Auto-send Statement of Account:"
         }
       },
 
@@ -1352,6 +1358,7 @@
       }
     },
     "SEND_DETAILS": "Send Details",
+    "LAST_DATE_SENT": "Last Date Sent:",
     "GENERAL_CONTROL_GROUP": {
       "LABEL": "INFORMATION",
       "NEW_RENTAL_BILL_LABEL": "New Rental Bill",

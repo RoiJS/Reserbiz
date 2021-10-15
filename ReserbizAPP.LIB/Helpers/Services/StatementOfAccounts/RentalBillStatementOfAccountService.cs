@@ -23,7 +23,8 @@ namespace ReserbizAPP.LIB.Helpers.Services.StatementOfAccounts
                 PenaltyEffectiveAfterDurationValue = contractTerm.PenaltyEffectiveAfterDurationValue,
                 PenaltyEffectiveAfterDurationUnit = contractTerm.PenaltyEffectiveAfterDurationUnit,
                 MiscellaneousDueDate = contractTerm.MiscellaneousDueDate,
-                AccountStatementType = AccountStatementTypeEnum.RentalBill
+                AccountStatementType = AccountStatementTypeEnum.RentalBill,
+                AutoSendNewAccountStatement = contractTerm.AutoSendNewAccountStatement
             };
 
             if (contractTerm.MiscellaneousDueDate == MiscellaneousDueDateEnum.SameWithRentalDueDate)

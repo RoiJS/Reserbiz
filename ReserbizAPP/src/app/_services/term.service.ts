@@ -114,6 +114,8 @@ export class TermService
       newTerm.penaltyEffectiveAfterDurationUnit;
     termCreateDto.generateAccountStatementDaysBeforeValue =
       newTerm.generateAccountStatementDaysBeforeValue;
+    termCreateDto.autoSendNewAccountStatement =
+      newTerm.autoSendNewAccountStatement;
     termCreateDto.miscellaneousDueDate = newTerm.miscellaneousDueDate;
     termCreateDto.includeMiscellaneousCheckAndCalculateForPenalty =
       newTerm.includeMiscellaneousCheckAndCalculateForPenalty;

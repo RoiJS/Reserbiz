@@ -91,6 +91,9 @@ namespace ReserbizAPP.LIB.Dtos
 
         [Required]
         public int GenerateAccountStatementDaysBeforeValue { get; set; }
+        
+        [Required]
+        public bool AutoSendNewAccountStatement { get; set; }
 
         [Required]
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }

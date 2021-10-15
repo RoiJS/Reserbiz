@@ -140,7 +140,7 @@ export class ContractService
       contractDetails.effectiveDate,
       contractDetails.isOpenContract,
       contractDetails.durationUnit,
-      contractDetails.durationValue,
+      contractDetails.durationValue
     );
 
     // Check if contract is not new and there have no changes
@@ -175,6 +175,8 @@ export class ContractService
       termDetails.penaltyEffectiveAfterDurationUnit;
     contractManageDto.term.generateAccountStatementDaysBeforeValue =
       termDetails.generateAccountStatementDaysBeforeValue;
+    contractManageDto.term.autoSendNewAccountStatement =
+      termDetails.autoSendNewAccountStatement;
     contractManageDto.term.miscellaneousDueDate =
       termDetails.miscellaneousDueDate;
     contractManageDto.term.includeMiscellaneousCheckAndCalculateForPenalty =
