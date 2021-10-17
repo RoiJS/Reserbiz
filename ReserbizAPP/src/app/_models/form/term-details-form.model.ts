@@ -23,6 +23,7 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
     public generateAccountStatementDaysBeforeValue: number,
+    public autoSendNewAccountStatement: boolean,
     public miscellaneousDueDate: MiscellaneousDueDateEnum,
     public includeMiscellaneousCheckAndCalculateForPenalty: boolean
   ) {
@@ -49,6 +50,7 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
       this.penaltyEffectiveAfterDurationValue,
       this.penaltyEffectiveAfterDurationUnit,
       this.generateAccountStatementDaysBeforeValue,
+      this.autoSendNewAccountStatement,
       this.miscellaneousDueDate,
       this.includeMiscellaneousCheckAndCalculateForPenalty
     );

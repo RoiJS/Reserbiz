@@ -416,9 +416,23 @@
             tkPropertyGroupProperties
             name="generateAccountStatementDaysBeforeValue"
             [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL.CONTROL_LABEL' | translate"
-            index="1"
+            index="0"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Number">
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="autoSendNewAccountStatement"
+            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.AUTO_SEND_ACCOUNT_STATEMENT.CONTROL_LABEL' | translate"
+            index="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
             </TKPropertyEditor>
           </TKEntityProperty>
         </TKPropertyGroup>

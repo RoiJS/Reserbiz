@@ -16,6 +16,7 @@ import { DialogService } from '../_services/dialog.service';
 import { PushNotificationService } from '../_services/push-notification.service';
 import { StorageService } from '../_services/storage.service';
 import { SettingsService } from '../_services/settings.service';
+import { UserNotificationService } from '../_services/user-notification.service';
 
 @Component({
   selector: 'app-auth',
@@ -44,7 +45,8 @@ export class AuthComponent implements OnInit {
     private router: RouterExtensions,
     private translateService: TranslateService,
     private settingsService: SettingsService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private userNotificationService: UserNotificationService,
   ) {}
 
   ngOnInit() {
@@ -71,7 +73,11 @@ export class AuthComponent implements OnInit {
           this.authService.login(this.username, this.password).subscribe(
             () => {
               (async () => {
+                // Make sure to get settings.
                 await this.settingsService.getSettingsDetails();
+
+                // Update the unread notification count.
+                await this.userNotificationService.checkNotificationUpdate();
 
                 // Make sure to unsubsribe from previous topic notification
                 this.pushNotificationService.unsubscribe();

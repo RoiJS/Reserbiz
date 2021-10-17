@@ -2,8 +2,6 @@ import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper
 import { AccountStatement } from '../../_models/account-statement.model';
 import { AccountStatementMiscellaneous } from '../../_models/account-statement-miscellaneous.model';
 
-import { DateFormatter } from '../formatters/date-formatter.helper';
-
 export class AccountStatementMapper
   implements IBaseEntityMapper<AccountStatement>
 {
@@ -41,6 +39,7 @@ export class AccountStatementMapper
       accountStatement.totalPaidMiscellaneousFees =
         as.totalPaidMiscellaneousFees;
       accountStatement.totalPaidPenaltyAmount = as.totalPaidPenaltyAmount;
+      accountStatement.lastDateSent = as.lastDateSent;
 
       if (
         as.accountStatementMiscellaneous &&

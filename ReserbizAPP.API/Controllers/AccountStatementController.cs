@@ -251,7 +251,7 @@ namespace ReserbizAPP.API.Controllers
                     try
                     {
                         var dbHashName = _httpContextAccessor.HttpContext.Request.Headers["App-Secret-Token"].ToString();
-                        await _accountStatementRepository.GenerateContractAccountStatementsForRentalBill(dbHashName, contract.Id);
+                        await _accountStatementRepository.GenerateContractAccountStatementsForRentalBill(dbHashName, contract.Id, SendAccountStatementModeEnum.Automatic);
                     }
                     catch (Exception exception)
                     {

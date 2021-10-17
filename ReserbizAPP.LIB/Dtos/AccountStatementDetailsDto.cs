@@ -30,6 +30,7 @@ namespace ReserbizAPP.LIB.Dtos
         public float TotalPaidWaterBills { get; set; }
         public float TotalPaidMiscellaneousFees { get; set; }
         public float TotalPaidPenaltyAmount { get; set; }
+        public DateTime LastDateSent { get; set; }
         public AccountStatementTypeEnum AccountStatementType { get; set; }
         public MiscellaneousDueDateEnum MiscellaneousDueDate { get; set; }
         public List<AccountStatementMiscellaneousDetailsDto> AccountStatementMiscellaneous { get; set; }

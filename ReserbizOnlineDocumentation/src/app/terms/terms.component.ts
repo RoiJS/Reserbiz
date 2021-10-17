@@ -324,6 +324,19 @@ export class TermsComponent
           )}
         `,
       },
+      {
+        name: this.translateService.instant(
+          'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.AUTOMATION_SETTINGS_SECTION.AUTO_SEND_STATEMENT_OF_ACCOUNT_INFORMATION.NAME'
+        ),
+        datatype: this.translateService.instant(
+          'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.AUTOMATION_SETTINGS_SECTION.AUTO_SEND_STATEMENT_OF_ACCOUNT_INFORMATION.DATA_TYPE'
+        ),
+        definition: `
+          ${this.translateService.instant(
+            'TERMS_PAGE.BODY.ADD_NEW_TERM_SECTION.TABLE_INFORMATION.AUTOMATION_SETTINGS_SECTION.AUTO_SEND_STATEMENT_OF_ACCOUNT_INFORMATION.DESCRIPTION'
+          )}
+        `,
+      },
     ];
 
     this.dataSource6 = [
