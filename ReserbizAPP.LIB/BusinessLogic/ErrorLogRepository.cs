@@ -13,14 +13,14 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
         }
 
-        public async Task RegisterError(string source, string message, string stackTrace, int userId)
+        public async Task RegisterError(string source, string message, string stackTrace, string userInfo)
         {
             var newError = new ErrorLog()
             {
                 Source = source,
                 Message = message,
                 Stacktrace = stackTrace,
-                UserId = userId
+                UserInfo = userInfo
             };
 
             await AddEntity(newError);

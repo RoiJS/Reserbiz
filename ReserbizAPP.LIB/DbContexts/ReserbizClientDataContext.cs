@@ -309,14 +309,6 @@ namespace ReserbizAPP.LIB.DbContexts
                 .HasConstraintName("FK_PaymentBreakdowns_DeactivatedById_Accounts_AccountId");
             });
 
-            modelBuilder.Entity<ErrorLog>(a =>
-            {
-                a.HasOne(field => field.User)
-                .WithMany(fk => fk.ErrorLogs)
-                .HasForeignKey(fk => fk.UserId)
-                .HasConstraintName("FK_ErrorLogs_Accounts_UserId");
-            });
-
             modelBuilder.Entity<RefreshToken>(a =>
             {
                 a.HasOne(field => field.User)

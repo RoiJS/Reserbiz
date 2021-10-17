@@ -76,5 +76,12 @@ namespace ReserbizAPP.API.Controllers
             var text = _stringLocalizer["SampleText"].Value;
             return text;
         }
+
+        [HttpGet("testThrowErroLog")]
+
+        public void TestThrowErroLog()
+        {
+            throw new Exception("Test error here!");
+        }
     }
 }
