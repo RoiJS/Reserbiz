@@ -248,11 +248,12 @@ namespace ReserbizAPP.API
 
                                 if (Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier)) > 0)
                                 {
+                                    var userId = Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier));
                                     var userFirstName = Convert.ToString(context.User.Identity.GetUserClaim(ReserbizClaimTypes.FirstName));
                                     var userLastName = Convert.ToString(context.User.Identity.GetUserClaim(ReserbizClaimTypes.LastName));
                                     var userType = (UserTypeEnum)Convert.ToInt32(context.User.Identity.GetUserClaim(ReserbizClaimTypes.UserType));
 
-                                    userInfo = $"{userFirstName} {userLastName} ({userType.ToString()})";
+                                    userInfo = $"{userId} - {userFirstName} {userLastName} ({userType.ToString()})";
                                 }
 
                                 // Register error details on database
