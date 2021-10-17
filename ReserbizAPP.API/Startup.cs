@@ -30,6 +30,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Localization;
+using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.API
 {
@@ -243,13 +244,23 @@ namespace ReserbizAPP.API
                             {
                                 var services = serviceScope.ServiceProvider;
                                 var errorLogRepository = services.GetService<IErrorLogRepository<ErrorLog>>();
+                                var userInfo = "";
+
+                                if (Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier)) > 0)
+                                {
+                                    var userFirstName = Convert.ToString(context.User.Identity.GetUserClaim(ReserbizClaimTypes.FirstName));
+                                    var userLastName = Convert.ToString(context.User.Identity.GetUserClaim(ReserbizClaimTypes.LastName));
+                                    var userType = (UserTypeEnum)Convert.ToInt32(context.User.Identity.GetUserClaim(ReserbizClaimTypes.UserType));
+
+                                    userInfo = $"{userFirstName} {userLastName} ({userType.ToString()})";
+                                }
 
                                 // Register error details on database
                                 await errorLogRepository.RegisterError(
                                     errorInfo.Source,
                                     errorInfo.Message,
                                     errorInfo.StackTrace,
-                                    Convert.ToInt32(context.User.Identity.GetUserClaim(ClaimTypes.NameIdentifier))
+                                    userInfo
                                 );
                             }
 

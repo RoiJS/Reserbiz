@@ -13,7 +13,6 @@ namespace ReserbizAPP.LIB.Models
         public string EmailAddress { get; set; }
 
         public List<RefreshToken> RefreshTokens { get; set; }
-        public List<ErrorLog> ErrorLogs { get; set; }
 
         public int? DeletedById { get; set; }
         public virtual Account DeletedBy { get; set; }
