@@ -170,7 +170,7 @@ export class SpaceEditComponent
                     'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.SUCCESS_MESSAGE'
                   ),
                   () => {
-                    this.spaceService.loadSpacesFlag.next();
+                    this.spaceService.loadSpacesFlag.next(true);
                     this.router.back();
                   }
                 );

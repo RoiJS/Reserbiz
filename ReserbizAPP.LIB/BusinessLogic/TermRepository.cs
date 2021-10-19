@@ -47,7 +47,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (!string.IsNullOrEmpty(termKeywords))
             {
-                termsFromRepo = termsFromRepo.Where(t => t.Code.Contains(termKeywords) || t.Name.Contains(termKeywords));
+                termsFromRepo = termsFromRepo.Where(t => t.Code.ToLower().Contains(termKeywords) || t.Name.ToLower().Contains(termKeywords));
             }
 
             return await termsFromRepo.ToListAsync();

@@ -60,7 +60,10 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
             if (!string.IsNullOrEmpty(tenantName))
             {
-                activeTenantsFromRepo = activeTenantsFromRepo.Where(t => t.FirstName.Contains(tenantName) || t.MiddleName.Contains(tenantName) || t.LastName.Contains(tenantName));
+                activeTenantsFromRepo = activeTenantsFromRepo.Where(
+                        t => t.FirstName.ToLower().Contains(tenantName.ToLower()) || 
+                        t.MiddleName.ToLower().Contains(tenantName.ToLower()) || 
+                        t.LastName.ToLower().Contains(tenantName.ToLower()));
             }
 
             return await activeTenantsFromRepo.ToListAsync();

@@ -85,7 +85,7 @@
         (itemSelected)="selectItem($event.index, '/spaces/space-edit/:id')"
         (itemDeselected)="deselectedItem($event)"
         (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
-        (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+        (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
         (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
       >
         <ng-template tkListItemTemplate let-space="item">

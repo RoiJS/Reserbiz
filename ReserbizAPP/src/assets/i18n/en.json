@@ -1289,7 +1289,7 @@
       "OPTIONS": {
         "MANAGE_TERM_DETAILS": "Manage Term Details",
         "ARCHIVE": "Archive",
-        "UNARCHIVE": "Unarchive",
+        "UNARCHIVE": "Remove from Archive",
         "ENCASH_DEPOSIT_AMOUNT": "Encash Deposit Amount",
         "RETURN_ENCASHED_DEPOSIT_AMOUNT": "Return Encashed Deposit Amount"
       }

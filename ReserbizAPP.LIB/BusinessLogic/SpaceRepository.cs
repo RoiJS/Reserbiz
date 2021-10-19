@@ -66,7 +66,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Filter by space description
             if (!String.IsNullOrEmpty(spaceFilter.Description))
             {
-                filteredSpaces = filteredSpaces.Where(c => c.Description.Contains(spaceFilter.Description)).ToList();
+                filteredSpaces = filteredSpaces.Where(c => c.Description.ToLower().Contains(spaceFilter.Description.ToLower())).ToList();
             }
 
             // Filter by unit type id

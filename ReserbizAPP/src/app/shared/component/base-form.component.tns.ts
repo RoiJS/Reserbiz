@@ -94,7 +94,7 @@ export class BaseFormComponent<
                     this._saveNewDialogTexts.title,
                     this._saveNewDialogTexts.successMessage,
                     () => {
-                      this._entityService.reloadListFlag();
+                      this._entityService.reloadListFlag(true);
                       this.router.back();
                     }
                   );
