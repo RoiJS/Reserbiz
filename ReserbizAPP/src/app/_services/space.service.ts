@@ -23,7 +23,7 @@ import { BaseService } from './base.service';
 export class SpaceService
   extends BaseService<Space>
   implements IBaseService<Space> {
-  private _loadSpacesFlag = new BehaviorSubject<void>(null);
+  private _loadSpacesFlag = new BehaviorSubject<boolean>(false);
   constructor(public http: HttpClient) {
     super(new SpaceMapper(), http);
   }
@@ -102,11 +102,11 @@ export class SpaceService
       .toPromise();
   }
 
-  reloadListFlag() {
-    this._loadSpacesFlag.next();
+  reloadListFlag(reset: boolean) {
+    this._loadSpacesFlag.next(reset);
   }
 
-  get loadSpacesFlag(): BehaviorSubject<void> {
+  get loadSpacesFlag(): BehaviorSubject<boolean> {
     return this._loadSpacesFlag;
   }
 }

@@ -141,7 +141,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
             // Filter by contract code
             if (!String.IsNullOrEmpty(contractFilter.Code))
             {
-                filteredContracts = filteredContracts.Where(c => c.Code.Contains(contractFilter.Code)).ToList();
+                filteredContracts = filteredContracts.Where(c => c.Code.ToLower().Contains(contractFilter.Code.ToLower())).ToList();
             }
 
             // Filter by tenant Id
