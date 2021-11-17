@@ -8,6 +8,7 @@ using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 using ReserbizAPP.LIB.Helpers;
 using Microsoft.Extensions.Localization;
+using ReserbizAPP.LIB.Helpers.Constants;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -54,7 +55,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(timeZones);
         }
 
-        [HttpGet("getCurrentDateTime")]
+        [HttpGet(ApiRoutes.TestControllerRoutes.GetCurrentDateTimeURL)]
         public IActionResult GetCurrentDateTime()
         {
             var currentDateTime = DateTime.Now.ConvertToTimeZone(_appSettings.Value.GeneralSettings.TimeZone);

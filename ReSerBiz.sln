@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserbizAPP.API", "ReserbizAPP.API\ReserbizAPP.API.csproj", "{1E67979E-2D4A-46FF-AA7A-D3232B9870EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReserbizAPP.API", "ReserbizAPP.API\ReserbizAPP.API.csproj", "{1E67979E-2D4A-46FF-AA7A-D3232B9870EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserbizAPP.LIB", "ReserbizAPP.LIB\ReserbizAPP.LIB.csproj", "{3DB67C4E-7BDD-48F8-89FB-19BED2993AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReserbizAPP.LIB", "ReserbizAPP.LIB\ReserbizAPP.LIB.csproj", "{3DB67C4E-7BDD-48F8-89FB-19BED2993AF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserbizAPP.Tests", "ReserbizAPP.Tests\ReserbizAPP.Tests.csproj", "{4CD5B9FE-9B1B-4EAD-8BD7-05F1DA076614}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReserbizAPP.Tests", "ReserbizAPP.Tests\ReserbizAPP.Tests.csproj", "{4CD5B9FE-9B1B-4EAD-8BD7-05F1DA076614}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserbizAPP.Hangfire", "ReserbizAPP.Hangfire\ReserbizAPP.Hangfire.csproj", "{3839AA5D-6785-4916-A9DD-6B783A7E28AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReserbizAPP.Hangfire", "ReserbizAPP.Hangfire\ReserbizAPP.Hangfire.csproj", "{3839AA5D-6785-4916-A9DD-6B783A7E28AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReserbizAPP.IntegrationTests", "ReserbizAPP.IntegrationTests\ReserbizAPP.IntegrationTests.csproj", "{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1E67979E-2D4A-46FF-AA7A-D3232B9870EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +71,23 @@ Global
 		{3839AA5D-6785-4916-A9DD-6B783A7E28AA}.Release|x64.Build.0 = Release|Any CPU
 		{3839AA5D-6785-4916-A9DD-6B783A7E28AA}.Release|x86.ActiveCfg = Release|Any CPU
 		{3839AA5D-6785-4916-A9DD-6B783A7E28AA}.Release|x86.Build.0 = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|x64.Build.0 = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Debug|x86.Build.0 = Debug|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|x64.ActiveCfg = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|x64.Build.0 = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9C87972-C70B-47E6-AD01-31E4B18DD2E0}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4EE3400-2E9B-40F5-987A-7BCD3F908EC5}
 	EndGlobalSection
 EndGlobal

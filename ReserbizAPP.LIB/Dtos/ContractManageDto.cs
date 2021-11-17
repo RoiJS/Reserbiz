@@ -36,10 +36,5 @@ namespace ReserbizAPP.LIB.Dtos
 
         [DurationValueRange("DurationUnit", ErrorMessage = "Value for duration unit of {0} shall be not exceed {1}.")]
         public int DurationValue { get; set; }
-
-        public bool IncludeRentalFee { get; set; }
-        public bool IncludeUtilityBills { get; set; }
-        public bool IncludeMiscellaneousFees { get; set; }
-        public bool IncludePenaltyAmount { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Helpers.Constants;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -54,9 +55,16 @@ namespace ReserbizAPP.API.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost("create")]
+        [HttpPost(ApiRoutes.ContractControllerRoutes.CreateContractURL)]
         public async Task<ActionResult<ContractDetailDto>> CreateContract(ContractManageDto contractManageDto)
         {
+            var checkContractFromRepo = await _contractRepository.GetContractByCode(contractManageDto.Code);
+
+            if (checkContractFromRepo != null)
+            {
+                return Conflict($"Contract with code {checkContractFromRepo.Code} is already exists. Please enter a unique contract code.");
+            }
+
             var contractToCreate = _mapper.Map<Contract>(contractManageDto);
 
             // (1) Save the new contract
@@ -99,7 +107,7 @@ namespace ReserbizAPP.API.Controllers
             );
         }
 
-        [HttpGet("{id}", Name = "GetContract")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetContractURL, Name = "GetContract")]
         public async Task<ActionResult<ContractDetailDto>> GetContract(int id)
         {
             var contractFromRepo = await _contractRepository
@@ -135,7 +143,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(contractToReturn);
         }
 
-        [HttpGet("getAllContracts")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetAllContracts)]
         public async Task<ActionResult<ContractPaginationListDto>> GetAllContracts(string searchKeyword, int tenantId, DateTime activeFrom, DateTime activeTo, DateTime nextDueDateFrom, DateTime nextDueDateTo, bool openContract, SortOrderEnum sortOrder, bool archived, ArchivedContractStatusEnum archivedContractStatus, SortOrderEnum codeSortOrder, int page)
         {
             var contractsFromRepo = await _contractRepository.GetAllContractsAsync(archived);
@@ -168,7 +176,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(entityPaginationListDto);
         }
 
-        [HttpPut("{contractId}/{termId}")]
+        [HttpPut(ApiRoutes.ContractControllerRoutes.UpdateContractURL)]
         public async Task<IActionResult> UpdateContract(int contractId, int termId, ContractManageDto contractManageDto)
         {
             var contractFromRepo = await _contractRepository.GetEntity(contractId)
@@ -194,8 +202,8 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating contract information with an id of {contractId} failed on save.");
         }
 
-        [HttpGet("getAllContractsPerTenant/{tenantId}")]
-        public async Task<ActionResult<IEnumerable<ContractListDto>>> GetContractsPerTenant(int tenantId)
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetContractsPerTenantURL)]
+        public async Task<ActionResult<List<ContractListDto>>> GetContractsPerTenant(int tenantId)
         {
             var tenantFromRepo = await _tenantRepository.GetEntity(tenantId).ToObjectAsync();
 
@@ -204,12 +212,12 @@ namespace ReserbizAPP.API.Controllers
 
             var contractsPerTenantFromRepo = await _contractRepository.GetContractsPerTenantAsync(tenantId);
 
-            var contractsPerTenantToReturn = _mapper.Map<IEnumerable<ContractListDto>>(contractsPerTenantFromRepo);
+            var contractsPerTenantToReturn = _mapper.Map<List<ContractListDto>>(contractsPerTenantFromRepo);
 
             return Ok(contractsPerTenantToReturn);
         }
 
-        [HttpPut("setStatus/{id}/{status}")]
+        [HttpPut(ApiRoutes.ContractControllerRoutes.SetContractStatusURL)]
         public async Task<IActionResult> SetContractStatus(int id, bool status)
         {
             var contractFromRepo = await _contractRepository.GetEntity(id).ToObjectAsync();
@@ -230,7 +238,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating contract status with an id of {id} failed on save.");
         }
 
-        [HttpGet("getContractAccountStatements/{id}")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetContractAccountStatementsURL)]
         public async Task<ActionResult<ContractDetailDto>> GetContractAccountStatements(int id)
         {
             var contractFromRepo = await _contractRepository
@@ -250,7 +258,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(contractToReturn);
         }
 
-        [HttpPost("deleteMultipleContracts")]
+        [HttpPost(ApiRoutes.ContractControllerRoutes.DeleteMultipleContractsURL)]
         public async Task<IActionResult> DeleteMultipleContracts(List<int> contractIds)
         {
             if (contractIds.Count == 0)
@@ -264,7 +272,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Error when deleting contracts!");
         }
 
-        [HttpDelete("deleteContract")]
+        [HttpDelete(ApiRoutes.ContractControllerRoutes.DeleteContractURL)]
         public async Task<IActionResult> DeleteContract(int contractId)
         {
             var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
@@ -282,7 +290,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Error when deleting contract with id of ${contractId}!");
         }
 
-        [HttpPost("setMultipleContractsStatus/{status}")]
+        [HttpPost(ApiRoutes.ContractControllerRoutes.SetMultipleContractsStatusURL)]
         public async Task<IActionResult> SetMultipleContractsStatus(bool status, List<int> entityIds)
         {
             if (entityIds.Count == 0)
@@ -296,7 +304,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Error occurs processing contracts!");
         }
 
-        [HttpGet("checkContractCodeIfExists/{contractId}/{contractCode}")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.CheckTermCodeIfExistsURL)]
         public async Task<ActionResult<bool>> CheckTermCodeIfExists(int contractId, string contractCode)
         {
             var termsFromRepo = await _contractRepository.GetAllEntities().ToListObjectAsync();
@@ -304,7 +312,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(_contractRepository.CheckContractCodeIfExists(termsFromRepo, contractId, contractCode));
         }
 
-        [HttpGet("validateExpirationDate/{contractId}/{effectiveDate}/{durationUnit}/{durationValue}")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.ValidateExpirationDateURL)]
         public async Task<ActionResult<bool>> ValidateExpirationDate(int contractId, DateTime effectiveDate, DurationEnum durationUnit, int durationValue)
         {
             var contractFromRepo = await _contractRepository
@@ -326,7 +334,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("calculateExpirationDate/{effectiveDate}/{durationUnit}/{durationValue}")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.CalculateExpirationDateURL)]
         public ActionResult<DateTime> CalculateExpirationDate(DateTime effectiveDate, DurationEnum durationUnit, int durationValue)
         {
             var durationDays = effectiveDate.CalculateDaysBasedOnDuration(durationValue, durationUnit);
@@ -334,7 +342,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(expirationDate);
         }
 
-        [HttpPut("setEncashDepositAmountStatus/{contractId}/{status}")]
+        [HttpPut(ApiRoutes.ContractControllerRoutes.SetEncashDepositAmountStatusURL)]
         public async Task<IActionResult> SetEncashDepositAmountStatus(int contractId, bool status)
         {
             var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
@@ -348,14 +356,14 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating contract status with an id of {contractId} failed on save.");
         }
 
-        [HttpGet("getActiveContractsCount")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetActiveContractsCountURL)]
         public async Task<ActionResult<int>> GetActiveContractsCount()
         {
             var allActiveContractsFromRepoCount = await _contractRepository.GetAllContractsAsync(false);
             return Ok(allActiveContractsFromRepoCount.Count());
         }
 
-        [HttpGet("getAllUpcomingDueDateContractsPerMonth")]
+        [HttpGet(ApiRoutes.ContractControllerRoutes.GetAllUpcomingDueDateContractsPerMonthURL)]
         public async Task<ActionResult<ContractPaginationListDto>> GetAllUpcomingDueDateContractsPerMonth(int month)
         {
             var contractsFromRepo = await _contractRepository.GetAllUpcomingDueDateContractsPerMonthAsync(month);

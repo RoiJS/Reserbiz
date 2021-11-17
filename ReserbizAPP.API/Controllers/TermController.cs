@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Helpers.Constants;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -24,7 +25,7 @@ namespace ReserbizAPP.API.Controllers
             _termRepo = termRepo;
         }
 
-        [HttpPost("create")]
+        [HttpPost(ApiRoutes.TermControllerRoutes.CreateTermURL)]
         public async Task<ActionResult<TermDetailDto>> CreateTerm(TermForManageDto termForCreationDto)
         {
             var termToCreate = _mapper.Map<Term>(termForCreationDto);
@@ -43,8 +44,7 @@ namespace ReserbizAPP.API.Controllers
             );
         }
 
-
-        [HttpGet("{id}", Name = "GetTerm")]
+        [HttpGet(ApiRoutes.TermControllerRoutes.GetTermURL, Name = "GetTerm")]
         public async Task<ActionResult<TermDetailDto>> GetTerm(int id)
         {
             var termFromRepo = await _termRepo.GetTermAsync(id);
@@ -67,7 +67,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(termToReturn);
         }
 
-        [HttpGet("getTermsAsOptions")]
+        [HttpGet(ApiRoutes.TermControllerRoutes.GetTermsAsOptionsURL)]
         public async Task<ActionResult<IEnumerable<TermOptionDto>>> GetTermsAsOptions()
         {
             var termsFromRepo = await _termRepo.GetTermsAsOptions();
@@ -77,7 +77,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(termOptions);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut(ApiRoutes.TermControllerRoutes.UpdateTermURL)]
         public async Task<IActionResult> UpdateTerm(int id, TermForUpdateDto termForUpdateDto)
         {
             var termFromRepo = await _termRepo.GetEntity(id).ToObjectAsync();
@@ -98,7 +98,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating term with an id of {id} failed on save.");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.TermControllerRoutes.DeleteTermURL)]
         public async Task<ActionResult<TermDetailDto>> DeleteTerm(int id)
         {
             var termFromRepo = await _termRepo.GetEntity(id).ToObjectAsync();
@@ -118,7 +118,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Deleting term with an id of {id} failed on save.");
         }
 
-        [HttpPost("deleteMultipleTerms")]
+        [HttpPost(ApiRoutes.TermControllerRoutes.DeleteMultipleTermsURL)]
         public async Task<IActionResult> DeleteMultipleTerms(List<int> termIds)
         {
             if (termIds.Count == 0)
@@ -133,7 +133,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
 
-        [HttpGet("checkTermCodeIfExists/{termId}/{termCode}")]
+        [HttpGet(ApiRoutes.TermControllerRoutes.CheckTermCodeIfExistsURL)]
         public async Task<ActionResult<bool>> CheckTermCodeIfExists(int termId, string termCode)
         {
             var termsFromRepo = await _termRepo.GetAllEntities().ToListObjectAsync();
