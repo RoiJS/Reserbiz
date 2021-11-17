@@ -1,0 +1,16 @@
+﻿{
+  "DefaultAccountCredentials": {
+    "Company": "developerintegrationdb",
+    "Username": "roam",
+    "Password": "Starta123"
+  },
+  "DefaultUserAccountDetails": {
+    "Firstname": "Roi",
+    "Middlename": "Reyes",
+    "Lastname": "Amatong",
+    "EmailAddress": "amatongroi@gmail.com"
+  },
+  "ConnectionStrings": {
+    "ReserbizClientDeveloperIntegrationTestDBConnection": "Data Source=VINSANITY;Initial Catalog=ReserbizDeveloperIntegrationTestDB;User Id=sa;Password=Gewq!4u2;"
+  }
+}

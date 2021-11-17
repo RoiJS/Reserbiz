@@ -16,6 +16,7 @@ using ReserbizAPP.API.Hubs;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers;
+using ReserbizAPP.LIB.Helpers.Constants;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -49,8 +50,8 @@ namespace ReserbizAPP.API.Controllers
             _config = config;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(AccountForRegisterDto accountForRegisterDto)
+        [HttpPost(ApiRoutes.AuthControllerRoutes.RegisterURL)]
+        public async Task<ActionResult<AccountForListDto>> Register(AccountForRegisterDto accountForRegisterDto)
         {
             accountForRegisterDto.Username = accountForRegisterDto.Username.ToLower();
 
@@ -68,11 +69,12 @@ namespace ReserbizAPP.API.Controllers
             };
 
             var createdUser = await _authRepo.Register(userToCreate, accountForRegisterDto.Password);
+            var userToReturn = _mapper.Map<AccountForListDto>(createdUser);
 
-            return StatusCode(201);
+            return Ok(userToReturn);
         }
 
-        [HttpPost("login")]
+        [HttpPost(ApiRoutes.AuthControllerRoutes.LoginURL)]
         public async Task<ActionResult<AuthenticationTokenInfoDto>> Login(AccountForLoginDto userForLoginDto)
         {
             var userFromRepo = await _authRepo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
@@ -104,7 +106,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [HttpPost]
-        [Route("refresh")]
+        [Route(ApiRoutes.AuthControllerRoutes.RefreshTokenURL)]
         public async Task<ActionResult<AuthenticationTokenInfoDto>> Refresh(RefreshRequestDto request)
         {
             var userId = GetUserIdFromAccessToken(request.AccessToken);
@@ -144,7 +146,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [Authorize]
-        [HttpPut("updateAccountInformation/{id}")]
+        [HttpPut(ApiRoutes.AuthControllerRoutes.UpdateAccountURL)]
         public async Task<IActionResult> UpdateAccount(int id, AccountForUpdateDto accountForUpdateDto)
         {
             var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
@@ -178,7 +180,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("validateUsernameExists/{id}/{username}")]
+        [HttpGet(ApiRoutes.AuthControllerRoutes.ValidateUsernameExistsURL)]
         public async Task<ActionResult<bool>> ValidateUsernameExists(int id, string username)
         {
             var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
@@ -193,7 +195,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [Authorize]
-        [HttpPut("updatePersonalInformation/{id}")]
+        [HttpPut(ApiRoutes.AuthControllerRoutes.UpdatePersonalInformationURL)]
         public async Task<IActionResult> UpdatePersonalInformation(int id, PersonalInformationForUpdateDto personalInformationForUpdate)
         {
             var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
@@ -215,7 +217,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.AuthControllerRoutes.GetAccountURL)]
         public async Task<ActionResult<AccountForListDto>> GetAccount(int id)
         {
             var accountFromRepo = await _authRepo.GetEntity(id).ToObjectAsync();
@@ -236,7 +238,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(accountsToReturn);
         }
 
-        [HttpPost("removeExpiredRefreshTokens")]
+        [HttpPost(ApiRoutes.AuthControllerRoutes.RemoveExpiredRefreshTokensURL)]
         public async Task<IActionResult> RemoveExpiredRefreshTokens()
         {
             await _authRepo.RemoveExpiredRefreshTokens();
@@ -246,7 +248,7 @@ namespace ReserbizAPP.API.Controllers
         private string GenerateAccessToken(Account user)
         {
             var claims = new[] {
-                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (ClaimTypes.Name, user.Username),
                 new Claim (ReserbizClaimTypes.FirstName, user.FirstName),
                 new Claim (ReserbizClaimTypes.MiddleName, user.MiddleName),

@@ -10,6 +10,7 @@ namespace ReserbizAPP.LIB.Interfaces
         : IBaseRepository<TEntity> where TEntity : class, IEntity
     {
         Task<IEnumerable<Contract>> GetAllContractsAsync(bool onlyArchivedContracts);
+        Task<Contract> GetContractByCode(string code);
         Task<IEnumerable<Contract>> GetAllUpcomingDueDateContractsPerMonthAsync(int month);
         Task<IEnumerable<Contract>> GetContractsPerTenantAsync(int tenantId);
         Task<IEnumerable<Contract>> GetActiveDueContractsPerTenantAsync(int tenantId);
