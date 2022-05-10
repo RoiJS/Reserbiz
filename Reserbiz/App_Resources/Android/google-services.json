@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "594720860719",
+    "project_id": "reserbiz-f8432",
+    "storage_bucket": "reserbiz-f8432.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594720860719:android:1dc115ac13c49c607074da",
+        "android_client_info": {
+          "package_name": "com.reserbiz.ReserbizAPP"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594720860719-7j3gq8hnb6foa5v9e8r5ugva9g7e2l8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkVBNsrc4mbK6Nl5EDRChkzwu6shAqn6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594720860719-7j3gq8hnb6foa5v9e8r5ugva9g7e2l8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

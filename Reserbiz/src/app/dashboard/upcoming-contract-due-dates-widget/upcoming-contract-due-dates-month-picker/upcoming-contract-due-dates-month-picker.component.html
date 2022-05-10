@@ -1,0 +1,25 @@
+<StackLayout width="100%">
+  <StackLayout>
+    <RadDataForm
+      width="100%"
+      [source]="formSource"
+      (propertyCommitted)="onPropertyCommitted($event)"
+    >
+      <TKEntityProperty
+        tkDataFormProperty
+        name="month"
+        [displayName]="'DASHBOARD.BODY_SECTION.UPCOMING_CONTRACT_DUE_DATES_WIDGET.MONTH' | translate"
+        [valuesProvider]="monthOptions"
+      >
+        <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+          <TKPropertyEditorStyle
+            tkPropertyEditorStyle
+            labelPosition="Left"
+            labelWidth="60"
+            labelVerticalOffset="20"
+          ></TKPropertyEditorStyle>
+        </TKPropertyEditor>
+      </TKEntityProperty>
+    </RadDataForm>
+  </StackLayout>
+</StackLayout>

@@ -1,0 +1,10 @@
+@import '../../../app-variables';
+
+.term-icon-placeholder {
+  background: $primary-gradient;
+
+  Label {
+    font-size: 30;
+    color: white;
+  }
+}

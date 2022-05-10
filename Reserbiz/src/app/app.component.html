@@ -1,0 +1,74 @@
+<RadSideDrawer class="nt-drawer" [drawerTransition]="sideDrawerTransition">
+  <GridLayout
+    tkDrawerContent
+    rows="auto, *, auto"
+    class="sidedrawer sidedrawer-left"
+  >
+    <StackLayout row="0" class="nt-drawer__header sidedrawer-header">
+      <StackLayout class="main-logo">
+        <image width="140" height="140" src="res://mainlogo"></image>
+      </StackLayout>
+      <label
+        class="sidedrawer-header-brand"
+        [text]="currentBusinessName"
+      ></label>
+      <label class="footnote" [text]="currentUserFullname"></label>
+    </StackLayout>
+
+    <ScrollView row="1" class="nt-drawer__content sidedrawer-content">
+      <StackLayout>
+        <GridLayout
+          *ngFor="let menu of mainMenuList"
+          columns="auto, *, 60"
+          class="nt-drawer__list-item sidedrawer-list-item"
+          [class.menu-separator]="menu.hasSeparator"
+          [class.selected]="isComponentSelected(menu.url)"
+          (tap)="onNavItemTap(menu.url)"
+        >
+          <label
+            col="0"
+            [text]="menu.icon"
+            class="fa fa-regular fa-solid"
+          ></label>
+          <label col="1" [text]="menu.text | translate" class="p-r-10"></label>
+          <label
+            class="badge-count"
+            col="2"
+            *ngIf="menu.text === 'MAIN_MENU.NOTIFICATIONS' && userNotificationUnreadCount > 0"
+            [text]="userNotificationUnreadCount"
+          ></label>
+        </GridLayout>
+        <GridLayout
+          columns="auto, *"
+          class="nt-drawer__list-item sidedrawer-list-item menu-separator"
+          (tap)="onOpenOnlineDocumentation()"
+        >
+          <label col="0" text="&#xf02d;" class="fa fa-solid fa-regular"></label>
+          <label
+            col="1"
+            [text]="'MAIN_MENU.DOCUMENTATION' | translate"
+            class="p-r-10"
+          ></label>
+        </GridLayout>
+        <GridLayout
+          columns="auto, *"
+          class="nt-drawer__list-item sidedrawer-list-item"
+          (tap)="onSignout()"
+        >
+          <label col="0" text="&#xf2f5;" class="fa fa-solid fa-regular"></label>
+          <label
+            col="1"
+            [text]="'MAIN_MENU.SIGN_OUT' | translate"
+            class="p-r-10"
+          ></label>
+        </GridLayout>
+      </StackLayout>
+    </ScrollView>
+    <StackLayout class="sidedrawer-footer" row="2">
+      <label [text]="appVersion" textWrap="true"></label>
+      <label class="fa" [text]="copyRightText"></label>
+    </StackLayout>
+  </GridLayout>
+
+  <page-router-outlet tkMainContent></page-router-outlet>
+</RadSideDrawer>

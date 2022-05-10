@@ -1,0 +1,39 @@
+<StackLayout width="100%" class="list-based-widget-container">
+  <ns-list-layout [hasItems]="items?.length > 0">
+    <RadListView
+      width="100%"
+      height="100%"
+      #appListView
+      [items]="items"
+      selectionBehavior="Press"
+      (itemSelected)="selectItem($event.index, 'contracts/:contractId/account-statement/:accountStatementId')"
+    >
+      <ng-template tkListItemTemplate let-accountStatement="item">
+        <GridLayout
+          class="list-based-widget-container__item-template"
+          rows="*"
+          columns="*, *, 20"
+        >
+          <StackLayout orientation="horizontal" row="0" col="0">
+            <label [text]="accountStatement.tenantName"></label>
+          </StackLayout>
+          <StackLayout orientation="horizontal" row="0" col="1">
+            <label [text]="accountStatement.dueDateFormatted"></label>
+          </StackLayout>
+          <StackLayout
+            orientation="horizontal"
+            row="0"
+            col="2"
+            class="list-based-widget-container__item-arrow-icon"
+          >
+            <label
+              text="&#xf054;"
+              class="fa fa-solid"
+              verticalAlignment="middle"
+            ></label>
+          </StackLayout>
+        </GridLayout>
+      </ng-template>
+    </RadListView>
+  </ns-list-layout>
+</StackLayout>

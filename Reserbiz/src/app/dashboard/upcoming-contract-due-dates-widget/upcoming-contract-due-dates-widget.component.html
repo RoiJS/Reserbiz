@@ -1,0 +1,43 @@
+<StackLayout
+  class="upcoming-contract-due-dates-widget-container widget-panel dialog-container"
+>
+  <StackLayout class="widget-panel__header dialog-header">
+    <StackLayout width="100%" orientation="horizontal">
+      <label
+        text="&#xf073;"
+        class="fa fa-solid m-r-10"
+        verticalAlignment="middle"
+      ></label>
+      <label
+        [text]="'DASHBOARD.BODY_SECTION.UPCOMING_CONTRACT_DUE_DATES_WIDGET.MAIN_LABEL' | translate"
+        verticalAlignment="middle"
+      ></label>
+    </StackLayout>
+  </StackLayout>
+  <ns-loader-layout [busy]="isBusy">
+    <StackLayout
+      class="dialog-body"
+      orientation="horizontal"
+      width="100%"
+      height="100%"
+    >
+      <StackLayout
+        class="widget-panel__counter-badge-section"
+        verticalAlignment="middle"
+      >
+        <ns-upcoming-contract-due-dates-count-badge></ns-upcoming-contract-due-dates-count-badge>
+      </StackLayout>
+
+      <StackLayout>
+        <StackLayout
+          class="upcoming-contract-due-dates-widget-container__month-picker-section"
+        >
+          <ns-upcoming-contract-due-dates-month-picker></ns-upcoming-contract-due-dates-month-picker>
+        </StackLayout>
+        <StackLayout>
+          <ns-upcoming-contract-due-dates-list></ns-upcoming-contract-due-dates-list>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

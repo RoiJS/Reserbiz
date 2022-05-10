@@ -1,0 +1,53 @@
+<ns-action-bar
+  [title]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf044;"
+    class="fa fa-solid action-item-button"
+    (tap)="navigateToEditContract()"
+  ></ActionItem>
+  <ActionItem
+    [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.ARCHIVE' | translate"
+    android.position="popup"
+    (tap)="deactivateContract()"
+    *ngIf="!currentContract?.isExpired && currentContract?.isActive"
+  ></ActionItem>
+  <ActionItem
+    [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.UNARCHIVE' | translate"
+    android.position="popup"
+    (tap)="activateContract()"
+    *ngIf="!currentContract?.isExpired && !currentContract?.isActive"
+  ></ActionItem>
+  <ActionItem
+    [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.ENCASH_DEPOSIT_AMOUNT' | translate"
+    android.position="popup"
+    (tap)="encashDepositAmount(true)"
+    *ngIf="!isEncashedDepositAmount && isDepositAmountFullyPaid"
+  ></ActionItem>
+  <ActionItem
+    [text]="'CONTRACT_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.RETURN_ENCASHED_DEPOSIT_AMOUNT' | translate"
+    android.position="popup"
+    (tap)="encashDepositAmount(false)"
+    *ngIf="isEncashedDepositAmount && isDepositAmountFullyPaid"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%">
+    <!-- #Start Contract Details Header -->
+    <ns-contract-details-panel
+      [currentContract]="currentContract"
+    ></ns-contract-details-panel>
+    <!-- #End -->
+
+    <!-- #Start Account Statement List -->
+    <ns-contract-account-statement-list-panel
+      [currentContractId]="currentContract?.id"
+      [IsCurrentContractEncashedDepositAmount]="currentContract?.encashDepositAmount"
+      [IsCurrentContractArchived]="isContractArchived"
+    >
+    </ns-contract-account-statement-list-panel>
+    <!-- #End -->
+  </StackLayout>
+</ns-loader-layout>

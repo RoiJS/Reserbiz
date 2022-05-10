@@ -1,0 +1,173 @@
+<ns-action-bar
+  [title]="'TERMS_LIST_PAGE.ACTION_BAR_TITLE' | translate"
+  [showBackButton]="false"
+  *ngIf="!multipleSelectionActive"
+>
+  <ActionItem
+    icon="font://&#xf03a;"
+    class="fa fa-solid action-item-button"
+    (tap)="activateDeactivateMultipleSelection()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-action-bar
+  [title]="selectedCount"
+  [showBackButton]="false"
+  [hasMenu]="false"
+  *ngIf="multipleSelectionActive"
+>
+  <ActionItem
+    icon="font://&#xf2ed;"
+    class="fa fa-solid action-item-button"
+    (tap)="deleteSelectedItems()"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf00d;"
+    class="fa fa-solid action-item-button"
+    (tap)="activateDeactivateMultipleSelection()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <SearchBar
+      class="m-b-10"
+      backgroundColor="white"
+      #searchBar
+      [hint]="'TERMS_LIST_PAGE.SEARCH_BAR_HINT' | translate"
+      (loaded)="searchBarLoaded($event)"
+      (submit)="onSubmitSearchText($event)"
+      (clear)="onClearSearchText($event)"
+    >
+    </SearchBar>
+
+    <ns-list-layout
+      [hasItems]="items?.length > 0"
+      [emptyTextIdentifier]="'TERMS_LIST_PAGE.EMPTY_TERM_LIST'"
+    >
+      <RadListView
+        width="100%"
+        height="100%"
+        #appListView
+        class="app-list-container"
+        [items]="items"
+        swipeActions="true"
+        selectionBehavior="Press"
+        multipleSelection="true"
+        pullToRefresh="true"
+        (itemSelected)="selectItem($event.index, '/terms/:id')"
+        (itemDeselected)="deselectedItem($event)"
+        (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
+        (pullToRefreshInitiated)="onPullToRefreshInitiated($event)"
+      >
+        <ng-template tkListItemTemplate let-term="item">
+          <GridLayout
+            class="app-list-item-template"
+            rows="*, *"
+            columns="70, *"
+          >
+            <!-- Template for not selected term item -->
+            <StackLayout
+              *ngIf="multipleSelectionActive && !term.isSelected"
+              row="0"
+              col="0"
+              rowSpan="2"
+              class="m-r-10"
+            >
+              <StackLayout
+                class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
+                verticalAlignment="middle"
+              >
+              </StackLayout>
+            </StackLayout>
+
+            <!-- Template for selected term Item -->
+            <StackLayout
+              *ngIf="multipleSelectionActive && term.isSelected"
+              row="0"
+              col="0"
+              rowSpan="2"
+              class="m-r-10"
+            >
+              <StackLayout
+                class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
+                verticalAlignment="middle"
+              >
+                <label
+                  class="fa fa-solid"
+                  horizontalAlignment="center"
+                  text="&#xf00c;"
+                ></label>
+              </StackLayout>
+            </StackLayout>
+
+            <!-- Template term photo placeholder -->
+            <StackLayout
+              *ngIf="!multipleSelectionActive && !term.isSelected"
+              row="0"
+              col="0"
+              rowSpan="2"
+              class="m-r-10"
+            >
+              <StackLayout
+                class="term-icon-placeholder app-list-item-template__image-container"
+                verticalAlignment="middle"
+              >
+                <label
+                  class="image fa fa-solid"
+                  horizontalAlignment="center"
+                  text="&#xf570;"
+                ></label>
+              </StackLayout>
+            </StackLayout>
+
+            <StackLayout
+              class="app-list-item-template__item-main-label"
+              verticalAlignment="middle"
+              orientation="horizontal"
+              row="0"
+              col="1"
+            >
+              <StackLayout
+                *ngIf="!term.isActive"
+                class="app-list-item-template__inactive-indicator"
+              ></StackLayout>
+              <label [text]="term.code"></label>
+            </StackLayout>
+
+            <StackLayout row="1" col="1">
+              <label [text]="term.name"></label>
+            </StackLayout>
+          </GridLayout>
+        </ng-template>
+
+        <GridLayout
+          *tkListItemSwipeTemplate
+          columns="*, auto"
+          class="app-list-item-swipe-template"
+        >
+          <FlexBoxLayout
+            col="1"
+            class="app-list-item-swipe-template__option-container"
+            id="itemSwipeActions"
+            justifyContent="space-around"
+            *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage"
+          >
+            <button
+              alignSelf="center"
+              class="fa fa-solid app-list-item-swipe-template__option"
+              text="&#xf2ed;"
+              [isEnabled]="isCurrentItemDeletable"
+              (tap)="deleteSelectedItem()"
+            ></button>
+          </FlexBoxLayout>
+        </GridLayout>
+      </RadListView>
+    </ns-list-layout>
+  </StackLayout>
+
+  <ns-floating-button
+    (tapButton)="navigateToOtherPage('/terms/term-add')"
+    [icon]="'&#xf067;'"
+  ></ns-floating-button>
+</ns-loader-layout>

@@ -1,0 +1,94 @@
+@import '~@nativescript/theme/core';
+@import '~@nativescript/theme/orange';
+
+// Custom colors
+$background-dark: #ececec;
+$background-light: #ffffff;
+$background-gradient: linear-gradient(
+  120deg,
+  #e7e7e7 0%,
+  #ffffff 50%,
+  #e7e7e7 100%
+);
+
+$blue-dark: #464646;
+$blue-light: #02556e;
+$blue-50: rgba($blue-dark, 0.5);
+$blue-20: rgba($blue-dark, 0.2);
+$blue-10: rgba($blue-dark, 0.1);
+
+$accent-dark: #2285ff;
+$accent-light: #4781fe;
+
+$success-dark: #06ce6a;
+$success-light: #00e676;
+
+$warning-dark: #f39c11;
+$warning-light: #f2c112;
+
+$error-dark: #d84039;
+$error-light: #ed473f;
+
+$midnight-dark: #0f336d;
+$midnight-light: #14418b;
+
+$night-dark: #023141;
+$night-light: #01526c;
+
+$page-icon-color: #d7d7d7;
+
+$activate: #3a53ff;
+$inactivate: #a7a7a7;
+
+// Sizes
+$page-content-placeholder-font-size: 20;
+
+/**
+ * Theme variables overrides
+**/
+
+// Colors
+$background: #fff;
+$primary: #eb5a2e;
+$secondary: lighten($primary, 46%);
+$disabled: lighten($primary, 62%);
+$from-color-gradiant: #ff6f43;
+$to-color-gradiant: $primary;
+$primary-gradient: linear-gradient(
+  300deg,
+  $from-color-gradiant 40%,
+  $to-color-gradiant 100%
+);
+$accent: $accent-dark;
+$error: $error-light;
+$font-color: #4b4b4b;
+
+// SideDrawer
+$item-color-android: #737373;
+$item-active-background: #f8f8f8;
+$item-active-color: $primary;
+$item-active-icon-color: $item-active-color;
+$item-color-ios: $primary;
+$item-color-android: $primary;
+
+$side-drawer-header-background: #fafafa;
+$side-drawer-header-brand: #737373;
+$side-drawer-background: #ffffff;
+
+// ActionBar
+$ab-background: $primary;
+$ab-color: $white;
+
+// Buttons
+$btn-color-inverse: $white;
+$btn-color: $primary;
+$btn-color-secondary: darken($btn-color, 10%);
+$btn-color-outline-highlighted: lighten($btn-color, 10%);
+
+//Text colors
+$headings-color: $font-color;
+$secondary: $font-color;
+$text-color: $font-color;
+
+// Font Size
+$font-size: 16;

@@ -1,0 +1,34 @@
+<StackLayout class="widget-panel dialog-container">
+  <StackLayout class="widget-panel__header dialog-header">
+    <StackLayout width="100%" orientation="horizontal">
+      <label
+        text="&#xf15c;"
+        class="fa fa-solid m-r-10"
+        verticalAlignment="middle"
+      ></label>
+      <label
+        [text]="'DASHBOARD.BODY_SECTION.UNPAID_ACCOUNT_STATEMENTS_WIDGET.MAIN_LABEL' | translate"
+        verticalAlignment="middle"
+      ></label>
+    </StackLayout>
+  </StackLayout>
+  <ns-loader-layout [busy]="isBusy">
+    <StackLayout
+      class="dialog-body"
+      orientation="horizontal"
+      width="100%"
+      height="100%"
+    >
+      <StackLayout
+        class="widget-panel__counter-badge-section"
+        verticalAlignment="middle"
+      >
+        <ns-unpaid-account-statements-count-badge></ns-unpaid-account-statements-count-badge>
+      </StackLayout>
+
+      <StackLayout>
+        <ns-unpaid-account-statements-list></ns-unpaid-account-statements-list>
+      </StackLayout>
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

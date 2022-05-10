@@ -1,0 +1,91 @@
+<StackLayout class="payment-filter-dialog dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="70%" orientation="horizontal">
+        <label
+          text="&#xf0b0;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'PAYMENT_FILTER_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <RadDataForm [source]="paymentFilterFormSource">
+      <!-- #Start Payment For Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Payment_For"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="paymentForType"
+          [displayName]="'PAYMENT_FILTER_DIALOG.BODY_SECTION.PAYMENT_FOR_LABEL' | translate"
+          [valuesProvider]="paymentForTypeOptions"
+          index="1"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+
+      <!-- #Start Sort Order Section -->
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Sort_Order"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="sortOrder"
+          [displayName]="'PAYMENT_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate"
+          [valuesProvider]="sortOrderOptions"
+          index="2"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+      <!-- #End -->
+    </RadDataForm>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="filter-dialog-buttons">
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
+        class="btn-confirm-filter btn-primary -rounded-lg"
+        (tap)="onConfirm()"
+      ></button>
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
+        class="btn-reset-filter -rounded-lg"
+        (tap)="onReset()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

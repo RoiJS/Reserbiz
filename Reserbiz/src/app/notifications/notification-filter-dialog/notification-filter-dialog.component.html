@@ -1,0 +1,104 @@
+<StackLayout class="dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="70%" orientation="horizontal">
+        <label
+          text="&#xf0b0;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'NOTIFICATION_FILTER_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <RadDataForm [source]="notificationFilterFormSource">
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Dates"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKDataFormGridLayout tkPropertyGroupLayout>
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="fromDate"
+            [displayName]="'NOTIFICATION_FILTER_DIALOG.BODY_SECTION.FROM_DATE_LABEL' | translate"
+            index="1"
+            columnIndex="0"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="toDate"
+            [displayName]="'NOTIFICATION_FILTER_DIALOG.BODY_SECTION.TO_DATE_LABEL' | translate"
+            index="1"
+            columnIndex="1"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKDataFormGridLayout>
+      </TKPropertyGroup>
+
+      <TKPropertyGroup
+        tkDataFormGroups
+        name="Group_Sort_Order"
+        [titleHidden]="true"
+        hidden="false"
+      >
+        <TKEntityProperty
+          tkPropertyGroupProperties
+          name="sortOrder"
+          [displayName]="'NOTIFICATION_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate"
+          [valuesProvider]="sortOrderOptions"
+          index="2"
+        >
+          <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+            <TKPropertyEditorStyle
+              tkPropertyEditorStyle
+              labelTextSize="14"
+            ></TKPropertyEditorStyle>
+          </TKPropertyEditor>
+        </TKEntityProperty>
+      </TKPropertyGroup>
+    </RadDataForm>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="filter-dialog-buttons">
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.CONFIRM' | translate"
+        class="btn-confirm-filter btn-primary -rounded-lg"
+        (tap)="onConfirm()"
+      ></button>
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.RESET' | translate"
+        class="btn-reset-filter -rounded-lg"
+        (tap)="onReset()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>
