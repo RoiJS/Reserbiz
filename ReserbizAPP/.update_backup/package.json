@@ -31,7 +31,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "core-js": "^3.8.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "nativescript-cfalert-dialog": "^1.0.15",
     "nativescript-ui-calendar": "^7.0.2",
     "nativescript-ui-chart": "^8.0.2",
