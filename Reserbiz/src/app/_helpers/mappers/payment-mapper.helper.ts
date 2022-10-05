@@ -1,11 +1,13 @@
-import { PaymentForTypeEnum } from '../../_enum/payment-type.enum';
-import { PaymentDto } from '../../_dtos/payment-dto';
+import { PaymentForTypeEnum } from "~/app/_enum/payment-type.enum";
+import { PaymentDto } from "~/app/_dtos/payment-dto";
 
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
 
-import { PaymentFormSource } from '../../_models/form/payment-form.model';
-import { Payment } from '../../_models/payment.model';
+import { PaymentFormSource } from "~/app/_models/form/payment-form.model";
+import { Payment } from "~/app/_models/payment.model";
+
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 export class PaymentMapper
   implements
@@ -30,10 +32,10 @@ export class PaymentMapper
       new Date(),
       new Date(),
       0,
-      '',
-      false,
+      "",
+      YesNoEnum.No,
       PaymentForTypeEnum.Rental,
-      ''
+      ""
     );
     return paymentFormSource;
   }
@@ -49,7 +51,7 @@ export class PaymentMapper
       paymentFormSource.dateReceived,
       paymentFormSource.amount,
       paymentFormSource.notes,
-      paymentFormSource.isAmountFromDeposit,
+      paymentFormSource.isAmountFromDeposit === YesNoEnum.Yes,
       paymentFormSource.paymentForType
     );
 
@@ -62,7 +64,7 @@ export class PaymentMapper
       payment.timeReceived,
       payment.amount,
       payment.notes,
-      payment.isAmountFromDeposit,
+      payment.isAmountFromDeposit ? YesNoEnum.Yes : YesNoEnum.No,
       payment.paymentForType,
       payment.receivedBy
     );
@@ -82,7 +84,8 @@ export class PaymentMapper
     payment.amount = paymentFormSource.amount;
     payment.receivedBy = paymentFormSource.receivedBy;
     payment.notes = paymentFormSource.notes;
-    payment.isAmountFromDeposit = paymentFormSource.isAmountFromDeposit;
+    payment.isAmountFromDeposit =
+      paymentFormSource.isAmountFromDeposit === YesNoEnum.Yes;
     payment.paymentForType = paymentFormSource.paymentForType;
 
     return payment;

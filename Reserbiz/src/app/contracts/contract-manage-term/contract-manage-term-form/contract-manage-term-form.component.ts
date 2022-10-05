@@ -5,43 +5,45 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-} from '@angular/core';
+} from "@angular/core";
 
-import { DataFormEventData } from 'nativescript-ui-dataform';
-import { RouterExtensions } from '@nativescript/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { DataFormEventData } from "nativescript-ui-dataform";
+import { RouterExtensions } from "@nativescript/angular";
+import { TranslateService } from "@ngx-translate/core";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { LocalManageTermService } from '../../../_services/local-manage-term.service';
-import { BaseFormComponent } from '../../../shared/component/base-form.component';
+import { LocalManageTermService } from "~/app/_services/local-manage-term.service";
+import { BaseFormComponent } from "~/app/shared/component/base-form.component";
 
-import { Term } from '../../../_models/term.model';
-import { SpaceTypeOption } from '../../../_models/options/space-type-option.model';
-import { TermDetailsFormSource } from '../../../_models/form/term-details-form.model';
-import { TermDto } from '../../../_dtos/term.dto';
-import { SpaceType } from '../../../_models/space-type.model';
-import { DialogService } from '../../../_services/dialog.service';
-import { SpaceTypeService } from '../../../_services/space-type.service';
+import { Term } from "~/app/_models/term.model";
+import { SpaceTypeOption } from "~/app/_models/options/space-type-option.model";
+import { TermDetailsFormSource } from "~/app/_models/form/term-details-form.model";
+import { TermDto } from "~/app/_dtos/term.dto";
+import { SpaceType } from "~/app/_models/space-type.model";
+import { DialogService } from "~/app/_services/dialog.service";
+import { SpaceTypeService } from "~/app/_services/space-type.service";
 
-import { ITermFormValueProvider } from '../../../_interfaces/value_providers/iterm-form-value-provider.interface';
-import { DurationValueProvider } from '../../../_helpers/value_providers/duration-value-provider.helper';
+import { ITermFormValueProvider } from "~/app/_interfaces/value_providers/iterm-form-value-provider.interface";
+import { DurationValueProvider } from "~/app/_helpers/value_providers/duration-value-provider.helper";
 
-import { DurationRangeValueProvider } from '../../../_helpers/value_providers/duration-range-value-provider.helper';
-import { ValueTypeValueProvider } from '../../../_helpers/value_providers/value-type-provider.helper';
-import { SpaceTypeValueProvider } from '../../../_helpers/value_providers/space-type-value-provider.helper';
-import { MiscellaneousValueProvider } from '../../../_helpers/value_providers/miscellaneous-due-date-provider.helper';
+import { DurationRangeValueProvider } from "~/app/_helpers/value_providers/duration-range-value-provider.helper";
+import { ValueTypeValueProvider } from "~/app/_helpers/value_providers/value-type-provider.helper";
+import { SpaceTypeValueProvider } from "~/app/_helpers/value_providers/space-type-value-provider.helper";
+import { MiscellaneousValueProvider } from "~/app/_helpers/value_providers/miscellaneous-due-date-provider.helper";
+import { YesNoValueProvider } from "~/app/_helpers/value_providers/yesno-value-provider.helper";
 
-import { TermMapper } from '../../../_helpers/mappers/term-mapper.helper';
+import { TermMapper } from "~/app/_helpers/mappers/term-mapper.helper";
 
-import { DurationEnum } from '../../../_enum/duration-unit.enum';
-import { MiscellaneousDueDateEnum } from '../../../_enum/miscellaneous-due-date.enum';
-import { ValueTypeEnum } from '../../../_enum/value-type.enum';
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { ValueTypeEnum } from "~/app/_enum/value-type.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 @Component({
-  selector: 'ns-contract-manage-term-form',
-  templateUrl: './contract-manage-term-form.component.html',
-  styleUrls: ['./contract-manage-term-form.component.scss'],
+  selector: "ns-contract-manage-term-form",
+  templateUrl: "./contract-manage-term-form.component.html",
+  styleUrls: ["./contract-manage-term-form.component.scss"],
 })
 export class ContractManageTermFormComponent
   extends BaseFormComponent<Term, TermDetailsFormSource, TermDto>
@@ -62,6 +64,7 @@ export class ContractManageTermFormComponent
   private _valueTypeValueProvider: ValueTypeValueProvider;
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
   private _miscellaneousDueDateValueProvider: MiscellaneousValueProvider;
+  private _yesNoValueProvider: YesNoValueProvider;
 
   private _spaceTypeOptions;
 
@@ -97,6 +100,8 @@ export class ContractManageTermFormComponent
     this._valueTypeValueProvider = new ValueTypeValueProvider(
       this.translateService
     );
+
+    this._yesNoValueProvider = new YesNoValueProvider(this.translateService);
   }
 
   ngOnInit() {
@@ -181,7 +186,7 @@ export class ContractManageTermFormComponent
   onPropertyCommitted(args: DataFormEventData) {
     const dataForm = args.object;
 
-    if (args.propertyName === 'spaceTypeId') {
+    if (args.propertyName === "spaceTypeId") {
       /**
        * When user select a space type,
        * we will give the rate field a value
@@ -211,7 +216,7 @@ export class ContractManageTermFormComponent
       }
     }
 
-    if (args.propertyName === 'durationUnit') {
+    if (args.propertyName === "durationUnit") {
       this._durationDetailsRangeValueProvider.currentDuration =
         this._entityFormSource.durationUnit;
 
@@ -231,7 +236,7 @@ export class ContractManageTermFormComponent
      * Electric bill amount will be set to 0
      * if exclude electric bill is set to true
      */
-    if (args.propertyName === 'excludeElectricBill') {
+    if (args.propertyName === "excludeElectricBill") {
       if (
         !this._entityFormSource.excludeElectricBill &&
         this._entityFormSource.electricBillAmount > 0
@@ -246,7 +251,7 @@ export class ContractManageTermFormComponent
      * Water bill amount will be set to 0
      * if exclude water bill is set to true
      */
-    if (args.propertyName === 'excludeWaterBill') {
+    if (args.propertyName === "excludeWaterBill") {
       if (
         !this._entityFormSource.excludeWaterBill &&
         this._entityFormSource.waterBillAmount > 0
@@ -257,7 +262,7 @@ export class ContractManageTermFormComponent
       }
     }
 
-    if (args.propertyName === 'penaltyAmountPerDurationUnit') {
+    if (args.propertyName === "penaltyAmountPerDurationUnit") {
       /**
        * Whenever user select a duration unit for penalty amount per duration,
        * we will set the same duration unit for the penalty effective after duration value
@@ -269,7 +274,7 @@ export class ContractManageTermFormComponent
       });
     }
 
-    if (args.propertyName === 'penaltyEffectiveAfterDurationUnit') {
+    if (args.propertyName === "penaltyEffectiveAfterDurationUnit") {
       /**
        * This is for the duration range value provider to recalculate
        * the minimum and maximum value that can be set
@@ -280,7 +285,7 @@ export class ContractManageTermFormComponent
         this._entityFormSource.penaltyEffectiveAfterDurationUnit;
     }
 
-    if (args.propertyName === 'penaltyEffectiveAfterDurationValue') {
+    if (args.propertyName === "penaltyEffectiveAfterDurationValue") {
       /**
        * The purpose of this is to validate if the input value on penalty
        * effective after duration value does not exceed the allowed
@@ -299,7 +304,7 @@ export class ContractManageTermFormComponent
       }
     }
 
-    if (args.propertyName === 'miscellaneousDueDate') {
+    if (args.propertyName === "miscellaneousDueDate") {
       /**
        * If the Miscellaneous Due Date is not same with rental fee
        * then deactivate setting includeMiscellaneousCheckAndCalculateForPenalty.
@@ -336,6 +341,10 @@ export class ContractManageTermFormComponent
     items: SpaceTypeOption[];
   } {
     return this._spaceTypeOptions;
+  }
+
+  get yesNoOptions(): { key: YesNoEnum; label: string }[] {
+    return this._yesNoValueProvider?.yesNoOptions;
   }
 
   get durationDetailsRangeValueProvider(): DurationRangeValueProvider {

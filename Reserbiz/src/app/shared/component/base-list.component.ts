@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import {
   Component,
   OnInit,
@@ -7,46 +7,46 @@ import {
   NgZone,
   ElementRef,
   ChangeDetectorRef,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ios } from '@nativescript/core/application';
-import { ad } from '@nativescript/core/utils';
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { ios } from "@nativescript/core/application";
+import { ad } from "@nativescript/core/utils";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { RouterExtensions } from '@nativescript/angular';
-import { View, isAndroid, ObservableArray } from '@nativescript/core';
+import { RouterExtensions } from "@nativescript/angular";
+import { View, isAndroid, ObservableArray } from "@nativescript/core";
 
-import { RadListViewComponent } from 'nativescript-ui-listview/angular';
+import { RadListViewComponent } from "nativescript-ui-listview/angular";
 import {
   ListViewEventData,
   SwipeActionsEventData,
   LoadOnDemandListViewEventData,
   RadListView,
-} from 'nativescript-ui-listview';
+} from "nativescript-ui-listview";
 
-import { Subscription } from 'rxjs';
-import { take, finalize, delay } from 'rxjs/operators';
-import { ExtendedNavigationExtras } from '@nativescript/angular/lib/legacy/router/router-extensions';
+import { Subscription } from "rxjs";
+import { take, finalize, delay } from "rxjs/operators";
+import { ExtendedNavigationExtras } from "@nativescript/angular/lib/legacy/router/router-extensions";
 
-import { IEntity } from '../../_interfaces/ientity.interface';
-import { IBaseDialogTexts } from '../../_interfaces/ibase-dialog-texts.interface';
-import { IBaseService } from '../../_interfaces/services/ibase-service.interface';
-import { IEntityPaginationList } from '../../_interfaces/pagination_list/ientity-pagination-list.interface';
+import { IEntity } from "~/app/_interfaces/ientity.interface";
+import { IBaseDialogTexts } from "~/app/_interfaces/ibase-dialog-texts.interface";
+import { IBaseService } from "~/app/_interfaces/services/ibase-service.interface";
+import { IEntityPaginationList } from "~/app/_interfaces/pagination_list/ientity-pagination-list.interface";
 
-import { DialogService } from '../../_services/dialog.service';
-import { ButtonOptions } from '../../_enum/button-options.enum';
-import { EntityFilter } from '../../_models/filters/entity-filter.model';
+import { DialogService } from "~/app/_services/dialog.service";
+import { EntityFilter } from "~/app/_models/filters/entity-filter.model";
 
 @Component({
   template: ``,
 })
 export class BaseListComponent<TEntity extends IEntity>
-  implements OnInit, OnDestroy {
-  @ViewChild('appListView', { static: false })
+  implements OnInit, OnDestroy
+{
+  @ViewChild("appListView", { static: false })
   appListView: RadListViewComponent;
 
-  @ViewChild('searchBar', { static: false })
+  @ViewChild("searchBar", { static: false })
   searchBarElem: ElementRef;
 
   protected _listItems: ObservableArray<TEntity>;
@@ -235,7 +235,7 @@ export class BaseListComponent<TEntity extends IEntity>
       // Setting delay is necessary to be able to make
       // the swipe options on the component template to prevent showing
       // when navigating to other page.
-      this.navigateToOtherPage(url.replace(':id', selectedItem.id.toString()));
+      this.navigateToOtherPage(url.replace(":id", selectedItem.id.toString()));
     } else {
       (async () => {
         // This will prevent the item from being selected
@@ -286,10 +286,10 @@ export class BaseListComponent<TEntity extends IEntity>
     this.appListView.listView.deselectItemAt(currentIndex);
     this.dialogService.alert(
       this.translateService.instant(
-        'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE'
+        "GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.TITLE"
       ),
       this.translateService.instant(
-        'GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE'
+        "GENERAL_TEXTS.INVALID_ITEM_SELECTION_DIALOG_TEXTS.MESSAGE"
       )
     );
   }
@@ -298,7 +298,7 @@ export class BaseListComponent<TEntity extends IEntity>
     setTimeout(() => {
       const routeConfig: ExtendedNavigationExtras = {
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       };
 
@@ -367,15 +367,15 @@ export class BaseListComponent<TEntity extends IEntity>
           this._deleteMultipleItemsDialogTexts.title,
           this._deleteMultipleItemsDialogTexts.confirmMessage
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             this.entityService
               .deleteMultipleItems(selectedItems)
               .pipe(finalize(() => (this._isBusy = false)))
-              .subscribe(
-                () => {
+              .subscribe({
+                next: () => {
                   this.dialogService.alert(
                     this._deleteMultipleItemsDialogTexts.title,
                     this._deleteMultipleItemsDialogTexts.successMessage
@@ -385,13 +385,13 @@ export class BaseListComponent<TEntity extends IEntity>
                   me._multipleSelectionActive = false;
                   me.entityService.reloadListFlag();
                 },
-                (error: Error) => {
+                error: (error: Error) => {
                   this.dialogService.alert(
                     this._deleteMultipleItemsDialogTexts.title,
                     this._deleteMultipleItemsDialogTexts.errorMessage
                   );
-                }
-              );
+                },
+              });
           }
         });
     }
@@ -410,34 +410,35 @@ export class BaseListComponent<TEntity extends IEntity>
         this._deleteItemDialogTexts.title,
         this._deleteItemDialogTexts.confirmMessage
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.entityService
             .deleteItem(this._currentItem.id)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this._deleteItemDialogTexts.title,
-                  this._deleteItemDialogTexts.successMessage,
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this._deleteItemDialogTexts.title,
+                    this._deleteItemDialogTexts.successMessage
+                  )
+                  .then(() => {
                     (<any>this._listItems).splice(selectedItemIndex, 1);
 
                     if (onDeleteCallback) {
                       onDeleteCallback();
                     }
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this._deleteItemDialogTexts.title,
                   this._deleteItemDialogTexts.errorMessage
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -451,15 +452,15 @@ export class BaseListComponent<TEntity extends IEntity>
         this._activateItemDialogTexts.title,
         this._activateItemDialogTexts.confirmMessage
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.entityService
             .setEntityStatus(this._currentItem.id, true)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.dialogService.alert(
                   this._activateItemDialogTexts.title,
                   this._activateItemDialogTexts.successMessage
@@ -469,13 +470,13 @@ export class BaseListComponent<TEntity extends IEntity>
                 this._listItems = new ObservableArray<TEntity>([]);
                 this.entityService.reloadListFlag();
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this._activateItemDialogTexts.title,
                   this._activateItemDialogTexts.errorMessage
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -489,15 +490,15 @@ export class BaseListComponent<TEntity extends IEntity>
           this._activateMultipleItemDialogTexts.title,
           this._activateMultipleItemDialogTexts.confirmMessage
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             this.entityService
               .setMultipleEntityStatus(selectedItems, true)
               .pipe(finalize(() => (this._isBusy = false)))
-              .subscribe(
-                () => {
+              .subscribe({
+                next: () => {
                   this.dialogService.alert(
                     this._activateMultipleItemDialogTexts.title,
                     this._activateMultipleItemDialogTexts.successMessage
@@ -507,13 +508,13 @@ export class BaseListComponent<TEntity extends IEntity>
                   me._multipleSelectionActive = false;
                   me.entityService.reloadListFlag();
                 },
-                (error: Error) => {
+                error: (error: Error) => {
                   this.dialogService.alert(
                     this._activateMultipleItemDialogTexts.title,
                     this._activateMultipleItemDialogTexts.errorMessage
                   );
-                }
-              );
+                },
+              });
           }
         });
     }
@@ -528,15 +529,15 @@ export class BaseListComponent<TEntity extends IEntity>
         this._deactivateItemDialogTexts.title,
         this._deactivateItemDialogTexts.confirmMessage
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.entityService
             .setEntityStatus(this._currentItem.id, false)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.dialogService.alert(
                   this._deactivateItemDialogTexts.title,
                   this._deactivateItemDialogTexts.successMessage
@@ -546,13 +547,13 @@ export class BaseListComponent<TEntity extends IEntity>
                 this._listItems = new ObservableArray<TEntity>([]);
                 this.entityService.reloadListFlag();
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this._deactivateItemDialogTexts.title,
                   this._deactivateItemDialogTexts.errorMessage
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -566,15 +567,15 @@ export class BaseListComponent<TEntity extends IEntity>
           this._deactivateMultipleItemDialogTexts.title,
           this._deactivateMultipleItemDialogTexts.confirmMessage
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             this.entityService
               .setMultipleEntityStatus(selectedItems, false)
               .pipe(finalize(() => (this._isBusy = false)))
-              .subscribe(
-                () => {
+              .subscribe({
+                next: () => {
                   this.dialogService.alert(
                     this._deactivateMultipleItemDialogTexts.title,
                     this._deactivateMultipleItemDialogTexts.successMessage
@@ -584,13 +585,13 @@ export class BaseListComponent<TEntity extends IEntity>
                   me._multipleSelectionActive = false;
                   me.entityService.reloadListFlag();
                 },
-                (error: Error) => {
+                error: (error: Error) => {
                   this.dialogService.alert(
                     this._deactivateMultipleItemDialogTexts.title,
                     this._deactivateMultipleItemDialogTexts.errorMessage
                   );
-                }
-              );
+                },
+              });
           }
         });
     }
@@ -607,7 +608,7 @@ export class BaseListComponent<TEntity extends IEntity>
     this._isCurrentItemDeletable = this._currentItem.isDeletable;
     const swipeLimits = args.data.swipeLimits;
     const swipeView = args.object;
-    const itemSwipeActions = swipeView.getViewById<View>('itemSwipeActions');
+    const itemSwipeActions = swipeView.getViewById<View>("itemSwipeActions");
 
     if (itemSwipeActions) {
       swipeLimits.right = itemSwipeActions.getMeasuredWidth();
@@ -644,7 +645,7 @@ export class BaseListComponent<TEntity extends IEntity>
 
   onClearSearchText(args: any) {
     if (this._itemListHasLoaded) {
-      args.object.text = '';
+      args.object.text = "";
       this._entityFilter.searchKeyword = args.object.text;
       this.entityService.reloadListFlag();
     }
@@ -658,7 +659,7 @@ export class BaseListComponent<TEntity extends IEntity>
   hideKeyboard(): void {
     if (ios) {
       ios.nativeApp.sendActionToFromForEvent(
-        'resignFirstResponder',
+        "resignFirstResponder",
         null,
         null,
         null
@@ -691,7 +692,7 @@ export class BaseListComponent<TEntity extends IEntity>
   get selectedCount(): string {
     return `${
       this.appListView.listView.getSelectedItems().length
-    } ${this.translateService.instant('GENERAL_TEXTS.SELECTED_ITEMS')}`;
+    } ${this.translateService.instant("GENERAL_TEXTS.SELECTED_ITEMS")}`;
   }
 
   get isCurrentItemActive(): boolean {

@@ -1,21 +1,21 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
-import { switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, of, Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { switchMap, take, tap } from "rxjs/operators";
+import { BehaviorSubject, of, Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
-import { PushNotificationService } from './push-notification.service';
-import { RoutingService } from './routing.service';
-import { StorageService } from './storage.service';
+import { PushNotificationService } from "./push-notification.service";
+import { RoutingService } from "./routing.service";
+import { StorageService } from "./storage.service";
 
-import { User } from '../_models/user.model';
-import { Client } from '../_models/client.model';
-import { UserPersonalInfoFormSource } from '../_models/form/user-personal-form.model';
-import { GenderEnum } from '../_enum/gender.enum';
-import { AuthToken } from '../_models/auth-token.model';
-import { UserAccountInfoFormSource } from '../_models/form/user-account-form.model';
+import { User } from "~/app/_models/user.model";
+import { Client } from "~/app/_models/client.model";
+import { UserPersonalInfoFormSource } from "~/app/_models/form/user-personal-form.model";
+import { GenderEnum } from "~/app/_enum/gender.enum";
+import { AuthToken } from "~/app/_models/auth-token.model";
+import { UserAccountInfoFormSource } from "~/app/_models/form/user-account-form.model";
 
 interface IAuthResponseData {
   accessToken: string;
@@ -24,12 +24,12 @@ interface IAuthResponseData {
   expiresIn: Date;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   private _user = new BehaviorSubject<User>(null);
   private _tokenInfo = new BehaviorSubject<AuthToken>(null);
-  private _currentUserFullname = new BehaviorSubject<string>('');
-  private _currentUsername = new BehaviorSubject<string>('');
+  private _currentUserFullname = new BehaviorSubject<string>("");
+  private _currentUsername = new BehaviorSubject<string>("");
   private _tokenExpirationTimer: any;
   private _jwtHelper = new JwtHelperService();
 
@@ -111,7 +111,7 @@ export class AuthService {
   }
 
   refresh(): Observable<IAuthResponseData> {
-    const storedTokenInfo = this.storageService.getString('authToken');
+    const storedTokenInfo = this.storageService.getString("authToken");
 
     const tokenInfo: {
       _accessToken: string;
@@ -147,13 +147,13 @@ export class AuthService {
   }
 
   logout(url?: string) {
-    let redirectUrl = '/auth';
+    let redirectUrl = "/auth";
     this._user.next(null);
     this._tokenInfo.next(null);
 
-    this.storageService.remove('userData');
-    this.storageService.remove('authToken');
-    this.storageService.remove('app-secret-token');
+    this.storageService.remove("userData");
+    this.storageService.remove("authToken");
+    this.storageService.remove("app-secret-token");
 
     if (this._tokenExpirationTimer) {
       clearTimeout(this._tokenExpirationTimer);
@@ -196,8 +196,8 @@ export class AuthService {
 
   autoLogin() {
     if (
-      !this.storageService.hasKey('authToken') ||
-      !this.storageService.hasKey('userData')
+      !this.storageService.hasKey("authToken") ||
+      !this.storageService.hasKey("userData")
     ) {
       return of(false);
     }
@@ -206,7 +206,7 @@ export class AuthService {
       _accessToken: string;
       _refreshToken: string;
       _refreshTokenExpirationDate: Date;
-    } = JSON.parse(this.storageService.getString('authToken'));
+    } = JSON.parse(this.storageService.getString("authToken"));
 
     const user: {
       firstName: string;
@@ -215,7 +215,7 @@ export class AuthService {
       username: string;
       gender: GenderEnum;
       emailAddress: string;
-    } = JSON.parse(this.storageService.getString('userData'));
+    } = JSON.parse(this.storageService.getString("userData"));
 
     const tokenInfo = new AuthToken(
       authToken._accessToken,
@@ -263,7 +263,7 @@ export class AuthService {
       }),
       tap((isAuth) => {
         if (!isAuth) {
-          this.routingService.replace(['/auth']);
+          this.routingService.replace(["/auth"]);
         }
       })
     );
@@ -288,8 +288,8 @@ export class AuthService {
       currentUser.emailAddress
     );
 
-    this.storageService.storeString('authToken', JSON.stringify(authToken));
-    this.storageService.storeString('userData', JSON.stringify(user));
+    this.storageService.storeString("authToken", JSON.stringify(authToken));
+    this.storageService.storeString("userData", JSON.stringify(user));
 
     this.autoLogout(authToken.timeToExpiry);
 

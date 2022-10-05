@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import {
   Component,
   OnInit,
@@ -6,45 +6,46 @@ import {
   NgZone,
   ChangeDetectorRef,
   ViewContainerRef,
-} from '@angular/core';
+} from "@angular/core";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 import {
   RouterExtensions,
   ModalDialogService,
   ModalDialogOptions,
-} from '@nativescript/angular';
+} from "@nativescript/angular";
 
-import { BaseListComponent } from '../../shared/component/base-list.component';
+import { BaseListComponent } from "~/app/shared/component/base-list.component";
 
-import { Contract } from '../../_models/contract.model';
-import { IBaseListComponent } from '../../_interfaces/components/ibase-list-component.interface';
-import { ContractFilterDialogComponent } from '../contract-filter-dialog/contract-filter-dialog.component';
+import { Contract } from "~/app/_models/contract.model";
+import { IBaseListComponent } from "~/app/_interfaces/components/ibase-list-component.interface";
+import { ContractFilterDialogComponent } from "../contract-filter-dialog/contract-filter-dialog.component";
 
-import { ContractService } from '../../_services/contract.service';
-import { DialogService } from '../../_services/dialog.service';
-import { StorageService } from '../../_services/storage.service';
-import { ContractPaginationList } from '../../_models/pagination_list/contract-pagination-list.model';
-import { ContractFilter } from '../../_models/filters/contract-filter.model';
-import { SortOrderEnum } from '../../_enum/sort-order.enum';
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { StorageService } from "~/app/_services/storage.service";
+import { ContractPaginationList } from "~/app/_models/pagination_list/contract-pagination-list.model";
+import { ContractFilter } from "~/app/_models/filters/contract-filter.model";
+import { SortOrderEnum } from "~/app/_enum/sort-order.enum";
 
 @Component({
-  selector: 'ns-contract-list',
-  templateUrl: './contract-list.component.html',
-  styleUrls: ['./contract-list.component.scss'],
+  selector: "ns-contract-list",
+  templateUrl: "./contract-list.component.html",
+  styleUrls: ["./contract-list.component.scss"],
 })
 export class ContractListComponent
   extends BaseListComponent<Contract>
-  implements IBaseListComponent, OnInit, OnDestroy {
+  implements IBaseListComponent, OnInit, OnDestroy
+{
   private _openContractsCount: number;
 
-  private CONTRACT_FILTER_TENANT_ID = 'contractFilter_tenantId';
-  private CONTRACT_FILTER_ACTIVE_FROM = 'contractFilter_activeFrom';
-  private CONTRACT_FILTER_ACTIVE_TO = 'contractFilter_activeTo';
-  private CONTRACT_FILTER_NEXT_DUE_DATE_FROM = 'contractFilter_nextDueDateFrom';
-  private CONTRACT_FILTER_NEXT_DUE_DATE_TO = 'contractFilter_nextDueDateTo';
-  private CONTRACT_FILTER_OPEN_CONTRACT = 'contractFilter_openContract';
-  private CONTRACT_FILTER_SORT_ORDER = 'contractFilter_sortOrder';
+  private CONTRACT_FILTER_TENANT_ID = "contractFilter_tenantId";
+  private CONTRACT_FILTER_ACTIVE_FROM = "contractFilter_activeFrom";
+  private CONTRACT_FILTER_ACTIVE_TO = "contractFilter_activeTo";
+  private CONTRACT_FILTER_NEXT_DUE_DATE_FROM = "contractFilter_nextDueDateFrom";
+  private CONTRACT_FILTER_NEXT_DUE_DATE_TO = "contractFilter_nextDueDateTo";
+  private CONTRACT_FILTER_OPEN_CONTRACT = "contractFilter_openContract";
+  private CONTRACT_FILTER_SORT_ORDER = "contractFilter_sortOrder";
 
   constructor(
     protected contractService: ContractService,
@@ -96,31 +97,31 @@ export class ContractListComponent
   initDialogTexts() {
     this._deactivateMultipleItemDialogTexts = {
       title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.TITLE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.TITLE"
       ),
       confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.CONFIRM_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.CONFIRM_MESSAGE"
       ),
       successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.SUCCESS_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.SUCCESS_MESSAGE"
       ),
       errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.ERROR_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACTS_DIALOG.ERROR_MESSAGE"
       ),
     };
 
     this._deactivateItemDialogTexts = {
       title: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE"
       ),
       confirmMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE"
       ),
       successMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE"
       ),
       errorMessage: this.translateService.instant(
-        'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE'
+        "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE"
       ),
     };
   }

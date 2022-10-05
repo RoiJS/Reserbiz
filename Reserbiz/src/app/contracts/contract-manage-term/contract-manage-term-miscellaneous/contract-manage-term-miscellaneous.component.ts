@@ -1,30 +1,29 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Location } from "@angular/common";
+import { Component, OnInit, ViewChild, NgZone, OnDestroy } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-import { TranslateService } from '@ngx-translate/core';
-import { RouterExtensions } from '@nativescript/angular';
-import { ObservableArray } from '@nativescript/core';
+import { TranslateService } from "@ngx-translate/core";
+import { RouterExtensions } from "@nativescript/angular";
+import { ObservableArray } from "@nativescript/core";
 
-import { ListViewEventData } from 'nativescript-ui-listview';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular';
+import { ListViewEventData } from "nativescript-ui-listview";
+import { RadListViewComponent } from "nativescript-ui-listview/angular";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { TermMiscellaneous } from '../../../_models/term-miscellaneous.model';
-import { LocalManageTermMiscellaneousService } from '../../../_services/local-manage-term-miscellaneous.service';
-import { DialogService } from '../../../_services/dialog.service';
-import { ButtonOptions } from '../../../_enum/button-options.enum';
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
+import { LocalManageTermMiscellaneousService } from "~/app/_services/local-manage-term-miscellaneous.service";
+import { DialogService } from "~/app/_services/dialog.service";
 
 @Component({
-  selector: 'ns-contract-manage-term-miscellaneous',
-  templateUrl: './contract-manage-term-miscellaneous.component.html',
-  styleUrls: ['./contract-manage-term-miscellaneous.component.scss'],
+  selector: "ns-contract-manage-term-miscellaneous",
+  templateUrl: "./contract-manage-term-miscellaneous.component.html",
+  styleUrls: ["./contract-manage-term-miscellaneous.component.scss"],
 })
 export class ContractManageTermMiscellaneousComponent
   implements OnInit, OnDestroy
 {
-  @ViewChild('termMiscellaneousListView', { static: false })
+  @ViewChild("termMiscellaneousListView", { static: false })
   termMiscellaneousListView: RadListViewComponent;
 
   private _isBusy = false;
@@ -86,7 +85,7 @@ export class ContractManageTermMiscellaneousComponent
       this.router.navigate([`edit-miscellaneous/${termMiscellaneousId}`], {
         relativeTo: this.active,
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       });
     }, 100);
@@ -94,10 +93,10 @@ export class ContractManageTermMiscellaneousComponent
 
   goToAddMiscellaneousPage() {
     setTimeout(() => {
-      this.router.navigate(['add-miscellaneous'], {
+      this.router.navigate(["add-miscellaneous"], {
         relativeTo: this.active,
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       });
     }, 100);
@@ -107,33 +106,34 @@ export class ContractManageTermMiscellaneousComponent
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.TITLE'
+          "TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.CONFIRM_MESSAGE'
+          "TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           setTimeout(() => {
-            this.dialogService.alert(
-              this.translateService.instant(
-                'TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.TITLE'
-              ),
-              this.translateService.instant(
-                'TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.SUCCESS_MESSAGE'
-              ),
-              () => {
+            this.dialogService
+              .alert(
+                this.translateService.instant(
+                  "TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.TITLE"
+                ),
+                this.translateService.instant(
+                  "TERM_MISCELLANEOUS_LIST_PAGE.REMOVE_TERM_MISCELLANEOUS_DIALOG.SUCCESS_MESSAGE"
+                )
+              )
+              .then(() => {
                 this.ngZone.run(() => {
                   this._isBusy = false;
                   this.localManageTermMiscellaneousService.removeEntity(
                     termMiscellaneousId
                   );
                 });
-              }
-            );
+              });
           }, 1000);
         }
       });

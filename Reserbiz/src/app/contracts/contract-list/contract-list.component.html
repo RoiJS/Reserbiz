@@ -7,22 +7,29 @@
     <label
       text="&#xf002;"
       class="custom-action-item-button fa fa-solid"
-      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+      [ngClass]="{ 'custom-action-item-button--active': isFilterActive }"
     ></label
   ></ActionItem>
 
   <ActionItem
-    [text]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.MULTIPLE_SELECT' | translate"
+    [text]="
+      'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.MULTIPLE_SELECT'
+        | translate
+    "
     (tap)="activateDeactivateMultipleSelection()"
     android.position="popup"
   ></ActionItem>
   <ActionItem
-    [text]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.ARCHIVED_LIST' | translate"
+    [text]="
+      'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.ARCHIVED_LIST' | translate
+    "
     android.position="popup"
     (tap)="navigateToOtherPage('contracts/contract-archived-list')"
   ></ActionItem>
   <ActionItem
-    [text]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.CALENDAR_VIEW' | translate"
+    [text]="
+      'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.OPTIONS.CALENDAR_VIEW' | translate
+    "
     android.position="popup"
     (tap)="navigateToOtherPage('contracts/contract-calendar')"
   ></ActionItem>
@@ -55,7 +62,9 @@
   <SearchBar
     #searchBar
     backgroundColor="transparent"
-    [hint]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.SEARCH_BAR_HINT_TEXT' | translate"
+    [hint]="
+      'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.SEARCH_BAR_HINT_TEXT' | translate
+    "
     (submit)="onSubmitSearchText($event)"
     (clear)="onClearSearchText($event)"
   >
@@ -64,7 +73,7 @@
     <label
       text="&#xf0b0;"
       class="custom-action-item-button fa fa-solid"
-      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+      [ngClass]="{ 'custom-action-item-button--active': isFilterActive }"
     ></label
   ></ActionItem>
   <ActionItem
@@ -96,7 +105,9 @@
           <label
             class="total-count-text"
             verticalAlignment="middle"
-            [text]="'CONTRACT_LIST_PAGE.HEADER_SECTION.TOTAL_CONTRACTS' | translate"
+            [text]="
+              'CONTRACT_LIST_PAGE.HEADER_SECTION.TOTAL_CONTRACTS' | translate
+            "
           ></label>
         </StackLayout>
         <StackLayout
@@ -118,7 +129,9 @@
           <label
             class="open-contract-count-text"
             verticalAlignment="middle"
-            [text]="'CONTRACT_LIST_PAGE.HEADER_SECTION.OPEN_CONTRACTS' | translate"
+            [text]="
+              'CONTRACT_LIST_PAGE.HEADER_SECTION.OPEN_CONTRACTS' | translate
+            "
           ></label>
         </StackLayout>
       </GridLayout>
@@ -144,7 +157,9 @@
           (itemSelected)="selectItem($event.index, '/contracts/:id')"
           (itemDeselected)="deselectedItem($event)"
           (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
-          (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+          (pullToRefreshInitiated)="
+            onPullToRefreshInitiatedForPaginatedList($event)
+          "
           (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
         >
           <ng-template tkListItemTemplate let-contract="item">
@@ -155,7 +170,7 @@
             >
               <!-- Template for not selected contract item -->
               <StackLayout
-                *ngIf="multipleSelectionActive && !contract.isSelected"
+                *ngIf="multipleSelectionActive && !contract?.isSelected"
                 row="0"
                 col="0"
                 rowSpan="3"
@@ -172,7 +187,7 @@
 
               <!-- Template for selected contract item -->
               <StackLayout
-                *ngIf="multipleSelectionActive && contract.isSelected"
+                *ngIf="multipleSelectionActive && contract?.isSelected"
                 row="0"
                 col="0"
                 rowSpan="3"
@@ -194,14 +209,14 @@
 
               <!-- Template contract item photo placeholder -->
               <StackLayout
-                *ngIf="!multipleSelectionActive && !contract.isSelected"
+                *ngIf="!multipleSelectionActive && !contract?.isSelected"
                 row="0"
                 col="0"
                 rowSpan="3"
                 class="contract-item-template__next-due-date-section m-r-10"
                 orientation="vertical"
               >
-                <StackLayout *ngIf="contract.isExpired">
+                <StackLayout *ngIf="contract?.isExpired">
                   <label
                     class="fa fa-solid"
                     verticalAlignment="middle"
@@ -215,31 +230,31 @@
                   class="next-due-date-label"
                   verticalAlignment="middle"
                   orientation="vertical"
-                  *ngIf="!contract.isExpired"
+                  *ngIf="!contract?.isExpired"
                 >
                   <label
                     class="next-due-date-label__month-name"
                     horizontalAlignment="center"
-                    [text]="contract.nextDueDateMonthName"
+                    [text]="contract?.nextDueDateMonthName"
                   ></label>
 
                   <label
                     class="next-due-date-label__day-number"
                     horizontalAlignment="center"
-                    [text]="contract.nextDueDateDay"
+                    [text]="contract?.nextDueDateDay"
                   ></label>
 
                   <label
-                    *ngIf="!contract.isNextDueDateYearCurrentYear"
+                    *ngIf="!contract?.isNextDueDateYearCurrentYear"
                     class="next-due-date-label__year"
                     horizontalAlignment="center"
-                    [text]="contract.nextDueDateYear"
+                    [text]="contract?.nextDueDateYear"
                   ></label>
 
                   <label
                     class="next-due-date-label__day-name"
                     horizontalAlignment="center"
-                    [text]="contract.nextDueDateDayName"
+                    [text]="contract?.nextDueDateDayName"
                   ></label>
                 </StackLayout>
               </StackLayout>
@@ -251,7 +266,7 @@
                 row="0"
                 col="1"
               >
-                <label [text]="contract.code"></label>
+                <label [text]="contract?.code"></label>
               </StackLayout>
 
               <StackLayout
@@ -261,12 +276,12 @@
                 orientation="horizontal"
               >
                 <label text="&#xf007;" class="fa m-r-5 m-t-5"></label>
-                <label [text]="contract.tenantName"></label>
+                <label [text]="contract?.tenantName"></label>
               </StackLayout>
 
               <StackLayout
                 class="contract-item-template__status-section"
-                *ngIf="contract.isOpenContract"
+                *ngIf="contract?.isOpenContract"
                 row="2"
                 col="1"
                 orientation="horizontal"
@@ -279,13 +294,15 @@
                 <label
                   class="open-contract-label"
                   verticalAlignment="middle"
-                  [text]="'CONTRACT_LIST_PAGE.LIST_ITEM.OPEN_CONTRACT' | translate"
+                  [text]="
+                    'CONTRACT_LIST_PAGE.LIST_ITEM.OPEN_CONTRACT' | translate
+                  "
                 ></label>
               </StackLayout>
 
               <StackLayout
                 class="contract-item-template__status-section"
-                *ngIf="!contract.isOpenContract && !contract.isExpired"
+                *ngIf="!contract?.isOpenContract && !contract?.isExpired"
                 row="2"
                 col="1"
                 orientation="horizontal"
@@ -301,7 +318,7 @@
                 ></label>
                 <label
                   class="contract-duration-before-contract-ends-text"
-                  [text]="contract.contractDurationBeforeContractEndsText"
+                  [text]="contract?.contractDurationBeforeContractEndsText"
                 ></label>
               </StackLayout>
             </GridLayout>

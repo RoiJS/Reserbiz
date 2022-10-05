@@ -1,22 +1,20 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { Page } from '@nativescript/core';
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
 
-import { finalize } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { finalize } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { TenantService } from '../../_services/tenant.service';
-import { DialogService } from '../../_services/dialog.service';
-import { Tenant } from '../../_models/tenant.model';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { TenantService } from "~/app/_services/tenant.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { Tenant } from "~/app/_models/tenant.model";
 
 @Component({
-  selector: 'ns-tenant-information',
-  templateUrl: './tenant-information.component.html',
-  styleUrls: ['./tenant-information.component.scss'],
+  selector: "ns-tenant-information",
+  templateUrl: "./tenant-information.component.html",
+  styleUrls: ["./tenant-information.component.scss"],
 })
 export class TenantInformationComponent implements OnInit, OnDestroy {
   private _currentTenant: Tenant;
@@ -37,13 +35,12 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentTenantId = +paramMap.get('tenantId');
+        this._currentTenantId = +paramMap.get("tenantId");
 
-        this._updateTenantListFlag = this.tenantService.loadTenantListFlag.subscribe(
-          () => {
+        this._updateTenantListFlag =
+          this.tenantService.loadTenantListFlag.subscribe(() => {
             this.getTenantInformation();
-          }
-        );
+          });
       });
     });
   }
@@ -66,44 +63,45 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+          "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.CONFIRM_MESSAGE'
+          "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.tenantService
             .deleteItem(this._currentTenant.id)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.router.back();
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE'
+                    "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.ERROR_MESSAGE'
+                    "TENANTS_DETAILS_PAGE.REMOVE_TENANT_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -112,47 +110,48 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+          "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+          "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.tenantService
             .setEntityStatus(this._currentTenant.id, true)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.zone.run(() => {
                       this._currentTenant.isActive = true;
                       this.tenantService.loadTenantListFlag.next();
                     });
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE'
+                    "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                    "TENANTS_DETAILS_PAGE.ACTIVATE_TENANT_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -161,47 +160,48 @@ export class TenantInformationComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+          "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE'
+          "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.tenantService
             .setEntityStatus(this._currentTenant.id, false)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.zone.run(() => {
                       this._currentTenant.isActive = false;
                       this.tenantService.loadTenantListFlag.next();
                     });
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE'
+                    "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE'
+                    "TENANTS_DETAILS_PAGE.DEACTIVATE_TENANT_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }

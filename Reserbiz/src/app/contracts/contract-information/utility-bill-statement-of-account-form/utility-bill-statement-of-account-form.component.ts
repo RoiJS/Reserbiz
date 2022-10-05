@@ -1,33 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { EventData, Switch } from '@nativescript/core';
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
+import { EventData, Switch } from "@nativescript/core";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { finalize } from 'rxjs/operators';
+import { finalize } from "rxjs/operators";
 
-import { NumberFormatter } from '../../../_helpers/formatters/number-formatter.helper';
+import { NumberFormatter } from "~/app/_helpers/formatters/number-formatter.helper";
 
-import { AccountStatement } from '../../../_models/account-statement.model';
+import { AccountStatement } from "~/app/_models/account-statement.model";
 
-import { AccountStatementService } from '../../../_services/account-statement.service';
-import { ContractService } from '../../../_services/contract.service';
-import { DialogService } from '../../../_services/dialog.service';
+import { AccountStatementService } from "~/app/_services/account-statement.service";
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
 
-import { ButtonOptions } from '../../../_enum/button-options.enum';
-import { MiscellaneousDueDateEnum } from '../../../_enum/miscellaneous-due-date.enum';
-import { AccountStatementTypeEnum } from '../../../_enum/account-statement-type.enum';
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { AccountStatementTypeEnum } from "~/app/_enum/account-statement-type.enum";
 
-import { NewAccountStatementDto } from '../../../_dtos/new-account-statement.dto';
+import { NewAccountStatementDto } from "~/app/_dtos/new-account-statement.dto";
 
 @Component({
-  selector: 'ns-utility-bill-statement-of-account-form',
-  templateUrl: './utility-bill-statement-of-account-form.component.html',
+  selector: "ns-utility-bill-statement-of-account-form",
+  templateUrl: "./utility-bill-statement-of-account-form.component.html",
   styleUrls: [
-    './utility-bill-statement-of-account-form.component.scss',
-    '../contract-account-statement-list-panel/contract-account-statement-information/contract-account-statement-information.component.scss',
+    "./utility-bill-statement-of-account-form.component.scss",
+    "../contract-account-statement-list-panel/contract-account-statement-information/contract-account-statement-information.component.scss",
   ],
 })
 export class UtilityBillStatementOfAccountFormComponent implements OnInit {
@@ -51,7 +50,7 @@ export class UtilityBillStatementOfAccountFormComponent implements OnInit {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe(async (paramMap) => {
-        this._contractId = +paramMap.get('contractId');
+        this._contractId = +paramMap.get("contractId");
         this._suggestedAccountStatement =
           await this.accountStatementService.getSuggestedNewAccountStatement(
             this._contractId
@@ -79,23 +78,23 @@ export class UtilityBillStatementOfAccountFormComponent implements OnInit {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+          "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_CONFIRM_MESSAGE'
+          "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           const waterBillAmount =
             this.waterAndElecitricBillAmountformGroup.get(
-              'waterBillAmount'
+              "waterBillAmount"
             ).value;
           const electricBillAmount =
             this.waterAndElecitricBillAmountformGroup.get(
-              'electricBillAmount'
+              "electricBillAmount"
             ).value;
 
           const newStatementOfAccountForUtilityBillsDto =
@@ -119,33 +118,34 @@ export class UtilityBillStatementOfAccountFormComponent implements OnInit {
               this._markAsPaid
             )
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.accountStatementService.reloadListFlag(true);
                     this.contractService.reloadListFlag();
                     this.router.back();
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+                    "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_ERROR_MESSAGE'
+                    "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -173,10 +173,10 @@ export class UtilityBillStatementOfAccountFormComponent implements OnInit {
     if (this._suggestedAccountStatement) {
       const electricBillAmount =
         this._waterAndElecitricBillAmountformGroup.get(
-          'electricBillAmount'
+          "electricBillAmount"
         ).value;
       const waterBillAmount =
-        this._waterAndElecitricBillAmountformGroup.get('waterBillAmount').value;
+        this._waterAndElecitricBillAmountformGroup.get("waterBillAmount").value;
 
       if (electricBillAmount) {
         grandTotal += parseFloat(electricBillAmount);

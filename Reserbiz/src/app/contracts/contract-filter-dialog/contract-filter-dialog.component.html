@@ -32,7 +32,9 @@
         <TKEntityProperty
           tkPropertyGroupProperties
           name="tenantId"
-          [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.TENANT_LABEL' | translate"
+          [displayName]="
+            'CONTRACT_FILTER_DIALOG.BODY_SECTION.TENANT_LABEL' | translate
+          "
           [valuesProvider]="tenantOptions"
           index="0"
         >
@@ -55,7 +57,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="activeFrom"
-            [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.ACTIVE_FROM_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_FILTER_DIALOG.BODY_SECTION.ACTIVE_FROM_LABEL'
+                | translate
+            "
             index="1"
             columnIndex="0"
           >
@@ -70,7 +75,9 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="activeTo"
-            [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.ACTIVE_TO_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_FILTER_DIALOG.BODY_SECTION.ACTIVE_TO_LABEL' | translate
+            "
             index="1"
             columnIndex="1"
           >
@@ -85,7 +92,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="nextDueDateFrom"
-            [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_FROM_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_FROM_LABEL'
+                | translate
+            "
             index="2"
             columnIndex="0"
           >
@@ -100,7 +110,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="nextDueDateTo"
-            [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_TO_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_FILTER_DIALOG.BODY_SECTION.NEXT_DUE_DATE_TO_LABEL'
+                | translate
+            "
             index="2"
             columnIndex="1"
           >
@@ -123,7 +136,9 @@
         <TKEntityProperty
           tkPropertyGroupProperties
           name="sortOrder"
-          [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate"
+          [displayName]="
+            'CONTRACT_FILTER_DIALOG.BODY_SECTION.SORT_ORDER_LABEL' | translate
+          "
           [valuesProvider]="sortOrderOptions"
           index="2"
         >
@@ -145,10 +160,14 @@
         <TKEntityProperty
           tkPropertyGroupProperties
           name="openContract"
-          [displayName]="'CONTRACT_FILTER_DIALOG.BODY_SECTION.OPEN_CONTRACT_LABEL' | translate"
+          [displayName]="
+            'CONTRACT_FILTER_DIALOG.BODY_SECTION.OPEN_CONTRACT_LABEL'
+              | translate
+          "
+          [valuesProvider]="yesNoOptions"
           index="3"
         >
-          <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+          <TKPropertyEditor tkEntityPropertyEditor type="Picker">
             <TKPropertyEditorStyle
               tkPropertyEditorStyle
               labelTextSize="14"

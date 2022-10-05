@@ -1,25 +1,24 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
 
-import { RouterExtensions } from '@nativescript/angular';
+import { RouterExtensions } from "@nativescript/angular";
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
-import { DataFormEventData } from 'nativescript-ui-dataform';
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
+import { DataFormEventData } from "nativescript-ui-dataform";
 
-import { AuthService } from '../../_services/auth.service';
-import { DialogService } from '../../_services/dialog.service';
-import { StorageService } from '../../_services/storage.service';
+import { AuthService } from "~/app/_services/auth.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { StorageService } from "~/app/_services/storage.service";
 
-import { User } from '../../_models/user.model';
-import { UserAccountInfoFormSource } from '../../_models/form/user-account-form.model';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { User } from "~/app/_models/user.model";
+import { UserAccountInfoFormSource } from "~/app/_models/form/user-account-form.model";
 
 @Component({
-  selector: 'ns-profile-account-info',
-  templateUrl: './profile-account-info.component.html',
-  styleUrls: ['./profile-account-info.component.scss'],
+  selector: "ns-profile-account-info",
+  templateUrl: "./profile-account-info.component.html",
+  styleUrls: ["./profile-account-info.component.scss"],
 })
 export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
   @ViewChild(RadDataFormComponent, { static: false })
@@ -49,8 +48,8 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
         this._userAccountFormSource = new UserAccountInfoFormSource(
           currentUser.username,
           currentUser.emailAddress,
-          '',
-          ''
+          "",
+          ""
         );
 
         this._userAccountFormOriginal = this._userAccountFormSource.clone();
@@ -76,14 +75,14 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
           this.dialogService
             .confirm(
               this.translateService.instant(
-                'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
+                "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE"
               ),
               this.translateService.instant(
-                'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.CONFIRM_MESSAGE'
+                "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.CONFIRM_MESSAGE"
               )
             )
-            .subscribe((res: ButtonOptions) => {
-              if (res === ButtonOptions.YES) {
+            .then((res: boolean) => {
+              if (res) {
                 this._isBusy = true;
 
                 this.authService
@@ -93,32 +92,33 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
                       this._isBusy = false;
                     })
                   )
-                  .subscribe(
-                    () => {
-                      this.dialogService.alert(
-                        this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
-                        ),
-                        this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE'
-                        ),
-                        () => {
+                  .subscribe({
+                    next: () => {
+                      this.dialogService
+                        .alert(
+                          this.translateService.instant(
+                            "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE"
+                          ),
+                          this.translateService.instant(
+                            "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.SUCCESS_MESSAGE"
+                          )
+                        )
+                        .then(() => {
                           this.refreshUser();
                           this.router.back();
-                        }
-                      );
+                        });
                     },
-                    (error: Error) => {
+                    error: (error: Error) => {
                       this.dialogService.alert(
                         this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE'
+                          "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.TITLE"
                         ),
                         `${this.translateService.instant(
-                          'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.ERROR_MESSAGE'
+                          "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.UPDATE_DIALOG.ERROR_MESSAGE"
                         )} ${error.message}`
                       );
-                    }
-                  );
+                    },
+                  });
               }
             });
         }
@@ -138,19 +138,19 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     this.authService.user.next(currentUser);
     this.authService.currentUsername.next(currentUser.username);
 
-    this.storageService.storeString('userData', JSON.stringify(currentUser));
+    this.storageService.storeString("userData", JSON.stringify(currentUser));
   }
 
   onPropertyValidate(args: DataFormEventData) {
-    if (args.propertyName === 'username') {
+    if (args.propertyName === "username") {
       this.onUsernameValidate(args);
     }
 
-    if (args.propertyName === 'emailAddress') {
+    if (args.propertyName === "emailAddress") {
       this.onEmailAddressValidate(args);
     }
 
-    if (args.propertyName === 'confirmPassword') {
+    if (args.propertyName === "confirmPassword") {
       this.onConfirmPasswordValidate(args);
     }
   }
@@ -160,7 +160,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     if (!args.entityProperty.valueCandidate) {
       args.returnValue = false;
       args.entityProperty.errorMessage = this.translateService.instant(
-        'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.USERNAME_EMPTY_ERROR_MESSAGE'
+        "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.USERNAME_EMPTY_ERROR_MESSAGE"
       );
       return;
     }
@@ -172,7 +172,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
         .subscribe((res: boolean) => {
           if (res) {
             args.entityProperty.errorMessage = this.translateService.instant(
-              'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.USERNAME_EXISTS_ERROR_MESSAGE'
+              "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.USERNAME_EXISTS_ERROR_MESSAGE"
             );
           }
           resolve(!res);
@@ -185,7 +185,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     if (!args.entityProperty.valueCandidate) {
       args.returnValue = false;
       args.entityProperty.errorMessage = this.translateService.instant(
-        'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.EMAILADDRESS_EMPTY_ERROR_MESSAGE'
+        "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.EMAILADDRESS_EMPTY_ERROR_MESSAGE"
       );
       return;
     }
@@ -194,7 +194,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     if (!this.validateEmail(args.entityProperty.valueCandidate)) {
       args.returnValue = false;
       args.entityProperty.errorMessage = this.translateService.instant(
-        'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.EMAILADDRESS_INVALID_ERROR_MESSAGE'
+        "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.EMAILADDRESS_INVALID_ERROR_MESSAGE"
       );
       return;
     }
@@ -202,7 +202,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
 
   onConfirmPasswordValidate(args: DataFormEventData) {
     const dataForm = args.object;
-    const password = dataForm.getPropertyByName('password');
+    const password = dataForm.getPropertyByName("password");
     const confirmPassword = args.entityProperty;
 
     if (!password.valueCandidate && !confirmPassword.valueCandidate) {
@@ -213,7 +213,7 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
     // Check if password and confirm password fields have the same value.
     if (password.valueCandidate !== confirmPassword.valueCandidate) {
       confirmPassword.errorMessage = this.translateService.instant(
-        'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.CONFIRM_PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE'
+        "ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.CONFIRM_PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE"
       );
       args.returnValue = false;
       return;
@@ -223,7 +223,8 @@ export class ProfileAccountInfoComponent implements OnInit, OnDestroy {
   }
 
   private validateEmail(email: string): boolean {
-    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
 

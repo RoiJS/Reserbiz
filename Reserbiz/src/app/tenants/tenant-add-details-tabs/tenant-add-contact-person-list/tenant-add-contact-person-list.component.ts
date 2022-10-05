@@ -1,31 +1,29 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild, OnDestroy, NgZone } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Location } from "@angular/common";
+import { Component, OnInit, ViewChild, OnDestroy, NgZone } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { ListViewEventData } from 'nativescript-ui-listview';
+import { ListViewEventData } from "nativescript-ui-listview";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { ObservableArray } from '@nativescript/core';
-import { RouterExtensions } from '@nativescript/angular';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular';
+import { ObservableArray } from "@nativescript/core";
+import { RouterExtensions } from "@nativescript/angular";
+import { RadListViewComponent } from "nativescript-ui-listview/angular";
 
-import { AddContactPersonsService } from '../../../_services/add-contact-persons.service';
-import { DialogService } from '../../../_services/dialog.service';
+import { AddContactPersonsService } from "~/app/_services/add-contact-persons.service";
+import { DialogService } from "~/app/_services/dialog.service";
 
-import { ContactPerson } from '../../../_models/contact-person.model';
-
-import { ButtonOptions } from '../../../_enum/button-options.enum';
+import { ContactPerson } from "~/app/_models/contact-person.model";
 
 @Component({
-  selector: 'ns-tenant-add-contact-person-list',
-  templateUrl: './tenant-add-contact-person-list.component.html',
-  styleUrls: ['./tenant-add-contact-person-list.component.scss'],
+  selector: "ns-tenant-add-contact-person-list",
+  templateUrl: "./tenant-add-contact-person-list.component.html",
+  styleUrls: ["./tenant-add-contact-person-list.component.scss"],
 })
 export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
-  @ViewChild('contactPersonView', { static: false })
+  @ViewChild("contactPersonView", { static: false })
   contactPersonView: RadListViewComponent;
 
   private _isBusy = false;
@@ -57,17 +55,18 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
     this._isBusy = true;
 
     setTimeout(() => {
-      this._contactPersonListSub = this.addContactPersonsService.entityList.subscribe(
-        (contactPersons: ContactPerson[]) => {
-          this._isBusy = false;
-          this._contactPersons = new ObservableArray<ContactPerson>(
-            contactPersons
-          );
-          setTimeout(() => {
-            this.contactPersonView.listView.refresh();
-          }, 1000);
-        }
-      );
+      this._contactPersonListSub =
+        this.addContactPersonsService.entityList.subscribe(
+          (contactPersons: ContactPerson[]) => {
+            this._isBusy = false;
+            this._contactPersons = new ObservableArray<ContactPerson>(
+              contactPersons
+            );
+            setTimeout(() => {
+              this.contactPersonView.listView.refresh();
+            }, 1000);
+          }
+        );
     }, 500);
   }
 
@@ -92,7 +91,7 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
       this.router.navigate([`edit-contact-person/${contactPersonId}`], {
         relativeTo: this.active,
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       });
     }, 100);
@@ -100,10 +99,10 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
 
   goToAddContactPesonPage() {
     setTimeout(() => {
-      this.router.navigate(['add-contact-person'], {
+      this.router.navigate(["add-contact-person"], {
         relativeTo: this.active,
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       });
     }, 100);
@@ -113,31 +112,32 @@ export class TenantAddContactPersonListComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.TITLE'
+          "TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.CONFIRM_MESSAGE'
+          "TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           setTimeout(() => {
-            this.dialogService.alert(
-              this.translateService.instant(
-                'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.TITLE'
-              ),
-              this.translateService.instant(
-                'TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.SUCCESS_MESSAGE'
-              ),
-              () => {
+            this.dialogService
+              .alert(
+                this.translateService.instant(
+                  "TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.TITLE"
+                ),
+                this.translateService.instant(
+                  "TENANT_CONTACT_PERSON_LIST_PAGE.REMOVE_CONTACT_PERSON_DIALOG.SUCCESS_MESSAGE"
+                )
+              )
+              .then(() => {
                 this.ngZone.run(() => {
                   this._isBusy = false;
                   this.addContactPersonsService.removeEntity(contactPersonId);
                 });
-              }
-            );
+              });
           }, 1000);
         }
       });

@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { isAndroid, isIOS, Page } from '@nativescript/core';
+import { Component, OnInit } from "@angular/core";
+import { isAndroid, isIOS, Page } from "@nativescript/core";
 
-import { DialogService } from '../_services/dialog.service';
+import { DialogService } from "~/app/_services/dialog.service";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
 declare var android: any;
 
 @Component({
-  selector: 'ns-no-connection',
-  templateUrl: './no-connection.component.html',
-  styleUrls: ['./no-connection.component.scss'],
+  selector: "ns-no-connection",
+  templateUrl: "./no-connection.component.html",
+  styleUrls: ["./no-connection.component.scss"],
 })
 export class NoConnectionComponent implements OnInit {
   constructor(
@@ -21,15 +21,16 @@ export class NoConnectionComponent implements OnInit {
 
   ngOnInit() {
     this.hideActionBar();
-    this.dialogService.alert(
-      this.translateService.instant('NO_CONNECTION_PAGE.DIALOG.TITLE'),
-      this.translateService.instant('NO_CONNECTION_PAGE.DIALOG.MESSAGE'),
-      () => {
+    this.dialogService
+      .alert(
+        this.translateService.instant("NO_CONNECTION_PAGE.DIALOG.TITLE"),
+        this.translateService.instant("NO_CONNECTION_PAGE.DIALOG.MESSAGE")
+      )
+      .then(() => {
         if (isAndroid) {
           android.os.Process.killProcess(android.os.Process.myPid());
         }
-      }
-    );
+      });
   }
 
   hideActionBar() {

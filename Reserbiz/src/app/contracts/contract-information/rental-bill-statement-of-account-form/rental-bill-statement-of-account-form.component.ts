@@ -1,29 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { finalize } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
-import { EventData, Switch } from '@nativescript/core';
+import { Component, OnInit } from "@angular/core";
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
+import { finalize } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
+import { EventData, Switch } from "@nativescript/core";
 
-import { NewAccountStatementDto } from '../../../_dtos/new-account-statement.dto';
+import { NewAccountStatementDto } from "~/app/_dtos/new-account-statement.dto";
 
-import { AccountStatement } from '../../../_models/account-statement.model';
+import { AccountStatement } from "~/app/_models/account-statement.model";
 
-import { AccountStatementTypeEnum } from '../../../_enum/account-statement-type.enum';
-import { ButtonOptions } from '../../../_enum/button-options.enum';
-import { MiscellaneousDueDateEnum } from '../../../_enum/miscellaneous-due-date.enum';
+import { AccountStatementTypeEnum } from "~/app/_enum/account-statement-type.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
 
-import { NumberFormatter } from '../../../_helpers/formatters/number-formatter.helper';
+import { NumberFormatter } from "~/app/_helpers/formatters/number-formatter.helper";
 
-import { AccountStatementService } from '../../../_services/account-statement.service';
-import { DialogService } from '../../../_services/dialog.service';
-import { ContractService } from '../../../_services/contract.service';
+import { AccountStatementService } from "~/app/_services/account-statement.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { ContractService } from "~/app/_services/contract.service";
 
 @Component({
-  selector: 'app-rental-bill-statement-of-account-form',
-  templateUrl: './rental-bill-statement-of-account-form.component.html',
+  selector: "app-rental-bill-statement-of-account-form",
+  templateUrl: "./rental-bill-statement-of-account-form.component.html",
   styleUrls: [
-    './rental-bill-statement-of-account-form.component.scss',
-    '../contract-account-statement-list-panel/contract-account-statement-information/contract-account-statement-information.component.scss',
+    "./rental-bill-statement-of-account-form.component.scss",
+    "../contract-account-statement-list-panel/contract-account-statement-information/contract-account-statement-information.component.scss",
   ],
 })
 export class RentalBillStatementOfAccountFormComponent implements OnInit {
@@ -44,7 +43,7 @@ export class RentalBillStatementOfAccountFormComponent implements OnInit {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe(async (paramMap) => {
-        this._contractId = +paramMap.get('contractId');
+        this._contractId = +paramMap.get("contractId");
         this._suggestedAccountStatement =
           await this.accountStatementService.getSuggestedNewAccountStatement(
             this._contractId
@@ -57,14 +56,14 @@ export class RentalBillStatementOfAccountFormComponent implements OnInit {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+          "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_CONFIRM_MESSAGE'
+          "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_UTILIY_BILL_CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           const newStatementOfAccountForRentalBills =
@@ -80,33 +79,34 @@ export class RentalBillStatementOfAccountFormComponent implements OnInit {
               this._markAsPaid
             )
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_RENTAL_BILL_SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_RENTAL_BILL_SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.accountStatementService.reloadListFlag(true);
                     this.contractService.reloadListFlag();
                     this.router.back();
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE'
+                    "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_RENTAL_BILL_ERROR_MESSAGE'
+                    "ACCOUNT_STATEMENT_DETAILS.CREATE_NEW_DIALOG.NEW_RENTAL_BILL_ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }

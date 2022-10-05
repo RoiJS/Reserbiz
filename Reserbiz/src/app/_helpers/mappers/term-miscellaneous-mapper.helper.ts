@@ -1,8 +1,8 @@
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { TermMiscellaneousFormSource } from '../../_models/form/term-miscellaneous-form.model';
-import { TermMiscellaneous } from '../../_models/term-miscellaneous.model';
-import { TermMiscellaneousDto } from '../../_dtos/term-miscellaneous.dto';
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
+import { TermMiscellaneousFormSource } from "~/app/_models/form/term-miscellaneous-form.model";
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
+import { TermMiscellaneousDto } from "~/app/_dtos/term-miscellaneous.dto";
 
 export class TermMiscellaneousMapper
   implements
@@ -11,7 +11,8 @@ export class TermMiscellaneousMapper
       TermMiscellaneous,
       TermMiscellaneousFormSource,
       TermMiscellaneousDto
-    > {
+    >
+{
   mapEntity(tm: TermMiscellaneous): TermMiscellaneous {
     const termMiscellaneous = new TermMiscellaneous();
     termMiscellaneous.termId = tm.termId;
@@ -24,8 +25,8 @@ export class TermMiscellaneousMapper
 
   initFormSource(): TermMiscellaneousFormSource {
     const termMiscellaneousFormSource = new TermMiscellaneousFormSource(
-      '',
-      '',
+      "",
+      "",
       0.0
     );
 
@@ -55,6 +56,6 @@ export class TermMiscellaneousMapper
   mapFormSourceToEntity(
     formSource: TermMiscellaneousFormSource
   ): TermMiscellaneous {
-    throw new Error('Not implemented');
+    throw new Error("Not implemented");
   }
 }

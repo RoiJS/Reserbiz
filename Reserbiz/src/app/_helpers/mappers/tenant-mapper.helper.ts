@@ -1,15 +1,16 @@
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
-import { ContactPerson } from '../../_models/contact-person.model';
-import { Tenant } from '../../_models/tenant.model';
-import { TenantDetailsFormSource } from '../../_models/form/tenant-details-form.model';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { TenantDto } from '../../_dtos/tenant-create.dto';
-import { GenderEnum } from '../../_enum/gender.enum';
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
+import { ContactPerson } from "~/app/_models/contact-person.model";
+import { Tenant } from "~/app/_models/tenant.model";
+import { TenantDetailsFormSource } from "~/app/_models/form/tenant-details-form.model";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
+import { TenantDto } from "~/app/_dtos/tenant-create.dto";
+import { GenderEnum } from "~/app/_enum/gender.enum";
 
 export class TenantMapper
   implements
     IBaseEntityMapper<Tenant>,
-    IBaseDtoEntityMapper<Tenant, TenantDetailsFormSource, TenantDto> {
+    IBaseDtoEntityMapper<Tenant, TenantDetailsFormSource, TenantDto>
+{
   mapEntity(t: Tenant): Tenant {
     const tenant = new Tenant();
 
@@ -46,13 +47,13 @@ export class TenantMapper
 
   initFormSource(): TenantDetailsFormSource {
     const tenantDetailsForm = new TenantDetailsFormSource(
-      '',
-      '',
-      '',
+      "",
+      "",
+      "",
       GenderEnum.Male,
-      '',
-      '',
-      ''
+      "",
+      "",
+      ""
     );
 
     return tenantDetailsForm;
@@ -87,6 +88,6 @@ export class TenantMapper
   }
 
   mapFormSourceToEntity(formSource: TenantDetailsFormSource): Tenant {
-    throw new Error('Not implemented');
+    throw new Error("Not implemented");
   }
 }

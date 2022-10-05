@@ -68,7 +68,7 @@
           >
             <!-- Template for not selected term item -->
             <StackLayout
-              *ngIf="multipleSelectionActive && !term.isSelected"
+              *ngIf="multipleSelectionActive && !term?.isSelected"
               row="0"
               col="0"
               rowSpan="2"
@@ -83,7 +83,7 @@
 
             <!-- Template for selected term Item -->
             <StackLayout
-              *ngIf="multipleSelectionActive && term.isSelected"
+              *ngIf="multipleSelectionActive && term?.isSelected"
               row="0"
               col="0"
               rowSpan="2"
@@ -103,7 +103,7 @@
 
             <!-- Template term photo placeholder -->
             <StackLayout
-              *ngIf="!multipleSelectionActive && !term.isSelected"
+              *ngIf="!multipleSelectionActive && !term?.isSelected"
               row="0"
               col="0"
               rowSpan="2"
@@ -129,14 +129,14 @@
               col="1"
             >
               <StackLayout
-                *ngIf="!term.isActive"
+                *ngIf="!term?.isActive"
                 class="app-list-item-template__inactive-indicator"
               ></StackLayout>
-              <label [text]="term.code"></label>
+              <label [text]="term?.code"></label>
             </StackLayout>
 
             <StackLayout row="1" col="1">
-              <label [text]="term.name"></label>
+              <label [text]="term?.name"></label>
             </StackLayout>
           </GridLayout>
         </ng-template>

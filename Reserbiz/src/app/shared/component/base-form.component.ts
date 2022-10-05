@@ -1,21 +1,20 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from "@angular/core";
 
-import { RouterExtensions } from '@nativescript/angular';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { RouterExtensions } from "@nativescript/angular";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
 
-import { finalize } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+import { finalize } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
-import { IBaseFormSource } from '../../_interfaces/ibase-form-source.interface';
-import { IBaseDialogTexts } from '../../_interfaces/ibase-dialog-texts.interface';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { IBaseService } from '../../_interfaces/services/ibase-service.interface';
-import { IBaseDto } from '../../_interfaces/ibase-dto.interface';
-import { IEntity } from '../../_interfaces/ientity.interface';
+import { IBaseFormSource } from "~/app/_interfaces/ibase-form-source.interface";
+import { IBaseDialogTexts } from "~/app/_interfaces/ibase-dialog-texts.interface";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
+import { IBaseService } from "~/app/_interfaces/services/ibase-service.interface";
+import { IBaseDto } from "~/app/_interfaces/ibase-dto.interface";
+import { IEntity } from "~/app/_interfaces/ientity.interface";
 
-import { ButtonOptions } from '../../_enum/button-options.enum';
-import { DialogService } from '../../_services/dialog.service';
-import { BaseFormHelper } from '../../_helpers/base_helpers/base-form.helper';
+import { DialogService } from "~/app/_services/dialog.service";
+import { BaseFormHelper } from "~/app/_helpers/base_helpers/base-form.helper";
 
 @Component({
   template: ``,
@@ -26,7 +25,8 @@ export class BaseFormComponent<
     TDtoEntity extends IBaseDto
   >
   extends BaseFormHelper<TFormSource>
-  implements OnInit {
+  implements OnInit
+{
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
@@ -68,8 +68,8 @@ export class BaseFormComponent<
           this._saveNewDialogTexts.title,
           this._saveNewDialogTexts.confirmMessage
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             const dtoToCreate = this._entityDtoMapper.mapFormSourceToDto(
@@ -90,14 +90,15 @@ export class BaseFormComponent<
               )
               .subscribe(
                 () => {
-                  this.dialogService.alert(
-                    this._saveNewDialogTexts.title,
-                    this._saveNewDialogTexts.successMessage,
-                    () => {
+                  this.dialogService
+                    .alert(
+                      this._saveNewDialogTexts.title,
+                      this._saveNewDialogTexts.successMessage
+                    )
+                    .then(() => {
                       this._entityService.reloadListFlag(true);
                       this.router.back();
-                    }
-                  );
+                    });
                 },
                 (error: Error) => {
                   this.dialogService.alert(
@@ -123,8 +124,8 @@ export class BaseFormComponent<
           this._updateDialogTexts.title,
           this._updateDialogTexts.confirmMessage
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             const dtoForUpdate = this._entityDtoMapper.mapFormSourceToDto(
@@ -139,18 +140,19 @@ export class BaseFormComponent<
               .pipe(finalize(() => (this._isBusy = false)))
               .subscribe(
                 () => {
-                  this.dialogService.alert(
-                    this._updateDialogTexts.title,
-                    this._updateDialogTexts.successMessage,
-                    () => {
+                  this.dialogService
+                    .alert(
+                      this._updateDialogTexts.title,
+                      this._updateDialogTexts.successMessage
+                    )
+                    .then(() => {
                       if (onSuccessCallback) {
                         onSuccessCallback();
                       } else {
                         this._entityService.reloadListFlag();
                         this.router.back();
                       }
-                    }
-                  );
+                    });
                 },
                 (error: Error) => {
                   this.dialogService.alert(

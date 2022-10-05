@@ -1,18 +1,18 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone } from "@angular/core";
 
-import { RouterExtensions } from '@nativescript/angular';
+import { RouterExtensions } from "@nativescript/angular";
 
-import { firebase } from '@nativescript/firebase';
-import { LocalNotifications } from '@nativescript/local-notifications';
+import { firebase } from "@nativescript/firebase";
+import { LocalNotifications } from "@nativescript/local-notifications";
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 
-import { StorageService } from './storage.service';
+import { StorageService } from "./storage.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class PushNotificationService {
   private _navigateToUrl = new BehaviorSubject<boolean>(false);
-  private _url = new BehaviorSubject<string>('');
+  private _url = new BehaviorSubject<string>("");
 
   constructor(
     private router: RouterExtensions,
@@ -21,10 +21,10 @@ export class PushNotificationService {
   ) {}
 
   subscribe() {
-    if (this.storageService.hasKey('app-secret-token')) {
-      const appSecretToken = this.storageService.getString('app-secret-token');
+    if (this.storageService.hasKey("app-secret-token")) {
+      const appSecretToken = this.storageService.getString("app-secret-token");
       this.storageService.storeString(
-        'current-notification-topic',
+        "current-notification-topic",
         appSecretToken
       );
       firebase
@@ -35,28 +35,27 @@ export class PushNotificationService {
           )
         );
 
-      // firebase.addOnMessageReceivedCallback((message: firebase.Message) => {
-      //   this.zone.run(() => {
-      //     LocalNotifications.schedule([
-      //       {
-      //         title: message.data.title,
-      //         body: message.data.body,
-      //         bigTextStyle: true,
-      //         at: new Date(new Date().getTime() + 5 * 1000),
-      //         payload: message.data,
-      //       },
-      //     ]);
-      //   });
-      // });
+      firebase.addOnMessageReceivedCallback((message: firebase.Message) => {
+        this.zone.run(() => {
+          LocalNotifications.schedule([
+            {
+              title: message.data.title,
+              body: message.data.body,
+              bigTextStyle: true,
+              at: new Date(new Date().getTime() + 5 * 1000),
+              payload: message.data,
+            },
+          ]);
+        });
+      });
 
       LocalNotifications.addOnMessageReceivedCallback((data) => {
         this.zone.run(() => {
-
-          // if (!data.payload.foreground) {
-          //   this._navigateToUrl.next(true);
-          //   this._url.next(data.payload.url);
-          //   this.router.navigate([data.payload.url]);
-          // }
+          if (!data.payload.foreground) {
+            this._navigateToUrl.next(true);
+            this._url.next(data.payload.url);
+            this.router.navigate([data.payload.url]);
+          }
         });
       });
     }
@@ -64,7 +63,7 @@ export class PushNotificationService {
 
   unsubscribe() {
     const topicNotification = this.storageService.getString(
-      'current-notification-topic'
+      "current-notification-topic"
     );
 
     if (topicNotification) {

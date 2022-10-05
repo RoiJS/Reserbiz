@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import {
   ChangeDetectorRef,
   Component,
@@ -6,47 +6,47 @@ import {
   OnDestroy,
   OnInit,
   ViewContainerRef,
-} from '@angular/core';
+} from "@angular/core";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
 import {
   ModalDialogOptions,
   ModalDialogService,
   PageRoute,
   RouterExtensions,
-} from '@nativescript/angular';
+} from "@nativescript/angular";
 
-import { finalize } from 'rxjs/operators';
+import { finalize } from "rxjs/operators";
 
-import { BaseListComponent } from '../../../../../shared/component/base-list.component';
-import { PaymentDetailsDialogComponent } from './payment-details-dialog/payment-details-dialog.component';
-import { PaymentFilterDialogComponent } from './payment-filter-dialog/payment-filter-dialog.component';
+import { BaseListComponent } from "~/app/shared/component/base-list.component";
+import { PaymentDetailsDialogComponent } from "./payment-details-dialog/payment-details-dialog.component";
+import { PaymentFilterDialogComponent } from "./payment-filter-dialog/payment-filter-dialog.component";
 
-import { AccountStatementService } from '../../../../../_services/account-statement.service';
-import { ContractService } from '../../../../../_services/contract.service';
-import { DialogService } from '../../../../../_services/dialog.service';
-import { PaymentsService } from '../../../../../_services/payments.service';
-import { StorageService } from '../../../../../_services/storage.service';
+import { AccountStatementService } from "~/app/_services/account-statement.service";
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { PaymentsService } from "~/app/_services/payments.service";
+import { StorageService } from "~/app/_services/storage.service";
 
-import { AccountStatement } from '../../../../../_models/account-statement.model';
-import { Contract } from '../../../../../_models/contract.model';
-import { Payment } from '../../../../../_models/payment.model';
-import { PaymentFilter } from '../../../../../_models/filters/payment-filter.model';
-import { PaymentPaginationList } from '../../../../../_models/pagination_list/payment-pagination-list.model';
+import { AccountStatement } from "~/app/_models/account-statement.model";
+import { Contract } from "~/app/_models/contract.model";
+import { Payment } from "~/app/_models/payment.model";
+import { PaymentFilter } from "~/app/_models/filters/payment-filter.model";
+import { PaymentPaginationList } from "~/app/_models/pagination_list/payment-pagination-list.model";
 
-import { AccountStatementTypeEnum } from '../../../../../_enum/account-statement-type.enum';
-import { SortOrderEnum } from '../../../../../_enum/sort-order.enum';
-import { DialogIntentEnum } from '../../../../../_enum/dialog-intent.enum';
-import { PaymentDto } from '../../../../../_dtos/payment-dto';
-import { PaymentForTypeEnum } from '../../../../../_enum/payment-type.enum';
+import { AccountStatementTypeEnum } from "~/app/_enum/account-statement-type.enum";
+import { SortOrderEnum } from "~/app/_enum/sort-order.enum";
+import { DialogIntentEnum } from "~/app/_enum/dialog-intent.enum";
+import { PaymentDto } from "~/app/_dtos/payment-dto";
+import { PaymentForTypeEnum } from "~/app/_enum/payment-type.enum";
 
-import { NumberFormatter } from '../../../../../_helpers/formatters/number-formatter.helper';
+import { NumberFormatter } from "~/app/_helpers/formatters/number-formatter.helper";
 
 @Component({
-  selector: 'ns-payments',
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.scss'],
+  selector: "ns-payments",
+  templateUrl: "./payments.component.html",
+  styleUrls: ["./payments.component.scss"],
 })
 export class PaymentsComponent
   extends BaseListComponent<Payment>
@@ -77,8 +77,8 @@ export class PaymentsComponent
   private _firstAccountStatement: AccountStatement;
   private _contract: Contract;
 
-  private PAYMENT_FILTER_PAYMENT_FOR_TYPE = 'PaymentFilter_paymentForType';
-  private PAYMENT_FILTER_SORT_ORDER = 'PaymentFilter_sortOrder';
+  private PAYMENT_FILTER_PAYMENT_FOR_TYPE = "PaymentFilter_paymentForType";
+  private PAYMENT_FILTER_SORT_ORDER = "PaymentFilter_sortOrder";
 
   constructor(
     protected paymentService: PaymentsService,
@@ -110,8 +110,8 @@ export class PaymentsComponent
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentItemParentId = +paramMap.get('accountStatementId');
-        const contractId = +paramMap.get('contractId');
+        this._currentItemParentId = +paramMap.get("accountStatementId");
+        const contractId = +paramMap.get("contractId");
 
         (async () => {
           this._firstAccountStatement =
@@ -317,32 +317,33 @@ export class PaymentsComponent
                 });
               })
             )
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.entityService.reloadListFlag();
                     this.accountStatementService.reloadListFlag(true);
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE'
+                    "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.ERROR_MESSAGE'
+                    "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       }
     );

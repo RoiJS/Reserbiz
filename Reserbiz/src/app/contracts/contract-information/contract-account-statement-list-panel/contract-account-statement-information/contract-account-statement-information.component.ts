@@ -1,30 +1,28 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
 
-import { ExtendedNavigationExtras } from '@nativescript/angular/lib/legacy/router/router-extensions';
-import { TranslateService } from '@ngx-translate/core';
+import { ExtendedNavigationExtras } from "@nativescript/angular/lib/legacy/router/router-extensions";
+import { TranslateService } from "@ngx-translate/core";
 
-import { AccountStatement } from '../../../../_models/account-statement.model';
-import { Contract } from '../../../../_models/contract.model';
+import { AccountStatement } from "~/app/_models/account-statement.model";
+import { Contract } from "~/app/_models/contract.model";
 
-import { ButtonOptions } from '../../../../_enum/button-options.enum';
+import { AccountStatementService } from "~/app/_services/account-statement.service";
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { UserNotificationService } from "~/app/_services/user-notification.service";
 
-import { AccountStatementService } from '../../../../_services/account-statement.service';
-import { ContractService } from '../../../../_services/contract.service';
-import { DialogService } from '../../../../_services/dialog.service';
-import { UserNotificationService } from '../../../../_services/user-notification.service';
-
-import { NumberFormatter } from '../../../../_helpers/formatters/number-formatter.helper';
+import { NumberFormatter } from "~/app/_helpers/formatters/number-formatter.helper";
 
 @Component({
-  selector: 'app-contract-account-statement-information',
-  templateUrl: './contract-account-statement-information.component.html',
-  styleUrls: ['./contract-account-statement-information.component.scss'],
+  selector: "app-contract-account-statement-information",
+  templateUrl: "./contract-account-statement-information.component.html",
+  styleUrls: ["./contract-account-statement-information.component.scss"],
 })
 export class ContractAccountStatementInformationComponent
   implements OnInit, OnDestroy
@@ -58,8 +56,8 @@ export class ContractAccountStatementInformationComponent
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentAccountStatementId = +paramMap.get('accountStatementId');
-        const contractId = +paramMap.get('contractId');
+        this._currentAccountStatementId = +paramMap.get("accountStatementId");
+        const contractId = +paramMap.get("contractId");
 
         this._updateAccountStatementListFlag =
           this.accountStatementService.loadAccountStatementListFlag.subscribe(
@@ -117,9 +115,9 @@ export class ContractAccountStatementInformationComponent
 
   updateInformation() {
     const waterBillAmount =
-      this.waterAndElecitricBillAmountformGroup.get('waterBillAmount').value;
+      this.waterAndElecitricBillAmountformGroup.get("waterBillAmount").value;
     const electricBillAmount =
-      this.waterAndElecitricBillAmountformGroup.get('electricBillAmount').value;
+      this.waterAndElecitricBillAmountformGroup.get("electricBillAmount").value;
 
     if (
       this.checkedInputChanged(
@@ -131,14 +129,14 @@ export class ContractAccountStatementInformationComponent
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE'
+            "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.CONFIRM_MESSAGE'
+            "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             (async () => {
@@ -153,28 +151,29 @@ export class ContractAccountStatementInformationComponent
                   this.dueDate
                 );
 
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.accountStatementService.reloadListFlag(true);
                     this.router.back();
-                  }
-                );
+                  });
 
                 this.electricBillAmountOriginal = electricBillAmount;
                 this.waterBillAmountOriginal = waterBillAmount;
               } catch {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE'
+                    "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.ERROR_MESSAGE'
+                    "ACCOUNT_STATEMENT_DETAILS.UPDATE_DIALOG.ERROR_MESSAGE"
                   )
                 );
               } finally {
@@ -190,46 +189,47 @@ export class ContractAccountStatementInformationComponent
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+          "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.CONFIRM_MESSAGE'
+          "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.accountStatementService
             .deleteItem(this._currentAccountStatementId)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+            .subscribe({
+              next: () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.contractService.reloadListFlag();
                     this.accountStatementService.reloadListFlag(true);
                     this.router.back();
-                  }
-                );
+                  });
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE'
+                    "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.ERROR_MESSAGE'
+                    "ACCOUNT_STATEMENT_DETAILS.DELETE_ACCOUNT_STATEMENT_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -250,14 +250,14 @@ export class ContractAccountStatementInformationComponent
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+          "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.CONFIRM_MESSAGE'
+          "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((result: ButtonOptions) => {
-        if (result === ButtonOptions.YES) {
+      .then((result: boolean) => {
+        if (result) {
           this._isBusy = true;
           (async () => {
             try {
@@ -269,10 +269,10 @@ export class ContractAccountStatementInformationComponent
 
               this.dialogService.alert(
                 this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                  "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE"
                 ),
                 this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.SUCCESS_MESSAGE'
+                  "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.SUCCESS_MESSAGE"
                 )
               );
 
@@ -280,10 +280,10 @@ export class ContractAccountStatementInformationComponent
             } catch {
               this.dialogService.alert(
                 this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE'
+                  "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.TITLE"
                 ),
                 this.translateService.instant(
-                  'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.ERROR_MESSAGE'
+                  "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS_DIALOG.ERROR_MESSAGE"
                 )
               );
             }
@@ -295,13 +295,13 @@ export class ContractAccountStatementInformationComponent
   navigateToOtherPage(mainUrl: string) {
     setTimeout(() => {
       mainUrl = mainUrl.replace(
-        ':id',
+        ":id",
         this._currentAccountStatementId.toString()
       );
 
       const routeConfig: ExtendedNavigationExtras = {
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       };
 
@@ -329,10 +329,10 @@ export class ContractAccountStatementInformationComponent
     if (this._currentAccountStatement) {
       const electricBillAmount =
         this._waterAndElecitricBillAmountformGroup.get(
-          'electricBillAmount'
+          "electricBillAmount"
         ).value;
       const waterBillAmount =
-        this._waterAndElecitricBillAmountformGroup.get('waterBillAmount').value;
+        this._waterAndElecitricBillAmountformGroup.get("waterBillAmount").value;
 
       const miscellaneousTotalAmount =
         this._currentAccountStatement.miscellaneousTotalAmount;
@@ -359,7 +359,7 @@ export class ContractAccountStatementInformationComponent
 
   get sendDetailsButtonText(): string {
     return `${String.fromCharCode(0xf0e0)} ${this.translateService.instant(
-      'ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS'
+      "ACCOUNT_STATEMENT_DETAILS.SEND_DETAILS"
     )}`;
   }
 

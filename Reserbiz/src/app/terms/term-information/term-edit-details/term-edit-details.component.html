@@ -25,7 +25,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -39,8 +42,14 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="code"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL' | translate"
-            [hintText]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [hintText]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Text">
               <TKPropertyEditorStyle
@@ -55,8 +64,14 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="name"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.CONTROL_LABEL' | translate"
-            [hintText]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.HINT_TEXT' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [hintText]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.HINT_TEXT'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Text">
               <TKPropertyEditorStyle
@@ -71,7 +86,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="spaceTypeId"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.SPACE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.SPACE_TYPE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="spaceTypeOptions"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Picker">
@@ -87,8 +105,14 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="rate"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.CONTROL_LABEL' | translate"
-            [hintText]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.HINT_TEXT' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [hintText]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.RATE_CONTROL.HINT_TEXT'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
               <TKPropertyEditorStyle
@@ -103,7 +127,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="maximumNumberOfOccupants"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.MAXIMUM_NUMBER_OF_OCCUPANTS.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.MAXIMUM_NUMBER_OF_OCCUPANTS.CONTROL_LABEL'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
               <TKPropertyEditorParams
@@ -123,7 +150,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -138,7 +168,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="durationUnit"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="durationOptions"
             index="0"
           >
@@ -153,7 +186,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="advancedPaymentDurationValue"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.ADVANCED_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             index="1"
             columnIndex="0"
           >
@@ -173,7 +209,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="depositPaymentDurationValue"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.DURATION_CONTROL_GROUP.DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             index="1"
             columnIndex="1"
           >
@@ -195,7 +234,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -209,11 +251,13 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="excludeElectricBill"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_CONTROL.CONTROL_LABEL' | translate"
-            index="0"
-            columnIndex="0"
+            [displayName]="
+              'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_ELECTRIC_BILL_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"
@@ -224,10 +268,11 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="electricBillAmount"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
-            index="0"
-            columnIndex="1"
-            [readOnly]="!entityFormSource?.excludeElectricBill"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.ELECTRIC_BILL_AMOUNT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [readOnly]="entityFormSource?.excludeElectricBill === 0"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
               <TKPropertyEditorStyle
@@ -240,11 +285,13 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="excludeWaterBill"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_CONTROL.CONTROL_LABEL' | translate"
-            index="1"
-            columnIndex="0"
+            [displayName]="
+              'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.EXCLUDE_WATER_BILL_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"
@@ -255,10 +302,11 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="waterBillAmount"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL' | translate"
-            index="1"
-            columnIndex="1"
-            [readOnly]="!entityFormSource?.excludeWaterBill"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.UTILITY_BILL_DETAILS_GROUP.WATER_BILL_AMOUNT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [readOnly]="entityFormSource?.excludeWaterBill === 0"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Decimal">
               <TKPropertyEditorStyle
@@ -272,7 +320,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -287,7 +338,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="penaltyValueType"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_TYPE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="valueTypeOptions"
             index="0"
           >
@@ -304,7 +358,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="penaltyValue"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_VALUE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             index="1"
             columnIndex="1"
           >
@@ -319,7 +376,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="penaltyAmountPerDurationUnit"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="durationOptions"
             index="1"
             columnIndex="0"
@@ -335,7 +395,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="penaltyEffectiveAfterDurationUnit"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="durationOptions"
             index="2"
             columnIndex="0"
@@ -351,7 +414,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="penaltyEffectiveAfterDurationValue"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.PENALTY_DETAILS_GROUP.PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             index="2"
             columnIndex="1"
           >
@@ -368,7 +434,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -382,7 +451,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="miscellaneousDueDate"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.MISCELLANEOUS_DUE_DATE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.MISCELLANEOUS_DUE_DATE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="miscellaneousDueDateOptions"
             index="0"
           >
@@ -397,12 +469,16 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="includeMiscellaneousCheckAndCalculateForPenalty"
-            [displayName]="'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.INCLUDE_CHECK_AND_CALCULATE_FOR_PENALTY_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.MISCELLANEOUS_SETTINGS_GROUP.INCLUDE_CHECK_AND_CALCULATE_FOR_PENALTY_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
             index="1"
             columnIndex="0"
             [readOnly]="!(entityFormSource?.miscellaneousDueDate === 1)"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"
@@ -414,7 +490,10 @@
         <TKPropertyGroup
           tkDataFormGroups
           collapsible="true"
-          [name]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.LABEL' | translate"
+          [name]="
+            'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -428,7 +507,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="generateAccountStatementDaysBeforeValue"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             index="0"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Number">
@@ -438,10 +520,14 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="autoSendNewAccountStatement"
-            [displayName]="'TERM_EDIT_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.AUTO_SEND_ACCOUNT_STATEMENT.CONTROL_LABEL' | translate"
+            [displayName]="
+              'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.AUTOMATION_SETTINGS_GROUP.AUTO_SEND_ACCOUNT_STATEMENT.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
             index="1"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"

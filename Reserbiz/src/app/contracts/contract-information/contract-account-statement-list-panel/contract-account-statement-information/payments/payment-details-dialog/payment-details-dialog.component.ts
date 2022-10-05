@@ -1,34 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { ModalDialogParams } from '@nativescript/angular';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
-import { DataFormEventData } from 'nativescript-ui-dataform';
+import { ModalDialogParams } from "@nativescript/angular";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
+import { DataFormEventData } from "nativescript-ui-dataform";
 
-import { AccountStatement } from '../../../../../../_models/account-statement.model';
-import { BaseFormHelper } from '../../../../../../_helpers/base_helpers/base-form.helper';
-import { NumberFormatter } from '../../../../../../_helpers/formatters/number-formatter.helper';
-import { PaymentMapper } from '../../../../../../_helpers/mappers/payment-mapper.helper';
+import { AccountStatement } from "~/app/_models/account-statement.model";
+import { BaseFormHelper } from "~/app/_helpers/base_helpers/base-form.helper";
+import { NumberFormatter } from "~/app/_helpers/formatters/number-formatter.helper";
+import { PaymentMapper } from "~/app/_helpers/mappers/payment-mapper.helper";
 
-import { PaymentTypeValueProvider } from '../../../../../../_helpers/value_providers/payment-type-value-provider.helper';
+import { PaymentTypeValueProvider } from "~/app/_helpers/value_providers/payment-type-value-provider.helper";
+import { YesNoValueProvider } from "~/app/_helpers/value_providers/yesno-value-provider.helper";
 
-import { DialogService } from '../../../../../../_services/dialog.service';
+import { DialogService } from "~/app/_services/dialog.service";
 
-import { AccountStatementTypeEnum } from '../../../../../../_enum/account-statement-type.enum';
-import { ButtonOptions } from '../../../../../../_enum/button-options.enum';
-import { DialogIntentEnum } from '../../../../../../_enum/dialog-intent.enum';
-import { MiscellaneousDueDateEnum } from '../../../../../../_enum/miscellaneous-due-date.enum';
-import { PaymentForTypeEnum } from '../../../../../../_enum/payment-type.enum';
+import { AccountStatementTypeEnum } from "~/app/_enum/account-statement-type.enum";
+import { DialogIntentEnum } from "~/app/_enum/dialog-intent.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { PaymentForTypeEnum } from "~/app/_enum/payment-type.enum";
 
-import { Contract } from '../../../../../../_models/contract.model';
-import { Payment } from '../../../../../../_models/payment.model';
-import { PaymentFormSource } from '../../../../../../_models/form/payment-form.model';
+import { Contract } from "~/app/_models/contract.model";
+import { Payment } from "~/app/_models/payment.model";
+import { PaymentFormSource } from "~/app/_models/form/payment-form.model";
+
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 @Component({
-  selector: 'ns-payment-details-dialog',
-  templateUrl: './payment-details-dialog.component.html',
-  styleUrls: ['./payment-details-dialog.component.scss'],
+  selector: "ns-payment-details-dialog",
+  templateUrl: "./payment-details-dialog.component.html",
+  styleUrls: ["./payment-details-dialog.component.scss"],
 })
 export class PaymentDetailsDialogComponent
   extends BaseFormHelper<PaymentFormSource>
@@ -37,7 +39,7 @@ export class PaymentDetailsDialogComponent
   @ViewChild(RadDataFormComponent, { static: false })
   formSource: RadDataFormComponent;
 
-  private _dialogTitle = '';
+  private _dialogTitle = "";
   private _dialogIntent: DialogIntentEnum;
 
   private _contract: Contract;
@@ -68,6 +70,7 @@ export class PaymentDetailsDialogComponent
   private _paymentDetailsFormSource: PaymentFormSource;
 
   private _paymentTypeValueProvider: PaymentTypeValueProvider;
+  private _yesNoValueProvider: YesNoValueProvider;
 
   constructor(
     private dialogService: DialogService,
@@ -133,6 +136,8 @@ export class PaymentDetailsDialogComponent
       isAccountStatementForUtilityBill,
       showMiscellaneousFeesOption
     );
+
+    this._yesNoValueProvider = new YesNoValueProvider(this.translateService);
   }
 
   onSave() {
@@ -142,14 +147,14 @@ export class PaymentDetailsDialogComponent
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE'
+            "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'PAYMENT_DETAILS_DIALOG.ADD_DIALOG.CONFIRM_MESSAGE'
+            "PAYMENT_DETAILS_DIALOG.ADD_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             const paymentCreateDto = this.paymentMapper.mapFormSourceToDto(
               this._paymentDetailsFormSource
             );
@@ -164,8 +169,8 @@ export class PaymentDetailsDialogComponent
   }
 
   onEditorUpdate(args: DataFormEventData) {
-    if (args.propertyName === 'dateReceived') {
-      if (typeof args.editor.setDateFormat !== 'undefined') {
+    if (args.propertyName === "dateReceived") {
+      if (typeof args.editor.setDateFormat !== "undefined") {
         this.changeDateFormatting(args.editor);
       }
     }
@@ -176,8 +181,8 @@ export class PaymentDetailsDialogComponent
      * If Amount From Deposit, pre-fill the amount field
      */
     if (
-      args.propertyName === 'isAmountFromDeposit' ||
-      args.propertyName === 'paymentForType'
+      args.propertyName === "isAmountFromDeposit" ||
+      args.propertyName === "paymentForType"
     ) {
       if (this._paymentDetailsFormSource.isAmountFromDeposit) {
         let suggestedAmount = 0;
@@ -216,12 +221,12 @@ export class PaymentDetailsDialogComponent
     let isAmountValid = true;
 
     const dataForm = this.formSource.dataForm;
-    const amountProperty = dataForm.getPropertyByName('amount');
+    const amountProperty = dataForm.getPropertyByName("amount");
 
     // Check and validate amount field
     if (!this._paymentDetailsFormSource.amount) {
       amountProperty.errorMessage = this.translateService.instant(
-        'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EMPTY_ERROR_MESSAGE'
+        "PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isAmountValid = false;
     } else {
@@ -231,10 +236,10 @@ export class PaymentDetailsDialogComponent
         this._paymentDetailsFormSource.amount > this._depositedAmountBalance
       ) {
         let errorMessage = this.translateService.instant(
-          'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_FROM_DEPOSIT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE'
+          "PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_FROM_DEPOSIT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE"
         );
         errorMessage = errorMessage.replace(
-          '{0}',
+          "{0}",
           NumberFormatter.formatCurrency(this._depositedAmountBalance)
         );
 
@@ -244,42 +249,42 @@ export class PaymentDetailsDialogComponent
       } else {
         let totalPaidAmount = 0;
         let totalExpectedAmount = 0;
-        let paymentCategoryName = '';
+        let paymentCategoryName = "";
 
         switch (this._paymentDetailsFormSource.paymentForType) {
           case PaymentForTypeEnum.Rental:
             totalPaidAmount = this._totalPaidRentalAmount;
             totalExpectedAmount = this._totalExpectedRentalAmount;
             paymentCategoryName = this.translateService.instant(
-              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL'
+              "GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL"
             );
             break;
           case PaymentForTypeEnum.ElectricBill:
             totalPaidAmount = this._totalPaidElectricBillAmount;
             totalExpectedAmount = this._totalExpectedElectricBillAmount;
             paymentCategoryName = this.translateService.instant(
-              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL'
+              "GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL"
             );
             break;
           case PaymentForTypeEnum.WaterBill:
             totalPaidAmount = this._totalPaidWaterBillAmount;
             totalExpectedAmount = this._totalExpectedwaterBillAmount;
             paymentCategoryName = this.translateService.instant(
-              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL'
+              "GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL"
             );
             break;
           case PaymentForTypeEnum.MiscellaneousFee:
             totalPaidAmount = this._totalPaidMiscellaneousFeesAmount;
             totalExpectedAmount = this._totalExpectedMiscellaneousFeesAmount;
             paymentCategoryName = this.translateService.instant(
-              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES'
+              "GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES"
             );
             break;
           case PaymentForTypeEnum.Penalty:
             totalPaidAmount = this._totalPaidPenaltyAmount;
             totalExpectedAmount = this._totalExpectedPenaltyAmount;
             paymentCategoryName = this.translateService.instant(
-              'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY'
+              "GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY"
             );
             break;
           default:
@@ -292,10 +297,10 @@ export class PaymentDetailsDialogComponent
           totalExpectedAmount
         ) {
           let errorMessage = this.translateService.instant(
-            'PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE'
+            "PAYMENT_DETAILS_DIALOG.BODY_SECTION.FORM_CONTROL.AMOUNT_CONTROL.EXCEEDED_VALUE_ERROR_MESSAGE"
           );
-          errorMessage = errorMessage.replace('{0}', paymentCategoryName);
-          errorMessage = errorMessage.replace('{1}', totalExpectedAmount);
+          errorMessage = errorMessage.replace("{0}", paymentCategoryName);
+          errorMessage = errorMessage.replace("{1}", totalExpectedAmount);
           amountProperty.errorMessage = errorMessage;
 
           isAmountValid = false;
@@ -305,7 +310,7 @@ export class PaymentDetailsDialogComponent
       }
     }
 
-    dataForm.notifyValidated('amount', isAmountValid);
+    dataForm.notifyValidated("amount", isAmountValid);
 
     return isAmountValid;
   }
@@ -313,11 +318,11 @@ export class PaymentDetailsDialogComponent
   private setDialogTitle(dialogIntent: DialogIntentEnum) {
     if (dialogIntent === DialogIntentEnum.Add) {
       this._dialogTitle = this.translateService.instant(
-        'PAYMENT_DETAILS_DIALOG.HEADER_SECTION.ADD_DIALOG_TITLE'
+        "PAYMENT_DETAILS_DIALOG.HEADER_SECTION.ADD_DIALOG_TITLE"
       );
     } else {
       this._dialogTitle = this.translateService.instant(
-        'PAYMENT_DETAILS_DIALOG.HEADER_SECTION.VIEW_DIALOG_TITLE'
+        "PAYMENT_DETAILS_DIALOG.HEADER_SECTION.VIEW_DIALOG_TITLE"
       );
     }
   }
@@ -352,7 +357,11 @@ export class PaymentDetailsDialogComponent
   }
 
   get paymentTypeOptions(): Array<{ key: PaymentForTypeEnum; label: string }> {
-    return this._paymentTypeValueProvider.paymentTypeOptions;
+    return this._paymentTypeValueProvider?.paymentTypeOptions;
+  }
+
+  get yesNoOptions(): Array<{ key: YesNoEnum; label: string }> {
+    return this._yesNoValueProvider?.yesNoOptions;
   }
 
   /**

@@ -1,22 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
+import { TranslateService } from "@ngx-translate/core";
 
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
 
-import { LocalManageTermMiscellaneousService } from '../../../../_services/local-manage-term-miscellaneous.service';
-import { DialogService } from '../../../../_services/dialog.service';
+import { LocalManageTermMiscellaneousService } from "~/app/_services/local-manage-term-miscellaneous.service";
+import { DialogService } from "~/app/_services/dialog.service";
 
-import { TermMiscellaneous } from '../../../../_models/term-miscellaneous.model';
-import { TermMiscellaneousFormSource } from '../../../../_models/form/term-miscellaneous-form.model';
-
-import { ButtonOptions } from '../../../../_enum/button-options.enum';
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
+import { TermMiscellaneousFormSource } from "~/app/_models/form/term-miscellaneous-form.model";
 
 @Component({
-  selector: 'ns-terms-add-miscellaneous-edit',
-  templateUrl: './terms-add-miscellaneous-edit.component.html',
-  styleUrls: ['./terms-add-miscellaneous-edit.component.scss'],
+  selector: "ns-terms-add-miscellaneous-edit",
+  templateUrl: "./terms-add-miscellaneous-edit.component.html",
+  styleUrls: ["./terms-add-miscellaneous-edit.component.scss"],
 })
 export class TermsAddMiscellaneousEditComponent implements OnInit {
   @ViewChild(RadDataFormComponent, { static: false })
@@ -39,11 +37,12 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentTermMiscellaneousId = +paramMap.get('termMiscellaneousId');
+        this._currentTermMiscellaneousId = +paramMap.get("termMiscellaneousId");
 
-        this._currentTermMiscellaneous = this.localManageTermMiscellaneous.getEntity(
-          this._currentTermMiscellaneousId
-        );
+        this._currentTermMiscellaneous =
+          this.localManageTermMiscellaneous.getEntity(
+            this._currentTermMiscellaneousId
+          );
 
         this._termMiscellaneousFormSource = new TermMiscellaneousFormSource(
           this._currentTermMiscellaneous.name,
@@ -51,13 +50,15 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
           this._currentTermMiscellaneous.amount
         );
 
-        this._termMiscellaneousFormSourceOriginal = this._termMiscellaneousFormSource.clone();
+        this._termMiscellaneousFormSourceOriginal =
+          this._termMiscellaneousFormSource.clone();
       });
     });
   }
 
   saveInformation() {
-    const isFormInvalid = this.termMiscellanesouForm.dataForm.hasValidationErrors();
+    const isFormInvalid =
+      this.termMiscellanesouForm.dataForm.hasValidationErrors();
     const isFormHasChanged = !this._termMiscellaneousFormSource.isSame(
       this._termMiscellaneousFormSourceOriginal
     );
@@ -66,34 +67,37 @@ export class TermsAddMiscellaneousEditComponent implements OnInit {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
+            "TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE'
+            "TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
-            this._currentTermMiscellaneous.name = this._termMiscellaneousFormSource.name;
-            this._currentTermMiscellaneous.amount = this._termMiscellaneousFormSource.amount;
+            this._currentTermMiscellaneous.name =
+              this._termMiscellaneousFormSource.name;
+            this._currentTermMiscellaneous.amount =
+              this._termMiscellaneousFormSource.amount;
 
             this.localManageTermMiscellaneous.updateEntity(
               this._currentTermMiscellaneous
             );
 
-            this.dialogService.alert(
-              this.translateService.instant(
-                'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
-              ),
-              this.translateService.instant(
-                'TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE'
-              ),
-              () => {
+            this.dialogService
+              .alert(
+                this.translateService.instant(
+                  "TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE"
+                ),
+                this.translateService.instant(
+                  "TERM_MISCELLANEOUS_EDIT_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE"
+                )
+              )
+              .then(() => {
                 this.router.back();
-              }
-            );
+              });
           }
         });
     }

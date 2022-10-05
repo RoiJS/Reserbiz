@@ -1,35 +1,35 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from "@angular/core";
 
-import { TranslateService } from '@ngx-translate/core';
-import { finalize, take } from 'rxjs/operators';
+import { TranslateService } from "@ngx-translate/core";
+import { finalize, take } from "rxjs/operators";
 
-import { Page } from '@nativescript/core';
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { Page } from "@nativescript/core";
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
 
-import { BaseFormComponent } from '../../shared/component/base-form.component';
+import { BaseFormComponent } from "~/app/shared/component/base-form.component";
 
-import { SpaceMapper } from '../../_helpers/mappers/space-mapper.helper';
-import { SpaceTypeValueProvider } from '../../_helpers/value_providers/space-type-value-provider.helper';
+import { SpaceMapper } from "~/app/_helpers/mappers/space-mapper.helper";
+import { SpaceTypeValueProvider } from "~/app/_helpers/value_providers/space-type-value-provider.helper";
 
-import { SpaceDto } from '../../_dtos/space-dto';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { SpaceDto } from "~/app/_dtos/space-dto";
 
-import { SpaceFormSource } from '../../_models/form/space-form.model';
-import { Space } from '../../_models/space.model';
-import { SpaceTypeOption } from '../../_models/options/space-type-option.model';
+import { SpaceFormSource } from "~/app/_models/form/space-form.model";
+import { Space } from "~/app/_models/space.model";
+import { SpaceTypeOption } from "~/app/_models/options/space-type-option.model";
 
-import { DialogService } from '../../_services/dialog.service';
-import { SpaceTypeService } from '../../_services/space-type.service';
-import { SpaceService } from '../../_services/space.service';
+import { DialogService } from "~/app/_services/dialog.service";
+import { SpaceTypeService } from "~/app/_services/space-type.service";
+import { SpaceService } from "~/app/_services/space.service";
 
 @Component({
-  selector: 'app-space-edit',
-  templateUrl: './space-edit.component.html',
-  styleUrls: ['./space-edit.component.scss'],
+  selector: "app-space-edit",
+  templateUrl: "./space-edit.component.html",
+  styleUrls: ["./space-edit.component.scss"],
 })
 export class SpaceEditComponent
   extends BaseFormComponent<Space, SpaceFormSource, SpaceDto>
-  implements OnInit {
+  implements OnInit
+{
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
   private _spaceTypeOptions;
 
@@ -58,7 +58,7 @@ export class SpaceEditComponent
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        const spaceId = +paramMap.get('id');
+        const spaceId = +paramMap.get("id");
 
         this.spaceService
           .getSpace(spaceId)
@@ -67,16 +67,16 @@ export class SpaceEditComponent
             this._currentEntity = spaceType;
             this._currentFormEntityId = spaceType.id;
 
-            this._entityFormSource = this._entityDtoMapper.mapEntityToFormSource(
-              spaceType
-            );
+            this._entityFormSource =
+              this._entityDtoMapper.mapEntityToFormSource(spaceType);
 
             this._entityFormSourceOriginal = this._entityFormSource.clone();
 
             this._spaceTypeValueProvider.setCurrenValue(
               this._currentEntity.spaceTypeId
             );
-            this._spaceTypeOptions = this._spaceTypeValueProvider.spaceTypeOptions;
+            this._spaceTypeOptions =
+              this._spaceTypeValueProvider.spaceTypeOptions;
           });
       });
     });
@@ -87,16 +87,16 @@ export class SpaceEditComponent
   initDialogTexts() {
     this._updateDialogTexts = {
       title: this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.TITLE"
       ),
       confirmMessage: this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.CONFIRM_MESSAGE"
       ),
       successMessage: this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.SUCCESS_MESSAGE"
       ),
       errorMessage: this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.EDIT_DIALOG.ERROR_MESSAGE"
       ),
     };
   }
@@ -114,13 +114,13 @@ export class SpaceEditComponent
     isDescriptionValid = isSpaceTypeValid = true;
 
     const dataForm = this.formSource.dataForm;
-    const nameProperty = dataForm.getPropertyByName('description');
-    const spaceTypeProperty = dataForm.getPropertyByName('spaceTypeId');
+    const nameProperty = dataForm.getPropertyByName("description");
+    const spaceTypeProperty = dataForm.getPropertyByName("spaceTypeId");
 
     // Check and validate description field
-    if (this._entityFormSource.description.trim() === '') {
+    if (this._entityFormSource.description.trim() === "") {
       nameProperty.errorMessage = this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.EMPTY_DESCRIPTION_ERROR_MESSAGE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.EMPTY_DESCRIPTION_ERROR_MESSAGE"
       );
       isDescriptionValid = false;
     } else {
@@ -130,15 +130,15 @@ export class SpaceEditComponent
     // Check and validate space type field
     if (this._entityFormSource.spaceTypeId === 0) {
       spaceTypeProperty.errorMessage = this.translateService.instant(
-        'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.SPACE_TYPE_CONTROL.NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE'
+        "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.SPACE_TYPE_CONTROL.NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE"
       );
       isSpaceTypeValid = false;
     } else {
       isSpaceTypeValid = true;
     }
 
-    dataForm.notifyValidated('description', isDescriptionValid);
-    dataForm.notifyValidated('spaceTypeId', isSpaceTypeValid);
+    dataForm.notifyValidated("description", isDescriptionValid);
+    dataForm.notifyValidated("spaceTypeId", isSpaceTypeValid);
 
     return Boolean(isDescriptionValid && isSpaceTypeValid);
   }
@@ -147,14 +147,14 @@ export class SpaceEditComponent
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE'
+          "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.CONFIRM_MESSAGE'
+          "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.spaceService
@@ -162,26 +162,27 @@ export class SpaceEditComponent
             .pipe(finalize(() => (this._isBusy = false)))
             .subscribe(
               () => {
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.spaceService.loadSpacesFlag.next(true);
                     this.router.back();
-                  }
-                );
+                  });
               },
               (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE'
+                    "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.ERROR_MESSAGE'
+                    "SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.REMOVE_SPACE_DIALOG.ERROR_MESSAGE"
                   )
                 );
               }

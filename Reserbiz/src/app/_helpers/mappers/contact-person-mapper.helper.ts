@@ -1,12 +1,13 @@
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
 
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
 
-import { ContactPerson } from '../../_models/contact-person.model';
-import { ContactPersonDetailsFormSource } from '../../_models/form/contact-person-details-form.model';
+import { ContactPerson } from "~/app/_models/contact-person.model";
+import { ContactPersonDetailsFormSource } from "~/app/_models/form/contact-person-details-form.model";
 
-import { ContactPersonDto } from '../../_dtos/contact-person.dto';
-import { GenderEnum } from '../../_enum/gender.enum';
+import { ContactPersonDto } from "~/app/_dtos/contact-person.dto";
+
+import { GenderEnum } from "~/app/_enum/gender.enum";
 
 export class ContactPersonMapper
   implements
@@ -34,12 +35,12 @@ export class ContactPersonMapper
 
   initFormSource(): ContactPersonDetailsFormSource {
     const contactPersonFormSource = new ContactPersonDetailsFormSource(
-      '',
-      '',
-      '',
+      "",
+      "",
+      "",
       GenderEnum.Male,
-      '',
-      ''
+      "",
+      ""
     );
 
     return contactPersonFormSource;
@@ -75,6 +76,6 @@ export class ContactPersonMapper
   mapFormSourceToEntity(
     formSource: ContactPersonDetailsFormSource
   ): ContactPerson {
-    throw new Error('Not implemented');
+    throw new Error("Not implemented");
   }
 }

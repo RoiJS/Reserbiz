@@ -1,22 +1,21 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { RouterExtensions } from '@nativescript/angular';
+import { Component, NgZone, OnInit } from "@angular/core";
+import { RouterExtensions } from "@nativescript/angular";
 
-import { Page } from '@nativescript/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { Page } from "@nativescript/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { DialogService } from '../../_services/dialog.service';
-import { ForgotPasswordService } from '../../_services/forgot-password.service';
+import { DialogService } from "~/app/_services/dialog.service";
+import { ForgotPasswordService } from "~/app/_services/forgot-password.service";
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  selector: "app-change-password",
+  templateUrl: "./change-password.component.html",
+  styleUrls: ["./change-password.component.scss"],
 })
 export class ChangePasswordComponent implements OnInit {
   isLoading = false;
-  newPassword = '';
-  confirmPassword = '';
+  newPassword = "";
+  confirmPassword = "";
 
   constructor(
     private dialogService: DialogService,
@@ -36,14 +35,14 @@ export class ChangePasswordComponent implements OnInit {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE'
+            "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.CONFIRM'
+            "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.CONFIRM"
           )
         )
-        .subscribe((result: ButtonOptions) => {
-          if (result === ButtonOptions.YES) {
+        .then((result: boolean) => {
+          if (result) {
             const user = this.forgotPasswordService.user.getValue();
 
             this.isLoading = true;
@@ -53,27 +52,28 @@ export class ChangePasswordComponent implements OnInit {
                 () => {
                   this.isLoading = false;
 
-                  this.dialogService.alert(
-                    this.translateService.instant(
-                      'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE'
-                    ),
-                    this.translateService.instant(
-                      'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.SUCCESS_MESSAGE'
-                    ),
-                    () => {
+                  this.dialogService
+                    .alert(
+                      this.translateService.instant(
+                        "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE"
+                      ),
+                      this.translateService.instant(
+                        "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.SUCCESS_MESSAGE"
+                      )
+                    )
+                    .then(() => {
                       this.ngZone.run(() => {
                         this.resetForm();
-                        this.router.navigate(['auth'], {
+                        this.router.navigate(["auth"], {
                           clearHistory: true,
                         });
                       });
-                    }
-                  );
+                    });
                 },
                 (error: any) => {
                   this.dialogService.alert(
                     this.translateService.instant(
-                      'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE'
+                      "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE"
                     ),
                     error
                   );
@@ -86,24 +86,25 @@ export class ChangePasswordComponent implements OnInit {
           }
         });
     } else {
-      this.dialogService.alert(
-        this.translateService.instant(
-          'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE'
-        ),
-        this.translateService.instant(
-          'CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.PASSWORD_NOT_MATCHED'
-        ),
-        () => {
+      this.dialogService
+        .alert(
+          this.translateService.instant(
+            "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.TITLE"
+          ),
+          this.translateService.instant(
+            "CHANGE_PASSWORD_PAGE.SAVE_NEW_PASSWORD_DIALOG.PASSWORD_NOT_MATCHED"
+          )
+        )
+        .then(() => {
           this.ngZone.run(() => {
             this.resetForm();
           });
-        }
-      );
+        });
     }
   }
 
   private resetForm() {
-    this.newPassword = this.confirmPassword = '';
+    this.newPassword = this.confirmPassword = "";
   }
 
   private hideActionBar() {
@@ -124,7 +125,7 @@ export class ChangePasswordComponent implements OnInit {
 
   get changePasswordButtonText(): string {
     return `${String.fromCharCode(0xf0c7)} ${this.translateService.instant(
-      'CHANGE_PASSWORD_PAGE.CHANGE_PASSWORD_BUTTON_CONTROL.LABEL'
+      "CHANGE_PASSWORD_PAGE.CHANGE_PASSWORD_BUTTON_CONTROL.LABEL"
     )}`;
   }
 }

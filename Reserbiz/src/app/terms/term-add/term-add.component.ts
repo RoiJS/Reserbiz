@@ -1,25 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 
-import { RouterExtensions } from '@nativescript/angular';
+import { RouterExtensions } from "@nativescript/angular";
 
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
+import { TranslateService } from "@ngx-translate/core";
 
-import { LocalManageTermService } from '../../_services/local-manage-term.service';
-import { LocalManageTermMiscellaneousService } from '../../_services/local-manage-term-miscellaneous.service';
-import { DialogService } from '../../_services/dialog.service';
-import { TermService } from '../../_services/term.service';
+import { LocalManageTermService } from "~/app/_services/local-manage-term.service";
+import { LocalManageTermMiscellaneousService } from "~/app/_services/local-manage-term-miscellaneous.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { FormService } from "~/app/_services/form.service";
+import { TermService } from "~/app/_services/term.service";
 
-import { Term } from '../../_models/term.model';
-import { TermMiscellaneous } from '../../_models/term-miscellaneous.model';
-
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { Term } from "~/app/_models/term.model";
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
 
 @Component({
-  selector: 'ns-term-add',
-  templateUrl: './term-add.component.html',
-  styleUrls: ['./term-add.component.scss'],
+  selector: "ns-term-add",
+  templateUrl: "./term-add.component.html",
+  styleUrls: ["./term-add.component.scss"],
 })
 export class TermAddComponent implements OnInit, OnDestroy {
   private _actionBarTitle: string[];
@@ -30,7 +29,10 @@ export class TermAddComponent implements OnInit, OnDestroy {
   private _termMiscellaneous: TermMiscellaneous[];
   private _isBusy = false;
 
+  private _formValid: boolean;
+
   constructor(
+    private formService: FormService,
     private localManageTermService: LocalManageTermService,
     private localManageTermMiscellaneousService: LocalManageTermMiscellaneousService,
     private dialogService: DialogService,
@@ -48,11 +50,16 @@ export class TermAddComponent implements OnInit, OnDestroy {
       }
     );
 
-    this._termMiscellaneousSub = this.localManageTermMiscellaneousService.entityList.subscribe(
-      (termMiscellaneous: TermMiscellaneous[]) => {
-        this._termMiscellaneous = termMiscellaneous;
-      }
-    );
+    this._termMiscellaneousSub =
+      this.localManageTermMiscellaneousService.entityList.subscribe(
+        (termMiscellaneous: TermMiscellaneous[]) => {
+          this._termMiscellaneous = termMiscellaneous;
+        }
+      );
+
+    this.formService.isFormValid.subscribe((valid: boolean) => {
+      this._formValid = valid;
+    });
   }
 
   ngOnDestroy() {
@@ -73,12 +80,12 @@ export class TermAddComponent implements OnInit, OnDestroy {
     this._actionBarTitle = [];
 
     this._actionBarTitle.push(
-      this.translateService.instant('TERM_DETAILS_PAGE.ACTION_BAR_TITLE')
+      this.translateService.instant("TERM_DETAILS_PAGE.ACTION_BAR_TITLE")
     );
 
     this._actionBarTitle.push(
       this.translateService.instant(
-        'TERM_MISCELLANEOUS_LIST_PAGE.ACTION_BAR_TITLE'
+        "TERM_MISCELLANEOUS_LIST_PAGE.ACTION_BAR_TITLE"
       )
     );
   }
@@ -88,7 +95,7 @@ export class TermAddComponent implements OnInit, OnDestroy {
   }
 
   saveInformation() {
-    this.localManageTermService.entitySavedDetails.next();
+    this.localManageTermService.entitySavedDetails.next(true);
   }
 
   onTermsDetailsSaved(e: { newTerm: Term; isFormValid: boolean }) {
@@ -96,31 +103,31 @@ export class TermAddComponent implements OnInit, OnDestroy {
     if (!e.isFormValid) {
       this.dialogService.alert(
         this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.INVALID_FORM'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.INVALID_FORM"
         )
       );
       return;
     }
 
     const newTerm = e.newTerm;
-    const newTermMiscellaneous = this.localManageTermMiscellaneousService.entityList
-      .value;
+    const newTermMiscellaneous =
+      this.localManageTermMiscellaneousService.entityList.value;
 
     // Save the new term information
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((result: ButtonOptions) => {
-        if (result === ButtonOptions.YES) {
+      .then((result: boolean) => {
+        if (result) {
           this._isBusy = true;
           this.termService
             .saveNewTerm(newTerm, newTermMiscellaneous)
@@ -129,35 +136,36 @@ export class TermAddComponent implements OnInit, OnDestroy {
                 this._isBusy = false;
               })
             )
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.localManageTermService.resetEntityDetails();
                 this.localManageTermMiscellaneousService.resetEntityList();
 
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.termService.loadTermListFlag.next();
                     this.router.back();
-                  }
-                );
+                  });
               },
-              () => {
+              error: () => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+                    "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE'
+                    "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -167,14 +175,14 @@ export class TermAddComponent implements OnInit, OnDestroy {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.TITLE'
+            "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.CONFIRM_MESSAGE'
+            "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((result: ButtonOptions) => {
-          if (result === ButtonOptions.YES) {
+        .then((result: boolean) => {
+          if (result) {
             this.localManageTermService.resetEntityDetails();
             this.localManageTermMiscellaneousService.resetEntityList();
             this.router.back();
@@ -191,5 +199,9 @@ export class TermAddComponent implements OnInit, OnDestroy {
 
   get isBusy(): boolean {
     return this._isBusy;
+  }
+
+  get formValid(): boolean {
+    return this._formValid;
   }
 }

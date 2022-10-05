@@ -1,10 +1,10 @@
-import { IContractFilter } from '../../_interfaces/filters/icontract-filter.interface';
-import { DateFormatter } from '../../_helpers/formatters/date-formatter.helper';
+import { IContractFilter } from "~/app/_interfaces/filters/icontract-filter.interface";
+import { DateFormatter } from "~/app/_helpers/formatters/date-formatter.helper";
 
-import { EntityFilter } from './entity-filter.model';
+import { EntityFilter } from "./entity-filter.model";
 
-import { ArchivedContractStatusEnum } from '../../_enum/archived-contract-options.enum';
-import { SortOrderEnum } from '../../_enum/sort-order.enum';
+import { ArchivedContractStatusEnum } from "~/app/_enum/archived-contract-options.enum";
+import { SortOrderEnum } from "~/app/_enum/sort-order.enum";
 
 export class ContractFilter extends EntityFilter implements IContractFilter {
   public code: string;

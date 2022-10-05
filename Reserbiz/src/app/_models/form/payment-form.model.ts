@@ -1,6 +1,7 @@
-import { PaymentForTypeEnum } from '../../_enum/payment-type.enum';
-import { IBaseFormSource } from '../../_interfaces/ibase-form-source.interface';
-import { BaseForm } from './base-form.model';
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
+import { PaymentForTypeEnum } from "~/app/_enum/payment-type.enum";
+import { IBaseFormSource } from "~/app/_interfaces/ibase-form-source.interface";
+import { BaseForm } from "./base-form.model";
 
 export class PaymentFormSource
   extends BaseForm<PaymentFormSource>
@@ -11,7 +12,7 @@ export class PaymentFormSource
     public timeReceived: Date,
     public amount: number,
     public notes: string,
-    public isAmountFromDeposit: boolean,
+    public isAmountFromDeposit: YesNoEnum,
     public paymentForType: PaymentForTypeEnum,
     public receivedBy: string
   ) {

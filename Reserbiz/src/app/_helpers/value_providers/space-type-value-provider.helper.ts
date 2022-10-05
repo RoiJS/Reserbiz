@@ -1,9 +1,9 @@
-import { TranslateService } from '@ngx-translate/core';
-import { take } from 'rxjs/operators';
+import { TranslateService } from "@ngx-translate/core";
+import { take } from "rxjs/operators";
 
-import { ISpaceTypeValueProvider } from '../../_interfaces/value_providers/ispace-type-value-provider.interface';
-import { SpaceTypeService } from '../../_services/space-type.service';
-import { SpaceTypeOption } from '../../_models/options/space-type-option.model';
+import { ISpaceTypeValueProvider } from "~/app/_interfaces/value_providers/ispace-type-value-provider.interface";
+import { SpaceTypeService } from "~/app/_services/space-type.service";
+import { SpaceTypeOption } from "~/app/_models/options/space-type-option.model";
 
 export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
   private _spaceTypesOptions: SpaceTypeOption[] = [];
@@ -23,9 +23,9 @@ export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
         defaultSpaceTypeOption.id = 0;
         defaultSpaceTypeOption.name = this.includeAllOption
           ? this.translateService.instant(
-              'GENERAL_TEXTS.UNIT_STATUS_OPTIONS.ALL'
+              "GENERAL_TEXTS.UNIT_STATUS_OPTIONS.ALL"
             )
-          : '';
+          : "";
         defaultSpaceTypeOption.rate = 0;
         defaultSpaceTypeOption.isActive = true;
         defaultSpaceTypeOption.isDelete = false;
@@ -57,8 +57,8 @@ export class SpaceTypeValueProvider implements ISpaceTypeValueProvider {
     );
 
     return {
-      key: 'id',
-      label: 'displayName',
+      key: "id",
+      label: "displayName",
       items: _spaceTypeOptions,
     };
   }

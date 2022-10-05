@@ -1,6 +1,6 @@
-import { BaseForm } from '../../_models/form/base-form.model';
+import { BaseForm } from "~/app/_models/form/base-form.model";
 
-import { isIOS } from '@nativescript/core';
+import { isIOS } from "@nativescript/core";
 
 declare var NSDateFormatter: any;
 declare var java: any;
@@ -27,11 +27,11 @@ export abstract class BaseFormHelper<
   protected changeDateFormatting(editor: any) {
     if (isIOS) {
       const dateFormatter = NSDateFormatter.alloc().init();
-      dateFormatter.dateFormat = 'MM/dd/yyyy';
+      dateFormatter.dateFormat = "MM/dd/yyyy";
       editor.dateFormatter = dateFormatter;
     } else {
       const simpleDateFormat = new java.text.SimpleDateFormat(
-        'MM/dd/yyyy',
+        "MM/dd/yyyy",
         java.util.Locale.US
       );
       editor.setDateFormat(simpleDateFormat);

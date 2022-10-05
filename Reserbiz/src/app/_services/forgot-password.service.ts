@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
 
-import { User } from '../_models/user.model';
-import { ForgotPasswordUser } from '../_models/forgot-password-user.model';
+import { User } from "~/app/_models/user.model";
+import { ForgotPasswordUser } from "~/app/_models/forgot-password-user.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ForgotPasswordService {
   private _user = new BehaviorSubject<ForgotPasswordUser>(null);
-  private _appSecretToken = new BehaviorSubject<string>('');
+  private _appSecretToken = new BehaviorSubject<string>("");
 
   constructor(private http: HttpClient) {}
 

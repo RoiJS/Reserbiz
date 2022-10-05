@@ -5,44 +5,42 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-} from '@angular/core';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
-import { registerElement } from '@nativescript/angular';
-import { DataFormEventData } from 'nativescript-ui-dataform';
-import { TranslateService } from '@ngx-translate/core';
+} from "@angular/core";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
+import { DataFormEventData } from "nativescript-ui-dataform";
+import { TranslateService } from "@ngx-translate/core";
 
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 
-import { Term } from '../../../_models/term.model';
-import { TermDetailsFormSource } from '../../../_models/form/term-details-form.model';
-import { SpaceTypeOption } from '../../../_models/options/space-type-option.model';
-import { ITermFormValueProvider } from '../../../_interfaces/value_providers/iterm-form-value-provider.interface';
+import { Term } from "~/app/_models/term.model";
+import { TermDetailsFormSource } from "~/app/_models/form/term-details-form.model";
+import { SpaceTypeOption } from "~/app/_models/options/space-type-option.model";
+import { ITermFormValueProvider } from "~/app/_interfaces/value_providers/iterm-form-value-provider.interface";
 
-import { DurationEnum } from '../../../_enum/duration-unit.enum';
-import { MiscellaneousDueDateEnum } from '../../../_enum/miscellaneous-due-date.enum';
-import { ValueTypeEnum } from '../../../_enum/value-type.enum';
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { ValueTypeEnum } from "~/app/_enum/value-type.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
-import { LocalManageTermService } from '../../../_services/local-manage-term.service';
-import { LocalManageTermMiscellaneousService } from '../../../_services/local-manage-term-miscellaneous.service';
-import { SpaceTypeService } from '../../../_services/space-type.service';
-import { TermService } from '../../../_services/term.service';
+import { LocalManageTermService } from "~/app/_services/local-manage-term.service";
+import { LocalManageTermMiscellaneousService } from "~/app/_services/local-manage-term-miscellaneous.service";
+import { SpaceTypeService } from "~/app/_services/space-type.service";
+import { TermService } from "~/app/_services/term.service";
 
-import { TermMapper } from '../../../_helpers/mappers/term-mapper.helper';
-import { DurationValueProvider } from '../../../_helpers/value_providers/duration-value-provider.helper';
-import { ValueTypeValueProvider } from '../../../_helpers/value_providers/value-type-provider.helper';
-import { SpaceTypeValueProvider } from '../../../_helpers/value_providers/space-type-value-provider.helper';
-import { PickerEditorValidator } from '../../../_helpers/validators/picker-editor-validator.helper';
-import { DurationRangeValueProvider } from '../../../_helpers/value_providers/duration-range-value-provider.helper';
-import { MiscellaneousValueProvider } from '../../../_helpers/value_providers/miscellaneous-due-date-provider.helper';
+import { TermMapper } from "~/app/_helpers/mappers/term-mapper.helper";
+import { DurationValueProvider } from "~/app/_helpers/value_providers/duration-value-provider.helper";
+import { ValueTypeValueProvider } from "~/app/_helpers/value_providers/value-type-provider.helper";
+import { SpaceTypeValueProvider } from "~/app/_helpers/value_providers/space-type-value-provider.helper";
+import { DurationRangeValueProvider } from "~/app/_helpers/value_providers/duration-range-value-provider.helper";
+import { MiscellaneousValueProvider } from "~/app/_helpers/value_providers/miscellaneous-due-date-provider.helper";
+import { YesNoValueProvider } from "~/app/_helpers/value_providers/yesno-value-provider.helper";
 
-import { BaseFormHelper } from '../../../_helpers/base_helpers/base-form.helper';
-
-registerElement('PickerEditorValidator', () => <any>PickerEditorValidator);
+import { BaseFormHelper } from "~/app/_helpers/base_helpers/base-form.helper";
 
 @Component({
-  selector: 'ns-terms-details-form',
-  templateUrl: './terms-details-form.component.html',
-  styleUrls: ['./terms-details-form.component.scss'],
+  selector: "ns-terms-details-form",
+  templateUrl: "./terms-details-form.component.html",
+  styleUrls: ["./terms-details-form.component.scss"],
 })
 export class TermsDetailsFormComponent
   extends BaseFormHelper<TermDetailsFormSource>
@@ -68,6 +66,7 @@ export class TermsDetailsFormComponent
   private _valueTypeValueProvider: ValueTypeValueProvider;
   private _spaceTypeValueProvider: SpaceTypeValueProvider;
   private _miscellaneousDueDateValueProvider: MiscellaneousValueProvider;
+  private _yesNoValueProvider: YesNoValueProvider;
 
   private _IsBusy = false;
 
@@ -92,6 +91,8 @@ export class TermsDetailsFormComponent
     this._valueTypeValueProvider = new ValueTypeValueProvider(
       this.translateService
     );
+
+    this._yesNoValueProvider = new YesNoValueProvider(this.translateService);
 
     this._spaceTypeValueProvider = new SpaceTypeValueProvider(
       this.translateService,
@@ -159,20 +160,20 @@ export class TermsDetailsFormComponent
     isCodeValid = isNameValid = isSpaceTypeValid = true;
 
     const dataForm = this.termForm.dataForm;
-    const codeProperty = dataForm.getPropertyByName('code');
-    const nameProperty = dataForm.getPropertyByName('name');
-    const spaceTypeIdProperty = dataForm.getPropertyByName('spaceTypeId');
+    const codeProperty = dataForm.getPropertyByName("code");
+    const nameProperty = dataForm.getPropertyByName("name");
+    const spaceTypeIdProperty = dataForm.getPropertyByName("spaceTypeId");
 
     // Check and validate code field
-    if (this._newTermDetails.code.trim() === '') {
+    if (this._newTermDetails.code.trim() === "") {
       codeProperty.errorMessage = this.translateService.instant(
-        'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
+        "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isCodeValid = false;
     } else {
       if (this._newTermDetails.code.length > 10) {
         codeProperty.errorMessage = this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE"
         );
         isCodeValid = false;
       } else {
@@ -184,7 +185,7 @@ export class TermsDetailsFormComponent
 
         if (checkCodeResult) {
           codeProperty.errorMessage = this.translateService.instant(
-            'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE'
+            "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE"
           );
         }
         isCodeValid = !checkCodeResult;
@@ -192,15 +193,15 @@ export class TermsDetailsFormComponent
     }
 
     // Check and validate name field
-    if (this._newTermDetails.name.trim() === '') {
+    if (this._newTermDetails.name.trim() === "") {
       nameProperty.errorMessage = this.translateService.instant(
-        'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.EMPTY_ERROR_MESSAGE'
+        "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isNameValid = false;
     } else {
       if (this._newTermDetails.name.length > 100) {
         nameProperty.errorMessage = this.translateService.instant(
-          'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.MAXLENGTH_ERROR_MESSAGE'
+          "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.NAME_CONTROL.MAXLENGTH_ERROR_MESSAGE"
         );
         isNameValid = false;
       } else {
@@ -211,16 +212,16 @@ export class TermsDetailsFormComponent
     // Check and validate space type field
     if (this._newTermDetails.spaceTypeId === 0) {
       spaceTypeIdProperty.errorMessage = this.translateService.instant(
-        'TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.SPACE_TYPE_CONTROL.EMPTY_ERROR_MESSAGE'
+        "TERM_ADD_DETAILS_PAGE.FORM_CONTROL.GENERAL_CONTROL_GROUP.SPACE_TYPE_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isSpaceTypeValid = false;
     } else {
       isSpaceTypeValid = true;
     }
 
-    dataForm.notifyValidated('code', isCodeValid);
-    dataForm.notifyValidated('name', isNameValid);
-    dataForm.notifyValidated('spaceTypeId', isSpaceTypeValid);
+    dataForm.notifyValidated("code", isCodeValid);
+    dataForm.notifyValidated("name", isNameValid);
+    dataForm.notifyValidated("spaceTypeId", isSpaceTypeValid);
 
     return Boolean(isCodeValid && isNameValid && isSpaceTypeValid);
   }
@@ -241,14 +242,14 @@ export class TermsDetailsFormComponent
   onPropertyCommitted(args: DataFormEventData) {
     const dataForm = args.object;
 
-    if (args.propertyName === 'spaceTypeId') {
+    if (args.propertyName === "spaceTypeId") {
       /**
        * When user select a space type,
        * we will give the rate field a value
        * based on the rate of the selected space type as the default value
        * but the user still have the option to update the value
        */
-      const rateProperty = dataForm.getPropertyByName('rate');
+      const rateProperty = dataForm.getPropertyByName("rate");
       const spaceType = this._spaceTypeValueProvider.getItem(
         this._termDetailsForm.spaceTypeId
       );
@@ -268,7 +269,7 @@ export class TermsDetailsFormComponent
       }
     }
 
-    if (args.propertyName === 'durationUnit') {
+    if (args.propertyName === "durationUnit") {
       this._durationDetailsRangeValueProvider.currentDuration =
         this._termDetailsForm.durationUnit;
 
@@ -288,7 +289,7 @@ export class TermsDetailsFormComponent
      * Electric bill amount will be set to 0
      * if exclude electric bill is set to true
      */
-    if (args.propertyName === 'excludeElectricBill') {
+    if (args.propertyName === "excludeElectricBill") {
       if (
         !this._termDetailsForm.excludeElectricBill &&
         this._termDetailsForm.electricBillAmount > 0
@@ -303,7 +304,7 @@ export class TermsDetailsFormComponent
      * Water bill amount will be set to 0
      * if exclude water bill is set to true
      */
-    if (args.propertyName === 'excludeWaterBill') {
+    if (args.propertyName === "excludeWaterBill") {
       if (
         !this._termDetailsForm.excludeWaterBill &&
         this._termDetailsForm.waterBillAmount > 0
@@ -314,7 +315,7 @@ export class TermsDetailsFormComponent
       }
     }
 
-    if (args.propertyName === 'penaltyAmountPerDurationUnit') {
+    if (args.propertyName === "penaltyAmountPerDurationUnit") {
       /**
        * Whenever user select a duration unit for penalty amount per duration,
        * we will set the same duration unit for the penalty effective after duration value
@@ -326,7 +327,7 @@ export class TermsDetailsFormComponent
       });
     }
 
-    if (args.propertyName === 'penaltyEffectiveAfterDurationUnit') {
+    if (args.propertyName === "penaltyEffectiveAfterDurationUnit") {
       /**
        * This is for the duration range value provider to recalculate
        * the minimum and maximum value that can be set
@@ -337,7 +338,7 @@ export class TermsDetailsFormComponent
         this._termDetailsForm.penaltyEffectiveAfterDurationUnit;
     }
 
-    if (args.propertyName === 'penaltyEffectiveAfterDurationValue') {
+    if (args.propertyName === "penaltyEffectiveAfterDurationValue") {
       /**
        * The purpose of this is to validate if the input value on penalty
        * effective after duration value does not exceed the allowed
@@ -356,7 +357,7 @@ export class TermsDetailsFormComponent
       }
     }
 
-    if (args.propertyName === 'miscellaneousDueDate') {
+    if (args.propertyName === "miscellaneousDueDate") {
       /**
        * If the Miscellaneous Due Date is not same with rental fee
        * then deactivate setting includeMiscellaneousCheckAndCalculateForPenalty.
@@ -385,11 +386,11 @@ export class TermsDetailsFormComponent
     this._newTermDetails.depositPaymentDurationValue =
       this._termDetailsForm.depositPaymentDurationValue;
     this._newTermDetails.excludeElectricBill =
-      this._termDetailsForm.excludeElectricBill;
+      this._termDetailsForm.excludeElectricBill === YesNoEnum.Yes;
     this._newTermDetails.electricBillAmount =
       this._termDetailsForm.electricBillAmount;
     this._newTermDetails.excludeWaterBill =
-      this._termDetailsForm.excludeWaterBill;
+      this._termDetailsForm.excludeWaterBill === YesNoEnum.Yes;
     this._newTermDetails.waterBillAmount =
       this._termDetailsForm.waterBillAmount;
     this._newTermDetails.penaltyValue = this._termDetailsForm.penaltyValue;
@@ -404,11 +405,12 @@ export class TermsDetailsFormComponent
     this._newTermDetails.generateAccountStatementDaysBeforeValue =
       this._termDetailsForm.generateAccountStatementDaysBeforeValue;
     this._newTermDetails.autoSendNewAccountStatement =
-      this._termDetailsForm.autoSendNewAccountStatement;
+      this._termDetailsForm.autoSendNewAccountStatement === YesNoEnum.Yes;
     this._newTermDetails.miscellaneousDueDate =
       this._termDetailsForm.miscellaneousDueDate;
     this._newTermDetails.includeMiscellaneousCheckAndCalculateForPenalty =
-      this._termDetailsForm.includeMiscellaneousCheckAndCalculateForPenalty;
+      this._termDetailsForm.includeMiscellaneousCheckAndCalculateForPenalty ===
+      YesNoEnum.Yes;
   }
 
   get durationOptions(): Array<{ key: DurationEnum; label: string }> {
@@ -432,6 +434,10 @@ export class TermsDetailsFormComponent
     items: SpaceTypeOption[];
   } {
     return this._spaceTypeValueProvider.spaceTypeOptions;
+  }
+
+  get yesNoOptions(): { key: YesNoEnum; label: string }[] {
+    return this._yesNoValueProvider.yesNoOptions;
   }
 
   get termDetailsForm(): TermDetailsFormSource {

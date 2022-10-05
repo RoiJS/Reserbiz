@@ -1,27 +1,27 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/internal/operators/map';
+import { Observable, BehaviorSubject } from "rxjs";
+import { map } from "rxjs/internal/operators/map";
 
-import { BaseService } from './base.service';
+import { BaseService } from "./base.service";
 
-import { Contract } from '../_models/contract.model';
-import { ContractPaginationList } from '../_models/pagination_list/contract-pagination-list.model';
-import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
-import { Term } from '../_models/term.model';
-import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
+import { Contract } from "~/app/_models/contract.model";
+import { ContractPaginationList } from "~/app/_models/pagination_list/contract-pagination-list.model";
+import { EntityPaginationList } from "~/app/_models/pagination_list/entity-pagination-list.model";
+import { Term } from "~/app/_models/term.model";
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
 
-import { ContractMapper } from '../_helpers/mappers/contract-mapper.helper';
+import { ContractMapper } from "~/app/_helpers/mappers/contract-mapper.helper";
 
-import { IBaseService } from '../_interfaces/services/ibase-service.interface';
-import { IContractFilter } from '../_interfaces/filters/icontract-filter.interface';
-import { IDtoProcess } from '../_interfaces/idto-process.interface';
+import { IBaseService } from "~/app/_interfaces/services/ibase-service.interface";
+import { IContractFilter } from "~/app/_interfaces/filters/icontract-filter.interface";
+import { IDtoProcess } from "~/app/_interfaces/idto-process.interface";
 
-import { DurationEnum } from '../_enum/duration-unit.enum';
-import { ContractDto } from '../_dtos/contract-dto';
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { ContractDto } from "~/app/_dtos/contract-dto";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ContractService
   extends BaseService<Contract>
   implements IBaseService<Contract>

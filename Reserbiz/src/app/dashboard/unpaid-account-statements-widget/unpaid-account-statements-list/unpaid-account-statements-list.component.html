@@ -6,7 +6,12 @@
       #appListView
       [items]="items"
       selectionBehavior="Press"
-      (itemSelected)="selectItem($event.index, 'contracts/:contractId/account-statement/:accountStatementId')"
+      (itemSelected)="
+        selectItem(
+          $event.index,
+          'contracts/:contractId/account-statement/:accountStatementId'
+        )
+      "
     >
       <ng-template tkListItemTemplate let-accountStatement="item">
         <GridLayout
@@ -15,10 +20,10 @@
           columns="*, *, 20"
         >
           <StackLayout orientation="horizontal" row="0" col="0">
-            <label [text]="accountStatement.tenantName"></label>
+            <label [text]="accountStatement?.tenantName"></label>
           </StackLayout>
           <StackLayout orientation="horizontal" row="0" col="1">
-            <label [text]="accountStatement.dueDateFormatted"></label>
+            <label [text]="accountStatement?.dueDateFormatted"></label>
           </StackLayout>
           <StackLayout
             orientation="horizontal"

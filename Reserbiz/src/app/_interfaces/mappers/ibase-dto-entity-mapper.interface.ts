@@ -1,6 +1,6 @@
-import { IBaseDto } from '../ibase-dto.interface';
-import { IBaseFormSource } from '../ibase-form-source.interface';
-import { IEntity } from '../ientity.interface';
+import { IBaseDto } from "~/app/_interfaces/ibase-dto.interface";
+import { IBaseFormSource } from "~/app/_interfaces/ibase-form-source.interface";
+import { IEntity } from "~/app/_interfaces/ientity.interface";
 
 export interface IBaseDtoEntityMapper<
   TEntity extends IEntity,

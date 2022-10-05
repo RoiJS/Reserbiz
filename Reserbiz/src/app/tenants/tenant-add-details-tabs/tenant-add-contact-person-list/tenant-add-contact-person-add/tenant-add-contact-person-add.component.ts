@@ -1,27 +1,26 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
-import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { RouterExtensions } from "@nativescript/angular";
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
 
-import { DialogService } from '../../../../_services/dialog.service';
-import { AddContactPersonsService } from '../../../../_services/add-contact-persons.service';
+import { DialogService } from "~/app/_services/dialog.service";
+import { AddContactPersonsService } from "~/app/_services/add-contact-persons.service";
 
-import { GenderEnum } from '../../../../_enum/gender.enum';
-import { ButtonOptions } from '../../../../_enum/button-options.enum';
+import { GenderEnum } from "~/app/_enum/gender.enum";
 
-import { ContactPerson } from '../../../../_models/contact-person.model';
-import { ContactPersonDetailsFormSource } from '../../../../_models/form/contact-person-details-form.model';
+import { ContactPerson } from "~/app/_models/contact-person.model";
+import { ContactPersonDetailsFormSource } from "~/app/_models/form/contact-person-details-form.model";
 
-import { ContactPersonMapper } from '../../../../_helpers/mappers/contact-person-mapper.helper';
-import { GenderValueProvider } from '../../../../_helpers/value_providers/gender-value-provider.helper';
+import { ContactPersonMapper } from "~/app/_helpers/mappers/contact-person-mapper.helper";
+import { GenderValueProvider } from "~/app/_helpers/value_providers/gender-value-provider.helper";
 
-import { IGenderValueProvider } from '../../../../_interfaces/value_providers/igender-value-provider.interface';
+import { IGenderValueProvider } from "~/app/_interfaces/value_providers/igender-value-provider.interface";
 
 @Component({
-  selector: 'ns-tenant-add-contact-person-add',
-  templateUrl: './tenant-add-contact-person-add.component.html',
-  styleUrls: ['./tenant-add-contact-person-add.component.scss'],
+  selector: "ns-tenant-add-contact-person-add",
+  templateUrl: "./tenant-add-contact-person-add.component.html",
+  styleUrls: ["./tenant-add-contact-person-add.component.scss"],
 })
 export class TenantAddContactPersonAddComponent
   implements IGenderValueProvider, OnInit
@@ -53,14 +52,14 @@ export class TenantAddContactPersonAddComponent
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+            "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
+            "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             setTimeout(() => {
@@ -80,17 +79,18 @@ export class TenantAddContactPersonAddComponent
 
               this.addContactPersonsService.addNewEntity(newContactPerson);
 
-              this.dialogService.alert(
-                this.translateService.instant(
-                  'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
-                ),
-                this.translateService.instant(
-                  'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
-                ),
-                () => {
+              this.dialogService
+                .alert(
+                  this.translateService.instant(
+                    "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
+                  ),
+                  this.translateService.instant(
+                    "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE"
+                  )
+                )
+                .then(() => {
                   this.router.back();
-                }
-              );
+                });
             }, 1000);
           }
         });

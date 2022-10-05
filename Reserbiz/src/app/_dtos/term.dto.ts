@@ -1,7 +1,8 @@
-import { IBaseDto } from '../_interfaces/ibase-dto.interface';
-import { DurationEnum } from '../_enum/duration-unit.enum';
-import { ValueTypeEnum } from '../_enum/value-type.enum';
-import { MiscellaneousDueDateEnum } from '../_enum/miscellaneous-due-date.enum';
+import { IBaseDto } from "~/app/_interfaces/ibase-dto.interface";
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { ValueTypeEnum } from "~/app/_enum/value-type.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 export class TermDto implements IBaseDto {
   constructor(
@@ -13,9 +14,9 @@ export class TermDto implements IBaseDto {
     public durationUnit: DurationEnum,
     public advancedPaymentDurationValue: number,
     public depositPaymentDurationValue: number,
-    public excludeElectricBill: boolean,
+    public excludeElectricBill: YesNoEnum,
     public electricBillAmount: number,
-    public excludeWaterBill: boolean,
+    public excludeWaterBill: YesNoEnum,
     public waterBillAmount: number,
     public penaltyValue: number,
     public penaltyValueType: ValueTypeEnum,
@@ -23,8 +24,8 @@ export class TermDto implements IBaseDto {
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
     public generateAccountStatementDaysBeforeValue: DurationEnum,
-    public autoSendNewAccountStatement: boolean,
+    public autoSendNewAccountStatement: YesNoEnum,
     public miscellaneousDueDate: MiscellaneousDueDateEnum,
-    public includeMiscellaneousCheckAndCalculateForPenalty: boolean,
+    public includeMiscellaneousCheckAndCalculateForPenalty: YesNoEnum
   ) {}
 }

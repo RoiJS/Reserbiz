@@ -12,33 +12,30 @@
 </ns-action-bar>
 
 <ns-loader-layout [busy]="isBusy">
-  <Tabs
+  <TabView
     width="100%"
     height="100%"
     selectedIndex="0"
     (selectedIndexChanged)="tabsIndexChanged($event)"
   >
-    <TabStrip>
-      <TabStripItem>
-        <label
-          [text]="'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.DETAILS' | translate"
-        ></label>
-      </TabStripItem>
-      <TabStripItem>
-        <label
-          [text]="'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.ADD_MISCELLANEOUS' | translate"
-        ></label>
-      </TabStripItem>
-    </TabStrip>
-
-    <TabContentItem>
+    <StackLayout
+      *tabItem="{
+        title:
+          'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.DETAILS' | translate | translate
+      }"
+    >
       <ns-terms-details-form
         (onTermDetailsSaved)="onTermsDetailsSaved($event)"
         (onCancelTermDetailsSaved)="onCancelTermDetailsSaved($event)"
       ></ns-terms-details-form>
-    </TabContentItem>
-    <TabContentItem>
+    </StackLayout>
+    <StackLayout
+      *tabItem="{
+        title:
+          'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.ADD_MISCELLANEOUS' | translate
+      }"
+    >
       <ns-terms-add-miscellaneous-list></ns-terms-add-miscellaneous-list>
-    </TabContentItem>
-  </Tabs>
+    </StackLayout>
+  </TabView>
 </ns-loader-layout>

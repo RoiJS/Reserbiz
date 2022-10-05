@@ -1,7 +1,8 @@
-import { BaseForm } from './base-form.model';
-import { DurationEnum } from '../../_enum/duration-unit.enum';
-import { ValueTypeEnum } from '../../_enum/value-type.enum';
-import { MiscellaneousDueDateEnum } from '../../_enum/miscellaneous-due-date.enum';
+import { BaseForm } from "./base-form.model";
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { ValueTypeEnum } from "~/app/_enum/value-type.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
   constructor(
@@ -13,9 +14,9 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
     public durationUnit: DurationEnum,
     public advancedPaymentDurationValue: number,
     public depositPaymentDurationValue: number,
-    public excludeElectricBill: boolean,
+    public excludeElectricBill: YesNoEnum,
     public electricBillAmount: number,
-    public excludeWaterBill: boolean,
+    public excludeWaterBill: YesNoEnum,
     public waterBillAmount: number,
     public penaltyValue: number,
     public penaltyValueType: ValueTypeEnum,
@@ -23,9 +24,9 @@ export class TermDetailsFormSource extends BaseForm<TermDetailsFormSource> {
     public penaltyEffectiveAfterDurationValue: number,
     public penaltyEffectiveAfterDurationUnit: DurationEnum,
     public generateAccountStatementDaysBeforeValue: number,
-    public autoSendNewAccountStatement: boolean,
+    public autoSendNewAccountStatement: YesNoEnum,
     public miscellaneousDueDate: MiscellaneousDueDateEnum,
-    public includeMiscellaneousCheckAndCalculateForPenalty: boolean
+    public includeMiscellaneousCheckAndCalculateForPenalty: YesNoEnum
   ) {
     super();
   }

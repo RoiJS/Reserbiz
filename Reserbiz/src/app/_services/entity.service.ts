@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
-import { IEntity } from '../_interfaces/ientity.interface';
-import { IEntityService } from '../_interfaces/services/ientity-service.interface';
+import { IEntity } from "~/app/_interfaces/ientity.interface";
+import { IEntityService } from "~/app/_interfaces/services/ientity-service.interface";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class EntityService<TEntity extends IEntity>
-  implements IEntityService<TEntity> {
+  implements IEntityService<TEntity>
+{
   private _entityDetails = new BehaviorSubject<TEntity>(null);
-  private _entitySavedDetails = new BehaviorSubject<void>(null);
+  private _entitySavedDetails = new BehaviorSubject<boolean>(false);
   private _cancelEntitySavedDetails = new BehaviorSubject<void>(null);
 
   constructor(private tentity: new () => TEntity) {
@@ -27,7 +28,7 @@ export class EntityService<TEntity extends IEntity>
     return this._entityDetails;
   }
 
-  get entitySavedDetails(): BehaviorSubject<void> {
+  get entitySavedDetails(): BehaviorSubject<boolean> {
     return this._entitySavedDetails;
   }
 

@@ -1,18 +1,19 @@
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
 
-import { TermMiscellaneousMapper } from './term-miscellaneous-mapper.helper';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
+import { TermMiscellaneousMapper } from "./term-miscellaneous-mapper.helper";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
 
-import { Term } from '../../_models/term.model';
-import { TermMiscellaneous } from '../../_models/term-miscellaneous.model';
-import { TermDetailsFormSource } from '../../_models/form/term-details-form.model';
-import { SpaceType } from '../../_models/space-type.model';
+import { Term } from "~/app/_models/term.model";
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
+import { TermDetailsFormSource } from "~/app/_models/form/term-details-form.model";
+import { SpaceType } from "~/app/_models/space-type.model";
 
-import { TermDto } from '../../_dtos/term.dto';
+import { TermDto } from "~/app/_dtos/term.dto";
 
-import { DurationEnum } from '../../_enum/duration-unit.enum';
-import { ValueTypeEnum } from '../../_enum/value-type.enum';
-import { MiscellaneousDueDateEnum } from '../../_enum/miscellaneous-due-date.enum';
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { ValueTypeEnum } from "~/app/_enum/value-type.enum";
+import { MiscellaneousDueDateEnum } from "~/app/_enum/miscellaneous-due-date.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 export class TermMapper
   implements
@@ -80,17 +81,17 @@ export class TermMapper
 
   initFormSource() {
     const termFormSource = new TermDetailsFormSource(
-      '',
-      '',
+      "",
+      "",
       0,
       0.0,
       0,
       DurationEnum.Month,
       1,
       2,
-      true,
+      YesNoEnum.Yes,
       0.0,
-      true,
+      YesNoEnum.Yes,
       0.0,
       0.0,
       ValueTypeEnum.Fixed,
@@ -98,9 +99,9 @@ export class TermMapper
       0,
       DurationEnum.Day,
       5,
-      false,
+      YesNoEnum.No,
       MiscellaneousDueDateEnum.SameWithRentalDueDate,
-      false
+      YesNoEnum.No
     );
 
     return termFormSource;
@@ -143,9 +144,9 @@ export class TermMapper
       term.durationUnit,
       term.advancedPaymentDurationValue,
       term.depositPaymentDurationValue,
-      term.excludeElectricBill,
+      term.excludeElectricBill ? YesNoEnum.Yes : YesNoEnum.No,
       term.electricBillAmount,
-      term.excludeWaterBill,
+      term.excludeWaterBill ? YesNoEnum.Yes : YesNoEnum.No,
       term.waterBillAmount,
       term.penaltyValue,
       term.penaltyValueType,
@@ -153,9 +154,11 @@ export class TermMapper
       term.penaltyEffectiveAfterDurationValue,
       term.penaltyEffectiveAfterDurationUnit,
       term.generateAccountStatementDaysBeforeValue,
-      term.autoSendNewAccountStatement,
+      term.autoSendNewAccountStatement ? YesNoEnum.Yes : YesNoEnum.No,
       term.miscellaneousDueDate,
       term.includeMiscellaneousCheckAndCalculateForPenalty
+        ? YesNoEnum.Yes
+        : YesNoEnum.No
     );
 
     return termFormSource;
@@ -171,9 +174,9 @@ export class TermMapper
     term.durationUnit = formSource.durationUnit;
     term.advancedPaymentDurationValue = formSource.advancedPaymentDurationValue;
     term.depositPaymentDurationValue = formSource.depositPaymentDurationValue;
-    term.excludeElectricBill = formSource.excludeElectricBill;
+    term.excludeElectricBill = formSource.excludeElectricBill === YesNoEnum.Yes;
     term.electricBillAmount = formSource.electricBillAmount;
-    term.excludeWaterBill = formSource.excludeWaterBill;
+    term.excludeWaterBill = formSource.excludeWaterBill === YesNoEnum.Yes;
     term.waterBillAmount = formSource.waterBillAmount;
     term.penaltyValue = formSource.penaltyValue;
     term.penaltyValueType = formSource.penaltyValueType;
@@ -185,10 +188,11 @@ export class TermMapper
     term.generateAccountStatementDaysBeforeValue =
       formSource.generateAccountStatementDaysBeforeValue;
     term.autoSendNewAccountStatement =
-      formSource.autoSendNewAccountStatement;
+      formSource.autoSendNewAccountStatement === YesNoEnum.Yes;
     term.miscellaneousDueDate = formSource.miscellaneousDueDate;
     term.includeMiscellaneousCheckAndCalculateForPenalty =
-      formSource.includeMiscellaneousCheckAndCalculateForPenalty;
+      formSource.includeMiscellaneousCheckAndCalculateForPenalty ===
+      YesNoEnum.Yes;
 
     return term;
   }

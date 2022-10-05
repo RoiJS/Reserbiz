@@ -1,23 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
 
-import { RouterExtensions } from '@nativescript/angular';
+import { RouterExtensions } from "@nativescript/angular";
 
-import { Tenant } from '../../_models/tenant.model';
-import { ContactPerson } from '../../_models/contact-person.model';
-import { ButtonOptions } from '../../_enum/button-options.enum';
-import { AddContactPersonsService } from '../../_services/add-contact-persons.service';
-import { DialogService } from '../../_services/dialog.service';
-import { AddTenantService } from '../../_services/add-tenant.service';
-import { TenantService } from '../../_services/tenant.service';
+import { Tenant } from "~/app/_models/tenant.model";
+import { ContactPerson } from "~/app/_models/contact-person.model";
+import { AddContactPersonsService } from "~/app/_services/add-contact-persons.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { AddTenantService } from "~/app/_services/add-tenant.service";
+import { TenantService } from "~/app/_services/tenant.service";
 
 @Component({
-  selector: 'ns-tenant-add-details',
-  templateUrl: './tenant-add-details-tabs.component.html',
-  styleUrls: ['./tenant-add-details-tabs.component.scss'],
+  selector: "ns-tenant-add-details",
+  templateUrl: "./tenant-add-details-tabs.component.html",
+  styleUrls: ["./tenant-add-details-tabs.component.scss"],
 })
 export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   private _actionBarTitle: string[];
@@ -67,12 +66,12 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
     this._actionBarTitle = [];
 
     this._actionBarTitle.push(
-      this.translateService.instant('TENANTS_DETAILS_PAGE.ACTION_BAR_TITLE')
+      this.translateService.instant("TENANTS_DETAILS_PAGE.ACTION_BAR_TITLE")
     );
 
     this._actionBarTitle.push(
       this.translateService.instant(
-        'TENANT_CONTACT_PERSON_LIST_PAGE.ACTION_BAR_TITLE'
+        "TENANT_CONTACT_PERSON_LIST_PAGE.ACTION_BAR_TITLE"
       )
     );
   }
@@ -82,7 +81,7 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
   }
 
   saveInformation() {
-    this.addTenantService.entitySavedDetails.next();
+    this.addTenantService.entitySavedDetails.next(true);
   }
 
   onTenantDetailsSaved(e: { newTenant: Tenant; isFormValid: boolean }) {
@@ -90,10 +89,10 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
     if (!e.isFormValid) {
       this.dialogService.alert(
         this.translateService.instant(
-          'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+          "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.INVALID_FORM'
+          "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.INVALID_FORM"
         )
       );
       return;
@@ -105,14 +104,14 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+          "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
+          "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((result: ButtonOptions) => {
-        if (result === ButtonOptions.YES) {
+      .then((result: boolean) => {
+        if (result) {
           this._isBusy = true;
           this.tenantService
             .saveNewTenant(newTenant, newContactPersons)
@@ -121,35 +120,36 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
                 this._isBusy = false;
               })
             )
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.addTenantService.resetEntityDetails();
                 this.addContactPersonsService.resetEntityList();
 
-                this.dialogService.alert(
-                  this.translateService.instant(
-                    'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
-                  ),
-                  this.translateService.instant(
-                    'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
-                  ),
-                  () => {
+                this.dialogService
+                  .alert(
+                    this.translateService.instant(
+                      "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
+                    ),
+                    this.translateService.instant(
+                      "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE"
+                    )
+                  )
+                  .then(() => {
                     this.tenantService.loadTenantListFlag.next();
                     this.router.back();
-                  }
-                );
+                  });
               },
-              () => {
+              error: () => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+                    "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE'
+                    "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -163,14 +163,14 @@ export class TenantAddDetailsTabsComponent implements OnInit, OnDestroy {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.TITLE'
+            "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.CONFIRM_MESSAGE'
+            "TENANTS_ADD_DETAILS_PAGE.FORM_CONTROL.LEAVE_PAGE_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((result: ButtonOptions) => {
-          if (result === ButtonOptions.YES) {
+        .then((result: boolean) => {
+          if (result) {
             this.addTenantService.resetEntityDetails();
             this.addContactPersonsService.resetEntityList();
             this.router.back();

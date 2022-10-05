@@ -1,25 +1,24 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
 
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Subscription } from "rxjs";
+import { finalize } from "rxjs/operators";
 
-import { PageRoute, RouterExtensions } from '@nativescript/angular';
+import { PageRoute, RouterExtensions } from "@nativescript/angular";
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
-import { AccountStatementService } from '../../_services/account-statement.service';
-import { ContractService } from '../../_services/contract.service';
-import { DialogService } from '../../_services/dialog.service';
-import { SpaceService } from '../../_services/space.service';
+import { AccountStatementService } from "~/app/_services/account-statement.service";
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { SpaceService } from "~/app/_services/space.service";
 
-import { AccountStatement } from '../../_models/account-statement.model';
-import { Contract } from '../../_models/contract.model';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { AccountStatement } from "~/app/_models/account-statement.model";
+import { Contract } from "~/app/_models/contract.model";
 
 @Component({
-  selector: 'ns-contract-information',
-  templateUrl: './contract-information.component.html',
-  styleUrls: ['./contract-information.component.scss'],
+  selector: "ns-contract-information",
+  templateUrl: "./contract-information.component.html",
+  styleUrls: ["./contract-information.component.scss"],
 })
 export class ContractInformationComponent implements OnInit, OnDestroy {
   private _currentContract: Contract;
@@ -43,13 +42,12 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageRoute.activatedRoute.subscribe((activatedRoute) => {
       activatedRoute.paramMap.subscribe((paramMap) => {
-        this._currentContractId = +paramMap.get('contractId');
+        this._currentContractId = +paramMap.get("contractId");
 
-        this._updateContractListFlag = this.contractService.loadContractListFlag.subscribe(
-          () => {
+        this._updateContractListFlag =
+          this.contractService.loadContractListFlag.subscribe(() => {
             this.getContractInformation();
-          }
-        );
+          });
       });
     });
   }
@@ -59,17 +57,16 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   }
 
   getContractInformation() {
-
     this.ngZone.run(() => {
       (async () => {
-        this._firstAccountStatement = await this.accountStatementService.getFirstAccountStatement(
-          this._currentContractId
-        );
+        this._firstAccountStatement =
+          await this.accountStatementService.getFirstAccountStatement(
+            this._currentContractId
+          );
 
         this._currentContract = await this.contractService.getContract(
           this._currentContractId
         );
-
       })();
     });
   }
@@ -78,44 +75,44 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
     this.dialogService
       .confirm(
         this.translateService.instant(
-          'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE'
+          "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
+          "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE"
         )
       )
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.contractService
             .setEntityStatus(this._currentContract.id, false)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE'
+                    "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
+                    "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE"
                   )
                 );
 
                 this.contractService.reloadListFlag();
                 this.router.back();
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(
                   this.translateService.instant(
-                    'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE'
+                    "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.TITLE"
                   ),
                   this.translateService.instant(
-                    'CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE'
+                    "CONTRACT_LIST_PAGE.ARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE"
                   )
                 );
-              }
-            );
+              },
+            });
         }
       });
   }
@@ -130,10 +127,10 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
       if (!space.isNotOccupied) {
         this.dialogService.alert(
           this.translateService.instant(
-            'CONTRACT_DETAILS_PAGE.ARCHIVED_FAILED_DIALOG.TITLE'
+            "CONTRACT_DETAILS_PAGE.ARCHIVED_FAILED_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'CONTRACT_DETAILS_PAGE.ARCHIVED_FAILED_DIALOG.ERROR_MESSAGE'
+            "CONTRACT_DETAILS_PAGE.ARCHIVED_FAILED_DIALOG.ERROR_MESSAGE"
           )
         );
         return;
@@ -142,44 +139,44 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
       this.dialogService
         .confirm(
           this.translateService.instant(
-            'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE'
+            "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE"
           ),
           this.translateService.instant(
-            'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE'
+            "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.CONFIRM_MESSAGE"
           )
         )
-        .subscribe((res: ButtonOptions) => {
-          if (res === ButtonOptions.YES) {
+        .then((res: boolean) => {
+          if (res) {
             this._isBusy = true;
 
             this.contractService
               .setEntityStatus(this._currentContract.id, true)
               .pipe(finalize(() => (this._isBusy = false)))
-              .subscribe(
-                () => {
+              .subscribe({
+                next: () => {
                   this.dialogService.alert(
                     this.translateService.instant(
-                      'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE'
+                      "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE"
                     ),
                     this.translateService.instant(
-                      'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE'
+                      "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.SUCCESS_MESSAGE"
                     )
                   );
 
                   this.contractService.reloadListFlag();
                   this.router.back();
                 },
-                (error: Error) => {
+                error: (error: Error) => {
                   this.dialogService.alert(
                     this.translateService.instant(
-                      'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE'
+                      "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.TITLE"
                     ),
                     this.translateService.instant(
-                      'CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE'
+                      "CONTRACT_DETAILS_PAGE.DEARCHIVE_CONTRACT_DIALOG.ERROR_MESSAGE"
                     )
                   );
-                }
-              );
+                },
+              });
           }
         });
     })();
@@ -188,63 +185,63 @@ export class ContractInformationComponent implements OnInit, OnDestroy {
   navigateToEditContract() {
     this.router.navigate([`/contracts/${this._currentContractId}/edit`], {
       transition: {
-        name: 'slideLeft',
+        name: "slideLeft",
       },
     });
   }
 
   encashDepositAmount(status: boolean) {
-    let title = '';
-    let confirmationMessage = '';
-    let successMessage = '';
-    let errorMessage = '';
+    let title = "";
+    let confirmationMessage = "";
+    let successMessage = "";
+    let errorMessage = "";
 
     if (status) {
       title = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.TITLE'
+        "CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.TITLE"
       );
       confirmationMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE"
       );
       successMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE"
       );
       errorMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.ENCASH_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE"
       );
     } else {
       title = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.TITLE'
+        "CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.TITLE"
       );
       confirmationMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.CONFIRM_MESSAGE"
       );
       successMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.SUCCESS_MESSAGE"
       );
       errorMessage = this.translateService.instant(
-        'CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE'
+        "CONTRACT_DETAILS_PAGE.RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG.ERROR_MESSAGE"
       );
     }
 
     this.dialogService
       .confirm(title, confirmationMessage)
-      .subscribe((res: ButtonOptions) => {
-        if (res === ButtonOptions.YES) {
+      .then((res: boolean) => {
+        if (res) {
           this._isBusy = true;
 
           this.contractService
             .setEncashDepositAmountStatus(this._currentContract.id, status)
             .pipe(finalize(() => (this._isBusy = false)))
-            .subscribe(
-              () => {
+            .subscribe({
+              next: () => {
                 this.dialogService.alert(title, successMessage);
                 this.accountStatementService.reloadListFlag(true);
               },
-              (error: Error) => {
+              error: (error: Error) => {
                 this.dialogService.alert(title, errorMessage);
-              }
-            );
+              },
+            });
         }
       });
   }

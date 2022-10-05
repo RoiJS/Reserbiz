@@ -1,6 +1,6 @@
-import { IEntityFilter } from './ientity-filter.interface';
+import { IEntityFilter } from "./ientity-filter.interface";
 
-import { ArchivedContractStatusEnum } from '../../_enum/archived-contract-options.enum';
+import { ArchivedContractStatusEnum } from "~/app/_enum/archived-contract-options.enum";
 
 export interface IContractFilter extends IEntityFilter {
   code: string;

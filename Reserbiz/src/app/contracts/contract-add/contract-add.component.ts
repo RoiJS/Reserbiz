@@ -1,45 +1,46 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
-import { RouterExtensions } from '@nativescript/angular';
-import { ExtendedNavigationExtras } from '@nativescript/angular/lib/legacy/router/router-extensions';
+import { Component, OnInit, NgZone, OnDestroy } from "@angular/core";
+import { RouterExtensions } from "@nativescript/angular";
+import { ExtendedNavigationExtras } from "@nativescript/angular/lib/legacy/router/router-extensions";
 
-import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { TranslateService } from "@ngx-translate/core";
+import { Subscription } from "rxjs";
 
-import { DataFormEventData } from 'nativescript-ui-dataform';
-import { BaseFormComponent } from '../../shared/component/base-form.component';
-import { ContractDetailsFormSource } from '../../_models/form/contract-details-form.model';
-import { Contract } from '../../_models/contract.model';
+import { DataFormEventData } from "nativescript-ui-dataform";
+import { BaseFormComponent } from "~/app/shared/component/base-form.component";
+import { ContractDetailsFormSource } from "~/app/_models/form/contract-details-form.model";
+import { Contract } from "~/app/_models/contract.model";
 
-import { ContractDto } from '../../_dtos/contract-dto';
+import { ContractDto } from "~/app/_dtos/contract-dto";
 
-import { LocalManageTermService } from '../../_services/local-manage-term.service';
-import { LocalManageTermMiscellaneousService } from '../../_services/local-manage-term-miscellaneous.service';
-import { ContractService } from '../../_services/contract.service';
-import { DialogService } from '../../_services/dialog.service';
-import { SpaceTypeService } from '../../_services/space-type.service';
-import { TermService } from '../../_services/term.service';
-import { TermMiscellaneousService } from '../../_services/term-miscellaneous.service';
-import { TenantService } from '../../_services/tenant.service';
-import { SpaceService } from '../../_services/space.service';
+import { LocalManageTermService } from "~/app/_services/local-manage-term.service";
+import { LocalManageTermMiscellaneousService } from "~/app/_services/local-manage-term-miscellaneous.service";
+import { ContractService } from "~/app/_services/contract.service";
+import { DialogService } from "~/app/_services/dialog.service";
+import { SpaceTypeService } from "~/app/_services/space-type.service";
+import { TermService } from "~/app/_services/term.service";
+import { TermMiscellaneousService } from "~/app/_services/term-miscellaneous.service";
+import { TenantService } from "~/app/_services/tenant.service";
+import { SpaceService } from "~/app/_services/space.service";
 
-import { IBaseFormComponent } from '../../_interfaces/components/ibase-form.component.interface';
-import { IContractFormValueProvider } from '../../_interfaces/value_providers/icontract-form-value-provider.interface';
+import { IBaseFormComponent } from "~/app/_interfaces/components/ibase-form.component.interface";
+import { IContractFormValueProvider } from "~/app/_interfaces/value_providers/icontract-form-value-provider.interface";
 
-import { TermOption } from '../../_models/options/term-option.model';
-import { TenantOption } from '../../_models/options/tenant-option.model';
-import { SpaceOption } from '../../_models/options/space-option.model';
-import { DurationEnum } from '../../_enum/duration-unit.enum';
-import { ButtonOptions } from '../../_enum/button-options.enum';
+import { TermOption } from "~/app/_models/options/term-option.model";
+import { TenantOption } from "~/app/_models/options/tenant-option.model";
+import { SpaceOption } from "~/app/_models/options/space-option.model";
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
-import { ContractMapper } from '../../_helpers/mappers/contract-mapper.helper';
-import { DurationValueProvider } from '../../_helpers/value_providers/duration-value-provider.helper';
-import { TermValueProvider } from '../../_helpers/value_providers/term-value-provider.helper';
-import { TenantValueProvider } from '../../_helpers/value_providers/tenant-value-provider.helper';
-import { SpaceValueProvider } from '../../_helpers/value_providers/space-value-provider.helper';
+import { ContractMapper } from "~/app/_helpers/mappers/contract-mapper.helper";
+import { DurationValueProvider } from "~/app/_helpers/value_providers/duration-value-provider.helper";
+import { TermValueProvider } from "~/app/_helpers/value_providers/term-value-provider.helper";
+import { TenantValueProvider } from "~/app/_helpers/value_providers/tenant-value-provider.helper";
+import { SpaceValueProvider } from "~/app/_helpers/value_providers/space-value-provider.helper";
+import { YesNoValueProvider } from "~/app/_helpers/value_providers/yesno-value-provider.helper";
 
 @Component({
-  selector: 'ns-contract-add',
-  templateUrl: './contract-add.component.html',
+  selector: "ns-contract-add",
+  templateUrl: "./contract-add.component.html",
 })
 export class ContractAddComponent
   extends BaseFormComponent<Contract, ContractDetailsFormSource, ContractDto>
@@ -49,6 +50,7 @@ export class ContractAddComponent
   private _termValueProvider: TermValueProvider;
   private _tenantValueProvider: TenantValueProvider;
   private _spaceValueProvider: SpaceValueProvider;
+  private _yesNoValueProvider: YesNoValueProvider;
 
   private _spaceOptions;
   private currentSpaceTypeSub: Subscription;
@@ -95,6 +97,8 @@ export class ContractAddComponent
       this.spaceService
     );
 
+    this._yesNoValueProvider = new YesNoValueProvider(this.translateService);
+
     // Subscribes to the latest current space type.
     this.currentSpaceTypeSub = this.spaceTypeService.currentSpaceType.subscribe(
       (spaceType: { id: number; name: string }) => {
@@ -118,16 +122,16 @@ export class ContractAddComponent
   initDialogTexts() {
     this._saveNewDialogTexts = {
       title: this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.TITLE"
       ),
       confirmMessage: this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.CONFIRM_MESSAGE"
       ),
       successMessage: this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.SUCCESS_MESSAGE"
       ),
       errorMessage: this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.ADD_DIALOG.ERROR_MESSAGE"
       ),
     };
   }
@@ -136,7 +140,7 @@ export class ContractAddComponent
     /**
      * If Open contract, reset value for duration unit and duration value
      */
-    if (args.propertyName === 'isOpenContract') {
+    if (args.propertyName === "isOpenContract") {
       if (
         this._entityFormSource.isOpenContract &&
         (this._entityFormSource.durationUnit > DurationEnum.None ||
@@ -149,7 +153,7 @@ export class ContractAddComponent
       }
     }
 
-    if (args.propertyName === 'durationUnit') {
+    if (args.propertyName === "durationUnit") {
       /**
        * Whenever the duration unit is set to "None",
        * we will manually set the duration value to 0
@@ -161,7 +165,7 @@ export class ContractAddComponent
       }
     }
 
-    if (args.propertyName === 'termId') {
+    if (args.propertyName === "termId") {
       (async () => {
         if (this._entityFormSource.termId !== 0) {
           this.localManageTermService.resetEntityDetails();
@@ -188,7 +192,7 @@ export class ContractAddComponent
         } else {
           this.spaceTypeService.currentSpaceType.next({
             id: 0,
-            name: '',
+            name: "",
           });
         }
       })();
@@ -196,8 +200,8 @@ export class ContractAddComponent
   }
 
   onEditorUpdate(args: DataFormEventData) {
-    if (args.propertyName === 'effectiveDate') {
-      if (typeof args.editor.setDateFormat !== 'undefined') {
+    if (args.propertyName === "effectiveDate") {
+      if (typeof args.editor.setDateFormat !== "undefined") {
         this.changeDateFormatting(args.editor);
       }
     }
@@ -221,24 +225,24 @@ export class ContractAddComponent
         true;
 
     const dataForm = this.formSource.dataForm;
-    const codeProperty = dataForm.getPropertyByName('code');
-    const tenandIdProperty = dataForm.getPropertyByName('tenantId');
-    const termIdProperty = dataForm.getPropertyByName('termId');
-    const spaceIdProperty = dataForm.getPropertyByName('spaceId');
-    const spaceTypeNameProperty = dataForm.getPropertyByName('spaceTypeName');
-    const durationUnitProperty = dataForm.getPropertyByName('durationUnit');
-    const durationValueProperty = dataForm.getPropertyByName('durationValue');
+    const codeProperty = dataForm.getPropertyByName("code");
+    const tenandIdProperty = dataForm.getPropertyByName("tenantId");
+    const termIdProperty = dataForm.getPropertyByName("termId");
+    const spaceIdProperty = dataForm.getPropertyByName("spaceId");
+    const spaceTypeNameProperty = dataForm.getPropertyByName("spaceTypeName");
+    const durationUnitProperty = dataForm.getPropertyByName("durationUnit");
+    const durationValueProperty = dataForm.getPropertyByName("durationValue");
 
     // Check and validate code field
-    if (this._entityFormSource.code.trim() === '') {
+    if (this._entityFormSource.code.trim() === "") {
       codeProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isCodeValid = false;
     } else {
       if (this._entityFormSource.code.length > 10) {
         codeProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.MAXLENGTH_ERROR_MESSAGE"
         );
         isCodeValid = false;
       } else {
@@ -251,7 +255,7 @@ export class ContractAddComponent
 
         if (checkCodeResult) {
           codeProperty.errorMessage = this.translateService.instant(
-            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE'
+            "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.ALREADY_EXIST_ERROR_MESSAGE"
           );
         }
         isCodeValid = !checkCodeResult;
@@ -261,7 +265,7 @@ export class ContractAddComponent
     // Check and validate tenant id field
     if (this._entityFormSource.tenantId === 0) {
       tenandIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.EMPTY_ERROR_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isTenantValid = false;
     } else {
@@ -271,7 +275,7 @@ export class ContractAddComponent
     // Check and validate term id field
     if (this._entityFormSource.termId === 0) {
       termIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.EMPTY_ERROR_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isTermValid = false;
     } else {
@@ -287,13 +291,13 @@ export class ContractAddComponent
 
       if (!hasSpaces) {
         spaceTypeNameProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_ASSIGNED_SPACES'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_ASSIGNED_SPACES"
         );
         isSpaceTypeNameValid = false;
       } else {
         if (!hasAvailableSpaces) {
           spaceTypeNameProperty.errorMessage = this.translateService.instant(
-            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_AVAILABLE_SPACES'
+            "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.NO_AVAILABLE_SPACES"
           );
           isSpaceTypeNameValid = false;
         } else {
@@ -305,7 +309,7 @@ export class ContractAddComponent
     // Check and validate space id field
     if (this._entityFormSource.spaceId === 0) {
       spaceIdProperty.errorMessage = this.translateService.instant(
-        'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.EMPTY_ERROR_MESSAGE'
+        "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.EMPTY_ERROR_MESSAGE"
       );
       isSpaceValid = false;
     } else {
@@ -315,7 +319,7 @@ export class ContractAddComponent
 
       if (!space.isNotOccupied && space.occupiedByContractId !== 0) {
         spaceIdProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.NOT_AVAILABLE_ERROR_MESSAGE"
         );
         isSpaceValid = false;
       } else {
@@ -326,7 +330,7 @@ export class ContractAddComponent
     if (!this._entityFormSource.isOpenContract) {
       if (this._entityFormSource.durationUnit === DurationEnum.None) {
         durationUnitProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.EMPTY_ERROR_MESSAGE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.EMPTY_ERROR_MESSAGE"
         );
         isDurationUnitValid = false;
       } else {
@@ -335,7 +339,7 @@ export class ContractAddComponent
 
       if (this._entityFormSource.durationValue === 0) {
         durationValueProperty.errorMessage = this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.EMPTY_ERROR_MESSAGE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.EMPTY_ERROR_MESSAGE"
         );
         isDurationValueValid = false;
       } else {
@@ -346,13 +350,13 @@ export class ContractAddComponent
       isDurationValueValid = true;
     }
 
-    dataForm.notifyValidated('code', isCodeValid);
-    dataForm.notifyValidated('tenantId', isTenantValid);
-    dataForm.notifyValidated('termId', isTermValid);
-    dataForm.notifyValidated('spaceTypeName', isSpaceTypeNameValid);
-    dataForm.notifyValidated('spaceId', isSpaceValid);
-    dataForm.notifyValidated('durationUnit', isDurationUnitValid);
-    dataForm.notifyValidated('durationValue', isDurationValueValid);
+    dataForm.notifyValidated("code", isCodeValid);
+    dataForm.notifyValidated("tenantId", isTenantValid);
+    dataForm.notifyValidated("termId", isTermValid);
+    dataForm.notifyValidated("spaceTypeName", isSpaceTypeNameValid);
+    dataForm.notifyValidated("spaceId", isSpaceValid);
+    dataForm.notifyValidated("durationUnit", isDurationUnitValid);
+    dataForm.notifyValidated("durationValue", isDurationValueValid);
 
     return Boolean(
       isCodeValid &&
@@ -375,8 +379,8 @@ export class ContractAddComponent
             this._saveNewDialogTexts.title,
             this._saveNewDialogTexts.confirmMessage
           )
-          .subscribe((res: ButtonOptions) => {
-            if (res === ButtonOptions.YES) {
+          .then((res: boolean) => {
+            if (res) {
               this._isBusy = true;
 
               (async () => {
@@ -399,14 +403,15 @@ export class ContractAddComponent
                     termMiscellaneousList
                   );
 
-                  this.dialogService.alert(
-                    this._saveNewDialogTexts.title,
-                    this._saveNewDialogTexts.successMessage,
-                    () => {
+                  this.dialogService
+                    .alert(
+                      this._saveNewDialogTexts.title,
+                      this._saveNewDialogTexts.successMessage
+                    )
+                    .then(() => {
                       this._entityService.reloadListFlag();
                       this.router.back();
-                    }
-                  );
+                    });
                 } catch {
                   this.dialogService.alert(
                     this._saveNewDialogTexts.title,
@@ -426,10 +431,10 @@ export class ContractAddComponent
     if (!this._entityFormSource.termId) {
       this.dialogService.alert(
         this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.NO_SELECTED_TERM_DIALOG.TITLE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.NO_SELECTED_TERM_DIALOG.TITLE"
         ),
         this.translateService.instant(
-          'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.NO_SELECTED_TERM_DIALOG.WARNING_MESSAGE'
+          "CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.NO_SELECTED_TERM_DIALOG.WARNING_MESSAGE"
         )
       );
 
@@ -439,7 +444,7 @@ export class ContractAddComponent
     setTimeout(() => {
       const routeConfig: ExtendedNavigationExtras = {
         transition: {
-          name: 'slideLeft',
+          name: "slideLeft",
         },
       };
 
@@ -461,5 +466,9 @@ export class ContractAddComponent
 
   get spaceOptions(): { key: string; label: string; items: SpaceOption[] } {
     return this._spaceOptions;
+  }
+
+  get yesNoOptions(): { key: YesNoEnum; label: string }[] {
+    return this._yesNoValueProvider.yesNoOptions;
   }
 }

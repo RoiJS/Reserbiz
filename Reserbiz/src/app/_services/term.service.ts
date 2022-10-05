@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { Term } from '../_models/term.model';
-import { BaseService } from './base.service';
-import { TermMapper } from '../_helpers/mappers/term-mapper.helper';
-import { IBaseService } from '../_interfaces/services/ibase-service.interface';
-import { IEntityFilter } from '../_interfaces/filters/ientity-filter.interface';
-import { IDtoProcess } from '../_interfaces/idto-process.interface';
-import { TermMiscellaneous } from '../_models/term-miscellaneous.model';
-import { TranslateService } from '@ngx-translate/core';
-import { TermOption } from '../_models/options/term-option.model';
+import { Term } from "~/app/_models/term.model";
+import { BaseService } from "./base.service";
+import { TermMapper } from "~/app/_helpers/mappers/term-mapper.helper";
+import { IBaseService } from "~/app/_interfaces/services/ibase-service.interface";
+import { IEntityFilter } from "~/app/_interfaces/filters/ientity-filter.interface";
+import { IDtoProcess } from "~/app/_interfaces/idto-process.interface";
+import { TermMiscellaneous } from "~/app/_models/term-miscellaneous.model";
+import { TranslateService } from "@ngx-translate/core";
+import { TermOption } from "~/app/_models/options/term-option.model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TermService
   extends BaseService<Term>
   implements IBaseService<Term>
@@ -26,7 +26,7 @@ export class TermService
   }
 
   getEntities(entityFilter: IEntityFilter): Observable<Term[]> {
-    const searchKeyword = entityFilter.searchKeyword || '';
+    const searchKeyword = entityFilter.searchKeyword || "";
     return this.getEntitiesFromServer(
       `${this._apiBaseUrl}/term?termKeywords=${searchKeyword}`
     );
@@ -53,7 +53,7 @@ export class TermService
             spaceTypeOption.isActive = st.isActive;
             spaceTypeOption.canBeSelected = st.canBeSelected;
             spaceTypeOption.inactiveText = translateService.instant(
-              'GENERAL_TEXTS.INACTIVE'
+              "GENERAL_TEXTS.INACTIVE"
             );
             return spaceTypeOption;
           });

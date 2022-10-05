@@ -1,25 +1,25 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
-@import './app-variables';
+@import "./app-variables";
 
 /*#region FONT ICON CLASSES*/
 .fa {
-  font-family: 'FontAwesome', 'Font-Awesome';
+  font-family: "FontAwesome", "Font-Awesome";
 }
 
 .fa-regular {
-  font-family: 'fa-regular-400', 'fa-regular-400';
+  font-family: "fa-regular-400", "fa-regular-400";
 }
 
 .fa-solid {
-  font-family: 'fa-solid-900', 'fa-solid-900';
+  font-family: "fa-solid-900", "fa-solid-900";
 }
 /*#endregion*/
 
 /*#region ACTION BAR CLASSES*/
 .nt-action-bar {
   .action-item-button {
-    font-size: 7;
+    font-size: 18;
   }
 
   .custom-action-item-button {
@@ -397,22 +397,22 @@ DataFormEditorCore {
   margin: 5;
 }
 
-PropertyEditor[type='Switch'] DataFormEditorCore,
-PropertyEditor[type='Stepper'] DataFormEditorCore {
+PropertyEditor[type="Switch"] DataFormEditorCore,
+PropertyEditor[type="Stepper"] DataFormEditorCore {
   border-width: 0;
 }
 
-PropertyEditor[type='Text'] DataFormEditorCore,
-PropertyEditor[type='Password'] DataFormEditorCore,
-PropertyEditor[type='Email'] DataFormEditorCore,
-PropertyEditor[type='Phone'] DataFormEditorCore,
-PropertyEditor[type='Decimal'] DataFormEditorCore,
-PropertyEditor[type='Picker'] DataFormEditorCore,
-PropertyEditor[type='Label'] DataFormEditorCore,
-PropertyEditor[type='DatePicker'] DataFormEditorCore,
-PropertyEditor[type='TimePicker'] DataFormEditorCore,
-PropertyEditor[type='MultilineText'] DataFormEditorCore,
-PropertyEditor[type='Number'] DataFormEditorCore {
+PropertyEditor[type="Text"] DataFormEditorCore,
+PropertyEditor[type="Password"] DataFormEditorCore,
+PropertyEditor[type="Email"] DataFormEditorCore,
+PropertyEditor[type="Phone"] DataFormEditorCore,
+PropertyEditor[type="Decimal"] DataFormEditorCore,
+PropertyEditor[type="Picker"] DataFormEditorCore,
+PropertyEditor[type="Label"] DataFormEditorCore,
+PropertyEditor[type="DatePicker"] DataFormEditorCore,
+PropertyEditor[type="TimePicker"] DataFormEditorCore,
+PropertyEditor[type="MultilineText"] DataFormEditorCore,
+PropertyEditor[type="Number"] DataFormEditorCore {
   border-width: 2;
   border-radius: 50%;
   padding: 8;

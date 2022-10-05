@@ -1,12 +1,14 @@
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
 
-import { Contract } from '../../_models/contract.model';
-import { ContractDetailsFormSource } from '../../_models/form/contract-details-form.model';
-import { ContractDurationBeforeContractEnds } from '../../_models/contract-duration-before-contract-ends.model';
+import { Contract } from "~/app/_models/contract.model";
+import { ContractDetailsFormSource } from "~/app/_models/form/contract-details-form.model";
+import { ContractDurationBeforeContractEnds } from "~/app/_models/contract-duration-before-contract-ends.model";
 
-import { ContractDto } from '../../_dtos/contract-dto';
-import { DurationEnum } from '../../_enum/duration-unit.enum';
+import { ContractDto } from "~/app/_dtos/contract-dto";
+
+import { DurationEnum } from "~/app/_enum/duration-unit.enum";
+import { YesNoEnum } from "~/app/_enum/yesno-unit.enum";
 
 export class ContractMapper
   implements
@@ -66,13 +68,13 @@ export class ContractMapper
 
   initFormSource(): ContractDetailsFormSource {
     const contractDetailsForm = new ContractDetailsFormSource(
-      '',
+      "",
       0,
       0,
-      '',
+      "",
       0,
       new Date(),
-      false,
+      YesNoEnum.No,
       0,
       DurationEnum.None
     );
@@ -89,7 +91,7 @@ export class ContractMapper
       contractFormSource.termId,
       contractFormSource.spaceId,
       contractFormSource.effectiveDate,
-      contractFormSource.isOpenContract,
+      contractFormSource.isOpenContract === YesNoEnum.Yes,
       contractFormSource.durationUnit,
       contractFormSource.durationValue
     );
@@ -105,7 +107,7 @@ export class ContractMapper
       contract.spaceTypeName,
       contract.spaceId,
       contract.effectiveDate,
-      contract.isOpenContract,
+      contract.isOpenContract ? YesNoEnum.Yes : YesNoEnum.No,
       contract.durationValue,
       contract.durationUnit
     );
@@ -123,7 +125,8 @@ export class ContractMapper
     contract.termId = contractFormSource.termId;
     contract.spaceId = contractFormSource.spaceId;
     contract.effectiveDate = contractFormSource.effectiveDate;
-    contract.isOpenContract = contractFormSource.isOpenContract;
+    contract.isOpenContract =
+      contractFormSource.isOpenContract === YesNoEnum.Yes;
     contract.durationUnit = contractFormSource.durationUnit;
     contract.durationValue = contractFormSource.durationValue;
     return contract;

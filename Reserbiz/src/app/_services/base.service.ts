@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
 
-import { IEntity } from '../_interfaces/ientity.interface';
-import { IBaseEntityMapper } from '../_interfaces/mappers/ibase-entity-mapper.interface';
-import { IBaseDto } from '../_interfaces/ibase-dto.interface';
-import { IEntityPaginationList } from '../_interfaces/pagination_list/ientity-pagination-list.interface';
-import { EntityPaginationList } from '../_models/pagination_list/entity-pagination-list.model';
+import { IEntity } from "~/app/_interfaces/ientity.interface";
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
+import { IBaseDto } from "~/app/_interfaces/ibase-dto.interface";
+import { IEntityPaginationList } from "~/app/_interfaces/pagination_list/ientity-pagination-list.interface";
+import { EntityPaginationList } from "~/app/_models/pagination_list/entity-pagination-list.model";
 
-Injectable({ providedIn: 'root' });
+Injectable({ providedIn: "root" });
 export class BaseService<TEntity extends IEntity> {
   protected _apiBaseUrl = environment.reserbizAPIEndPoint;
 
@@ -24,13 +24,11 @@ export class BaseService<TEntity extends IEntity> {
     url: string,
     params?: any
   ): Observable<IEntityPaginationList> {
-    return this.http
-      .get<IEntityPaginationList>(url, { params })
-      .pipe(
-        map((data: IEntityPaginationList) => {
-          return this.mapPaginatedEntityData(data);
-        })
-      );
+    return this.http.get<IEntityPaginationList>(url, { params }).pipe(
+      map((data: IEntityPaginationList) => {
+        return this.mapPaginatedEntityData(data);
+      })
+    );
   }
 
   getEntitiesFromServer(url: string): Observable<TEntity[]> {

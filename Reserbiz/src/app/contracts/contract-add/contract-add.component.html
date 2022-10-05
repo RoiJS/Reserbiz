@@ -1,5 +1,7 @@
 <ns-action-bar
-  [title]="'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.ADD_TITLE' | translate"
+  [title]="
+    'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.ADD_TITLE' | translate
+  "
   [hasMenu]="false"
 >
   <ActionItem
@@ -8,7 +10,10 @@
     (tap)="saveNewInformation()"
   ></ActionItem>
   <ActionItem
-    [text]="'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.MANAGE_TERM_DETAILS' | translate"
+    [text]="
+      'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.MANAGE_TERM_DETAILS'
+        | translate
+    "
     android.position="popup"
     (tap)="navigateToManageTerm()"
   ></ActionItem>
@@ -27,7 +32,10 @@
         <!-- #Start - General Information -->
         <TKPropertyGroup
           tkDataFormGroups
-          [name]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.LABEL' | translate"
+          [name]="
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.LABEL'
+              | translate
+          "
           hidden="false"
         >
           <TKGroupTitleStyle
@@ -41,12 +49,21 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="code"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL' | translate"
-            [hintText]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [hintText]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT'
+                | translate
+            "
           >
             <TKNonEmptyValidator
               tkEntityPropertyValidators
-              [errorMessage]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE' | translate"
+              [errorMessage]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
+                  | translate
+              "
             ></TKNonEmptyValidator>
 
             <TKPropertyEditor tkEntityPropertyEditor type="Text">
@@ -60,7 +77,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="tenantId"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="tenantOptions"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Picker">
@@ -74,7 +94,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="termId"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="termOptions"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Picker">
@@ -88,7 +111,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="spaceTypeName"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_TYPE_NAME_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_TYPE_NAME_CONTROL.CONTROL_LABEL'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Label">
               <TKPropertyEditorStyle
@@ -101,7 +127,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="spaceId"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
             [valuesProvider]="spaceOptions"
           >
             <TKPropertyEditor tkEntityPropertyEditor type="Picker">
@@ -115,7 +144,10 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="effectiveDate"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.EFFECTIVE_DATE_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.EFFECTIVE_DATE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
           >
             <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
               <TKPropertyEditorStyle
@@ -128,9 +160,13 @@
           <TKEntityProperty
             tkPropertyGroupProperties
             name="isOpenContract"
-            [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.OPEN_CONTRACT_CONTROL.CONTROL_LABEL' | translate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.OPEN_CONTRACT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
           >
-            <TKPropertyEditor tkEntityPropertyEditor type="Switch">
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
               <TKPropertyEditorStyle
                 tkPropertyEditorStyle
                 labelTextSize="14"
@@ -143,13 +179,16 @@
           tkDataFormGroups
           name="Group_Duration_Details_Contract"
           [titleHidden]="true"
-          [hidden]="entityFormSource.isOpenContract"
+          [hidden]="entityFormSource.isOpenContract === 1"
         >
           <TKDataFormGridLayout tkPropertyGroupLayout>
             <TKEntityProperty
               tkPropertyGroupProperties
               name="durationUnit"
-              [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL' | translate"
+              [displayName]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL'
+                  | translate
+              "
               [valuesProvider]="durationOptions"
               index="0"
               columnIndex="0"
@@ -166,7 +205,10 @@
             <TKEntityProperty
               tkPropertyGroupProperties
               name="durationValue"
-              [displayName]="'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.CONTROL_LABEL' | translate"
+              [displayName]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.CONTROL_LABEL'
+                  | translate
+              "
               index="0"
               columnIndex="1"
               width="40%"

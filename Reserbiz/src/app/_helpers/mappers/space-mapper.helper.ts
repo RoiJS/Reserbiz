@@ -1,13 +1,15 @@
-import { SpaceDto } from '../../_dtos/space-dto';
-import { IBaseDtoEntityMapper } from '../../_interfaces/mappers/ibase-dto-entity-mapper.interface';
-import { IBaseEntityMapper } from '../../_interfaces/mappers/ibase-entity-mapper.interface';
-import { SpaceFormSource } from '../../_models/form/space-form.model';
-import { Space } from '../../_models/space.model';
+import { FormGroup } from "@angular/forms";
+import { SpaceDto } from "~/app/_dtos/space-dto";
+import { IBaseDtoEntityMapper } from "~/app/_interfaces/mappers/ibase-dto-entity-mapper.interface";
+import { IBaseEntityMapper } from "~/app/_interfaces/mappers/ibase-entity-mapper.interface";
+import { SpaceFormSource } from "~/app/_models/form/space-form.model";
+import { Space } from "~/app/_models/space.model";
 
 export class SpaceMapper
   implements
     IBaseEntityMapper<Space>,
-    IBaseDtoEntityMapper<Space, SpaceFormSource, SpaceDto> {
+    IBaseDtoEntityMapper<Space, SpaceFormSource, SpaceDto>
+{
   mapEntity(s: Space) {
     const space = new Space();
 
@@ -24,7 +26,7 @@ export class SpaceMapper
   }
 
   initFormSource(): SpaceFormSource {
-    return new SpaceFormSource('', 0);
+    return new SpaceFormSource("", 0);
   }
 
   mapFormSourceToDto(sfc: SpaceFormSource): SpaceDto {
@@ -42,6 +44,6 @@ export class SpaceMapper
   }
 
   mapFormSourceToEntity(formSource: SpaceFormSource): Space {
-    throw new Error('Not implemented');
+    throw new Error("Not implemented");
   }
 }
