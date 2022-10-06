@@ -22,6 +22,10 @@ jobs:
         with:
           nativescript-version: '8.2.3'
 
+      - name: Set JAVA_HOME path
+        run: cd c:\\Program Files (x86)\\Android
+        run: dir
+
       - name: Install dependencies
         run: npm install
         working-directory: ./Reserbiz
