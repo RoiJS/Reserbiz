@@ -23,7 +23,7 @@ jobs:
           nativescript-version: '8.2.3'
 
       - name: Set JAVA_HOME path
-        run: echo %JAVA_HOME%
+        run: echo $env:JAVA_HOME
 
       - name: Install dependencies
         run: npm install
