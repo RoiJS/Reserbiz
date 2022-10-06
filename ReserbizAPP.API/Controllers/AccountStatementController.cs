@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using Microsoft.AspNetCore.Http;
 using ReserbizAPP.LIB.Helpers.Services;
+using ReserbizAPP.LIB.Helpers.Constants;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -62,7 +63,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(accountStatementToReturn);
         }
 
-        [HttpGet("getAccountStatementsPerContract")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.GetAccountStatementsPerContractURL)]
         public async Task<ActionResult<AccountStatementPaginationListDto>> GetAccountStatementsPerContract(int contractId, DateTime fromDate, DateTime toDate, PaymentStatusEnum paymentStatus, AccountStatementTypeEnum accountStatementType, SortOrderEnum sortOrder, int page)
         {
             var contractFromRepo = await _contractRepository.GetEntity(contractId).ToObjectAsync();
@@ -93,7 +94,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(entityPaginationListDto);
         }
 
-        [HttpGet("getUnpaidAccountStatements")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.GetUnpaidAccountStatementsAsyncURL)]
         public async Task<ActionResult<AccountStatementPaginationListDto>> GetUnpaidAccountStatementsAsync()
         {
             var accountStatementsFromRepo = await _accountStatementRepository.GetUnpaidAccountStatementsAsync();
@@ -105,7 +106,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(entityPaginationListDto);
         }
 
-        [HttpPost("updateWaterAndElectricBillAmount")]
+        [HttpPost(ApiRoutes.AccountStatementControllerRoutes.UpdateWaterAndElectricBillAmountURL)]
         public async Task<IActionResult> UpdateWaterAndElectricBillAmount(AccountStatementWaterAndElectricBillUpdateDto accountStatementWaterAndElectricBillUpdateDto)
         {
             var accountStatementFromRepo = await _accountStatementRepository.GetEntity(accountStatementWaterAndElectricBillUpdateDto.Id).ToObjectAsync();
@@ -127,7 +128,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Updating water and electric bill amount for account statement with an id of {accountStatementFromRepo.Id} failed on save.");
         }
 
-        [HttpGet("getFirstAccountStatement/{contractId}")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.GetFirstAccountStatementURL)]
         public async Task<ActionResult<AccountStatementDetailsDto>> GetFirstAccountStatement(int contractId)
         {
             var contractFromRepo = await _contractRepository
@@ -144,21 +145,21 @@ namespace ReserbizAPP.API.Controllers
             return Ok(accountStatementToReturn);
         }
 
-        [HttpGet("getAccountStatementsAmountSummary")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.GetAccountStatementsAmountSummaryURL)]
         public async Task<ActionResult<AccountStatementsAmountSummary>> GetAccountStatementsAmountSummary()
         {
             var accountStatementsAmountSummary = await _accountStatementRepository.GetAccountStatementsAmountSummary();
             return Ok(accountStatementsAmountSummary);
         }
 
-        [HttpGet("sendAccountStatement/{id}")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.SendAccountStatementURL)]
         public async Task<ActionResult> SendAccountStatement(int id)
         {
             await _accountStatementRepository.SendAccountStatement(id);
             return Ok();
         }
 
-        [HttpGet("suggestedAccountStatement/{contractId}")]
+        [HttpGet(ApiRoutes.AccountStatementControllerRoutes.GetSuggestedNewAccountStatementURL)]
         public async Task<ActionResult<AccountStatementDetailsDto>> GetSuggestedNewAccountStatement(int contractId)
         {
             var suggestedAccountStatementFromRepo = await _accountStatementRepository.GetSuggestedNewAccountStatement(contractId);
@@ -171,7 +172,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(suggestedAccountStatementToReturn);
         }
 
-        [HttpPost("createNewAccountStatement/{marksAsPaid}")]
+        [HttpPost(ApiRoutes.AccountStatementControllerRoutes.CreateNewAccountStatementURL)]
         public async Task<ActionResult<AccountStatementDetailsDto>> CreateNewAccountStatement(NewAccountStatementDto newAccountStatementDto, bool marksAsPaid)
         {
             try
@@ -192,7 +193,7 @@ namespace ReserbizAPP.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("deleteAccountStatement/{accountStatementId}")]
+        [HttpDelete(ApiRoutes.AccountStatementControllerRoutes.DeleteAccountStatementURL)]
         public async Task<IActionResult> DeleteAccountStatement(int accountStatementId)
         {
             var accountStatementFromRepo = await _accountStatementRepository.GetEntity(accountStatementId).ToObjectAsync();
@@ -211,7 +212,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("autoGenerateContractAccountStatementsForNewDatabase/{currentUserId}")]
+        [HttpPost(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateContractAccountStatementsForNewDatabaseURL)]
         public async Task<IActionResult> AutoGenerateContractAccountStatementsForNewDatabase(int currentUserId)
         {
             var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();
@@ -237,7 +238,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("autoGenerateContractAccountStatements")]
+        [HttpPost(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateContractAccountStatementsURL)]
         public async Task<IActionResult> AutoGenerateContractAccountStatements()
         {
             var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();
@@ -264,7 +265,7 @@ namespace ReserbizAPP.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("autoGenerateContractAccountStatementPenalties")]
+        [HttpPost(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateAccountStatementPenaltiesURL)]
         public async Task<IActionResult> AutoGenerateAccountStatementPenalties()
         {
             var activeTenantsFromRepo = await _tenantRepository.GetTenantsAsync();

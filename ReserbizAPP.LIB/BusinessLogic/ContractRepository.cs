@@ -56,6 +56,15 @@ namespace ReserbizAPP.LIB.BusinessLogic
                 .ToList();
         }
 
+        public async Task<Contract> GetContractByCode(string code)
+        {
+            var contracFromRepo = await _reserbizRepository.ClientDbContext.Contracts
+                                        .Where(c => c.Code.ToLower() == code.ToLower())
+                                        .FirstOrDefaultAsync();
+
+            return contracFromRepo;
+        }
+
         public async Task<IEnumerable<Contract>> GetAllUpcomingDueDateContractsPerMonthAsync(int month)
         {
             var allActiveContractsFromRepo = await _reserbizRepository.ClientDbContext.Contracts

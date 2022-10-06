@@ -1,5 +1,4 @@
 using System;
-using ReserbizAPP.LIB.Enums;
 
 namespace ReserbizAPP.LIB.Dtos
 {

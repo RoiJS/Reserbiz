@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using ReserbizAPP.LIB.Enums;
 using Microsoft.Extensions.Options;
 using System.Linq;
+using ReserbizAPP.LIB.Helpers.Constants;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -43,7 +44,7 @@ namespace ReserbizAPP.API.Controllers
             _paginationService = paginationService;
         }
 
-        [HttpPost("addPayment")]
+        [HttpPost(ApiRoutes.PaymentBreakdownControllerRoutes.AddPaymentURL)]
         public async Task<ActionResult<PaymentBreakdownForDetailsDto>> AddPayment(int accountStatementId, PaymentForCreationDto paymentForCreationDto)
         {
             var accountStatementFromRepo = await _accountStatementRepository.GetEntity(accountStatementId)
@@ -84,7 +85,7 @@ namespace ReserbizAPP.API.Controllers
            );
         }
 
-        [HttpGet("{id}", Name = "GetPaymentDetails")]
+        [HttpGet(ApiRoutes.PaymentBreakdownControllerRoutes.GetPaymentDetailsURL, Name = "GetPaymentDetails")]
         public async Task<ActionResult<PaymentBreakdownForDetailsDto>> GetPaymentDetails(int id)
         {
             var paymentFromRepo = await _paymentBreakdownRepository
@@ -100,7 +101,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(paymentDetailsToReturn);
         }
 
-        [HttpGet("getPaymentsPerAccountStatement")]
+        [HttpGet(ApiRoutes.PaymentBreakdownControllerRoutes.GetPaymentsPerAccountStatementURL)]
         public async Task<ActionResult<PaymentPaginationListDto>> GetPaymentsPerAccountStatement(int contractId, int accountStatementId, int page, PaymentForTypeEnum paymentForType, SortOrderEnum sortOrder)
         {
             var paymentBreakdownsFromRepo = await _paymentBreakdownRepository.GetAllPaymentsPerAccountStatmentAsync(accountStatementId);
