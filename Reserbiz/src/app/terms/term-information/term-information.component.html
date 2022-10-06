@@ -1,0 +1,29 @@
+<ns-action-bar
+  [title]="'TERM_DETAILS_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    id="deleteTermActionItem"
+    icon="font://&#xf2ed;"
+    class="fa fa-solid action-item-button"
+    (tap)="deleteSelectedTenant()"
+    *ngIf="!currentTerm?.isChildCopy && currentTerm?.isDeletable"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout
+    class="page-container term-detail-container"
+    orientation="vertical"
+  >
+    <ScrollView orientation="vertical">
+      <StackLayout orientation="vertical">
+        <ns-term-details-panel
+          [currentTerm]="currentTerm"
+        ></ns-term-details-panel>
+        <ns-term-miscellaneous-list-panel [termId]="currentTerm?.id">
+        </ns-term-miscellaneous-list-panel>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ns-loader-layout>

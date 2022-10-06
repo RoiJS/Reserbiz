@@ -1,0 +1,99 @@
+<ns-action-bar
+  [title]="'PERSONAL_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="savePersonalInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<StackLayout>
+  <ns-loader-layout [busy]="IsBusy">
+    <StackLayout width="100%" height="100%" class="page-container">
+      <StackLayout class="panel">
+        <RadDataForm
+          width="100%"
+          tkToggleNavButton
+          [source]="userFormSource"
+          [isReadOnly]="IsBusy"
+        >
+          <TKPropertyGroup
+            tkDataFormGroups
+            [name]="'GENERAL_TEXTS.DETAILS' | translate"
+            hidden="false"
+          >
+            <TKGroupTitleStyle
+              tkPropertyGroupTitleStyle
+              fillColor="#eb5a2e"
+              labelTextSize="17"
+              labelFontStyle="Bold"
+              labelTextColor="White"
+            ></TKGroupTitleStyle>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="firstName"
+              [displayName]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.CONTROL_LABEL' | translate"
+              [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKNonEmptyValidator
+                tkEntityPropertyValidators
+                [errorMessage]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+              ></TKNonEmptyValidator>
+
+              <TKPropertyEditor tkEntityPropertyEditor type="Text">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="middleName"
+              [displayName]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.CONTROL_LABEL' | translate"
+              [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.HINT_TEXT' | translate"
+            >
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="lastName"
+              [displayName]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.CONTROL_LABEL' | translate"
+              [hintText]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKNonEmptyValidator
+                tkEntityPropertyValidators
+                [errorMessage]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+              ></TKNonEmptyValidator>
+
+              <TKPropertyEditor tkEntityPropertyEditor type="Text">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="gender"
+              [displayName]="'PERSONAL_INFORMATION_PAGE.FORM_CONTROL.GENDER_CONTROL.CONTROL_LABEL' | translate"
+              [valuesProvider]="genderOptions"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKPropertyGroup>
+        </RadDataForm>
+      </StackLayout>
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

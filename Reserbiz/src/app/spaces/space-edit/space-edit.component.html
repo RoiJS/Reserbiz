@@ -1,0 +1,67 @@
+<ns-action-bar [title]="currentEntity?.description" [hasMenu]="false">
+  <ActionItem
+    *ngIf="currentEntity?.isDeletable"
+    icon="font://&#xf2ed;"
+    class="fa fa-solid action-item-button"
+    (tap)="deleteSelectedSpaceType()"
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="updateInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <StackLayout class="panel">
+      <RadDataForm
+        width="100%"
+        [source]="entityFormSource"
+        [isReadOnly]="isBusy"
+      >
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="'GENERAL_TEXTS.DETAILS' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="description"
+            [displayName]="'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.DESCRIPTION_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="spaceTypeId"
+            [displayName]="'SPACE_EDIT_DETAILS_PAGE.FORM_CONTROL.SPACE_TYPE_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="spaceTypeOptions"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+      </RadDataForm>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

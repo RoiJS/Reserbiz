@@ -1,0 +1,220 @@
+<ns-action-bar
+  [title]="'ACCOUNT_STATEMENT_DETAILS.ACTION_BAR_SECTION.FOR_CREATION.TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="saveNewUtilityBillStatementOfAccount()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <StackLayout class="panel">
+      <ScrollView orientation="vertical">
+        <!-- General Information Group -->
+        <StackLayout class="panel__details-group-panel">
+          <!-- Group Header -->
+          <StackLayout class="panel__header-section">
+            <label
+              [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.NEW_UTILITY_BILL_LABEL' | translate"
+            ></label>
+          </StackLayout>
+
+          <!-- Group body -->
+          <StackLayout class="panel__body-section">
+            <StackLayout
+              *ngIf="suggestedAccountStatement?.excludeElectricBill || suggestedAccountStatement?.excludeWaterBill"
+              [formGroup]="waterAndElecitricBillAmountformGroup"
+            >
+              <!-- Utility Bills Due Date Amount -->
+              <StackLayout
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.DUE_DATE' | translate"
+                  ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <DatePickerField
+                    class="utility-bill-due-date"
+                    [(ngModel)]="dueDate"
+                    [ngModelOptions]="{standalone: true}"
+                    margin="0"
+                  ></DatePickerField>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Check if the miscellaneous due date is set to "Same with Utility Due Date" -->
+              <StackLayout
+                *ngIf="suggestedAccountStatement?.miscellaneousDueDate === 2"
+              >
+                <!-- Miscellaneous -->
+                <StackLayout
+                  *ngIf="suggestedAccountStatement?.accountStatementMiscellaneous.length > 0"
+                  class="panel__details-section"
+                  orientation="horizontal"
+                >
+                  <StackLayout class="bill-category-name">
+                    <label
+                      class="details-label"
+                      [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MISCELLANEOUS_FEE_LABEL' | translate"
+                    ></label>
+                  </StackLayout>
+                </StackLayout>
+
+                <!-- Account Statement Miscellaneous -->
+                <StackLayout
+                  *ngFor="let accountMiscellaneous of suggestedAccountStatement?.accountStatementMiscellaneous"
+                  class="panel__details-section"
+                  orientation="horizontal"
+                >
+                  <StackLayout class="bill-category-name">
+                    <label [text]="accountMiscellaneous.name"></label>
+                  </StackLayout>
+                  <StackLayout
+                    class="bill-category-value"
+                    orientation="horizontal"
+                  >
+                    <label
+                      [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      [text]="accountMiscellaneous.formattedAmount"
+                    ></label>
+                  </StackLayout>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Water Bill Amount -->
+              <StackLayout
+                class="panel__details-section"
+                orientation="horizontal"
+                *ngIf="suggestedAccountStatement?.excludeWaterBill"
+              >
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.WATER_BILL_AMOUNT_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <label
+                    verticalAlignment="middle"
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <TextField
+                    margin="0"
+                    verticalAlignment="middle"
+                    class="txt-water-bill-amount"
+                    [autocorrection]="false"
+                    keyboardType="number"
+                    formControlName="waterBillAmount"
+                  ></TextField>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Electric Bill Amount -->
+              <StackLayout
+                class="panel__details-section"
+                orientation="horizontal"
+                *ngIf="suggestedAccountStatement?.excludeElectricBill"
+              >
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    class="details-label"
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.ELECTRICITY_BILL_AMOUNT_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  orientation="horizontal"
+                >
+                  <label
+                    verticalAlignment="middle"
+                    [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                    class="m-r-5"
+                  ></label>
+                  <TextField
+                    margin="0"
+                    class="txt-electric-bill-amount"
+                    [autocorrection]="false"
+                    keyboardType="number"
+                    formControlName="electricBillAmount"
+                  ></TextField>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Paid Control -->
+              <StackLayout
+                class="panel__details-section"
+                orientation="horizontal"
+              >
+                <StackLayout
+                  class="bill-category-name"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.MARK_AS_PAID_LABEL' | translate"
+                  ></label>
+                </StackLayout>
+                <StackLayout
+                  class="bill-category-value"
+                  horizontalAlignment="right"
+                >
+                  <Switch (checkedChange)="onCheckedChange($event)"></Switch>
+                </StackLayout>
+              </StackLayout>
+
+              <StackLayout class="panel__border"></StackLayout>
+            </StackLayout>
+
+            <!-- Total Amount -->
+            <StackLayout
+              class="panel__details-section"
+              orientation="horizontal"
+            >
+              <StackLayout class="bill-category-name">
+                <label
+                  class="details-label"
+                  [text]="'ACCOUNT_STATEMENT_DETAILS.GENERAL_CONTROL_GROUP.TOTAL_LABEL' | translate"
+                ></label>
+              </StackLayout>
+              <StackLayout
+                class="bill-category-value details-label"
+                orientation="horizontal"
+              >
+                <label
+                  [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                  class="m-r-5"
+                ></label>
+                <label [text]="totalAmount"></label>
+              </StackLayout>
+            </StackLayout>
+          </StackLayout>
+        </StackLayout>
+      </ScrollView>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

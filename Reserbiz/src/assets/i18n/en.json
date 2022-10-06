@@ -1,0 +1,1579 @@
+{
+  "MAIN_MENU": {
+    "DASHBOARD": "Dashboard",
+    "TENANTS": "Tenants",
+    "CONTRACTS": "Contracts",
+    "TERMS": "Terms",
+    "SPACES": "Units",
+    "SPACE_TYPES": "Unit Types",
+    "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
+    "SETTINGS": "Settings",
+    "DOCUMENTATION": "Documentation",
+    "SIGN_OUT": "Sign out"
+  },
+
+  "GENERAL_TEXTS": {
+    "AND": "and",
+    "YES": "Yes",
+    "NO": "No",
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "CREATE": "Create",
+      "CLOSE": "Close",
+      "CONFIRM": "Confirm",
+      "RESET": "Reset"
+    },
+    "GENDER": {
+      "MALE": "Male",
+      "FEMALE": "Female"
+    },
+    "DETAILS": "Details",
+    "DURATION": {
+      "NONE": "",
+      "DAY": {
+        "BASE_FORM": "Day",
+        "S_FORM": "Days"
+      },
+      "WEEK": {
+        "BASE_FORM": "Week",
+        "S_FORM": "Weeks"
+      },
+      "MONTH": {
+        "BASE_FORM": "Month",
+        "S_FORM": "Months"
+      },
+      "QUARTER": {
+        "BASE_FORM": "Quarter",
+        "S_FORM": "Quarters"
+      },
+      "YEAR": {
+        "BASE_FORM": "Year",
+        "S_FORM": "Years"
+      }
+    },
+    "MISCELLANEOUS_DUE_DATE_OPTIONS": {
+      "SAME_WITH_RENTAL_DUE_DATE": "Same with Rental Due Date",
+      "SAME_WITH_UTILITY_BILL_DUE_DATE": "Same with Utility Due Date"
+    },
+    "PAYMENT_TYPE_OPTIONS": {
+      "ALL": "All",
+      "RENTAL": "Rental",
+      "ELECTRIC_BILL": "Electric Bill",
+      "WATER_BILL": "Water Bill",
+      "MISCELLANEOUS_FEES": "Miscellaneous Fees",
+      "PENALTY": "Penalty"
+    },
+    "ARCHIVED_CONTRACT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
+    "UNIT_STATUS_OPTIONS": {
+      "ALL": "All",
+      "AVAILABLE": "Available",
+      "OCCUPIED": "Occupied"
+    },
+    "INACTIVE": "Inactive",
+    "MANAGE": "Manage",
+    "SELECTED_ITEMS": "Selected Items",
+    "VALUE_TYPE": {
+      "FIXED": "Fixed",
+      "PERCENTAGE": "Percentage"
+    },
+    "CURRENCY": {
+      "PHP": "Php"
+    },
+    "INVALID_ITEM_SELECTION_DIALOG_TEXTS": {
+      "TITLE": "Invalid Item Selection",
+      "MESSAGE": "This item cannot be selected for deletion!"
+    },
+    "SORT_ORDER": {
+      "ASCENDING": "Ascending",
+      "DESCENDING": "Descending"
+    },
+    "PAYMENT_STATUS": {
+      "ALL": "All",
+      "PAID": "Paid",
+      "UNPAID": "Unpaid"
+    },
+    "FILTER": "Filter",
+    "MONTH": {
+      "JANUARY": "January",
+      "FEBRUARY": "February",
+      "MARCH": "March",
+      "APRIL": "April",
+      "MAY": "May",
+      "JUNE": "June",
+      "JULY": "July",
+      "AUGUST": "August",
+      "SEPTEMBER": "September",
+      "OCTOBER": "October",
+      "NOVEMBER": "November",
+      "DECEMBER": "Decemeber"
+    },
+    "EMPTY_LIST_DEFAULT_TEXT": "No Available Items",
+    "ACCOUNT_STATEMENT_TYPE": {
+      "ALL": "All",
+      "RENTAL_BILL": "Rental Bill",
+      "UTILITY_BILL": "Utility Bill"
+    }
+  },
+
+  "SIDE_DRAWER_SECTION": {
+    "FOOTER": {
+      "VERSION": "Version",
+      "COPYRIGHT": "Copyright 2021.",
+      "ALL_RIGHTS_RESERVED": "All rights reserved"
+    }
+  },
+
+  "AUTH_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company...",
+      "ERROR_LABEL": "Please enter company."
+    },
+    "USERNAME_CONTROL": {
+      "LABEL": "Username",
+      "HINT": "Enter Username...",
+      "ERROR_LABEL": "Please enter username."
+    },
+    "PASSWORD_CONTROL": {
+      "LABEL": "Password",
+      "HINT": "Enter Password...",
+      "ERROR_LABEL": "Please enter valid password."
+    },
+    "LOGIN_BUTTON_CONTROL": {
+      "LABEL": "Log in"
+    },
+    "FORGOT_PASSWORD_LINK_LABEL": "Forgot Password",
+    "LOGIN_FAILED": "Login Failed",
+    "SIMULTANEOUS_LOGIN_DIALOG": {
+      "TITLE": "End of Session",
+      "MESSAGE": "Simultaneous login is not permitted."
+    }
+  },
+
+  "FORGOT_PASSWORD_PAGE": {
+    "COMPANY_CONTROL": {
+      "LABEL": "Company",
+      "HINT": "Enter Company",
+      "ERROR_LABEL": "Please enter company."
+    },
+    "USERNAME_OR_EMAILADDRESS_CONTROL": {
+      "LABEL": "Username or Email address",
+      "HINT": "Enter Username or email address",
+      "ERROR_LABEL": "Please enter username or email address."
+    },
+    "VERIFY_BUTTON_CONTROL": {
+      "LABEL": "Verify Account"
+    },
+    "VERIFICATION_FAILED": "Invalid username or email address."
+  },
+
+  "CHANGE_PASSWORD_PAGE": {
+    "NEW_PASSWORD_CONTROL": {
+      "LABEL": "New Password",
+      "HINT": "Enter New Password",
+      "ERROR_LABEL": "Please enter new password."
+    },
+    "CONFIRM_NEW_PASSWORD": {
+      "LABEL": "Confirm New Password",
+      "HINT": "Re-enter New Password",
+      "ERROR_LABEL": "Please re-enter new password"
+    },
+    "SAVE_NEW_PASSWORD_DIALOG": {
+      "TITLE": "Reset Password",
+      "CONFIRM": "Are you sure to save new password?",
+      "SUCCESS_MESSAGE": "Your new password has been saved.",
+      "ERROR_MESSAGE": "Saving new password failed. Please again later.",
+      "PASSWORD_NOT_MATCHED": "Password does not matched."
+    },
+    "CHANGE_PASSWORD_BUTTON_CONTROL": {
+      "LABEL": "Change Password"
+    }
+  },
+
+  "NO_CONNECTION_PAGE": {
+    "MAIN_TEXT": "Oops! You're offline.",
+    "SECONDARY_TEXT": "Please make sure that you have connection.",
+    "DIALOG": {
+      "TITLE": "No Connection",
+      "MESSAGE": "Failed to connect to the server. The application will automatically exit."
+    }
+  },
+
+  "SYSTEM_UPDATE_PAGE": {
+    "MAIN_TEXT": "System Update",
+    "SECONDARY_TEXT": "The System is currently undergoing a planned maintenance. Please comeback later.",
+    "TRY_AGAIN_BUTTON_LABEL": "Try Again"
+  },
+
+  "PROFILE_INFORMATION_PAGE": {
+    "ACTION_BAR_TITLE": "Profile",
+    "GENERAL_CONTROL_GROUP": {
+      "LABEL": "General Information",
+      "FULL_NAME": "Fullname:",
+      "GENDER_LABEL": "Gender:"
+    },
+    "ACCOUNT_CONTROL_GROUP": {
+      "LABEL": "Account Information",
+      "EMAIL_ADDRESS": "Email Address:",
+      "USERNAME": "Username:",
+      "PASSWORD": "Password:",
+      "PASSWORD_FAKE_VALUE": "**********"
+    }
+  },
+
+  "PERSONAL_INFORMATION_PAGE": {
+    "ACTION_BAR_TITLE": "Personal Information",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Profile",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    }
+  },
+
+  "ACCOUNT_INFORMATION_PAGE": {
+    "ACTION_BAR_TITLE": "Account Information",
+    "FORM_CONTROL": {
+      "USERNAME_CONTROL": {
+        "HINT_TEXT": "Please enter username",
+        "USERNAME_EXISTS_ERROR_MESSAGE": "This username is already used. Please enter a different username.",
+        "USERNAME_EMPTY_ERROR_MESSAGE": "Please enter valid username."
+      },
+      "EMAILADDRESS_CONTROL": {
+        "HINT_TEXT": "Please enter your email address",
+        "EMAILADDRESS_EMPTY_ERROR_MESSAGE": "Please enter valid email address.",
+        "EMAILADDRESS_INVALID_ERROR_MESSAGE": "Email address is invaid. Please enter valid email address."
+      },
+      "PASSWORD_CONTROL": {
+        "HINT_TEXT": "Please enter new password"
+      },
+      "CONFIRM_PASSWORD_CONTROL": {
+        "HINT_TEXT": "Please re-enter password",
+        "CONFIRM_PASSWORD_DOES_NOT_MATCH_ERROR_MESSAGE": "Passwords do not match."
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Account",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    }
+  },
+
+  "TENANTS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Tenants",
+    "SEARCH_BAR_HINT": "Enter tenant name here...",
+    "SELECTED_TENANTS": "Selected Tenants",
+    "EMPTY_TENANT_LIST": "No Available Tenants",
+    "REMOVE_TENANTS_DIALOG": {
+      "TITLE": "Remove selected tenants",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected tenants?",
+      "SUCCESS_MESSAGE": "Selected tenants have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected tenants. Please try again later."
+    },
+    "REMOVE_TENANT_DIALOG": {
+      "TITLE": "Remove selected tenant",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected tenant. Please try again later."
+    },
+    "ACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Activate selected tenant",
+      "CONFIRM_MESSAGE": "Are you sure to activate selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been activated!",
+      "ERROR_MESSAGE": "Failed to activate selected tenant. Please try again later."
+    },
+    "DEACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Deactivate selected tenant",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
+      "SUCCESS_MESSAGE": "Selected tenant has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate selected tenant. Please try again later."
+    }
+  },
+
+  "TENANTS_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Tenant",
+
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Address:",
+        "HINT_TEXT": "Please enter address"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "EMAIL_ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Email Address:",
+        "HINT_TEXT": "Please enter email address",
+        "INVALID_EMAIL_ADDRESS": "Please enter a valid email address"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Save Tenant Information",
+        "INVALID_FORM": "There are still missing information for the tenant. Please complete the form.",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New tenant has been saved!",
+        "ERROR_MESSAGE": "Failed saving new tenant."
+      },
+
+      "LEAVE_PAGE_DIALOG": {
+        "TITLE": "Leave Page",
+        "CONFIRM_MESSAGE": "You have some unsaved changes. Are you sure to leave this page?"
+      }
+    },
+
+    "TABS_OPTIONS": {
+      "INFORMATION": "Information",
+      "ADD_CONTACT_PERSONS": "Contact Persons"
+    }
+  },
+
+  "TENANT_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Details",
+
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Address:",
+        "HINT_TEXT": "Please enter address"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "EMAIL_ADDRESS_CONTROL": {
+        "CONTROL_LABEL": "Email Address:",
+        "HINT_TEXT": "Please enter email address",
+        "INVALID_EMAIL_ADDRESS": "Please enter a valid email address"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Tenant Information",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Update information failed!"
+      }
+    }
+  },
+
+  "TENANTS_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Tenant Details",
+    "PANEL_HEADER_TEXT_INFORMATION": "INFORMATION",
+    "LABEL_FULL_NAME": "First name:",
+    "LABEL_EMAIL_ADDRESS": "Email address:",
+    "LABEL_PERMANENT_ADDRESS": "Permanent address:",
+    "LABEL_CONTACT_NUMBER": "Contact number:",
+    "LABEL_GENDER": "Gender:",
+
+    "REMOVE_TENANT_DIALOG": {
+      "TITLE": "Remove tenant",
+      "CONFIRM_MESSAGE": "Are you sure to remove this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete this tenant. Please try again later."
+    },
+    "ACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Activate tenant",
+      "CONFIRM_MESSAGE": "Are you sure to activate this tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been activated!",
+      "ERROR_MESSAGE": "Failed to activate this tenant. Please try again later."
+    },
+    "DEACTIVATE_TENANT_DIALOG": {
+      "TITLE": "Deactivate tenant",
+      "CONFIRM_MESSAGE": "By deactivating this tenant, any existing active contract(s) related to this tenant will also be deactivated and will be archived. Are you sure to proceed with the deactivation of the selected tenant?",
+      "SUCCESS_MESSAGE": "Current tenant has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate this tenant. Please try again later."
+    }
+  },
+
+  "TENANT_CONTACT_PERSON_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Contact Persons",
+    "EMPTY_CONTACT_PERSONS": "No Available Contact Persons",
+    "PANEL_HEADER_TEXT_INFORMATION": "CONTACT PERSONS",
+    "SELECTED_CONTACT_PERSONS": "Selected Contact Person",
+    "REMOVE_CONTACT_PERSONS_DIALOG": {
+      "TITLE": "Remove selected contact persons",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contact persons?",
+      "SUCCESS_MESSAGE": "Selected contact persons have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected contact persons. Please try again later."
+    },
+    "REMOVE_CONTACT_PERSON_DIALOG": {
+      "TITLE": "Remove selected contact person",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected contact person?",
+      "SUCCESS_MESSAGE": "Selected contact person has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected contact person. Please try again later."
+    }
+  },
+
+  "TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Contact Person",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Details",
+        "CONFIRM_MESSAGE": "Are you sure to save new contact person?",
+        "SUCCESS_MESSAGE": "New contact person has been saved!",
+        "ERROR_MESSAGE": "Saving new information failed!"
+      }
+    }
+  },
+
+  "TENANT_CONTACT_PERSON_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Contact Person",
+    "FORM_CONTROL": {
+      "FIRST_NAME_CONTROL": {
+        "CONTROL_LABEL": "First name:",
+        "HINT_TEXT": "Please enter first name"
+      },
+      "MIDDLE_NAME_CONTROL": {
+        "CONTROL_LABEL": "Middle name:",
+        "HINT_TEXT": "Please enter middle name"
+      },
+      "LAST_NAME_CONTROL": {
+        "CONTROL_LABEL": "Last name:",
+        "HINT_TEXT": "Please enter last name"
+      },
+      "GENDER_CONTROL": {
+        "CONTROL_LABEL": "Gender:"
+      },
+      "CONTACT_NUMBER_CONTROL": {
+        "CONTROL_LABEL": "Contact Number:",
+        "HINT_TEXT": "Please enter contact number"
+      },
+      "RELATION_CONTROL": {
+        "CONTROL_LABEL": "Relation:",
+        "HINT_TEXT": "Please enter relation"
+      },
+      "UPDATE_DIALOG": {
+        "TITLE": "Edit Details",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Saving new update failed! Please try again later."
+      }
+    }
+  },
+
+  "SPACE_TYPE_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Unit Types",
+    "EMPTY_SPACE_TYPE_LIST": "No Available Unit Types",
+    "SEARCH_BAR_HINT": "Enter unit type name here...",
+    "SELECTED_SPACE_TYPES": "Selected Unit Types",
+    "AVAILABLE_SLOT": "Available Slot",
+
+    "REMOVE_SPACE_TYPES_DIALOG": {
+      "TITLE": "Remove unit types",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit types?",
+      "SUCCESS_MESSAGE": "Selected unit types have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit types. Please try again later."
+    },
+    "REMOVE_SPACE_TYPE_DIALOG": {
+      "TITLE": "Remove unit type",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+      "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
+    }
+  },
+
+  "SPACES_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "STATUS_LABEL": "Status:",
+      "UNIT_TYPE_LABEL": "Unit Type:"
+    }
+  },
+
+  "SPACE_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Units",
+    "EMPTY_SPACE_LIST": "No Available Units",
+    "SEARCH_BAR_HINT": "Enter unit description here...",
+    "SELECTED_SPACE_TYPES": "Selected Units",
+    "AVAILABILITY_STATUS": {
+      "AVAILABLE": "Available",
+      "OCCUPIED": "Occupied"
+    },
+
+    "REMOVE_SPACES_DIALOG": {
+      "TITLE": "Remove units",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected units?",
+      "SUCCESS_MESSAGE": "Selected units have been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected units. Please try again later."
+    },
+    "REMOVE_SPACE_DIALOG": {
+      "TITLE": "Remove unit",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+      "SUCCESS_MESSAGE": "Selected unit has been removed!",
+      "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
+    }
+  },
+
+  "SPACE_TYPE_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add unit Type",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Please enter name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description"
+      },
+      "RATE_CONTROL": {
+        "CONTROL_LABEL": "Rate:",
+        "HINT_TEXT": "Please enter rate"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Unit Type",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit type?",
+        "SUCCESS_MESSAGE": "New unit type has been saved!",
+        "ERROR_MESSAGE": "Saving new unit type failed. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add Unit",
+    "FORM_CONTROL": {
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description",
+        "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
+      },
+      "SPACE_TYPE_CONTROL": {
+        "CONTROL_LABEL": "Unit Type:",
+        "HINT_TEXT": "Please select unit type",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Unit",
+        "CONFIRM_MESSAGE": "Are you sure to save new unit?",
+        "SUCCESS_MESSAGE": "New unit has been saved!",
+        "ERROR_MESSAGE": "Saving new unit failed. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_TYPE_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit unit Type",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Please enter name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description"
+      },
+      "RATE_CONTROL": {
+        "CONTROL_LABEL": "Rate:",
+        "HINT_TEXT": "Please enter rate"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Unit Type",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving changes failed. Please try again later."
+      },
+      "REMOVE_SPACE_TYPE_DIALOG": {
+        "TITLE": "Remove unit type",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit type?",
+        "SUCCESS_MESSAGE": "Selected unit type has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit type. Please try again later."
+      }
+    }
+  },
+
+  "SPACE_EDIT_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Unit",
+    "FORM_CONTROL": {
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Please enter description",
+        "EMPTY_DESCRIPTION_ERROR_MESSAGE": "Please enter description"
+      },
+      "SPACE_TYPE_CONTROL": {
+        "CONTROL_LABEL": "Unit Type:",
+        "NO_SELECTED_SPACE_TYPE_ERROR_MESSAGE": "Please select unit type from the list"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Unit",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving changes failed. Please try again later."
+      },
+      "REMOVE_SPACE_DIALOG": {
+        "TITLE": "Remove unit",
+        "CONFIRM_MESSAGE": "Are you sure to remove selected unit?",
+        "SUCCESS_MESSAGE": "Selected unit has been removed!",
+        "ERROR_MESSAGE": "Failed to delete selected unit. Please try again later."
+      }
+    }
+  },
+
+  "TERMS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Terms",
+    "EMPTY_TERM_LIST": "No Available Terms",
+    "SEARCH_BAR_HINT": "Enter terms name here...",
+    "SELECTED_TERMS": "Selected Terms",
+    "REMOVE_TERMS_DIALOG": {
+      "TITLE": "Remove selected terms",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected terms?",
+      "SUCCESS_MESSAGE": "Selected terms have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected terms. Please try again later."
+    },
+    "REMOVE_TERM_DIALOG": {
+      "TITLE": "Remove selected term",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected term. Please try again later."
+    },
+    "ACTIVATE_TERM_DIALOG": {
+      "TITLE": "Activate selected term",
+      "CONFIRM_MESSAGE": "Are you sure to activate selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been activated!",
+      "ERROR_MESSAGE": "Failed to activate selected term. Please try again later."
+    },
+    "DEACTIVATE_TERM_DIALOG": {
+      "TITLE": "Deactivate selected term",
+      "CONFIRM_MESSAGE": "Are you sure to deactivate selected term?",
+      "SUCCESS_MESSAGE": "Selected term has been deactivated!",
+      "ERROR_MESSAGE": "Failed to deactivate selected term. Please try again later."
+    }
+  },
+
+  "TERM_ADD_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Add New Term",
+    "EMPTY_TERM_MISCELLNEOUS_LIST": "No Available Term Miscellaneous",
+    "FORM_CONTROL": {
+      "GENERAL_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "NAME_CONTROL": {
+          "CONTROL_LABEL": "Name:",
+          "HINT_TEXT": "Enter name here",
+          "EMPTY_ERROR_MESSAGE": "Please enter name",
+          "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
+        },
+        "SPACE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
+        },
+        "RATE_CONTROL": {
+          "CONTROL_LABEL": "Rate:",
+          "HINT_TEXT": "Please enter rate"
+        },
+        "MAXIMUM_NUMBER_OF_OCCUPANTS": {
+          "CONTROL_LABEL": "Max no. of occupants:",
+          "HINT_TEXT": "Please enter maximum number of occupants"
+        }
+      },
+
+      "DURATION_CONTROL_GROUP": {
+        "LABEL": "Duration Details",
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "HINT_TEXT": "Please select duration unit"
+        },
+        "ADVANCED_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Advanced Payment Duration:",
+          "HINT_TEXT": "Please enter advanced payment duration value"
+        },
+        "DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Deposit Payment Duration:",
+          "HINT_TEXT": "Please enter deposit payment duration value"
+        }
+      },
+
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
+        "EXCLUDE_ELECTRIC_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Electric Bill:"
+        },
+        "ELECTRIC_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Electric Bill Amount:",
+          "HINT_TEXT": "Please enter electric bill amount"
+        },
+        "EXCLUDE_WATER_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Water Bill:"
+        },
+        "WATER_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Water Bill Amount:",
+          "HINT_TEXT": "Please enter water bill amount"
+        }
+      },
+
+      "PENALTY_DETAILS_GROUP": {
+        "LABEL": "Penalty Details",
+        "PENALTY_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value:",
+          "HINT_TEXT": "Please enter penalty value"
+        },
+        "PENALTY_VALUE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value Type:",
+          "HINT_TEXT": "Please select penalty value type"
+        },
+        "PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Amount Per Duration:",
+          "HINT_TEXT": "Please select penalty amount per duration unit"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration Value:",
+          "HINT_TEXT": "Please enter penalty effective after duration value"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration:",
+          "HINT_TEXT": "Please enter penalty effective after duration unit"
+        }
+      },
+      "MISCELLANEOUS_SETTINGS_GROUP": {
+        "LABEL": "Miscellneous Settings",
+        "MISCELLANEOUS_DUE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Miscellaneous Due Date:"
+        },
+        "INCLUDE_CHECK_AND_CALCULATE_FOR_PENALTY_CONTROL": {
+          "CONTROL_LABEL": "Include in Checking and Calculating Penalty:"
+        }
+      },
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        },
+        "AUTO_SEND_ACCOUNT_STATEMENT": {
+          "CONTROL_LABEL": "Auto-send Statement of Account:"
+        }
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Save Term Information",
+        "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New term has been saved!",
+        "ERROR_MESSAGE": "Failed saving new term."
+      },
+      "LEAVE_PAGE_DIALOG": {
+        "TITLE": "Leave Page",
+        "CONFIRM_MESSAGE": "You have some unsaved changes. Are you sure to leave this page?"
+      }
+    },
+
+    "TABS_OPTIONS": {
+      "DETAILS": "Details",
+      "TERM_DETAILS": "Term Details",
+      "ADD_MISCELLANEOUS": "Miscellaneous"
+    }
+  },
+
+  "TERM_EDIT_DETAILS_PAGE": {
+    "FORM_CONTROL": {
+      "GENERAL_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "NAME_CONTROL": {
+          "CONTROL_LABEL": "Name:",
+          "HINT_TEXT": "Enter name here",
+          "EMPTY_ERROR_MESSAGE": "Please enter name",
+          "MAXLENGTH_ERROR_MESSAGE": "Name must not have more than 100 characters"
+        },
+        "SPACE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Unit Type:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit type"
+        },
+        "RATE_CONTROL": {
+          "CONTROL_LABEL": "Rate:",
+          "HINT_TEXT": "Please enter rate"
+        },
+        "MAXIMUM_NUMBER_OF_OCCUPANTS": {
+          "CONTROL_LABEL": "Max no. of occupants:",
+          "HINT_TEXT": "Please enter maximum number of occupants"
+        }
+      },
+
+      "DURATION_CONTROL_GROUP": {
+        "LABEL": "Duration Details",
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "HINT_TEXT": "Please select duration unit"
+        },
+        "ADVANCED_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Advanced Payment Duration:",
+          "HINT_TEXT": "Please enter advanced payment duration value"
+        },
+        "DEPOSIT_PAYMENT_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Deposit Payment Duration:",
+          "HINT_TEXT": "Please enter deposit payment duration value"
+        }
+      },
+
+      "UTILITY_BILL_DETAILS_GROUP": {
+        "LABEL": "Utility Bills Details",
+        "EXCLUDE_ELECTRIC_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Electric Bill:"
+        },
+        "ELECTRIC_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Electric Bill Amount:",
+          "HINT_TEXT": "Please enter electric bill amount"
+        },
+        "EXCLUDE_WATER_BILL_CONTROL": {
+          "CONTROL_LABEL": "Exclude Water Bill:"
+        },
+        "WATER_BILL_AMOUNT_CONTROL": {
+          "CONTROL_LABEL": "Water Bill Amount:",
+          "HINT_TEXT": "Please enter water bill amount"
+        }
+      },
+
+      "PENALTY_DETAILS_GROUP": {
+        "LABEL": "Penalty Details",
+        "PENALTY_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value:",
+          "HINT_TEXT": "Please enter penalty value"
+        },
+        "PENALTY_VALUE_TYPE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Value Type:",
+          "HINT_TEXT": "Please select penalty value type"
+        },
+        "PENALTY_AMOUNT_PER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Amount Per Duration:",
+          "HINT_TEXT": "Please select penalty amount per duration unit"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration Value:",
+          "HINT_TEXT": "Please enter penalty effective after duration value"
+        },
+        "PENALTY_EFFECTIVE_AFTER_DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Penalty Effective After Duration:",
+          "HINT_TEXT": "Please enter penalty effective after duration unit"
+        }
+      },
+
+      "MISCELLANEOUS_SETTINGS_GROUP": {
+        "LABEL": "Miscellneous Settings",
+        "MISCELLANEOUS_DUE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Miscellaneous Due Date:"
+        }
+      },
+
+      "AUTOMATION_SETTINGS_GROUP": {
+        "LABEL": "Automation Settings",
+        "DAYS_BEFORE_GENERATING_ACCOUNT_STATEMENT_CONTROL": {
+          "CONTROL_LABEL": "Generate account statement days before due date:"
+        },
+        "AUTO_SEND_ACCOUNT_STATEMENT": {
+          "CONTROL_LABEL": "Auto-send Statement of Account:"
+        }
+      },
+
+      "UPDATE_DIALOG": {
+        "TITLE": "Update Term Information",
+        "INVALID_FORM": "There are still problem with the information. Please fill-out the form correctly.",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Failed saving changes."
+      },
+      "LEAVE_PAGE_DIALOG": {
+        "TITLE": "Leave Page",
+        "CONFIRM_MESSAGE": "You have some unsaved changes. Are you sure to leave this page?"
+      }
+    },
+
+    "TABS_OPTIONS": {
+      "NEW_TERM": "New Term",
+      "ADD_MISCELLANEOUS": "Miscellaneous"
+    }
+  },
+
+  "TERM_DETAILS_PAGE": {
+    "ACTION_BAR_TITLE": "Term Details",
+    "PANEL_HEADER_TEXT_INFORMATION": "INFORMATION",
+    "GENERAL_CONTROL_GROUP": {
+      "LABEL": "GENERAL INFORMATION",
+      "CODE_LABEL": "Code:",
+      "NAME_LABEL": "Name:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
+      "RATE_LABEL": "Rate:",
+      "MAXIMUM_NUMBER_OF_OCCUPANTS_LABEL": "Max no. of occupants:"
+    },
+
+    "DURATION_CONTROL_GROUP": {
+      "LABEL": "DURATION DETAILS",
+      "DURATION_LABEL": "Duration:",
+      "ADVANCED_PAYMENT_DURATION_LABEL": "Advanced Payment:",
+      "DEPOSIT_PAYMENT_DURATION_LABEL": "Deposit Payment:"
+    },
+
+    "UTILITY_BILL_DETAILS_GROUP": {
+      "LABEL": "UTILITY BILLS DETAILS",
+      "EXCLUDE_ELECTRIC_BILL_LABEL": "Electric bill not included",
+      "INCLUDE_ELECTRIC_BILL_LABEL": "Electric bill included: ",
+      "EXCLUDE_WATER_BILL_LABEL": "Water bill not included",
+      "INCLUDE_WATER_BILL_LABEL": "Water bill included: ",
+      "BILL_AMOUNT_LABEL": "Amount:"
+    },
+
+    "PENALTY_DETAILS_GROUP": {
+      "LABEL": "PENALTY DETAILS",
+      "PENALTY_AMOUNT_PER_DURATION_LABEL": "Penalty Amount Per {0}: {1} {2}",
+      "PENALTY_EFFECTIVE_AFTER_LABEL": "Penalty Effective After {0} {1}"
+    },
+
+    "MISCELLANEOUS_SETTINGS_DETAILS_GROUP": {
+      "LABEL": "MISCELLANEOUS SETTINGS",
+      "DUE_DATE": "Due Date: {0}",
+      "INCLUDE_IN_PENALTY_VALIDATION_AND_CALCULATION": "Include in Checking and Calculating Penalty"
+    },
+
+    "AUTOMATION_SETTINGS_DETAILS_GROUP": {
+      "LABEL": "AUTOMATION SETTINGS",
+      "GENERATE_ACCOUNT_STATEMENTS_DAYS_BEFORE_DUE_DATE": "Generate account statement days before due date:"
+    },
+
+    "REMOVE_TERM_DIALOG": {
+      "TITLE": "Remove term",
+      "CONFIRM_MESSAGE": "Are you sure to remove this term?",
+      "SUCCESS_MESSAGE": "Current term has been deleted!",
+      "ERROR_MESSAGE": "Failed to delete this term. Please try again later."
+    }
+  },
+
+  "TERM_MISCELLANEOUS_LIST_PAGE": {
+    "ACTION_BAR_TITLE": "Miscellaneous",
+    "EMPTY_TERM_MISCELLANEOUS_LIST": "No Available Term Miscellaneous",
+    "PANEL_HEADER_TEXT_INFORMATION": "MISCELLANEOUS",
+    "SELECTED_TERM_MISCELLANEOUS": "Selected Term Miscellaneous",
+    "REMOVE_TERM_MISCELLANEOUS_DIALOG": {
+      "TITLE": "Remove selected miscellaneous",
+      "CONFIRM_MESSAGE": "Are you sure to remove selected miscellaneous?",
+      "SUCCESS_MESSAGE": "Selected  miscellaneous have been deleted!",
+      "ERROR_MESSAGE": "Failed to delete selected miscellaneous. Please try again later."
+    }
+  },
+
+  "TERM_MISCELLANEOUS_ADD_PAGE": {
+    "ACTION_BAR_TITLE": "Add Miscellaneous",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Enter name here",
+        "ERROR_EMPTY_TEXT": "Please enter miscellaneous name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Enter description here"
+      },
+      "AMOUNT_CONTROL": {
+        "CONTROL_LABEL": "Amount:",
+        "HINT_TEXT": "Enter amount here",
+        "ERROR_EMPTY_TEXT": "Please enter amount"
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add Miscellaneous",
+        "CONFIRM_MESSAGE": "Are you sure to save new miscellaneous?",
+        "SUCCESS_MESSAGE": "New miscellaneous has been saved!",
+        "ERROR_MESSAGE": "Saving new miscellaneous failed!"
+      }
+    }
+  },
+
+  "TERM_MISCELLANEOUS_EDIT_PAGE": {
+    "ACTION_BAR_TITLE": "Edit Miscellaneous",
+    "FORM_CONTROL": {
+      "NAME_CONTROL": {
+        "CONTROL_LABEL": "Name:",
+        "HINT_TEXT": "Enter name here",
+        "ERROR_EMPTY_TEXT": "Please enter miscellaneous name"
+      },
+      "DESCRIPTION_CONTROL": {
+        "CONTROL_LABEL": "Description:",
+        "HINT_TEXT": "Enter description here"
+      },
+      "AMOUNT_CONTROL": {
+        "CONTROL_LABEL": "Amount:",
+        "HINT_TEXT": "Enter amount here",
+        "ERROR_EMPTY_TEXT": "Please enter amount"
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Miscellaneous",
+        "CONFIRM_MESSAGE": "Are you sure to save new changes?",
+        "SUCCESS_MESSAGE": "New changes has been saved!",
+        "ERROR_MESSAGE": "Updating miscellaneous failed!"
+      }
+    }
+  },
+
+  "CONTRACT_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contracts",
+      "SEARCH_BAR_HINT_TEXT": "Enter contract code here...",
+      "OPTIONS": {
+        "MULTIPLE_SELECT": "Multiple Select",
+        "ARCHIVED_LIST": "Archived List",
+        "CALENDAR_VIEW": "Calendar View"
+      }
+    },
+    "EMPTY_CONTRACT_LIST": "No Available Contracts",
+    "HEADER_SECTION": {
+      "TOTAL_CONTRACTS": "Total Contracts",
+      "OPEN_CONTRACTS": "Open Contracts"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired"
+    },
+    "ARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Archive selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    }
+  },
+
+  "CONTRACT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Contract Filter"
+    },
+    "BODY_SECTION": {
+      "TENANT_LABEL": "Tenant:",
+      "ACTIVE_FROM_LABEL": "Active From:",
+      "ACTIVE_TO_LABEL": "Active To:",
+      "NEXT_DUE_DATE_FROM_LABEL": "Next Due Date From:",
+      "NEXT_DUE_DATE_TO_LABEL": "Next Due Date To:",
+      "OPEN_CONTRACT_LABEL": "Open Contract:",
+      "SORT_ORDER_LABEL": "Sort Order:",
+      "CODE_SORT_ORDER_LABEL": "Code Sort Order:",
+      "STATUS_LABEL": "Status:"
+    }
+  },
+
+  "CONTRACT_CALENDAR_VIEW_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contracts Calendar View"
+    },
+    "CALENDAR_VIEW_MODES_BUTTON": {
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired",
+      "EMPTY_LIST_LABEL_TEXT": "Select Date To View Contracts"
+    },
+    "ARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Archive selected contracts",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contracts to archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contracts. Please try again later."
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    }
+  },
+
+  "CONTRACT_ARCHIVED_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Archived Contracts",
+      "SEARCH_BAR_HINT_TEXT": "Enter contract code here...",
+      "OPTIONS": {
+        "MULTIPLE_SELECT": "Multiple Select",
+        "ARCHIVED_LIST": "Archived List",
+        "CALENDAR_VIEW": "Calendar View"
+      }
+    },
+    "EMPTY_ARCHIVED_CONTRACT_LIST": "No Available Archived Contracts",
+    "HEADER_SECTION": {
+      "TOTAL_CONTRACTS": "Total Archived Contracts",
+      "EXPIRED_CONTRACTS": "Expired Contracts",
+      "ARCHIVED_CONTRACTS": "Inactive Contracts"
+    },
+    "LIST_ITEM": {
+      "OPEN_CONTRACT": "Open Contract",
+      "EXPIRATION": "Expiration: ",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
+    "DEARCHIVE_CONTRACTS_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contracts from archive?",
+      "SUCCESS_MESSAGE": "Selected contracts have been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contracts from archive. Please try again later."
+    },
+    "DEARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contract from archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contract from archive. Please try again later."
+    },
+    "ARCHIVED_FAILED_DIALOG": {
+      "TITLE": "Remove from archive",
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
+    }
+  },
+
+  "CONTRACT_MANAGE_DETAILS_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "ADD_TITLE": "Add Contract Details",
+      "EDIT_TITLE": "Edit Contract Details",
+      "OPTIONS": {
+        "MANAGE_TERM_DETAILS": "Manage Term Details"
+      }
+    },
+    "FORM_CONTROL": {
+      "GENERAL_INFORMATION_CONTROL_GROUP": {
+        "LABEL": "General Information",
+        "CODE_CONTROL": {
+          "CONTROL_LABEL": "Code:",
+          "HINT_TEXT": "Enter code here",
+          "EMPTY_ERROR_MESSAGE": "Please enter code",
+          "MAXLENGTH_ERROR_MESSAGE": "Code must not have more than 10 characters",
+          "ALREADY_EXIST_ERROR_MESSAGE": "Code already exists. Please enter a different code"
+        },
+        "TENANT_CONTROL": {
+          "CONTROL_LABEL": "Tenant:",
+          "EMPTY_ERROR_MESSAGE": "Please select tenant"
+        },
+        "TERM_CONTROL": {
+          "CONTROL_LABEL": "Term:",
+          "EMPTY_ERROR_MESSAGE": "Please select term",
+          "NO_ASSIGNED_SPACES": "There are no units assigned to the current selected unit type",
+          "NO_AVAILABLE_SPACES": "There are no more available units with the current selected unit type"
+        },
+        "SPACE_TYPE_NAME_CONTROL": {
+          "CONTROL_LABEL": "Unit Type:"
+        },
+        "SPACE_CONTROL": {
+          "CONTROL_LABEL": "Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select unit",
+          "NOT_AVAILABLE_ERROR_MESSAGE": "This unit is already occupied. Please select other unit."
+        },
+        "EFFECTIVE_DATE_CONTROL": {
+          "CONTROL_LABEL": "Effective Date:",
+          "HINT_TEXT": "Please enter effective date"
+        },
+        "OPEN_CONTRACT_CONTROL": {
+          "CONTROL_LABEL": "Open Contract:"
+        },
+        "DURATION_UNIT_CONTROL": {
+          "CONTROL_LABEL": "Duration Unit:",
+          "EMPTY_ERROR_MESSAGE": "Please select duration unit",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "DURATION_VALUE_CONTROL": {
+          "CONTROL_LABEL": "Duration Value:",
+          "EMPTY_ERROR_MESSAGE": "Please provide duration value",
+          "INVALID_ERROR_MESSAGE": "This is not valid"
+        },
+        "EXPIRATION_DATE_CONTROL": {
+          "CONTROL_LABEL": "Expiration Date:"
+        }
+      },
+      "ADD_DIALOG": {
+        "TITLE": "Add New Contract",
+        "CONFIRM_MESSAGE": "Are you sure to save new contract?",
+        "SUCCESS_MESSAGE": "New contract has been saved!",
+        "ERROR_MESSAGE": "Saving new contract failed. Please try again later."
+      },
+      "EDIT_DIALOG": {
+        "TITLE": "Edit Contract",
+        "CONFIRM_MESSAGE": "Are you sure to save changes?",
+        "SUCCESS_MESSAGE": "New changes have been saved!",
+        "ERROR_MESSAGE": "Saving new changes failed. Please try again later."
+      },
+      "INVALID_EXPIRATION_DATE_DIALOG": {
+        "TITLE": "Invalid Expiration Date",
+        "MESSAGE": "Expiration date cannot be less than the next due date. Please pick a different expiration date."
+      },
+      "NO_SELECTED_TERM_DIALOG": {
+        "TITLE": "No Selected Term",
+        "WARNING_MESSAGE": "Please select term from the list."
+      }
+    }
+  },
+
+  "CONTRACT_DETAILS_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Contract Details",
+      "OPTIONS": {
+        "MANAGE_TERM_DETAILS": "Manage Term Details",
+        "ARCHIVE": "Archive",
+        "UNARCHIVE": "Remove from Archive",
+        "ENCASH_DEPOSIT_AMOUNT": "Encash Deposit Amount",
+        "RETURN_ENCASHED_DEPOSIT_AMOUNT": "Return Encashed Deposit Amount"
+      }
+    },
+    "DETAILS_SECTION": {
+      "CODE_LABEL": "Code:",
+      "TENANT_LABEL": "Tenant:",
+      "SPACE_TYPE_LABEL": "Unit Type:",
+      "SPACE_NAME_LABEL": "Unit:",
+      "EFFECTIVE_DATE_LABEL": "Effective Date:",
+      "EXPIRATION_DATE_LABEL": "Expiration Date:",
+      "OPEN_CONTRACT_LABEL": "Open Contract",
+      "NEXT_DUE_DATE_LABEL": "Next Due Date:",
+      "ARCHIVED_LABEL": "Archived"
+    },
+    "ARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Archive selected contract",
+      "CONFIRM_MESSAGE": "Are you sure to add selected contract to archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been archived!",
+      "ERROR_MESSAGE": "Failed to archive selected contract. Please try again later."
+    },
+    "DEARCHIVE_CONTRACT_DIALOG": {
+      "TITLE": "Remove from archive",
+      "CONFIRM_MESSAGE": "Are you sure you want to remove selected contract from archive?",
+      "SUCCESS_MESSAGE": "Selected contract has been removed from archive!",
+      "ERROR_MESSAGE": "Failed to remove selected contract from archive. Please try again later."
+    },
+    "ARCHIVED_FAILED_DIALOG": {
+      "TITLE": "Remove from archive",
+      "ERROR_MESSAGE": "The selected contract cannot be removed from archive because the unit that is assigned to this contract is currently occupied by another tenant."
+    },
+    "ENCASH_DEPOSIT_AMOUNT_DIALOG": {
+      "TITLE": "Encash Deposit Amount",
+      "CONFIRM_MESSAGE": "Are you sure to encash deposit amount?",
+      "SUCCESS_MESSAGE": "Deposit Amount has been encashed",
+      "ERROR_MESSAGE": "Failed to encash deposit amount. Please try again later."
+    },
+    "RETURN_ENCASHED_DEPOSIT_AMOUNT_DIALOG": {
+      "TITLE": "Return Encashed Deposit Amount",
+      "CONFIRM_MESSAGE": "Are you sure to return encashed deposit amount?",
+      "SUCCESS_MESSAGE": "Encashed deposit amount has been returned",
+      "ERROR_MESSAGE": "Failed to return encashed deposit amount. Please try again later."
+    }
+  },
+
+  "ACCOUNT_STATEMENT_LIST": {
+    "EMPTY_ACCOUNT_STATEMENT_LIST": "No Available Account Statements",
+    "STATUS": {
+      "PAID": "PAID",
+      "UNPAID": "UNPAID"
+    },
+    "HEADER_LABEL": "Statement of Accounts"
+  },
+
+  "ACCOUNT_STATEMENT_DETAILS": {
+    "ACTION_BAR_SECTION": {
+      "FOR_VIEWING": {
+        "TITLE": "STATEMENT OF ACCOUNT",
+        "OPTIONS": {
+          "PAYMENTS": "Payments",
+          "PENALTIES": "Penalties"
+        }
+      },
+      "FOR_CREATION": {
+        "TITLE": "New Statement of Account"
+      }
+    },
+    "SEND_DETAILS": "Send Details",
+    "LAST_DATE_SENT": "Last Date Sent:",
+    "GENERAL_CONTROL_GROUP": {
+      "LABEL": "INFORMATION",
+      "NEW_RENTAL_BILL_LABEL": "New Rental Bill",
+      "NEW_UTILITY_BILL_LABEL": "New Utility Bill",
+      "DUE_DATE": "Due Date:",
+      "CASH_RECEIVED_LABEL": "CASH RECEIVED:",
+      "MISCELLANEOUS_FEE_LABEL": "Miscellaneous Fee:",
+      "WATER_BILL_AMOUNT_LABEL": "Water Bill Amount:",
+      "ELECTRICITY_BILL_AMOUNT_LABEL": "Electric Bill Amount:",
+      "RATE_LABEL": "Rate:",
+      "RENT_INCOME_LABEL": "Rent Income:",
+      "RENT_AMOUNT_LABEL": "Rent Amount:",
+      "PENALTIES_LABEL": "Penalties Amount:",
+      "TOTAL_LABEL": "TOTAL AMOUNT:",
+      "MARK_AS_PAID_LABEL": "Mark as Paid:"
+    },
+    "UPDATE_DIALOG": {
+      "TITLE": "Update Details",
+      "CONFIRM_MESSAGE": "Are you sure to save your changes?",
+      "SUCCESS_MESSAGE": "Your changes have been saved!",
+      "ERROR_MESSAGE": "Failed to save your changes. Please try again later!"
+    },
+    "SEND_DETAILS_DIALOG": {
+      "TITLE": "Send Statement of Account Details",
+      "CONFIRM_MESSAGE": "This will send the statement of account details to the tenant. Are you sure to proceed?",
+      "SUCCESS_MESSAGE": "Statement of account details has been successfully sent.",
+      "ERROR_MESSAGE": "Failed to send the statement of account details. Please try again later."
+    },
+    "CREATE_NEW_DIALOG": {
+      "TITLE": "Create new statement of account",
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
+      "NEW_UTILIY_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for utility bills?",
+      "NEW_UTILIY_BILL_SUCCESS_MESSAGE": "New statement of account for utility bills has been successfully created.",
+      "NEW_UTILIY_BILL_ERROR_MESSAGE": "Failed to create new statement of account for utility bills. Please try again later.",
+      "NEW_RENTAL_BILL_CONFIRM_MESSAGE": "Are you sure you want to create new statement of account for rental bill?",
+      "NEW_RENTAL_BILL_SUCCESS_MESSAGE": "New statement of account for rental bill has been successfully created.",
+      "NEW_RENTAL_BILL_ERROR_MESSAGE": "Failed to create new statement of account for rental bills. Please try again later."
+    },
+    "DELETE_ACCOUNT_STATEMENT_DIALOG": {
+      "TITLE": "Delete Statement of account",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this statement of account?",
+      "SUCCESS_MESSAGE": "Selected statement of account has been deleted.",
+      "ERROR_MESSAGE": "Failed to deleted selected statement of account. Please try again later."
+    }
+  },
+
+  "ACCOUNT_STATEMENT_FOOTER": {
+    "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+    "TOTAL_EXPECTED_AMOUNT": "Total Expected Amount",
+    "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit",
+    "TOTAL_EXPECTED_DEPOSIT_AMOUNT": "Expected Deposit Amount",
+    "TOTAL_ENCASHED_DEPOSIT_AMOUNT": "Encashed Deposit Amount"
+  },
+
+  "ACCOUNT_STATEMENT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "DATE_FROM_LABEL": "From:",
+      "DATE_TO_LABEL": "To:",
+      "PAYMENT_STATUS_LABEL": "Payment Status:",
+      "ACCOUNT_STATEMENT_TYPE_LABEL": "Account Statement Type:",
+      "SORT_ORDER_LABEL": "Sort Order:"
+    }
+  },
+
+  "ADD_ACCOUNT_STATEMENT_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Add Statement of Account"
+    }
+  },
+
+  "PAYMENTS": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Payments"
+    },
+    "EMPTY_PAYMENT_LIST": "No Available Payments",
+    "PAYMENT_DETAILS": {
+      "RECEIVED_BY": "Received By:",
+      "PAYMENT_FOR": "Payment For"
+    },
+    "FOOTER_SECTION": {
+      "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+      "TOTAL_PAID_AMOUNT_FROM_DEPOSIT": "Paid Amount from Deposit"
+    }
+  },
+
+  "PAYMENT_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Filter"
+    },
+    "BODY_SECTION": {
+      "PAYMENT_FOR_LABEL": "Payment For:",
+      "SORT_ORDER_LABEL": "Sort Order:"
+    }
+  },
+
+  "PAYMENT_DETAILS_DIALOG": {
+    "HEADER_SECTION": {
+      "ADD_DIALOG_TITLE": "Add Payment Details",
+      "VIEW_DIALOG_TITLE": "Payment Details"
+    },
+    "BODY_SECTION": {
+      "FORM_CONTROL": {
+        "DATE_LABEL": "Date:",
+        "TIME_LABEL": "Time:",
+        "AMOUNT_CONTROL": {
+          "LABEL": "Amount:",
+          "EMPTY_ERROR_MESSAGE": "Please enter amount",
+          "EXCEEDED_VALUE_ERROR_MESSAGE": "The total amount already exceeds with the expected amount for {0} which is {1}."
+        },
+        "AMOUNT_FROM_DEPOSIT_CONTROL": {
+          "LABEL": "Amount From Deposit:",
+          "EXCEEDED_VALUE_ERROR_MESSAGE": "Amount entered exceeded the available remaining deposited amount which is {0}."
+        },
+        "PAYMENT_FOR_CONTROL": {
+          "LABEL": "Payment For:"
+        },
+        "RECEIVED_BY_LABEL": "Received By:",
+        "NOTES_LABEL": "Notes:"
+      }
+    },
+    "ADD_DIALOG": {
+      "TITLE": "Add Payment",
+      "CONFIRM_MESSAGE": "Are you sure to save new payment?",
+      "SUCCESS_MESSAGE": "New payment has been saved!",
+      "ERROR_MESSAGE": "Failed to save new payment. Please try again later!"
+    }
+  },
+
+  "PENALTIES": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Penalties"
+    },
+    "EMPTY_PENALTY_LIST": "No Available Penalties",
+    "FOOTER_SECTION": {
+      "TOTAL_AMOUNT": "Total Amount"
+    }
+  },
+
+  "SETTINGS": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Settings"
+    },
+    "FORM_CONTROL": {
+      "GENERAL_SETTINGS_GROUP": {
+        "TITLE": "General Settings",
+        "CONTROLS": {
+          "BUSINESS_NAME": {
+            "LABEL": "Business Name:"
+          }
+        }
+      }
+    },
+    "SAVE_DIALOG": {
+      "TITLE": "Save Changes",
+      "CONFIRM_MESSAGE": "Are you sure to save new changes?",
+      "SUCCESS_MESSAGE": "New changes have been saved!",
+      "ERROR_MESSAGE": "Failed to save new changes. Please try again later!"
+    }
+  },
+
+  "DASHBOARD": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Dashboard"
+    },
+    "BODY_SECTION": {
+      "ACTIVE_TENANTS_WIDGET": {
+        "MAIN_LABEL": "Active Tenants"
+      },
+      "AVAILABLE_SPACES_WIDGET": {
+        "MAIN_LABEL": "Available Units"
+      },
+      "ACTIVE_CONTRACTS_WIDGET": {
+        "MAIN_LABEL": "Active Contracts"
+      },
+      "UPCOMING_CONTRACT_DUE_DATES_WIDGET": {
+        "MAIN_LABEL": "UPCOMING DUE DATES",
+        "MONTH": "Month:"
+      },
+      "UNPAID_ACCOUNT_STATEMENTS_WIDGET": {
+        "MAIN_LABEL": "UNPAID ACCOUNT STATEMENTS"
+      },
+      "ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET": {
+        "MAIN_LABEL": "ACCOUNT STATEMENTS AMOUNT SUMMARY",
+        "CHART_LEGENDS": {
+          "TOTAL_PAID_AMOUNT": "Total Paid Amount",
+          "TOTAL_UNPAID_AMOUNT": "Total Unpaid Amount"
+        }
+      },
+      "UNREAD_NOTIFICATION_COUNT_WIDGET": {
+        "MAIN_LABEL_1": "You have",
+        "MAIN_LABEL_2": "unread Notifications"
+      }
+    }
+  },
+
+  "NOTIFICATION_LIST_PAGE": {
+    "ACTION_BAR_SECTION": {
+      "TITLE": "Notifications"
+    },
+    "EMPTY_NOTIFICATION_LIST": "No Available Notifications"
+  },
+
+  "NOTIFICATION_FILTER_DIALOG": {
+    "HEADER_SECTION": {
+      "TITLE": "Notification Filter"
+    },
+    "BODY_SECTION": {
+      "FROM_DATE_LABEL": "From Date:",
+      "TO_DATE_LABEL": "To Date:",
+      "SORT_ORDER_LABEL": "Sort Order:"
+    }
+  }
+}

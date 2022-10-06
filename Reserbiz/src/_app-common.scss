@@ -1,0 +1,441 @@
+// Place any CSS rules you want to apply on both iOS and Android here.
+// This is where the vast majority of your CSS code goes.
+@import "./app-variables";
+
+/*#region FONT ICON CLASSES*/
+.fa {
+  font-family: "FontAwesome", "Font-Awesome";
+}
+
+.fa-regular {
+  font-family: "fa-regular-400", "fa-regular-400";
+}
+
+.fa-solid {
+  font-family: "fa-solid-900", "fa-solid-900";
+}
+/*#endregion*/
+
+/*#region ACTION BAR CLASSES*/
+.nt-action-bar {
+  .action-item-button {
+    font-size: 18;
+  }
+
+  .custom-action-item-button {
+    color: $white;
+    background: transparent;
+    border-radius: 50%;
+    font-size: 23;
+    height: 40;
+    padding: 8;
+    text-align: center;
+    width: 40;
+  }
+
+  .custom-action-item-button--active {
+    color: $white;
+    background: $primary;
+  }
+}
+/*#endregion*/
+
+/*#region SIDE DRAWER CLASSES*/
+$sidedrawer-header-image-size: 100;
+$sidedrawer-header-image-offset-top: 10;
+$sidedrawer-header-image-offset-bottom: 5;
+$sidedrawer-list-item-offset-left: 15;
+$sidedrawer-list-icon-offset: 10;
+$sidedrawer-list-icon-size: 20;
+
+.sidedrawer {
+  &.sidedrawer-left {
+    background-color: $ab-background;
+
+    .sidedrawer-header-image {
+      color: $background-dark;
+      height: $sidedrawer-header-image-size;
+      width: $sidedrawer-header-image-size;
+      font-size: $sidedrawer-header-image-size;
+      padding: 0;
+      margin-bottom: $sidedrawer-header-image-offset-bottom;
+      margin-top: $sidedrawer-header-image-offset-top;
+    }
+
+    .footnote {
+      color: rgba($ab-color, 0.5);
+    }
+  }
+
+  .sidedrawer-header {
+    background: $primary-gradient;
+
+    .sidedrawer-header-brand {
+      color: $ab-color;
+    }
+
+    .footnote {
+      font-size: 13;
+    }
+  }
+
+  .sidedrawer-content {
+    background-color: $side-drawer-background;
+
+    $sidedrawer-list-item-offset-left: 15;
+    $sidedrawer-list-item-offset-bottom: 3;
+    $sidedrawer-list-icon-offset: 10;
+    $sidedrawer-list-font-size: 15;
+    $sidedrawer-list-icon-size: 25;
+    $sidedrawer-list-width-size: 35;
+
+    .sidedrawer-list-item {
+      font-size: $sidedrawer-list-font-size;
+      padding-left: $sidedrawer-list-item-offset-left;
+      margin-bottom: $sidedrawer-list-item-offset-bottom;
+      label {
+        vertical-align: center;
+        color: black;
+      }
+      label.badge-count {
+        background-color: $primary;
+        color: $white;
+        padding: 5;
+        text-align: center;
+        margin-right: 10;
+        border-radius: 50%;
+        font-weight: bold;
+      }
+      .fa {
+        font-size: $sidedrawer-list-icon-size;
+        width: $sidedrawer-list-width-size;
+        margin-right: $sidedrawer-list-icon-offset;
+      }
+      &.selected {
+        background-color: $item-active-background;
+        label {
+          color: $item-active-color;
+        }
+        label.badge-count {
+          color: $white;
+        }
+      }
+    }
+
+    .menu-separator {
+      border-bottom-width: 1;
+      border-bottom-color: #888;
+    }
+  }
+
+  .sidedrawer-footer {
+    text-align: center;
+    background-color: white;
+    font-size: 11;
+    padding: 5;
+  }
+}
+/*#endregion*/
+
+/*#region PAGE CONTAINER CLASSES*/
+.page-container {
+  background: $background-gradient;
+  width: 100%;
+  height: 100%;
+  padding: 10;
+
+  &__page-divider {
+    width: 100%;
+    margin-top: 10;
+    margin-bottom: 10;
+    Label {
+      font-size: 17;
+      color: $primary;
+      font-weight: bold;
+    }
+  }
+
+  &__single-command-group {
+    justify-content: flex-end;
+  }
+
+  &__page-command {
+    width: 100;
+    margin-right: 0;
+  }
+
+  .panel {
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 10;
+    padding-top: 5;
+    padding-left: 10;
+    padding-right: 10;
+    padding-bottom: 25;
+    box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+
+    &__details-group-panel {
+      margin-bottom: 20;
+    }
+
+    &__header-section {
+      color: white;
+      background: $primary-gradient;
+      border-radius: 5;
+      font-size: 16;
+      padding: 5;
+      text-align: center;
+      width: 100%;
+    }
+
+    &__body-section {
+      padding: 15;
+    }
+
+    &__details-section {
+      margin-top: 13;
+      border-bottom-width: 0.5;
+      padding-bottom: 5;
+
+      .details-wrapper {
+        width: 50%;
+      }
+
+      .details-label {
+        border-bottom-color: #cccccc;
+        font-size: 16;
+        color: black;
+        font-weight: bold;
+      }
+    }
+  }
+}
+/*#endregion*/
+
+/*#region LIST CONTAINER CLASSES*/
+.app-list-container {
+  width: 100%;
+  height: 100%;
+
+  .app-list-item-template {
+    background-color: white;
+    border-color: #cccccc;
+    border-bottom-width: 1;
+    border-radius: 10;
+    box-shadow: 0 3 4 rgba(0, 0, 0, 0.1);
+    margin-top: 5;
+    padding: 10;
+
+    &__image-container {
+      height: 60;
+      width: 60;
+      border-radius: 100%;
+
+      label {
+        font-size: 20;
+        font-weight: bold;
+        color: black;
+      }
+    }
+
+    &__selection-mode {
+      height: 60;
+      width: 60;
+      border-radius: 100%;
+      label {
+        font-size: 20;
+        font-weight: bold;
+        color: white;
+      }
+
+      &--is-selected {
+        background-color: $primary;
+      }
+
+      &--is-not-selected {
+        background-color: $inactivate;
+      }
+    }
+
+    &__inactive-indicator {
+      width: 15;
+      height: 15;
+      background-color: #ff4d4d;
+      border-radius: 50%;
+      margin-right: 10;
+    }
+
+    &__inactive-text-indicator {
+      color: #ff4d4d;
+    }
+
+    &__item-main-label {
+      font-size: 15;
+      font-weight: bold;
+      color: black;
+    }
+
+    &__item-secondary-label {
+      font-size: 13;
+      font-weight: bold;
+    }
+
+    &__option {
+      width: 50;
+      height: 50;
+      border-radius: 50%;
+      font-size: 20;
+      background-color: white;
+    }
+  }
+
+  .app-list-item-swipe-template {
+    &__option-container {
+      padding-right: 10;
+      padding-left: 10;
+    }
+
+    &__option {
+      width: 60;
+      height: 60;
+      margin-right: 5;
+      margin-left: 5;
+      border-radius: 100%;
+      font-size: 20;
+      background-color: white;
+    }
+  }
+}
+/*#endregion*/
+
+/*#region DIALOG CONTAINER CLASSES*/
+.dialog-container {
+  .dialog-header {
+    font-size: 20;
+    padding: 10;
+    background: $primary-gradient;
+    color: white;
+    height: 50;
+
+    .icon-close {
+      font-size: 25;
+    }
+  }
+  .dialog-body {
+    padding: 10;
+  }
+  .dialog-footer {
+    padding: 10;
+  }
+}
+/*#endregion*/
+
+/*#region DASHBOARD GLOBAL CLASSES*/
+.dashboard-container {
+  &__widget-panel {
+    height: 120;
+    width: 100%;
+    margin: 5;
+    border-radius: 10;
+    background-color: white;
+  }
+
+  &__widget-content-section {
+    justify-content: space-around;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 5;
+  }
+
+  &__widget-icon-with-badge {
+    align-self: center;
+    height: 70;
+    margin-bottom: 5;
+
+    .widget-badge-container {
+      height: 32;
+      width: 32;
+      font-size: 15;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+      opacity: 1;
+    }
+
+    .widget-icon {
+      font-size: 55;
+    }
+  }
+
+  &__widget-main-label {
+    font-weight: bold;
+    font-size: 15;
+    text-align: center;
+  }
+}
+/*#endregion*/
+
+/*#region TABS GLOBAL CSS*/
+TabStrip {
+  selected-item-color: $primary;
+  highlight-color: $primary;
+}
+/*#endregion*/
+
+/*#region DATAFORM GLOBAL CLASSES*/
+
+DataFormEditorLabel {
+  font-size: 16;
+  font-weight: bold;
+  color: black;
+}
+
+DataFormEditorCore {
+  margin: 5;
+}
+
+PropertyEditor[type="Switch"] DataFormEditorCore,
+PropertyEditor[type="Stepper"] DataFormEditorCore {
+  border-width: 0;
+}
+
+PropertyEditor[type="Text"] DataFormEditorCore,
+PropertyEditor[type="Password"] DataFormEditorCore,
+PropertyEditor[type="Email"] DataFormEditorCore,
+PropertyEditor[type="Phone"] DataFormEditorCore,
+PropertyEditor[type="Decimal"] DataFormEditorCore,
+PropertyEditor[type="Picker"] DataFormEditorCore,
+PropertyEditor[type="Label"] DataFormEditorCore,
+PropertyEditor[type="DatePicker"] DataFormEditorCore,
+PropertyEditor[type="TimePicker"] DataFormEditorCore,
+PropertyEditor[type="MultilineText"] DataFormEditorCore,
+PropertyEditor[type="Number"] DataFormEditorCore {
+  border-width: 2;
+  border-radius: 50%;
+  padding: 8;
+}
+
+PropertyEditor:focus DataFormEditorCore {
+  border-color: $primary;
+}
+
+/*#endregion*/
+
+/*#region GLOBAL UTILITY CLASSES*/
+.hidden {
+  display: none;
+}
+
+Button {
+  margin: 0;
+}
+
+Button.btn-primary {
+  background: $primary-gradient;
+  color: white;
+  font-weight: bold;
+}
+/*#endregion*/

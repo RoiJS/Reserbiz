@@ -1,0 +1,231 @@
+<ns-action-bar
+  [title]="
+    'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.EDIT_TITLE' | translate
+  "
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="updateInformation()"
+  ></ActionItem>
+  <ActionItem
+    [text]="
+      'CONTRACT_MANAGE_DETAILS_PAGE.ACTION_BAR_SECTION.OPTIONS.MANAGE_TERM_DETAILS'
+        | translate
+    "
+    android.position="popup"
+    (tap)="navigateToManageTerm()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <StackLayout class="panel">
+      <RadDataForm
+        width="100%"
+        [source]="entityFormSource"
+        [isReadOnly]="isBusy"
+        (propertyCommitted)="onPropertyCommitted($event)"
+        (editorUpdate)="onEditorUpdate($event)"
+      >
+        <!-- #Start - General Information -->
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="
+            'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.LABEL'
+              | translate
+          "
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="code"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [hintText]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.HINT_TEXT'
+                | translate
+            "
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.CODE_CONTROL.EMPTY_ERROR_MESSAGE'
+                  | translate
+              "
+            ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="tenantId"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TENANT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="tenantOptions"
+            [readOnly]="hasAccountStatements"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="termId"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.TERM_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="termOptions"
+            [readOnly]="hasAccountStatements"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="spaceTypeName"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_TYPE_NAME_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Label">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="spaceId"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.SPACE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="spaceOptions"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="effectiveDate"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.EFFECTIVE_DATE_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [readOnly]="hasAccountStatements"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="isOpenContract"
+            [displayName]="
+              'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.OPEN_CONTRACT_CONTROL.CONTROL_LABEL'
+                | translate
+            "
+            [valuesProvider]="yesNoOptions"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup
+          tkDataFormGroups
+          name="Group_Duration_Details_Contract"
+          [titleHidden]="true"
+          [hidden]="entityFormSource?.isOpenContract === 1"
+        >
+          <TKDataFormGridLayout tkPropertyGroupLayout>
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="durationUnit"
+              [displayName]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_UNIT_CONTROL.CONTROL_LABEL'
+                  | translate
+              "
+              [valuesProvider]="durationOptions"
+              index="0"
+              columnIndex="0"
+              width="60%"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Picker">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="durationValue"
+              [displayName]="
+                'CONTRACT_MANAGE_DETAILS_PAGE.FORM_CONTROL.GENERAL_INFORMATION_CONTROL_GROUP.DURATION_VALUE_CONTROL.CONTROL_LABEL'
+                  | translate
+              "
+              index="0"
+              columnIndex="1"
+              width="40%"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Stepper">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKDataFormGridLayout>
+        </TKPropertyGroup>
+        <!-- #End -->
+      </RadDataForm>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

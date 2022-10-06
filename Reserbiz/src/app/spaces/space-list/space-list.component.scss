@@ -1,0 +1,26 @@
+@import '../../../app-variables';
+
+.space-icon-placeholder {
+  background: $primary-gradient;
+
+  Label {
+    font-size: 30;
+    color: white;
+  }
+}
+
+.space-availability-status {
+  border-radius: 50%;
+  width: 80;
+  padding: 5;
+  font-size: 11;
+  color: white;
+
+  &--available {
+    background-color: rgb(12, 160, 12);
+  }
+
+  &--occupied {
+    background-color: rgb(233, 56, 56);
+  }
+}

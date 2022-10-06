@@ -1,0 +1,92 @@
+<ns-action-bar
+  [title]="'ACCOUNT_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="saveAccountInformation()"
+  ></ActionItem>
+</ns-action-bar>
+<StackLayout>
+  <ns-loader-layout [busy]="IsBusy">
+    <StackLayout width="100%" class="page-container">
+      <StackLayout class="panel">
+        <RadDataForm
+          width="100%"
+          [source]="userAccountFormSource"
+          [isReadOnly]="IsBusy"
+          commitMode="Manual"
+          validationMode="Manual"
+          (propertyValidate)="onPropertyValidate($event)"
+        >
+          <TKPropertyGroup
+            tkDataFormGroups
+            [name]="'GENERAL_TEXTS.DETAILS' | translate"
+            hidden="false"
+          >
+            <TKGroupTitleStyle
+              tkPropertyGroupTitleStyle
+              fillColor="#eb5a2e"
+              labelTextSize="17"
+              labelFontStyle="Bold"
+              labelTextColor="White"
+            ></TKGroupTitleStyle>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="username"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.USERNAME_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Text">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="emailAddress"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.EMAILADDRESS_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Email">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="password"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.PASSWORD_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Password">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty
+              tkPropertyGroupProperties
+              name="confirmPassword"
+              [hintText]="'ACCOUNT_INFORMATION_PAGE.FORM_CONTROL.CONFIRM_PASSWORD_CONTROL.HINT_TEXT' | translate"
+            >
+              <TKPropertyEditor tkEntityPropertyEditor type="Password">
+                <TKPropertyEditorStyle
+                  tkPropertyEditorStyle
+                  labelTextSize="14"
+                ></TKPropertyEditorStyle>
+              </TKPropertyEditor>
+            </TKEntityProperty>
+          </TKPropertyGroup>
+        </RadDataForm>
+      </StackLayout>
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

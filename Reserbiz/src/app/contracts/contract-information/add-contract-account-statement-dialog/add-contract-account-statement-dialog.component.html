@@ -1,0 +1,55 @@
+<StackLayout class="add-account-statement-dialog dialog-container">
+  <StackLayout class="dialog-header">
+    <FlexboxLayout width="100%" justifyContent="space-between">
+      <StackLayout width="90%" orientation="horizontal">
+        <label
+          text="&#xf573;"
+          class="fa fa-solid m-r-10"
+          verticalAlignment="middle"
+        ></label>
+        <label
+          [text]="'ADD_ACCOUNT_STATEMENT_DIALOG.HEADER_SECTION.TITLE' | translate"
+          verticalAlignment="middle"
+        ></label>
+      </StackLayout>
+      <StackLayout>
+        <label
+          text="&#xf00d;"
+          class="fa fa-solid icon-close"
+          (tap)="closeDialog()"
+        ></label>
+      </StackLayout>
+    </FlexboxLayout>
+  </StackLayout>
+  <StackLayout class="dialog-body" orientation="vertical">
+    <StackLayout class="panel">
+      <!-- General Information Group -->
+      <StackLayout class="panel__details-group-panel">
+        <!-- Group body -->
+        <StackLayout class="panel__body-section">
+          <ns-account-statement-type-dropdown-control
+            [accountStatementListCount]="accountStatementListCount"
+            [contractId]="contractId"
+          ></ns-account-statement-type-dropdown-control>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+  <StackLayout class="dialog-footer">
+    <FlexboxLayout class="dialog-buttons">
+      <button
+        padding="0"
+        color="white"
+        [text]="'GENERAL_TEXTS.BUTTONS.CREATE' | translate"
+        class="btn-create btn-primary -rounded-lg"
+        (tap)="onCreate()"
+      ></button>
+      <button
+        padding="0"
+        [text]="'GENERAL_TEXTS.BUTTONS.CLOSE' | translate"
+        class="btn-close -rounded-lg"
+        (tap)="closeDialog()"
+      ></button>
+    </FlexboxLayout>
+  </StackLayout>
+</StackLayout>

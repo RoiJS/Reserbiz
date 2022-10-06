@@ -1,0 +1,299 @@
+<ns-action-bar
+  [title]="'PAYMENTS.ACTION_BAR_SECTION.TITLE' | translate"
+  [hasMenu]="false"
+>
+  <!-- # Add payment icon -->
+  <ActionItem
+    icon="font://&#xf067;"
+    class="fa action-item-button"
+    (tap)="openAddPaymentDialog()"
+  ></ActionItem>
+
+  <ActionItem (tap)="openFilterDialog()">
+    <label
+      text="&#xf0b0;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
+  ></ActionItem>
+</ns-action-bar>
+<StackLayout>
+  <ns-loader-layout [busy]="IsBusy">
+    <FlexBoxLayout flexDirection="column" width="100%" height="100%">
+      <!-- # Start - Payment list container -->
+      <StackLayout width="100%" height="100%">
+        <ns-list-layout
+          [hasItems]="items?.length > 0"
+          [emptyTextIdentifier]="'PAYMENTS.EMPTY_PAYMENT_LIST'"
+        >
+          <FlexBoxLayout
+            flexDirection="column"
+            justifyContent="space-around"
+            class="page-container payments-list-container"
+          >
+            <RadListView
+              width="100%"
+              height="100%"
+              #appListView
+              class="app-list-container"
+              [items]="items"
+              selectionBehavior="Press"
+              multipleSelection="true"
+              pullToRefresh="true"
+              loadOnDemandMode="Auto"
+              loadOnDemandBufferSize="2"
+              (itemSelected)="openPaymentDetailsDialog($event.index)"
+              (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+              (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+            >
+              <ng-template tkListItemTemplate let-payment="item">
+                <GridLayout
+                  class="app-list-item-template payment-item-template"
+                  rows="*, *, *, *"
+                  columns="70, 200, *"
+                >
+                  <!-- #Start Payment main icon section -->
+                  <StackLayout row="0" col="0" rowSpan="2" class="m-r-10">
+                    <StackLayout
+                      class="
+                        payment-icon-placeholder
+                        app-list-item-template__image-container
+                      "
+                      verticalAlignment="middle"
+                    >
+                      <label
+                        class="fa fa-solid"
+                        horizontalAlignment="center"
+                        text="&#xf53d;"
+                      ></label>
+                    </StackLayout>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Total Amount Section -->
+                  <StackLayout
+                    row="0"
+                    column="1"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-amount-section"
+                  >
+                    <label
+                      [text]="'GENERAL_TEXTS.CURRENCY.PHP' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.amountFormatted"
+                    ></label>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Payment For section -->
+                  <StackLayout
+                    row="1"
+                    column="1"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-for"
+                  >
+                    <label
+                      class="payment-item-template__detail payment-for-label"
+                      [text]="'PAYMENTS.PAYMENT_DETAILS.PAYMENT_FOR' | translate"
+                    ></label>
+                    <div [ngSwitch]="payment?.paymentForType">
+                      <!-- Rental -->
+                      <label
+                        *ngSwitchCase="1"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.RENTAL' | translate"
+                      ></label>
+                      <!-- Electric Bill -->
+                      <label
+                        *ngSwitchCase="2"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.ELECTRIC_BILL' | translate"
+                      ></label>
+                      <!-- Water Bill -->
+                      <label
+                        *ngSwitchCase="3"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.WATER_BILL' | translate"
+                      ></label>
+                      <!-- Miscellaneous Fee -->
+                      <label
+                        *ngSwitchCase="4"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.MISCELLANEOUS_FEES' | translate"
+                      ></label>
+                      <!-- Penalty Fee -->
+                      <label
+                        *ngSwitchCase="5"
+                        class="payment-item-template__detail"
+                        [text]="'GENERAL_TEXTS.PAYMENT_TYPE_OPTIONS.PENALTY' | translate"
+                      ></label>
+                    </div>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Payment Date Time Received section -->
+                  <StackLayout
+                    row="2"
+                    column="1"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-datetime-received"
+                  >
+                    <label
+                      text="&#xf073;"
+                      class="fa fa-solid m-r-5 payment-item-template__icon"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.dateTimeReceivedFormatted"
+                    ></label>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Payment Received By section -->
+                  <StackLayout
+                    row="3"
+                    column="1"
+                    columSpan="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    class="payment-received-by"
+                  >
+                    <label
+                      [text]="'PAYMENTS.PAYMENT_DETAILS.RECEIVED_BY' | translate"
+                      class="m-r-5"
+                    ></label>
+                    <label
+                      class="payment-item-template__detail"
+                      [text]="payment?.receivedBy"
+                    ></label>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Notes Indicator Section -->
+                  <StackLayout
+                    *ngIf="payment?.hasNotes"
+                    row="0"
+                    column="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    horizontalAlignment="right"
+                  >
+                    <label text="&#xf075;" class="fa fa-solid"></label>
+                  </StackLayout>
+                  <!-- #End -->
+
+                  <!-- #Start Amount From Deposit Indicator Section -->
+                  <StackLayout
+                    *ngIf="payment?.isAmountFromDeposit"
+                    row="1"
+                    column="2"
+                    orientation="horizontal"
+                    verticalAlignment="middle"
+                    horizontalAlignment="right"
+                  >
+                    <label text="&#xf14d;" class="fa fa-solid"></label>
+                  </StackLayout>
+                  <!-- #End -->
+                </GridLayout>
+              </ng-template>
+            </RadListView>
+          </FlexBoxLayout>
+        </ns-list-layout>
+      </StackLayout>
+      <!-- #End -->
+
+      <!-- #Start - Payment list footer container -->
+      <StackLayout class="payment-list-footer">
+        <FlexBoxLayout justifyContent="space-around">
+          <!-- #Start Total Amount Paid Section -->
+          <StackLayout
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+            row="0"
+            column="2"
+            class="payment-list-footer__total-amount-section"
+          >
+            <label
+              class="payment-list-footer__total-amount-section-label"
+              [text]="'PAYMENTS.FOOTER_SECTION.TOTAL_PAID_AMOUNT'| translate"
+            ></label>
+            <StackLayout
+              orientation="horizontal"
+              verticalAlignment="middle"
+              horizontalAlignment="center"
+            >
+              <label
+                text="&#xf53d;"
+                class="
+                  fa fa-solid
+                  m-r-5
+                  payment-list-footer__total-amount-section-icon
+                "
+              ></label>
+              <label
+                class="payment-list-footer__total-amount-section-detail"
+                [text]="totalPaidAmount"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+          <!-- #End -->
+
+          <!-- #Start Border Separator Section -->
+          <StackLayout
+            *ngIf="hasTotalAmountFromDeposit"
+            row="0"
+            column="1"
+            class="payment-list-footer__separator"
+          >
+          </StackLayout>
+          <!-- #End -->
+
+          <!-- #Start Total Amount Paid From Deposit Section -->
+          <StackLayout
+            *ngIf="hasTotalAmountFromDeposit"
+            verticalAlignment="middle"
+            horizontalAlignment="center"
+            row="0"
+            column="2"
+            class="payment-list-footer__total-amount-from-deposit-section"
+          >
+            <label
+              class="
+                payment-list-footer__total-amount-from-deposit-section-label
+              "
+              [text]="'PAYMENTS.FOOTER_SECTION.TOTAL_PAID_AMOUNT_FROM_DEPOSIT' | translate"
+            ></label>
+            <StackLayout
+              orientation="horizontal"
+              verticalAlignment="middle"
+              horizontalAlignment="center"
+            >
+              <label
+                text="&#xf53d;"
+                class="
+                  fa fa-solid
+                  m-r-5
+                  payment-list-footer__total-amount-from-deposit-section-icon
+                "
+              ></label>
+              <label
+                class="
+                  payment-list-footer__total-amount-from-deposit-section-detail
+                "
+                [text]="totalAmountFromDeposit"
+              ></label>
+            </StackLayout>
+          </StackLayout>
+          <!-- #End -->
+        </FlexBoxLayout>
+      </StackLayout>
+      <!-- #End -->
+    </FlexBoxLayout>
+  </ns-loader-layout>
+</StackLayout>

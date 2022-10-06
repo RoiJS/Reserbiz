@@ -1,0 +1,304 @@
+<ns-action-bar
+  [title]="'CONTRACT_ARCHIVED_LIST_PAGE.ACTION_BAR_SECTION.TITLE' | translate"
+  [hasMenu]="false"
+  *ngIf="!filterOptionActive"
+>
+  <ActionItem (tap)="activateDeactivateFilterOptions()">
+    <label
+      text="&#xf002;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-action-bar
+  title=""
+  [hasMenu]="false"
+  [showBackButton]="false"
+  *ngIf="filterOptionActive"
+>
+  <SearchBar
+    #searchBar
+    backgroundColor="transparent"
+    [hint]="'CONTRACT_LIST_PAGE.ACTION_BAR_SECTION.SEARCH_BAR_HINT_TEXT' | translate"
+    (submit)="onSubmitSearchText($event)"
+    (clear)="onClearSearchText($event)"
+  >
+  </SearchBar>
+  <ActionItem (tap)="openFilterDialog()">
+    <label
+      text="&#xf0b0;"
+      class="custom-action-item-button fa fa-solid"
+      [ngClass]="{'custom-action-item-button--active': isFilterActive}"
+    ></label
+  ></ActionItem>
+  <ActionItem
+    icon="font://&#xf00d;"
+    class="fa fa-solid action-item-button"
+    (tap)="activateDeactivateFilterOptions()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout width="100%" height="100%">
+    <StackLayout class="contract-header-container">
+      <GridLayout columns="100, *" rows="*, *, *">
+        <StackLayout
+          row="0"
+          column="0"
+          rowSpan="3"
+          class="contract-header-container__contract-icon"
+        >
+          <label text="&#xf187;" class="fa fa-solid m-r-10"></label>
+        </StackLayout>
+        <StackLayout
+          class="contract-header-container__total-count-section"
+          row="0"
+          column="1"
+          orientation="horizontal"
+        >
+          <label class="total-count m-r-5" [text]="totalNumberOfItems"></label>
+          <label
+            class="total-count-text"
+            verticalAlignment="middle"
+            [text]="'CONTRACT_ARCHIVED_LIST_PAGE.HEADER_SECTION.TOTAL_CONTRACTS' | translate"
+          ></label>
+        </StackLayout>
+        <StackLayout
+          class="contract-header-container__expired-contract-count-section"
+          row="1"
+          column="1"
+          orientation="horizontal"
+        >
+          <label
+            verticalAlignment="middle"
+            text="&#xf273;"
+            class="expired-contract-icon fa m-r-10"
+          ></label>
+          <label
+            verticalAlignment="middle"
+            class="expired-contract-count m-r-5"
+            [text]="expiredContractsCount"
+          ></label>
+          <label
+            class="expired-contract-count-text"
+            verticalAlignment="middle"
+            [text]="'CONTRACT_ARCHIVED_LIST_PAGE.HEADER_SECTION.EXPIRED_CONTRACTS' | translate"
+          ></label>
+        </StackLayout>
+        <StackLayout
+          class="contract-header-container__inactive-contract-count-section"
+          row="2"
+          column="1"
+          orientation="horizontal"
+        >
+          <label
+            verticalAlignment="middle"
+            text="&#xf1c6;"
+            class="inactive-contract-icon fa m-r-10"
+          ></label>
+          <label
+            verticalAlignment="middle"
+            class="inactive-contract-count m-r-5"
+            [text]="inactiveContractsCount"
+          ></label>
+          <label
+            class="inactive-contract-count-text"
+            verticalAlignment="middle"
+            [text]="'CONTRACT_ARCHIVED_LIST_PAGE.HEADER_SECTION.ARCHIVED_CONTRACTS' | translate"
+          ></label>
+        </StackLayout>
+      </GridLayout>
+    </StackLayout>
+
+    <StackLayout class="page-container">
+      <ns-list-layout
+        [hasItems]="items?.length > 0"
+        [emptyTextIdentifier]="'CONTRACT_ARCHIVED_LIST_PAGE.EMPTY_ARCHIVED_CONTRACT_LIST'"
+      >
+        <RadListView
+          width="100%"
+          height="100%"
+          #appListView
+          class="app-list-container"
+          [items]="items"
+          swipeActions="true"
+          selectionBehavior="Press"
+          multipleSelection="true"
+          pullToRefresh="true"
+          loadOnDemandMode="Auto"
+          loadOnDemandBufferSize="2"
+          (itemSelected)="selectItem($event.index, '/contracts/:id')"
+          (itemDeselected)="deselectedItem($event)"
+          (itemSwipeProgressStarted)="onSwipeCellStarted($event)"
+          (pullToRefreshInitiated)="onPullToRefreshInitiatedForPaginatedList($event)"
+          (loadMoreDataRequested)="onLoadMoreItemsRequested($event)"
+        >
+          <ng-template tkListItemTemplate let-contract="item">
+            <GridLayout
+              class="app-list-item-template contract-item-template"
+              rows="*, *, *"
+              columns="80, *"
+            >
+              <!-- Template for not selected contract item -->
+              <StackLayout
+                *ngIf="multipleSelectionActive && !contract.isSelected"
+                row="0"
+                col="0"
+                rowSpan="3"
+                class="m-r-5 m-l-5"
+                verticalAlignment="middle"
+                orizontalAlignment="center"
+              >
+                <StackLayout
+                  class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-not-selected"
+                  verticalAlignment="middle"
+                >
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Template for selected contract item -->
+              <StackLayout
+                *ngIf="multipleSelectionActive && contract.isSelected"
+                row="0"
+                col="0"
+                rowSpan="3"
+                class="m-r-5 m-l-5"
+                verticalAlignment="middle"
+                orizontalAlignment="center"
+              >
+                <StackLayout
+                  class="app-list-item-template__selection-mode app-list-item-template__selection-mode--is-selected"
+                  verticalAlignment="middle"
+                >
+                  <label
+                    class="fa fa-solid"
+                    horizontalAlignment="center"
+                    text="&#xf00c;"
+                  ></label>
+                </StackLayout>
+              </StackLayout>
+
+              <!-- Template contract item photo placeholder -->
+              <StackLayout
+                *ngIf="!multipleSelectionActive && !contract.isSelected"
+                row="0"
+                col="0"
+                rowSpan="3"
+                class="contract-item-template__next-due-date-section m-r-10"
+                orientation="vertical"
+              >
+                <FlexBoxLayout
+                  *ngIf="contract.isExpired"
+                  justifyContent="space-around"
+                >
+                  <label
+                    fontSize="45"
+                    text="&#xf273;"
+                    class="fa fa-solid m-t-15 m-b-15"
+                  ></label>
+                </FlexBoxLayout>
+
+                <FlexBoxLayout
+                  *ngIf="!contract.isExpired && !contract.isActive"
+                  justifyContent="space-around"
+                >
+                  <label
+                    fontSize="45"
+                    text="&#xf1c6;"
+                    class="fa fa-solid m-t-15 m-b-15"
+                  ></label>
+                </FlexBoxLayout>
+              </StackLayout>
+
+              <StackLayout
+                class="app-list-item-template__item-main-label contract-item-template__code-section"
+                verticalAlignment="middle"
+                orientation="horizontal"
+                row="0"
+                col="1"
+              >
+                <label [text]="contract.code"></label>
+              </StackLayout>
+
+              <StackLayout
+                class="contract-item-template__tenant-name-section"
+                row="1"
+                col="1"
+                orientation="horizontal"
+              >
+                <label
+                  text="&#xf007;"
+                  verticalAlignment="middle"
+                  class="fa m-r-5"
+                ></label>
+                <label [text]="contract.tenantName"></label>
+              </StackLayout>
+
+              <StackLayout
+                class="contract-item-template__status-section"
+                *ngIf="contract.isExpired"
+                row="2"
+                col="1"
+                orientation="horizontal"
+              >
+                <label
+                  verticalAlignment="middle"
+                  text="&#xf017;"
+                  class="fa m-r-5"
+                ></label>
+                <label
+                  class="open-contract-label"
+                  verticalAlignment="middle"
+                  [text]="'CONTRACT_LIST_PAGE.LIST_ITEM.EXPIRED' | translate"
+                ></label>
+              </StackLayout>
+
+              <StackLayout
+                class="contract-item-template__status-section"
+                *ngIf="!contract.isExpired && !contract.isActive"
+                row="2"
+                col="1"
+                orientation="horizontal"
+              >
+                <label
+                  verticalAlignment="middle"
+                  text="&#xf017;"
+                  class="fa m-r-5"
+                ></label>
+                <label
+                  class="open-contract-label"
+                  verticalAlignment="middle"
+                  [text]="'CONTRACT_ARCHIVED_LIST_PAGE.LIST_ITEM.INACTIVE' | translate"
+                ></label>
+              </StackLayout>
+            </GridLayout>
+          </ng-template>
+
+          <GridLayout
+            *tkListItemSwipeTemplate
+            columns="*, auto"
+            class="app-list-item-swipe-template"
+          >
+            <FlexBoxLayout
+              col="1"
+              class="app-list-item-swipe-template__option-container"
+              id="itemSwipeActions"
+              justifyContent="space-around"
+              *ngIf="!multipleSelectionActive && isNotNavigateToOtherPage && !isCurrentItemExpired"
+            >
+              <button
+                alignSelf="center"
+                class="fa app-list-item-swipe-template__option"
+                text="&#xf1c6;"
+                (tap)="activateSelectedItem()"
+                *ngIf="!isCurrentItemActive"
+              ></button>
+            </FlexBoxLayout>
+          </GridLayout>
+        </RadListView>
+      </ns-list-layout>
+    </StackLayout>
+  </StackLayout>
+</ns-loader-layout>

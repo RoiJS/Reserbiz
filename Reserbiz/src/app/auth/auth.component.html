@@ -1,0 +1,73 @@
+<ns-loader-layout [busy]="isLoading">
+  <FlexBoxLayout
+    flexDirection="column"
+    justifyContent="space-around"
+    class="login-main-container"
+  >
+    <StackLayout class="app-logo-container">
+      <StackLayout class="main-logo">
+        <image src="res://mainlogo"></image>
+      </StackLayout>
+    </StackLayout>
+
+    <StackLayout flex="1"></StackLayout>
+
+    <StackLayout class="login-form-container">
+      <StackLayout class="lock-icon" verticalAlignment="center">
+        <label class="fa fa-solid" text="&#xf023;"></label>
+      </StackLayout>
+      <FlexBoxLayout class="login-form">
+        <StackLayout class="input-field">
+          <TextField
+            [hint]="'AUTH_PAGE.COMPANY_CONTROL.LABEL' | translate"
+            returnKey="next"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            [(ngModel)]="company"
+            #companyEl
+          ></TextField>
+        </StackLayout>
+        <StackLayout class="input-field">
+          <TextField
+            [hint]="'AUTH_PAGE.USERNAME_CONTROL.LABEL' | translate"
+            returnKey="next"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            [(ngModel)]="username"
+            #usernameEl
+          ></TextField>
+        </StackLayout>
+        <StackLayout class="input-field">
+          <TextField
+            returnKey="done"
+            [autocorrection]="false"
+            autocapitalizationType="none"
+            [secure]="true"
+            [hint]="'AUTH_PAGE.PASSWORD_CONTROL.LABEL' | translate"
+            [(ngModel)]="password"
+            #passwordEl
+            (returnPress)="onDone()"
+          ></TextField>
+        </StackLayout>
+        <button
+          padding="0"
+          [text]="loginButtonText"
+          class="nt-button fa fa-solid btn-login"
+          (tap)="onSubmit()"
+          [isEnabled]="formValid"
+        ></button>
+        <label
+          class="forgot-password-link"
+          [text]="'AUTH_PAGE.FORGOT_PASSWORD_LINK_LABEL' | translate"
+          textWrap="true"
+          (tap)="goToForgotPassword()"
+        ></label>
+      </FlexBoxLayout>
+    </StackLayout>
+
+    <StackLayout class="login-footer">
+      <label [text]="appVersion" textWrap="true"></label>
+      <label class="fa" [text]="copyRightText"></label>
+    </StackLayout>
+  </FlexBoxLayout>
+</ns-loader-layout>

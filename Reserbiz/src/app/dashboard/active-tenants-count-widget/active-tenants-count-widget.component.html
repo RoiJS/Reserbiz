@@ -1,0 +1,32 @@
+<StackLayout class="dashboard-container__widget-panel">
+  <ns-loader-layout [busy]="isBusy">
+    <FlexBoxLayout class="dashboard-container__widget-content-section">
+      <AbsoluteLayout class="dashboard-container__widget-icon-with-badge">
+        <StackLayout
+          left="50"
+          verticalAlignment="middle"
+          class="widget-badge-container"
+        >
+          <label
+            horizontalAlignment="center"
+            [text]="entityCount"
+          ></label>
+        </StackLayout>
+        <StackLayout top="10">
+          <label
+            class="fa fa-solid widget-icon"
+            horizontalAlignment="center"
+            text="&#xf0c0;"
+          ></label>
+        </StackLayout>
+      </AbsoluteLayout>
+      <StackLayout class="dashboard-container__widget-main-label">
+        <label
+          horizontalAlignment="center"
+          [text]="'DASHBOARD.BODY_SECTION.ACTIVE_TENANTS_WIDGET.MAIN_LABEL' | translate"
+          textWrap="true"
+        ></label>
+      </StackLayout>
+    </FlexBoxLayout>
+  </ns-loader-layout>
+</StackLayout>
