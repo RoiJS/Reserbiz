@@ -155,8 +155,8 @@ namespace ReserbizAPP.Tests
         }
 
         [TestCase(-1)]
-        [TestCase(2)]
-        public void Should_ReturnNotNull_WhenDurationUnitIsYear_And_ValueIsLessThanZero_Or_GreaterThan1(int value)
+        [TestCase(101)]
+        public void Should_ReturnNotNull_WhenDurationUnitIsYear_And_ValueIsLessThanZero_Or_GreaterThan101(int value)
         {
             //Arrange 
             var durationRangeValueAttribute = GetDurationValue("DurationUnit");

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using ReserbizAPP.LIB.Dtos;
 using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers.Class;
+using ReserbizAPP.LIB.Helpers.Constants;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -34,7 +35,7 @@ namespace ReserbizAPP.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("registerClient")]
+        [HttpPost(ApiRoutes.ClientsControllerRoutes.RegisterClientURL)]
         public async Task<IActionResult> RegisterClient(ClientForRegisterDto clientForRegisterDto)
         {
             var clientToCreate = new Client
@@ -81,7 +82,7 @@ namespace ReserbizAPP.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("registerDemo")]
+        [HttpPost(ApiRoutes.ClientsControllerRoutes.RegisterDemoURL)]
         public async Task<IActionResult> RegisterDemo(DemoForRegisterDto demoForRegisterDto)
         {
             var demoToCreate = new Client
@@ -117,7 +118,6 @@ namespace ReserbizAPP.API.Controllers
                     // Send email notification after database has been successfully created
                     _clientRepository.SendNewDemoRegisteredEmailNotification(account, createdDemoClient);
                 });
-
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace ReserbizAPP.API.Controllers
             return StatusCode(201);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.ClientsControllerRoutes.DeleteClientURL)]
         public async Task<ActionResult<ClientDetailsDto>> DeleteClient(int id)
         {
             var clientFromRepo = await _clientRepository.GetEntity(id).ToObjectAsync();
@@ -145,7 +145,7 @@ namespace ReserbizAPP.API.Controllers
             throw new Exception($"Deleting client with an id of {id} failed on save.");
         }
 
-        [HttpGet("{clientName}")]
+        [HttpGet(ApiRoutes.ClientsControllerRoutes.GetClientInformationURL)]
         public async Task<ActionResult<ClientDetailsDto>> GetClientInformation(string clientName)
         {
             var clientInfo = await _clientRepository.GetCompanyInfoByName(clientName);
@@ -163,7 +163,7 @@ namespace ReserbizAPP.API.Controllers
             return Ok(clientInfoToReturn);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut(ApiRoutes.ClientsControllerRoutes.UpdateClientURL)]
         public async Task<IActionResult> UpdateClient(int id, ClientForUpdateDto clientForUpdateDto)
         {
             var clientFromRepo = await _clientRepository.GetEntity(id).ToObjectAsync();

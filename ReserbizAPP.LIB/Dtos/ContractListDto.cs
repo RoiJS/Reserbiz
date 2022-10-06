@@ -23,7 +23,7 @@ namespace ReserbizAPP.LIB.Dtos
 
         public bool IsOpenContract { get; set; }
 
-        public List<IContractDurationBeforeContractEnds> ContractDurationBeforeContractEnds { get; set; }
+        public List<ContractDurationBeforeContractEnds> ContractDurationBeforeContractEnds { get; set; }
 
         public bool IsDeletable { get; set; }
 
