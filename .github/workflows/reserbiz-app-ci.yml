@@ -3,11 +3,11 @@ name: Continuous integration for Reserbiz Application
 on:
   push:
     branches: [master, development]
-    paths: [.github/workflows/**, ReserbizAPP/**]
+    paths: [.github/workflows/**, Reserbiz/**]
 
   pull_request:
     branches: [master, development]
-    paths: [.github/workflows/**, ReserbizAPP/**]
+    paths: [.github/workflows/**, Reserbiz/**]
 
 jobs:
   build:
@@ -24,8 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./ReserbizAPP
+        working-directory: ./Reserbiz
 
       - name: Build Reserbiz Application
         run: ns build android
-        working-directory: ./ReserbizAPP
+        working-directory: ./Reserbiz
