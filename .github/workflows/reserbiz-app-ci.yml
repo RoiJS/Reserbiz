@@ -24,7 +24,7 @@ jobs:
 
       - name: Set JAVA_HOME path
         run: |
-          cd "c:\\Program Files (x86)\\Android"
+          cd "c:\\Program Files (x86)\\Android\\android-sdk"
           dir
 
       - name: Install dependencies
