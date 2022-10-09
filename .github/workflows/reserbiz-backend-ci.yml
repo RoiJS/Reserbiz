@@ -48,13 +48,9 @@ jobs:
           echo $env:ASPNETCORE_ENVIRONMENT
       # - name: Restore dependencies
       #   run: dotnet restore
-      - name: Build
-        run: dotnet build --environment "'$env:ASPNETCORE_ENVIRONMENT'" --no-restore
+      # - name: Build
+      #   run: dotnet build --environment "'$env:ASPNETCORE_ENVIRONMENT'" --no-restore
       # - name: Unit Test
       #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
-      # - name: Integration Tests
-      #   uses: Particular/install-sql-server-action@v1.0.0
-      #   with:
-      #     connection-string-env-var: SQL_SERVER_CONNECTION_STRING
-      #     catalog: nservicebus
-      #   run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal
+      - name: Integration Tests
+        run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ namespace ReserbizAPP.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            Console.WriteLine(Environment.GetEnvironmentVariables());
             builder.ConfigureAppConfiguration(config =>
             {
                 Configuration = new ConfigurationBuilder()
