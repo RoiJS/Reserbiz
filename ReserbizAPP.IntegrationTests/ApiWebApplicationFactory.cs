@@ -16,7 +16,7 @@ namespace ReserbizAPP.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            Console.WriteLine(Environment.GetEnvironmentVariables());
+            Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
             builder.ConfigureAppConfiguration(config =>
             {
                 Configuration = new ConfigurationBuilder()
