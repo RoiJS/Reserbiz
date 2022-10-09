@@ -38,5 +38,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
+    - name: Unit Test
       run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
+    - name: Integration Tests
+      run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal
