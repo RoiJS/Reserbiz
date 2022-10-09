@@ -49,7 +49,7 @@ jobs:
       # - name: Restore dependencies
       #   run: dotnet restore
       - name: Build
-        run: dotnet build --environment=""{{$env:ASPNETCORE_ENVIRONMENT}}"" --no-restore
+        run: dotnet build --environment="{{ $env:ASPNETCORE_ENVIRONMENT }}" --no-restore
       # - name: Unit Test
       #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
       # - name: Integration Tests
