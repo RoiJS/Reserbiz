@@ -32,12 +32,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.100
-      - name: Clean Solution
-        run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
+      # - name: Setup .NET
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: 5.0.100
+      # - name: Clean Solution
+      #   run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
       - name: Set the value
         id: step_one
         run: |
@@ -46,10 +46,10 @@ jobs:
         id: step_two
         run: |
           echo $env:ASPNETCORE_ENVIRONMENT
-      - name: Restore dependencies
-        run: dotnet restore
+      # - name: Restore dependencies
+      #   run: dotnet restore
       - name: Build
-        run: dotnet build --environment="${{ $env:ASPNETCORE_ENVIRONMENT }}" --no-restore
+        run: dotnet build --environment="$env:ASPNETCORE_ENVIRONMENT" --no-restore
       # - name: Unit Test
       #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
       # - name: Integration Tests
