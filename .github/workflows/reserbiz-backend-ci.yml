@@ -46,10 +46,10 @@ jobs:
         id: step_two
         run: |
           echo $env:ASPNETCORE_ENVIRONMENT
-      # - name: Restore dependencies
-      #   run: dotnet restore
-      # - name: Build
-      #   run: dotnet build --environment "'$env:ASPNETCORE_ENVIRONMENT'" --no-restore
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
       # - name: Unit Test
       #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
       - name: Integration Tests
