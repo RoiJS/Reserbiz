@@ -38,14 +38,14 @@ jobs:
             dotnet-version: 5.0.100
         - name: Clean Solution
           run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
-          - name: Set the value
-            id: step_one
-            run: |
-              echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
-          - name: Use the value
-            id: step_two
-            run: |
-              echo "${{ env.ASPNETCORE_ENVIRONMENT }}"
+        - name: Set the value
+          id: step_one
+          run: |
+            echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
+        - name: Use the value
+          id: step_two
+          run: |
+            echo "${{ env.ASPNETCORE_ENVIRONMENT }}"
         - name: Restore dependencies
           run: dotnet restore
         - name: Build
