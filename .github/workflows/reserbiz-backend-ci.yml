@@ -2,43 +2,59 @@ name: Continuous integration for Reserbiz Backend
 
 on:
   push:
-    branches: [ master, development ]
-    paths: [
-              .github/workflows/**,
-              ReserbizAPP.API/**,
-              ReserbizAPP.Hangfire/**,
-              ReserbizAPP.LIB/**,
-              ReserbizAPP.Tests/**
-            ]
+    branches: [master, development]
+    paths:
+      [
+        .github/workflows/**,
+        ReserbizAPP.API/**,
+        ReserbizAPP.Hangfire/**,
+        ReserbizAPP.LIB/**,
+        ReserbizAPP.Tests/**,
+        ReserbizAPP.IntegrationTests/**,
+      ]
 
   pull_request:
-    branches: [ master, development ]
-    paths: [
-              .github/workflows/**,
-              ReserbizAPP.API/**,
-              ReserbizAPP.Hangfire/**,
-              ReserbizAPP.LIB/**,
-              ReserbizAPP.Tests/**
-            ]
-    
+    branches: [master, development]
+    paths:
+      [
+        .github/workflows/**,
+        ReserbizAPP.API/**,
+        ReserbizAPP.Hangfire/**,
+        ReserbizAPP.LIB/**,
+        ReserbizAPP.Tests/**,
+        ReserbizAPP.IntegrationTests/**,
+      ]
+
 jobs:
   build:
     name: Build and Test Reserbiz backend
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET 
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.100
-    - name: Clean Solution
-      run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Unit Test
-      run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
-    - name: Integration Tests
-      run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal
+        - uses: actions/checkout@v2
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: 5.0.100
+        - name: Clean Solution
+          run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
+          - name: Set the value
+            id: step_one
+            run: |
+              echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
+          - name: Use the value
+            id: step_two
+            run: |
+              echo "${{ env.ASPNETCORE_ENVIRONMENT }}"
+        - name: Restore dependencies
+          run: dotnet restore
+        - name: Build
+          run: dotnet build --environment="${{ env.ASPNETCORE_ENVIRONMENT }}" --no-restore
+        # - name: Unit Test
+        #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
+        # - name: Integration Tests
+        #   uses: Particular/install-sql-server-action@v1.0.0
+        #   with:
+        #     connection-string-env-var: SQL_SERVER_CONNECTION_STRING
+        #     catalog: nservicebus
+        #   run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal
