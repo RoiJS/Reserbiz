@@ -38,6 +38,7 @@ namespace ReserbizAPP.API
     {
         public Startup(IWebHostEnvironment env)
         {
+            Console.WriteLine($"Current Environment: {env.EnvironmentName}");
             var builder = new ConfigurationBuilder()
                         .SetBasePath(env.ContentRootPath)
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
