@@ -40,8 +40,11 @@ jobs:
       - name: Alter schemas
         shell: pwsh
         run: |
-          sqlcmd -Q "ALTER LOGIN [sa] WITH DEFAULT_DATABASE=[master]"
-          sqlcmd -Q "USE [master]"
-          sqlcmd -Q "ALTER LOGIN [sa] WITH PASSWORD=N'Gewq!4u2'"
-          sqlcmd -U sa -P Gewq!4u2
+          sqlcmd -Q "
+            use nservicebus;
+            create table tbl_test (id int, name varchar(100));
+            insert into tbl_test
+            values (1, 'Roi');
+            select * from tbl_test;
+          "
 
