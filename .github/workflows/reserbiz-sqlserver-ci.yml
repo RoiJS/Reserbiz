@@ -42,5 +42,5 @@ jobs:
         run: |
           sqlcmd -Q "ALTER LOGIN [sa] WITH DEFAULT_DATABASE=[master]"
           sqlcmd -Q "USE [master]"
-          sqlcmd -Q "ALTER LOGIN [sa] WITH PASSWORD=N'newpassword'"
+          sqlcmd -Q "ALTER LOGIN [sa] WITH PASSWORD=N'Gewq!4u2'"
 
