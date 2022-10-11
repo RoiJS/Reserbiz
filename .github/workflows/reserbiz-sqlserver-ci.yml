@@ -1,0 +1,39 @@
+name: Continuous integration for Reserbiz SQL Server
+
+on:
+  push:
+    branches: [master, development]
+    paths:
+      [
+        .github/workflows/**,
+        ReserbizAPP.API/**,
+        ReserbizAPP.Hangfire/**,
+        ReserbizAPP.LIB/**,
+        ReserbizAPP.Tests/**,
+        ReserbizAPP.IntegrationTests/**,
+      ]
+
+  pull_request:
+    branches: [master, development]
+    paths:
+      [
+        .github/workflows/**,
+        ReserbizAPP.API/**,
+        ReserbizAPP.Hangfire/**,
+        ReserbizAPP.LIB/**,
+        ReserbizAPP.Tests/**,
+        ReserbizAPP.IntegrationTests/**,
+      ]
+
+jobs:
+  build:
+    name: Build and Test Reserbiz SQL Server
+    runs-on: windows-latest
+
+    steps:
+      - name: Install SQL Server
+        uses: Particular/install-sql-server-action@v1.0.0
+        with:
+          connection-string-env-var: SQL_SERVER_CONNECTION_STRING
+          catalog: nservicebus
+          extra-params: 'Max Pool Size=100;'
