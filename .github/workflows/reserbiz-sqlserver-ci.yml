@@ -37,3 +37,10 @@ jobs:
           connection-string-env-var: SQL_SERVER_CONNECTION_STRING
           catalog: nservicebus
           extra-params: 'Max Pool Size=100;'
+      - name: Alter schemas
+        shell: pwsh
+        run: |
+          sqlcmd -Q "ALTER LOGIN [sa] WITH DEFAULT_DATABASE=[master]"
+          sqlcmd -Q "USE [master]"
+          sqlcmd -Q "ALTER LOGIN [sa] WITH PASSWORD=N'newpassword'"
+
