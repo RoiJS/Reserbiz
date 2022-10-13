@@ -85,4 +85,6 @@ VALUES
 )
 GO
 
-SELECT * FROM [dbo].[Clients]
+-- (4) Create database for integration testing
+CREATE DATABASE ReserbizDeveloperIntegrationTestDB;
+GO

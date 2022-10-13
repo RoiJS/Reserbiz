@@ -18,5 +18,6 @@ namespace ReserbizAPP.LIB.Dtos
         public string EmailAddress { get; set; }
         [Required]
         public string ContactNumber { get; set; }
+        public bool AutoSendEmail { get; set; }
     }
 }

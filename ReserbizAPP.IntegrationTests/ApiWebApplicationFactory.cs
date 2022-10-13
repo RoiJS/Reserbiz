@@ -13,18 +13,23 @@ namespace ReserbizAPP.IntegrationTests
     {
 
         public IConfiguration Configuration { get; set; }
+        public string CurrentEnvironment { get; set; }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+            CurrentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            // CurrentEnvironment = "IntegrationTest";
             builder.ConfigureAppConfiguration(config =>
             {
                 Configuration = new ConfigurationBuilder()
-                    .AddJsonFile("integrationSettings.json")
+                    .AddJsonFile("integrationSettings.json", optional: true)
+                    .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
                     .Build();
 
                 config.AddConfiguration(Configuration);
             });
+
+            builder.UseEnvironment(CurrentEnvironment);
 
             builder.ConfigureTestServices(services =>
             {

@@ -141,11 +141,18 @@ namespace ReserbizAPP.API
                         if (clientInfo == null)
                             throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
+                        var forIntegrationTest = httpContext.Request.Headers["For-Integration-Test"].ToString();
+
                         // Format and configure connection string for the current http request.
                         var clientConnectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
+
+                        if (forIntegrationTest != null) 
+                        {
+                            clientConnectionString = Configuration.GetConnectionString("ReserbizClientIntegrationTestDBTemplateConnection");
+                        }
+
                         options.UseSqlServer(clientConnectionString);
                     }
-
                 });
             }
 

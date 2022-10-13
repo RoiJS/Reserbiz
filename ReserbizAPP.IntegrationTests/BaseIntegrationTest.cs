@@ -6,6 +6,7 @@ using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Helpers.Constants;
 using Respawn;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -37,6 +38,7 @@ namespace ReserbizAPP.IntegrationTests
             _defaultUserAccountDetails = _factory.Services.GetService<IOptions<DefaultUserAccountDetails>>();
             _defaultAccountCredentials = _factory.Services.GetService<IOptions<DefaultAccountCredentials>>();
 
+            Console.WriteLine(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection"));
             _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")).Wait();
         }
 
@@ -50,7 +52,7 @@ namespace ReserbizAPP.IntegrationTests
             var clientInfo = await GetClientInformation();
             var clientInformationDto = new ClientInformationDto();
 
-            var defaultAccounId =  1;
+            var defaultAccounId = 1;
             var userAccountDto = new UserAccountDto();
             userAccountDto.FirstName = _defaultUserAccountDetails.Value.Firstname;
             userAccountDto.MiddleName = _defaultUserAccountDetails.Value.Middlename;
@@ -70,15 +72,27 @@ namespace ReserbizAPP.IntegrationTests
             var autoGenerateAccountStatement = await _client.PostAsync(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateContractAccountStatementsForNewDatabaseURL.Replace("{currentUserId}", defaultAccounId.ToString()), null);
         }
 
+        protected async Task SyncDatabaseSchemaAsync()
+        {
+            var registerDbResponse = await _client.PostAsJsonAsync(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL, "");
+        }
+
         protected async Task AddAppSecretTokenToHeaderAsync()
         {
             var company = await GetClientInformation();
             _client.DefaultRequestHeaders.Add("App-Secret-Token", company.DBHashName);
         }
 
+        protected void AddIntegrationTestIndicatorToHeaderAsync()
+        {
+            _client.DefaultRequestHeaders.Add("For-Integration-Test", "1");
+        }
+
         protected async Task InitializeAuthorizationAndTestDataAsync()
         {
+            AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
+            await SyncDatabaseSchemaAsync();
             await SeedTestDataAsync();
             await AuthenticateAsync();
         }

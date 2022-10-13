@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "ReserbizClientDeveloperIntegrationTestDBConnection": "Data Source=VINSANITY;Initial Catalog=ReserbizDeveloperIntegrationTestDB;User Id=sa;Password=Gewq!4u2;"
+  }
+}

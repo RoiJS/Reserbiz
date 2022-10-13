@@ -62,6 +62,8 @@ namespace ReserbizAPP.LIB.Helpers.Constants
         public static class ClientDbManagerControllerRoutes
         {
             public const string PopulateDatabaseURL = "/api/clientdbmanager/populateDatabase";
+            public const string SyncDatabaseURL = "/api/clientdbmanager/syncDatabase";
+            public const string SyncAllDatabasesURL = "/api/clientdbmanager/syncAllDatabases";
         }
         
         public static class PaymentBreakdownControllerRoutes
