@@ -39,5 +39,5 @@ jobs:
           extra-params: 'Max Pool Size=100;'
       - name: Set up test databases
         # working-directory: ./ReserbizAPP.IntegrationTests
-        shell: pwsh
+        # shell: pwsh
         run: dir
