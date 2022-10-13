@@ -37,7 +37,9 @@ jobs:
           connection-string-env-var: SQL_SERVER_CONNECTION_STRING
           catalog: nservicebus
           extra-params: 'Max Pool Size=100;'
-      - name: Set up test databases
-        shell: pwsh
-        run: sqlcmd -i script.sql
-        working-directory: ReserbizAPP.IntegrationTests
+      # - name: Set up test databases
+      #   shell: pwsh
+      #   run: sqlcmd -i script.sql
+      #   working-directory: ReserbizAPP.IntegrationTests
+      - name: Clean Solution
+        run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
