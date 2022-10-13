@@ -40,4 +40,4 @@ jobs:
       - name: Set up test databases
         shell: pwsh
         run: sqlcmd -i script.sql
-        working-directory: ./
+        working-directory: ReserbizAPP.IntegrationTests
