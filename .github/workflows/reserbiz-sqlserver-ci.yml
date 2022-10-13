@@ -37,14 +37,7 @@ jobs:
           connection-string-env-var: SQL_SERVER_CONNECTION_STRING
           catalog: nservicebus
           extra-params: 'Max Pool Size=100;'
-      - name: Alter schemas
+      - name: Set up test databases
+        working-directory: ./ReserbizAPP.IntegrationTests
         shell: pwsh
-        run: |
-          sqlcmd -Q "
-            use nservicebus;
-            create table tbl_test (id int, name varchar(100));
-            insert into tbl_test
-            values (1, 'Roi');
-            select * from tbl_test;
-          "
-
+        run: sqlcmd -i script.sql
