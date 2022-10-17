@@ -22,7 +22,7 @@ namespace ReserbizAPP.IntegrationTests
             builder.ConfigureAppConfiguration(config =>
             {
                 Configuration = new ConfigurationBuilder()
-                    .AddJsonFile("integrationSettings.json", optional: true)
+                    .AddJsonFile("integrationSettings.json", optional: true, reloadOnChange: true)
                     .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
                     .Build();
 
