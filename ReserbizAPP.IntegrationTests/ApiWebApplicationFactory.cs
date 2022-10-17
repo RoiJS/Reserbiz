@@ -23,8 +23,8 @@ namespace ReserbizAPP.IntegrationTests
             {
                 Console.WriteLine($"Integration Test Current Environment: {CurrentEnvironment}");
                 Configuration = new ConfigurationBuilder()
-                    .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
                     .AddJsonFile("integrationSettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
                     .AddEnvironmentVariables()
                     .Build();
 

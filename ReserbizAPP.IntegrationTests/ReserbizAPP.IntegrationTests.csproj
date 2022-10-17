@@ -23,6 +23,12 @@
     <ProjectReference Include="..\ReserbizAPP.LIB\ReserbizAPP.LIB.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="integrationSettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="integrationSettings.IntegrationTest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="integrationSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
