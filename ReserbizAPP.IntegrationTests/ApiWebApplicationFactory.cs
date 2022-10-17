@@ -21,6 +21,7 @@ namespace ReserbizAPP.IntegrationTests
             // CurrentEnvironment = "IntegrationTest";
             builder.ConfigureAppConfiguration(config =>
             {
+                Console.WriteLine($"Integration Test Current Environment: {CurrentEnvironment}");
                 Configuration = new ConfigurationBuilder()
                     .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
                     .AddJsonFile("integrationSettings.json", optional: true, reloadOnChange: true)
