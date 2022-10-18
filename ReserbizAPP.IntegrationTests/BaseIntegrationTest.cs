@@ -39,7 +39,6 @@ namespace ReserbizAPP.IntegrationTests
             _defaultAccountCredentials = _factory.Services.GetService<IOptions<DefaultAccountCredentials>>();
 
             Console.WriteLine($"Integration Test Connection String: {_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")}");
-            _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")).Wait();
         }
 
         protected async Task AuthenticateAsync()
@@ -93,8 +92,14 @@ namespace ReserbizAPP.IntegrationTests
             AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
             await SyncDatabaseSchemaAsync();
+            await ResetDatabase();
             await SeedTestDataAsync();
             await AuthenticateAsync();
+        }
+
+        private async Task ResetDatabase()
+        {
+            await _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection"));
         }
 
         private async Task<ClientDetailsDto> GetClientInformation()
@@ -116,7 +121,7 @@ namespace ReserbizAPP.IntegrationTests
             });
 
             var registrationResponse = await response.Content.ReadFromJsonAsync<AuthenticationTokenInfoDto>();
-            
+
             // We keep the refresh token for future use
             refreshToken = registrationResponse.RefreshToken;
 
