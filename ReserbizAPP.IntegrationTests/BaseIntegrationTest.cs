@@ -71,9 +71,14 @@ namespace ReserbizAPP.IntegrationTests
             var autoGenerateAccountStatement = await _client.PostAsync(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateContractAccountStatementsForNewDatabaseURL.Replace("{currentUserId}", defaultAccounId.ToString()), null);
         }
 
-        protected async Task SyncDatabaseSchemaAsync()
+        protected async Task SyncClientDatabaseSchemaAsync()
         {
-            var registerDbResponse = await _client.PostAsJsonAsync(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL, "");
+            await _client.PostAsJsonAsync(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL, "");
+        }
+        
+        protected async Task SyncSystemDatabaseSchemaAsync()
+        {
+            await _client.PostAsJsonAsync(ApiRoutes.SystemDbManagerControllerRoutes.SyncDatabaseURL, "");
         }
 
         protected async Task AddAppSecretTokenToHeaderAsync()
@@ -91,13 +96,14 @@ namespace ReserbizAPP.IntegrationTests
         {
             AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
-            await SyncDatabaseSchemaAsync();
-            await ResetDatabase();
+            await SyncSystemDatabaseSchemaAsync();
+            await SyncClientDatabaseSchemaAsync();
+            await ResetClientDatabase();
             await SeedTestDataAsync();
             await AuthenticateAsync();
         }
 
-        private async Task ResetDatabase()
+        private async Task ResetClientDatabase()
         {
             await _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection"));
         }
