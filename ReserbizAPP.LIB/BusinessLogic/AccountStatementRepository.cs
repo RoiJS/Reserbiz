@@ -984,7 +984,7 @@ namespace ReserbizAPP.LIB.BusinessLogic
                     await fireBasePushNotificationService.Send(notificationTitle, notificationBody, data);
 
                     // Register notification on database
-                    await RegisterNotification(accountStatementDate, accountStatement.Id, contract.Id, contract.TenantId);
+                    await RegisterNotification(accountStatement.DueDate, accountStatement.Id, contract.Id, contract.TenantId);
 
                     // Auto-send statement of account details
                     if (sendAccountStatementMode == SendAccountStatementModeEnum.Automatic && accountStatement.AutoSendNewAccountStatement)
@@ -1062,12 +1062,12 @@ namespace ReserbizAPP.LIB.BusinessLogic
             }
         }
 
-        private async Task RegisterNotification(string accountStatementDate, int accountStatementId, int contractId, int tenantId)
+        private async Task RegisterNotification(DateTime accountStatementDate, int accountStatementId, int contractId, int tenantId)
         {
             var accounts = await _accountRepository.GetAllActiveUsers();
             var accountStatementNotification = new GeneratedAccountStatementNotification
             {
-                AccountStatementDateTime = Convert.ToDateTime(accountStatementDate),
+                AccountStatementDateTime = accountStatementDate,
                 AccountStatementId = accountStatementId,
                 ContractId = contractId,
                 TenantId = tenantId
