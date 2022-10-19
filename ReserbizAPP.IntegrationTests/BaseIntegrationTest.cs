@@ -75,11 +75,6 @@ namespace ReserbizAPP.IntegrationTests
         {
             await _client.PostAsJsonAsync(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL, "");
         }
-        
-        protected async Task SyncSystemDatabaseSchemaAsync()
-        {
-            await _client.PostAsJsonAsync(ApiRoutes.SystemDbManagerControllerRoutes.SyncDatabaseURL, "");
-        }
 
         protected async Task AddAppSecretTokenToHeaderAsync()
         {
@@ -96,7 +91,6 @@ namespace ReserbizAPP.IntegrationTests
         {
             AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
-            // await SyncSystemDatabaseSchemaAsync();
             await SyncClientDatabaseSchemaAsync();
             await ResetClientDatabase();
             await SeedTestDataAsync();
