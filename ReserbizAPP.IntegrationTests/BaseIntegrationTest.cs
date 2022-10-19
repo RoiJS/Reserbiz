@@ -96,7 +96,7 @@ namespace ReserbizAPP.IntegrationTests
         {
             AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
-            await SyncSystemDatabaseSchemaAsync();
+            // await SyncSystemDatabaseSchemaAsync();
             await SyncClientDatabaseSchemaAsync();
             await ResetClientDatabase();
             await SeedTestDataAsync();
