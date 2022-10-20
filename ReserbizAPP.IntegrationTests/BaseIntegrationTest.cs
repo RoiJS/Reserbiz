@@ -38,7 +38,7 @@ namespace ReserbizAPP.IntegrationTests
             _defaultUserAccountDetails = _factory.Services.GetService<IOptions<DefaultUserAccountDetails>>();
             _defaultAccountCredentials = _factory.Services.GetService<IOptions<DefaultAccountCredentials>>();
 
-            Console.WriteLine($"Integration Test Connection String: {_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")}");
+            // Console.WriteLine($"Integration Test Connection String: {_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")}");
         }
 
         protected async Task AuthenticateAsync()

@@ -18,10 +18,9 @@ namespace ReserbizAPP.IntegrationTests
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             CurrentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            // CurrentEnvironment = "IntegrationTest";
             builder.ConfigureAppConfiguration(config =>
             {
-                Console.WriteLine($"Integration Test Current Environment: {CurrentEnvironment}");
+                // Console.WriteLine($"Integration Test Current Environment: {CurrentEnvironment}");
                 Configuration = new ConfigurationBuilder()
                     .AddJsonFile("integrationSettings.json", optional: true, reloadOnChange: true)
                     .AddJsonFile($"integrationSettings.{CurrentEnvironment}.json", optional: true)
