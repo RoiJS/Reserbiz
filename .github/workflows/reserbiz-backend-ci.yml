@@ -31,26 +31,40 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out repo
+        uses: actions/checkout@v2
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100
+
+      - name: Install SQL Server
+        uses: Particular/install-sql-server-action@v1.0.0
+        with:
+          connection-string-env-var: SQL_SERVER_CONNECTION_STRING
+          
       - name: Clean Solution
         run: dotnet clean ReSerBiz.sln --configuration Release && dotnet nuget locals all --clear
-      - name: Set the value
-        id: step_one
+
+      - name: Set Environment Variable
         run: |
-          echo "ASPNETCORE_ENVIRONMENT=Development" >> $env:GITHUB_ENV
-      - name: Use the value
-        id: step_two
-        run: |
-          echo $env:ASPNETCORE_ENVIRONMENT
+          echo "ASPNETCORE_ENVIRONMENT=IntegrationTest" >> $env:GITHUB_ENV
+
+      - name: Set up integration test databases
+        shell: pwsh
+        run: sqlcmd -i script.sql
+        working-directory: ./ReserbizAPP.IntegrationTests
+
       - name: Restore dependencies
         run: dotnet restore
+
       - name: Build
         run: dotnet build --no-restore
-      # - name: Unit Test
-      #   run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
-      - name: Integration Tests
-        run: dotnet test ReserbizAPP.IntegrationTests --no-build --verbosity normal
+
+      - name: Run Unit Test
+        run: dotnet test ReserbizAPP.Tests --no-build --verbosity normal
+
+      - name: Run Integration Test
+        run: dotnet test
+        working-directory: ./ReserbizAPP.IntegrationTests
