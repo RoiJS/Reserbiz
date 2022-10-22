@@ -22,7 +22,7 @@ namespace ReserbizAPP.IntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var currenDateTime = Convert.ToDateTime(await response.Content.ReadAsStringAsync());
-            currenDateTime.Should().Equals(DateTime.Now);
+            currenDateTime.Should().Be(DateTime.Now);
         }
     }
 }

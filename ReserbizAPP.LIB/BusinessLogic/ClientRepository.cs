@@ -65,11 +65,11 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.SyncDatabaseURL);
                 var httpClient = new RestClient(url);
-                httpClient.Timeout = -1;
-                var httpRequest = new RestRequest(Method.POST);
+                httpClient.Options.MaxTimeout = -1;
+                var httpRequest = new RestRequest(url, Method.Post);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
                 httpRequest.AddHeader("Content-Type", "application/json");
-                IRestResponse response = await httpClient.ExecuteAsync(httpRequest);
+                RestResponse response = await httpClient.ExecuteAsync(httpRequest);
             }
             catch (Exception exception)
             {
@@ -99,8 +99,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
 
                 var url = String.Format("{0}{1}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.PopulateDatabaseURL);
                 var httpClient = new RestClient(url);
-                httpClient.Timeout = -1;
-                var httpRequest = new RestRequest(Method.POST);
+                httpClient.Options.MaxTimeout = -1;
+                var httpRequest = new RestRequest(url, Method.Post);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
                 httpRequest.AddHeader("Content-Type", "application/json");
                 httpRequest.AddJsonBody(new

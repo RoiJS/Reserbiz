@@ -20,10 +20,6 @@ namespace ReserbizAPP.IntegrationTests
         protected readonly ApiWebApplicationFactory _factory;
         protected readonly HttpClient _client;
 
-        private readonly Checkpoint _checkpoint = new Checkpoint
-        {
-            WithReseed = true,
-        };
         private readonly IOptions<DefaultUserAccountDetails> _defaultUserAccountDetails;
         private readonly IOptions<DefaultAccountCredentials> _defaultAccountCredentials;
 
@@ -99,7 +95,13 @@ namespace ReserbizAPP.IntegrationTests
 
         private async Task ResetClientDatabase()
         {
-            await _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection"));
+            var connection = _factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection");
+            var respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+            {
+                WithReseed = true
+            });
+
+            await respawner.ResetAsync(connection);
         }
 
         private async Task<ClientDetailsDto> GetClientInformation()

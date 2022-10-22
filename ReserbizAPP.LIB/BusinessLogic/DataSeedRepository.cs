@@ -756,8 +756,8 @@ namespace ReserbizAPP.LIB.BusinessLogic
             {
                 var url = String.Format("{0}{1}/{2}", _appHostInfo.Value.Domain, _appSettings.Value.AppSettingsURL.AutoGenerateAccountStatementsForNewDatabaseURL, account.Id);
                 var httpClient = new RestClient(url);
-                httpClient.Timeout = -1;
-                var httpRequest = new RestRequest(Method.POST);
+                httpClient.Options.MaxTimeout = -1;
+                var httpRequest = new RestRequest(url, Method.Post);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
                 httpRequest.AddHeader("Content-Type", "application/json");
                 await httpClient.ExecuteAsync(httpRequest);
