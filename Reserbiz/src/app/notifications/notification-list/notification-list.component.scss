@@ -1,0 +1,37 @@
+@import '../../../app-variables';
+
+.notification-list-container {
+  .notification-header {
+    font-weight: bold;
+  }
+
+  .notification-from-section {
+    font-size: 17;
+  }
+
+  .notification-message-section {
+    font-size: 15;
+  }
+
+  .notification-date-section {
+    font-size: 13;
+  }
+
+  .notification-from-section--unread,
+  .notification-message-section--unread {
+    font-weight: bold;
+  }
+
+  .notification-message-section--unread {
+    color: $primary;
+  }
+
+  .user-notification-placeholder {
+    background-color: $from-color-gradiant;
+
+    Label {
+      font-size: 30;
+      color: $white;
+    }
+  }
+}

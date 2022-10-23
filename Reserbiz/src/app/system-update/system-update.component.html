@@ -1,0 +1,20 @@
+<StackLayout
+  width="100%"
+  height="100%"
+  verticalAlignment="middle"
+  class="system-update-container"
+>
+  <StackLayout horizontalAlignment="center">
+    <image class="system-update-icon" src="res://systemupdate"></image>
+
+    <label
+      [text]="'SYSTEM_UPDATE_PAGE.MAIN_TEXT' | translate"
+      class="system-update-main-text"
+    ></label>
+    <label
+      [text]="'SYSTEM_UPDATE_PAGE.SECONDARY_TEXT' | translate"
+      class="secondary-main-text"
+      textWrap="true"
+    ></label>
+  </StackLayout>
+</StackLayout>

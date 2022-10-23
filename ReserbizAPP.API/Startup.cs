@@ -38,6 +38,7 @@ namespace ReserbizAPP.API
     {
         public Startup(IWebHostEnvironment env)
         {
+            // Console.WriteLine($"Current Environment: {env.EnvironmentName}");
             var builder = new ConfigurationBuilder()
                         .SetBasePath(env.ContentRootPath)
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -103,7 +104,7 @@ namespace ReserbizAPP.API
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             // Database connection to Reserbiz System Database
-            Console.WriteLine(Configuration.GetConnectionString("ReserbizDBConnection"));
+            // Console.WriteLine(Configuration.GetConnectionString("ReserbizDBConnection"));
             services.AddDbContext<ReserbizDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("ReserbizDBConnection")));
 
             // Database connection to any Reserbiz Client Databases
@@ -140,11 +141,18 @@ namespace ReserbizAPP.API
                         if (clientInfo == null)
                             throw new Exception("Invalid App secret token. Please make sure that the app secret token you have provided is valid.");
 
+                        var forIntegrationTest = httpContext.Request.Headers["For-Integration-Test"].ToString();
+
                         // Format and configure connection string for the current http request.
                         var clientConnectionString = String.Format(Configuration.GetConnectionString("ReserbizClientDBTemplateConnection"), clientInfo?.DBServer, clientInfo?.DBName, clientInfo?.DBusername, clientInfo?.DBPassword);
+
+                        if (forIntegrationTest != null)
+                        {
+                            clientConnectionString = Configuration.GetConnectionString("ReserbizClientIntegrationTestDBTemplateConnection");
+                        }
+
                         options.UseSqlServer(clientConnectionString);
                     }
-
                 });
             }
 

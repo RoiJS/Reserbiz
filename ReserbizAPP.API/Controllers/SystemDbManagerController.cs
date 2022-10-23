@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.DbContexts;
+using ReserbizAPP.LIB.Helpers.Constants;
 
 namespace ReserbizAPP.API.Controllers
 {
@@ -16,7 +17,7 @@ namespace ReserbizAPP.API.Controllers
             _context = context;
         }
 
-        [HttpPost("syncDatabase")]
+        [HttpPost(ApiRoutes.SystemDbManagerControllerRoutes.SyncDatabaseURL)]
         public async Task<IActionResult> SyncDatabase()
         {
             await _context.Database.MigrateAsync();

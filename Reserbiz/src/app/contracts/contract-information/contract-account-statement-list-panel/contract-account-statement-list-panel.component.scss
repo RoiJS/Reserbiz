@@ -1,0 +1,136 @@
+@import '../../../../app-variables';
+
+.contract-account-list-container {
+  padding-top: 0;
+  &__page-divider {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &__icon {
+    font-size: 22;
+  }
+
+  &__button {
+    width: 20;
+    font-size: 15;
+    padding: 0;
+  }
+
+  &__button--active {
+    color: $primary;
+    background-color: white;
+  }
+
+  &__statement-of-account-list-header {
+    background: $primary-gradient;
+    padding: 3;
+    color: $white;
+    border-radius: 5%;
+    margin-bottom: 8;
+  }
+
+  .app-list-item-swipe-template {
+    &__option {
+      width: 20;
+      height: 45;
+      font-size: 17;
+    }
+  }
+
+  .contract-account-statement-item-template {
+    &__payment-status {
+      text-align: center;
+      margin-right: 10;
+      border-radius: 50%;
+      padding: 6;
+      color: $white;
+
+      &--paid {
+        background-color: rgb(50, 189, 50);
+      }
+
+      &--unpaid {
+        background-color: rgb(255, 71, 71);
+      }
+    }
+
+    &__icon {
+      font-size: 15;
+    }
+
+    &__detail {
+      font-size: 14;
+    }
+
+    &__account-statement-type-icon {
+      background-color: $primary;
+      border-radius: 50%;
+      width: 30;
+      height: 30;
+
+      label {
+        color: $white;
+        font-size: 15;
+      }
+    }
+  }
+}
+
+.contract-account-statement-list-footer {
+  height: 280;
+  background: $primary-gradient;
+  padding: 7;
+
+  &__total-paid-amount-section,
+  &__total-expected-amount-section,
+  &__total-paid-amount-from-deposit-section,
+  &__encashed-deposit-amount-section,
+  &__total-expected-deposit-amount-section {
+    color: white;
+  }
+
+  &__total-paid-amount-section-label,
+  &__total-expected-amount-section-label {
+    font-size: 13;
+  }
+
+  &__total-paid-amount-from-deposit-section-label,
+  &__encashed-deposit-amount-section-label,
+  &__total-expected-deposit-amount-section-label {
+    font-size: 11;
+  }
+
+  &__total-paid-amount-section-icon,
+  &__total-expected-amount-section-icon {
+    font-size: 16;
+  }
+
+  &__total-paid-amount-from-deposit-section-icon,
+  &__total-expected-deposit-amount-section-icon,
+  &__encashed-deposit-amount-section-icon,
+  &__total-expected-deposit-amount-section-detail,
+  &__encashed-deposit-amount-section-detail,
+  &__total-paid-amount-from-deposit-section-detail {
+    font-size: 13;
+  }
+
+  &__total-paid-amount-section-detail,
+  &__total-expected-amount-section-detail {
+    font-size: 15;
+    font-weight: bold;
+  }
+
+  &__total-paid-amount-from-deposit-section-detail,
+  &__encashed-deposit-amount-section-detail,
+  &__total-expected-deposit-amount-section-detail {
+    font-size: 13;
+    font-weight: bold;
+  }
+
+  &__separator {
+    border-right-width: 1;
+    border-right-color: white;
+    border-right-style: solid;
+  }
+}

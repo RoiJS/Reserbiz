@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "ReserbizClientDeveloperIntegrationTestDBConnection": "Data Source=DESKTOP-S167E3G;Initial Catalog=ReserbizDeveloperIntegrationTestDB;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
+  }
+}

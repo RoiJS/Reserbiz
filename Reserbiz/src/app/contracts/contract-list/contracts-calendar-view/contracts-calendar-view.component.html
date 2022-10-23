@@ -1,0 +1,54 @@
+<ns-action-bar
+  [title]="'CONTRACT_CALENDAR_VIEW_PAGE.ACTION_BAR_SECTION.TITLE' | translate"
+  [hasMenu]="false"
+>
+</ns-action-bar>
+<StackLayout>
+  <!-- #Start - Calendar View modes button section  -->
+  <FlexBoxLayout
+    class="calendar-view-mode-buttons-section"
+    justifyContent="space-around"
+  >
+    <button
+      padding="0"
+      class="btn-primary -rounded-lg btn-calendar-view"
+      [text]="'CONTRACT_CALENDAR_VIEW_PAGE.CALENDAR_VIEW_MODES_BUTTON.WEEK' | translate"
+      (tap)="changeCalendarViewModeToWeek()"
+    ></button>
+    <button
+      padding="0"
+      class="btn-primary -rounded-lg btn-calendar-view"
+      [text]="'CONTRACT_CALENDAR_VIEW_PAGE.CALENDAR_VIEW_MODES_BUTTON.MONTH' | translate"
+      (tap)="changeCalendarViewModeToMonth()"
+    ></button>
+    <button
+      padding="0"
+      class="btn-primary -rounded-lg btn-calendar-view"
+      [text]="'CONTRACT_CALENDAR_VIEW_PAGE.CALENDAR_VIEW_MODES_BUTTON.YEAR' | translate"
+      (tap)="changeCalendarViewModeToYear()"
+    ></button>
+  </FlexBoxLayout>
+  <!-- #End -->
+
+  <!-- #Start - Calendar View section  -->
+  <StackLayout class="calendar-view-section">
+    <RadCalendar
+      #contractCalendar
+      [viewMode]="viewMode"
+      [eventSource]="contractCalendarItems"
+      (dateSelected)="onDateSelected($event)"
+      (navigatedToDate)="onNavigatedToDate($event)"
+      (viewModeChanged)="onViewModeChangedEvent($event)"
+    ></RadCalendar>
+  </StackLayout>
+  <!-- #End -->
+
+  <!-- #Start - Calendar Contract List Panel section  -->
+  <StackLayout class="calendar-contract-list-panel-section">
+    <ns-contract-event-list-panel
+      [contractEventListItems]="contractEventListItems"
+    >
+    </ns-contract-event-list-panel>
+  </StackLayout>
+  <!-- #End -->
+</StackLayout>

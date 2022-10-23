@@ -1,0 +1,60 @@
+<StackLayout class="widget-panel dialog-container">
+  <StackLayout class="widget-panel__header dialog-header">
+    <StackLayout width="100%" orientation="horizontal">
+      <label
+        text="&#xf15c;"
+        class="fa fa-solid m-r-10"
+        verticalAlignment="middle"
+      ></label>
+      <label
+        [text]="
+          'DASHBOARD.BODY_SECTION.ACCOUNT_STATEMENTS_AMOUNT_SUMMARY_WIDGET.MAIN_LABEL'
+            | translate
+        "
+        verticalAlignment="middle"
+      ></label>
+    </StackLayout>
+  </StackLayout>
+  <ns-loader-layout [busy]="isBusy">
+    <StackLayout
+      class="dialog-body"
+      orientation="horizontal"
+      width="100%"
+      height="100%"
+    >
+      <RadPieChart width="100%" height="100%" allowAnimation="true">
+        <DonutSeries
+          seriesName="Donut"
+          tkPieSeries
+          legendLabel="name"
+          selectionMode="None"
+          expandRadius="0.4"
+          outerRadiusFactor="1"
+          innerRadiusFactor="0.7"
+          valueProperty="value"
+          [items]="accountStatementAmountSummary"
+        ></DonutSeries>
+
+        <RadLegendView
+          tkPieLegend
+          position="Bottom"
+          width="200"
+          enableSelection="true"
+        ></RadLegendView>
+
+        <Palette tkPiePalette seriesName="Donut">
+          <PaletteEntry
+            tkPiePaletteEntry
+            fillColor="#eb5a2e"
+            strokeColor="#eb5a2e"
+          ></PaletteEntry>
+          <PaletteEntry
+            tkPiePaletteEntry
+            fillColor="#cccccc"
+            strokeColor="#cccccc"
+          ></PaletteEntry>
+        </Palette>
+      </RadPieChart>
+    </StackLayout>
+  </ns-loader-layout>
+</StackLayout>

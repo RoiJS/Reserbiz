@@ -1,0 +1,31 @@
+<ns-action-bar
+  [title]="'PROFILE_INFORMATION_PAGE.ACTION_BAR_TITLE' | translate"
+  [showBackButton]="false"
+>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="IsBusy">
+  <StackLayout class="page-container profile-information-container">
+    <ScrollView orientation="vertical">
+      <StackLayout orientation="vertical">
+        <StackLayout class="profile-information-container__header">
+        </StackLayout>
+        <StackLayout class="profile-information-container__image-placeholder">
+          <label class="fa fa-solid user-icon" text="&#xf2bd;"></label>
+        </StackLayout>
+        <StackLayout class="profile-information-container__details-container">
+          <ns-profile-general-information
+            [fullName]="currentUser?.fullname"
+            [gender]="currentUser?.gender"
+          ></ns-profile-general-information>
+
+          <ns-profile-account-information
+            [username]="currentUser?.username"
+            [emailAddress]="currentUser?.emailAddress"
+          >
+          </ns-profile-account-information>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ns-loader-layout>

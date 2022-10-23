@@ -1,0 +1,32 @@
+@import '../../app-variables';
+
+.system-update-container {
+  padding: 10;
+  background: $background-gradient;
+
+  .system-update-icon {
+    width: 200;
+    height: 200;
+  }
+
+  .system-update-main-text {
+    text-align: center;
+    font-size: 20;
+    font-weight: bold;
+  }
+
+  .secondary-main-text {
+    text-align: center;
+    font-size: 15;
+  }
+
+  .btn-try-again {
+    margin-top: 50;
+    height: 60;
+    font-size: 15;
+    text-transform: uppercase;
+    background: $primary-gradient;
+    color: $white;
+    border-radius: 10;
+  }
+}

@@ -6,6 +6,7 @@ using ReserbizAPP.LIB.Enums;
 using ReserbizAPP.LIB.Helpers.Class;
 using ReserbizAPP.LIB.Helpers.Constants;
 using Respawn;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -19,10 +20,6 @@ namespace ReserbizAPP.IntegrationTests
         protected readonly ApiWebApplicationFactory _factory;
         protected readonly HttpClient _client;
 
-        private readonly Checkpoint _checkpoint = new Checkpoint
-        {
-            WithReseed = true,
-        };
         private readonly IOptions<DefaultUserAccountDetails> _defaultUserAccountDetails;
         private readonly IOptions<DefaultAccountCredentials> _defaultAccountCredentials;
 
@@ -37,7 +34,7 @@ namespace ReserbizAPP.IntegrationTests
             _defaultUserAccountDetails = _factory.Services.GetService<IOptions<DefaultUserAccountDetails>>();
             _defaultAccountCredentials = _factory.Services.GetService<IOptions<DefaultAccountCredentials>>();
 
-            _checkpoint.Reset(_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")).Wait();
+            // Console.WriteLine($"Integration Test Connection String: {_factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection")}");
         }
 
         protected async Task AuthenticateAsync()
@@ -50,7 +47,7 @@ namespace ReserbizAPP.IntegrationTests
             var clientInfo = await GetClientInformation();
             var clientInformationDto = new ClientInformationDto();
 
-            var defaultAccounId =  1;
+            var defaultAccounId = 1;
             var userAccountDto = new UserAccountDto();
             userAccountDto.FirstName = _defaultUserAccountDetails.Value.Firstname;
             userAccountDto.MiddleName = _defaultUserAccountDetails.Value.Middlename;
@@ -70,17 +67,41 @@ namespace ReserbizAPP.IntegrationTests
             var autoGenerateAccountStatement = await _client.PostAsync(ApiRoutes.AccountStatementControllerRoutes.AutoGenerateContractAccountStatementsForNewDatabaseURL.Replace("{currentUserId}", defaultAccounId.ToString()), null);
         }
 
+        protected async Task SyncClientDatabaseSchemaAsync()
+        {
+            await _client.PostAsJsonAsync(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL, "");
+        }
+
         protected async Task AddAppSecretTokenToHeaderAsync()
         {
             var company = await GetClientInformation();
             _client.DefaultRequestHeaders.Add("App-Secret-Token", company.DBHashName);
         }
 
+        protected void AddIntegrationTestIndicatorToHeaderAsync()
+        {
+            _client.DefaultRequestHeaders.Add("For-Integration-Test", "1");
+        }
+
         protected async Task InitializeAuthorizationAndTestDataAsync()
         {
+            AddIntegrationTestIndicatorToHeaderAsync();
             await AddAppSecretTokenToHeaderAsync();
+            await SyncClientDatabaseSchemaAsync();
+            await ResetClientDatabase();
             await SeedTestDataAsync();
             await AuthenticateAsync();
+        }
+
+        private async Task ResetClientDatabase()
+        {
+            var connection = _factory.Configuration.GetConnectionString("ReserbizClientDeveloperIntegrationTestDBConnection");
+            var respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+            {
+                WithReseed = true
+            });
+
+            await respawner.ResetAsync(connection);
         }
 
         private async Task<ClientDetailsDto> GetClientInformation()
@@ -102,7 +123,7 @@ namespace ReserbizAPP.IntegrationTests
             });
 
             var registrationResponse = await response.Content.ReadFromJsonAsync<AuthenticationTokenInfoDto>();
-            
+
             // We keep the refresh token for future use
             refreshToken = registrationResponse.RefreshToken;
 

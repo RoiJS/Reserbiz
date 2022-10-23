@@ -1,0 +1,13 @@
+<StackLayout
+  height="100%"
+  verticalAlignment="middle"
+  horizontalAlignment="center"
+  class="list-layout-container"
+>
+  <StackLayout [ngClass]="{'hidden': hasItems}">
+    <label [text]="emptyListText" textWrap="true"></label>
+  </StackLayout>
+  <StackLayout [ngClass]="{'hidden': !hasItems}">
+    <ng-content></ng-content>
+  </StackLayout>
+</StackLayout>

@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "ReserbizClientDeveloperIntegrationTestDBConnection": "Data Source=.\\SQLEXPRESS;Initial Catalog=ReserbizDeveloperIntegrationTestDB;Integrated Security=True;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
+  }
+}

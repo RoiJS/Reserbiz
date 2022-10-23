@@ -1,0 +1,19 @@
+<StackLayout
+  width="100%"
+  height="100%"
+  verticalAlignment="middle"
+  class="no-connection-container"
+>
+  <StackLayout horizontalAlignment="center">
+    <image class="offline-icon" src="res://wificonnectionoffline"></image>
+
+    <label
+      [text]="'NO_CONNECTION_PAGE.MAIN_TEXT' | translate"
+      class="offline-main-text"
+    ></label>
+    <label
+      [text]="'NO_CONNECTION_PAGE.SECONDARY_TEXT' | translate"
+      class="secondary-main-text"
+    ></label>
+  </StackLayout>
+</StackLayout>

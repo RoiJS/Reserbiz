@@ -3,11 +3,11 @@ name: Continuous integration for Reserbiz Application
 on:
   push:
     branches: [master, development]
-    paths: [.github/workflows/**, ReserbizAPP/**]
+    paths: [.github/workflows/**, Reserbiz/**]
 
   pull_request:
     branches: [master, development]
-    paths: [.github/workflows/**, ReserbizAPP/**]
+    paths: [.github/workflows/**, Reserbiz/**]
 
 jobs:
   build:
@@ -20,12 +20,21 @@ jobs:
           node-version: '14'
       - uses: hrueger/setup-nativescript@v1.1.0
         with:
-          nativescript-version: '7.0.10'
+          nativescript-version: '8.2.3'
+
+        # Need to manually set up Java version 11
+        # to be able to build the Nativescript app. 
+      - name: Setup Java 11
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./ReserbizAPP
+        working-directory: ./Reserbiz
 
       - name: Build Reserbiz Application
         run: ns build android
-        working-directory: ./ReserbizAPP
+        working-directory: ./Reserbiz

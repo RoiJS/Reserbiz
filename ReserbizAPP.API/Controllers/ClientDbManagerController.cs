@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReserbizAPP.LIB.DbContexts;
 using ReserbizAPP.LIB.Dtos;
+using ReserbizAPP.LIB.Helpers.Constants;
 using ReserbizAPP.LIB.Interfaces;
 using ReserbizAPP.LIB.Models;
 
@@ -32,21 +33,21 @@ namespace ReserbizAPP.API.Controllers
             _dataSeedRepository = dataSeedRepository;
         }
 
-        [HttpPost("syncDatabase")]
+        [HttpPost(ApiRoutes.ClientDbManagerControllerRoutes.SyncDatabaseURL)]
         public async Task<IActionResult> SyncDatabase()
         {
             await _context.Database.MigrateAsync();
             return Ok();
         }
 
-        [HttpPost("syncAllDatabases")]
+        [HttpPost(ApiRoutes.ClientDbManagerControllerRoutes.SyncAllDatabasesURL)]
         public async Task<IActionResult> SyncAllDatabases()
         {
             await _clientDbManagerRepository.SyncAllClientDatabases();
             return Ok();
         }
 
-        [HttpPost("populateDatabase")]
+        [HttpPost(ApiRoutes.ClientDbManagerControllerRoutes.PopulateDatabaseURL)]
         public async Task<ActionResult<UserAccount>> PopulateDatabase(ClientInformationDto clientInformationDto)
         {
             var userAccount = _mapper.Map<UserAccount>(clientInformationDto.UserAccountDto);

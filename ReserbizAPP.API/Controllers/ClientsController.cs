@@ -69,8 +69,11 @@ namespace ReserbizAPP.API.Controllers
                 // Populate default data on the client database
                 await _clientRepository.PopulateDatabase(userAccount, createdClient, (UserAccount account) =>
                 {
-                    // Send email notification after database has been successfully created
-                    _clientRepository.SendNewClientRegisteredEmailNotification(account, createdClient);
+                    if (clientForRegisterDto.AutoSendEmail)
+                    {
+                        // Send email notification after database has been successfully created
+                        _clientRepository.SendNewClientRegisteredEmailNotification(account, createdClient);
+                    }
                 });
 
             }
@@ -115,8 +118,11 @@ namespace ReserbizAPP.API.Controllers
                 // Populate default data on the demo database
                 await _clientRepository.PopulateDatabase(userAccount, createdDemoClient, (UserAccount account) =>
                 {
-                    // Send email notification after database has been successfully created
-                    _clientRepository.SendNewDemoRegisteredEmailNotification(account, createdDemoClient);
+                    if (demoForRegisterDto.AutoSendEmail)
+                    {
+                        // Send email notification after database has been successfully created
+                        _clientRepository.SendNewDemoRegisteredEmailNotification(account, createdDemoClient);
+                    }
                 });
             }
             catch (Exception ex)

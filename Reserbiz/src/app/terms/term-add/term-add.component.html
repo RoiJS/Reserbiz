@@ -1,0 +1,41 @@
+<ns-action-bar
+  [title]="currentActionBarTitle"
+  [hasMenu]="false"
+  [overrideBackAction]="true"
+  (onNavigationBack)="navigateBack()"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="saveInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <TabView
+    width="100%"
+    height="100%"
+    selectedIndex="0"
+    (selectedIndexChanged)="tabsIndexChanged($event)"
+  >
+    <StackLayout
+      *tabItem="{
+        title:
+          'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.DETAILS' | translate | translate
+      }"
+    >
+      <ns-terms-details-form
+        (onTermDetailsSaved)="onTermsDetailsSaved($event)"
+        (onCancelTermDetailsSaved)="onCancelTermDetailsSaved($event)"
+      ></ns-terms-details-form>
+    </StackLayout>
+    <StackLayout
+      *tabItem="{
+        title:
+          'TERM_ADD_DETAILS_PAGE.TABS_OPTIONS.ADD_MISCELLANEOUS' | translate
+      }"
+    >
+      <ns-terms-add-miscellaneous-list></ns-terms-add-miscellaneous-list>
+    </StackLayout>
+  </TabView>
+</ns-loader-layout>

@@ -1,0 +1,131 @@
+<ns-action-bar
+  [title]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.ACTION_BAR_TITLE' | translate"
+  [hasMenu]="false"
+>
+  <ActionItem
+    icon="font://&#xf0c7;"
+    class="fa fa-solid action-item-button"
+    (tap)="saveNewInformation()"
+  ></ActionItem>
+</ns-action-bar>
+
+<ns-loader-layout [busy]="isBusy">
+  <StackLayout width="100%" height="100%" class="page-container">
+    <StackLayout class="panel">
+      <RadDataForm
+        width="100%"
+        [source]="entityFormSource"
+        [isReadOnly]="isBusy"
+      >
+        <TKPropertyGroup
+          tkDataFormGroups
+          [name]="'GENERAL_TEXTS.DETAILS' | translate"
+          hidden="false"
+        >
+          <TKGroupTitleStyle
+            tkPropertyGroupTitleStyle
+            fillColor="#eb5a2e"
+            labelTextSize="17"
+            labelFontStyle="Bold"
+            labelTextColor="White"
+          ></TKGroupTitleStyle>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="firstName"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.FIRST_NAME_CONTROL.HINT_TEXT' | translate"
+            ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="middleName"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.MIDDLE_NAME_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="lastName"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.LAST_NAME_CONTROL.HINT_TEXT' | translate"
+            ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="gender"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.GENDER_CONTROL.CONTROL_LABEL' | translate"
+            [valuesProvider]="genderOptions"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="SegmentedEditor">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="contactNumber"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.CONTACT_NUMBER_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.CONTACT_NUMBER_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKNonEmptyValidator
+              tkEntityPropertyValidators
+              [errorMessage]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.CONTACT_NUMBER_CONTROL.HINT_TEXT' | translate"
+            ></TKNonEmptyValidator>
+            <TKPropertyEditor tkEntityPropertyEditor type="Phone">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+
+          <TKEntityProperty
+            tkPropertyGroupProperties
+            name="relation"
+            [displayName]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.RELATION_CONTROL.CONTROL_LABEL' | translate"
+            [hintText]="'TENANT_CONTACT_PERSON_ADD_DETAILS_PAGE.FORM_CONTROL.RELATION_CONTROL.HINT_TEXT' | translate"
+          >
+            <TKPropertyEditor tkEntityPropertyEditor type="Text">
+              <TKPropertyEditorStyle
+                tkPropertyEditorStyle
+                labelTextSize="14"
+              ></TKPropertyEditorStyle>
+            </TKPropertyEditor>
+          </TKEntityProperty>
+        </TKPropertyGroup>
+      </RadDataForm> </StackLayout
+  ></StackLayout>
+</ns-loader-layout>
