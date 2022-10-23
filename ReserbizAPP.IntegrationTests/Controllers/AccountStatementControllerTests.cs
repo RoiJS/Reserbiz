@@ -116,8 +116,8 @@ namespace ReserbizAPP.IntegrationTests.Controllers
         // }
 
         [Theory]
-        [InlineData(1, 6)]
-        [InlineData(17, 5)]
+        [InlineData(50, 6)]
+        [InlineData(64, 5)]
         [InlineData(29, 7)]
         public async Task GET_GetFirstAccountStatement(int accountStatementId, int contractId)
         {
