@@ -104,19 +104,19 @@ namespace ReserbizAPP.IntegrationTests.Controllers
             var createdContract = await _client.GetFromJsonAsync<ContractDetailDto>(ApiRoutes.ContractControllerRoutes.GetContractURL.Replace("{id}", createContractContent.Id.ToString()));
             var createdTermDetails = await _client.GetFromJsonAsync<TermDetailDto>(ApiRoutes.TermControllerRoutes.GetTermURL.Replace("{id}", createdContract.TermId.ToString()));
 
-            createContractContent.Id.Should().Equals(createdContract.Id);
-            createdContract.Code.Should().Equals(contractToCreate.Code);
-            createdContract.TenantId.Should().Equals(contractToCreate.TenantId);
-            createdContract.SpaceId.Should().Equals(contractToCreate.SpaceId);
-            createdContract.EffectiveDate.Should().Equals(contractToCreate.EffectiveDate);
-            createdContract.IsOpenContract.Should().Equals(contractToCreate.IsOpenContract);
-            createdContract.DurationValue.Should().Equals(contractToCreate.DurationValue);
-            createdContract.DurationUnit.Should().Equals(contractToCreate.DurationUnit);
-            createdContract.DurationUnit.Should().Equals(contractToCreate.DurationUnit);
+            createContractContent.Id.Should().Be(createdContract.Id);
+            createdContract.Code.Should().Be(contractToCreate.Code);
+            createdContract.TenantId.Should().Be(contractToCreate.TenantId);
+            createdContract.SpaceId.Should().Be(contractToCreate.SpaceId);
+            createdContract.EffectiveDate.Should().Be(contractToCreate.EffectiveDate);
+            createdContract.IsOpenContract.Should().Be(contractToCreate.IsOpenContract);
+            createdContract.DurationValue.Should().Be(contractToCreate.DurationValue);
+            createdContract.DurationUnit.Should().Be(contractToCreate.DurationUnit);
+            createdContract.DurationUnit.Should().Be(contractToCreate.DurationUnit);
 
             createdContract.TermId.Should().NotBe(termId);
-            createdContract.Term.Code.Should().Equals(contractToCreate.Term.Code);
-            createdContract.Term.Name.Should().Equals(contractToCreate.Term.Name);
+            createdContract.Term.Code.Should().Be(contractToCreate.Term.Code);
+            createdContract.Term.Name.Should().Be(contractToCreate.Term.Name);
 
             for (var idx = 0; idx < createdTermDetails.TermMiscellaneous.Count; idx++)
             {
@@ -207,17 +207,17 @@ namespace ReserbizAPP.IntegrationTests.Controllers
             var updatedContractDetails = await _client.GetFromJsonAsync<ContractDetailDto>(ApiRoutes.ContractControllerRoutes.GetContractURL.Replace("{id}", contractId.ToString()));
             var updatedTermDetails = await _client.GetFromJsonAsync<TermDetailDto>(ApiRoutes.TermControllerRoutes.GetTermURL.Replace("{id}", updatedContractDetails.TermId.ToString()));
 
-            contractId.Should().Equals(updatedContractDetails.Id);
-            updatedContractDetails.Code.Should().Equals(contractToUpdate.Code);
-            updatedContractDetails.TenantId.Should().Equals(contractToUpdate.TenantId);
-            updatedContractDetails.SpaceId.Should().Equals(contractToUpdate.SpaceId);
-            updatedContractDetails.EffectiveDate.Should().Equals(contractToUpdate.EffectiveDate);
-            updatedContractDetails.IsOpenContract.Should().Equals(contractToUpdate.IsOpenContract);
-            updatedContractDetails.DurationValue.Should().Equals(contractToUpdate.DurationValue);
-            updatedContractDetails.DurationUnit.Should().Equals(contractToUpdate.DurationUnit);
-            updatedContractDetails.DurationUnit.Should().Equals(contractToUpdate.DurationUnit);
-            updatedContractDetails.Term.Code.Should().Equals(contractToUpdate.Term.Code);
-            updatedContractDetails.Term.Name.Should().Equals(contractToUpdate.Term.Name);
+            contractId.Should().Be(updatedContractDetails.Id);
+            updatedContractDetails.Code.Should().Be(contractToUpdate.Code);
+            updatedContractDetails.TenantId.Should().Be(contractToUpdate.TenantId);
+            updatedContractDetails.SpaceId.Should().Be(contractToUpdate.SpaceId);
+            updatedContractDetails.EffectiveDate.Should().Be(contractToUpdate.EffectiveDate);
+            updatedContractDetails.IsOpenContract.Should().Be(contractToUpdate.IsOpenContract);
+            updatedContractDetails.DurationValue.Should().Be(contractToUpdate.DurationValue);
+            updatedContractDetails.DurationUnit.Should().Be(contractToUpdate.DurationUnit);
+            updatedContractDetails.DurationUnit.Should().Be(contractToUpdate.DurationUnit);
+            updatedContractDetails.Term.Code.Should().Be(contractToUpdate.Term.Code);
+            updatedContractDetails.Term.Name.Should().Be(contractToUpdate.Term.Name);
 
             if (!simulateUpdateTermDetails)
             {

@@ -87,11 +87,11 @@ namespace ReserbizAPP.Hangfire.Helpers.Services
             try
             {
                 var httpClient = new RestClient(url);
-                httpClient.Timeout = -1;
-                var httpRequest = new RestRequest(Method.POST);
+                httpClient.Options.MaxTimeout = -1;
+                var httpRequest = new RestRequest(url, Method.Post);
                 httpRequest.AddHeader("App-Secret-Token", client.DBHashName);
                 httpRequest.AddHeader("Content-Type", "application/json");
-                IRestResponse response = httpClient.Execute(httpRequest);
+                RestResponse response = httpClient.Execute(httpRequest);
 
                 // Only send email if the response is Ok (200)
                 if (response.StatusCode != System.Net.HttpStatusCode.OK) return;
