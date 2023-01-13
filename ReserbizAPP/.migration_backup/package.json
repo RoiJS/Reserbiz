@@ -71,7 +71,7 @@
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-nativescript-launcher": "0.4.0",
-    "@nativescript/webpack": "~2.0.0",
+    "@nativescript/webpack": "~5.0.12",
     "karma-webpack": "3.0.5",
     "node-sass": "^4.7.1",
     "protractor": "~5.4.3",
