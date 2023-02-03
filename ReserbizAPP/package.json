@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.0",
-    "@angular/cli": "~11.0.0",
+    "@angular/cli": "~11.2.19",
     "@angular/compiler-cli": "~11.0.0",
     "@nativescript/android": "7.0.1",
     "@nativescript/tslint-rules": "~0.0.5",
