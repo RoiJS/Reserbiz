@@ -73,7 +73,7 @@
     "karma-nativescript-launcher": "0.4.0",
     "@nativescript/webpack": "~2.0.0",
     "karma-webpack": "3.0.5",
-    "node-sass": "^4.7.1",
+    "node-sass": "^7.0.0",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
